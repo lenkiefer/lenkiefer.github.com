@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Len Kiefer's great webpage
+title: Len Kiefer
 tagline: Helping people understand the economy, housing and mortgage markets.
 ---
 {% include JB/setup %}
