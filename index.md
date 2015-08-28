@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Intro
-tagline: Supporting tagline
+tagline: Helping people understand the economy, housing and mortgage markets.
 ---
 {% include JB/setup %}
 
