@@ -9,9 +9,9 @@ Hi, my name is Len Kiefer and I help people understand the economy, housing, and
 
 _This is a personal site. The opinions expressed here represent my own and not those of my employer._
 
-<span class="icon-scholar"></span> Research papers on [ssrn]("//papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=1715442")
+<span class="icon-scholar"></span> Research papers on [ssrn](https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=1715442)
 
-<span class="icon-dataviz"></span> Data visualizations on [Tableau Public]("https://public.tableau.com/profile/leonard.kiefer")
+<span class="icon-dataviz"></span> Data visualizations on [Tableau Public](https://public.tableau.com/profile/leonard.kiefer)
 
 <span class="icon-linkedin"></span> My Professional Profile:
 
