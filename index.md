@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Len Kiefer
-tagline: Helping people understand the economy, housing and mortgage markets.
+tagline: helping people understand the economy, housing and mortgage markets
 ---
 {% include JB/setup %}
 

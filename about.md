@@ -1,7 +1,8 @@
 ---
 layout: page
 title: "About"
-description: ""
+tagline: Len Kiefer
+description: my profile
 ---
 {% include JB/setup %}
 

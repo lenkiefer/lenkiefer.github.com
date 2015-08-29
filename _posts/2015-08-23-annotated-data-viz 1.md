@@ -9,7 +9,7 @@ BELOW IS A VISUALIZATION of job growth and homeownership by occcupation. This vi
 
 This visualization helps us to see that projected job growth is clustered in the service sector, where typical entry level jobs requires either less than high school (purple bubbles) or a high school diploma or equivalent (pink bubbles). You can use the filter boxes to search for particular occupations, the typical entry level education, or the median salary.  Below the plot, you will find a scrollable table.
 
-<span class="icon-dataviz"></span> See my data visualizations on [Tableau Public](https://public.tableau.com/profile/leonard.kiefer)
+<span class="icon-stats-dots"></span> See my data visualizations on [Tableau Public](https://public.tableau.com/profile/leonard.kiefer)
 
 <iframe width="600" height="1100" src="http://public.tableau.com/views/HOratesandOccupationv2/JobGrowthandHomeownershipbyOccupation?:embed=y&:display_count=yes&:showTabs=y&:toolbar=no" frameborder="0" allowfullscreen></iframe> 
 
