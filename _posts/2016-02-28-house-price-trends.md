@@ -40,7 +40,7 @@ We can also compare the metro level index in December 2015 to its pre-recession 
 
 ### Fastest growth in Florida, Nevada
 
-Out of the top ten fastest growing metro areas in year-over-year house price growth(see table below), seven are in Florida and the top two are in Nevada. Carson City is the fastest growing metro with year-over-year house price growth of 18.3 percent.  However, Carson City is also 24.1 percent below its pre-recession peak.
+Out of the top ten fastest growing metro areas in year-over-year house price growth (see table below), seven are in Florida and the top two are in Nevada. Carson City is the fastest growing metro with year-over-year house price growth of 18.3 percent.  However, Carson City is also 24.1 percent below its pre-recession peak.
 
 <img src="{{ site.url }}/img/hpa2015q4/Metro top 10 FMHPI 2015Q4.PNG" alt="House prices by metro" style="width: 650px;"/>
 
