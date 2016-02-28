@@ -23,7 +23,7 @@ The map below shows the year-over-year percentage change in the Freddie Mac Hous
 
 <img src="{{ site.url }}/img/hpa2015q4/state fmhpi 2015Q4.PNG" alt="House prices by metro" style="width: 650px;"/>
 
-We can also compare the 2015 December values to the pre-recession peak. The map below shows how far each state is from its peak.  The green states are above their pre-recession peak and stretch contiguously from Appalachia down to Texas and then in up to the Canadian border.  Both coasts are still significantly below their pre-recession peak, with Nevada, Florida, and Arizona all more than 20 percent below their peaks.
+We can also compare the 2015 December values to the pre-recession peak. The map below shows how far each state is from its peak.  The green states are above their pre-recession peak and stretch contiguously from Appalachia down to Texas and then up to the Canadian border.  Both coasts are still significantly below their pre-recession peak, with Nevada, Florida, and Arizona all more than 20 percent below their peaks.
 
 <img src="{{ site.url }}/img/hpa2015q4/state relative to peak 2015q4.png" alt="House prices by metro" style="width: 650px;"/>
 
@@ -34,13 +34,13 @@ Freddie also publishes data on house prices for over 300 metro areas. The map be
 
 <img src="{{ site.url }}/img/hpa2015q4/metro fmhpi 2015Q4.PNG" alt="House prices by metro" style="width: 650px;"/>
 
-We can also compare the metro level index in December 2015 to its pre-recession peak (map below). Much like with the state the central United States is generally above its pre-recession peak.  However, there are some interesting exceptions. California as a whole is 11 percent below its peak, but San Francisco and San Jose have surpassed their peaks.  In general the coastal areas and metros bordering the Great Lakes are still well below their peaks.  Overall, 34 percent of metros tracked are above their pre-recession peak.
+We can also compare the metro level index in December 2015 to its pre-recession peak (map below). Much like with the states the central United States is generally above its pre-recession peak.  However, there are some interesting exceptions. California as a whole is 11 percent below its peak, but San Francisco and San Jose have surpassed their peaks.  In general the coastal areas and metros bordering the Great Lakes are still well below their peaks.  Overall, 34 percent of metros tracked are above their pre-recession peak.
 
 <img src="{{ site.url }}/img/hpa2015q4/metro relative to peak 2015q4.png" alt="House prices by metro" style="width: 650px;"/>
 
 ### Fastest growth in Florida, Nevada
 
-Out of the top ten fastest growing metro areas in year-over-year house price growth (see table below), seven are in Florida and the top two are in Nevada. Carson City is the fastest growing metro with year-over-year house price growth of 18.3 percent.  However, Carson City is also 24.1 percent below its pre-recession peak.
+Out of the top ten fastest growing metro areas in year-over-year house price growth (see table below), seven are in Florida and the top two are in Nevada. Carson City is the fastest growing metro with year-over-year house price growth of 18.3 percent.  However, Carson City is also 24.1 percent below its pre-recession peak.  Prices in Reno have nearly doubled since reaching their bottom, but are still almost 20 percent below the pre-recession peak.
 
 <img src="{{ site.url }}/img/hpa2015q4/Metro top 10 FMHPI 2015Q4.PNG" alt="House prices by metro" style="width: 650px;"/>
 
