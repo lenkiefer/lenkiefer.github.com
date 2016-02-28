@@ -3,6 +3,8 @@ layout: post
 title: "House Price Trends"
 summary: "Observations on house price trends"
 group: navigation
+theme :
+  name : lentheme
 ---
 {% include JB/setup %}
 ## Observations on house prices
