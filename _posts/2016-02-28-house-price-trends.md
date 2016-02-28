@@ -19,7 +19,7 @@ While national house price growth has been strong, there is considerable variati
 
 ## State Trends
 
-The map below shows the year-over-year percentage change in the Freddie Mac House Price Index by state in December 2015. The strongest house price growth is in the West and in Florida. The mid-Atlantic from Virginia through Pennsylvania has some of the weakest growth. The Midwest and northeast has modest growth.
+The map below shows the year-over-year percentage change in the Freddie Mac House Price Index by state in December 2015. The strongest house price growth is in the West and in Florida. The mid-Atlantic from Virginia through Pennsylvania has some of the weakest growth. The Midwest and Northeast has modest growth.
 
 <img src="{{ site.url }}/img/hpa2015q4/state fmhpi 2015Q4.PNG" alt="House prices by metro" style="width: 650px;"/>
 
