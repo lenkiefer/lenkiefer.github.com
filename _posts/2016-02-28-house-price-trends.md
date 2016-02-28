@@ -1,9 +1,7 @@
 ---
 layout: post
 title: "House Price Trends"
-description: ""
-category: 
-tags: []
+summary: "Observations on house price trends"
 ---
 ## Observations on house prices
 
