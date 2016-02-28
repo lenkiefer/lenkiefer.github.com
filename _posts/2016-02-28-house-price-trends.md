@@ -1,13 +1,13 @@
 ---
 layout: post
-title: "House Price Trends"
+title: "Recent House Price Trends"
 summary: "Observations on house price trends"
 group: navigation
 theme :
   name : lentheme
 ---
 {% include JB/setup %}
-## Observations on house prices
+## National house prices rise 6.2% 
 
 Freddie Mac released its full year 2015 <a href="http://www.freddiemac.com/finance/house_price_index.html"> house price index and an interactive data visualization</a>. The seasonally-adjusted national index increased 6.2 percent year-over-year and is now 29.6 percent above the post-recession low, and just 4.1 percent below the (nominal) pre-recession peak (see graph below).
 
