@@ -10,7 +10,7 @@ theme :
 
 ### Resilient job growth
 
-Spring is almost here, and housing market activity will start to accelerate as we enter the peak homebuying season in the spring and summer months. The latest <a href="http://www.bls.gov/news.release/empsit.nr0.htm"> jobs report </a> shows the U.S. labor market continues to pick up steam, adding 242,000 jobs month-over-month and beating expectations. Job growth has been resilient since the end of the Great Recession in June 2009, with monthly job growth averaging over 200,000 since 2011.
+SPRING IS ALMOST HERE, and housing market activity will start to accelerate as we enter the peak homebuying season in the spring and summer months. The latest <a href="http://www.bls.gov/news.release/empsit.nr0.htm"> jobs report </a> shows the U.S. labor market continues to pick up steam, adding 242,000 jobs month-over-month and beating expectations. Job growth has been resilient since the end of the Great Recession in June 2009, with monthly job growth averaging over 200,000 since 2011.
 
 <img src="{{ site.url }}/img/jobs_mar_2016/jobs_mom.png" alt="National trends" style="width: 450px;"/>
 
