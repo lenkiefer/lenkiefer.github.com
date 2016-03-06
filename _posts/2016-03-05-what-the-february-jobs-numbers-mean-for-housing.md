@@ -34,7 +34,7 @@ Given the jobs numbers, you would expect that household formations would be acce
 
 ### Demand growth, low supply push home prices higher
 
-With demand picking up, supply will likely struggle to keep pace.  As I mentioned <a href="{{ site.url }}/2016/02/28/house-price-trends/"> earlier</a>, tight inventories are pushing house prices higher across most of the country.  Supply is a major concern for U.S. housing markets, and for reasons I'll explain soon, supply issues are likely to be with us for several more years.
+With demand picking up, supply will likely struggle to keep pace.  As I mentioned <a href="http://lenkiefer.com/2016/02/28/house-price-trends"> earlier</a>, tight inventories are pushing house prices higher across most of the country.  Supply is a major concern for U.S. housing markets, and for reasons I'll explain soon, supply issues are likely to be with us for several more years.
 
 
 
