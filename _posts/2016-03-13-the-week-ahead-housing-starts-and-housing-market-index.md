@@ -29,7 +29,7 @@ Historically, the Housing Market Index has correlated quite strongly with single
 
 <img src="{{ site.url }}/img/charts_mar_13_2016/hmi_starts_scatter.svg" alt="Housing Market Index" style="width: 450px;"/>
 
-## Animation in motion
+## Data in motion
 
 The animated gif below shows how the relationship between starts and the HMI has varied over time since the HMI series begins back in 1985. The animation makes clear that the past few years represent a break from the historical relationship between sentiment and construction.
 
