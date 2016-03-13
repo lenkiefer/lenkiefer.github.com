@@ -11,7 +11,7 @@ theme :
 
 ## The week ahead
 
-Next week there are several <a href="http://www.bloomberg.com/markets/economic-calendar">data releases </a>but the two that I’m paying especially close attention to are the <a hrefe="https://www.nahb.org/en/research/housing-economics/housing-indexes/housing-market-index">NAHB/Wells Fargo Housing Market Index (HMI)</a> and Housing Starts, part of the <a href="http://www.census.gov/construction/nrc/index.html">New Residential Construction</a> joint release by Census and HUD.  
+Next week there are several <a href="http://www.bloomberg.com/markets/economic-calendar">data releases </a>but the two that I’m paying especially close attention to are the <a href="https://www.nahb.org/en/research/housing-economics/housing-indexes/housing-market-index">NAHB/Wells Fargo Housing Market Index (HMI)</a> and Housing Starts, part of the <a href="http://www.census.gov/construction/nrc/index.html">New Residential Construction</a> joint release by Census and HUD.  
 
 ## Will builders maintain their sunny outlook?
 
