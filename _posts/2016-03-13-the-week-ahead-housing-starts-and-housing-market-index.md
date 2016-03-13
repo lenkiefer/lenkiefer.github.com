@@ -21,7 +21,7 @@ The HMI is a diffusion index based on survey questions about homebuilder’s att
 
 ## Will construction match sentiment?
 
-Later in the week we’ll get housing starts data.  Housing markets are heating up due to low mortgage rates and <a hrefer="http://lenkiefer.com/2016/03/05/what-the-february-jobs-numbers-mean-for-housing">solid job gains</a>, but have been held back due to a lack of inventory.  Multifamily construction has been very strong and will likely to sow strength<LINK TO FMCC MF Outlook>, but the single family sector has languished.  Single-family starts have been trending higher, but the pace of improvement has been slow.  We are still well below the historical average pace. 
+Later in the week we’ll get housing starts data.  Housing markets are heating up due to low mortgage rates and <a hrefer="http://lenkiefer.com/2016/03/05/what-the-february-jobs-numbers-mean-for-housing">solid job gains</a>, but have been held back due to a lack of inventory.  Multifamily construction has been very strong, but the single family sector has languished. Single-family starts have been trending higher, but the pace of improvement has been slow.  We are still well below the historical average pace. 
 
 <img src="{{ site.url }}/img/charts_mar_13_2016/starts.svg" alt="Housing Market Index" style="width: 450px;"/>
 
