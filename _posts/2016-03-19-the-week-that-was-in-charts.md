@@ -16,7 +16,7 @@ Consistent with the <a href='http://lenkiefer.com/2016/03/05/what-the-february-j
 
 <img src="{{ site.url }}/img/charts_mar_19_2016/jobs dots 3_19_2016.png" alt="job dots" style="width: 450px;"/>
 
-One state I’ve been focused on is Texas due to its reliance on oil and gas drilling. A report <a href="http://www.brookings.edu/blogs/the-avenue/posts/2016/03/16-declining-us-oil-gas-rigs-saha-muro?cid=00900015020089101US0001-031801"> from Brookings</a> analyzed how the decline in oil and gas drilling could impact employment in states that rely on the energy sector.  North Dakota was greatest at risk, possibly loosing over 7% of total employment due to the decline in oil and gas drilling activity.  Texas is also at risk, possibly loosing 1.2 percent of total employment.  The latest jobs data for Texas, continue to show year-to-year growth in Texas employment, but the pace of gains has slowed.
+One state I’ve been focused on is Texas due to its reliance on oil and gas drilling. A report <a href="http://www.brookings.edu/blogs/the-avenue/posts/2016/03/16-declining-us-oil-gas-rigs-saha-muro?cid=00900015020089101US0001-031801"> from Brookings</a> analyzed how the decline in oil and gas drilling could impact employment in states that rely on the energy sector.  North Dakota was greatest at risk, possibly losing over 7% of total employment due to the decline in oil and gas drilling activity.  Texas is also at risk, possibly losing 1.2 percent of total employment.  The latest jobs data for Texas continue to show year-to-year growth in Texas employment, but the pace of gains has slowed.
 
 <img src="{{ site.url }}/img/charts_mar_19_2016/txyoyjobs.png" alt="job dots" style="width: 450px;"/>
 
@@ -26,7 +26,7 @@ One part of the Texas employment picture that's not doing well is oil and gas dr
 
 ## Builder confidence and housing starts
 
-This week the <a href="https://www.nahb.org/en/research/housing-economics/housing-indexes/housing-market-index.aspx">NAHB/Wells Fargo Housing Market Index (HMI)</a> and housing starts data were released. The HMI is a diffusion index based on survey questions about homebuilder’s attitudes. Values of the index above 50 indicate that on balance, more respondents feel positive about the current conditions in and direction of the single-family housing market.  During the crisis the index plummeted, reaching a low of 8 in 2009.  
+This week the <a href="https://www.nahb.org/en/research/housing-economics/housing-indexes/housing-market-index.aspx">NAHB/Wells Fargo Housing Market Index (HMI)</a> and <a href="http://www.census.gov/construction/nrc/index.html">housing starts</a> data were released. The HMI is a diffusion index based on survey questions about homebuilder’s attitudes. Values of the index above 50 indicate that on balance, more respondents feel positive about the current conditions in and direction of the single-family housing market.  During the crisis the index plummeted, reaching a low of 8 in 2009.  
 
 <img src="{{ site.url }}/img/charts_mar_19_2016/hmi.png" alt="job dots" style="width: 450px;"/>
 
@@ -35,11 +35,11 @@ The housing starts data released on Wednesday were consistent with the builders�
 
 <img src="{{ site.url }}/img/charts_mar_19_2016/starts_3_16_2016.png" alt="job dots" style="width: 450px;"/>
 
-Multifamily—starts on buildings with 2 or more units—have been doing pretty well, but the pace of starts has slowed recently.  The data are noisy, so I look at a 3-month moving average of the starts data. Multifamily starts are slowing, but remain on a pace of over 350,00 units per year, which is a solid number.
+Multifamily—starts for buildings with 2 or more units—have been doing pretty well, but the pace has slowed recently. The data are noisy, so I look at a 3-month moving average of the starts data. Multifamily starts are slowing, but remain on a pace of over 350,00 units per year, which is a solid number.
 
 <img src="{{ site.url }}/img/charts_mar_19_2016/MF.jpg" alt="job dots" style="width: 450px;"/>
 
-Though the single-family housing starts number was solid, it’s still underperforming relative to confidence based on historical relationships.  If historical correlations held, the given builder confidence we should be seeing housing starts at a level about one and a half times the current level (see chart below).   
+Though the single-family housing starts number was solid, it’s still underperforming relative to confidence based on historical relationships.  If historical correlations held, then given builder confidence we should be seeing housing starts at a level about one and a half times the current level (see chart below).   
 
 <img src="{{ site.url }}/img/charts_mar_19_2016/hmi scatter.jpg" alt="hmi scatter" style="width: 450px;"/>
 
