@@ -53,7 +53,7 @@ One reason why building is not catching up to sentiment is a lack of available l
 
 The National Association of Realtors <a href="http://bit.ly/255aBvd">reports</a> on homebuyer affordability.  Their report indicates that homebuyer affordability is declining with rising home prices. According to their analysis, the “qualifying income” to afford the median priced home in the U.S. has increased $3,400 from January 2015 to January 2016.
 
-<img src="{{ site.url }}/img/charts_mar_19_2016/afford.png" alt="afford" style="width: 450px;"/>
+<img src="{{ site.url }}/img/charts_mar_19_2016/afford.PNG" alt="afford" style="width: 450px;"/>
 
 Fortunately for prospective homebuyers, mortgage interest rates remain low.
 
