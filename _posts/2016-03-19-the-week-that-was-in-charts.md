@@ -16,7 +16,7 @@ Consistent with the <a href='http://lenkiefer.com/2016/03/05/what-the-february-j
 
 <img src="{{ site.url }}/img/charts_mar_19_2016/jobs dots 3_19_2016.png" alt="job dots" style="width: 450px;"/>
 
-One state I’ve been focused on is Texas due to its reliance on oil and gas drilling. A report <a href="http://www.brookings.edu/blogs/the-avenue/posts/2016/03/16-declining-us-oil-gas-rigs-saha-muro?cid=00900015020089101US0001-031801"> from Brookings</a> analyzed how the decline in oil and gas drilling could impact employment in states that rely on the energy sector.  North Dakota was greatest at risk, possibly losing over 7% of total employment due to the decline in oil and gas drilling activity.  Texas is also at risk, possibly losing 1.2 percent of total employment.  The latest jobs data for Texas continue to show year-to-year growth in Texas employment, but the pace of gains has slowed.
+One state I’ve been focused on is Texas due to its reliance on oil and gas drilling. A report <a href="http://www.brookings.edu/blogs/the-avenue/posts/2016/03/16-declining-us-oil-gas-rigs-saha-muro?cid=00900015020089101US0001-031801"> from Brookings</a> analyzed how the decline in oil and gas drilling could impact employment in states that rely on the energy sector.  North Dakota was greatest at risk, possibly losing over 7 percent of total employment due to the decline in oil and gas drilling activity.  Texas is also at risk, possibly losing 1.2 percent of total employment.  The latest jobs data for Texas continue to show year-to-year growth in Texas employment, but the pace of gains has slowed.
 
 <img src="{{ site.url }}/img/charts_mar_19_2016/txyoyjobs.png" alt="job dots" style="width: 450px;"/>
 
