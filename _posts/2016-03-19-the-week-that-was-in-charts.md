@@ -37,7 +37,7 @@ The housing starts data released on Wednesday were consistent with the builders�
 
 Multifamily—starts on buildings with 2 or more units—have been doing pretty well, but the pace of starts has slowed recently.  The data are noisy, so I look at a 3-month moving average of the starts data. Multifamily starts are slowing, but remain on a pace of over 350,00 units per year, which is a solid number.
 
-<img src="{{ site.url }}/img/charts_mar_19_2016/mf.jpg" alt="job dots" style="width: 450px;"/>
+<img src="{{ site.url }}/img/charts_mar_19_2016/MF.jpg" alt="job dots" style="width: 450px;"/>
 
 Though the single-family housing starts number was solid, it’s still underperforming relative to confidence based on historical relationships.  If historical correlations held, the given builder confidence we should be seeing housing starts at a level about one and a half times the current level (see chart below).   
 
