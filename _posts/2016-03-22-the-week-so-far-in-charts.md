@@ -17,7 +17,7 @@ The National Association of Realtors (NAR) <a href="http://www.realtor.org/topic
 
 <img src="{{ site.url }}/img/charts_mar_22_2016/sales_3_21_2016_notes.gif" alt="EHS gif" style="width: 450px;"/>
 
-The annotated gif above shows the history of the NAR EHS.  EHS dropped in November of 2015, but most chalked that up to delays due to TRID implementation. Sure enough, the numbers bounced back in December and January and it looked like we were back on the upswing. What is going on?
+The annotated gif above shows the history of the NAR EHS since 2006.  EHS dropped in November of 2015, but most chalked that up to delays due to TRID implementation. Sure enough, the numbers bounced back in December and January and it looked like we were back on the upswing. What is going on?
 
 Seasonal adjustment factors for housing data have been squirrelly (that’s <a href="http://dilbert.com/strip/2015-03-27">technical economic jargon</a>) due to the extreme volatility in housing data in recent years. To avoid concerns about seasonal factors and <a href="http://www.sciencedirect.com/science/article/pii/030440769090080D">having to do something hard</a> I’ve taken to looking at the non-seasonally adjusted (NSA) data for home sales.
 In terms of the absolute number of sales, this February is the second highest EHS February number we’ve had in the past decade. 
@@ -28,13 +28,13 @@ Typically January and December are the seasonal lows for EHS, so despite the fac
 
 ### Tight inventories to blame?
 
-Everyone is blaming the slowdown in EHS to a lack of inventory.  There’s no doubt that inventory levels are low relative to sales, but they are at about the same level as last year.  It’s really hard to tell anything from the January and February numbers because listing activity really ramps up starting in March. We’ll have to see how the March numbers look before we can come to any firm conclusion about the trajectory of home sales this year.
+Everyone is blaming the slowdown in EHS to a lack of inventory. There’s no doubt that inventory levels are low relative to sales, but they are at about the same level as last year.  It’s really hard to tell anything from the January and February numbers because listing activity really ramps up starting in March. We’ll have to see how the March numbers look before we can come to any firm conclusion about the trajectory of home sales this year.
 
 <img src="{{ site.url }}/img/charts_mar_22_2016/Inv.jpg" alt="housing inventory"/>
 
 ### House prices rising 6% year-over-year
 
-On Tuesday the FHFA released their <a href="https://www.fhfa.gov/DataTools/Downloads/Pages/House-Price-Index.aspx">house price index</a> and it showed an annual rate of change of 6 percent.  House prices have been accelerating since September of 2014, which just so happens to coincide with when mortage rates started dropping.
+On Tuesday the FHFA released their <a href="https://www.fhfa.gov/DataTools/Downloads/Pages/House-Price-Index.aspx">house price index</a> and it showed an annual rate of change of 6 percent.  House prices have been accelerating since September of 2014, which just so happens to coincide with when mortgage rates started dropping.
 
 <img src="{{ site.url }}/img/charts_mar_22_2016/FHFA2.jpg" alt="FHFA PO Index"/>
 
