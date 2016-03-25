@@ -15,7 +15,7 @@ Trulia broke housing inventory into "starter homes", "move-up homes", and "premi
 
 No, this post is about Data Viz. This <a href="http://www.wsj.com/articles/widening-u-s-home-price-gap-makes-trading-up-harder-1458505659">Wall Street Journal</a> article referencing the Trulia analysis included this workmanlike bar graph on housing inventory based on the Trulia data.
 
-<img src="{{ site.url }}/img/charts_mar_24_2016/wsjbar.png" alt="WSJ Bars" style="width: 450px;"/>
+<img src="{{ site.url }}/img/charts_mar_24_2016/wsjbar.PNG" alt="WSJ Bars" style="width: 450px;"/>
 
 This prompted @storywithdata to post this question:
 
