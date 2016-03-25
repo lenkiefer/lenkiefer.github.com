@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Tight Supply: Data Viz Remixed"
+title: "Tight Inventory: Data Viz Remixed"
 summary: "Data Viz Remix of an Inventory Chart"
 group: navigation
 theme :
