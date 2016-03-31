@@ -63,7 +63,7 @@ I constructed an even more complicated chart that allows me to trace out the his
 
 <img src="{{ site.url }}/img/charts_mar_30_2016/string.PNG" alt="string" style="width: 650px;"/> 
 
-This chart tells the house price/population story for four large metro areas: Cleveland, Ohio, New York, Los Angeles, and Dallas.  Like before each point corresponds to real house prices and population relative to a starting year (this time 1993). But in this chart I each individual point corresponding to each year from 1993 to 2015. All the points start at an origin of 1/1, and then trace out that metros fortune over the subsequent years. 
+This chart tells the house price/population story for four large metro areas: Cleveland, Ohio, New York, Los Angeles, and Dallas. Like before each point corresponds to real house prices and population relative to a starting year (this time 1993). But in this chart each individual point corresponds to one year from 1993 to 2015. All the points start at an origin of 1/1, and then trace out that metro's fortune over the subsequent years.
 
 For Dallas we see a slow and steady rise in house prices and population with a bit of a blip around the Great Recession. For New York and Los Angeles, we see the meteoric rise in house prices, collapse and recovery. In Cleveland we see a gradual decline in population and a slow downward drift in real house prices.
 
