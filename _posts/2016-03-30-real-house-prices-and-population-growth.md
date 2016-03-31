@@ -16,11 +16,11 @@ First, let’s have a look at the history of real house prices, relative to the 
 
 This chart shows the rise and fall and recovery of house prices in the largest metro areas.  We see that many markets have real house prices above their 2000 level, but few are above their pre-recession peaks.  
 
-How do trends in real house prices correlate with population growth?  The first thing I did was compare year-over-year population growth to year-over-year house price growth from 2014 to 2015.
+How do trends in real house prices correlate with population growth?  The first thing I did was compare year-over-year population growth to year-over-year house price growth from 2000 to 2015.
 
 <img src="{{ site.url }}/img/charts_mar_30_2016/nominalbubble.jpg" alt="nominal bubble" style="width: 650px;" /> 
 
-This chart shows a fairly strong correlation between fast population growth and fast house price growth in 2015. But does this hold up over a longer time horizon?
+In this chart each bubble corresponds to a metro area.  Along the x axis we have population growth and the y axis displays real house prices.  Each metro is normalized so that population and house prices equal one in 2000.  Moving to the right corresponds to faster population growth. Moving up corresponds to faster real house price growth.  What's going on with this chart?  Let's break it down. 
 
 ### Some maps
 
