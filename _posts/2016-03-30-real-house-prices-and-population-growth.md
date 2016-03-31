@@ -38,7 +38,7 @@ This map shows many of the same patterns as the population map. Real house price
 
 ### Scatterplots
 
-Between these two maps there is a lot going on, so let’s just focus on the largest metro areas, those with populations over 2 million.  The scatterplot below compare the real house price index (with the year 2000 normalized to 1) compared against population (with the year 2000 normalized to 1) for the largest metro areas in 2015.
+Between these two maps there is a lot going on, so let’s just focus on the largest metro areas, those with populations over 2 million.  The scatterplot below compares the real house price index (with the year 2000 normalized to 1) compared against population (with the year 2000 normalized to 1) for the largest metro areas in 2015.
 
 Dots in the upper right quadrant have seen positive real house price appreciation and population growth since 2000. Pittsburgh, in the upper left quadrant has seen positive real house price appreciation but population loss since 2000. Cleveland and Detroit in the bottom left quadrant have seen real house prices and population decline.  Finally, those in the lower right quadrant have had population growth since 2000, but have seen their real house prices decline.
 
