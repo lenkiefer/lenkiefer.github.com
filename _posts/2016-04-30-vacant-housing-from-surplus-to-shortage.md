@@ -42,7 +42,7 @@ What we can see from these data is the incredible rise and fall of vacancy rates
 
 One way to look at these data is to consider in absolute numbers how many excess vacant housing units we might have at any point in time.  If we concede that a certain level of vacant housing stock is "normal", then we can compare that to the current vacant housing stock.  That is in fact, what we do the following figure:
 
-<img src="{{ site.url }}/img/charts_apr_30_2016/overhang.png" alt="overhang"  style="width: 650px;" />
+<img src="{{ site.url }}/img/charts_apr_30_2016/overhang.PNG" alt="overhang"  style="width: 650px;" />
 
 This graph was constructed by first taking the average vacancy rate for for-sale and for-rent housing from 1994Q1-2003Q4 and then comparing the current vacancy rate to those levels.  If the current vacancy rate is above (below) the historic average then we consider the vacant housing supply to be in surplus (shortage).  
 
@@ -54,7 +54,7 @@ A lack of vacant housing stock creates problems throughout the housing market.  
 
 With for-sale markets heating up this issue will likely loom larger in future. In many markets, home are selling quickly. A homeowner looking to trade up or down might easily find a buyer for their current home, but have a hard time finding a place to buy.
 
-<img src="{{ site.url }}/img/charts_apr_30_2016/inv.png" alt="inventory"  style="width: 650px;" />
+<img src="{{ site.url }}/img/charts_apr_30_2016/inv.PNG" alt="inventory"  style="width: 650px;" />
 
 As the chart below shows, existing homes for sale have been flat over the past three years (with typical seasonal ups and downs) while new homes for sale have been trending higher, but from a low base. With <a hrer="http://www.freddiemac.com/pmms/index.html">low mortgage rates</a> and a labor market posting solid jobs gains month after month, housing demand is likely to remain strong throughout the spring and summer.
 
