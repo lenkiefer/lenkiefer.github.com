@@ -9,7 +9,7 @@ theme :
 ---
 {% include JB/setup %}
 
-EARLIER THIS WEEK the census bureau released the latest <a href="http://www.census.gov/housing/hvs/index.html">Housing Vacancy Survey (HVS)</a> data for the first quarter of 2016.
+EARLIER THIS WEEK the Census Bureau released the latest <a href="http://www.census.gov/housing/hvs/index.html">Housing Vacancy Survey (HVS)</a> data for the first quarter of 2016.
 
 Much <a href="http://blogs.wsj.com/economics/2016/04/28/u-s-homeownership-rate-falls-again-nearing-a-48-year-low/">attention</a> went to the homeownership rate estimates, which showed a decline in homeownership rates near a 48-year low. The gif below shows the history of the homeownership rate as estimated by the HVS.
 
@@ -36,7 +36,7 @@ And a still of the last frame:
 
 <img src="{{ site.url }}/img/charts_apr_30_2016/scatter.svg" alt="scatter still" style="width: 650px;"/>
 
-What we can see from these data is the incredible rise and fall of vacancy rates during the housing bust and subsequent recovery. Compared to history, rental vacancy rates are bit below their historical average, while homeowner vacany rates are bit above their historic average.
+What we can see from these data is the incredible rise and fall of vacancy rates during the housing bust and subsequent recovery. Compared to history, rental vacancy rates are bit below their historical average, while homeowner vacancy rates are bit above their historic average.
 
 ## Surplus to shortage
 
