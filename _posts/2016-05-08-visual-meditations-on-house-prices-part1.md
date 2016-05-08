@@ -164,3 +164,5 @@ ggplot(data=statedata[state == "US"  & year>1999 ], aes(x=date,y=hpi))+
 ![plot of chunk fig-main1](/img/Rfig/fig-main1-1.svg)
 
 The chart shows the rise, fall, and recovery of national house prices. In this index house prices are still a little below their nominal peak, but trending higher. In the follow-up posts, we'll get creative with the data visualizations.
+
+[Click here for Part 2: sparklines and dots (animated) ]({% post_url 2016-05-08-visual-meditations-on-house-prices-part2 %})
