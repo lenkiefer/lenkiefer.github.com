@@ -9,7 +9,7 @@ theme :
   name : lentheme
 ---
 
-THIS IS PART TWO of my series of meditations on house prices.  In our [*earlier post*](http://lenkiefer.com/2016/05/08/visual-meditations-on-house-prices) we covered the data collection, wrangling, and some useful transformations.  
+THIS IS PART TWO of my series of meditations on house prices.  In our [*earlier post*](http://lenkiefer.com/2016/05/08/visual-meditations-on-house-prices-part1) we covered the data collection, wrangling, and some useful transformations.  
 
 
 ## Recap
@@ -19,7 +19,7 @@ For convenience, the data files you'll need to replicate these results are right
 1. [*state and national called fmhpi.txt*]({{ site.url }}/img/charts_may_8_2016/fmhpi.txt)
 2. [*metro called fmhpi2.txt*]({{ site.url }}/img/charts_may_8_2016/fmhpi2.txt)
 
-And the data preparation code is [*here in the previous post*](http://lenkiefer.com/2016/05/08/visual-meditations-on-house-prices)
+And the data preparation code is [*here in the previous post*](http://lenkiefer.com/2016/05/08/visual-meditations-on-house-prices-part1)
 
 ```{r setup, include=FALSE}
 opts_chunk$set(root.dir = "C:/Users/Leonard/Documents/webpage/live/lenkiefer.github.com/_Rmd")
@@ -85,13 +85,13 @@ Let's take a peek at the data:
 head(statedata, n=13L)
 ```
 
-Above is the first 13 rows of the statedata.  The key variable is hpi, which tracks the house price index (normalized so that December 2000=100).  We computed differences, and I also added pmin and pmax which compute the minimum of hpi after the year 2007 by state and the maximum of hpi before the year 2008 by state respectively. I happened to have computed these values in <span class="icon-file-excel" style="color:green;"></span> Excel and merged them back on our data before I saved it as a text file.  But we could pretty easily replicate these calculations in R.
+Above is the first 13 rows of the state data.  The key variable is hpi, which tracks the house price index (normalized so that December 2000=100).  We computed differences, and I also added pmin and pmax which compute the minimum of hpi after the year 2007 by state and the maximum of hpi before the year 2008 by state respectively. I happened to have computed these values in <span class="icon-file-excel" style="color:green;"></span> Excel and merged them back on our data before I saved it as a text file.  But we could pretty easily replicate these calculations in R.
 
 For today's exercise we'll just need the state, year, month, date, and hpi variables (hpi, hpi12min, hpi12max, and hpa12).
 
 ### What are these data?
 
-[*Remember*](http://lenkiefer.com/2016/05/08/visual-meditations-on-house-prices) these data are the Freddie Mac House Price Index for the U.S., 50 states plus D.C. and over 300 metro areas. You can read technical documentation [*pdf*](http://www.freddiemac.com/finance/fmhpi/docs/FMHPI.pdf) and a [*FAQ*](http://www.freddiemac.com/finance/fmhpi/fmhpi_faq.html#13), but the basic explanation-from the FAQ-is:
+[*Remember*](http://lenkiefer.com/2016/05/08/visual-meditations-on-house-prices-part1) these data are the Freddie Mac House Price Index for the U.S., 50 states plus D.C. and over 300 metro areas. You can read technical documentation [*pdf*](http://www.freddiemac.com/finance/fmhpi/docs/FMHPI.pdf) and a [*FAQ*](http://www.freddiemac.com/finance/fmhpi/fmhpi_faq.html#13), but the basic explanation-from the FAQ-is:
 
 **How can I interpret index values?**
 
@@ -106,7 +106,7 @@ I've been using the [*animation package*](https://cran.r-project.org/web/package
 
 # Meditation 1: small multiple line plots
 
-Let's start by constructing a small multiple line plot, where we plot the FMHPI for each state in a separte small plot, sort of like a sparkline. As we have 50 states, we'll exclude D.C. and the US from this visualization so that we have nice number to work with in the panel plot.
+Let's start by constructing a small multiple line plot, where we plot the FMHPI for each state in a separate small plot, sort of like a sparkline. As we have 50 states, we'll exclude D.C. and the US from this visualization so that we have nice number to work with in the panel plot.
 
 ```{r , hpiviz1, warning=FALSE, cache=TRUE,echo=TRUE, message=FALSE, fig.height=8 }
 #set a maximum date with year and month
@@ -231,7 +231,8 @@ I've also added a gradient color scale between red and blue that denotes the per
 
 ## Adding animation
 
-This chart is enhanced by adding animations I think. We can then filter through the history of house prices for each state. We can also more easily make comparisons than we can with the sparklines.
+This chart is enhanced by adding animations I think. The time sequence of the gif allows us to trace the history of house prices. Watching the line segements increase and decrease in length gives you a sense of the trajectory of house prices for that state. Comparisons acrosss states are also easier in this chart.
+
 
 
 ```{r , warning=FALSE, cache=TRUE,echo=TRUE, message=FALSE, include=TRUE, eval=FALSE }

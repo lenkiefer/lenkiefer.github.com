@@ -10,7 +10,7 @@ theme :
 ---
 # Introduction
 
-THIS POST CONSIDERS recent trends in house prices.Thinking a great deal about house prices, I like to look at many different DATA VISUALIZATIONS of house prices, at the national, state, and metro levels of aggregation. Also, in this post, I will include descriptions of how I built my visualizations, inlcuding code.  These meditations as I call them, required some data wrangling and some thinking as to how to construct the charts.
+THIS POST CONSIDERS recent trends in house prices. Thinking a great deal about house prices, I like to look at many different DATA VISUALIZATIONS of house prices, at the national, state, and metro levels of aggregation. Also, in this post, I will include descriptions of how I built my visualizations, including code.  These meditations as I call them, required some data wrangling and some thinking as to how to construct the charts.
 
 As the post was getting long, I decided to split it up. In this post, I'll handle data wrangling. We'll prepare the data for analysis both in <span class="icon-file-excel" style="color:green;"></span> Excel and R. In following post(s), we'll get into the details of creating the data visualizations. When we're through we'll build something like this:
 
@@ -27,7 +27,7 @@ We're going to be using the Freddie Mac House Price Index (FMHPI), which is avai
 ### FMHPI webpage:
 <img src="{{ site.url }}/img/charts_may_8_2016/fmhpi1.PNG" alt="FMHPI 1" style="width: 550px;"/>
 
-We'll need to navigate to the [arhive page](http://www.freddiemac.com/finance/fmhpi/archive.html) to download the data we want. The data are in two excel spreadsheets <span class="icon-file-excel" style="color:green;"></span>: [*one for the national and state indices*](http://www.freddiemac.com/finance/fmhpi/current/excel/states.xls) and 
+We'll need to navigate to the [archive page](http://www.freddiemac.com/finance/fmhpi/archive.html) to download the data we want. The data are in two excel spreadsheets <span class="icon-file-excel" style="color:green;"></span>: [*one for the national and state indices*](http://www.freddiemac.com/finance/fmhpi/current/excel/states.xls) and 
 <span class="icon-file-excel" style="color:green;"></span>: [*one for the metro indices*](http://www.freddiemac.com/finance/fmhpi/current/excel/msas_new.xls). We'll need them both for what follows. 
 
 ### FMHPI data download:
@@ -163,4 +163,4 @@ ggplot(data=statedata[state == "US"  & year>1999 ], aes(x=date,y=hpi))+
 
 ```
 
-The chart shows the rise, fall, and recovery of national house prices. In this indes house prices are still a little below their nominal peak, but trending higher.  In the follow-up posts, we'll get creative with the data visualizations.
+The chart shows the rise, fall, and recovery of national house prices. In this index house prices are still a little below their nominal peak, but trending higher. In the follow-up posts, we'll get creative with the data visualizations.
