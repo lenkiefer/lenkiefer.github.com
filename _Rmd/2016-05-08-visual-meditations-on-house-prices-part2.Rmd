@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Visual meditations on house prices, Part 2: data visualizations"
+title: "Visual meditations on house prices, Part 2: sparklines and dots (animated)"
 author: "Len Kiefer"
 date: "2016-05-08"
 summary: "Charts and graphs exploring house price trends"
