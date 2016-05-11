@@ -23,15 +23,15 @@ Let's start by recreating this visualization:
 
 <img src="{{ site.url }}/img/charts_may_8_2016/hpi_dots2.gif" alt="hpi dots 2"/>
 
-This visualization plots each states (plus the District of Columbia) as a blue dot in a scatterplot.  
+This visualization plots each state (plus the District of Columbia) as a blue dot in a scatterplot.  
 
-The X axis displays how far the house price index in the state is from it's pre-2008 peak.  A vertical line at 100% indicates that the price index for that state is exactly at the pre-2008 peak for that state.  If the value is to the right (left) of the vertical line, then the index is above(below) that peak.
+The X axis displays how far the house price index in the state is from its pre-2008 peak.  A vertical line at 100% indicates that the price index for that state is exactly at the pre-2008 peak for that state.  If the value is to the right (left) of the vertical line, then the index is above(below) that peak.
 
 The Y axis displays how far the index is from the post-2007 minimum for that state. The horizontal line at 100% indicates that the state is exactly at that minimum. As states recover from the post-recession bottom, they move further up on the chart.
 
 A value at (75%, 125%) would indicate that the state is only 75% of the pre-2008 maximum, and 125% of the post-2007 minimum.  
 
-You can see that North Dakota (ND) does not fall much during the Great Recession and recovers quickly.
+You can see that North Dakota (ND) does not fall much during the Great Recession and recovers quickly. California (CA) and Florida (FL) fall a lot, but have a strong recovery.
 
 ## Making the chart
 
