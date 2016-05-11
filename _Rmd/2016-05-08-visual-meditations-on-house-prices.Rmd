@@ -14,5 +14,7 @@ This is a multi-part blog series on visual meditations on house prices.  You can
 
 * [Part 1: data wrangling ]({% post_url 2016-05-08-visual-meditations-on-house-prices-part1 %})
 * [Part 2: sparklines and dots (animated) ]({% post_url 2016-05-08-visual-meditations-on-house-prices-part2 %})
+* [Part 3: bubbles and bounce ]({% post_url 2016-05-10-visual-meditations-on-house-prices-part3 %})
 
 and maybe more as I think of them. I'll add them all here.
+
