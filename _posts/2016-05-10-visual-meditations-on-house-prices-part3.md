@@ -126,7 +126,7 @@ saveGIF({for (yy in 2008:2016) for(mm in seq(1,12,1)) {   {
 },movie.name="hpi_dots2.gif",ani.width = 950, ani.height = 650)
 {% endhighlight %}
 
-# Bounce
+# Meditation 2: Bounce
 
 
 Now we're going to use the metro data to analyze seasonality in house prices:
