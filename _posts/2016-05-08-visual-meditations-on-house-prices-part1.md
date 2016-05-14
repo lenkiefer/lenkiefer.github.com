@@ -147,7 +147,7 @@ ggplot(data=statedata[state == "US"  & year>1999 ], aes(x=date,y=hpi))+
   #Add a line for the data
   geom_line(color="black",size=1.2)   +  
   #Add a red circle for the last data point
-  geom_point(data=statedata[state =='US'  & year==yy & month==mm], color="red", alpha=0.7,size=3)+
+  geom_point(data=statedata[state =='US'  & year==2016 & month==3], color="red", alpha=0.7,size=3)+
 
   #Add a horizontal line at the last data point
   geom_hline(data = statedata[year==2016 & month==3 & state =="US"], aes(yintercept = hpi), color="red",alpha=0.7,linetype=2)+

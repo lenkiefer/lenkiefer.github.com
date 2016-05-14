@@ -135,7 +135,7 @@ In the code above we take advantage of the data table structure and some functio
 
 Before we close out this data preparation blog post, let's at least make one plot from the data.  The code below generates a time series plot for the national index from January 2000 to March 2016.
 
-```{r ,fig-main1, warning=FALSE, cache=TRUE,echo=TRUE, message=FALSE,,fig.height=4,fig.width=5.5}
+```{r ,fig-main1, warning=FALSE, cache=TRUE,echo=FALSE, message=FALSE,,fig.height=6,fig.width=8}
 #Plot the data using only the US index  
 ggplot(data=statedata[state == "US"  & year>1999 ], aes(x=date,y=hpi))+
   #Use a minimal theme from the ggthemes() package
@@ -148,7 +148,7 @@ ggplot(data=statedata[state == "US"  & year>1999 ], aes(x=date,y=hpi))+
   #Add a line for the data
   geom_line(color="black",size=1.2)   +  
   #Add a red circle for the last data point
-  geom_point(data=statedata[state =='US'  & year==yy & month==mm], color="red", alpha=0.7,size=3)+
+  geom_point(data=statedata[state =='US'  & year==2016 & month==3], color="red", alpha=0.7,size=3)+
 
   #Add a horizontal line at the last data point
   geom_hline(data = statedata[year==2016 & month==3 & state =="US"], aes(yintercept = hpi), color="red",alpha=0.7,linetype=2)+
