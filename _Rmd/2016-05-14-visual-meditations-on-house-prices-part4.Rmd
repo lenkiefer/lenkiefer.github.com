@@ -279,7 +279,7 @@ Let's try to estimate it using the monthly percent change (at an annualized rate
 
 Again we can focus in on just Dallas and Los Angeles:
 
-```{r ,fig-hpa-corr, warning=FALSE, cache=TRUE,echo=FALSE, message=FALSE,,fig.height=5.5,fig.width=7}
+```{r ,fig-hpa-corr, warning=FALSE,include=FALSE, cache=TRUE,echo=FALSE, message=FALSE,,fig.height=7,fig.width=9.5}
 mylabel3<-unique(metrodata$metro)[c( 87,210)]
 ggplot(data=metrodata3[ year>1999 & metro %in% mylabel3  ], aes(x=ushpa,y=hpa,alpha=0.5))+
   geom_point(color="gray",alpha=0.75)+
@@ -308,13 +308,60 @@ Here we see that the points tend to cluster around the regression loan, but with
 
 In the plots below we compare the slope coefficient from each scatterplot.  We can quickly notice some regularities:
 
-<img src="{{ site.url }}/img/charts_may_14_2016/metro_betas.png" alt="hpa corr"/>
+```{r ,fig-hpa-reg1, warning=FALSE, cache=TRUE,echo=FALSE, message=FALSE,,fig.height=7,fig.width=9.5}
+#get regression coefficients
+metrodata3[year>1999, rho1:=lm(hpa~ushpa)$coefficients[["ushpa"]], by=metro]
+
+ggplot(data=metrodata3[year==2016 & month==3 & state1 !="DC"])+geom_point(aes(x=rho1,y=reorder(metro,rho1),color=rho1))+
+  theme( axis.text.y=element_blank(),axis.ticks=element_blank()) + 
+  theme_minimal()+
+  facet_wrap(~state1,ncol=10,scales="free_y")+
+  scale_colour_gradient(low="blue", high="red", limits=c(0,2),name="Slope of metro HPA regressed on U.S. HPA") +
+  theme(panel.grid.major.y=element_blank())+
+  labs(y="", x="Regression coefficient: Metro HPA ~ US HPA",
+       title="Where is house price growth most closely associated with national trends?",
+       subtitle="Metro HPA = beta * US HPA + constant",
+       caption="@lenkiefer Source: Freddie Mac House Price Index, January 2000:March 2016 (NSA)")+
+  theme(plot.title=element_text(size=14))+
+  theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10),size=9))+
+  theme(plot.margin=unit(c(0.25,0.25,0.25,0.25),"cm"))+ 
+  theme( axis.text.y=element_blank())+
+  theme(legend.justification=c(0,0),
+        legend.position="top",
+        text=element_text(size=10))
+```
+
+
 
 Focus in on a four large states:
 
-<img src="{{ site.url }}/img/charts_may_14_2016/metro_beta_4states.png" alt="hpa corr"/>
+```{r ,fig-hpa-reg2, warning=FALSE, cache=TRUE,echo=FALSE, message=FALSE,,fig.height=7,fig.width=9.5}
+metrodata3[year>1999, rho1:=lm(hpa~ushpa)$coefficients[["ushpa"]], by=metro]
+ggplot(data=metrodata3[year==2016 & month==3 & (state1 =="CA" | state1=="TX" |state1=="FL"|state1=="PA")])+
+                         geom_point(aes(x=rho1,y=reorder(metro,rho1),color=rho1,label=metro))+
+  theme( axis.text.y=element_blank(),axis.ticks=element_blank()) + 
+  #geom_text_repel(aes(x=rho1,y=metro,label=metro))+
+  #geom_text(aes(x=rho1,y=metro,label=metro))+
+  theme_minimal()+
+  facet_wrap(~state1,ncol=2,scales="free_y")+
+  scale_x_continuous(breaks=seq(0.75,1.5,.25))+
+  scale_colour_gradient(low="blue", high="red", limits=c(0,2),name="Slope of metro HPA regressed on U.S. HPA") +
+  #theme(panel.grid.major.y=element_blank())+
+  labs(y="", x="Regression coefficient: Metro HPA ~ US HPA",
+       title="Where is house price growth most closely associated with national trends?",
+       subtitle="Metro HPA = beta * US HPA + constant",
+       caption="@lenkiefer Source: Freddie Mac House Price Index, January 2000:March 2016 (NSA)")+
+  theme(plot.title=element_text(size=14))+
+  theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10),size=9))+
+  theme(plot.margin=unit(c(0.25,0.25,0.25,0.25),"cm"))+ 
+ # theme( axis.text.y=element_blank())+
+  theme(legend.justification=c(0,0),
+        legend.position="none",
+        text=element_text(size=10))
+```
 
-All the metros in California and Florida have a coefficient greater than one, while all the metros in Pennsylvania and Texas have a coefficient less than one. This means that on average when house prices rise (fall) 3 percent for the U.S., California and Florida tent to rise (fall) more than 3 percent, while Pennsylvania and Texas tend to rise (fall) less than 3 percent.
+
+All the metros in California and Florida have a coefficient greater than one, while all the metros in Pennsylvania and Texas have a coefficient less than one. This means that on average when house prices rise (fall) 3 percent for the U.S., California and Florida tend to rise (fall) more than 3 percent, while Pennsylvania and Texas tend to rise (fall) less than 3 percent.
 
 # Conclusion
 

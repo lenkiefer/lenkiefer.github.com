@@ -139,7 +139,7 @@ Let's try to estimate it using the monthly percent change (at an annualized rate
 
 Again we can focus in on just Dallas and Los Angeles:
 
-![plot of chunk fig-hpa-corr](/img/Rfig/fig-hpa-corr-1.svg)
+
 
 Here we see that the points tend to cluster around the regression loan, but with very different slopes.  Dallas, which lies below the 45 degree line tends to experience house price growth that is subdued with respect to national trends.  Los Angeles, seems more responsive. Let's examine these relationships across all the metros.
 
@@ -147,13 +147,16 @@ Here we see that the points tend to cluster around the regression loan, but with
 
 In the plots below we compare the slope coefficient from each scatterplot.  We can quickly notice some regularities:
 
-<img src="{{ site.url }}/img/charts_may_14_2016/metro_betas.png" alt="hpa corr"/>
+![plot of chunk fig-hpa-reg1](/img/Rfig/fig-hpa-reg1-1.svg)
+
+
 
 Focus in on a four large states:
 
-<img src="{{ site.url }}/img/charts_may_14_2016/metro_beta_4states.png" alt="hpa corr"/>
+![plot of chunk fig-hpa-reg2](/img/Rfig/fig-hpa-reg2-1.svg)
 
-All the metros in California and Florida have a coefficient greater than one, while all the metros in Pennsylvania and Texas have a coefficient less than one. This means that on average when house prices rise (fall) 3 percent for the U.S., California and Florida tent to rise (fall) more than 3 percent, while Pennsylvania and Texas tend to rise (fall) less than 3 percent.
+
+All the metros in California and Florida have a coefficient greater than one, while all the metros in Pennsylvania and Texas have a coefficient less than one. This means that on average when house prices rise (fall) 3 percent for the U.S., California and Florida tend to rise (fall) more than 3 percent, while Pennsylvania and Texas tend to rise (fall) less than 3 percent.
 
 # Conclusion
 
