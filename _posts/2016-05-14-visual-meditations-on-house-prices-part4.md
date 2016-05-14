@@ -156,7 +156,7 @@ Focus in on a four large states:
 ![plot of chunk fig-hpa-reg2](/img/Rfig/fig-hpa-reg2-1.svg)
 
 
-All the metros in California and Florida have a coefficient greater than one, while all the metros in Pennsylvania and Texas have a coefficient less than one. This means that on average when house prices rise (fall) 3 percent for the U.S., California and Florida tend to rise (fall) more than 3 percent, while Pennsylvania and Texas tend to rise (fall) less than 3 percent.
+All the metros in California and all but two in Florida have a coefficient greater than one, while all the metros in Pennsylvania and Texas have a coefficient less than one. This means that on average when house prices rise (fall) 3 percent for the U.S., California and Florida tend to rise (fall) more than 3 percent, while Pennsylvania and Texas tend to rise (fall) less than 3 percent.
 
 # Conclusion
 
