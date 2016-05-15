@@ -45,11 +45,11 @@ myplotf<-function (d){
     # My favorite minimal theme for gplot2
     theme_minimal()+
     # add red ball at end of time series
-    geom_point(data=pmms30yr[date==max(d$date)],size=2,color="red")+  
+    geom_point(data=d[date==max(d$date)],size=2,color="red")+  
     # add open circle at 3.57 on May 12
-    geom_point(data=pmms30yr[date==as.Date("2016-05-12")],size=2,color="red",shape=1)+ 
+    geom_point(data=d[date==as.Date("2016-05-12")],size=2,color="red",shape=1)+ 
     # add 3.57 in red text
-    geom_text(data=pmms30yr[date==as.Date("2016-05-12")],color="red",nudge_x=0.25,hjust=-0.2)+
+    geom_text(data=d[date==as.Date("2016-05-12")],color="red",nudge_x=0.25,hjust=-0.2)+
     # add dotted red line at 3.57%, laste point
     geom_segment(xend=-Inf,x=as.numeric(as.Date("2016-05-12")),y=3.57,yend=3.57,color="red",linetype=2)+
     # set title size
