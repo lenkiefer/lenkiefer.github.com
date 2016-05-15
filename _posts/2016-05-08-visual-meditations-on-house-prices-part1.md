@@ -61,11 +61,11 @@ This is one of my favorite  <span class="icon-file-excel" style="color:green;"><
 Because the metro data is laid out in two worksheets, you'll have to do a little more leg work to get the metro data laid out (and you might have convert the files to .xlsx to handle the extra rows). Also, I'm going to convert the date field, which isn't a date in the  <span class="icon-file-excel" style="color:green;"></span> Excel file to a year, month, and date column. Ultimately, we'll want a file that looks like this:
 
 
-<img src="{{ site.url }}/img/charts_may_8_2016/fmhpi7.PNG" alt="FMHPI 6" style="width: 550px;"/>
+<img src="{{ site.url }}/img/charts_may_8_2016/fmhpi7.PNG" alt="FMHPI 6" style="width: 740px;"/>
 
 and this for the metros:
 
-<img src="{{ site.url }}/img/charts_may_8_2016/fmhpi8.PNG" alt="FMHPI 6" style="width: 550px;"/>
+<img src="{{ site.url }}/img/charts_may_8_2016/fmhpi8.PNG" alt="FMHPI 6" style="width: 740px;"/>
 
 For the metros I included variables called "states" and "state1", which were created by parsing the metro name.  The variable "states" contains a list of all states that the metro area includes, while "state1" includes the primary state (first one listed by OMB). For example, the New York City metro area (New York-Newark-Jersey City, NY-NJ-PA) includes parts of New York, New Jersey, and Pennsylvania, but the primary state is New York.  This field could be helpful if we want to group the metros.
 
@@ -132,34 +132,6 @@ metrodata<-metrodata[, hpi12max:=rollapply(hpi, 12, max,fill=NA, na.rm=FALSE,ali
 In the code above we take advantage of the data table structure and some functions to compute some time series calculations that will be helpful for the plots we'll make later. For example, the diff function is used together with some exponentiation to calculate the monthly, quarterly, and annual house price appreciation (all annualized). I also used the rollapply function to caclulate a rolling 12-month min and max (backward looking by using align='right').
 
 Before we close out this data preparation blog post, let's at least make one plot from the data.  The code below generates a time series plot for the national index from January 2000 to March 2016.
-
-
-{% highlight r %}
-#Plot the data using only the US index  
-ggplot(data=statedata[state == "US"  & year>1999 ], aes(x=date,y=hpi))+
-  #Use a minimal theme from the ggthemes() package
-  theme_minimal()+
-  #use a log y axis
-  scale_y_log10(limits=c(90,200), breaks=c(100,125,150,175,200))+
-  #format the date axis
-  scale_x_date(labels= date_format("%y"),date_breaks="1 year",
-               limits = as.Date(c('2000-01-01','2016-03-30'))) +
-  #Add a line for the data
-  geom_line(color="black",size=1.2)   +  
-  #Add a red circle for the last data point
-  geom_point(data=statedata[state =='US'  & year==2016 & month==3], color="red", alpha=0.7,size=3)+
-
-  #Add a horizontal line at the last data point
-  geom_hline(data = statedata[year==2016 & month==3 & state =="US"], aes(yintercept = hpi), color="red",alpha=0.7,linetype=2)+
-  #Modify some styles
-  theme(plot.title=element_text(face="bold",size=14))+
-  theme(plot.caption=element_text(hjust=0,size=8))+
-  xlab("")+ylab("House price index, log scale")+
-  #use the development ggplot caption feature
-  labs(caption="@lenkiefer Source: Freddie Mac House Price Index (Dec 2000 = 100, NSA)",
-       subtitle="",
-       title="U.S. house price trends")
-{% endhighlight %}
 
 ![plot of chunk fig-main1](/img/Rfig/fig-main1-1.svg)
 
