@@ -12,7 +12,7 @@ theme :
 
 # Another mortgage rates animated gif
 
-IN THE PAST I've told you [how I made my mortgage rates gif]({% post_url 2016-03-10-mortgage-rates-gif %}). In this post I'm make an extension that uses stop-motion techniques to reverse course. We'll end up with this:
+IN THE PAST I've told you [how I made my mortgage rates gif]({% post_url 2016-03-10-mortgage-rates-gif %}). In this post I'm make an extension that uses stop motion techniques to reverse course. We'll end up with this:
 
 <img src="{{ site.url }}/img/charts_may_15_2016/rate_5_14_2016.gif" alt="stop motion rates gif"/>
 
