@@ -60,7 +60,7 @@ myplotf<-function (d){
   return (g)
   }
 
-# helper dataset with data since 2013, not necessary & vestigal from how I built this up
+# helper dataset with data since 2013, not necessary & vestigial from how I built this up
 dd13<-pmms30yr[year>=2013]$date
 
 # Note, I did some counting to figure out which weeks I needed for the animation.  Not elegant, but works.
