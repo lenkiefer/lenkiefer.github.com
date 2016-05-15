@@ -125,7 +125,7 @@ Correlation of house price movements is an active area of research, with many re
 
 <img src="{{ site.url }}/img/charts_may_14_2016/metro_us_corr.gif" alt="hpi corr"/>
 
-This gif compares each metro area (grouped by principal state) to the U.S. in terms of the index.  I've plotted the U.S. index on the x axis (using a log scale) and the metro index (using a log scale) on the y axis.  In general there's fairly strong correlation, but some markets seem to permanently depart for the regression line.
+This gif compares each metro area (grouped by principal state) to the U.S. in terms of the index.  I've plotted the U.S. index on the x axis (using a log scale) and the metro index (using a log scale) on the y axis.  In general there's fairly strong correlation, but some markets seem to permanently depart from the regression line.
 
 Let's consider Dallas and Los Angeles:
 
@@ -157,6 +157,13 @@ Focus in on a four large states:
 
 
 All the metros in California and all but two in Florida have a coefficient greater than one, while all the metros in Pennsylvania and Texas have a coefficient less than one. This means that on average when house prices rise (fall) 3 percent for the U.S., California and Florida tend to rise (fall) more than 3 percent, while Pennsylvania and Texas tend to rise (fall) less than 3 percent.
+
+# *Update* Dot plot distribution
+
+This plot shows the distribution of house price appreciaton (month-over-month percent change) across each metro area compared to the U.S. index.  Values that are aprpeciating (depreciating) are colored blue (red) and the orange line corresponds to the U.S. index for that month.  I've written up indstructions on how to make such a plot [in an earlier post]({% post_url 2016-04-06-dot-plots-and-distributions%}).
+
+<img src="{{ site.url }}/img/charts_may_14_2016/metro_hpi_dots5.gif" alt="hpa dots"/>
+
 
 # Conclusion
 

@@ -242,7 +242,7 @@ Correlation of house price movements is an active area of research, with many re
 
 <img src="{{ site.url }}/img/charts_may_14_2016/metro_us_corr.gif" alt="hpi corr"/>
 
-This gif compares each metro area (grouped by principal state) to the U.S. in terms of the index.  I've plotted the U.S. index on the x axis (using a log scale) and the metro index (using a log scale) on the y axis.  In general there's fairly strong correlation, but some markets seem to permanently depart for the regression line.
+This gif compares each metro area (grouped by principal state) to the U.S. in terms of the index.  I've plotted the U.S. index on the x axis (using a log scale) and the metro index (using a log scale) on the y axis.  In general there's fairly strong correlation, but some markets seem to permanently depart from the regression line.
 
 Let's consider Dallas and Los Angeles:
 
@@ -279,7 +279,7 @@ Let's try to estimate it using the monthly percent change (at an annualized rate
 
 Again we can focus in on just Dallas and Los Angeles:
 
-```{r ,fig-hpa-corr, warning=FALSE,include=FALSE, cache=TRUE,echo=FALSE, message=FALSE,,fig.height=7,fig.width=9.5}
+```{r ,fig-hpa-corr, warning=FALSE,include=FALSE, cache=TRUE,echo=FALSE,message=FALSE,,fig.height=7,fig.width=9.5}
 mylabel3<-unique(metrodata$metro)[c( 87,210)]
 ggplot(data=metrodata3[ year>1999 & metro %in% mylabel3  ], aes(x=ushpa,y=hpa,alpha=0.5))+
   geom_point(color="gray",alpha=0.75)+
@@ -308,11 +308,11 @@ Here we see that the points tend to cluster around the regression loan, but with
 
 In the plots below we compare the slope coefficient from each scatterplot.  We can quickly notice some regularities:
 
-```{r ,fig-hpa-reg1, warning=FALSE, cache=TRUE,echo=FALSE, message=FALSE,,fig.height=7,fig.width=9.5}
+```{r ,fig-hpa-reg1, warning=FALSE, cache=TRUE,echo=FALSE, message=FALSE,,fig.height=8,fig.width=9.5}
 #get regression coefficients
 metrodata3[year>1999, rho1:=lm(hpa~ushpa)$coefficients[["ushpa"]], by=metro]
 
-ggplot(data=metrodata3[year==2016 & month==3 & state1 !="DC"])+geom_point(aes(x=rho1,y=reorder(metro,rho1),color=rho1))+
+ggplot(data=metrodata3[year==2016 & month==3 & state1 !="DC"])+geom_point(aes(x=rho1,y=reorder(metro,rho1),color=rho1),size=1)+
   theme( axis.text.y=element_blank(),axis.ticks=element_blank()) + 
   theme_minimal()+
   facet_wrap(~state1,ncol=10,scales="free_y")+
@@ -362,6 +362,13 @@ ggplot(data=metrodata3[year==2016 & month==3 & (state1 =="CA" | state1=="TX" |st
 
 
 All the metros in California and all but two in Florida have a coefficient greater than one, while all the metros in Pennsylvania and Texas have a coefficient less than one. This means that on average when house prices rise (fall) 3 percent for the U.S., California and Florida tend to rise (fall) more than 3 percent, while Pennsylvania and Texas tend to rise (fall) less than 3 percent.
+
+# *Update* Dot plot distribution
+
+This plot shows the distribution of house price appreciaton (month-over-month percent change) across each metro area compared to the U.S. index.  Values that are aprpeciating (depreciating) are colored blue (red) and the orange line corresponds to the U.S. index for that month.  I've written up indstructions on how to make such a plot [in an earlier post]({% post_url 2016-04-06-dot-plots-and-distributions%}).
+
+<img src="{{ site.url }}/img/charts_may_14_2016/metro_hpi_dots5.gif" alt="hpa dots"/>
+
 
 # Conclusion
 
