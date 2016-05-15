@@ -279,7 +279,7 @@ Let's try to estimate it using the monthly percent change (at an annualized rate
 
 Again we can focus in on just Dallas and Los Angeles:
 
-```{r ,fig-hpa-corr, warning=FALSE,include=FALSE, cache=TRUE,echo=FALSE,message=FALSE,,fig.height=7,fig.width=9.5}
+```{r ,fig-hpa-corr, warning=FALSE, cache=TRUE,echo=FALSE, message=FALSE,,fig.height=5.5,fig.width=7}
 mylabel3<-unique(metrodata$metro)[c( 87,210)]
 ggplot(data=metrodata3[ year>1999 & metro %in% mylabel3  ], aes(x=ushpa,y=hpa,alpha=0.5))+
   geom_point(color="gray",alpha=0.75)+
@@ -337,6 +337,7 @@ Focus in on a four large states:
 
 ```{r ,fig-hpa-reg2, warning=FALSE, cache=TRUE,echo=FALSE, message=FALSE,,fig.height=7,fig.width=9.5}
 metrodata3[year>1999, rho1:=lm(hpa~ushpa)$coefficients[["ushpa"]], by=metro]
+
 ggplot(data=metrodata3[year==2016 & month==3 & (state1 =="CA" | state1=="TX" |state1=="FL"|state1=="PA")])+
                          geom_point(aes(x=rho1,y=reorder(metro,rho1),color=rho1,label=metro))+
   theme( axis.text.y=element_blank(),axis.ticks=element_blank()) + 

@@ -139,7 +139,7 @@ Let's try to estimate it using the monthly percent change (at an annualized rate
 
 Again we can focus in on just Dallas and Los Angeles:
 
-
+![plot of chunk fig-hpa-corr](/img/Rfig/fig-hpa-corr-1.svg)
 
 Here we see that the points tend to cluster around the regression loan, but with very different slopes.  Dallas, which lies below the 45 degree line tends to experience house price growth that is subdued with respect to national trends.  Los Angeles, seems more responsive. Let's examine these relationships across all the metros.
 
