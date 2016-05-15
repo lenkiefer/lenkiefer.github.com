@@ -33,7 +33,7 @@ Here's the R script to enable the animation:
 
 {% highlight r %}
 #Load some data stored in a text file called "pmms30yr"
-#these data have one column of dates, one column of rates, and a helper column called year
+#these data have one column of dates, one column of rates, and helper columns called year and week (week number)
 pmms30yr <- fread("pmms30yr.txt")
 pmms30yr$date<-as.Date(pmms30yr$date, format="%m/%d/%Y")
 
@@ -59,6 +59,12 @@ myplotf<-function (d){
     theme(plot.margin=unit(c(0.25,0.25,0.25,0.25),"cm"))
   return (g)
   }
+
+# helper dataset with data since 2013, not necessary & vestigal from how I built this up
+dd13<-pmms30yr[year>=2013]$date
+
+# Note, I did some counting to figure out which weeks I needed for the animation.  Not elegant, but works.
+
 
 #Run the animation
 
