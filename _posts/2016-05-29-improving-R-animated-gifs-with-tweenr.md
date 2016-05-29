@@ -29,7 +29,7 @@ RECENTLY I HAVE MADE several animated GIFs, primarily using the [animation packa
 
 <img src="{{ site.url }}/img/charts_may_15_2016/rate_5_14_2016.gif" alt="stop motion rates gif"/>
 
-Unfortunately, these gifs tend to come out rather chappy. I tried to get around that by using variable length sequences to alter the timing of each frame. My primitive approach involves loops and business like this:
+Unfortunately, these gifs tend to come out rather choppy. I tried to get around that by using variable length sequences to alter the timing of each frame. My primitive approach involves loops and business like this:
 
 
 {% highlight r %}
@@ -100,7 +100,7 @@ sdata$state<-as.factor(sdata$state)
 
 First, let's go over the animation without easing.  I'm going to use the [gganimate package](https://github.com/dgrtwo/gganimate), which I've been avoiding using because I'm a data masochist and love writing loops.  By using gganimate, we can crate the GIF with less code.  We lose some control, but gain some efficiency.
 
-We're going to make a fairly simple data visualziation. We're going to plot the [Freddie Mac House Price Index (FMHPI)](http://www.freddiemac.com/finance/house_price_index.html) from January 2000 through March 2016, comparing the national index to each of the 50 states and the District of Columbia.  
+We're going to make a fairly simple data visualization. We're going to plot the [Freddie Mac House Price Index (FMHPI)](http://www.freddiemac.com/finance/house_price_index.html) from January 2000 through March 2016, comparing the national index to each of the 50 states and the District of Columbia.  
 
 We'll be a little inefficient here and append back on the house price index for the national level to our state data set. We could probably avoid this step, but I couldn't get it to work with gganimate.  Then we'll plot a GIF for each state comparing the state index to the national index.
 
