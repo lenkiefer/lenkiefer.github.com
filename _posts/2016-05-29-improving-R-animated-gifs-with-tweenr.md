@@ -223,7 +223,7 @@ Not bad!
 
 ## More examples
 
-Tweenr is a great package.  I'm going back and refreshing to some of my earlier gifs, and these nice transitions open up so great possibilities. I'll post some additional examples later, but here's a couple thoughts:
+Tweenr is a great package.  I'm going back and refreshing to some of my earlier GIFs, and these nice transitions open up some great possibilities. I'll post some additional examples later, but here's a couple thoughts:
 
 <img src="{{ site.url }}/img/charts_may_29_2016/ex3_tween.gif" alt="GIF bar tween"/>
 
