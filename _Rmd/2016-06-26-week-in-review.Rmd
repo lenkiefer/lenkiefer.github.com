@@ -20,7 +20,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library("viridis")
 ```
 
-IT WAS A BUSY WEEK FOR ECONOMIC AND HOUSING DATA. [Existing](http://www.realtor.org/news-releases/2016/06/existing-home-sales-grow-18-percent-in-may-highest-pace-in-over-nine-years) and [new](https://www.census.gov/construction/nrs/pdf/newressales.pdf) home sales came out, the Joint Center for Housing Studies of Harvard University released their annual [State of the Nation's Housing](http://www.jchs.harvard.edu/research/state_nations_housing), and we the U.K. voted to leave the European Union (the Brexit).  We'll recap these data and events through charts I've created and shared throughout the week.
+IT WAS A BUSY WEEK FOR ECONOMIC AND HOUSING DATA. [Existing](http://www.realtor.org/news-releases/2016/06/existing-home-sales-grow-18-percent-in-may-highest-pace-in-over-nine-years) and [new](https://www.census.gov/construction/nrs/pdf/newressales.pdf) home sales came out, the Joint Center for Housing Studies of Harvard University released their annual [State of the Nation's Housing](http://www.jchs.harvard.edu/research/state_nations_housing), and the U.K. voted to leave the European Union (the Brexit). We'll recap these data and events through charts I've created and shared throughout the week.
 
 In this post, I'll share each of the charts with some commentary, and then below, I'll include the R code I used to generate the charts.
 
@@ -49,11 +49,11 @@ Through May total home sales (new + existing) are running below 2007 pace, but n
 
 # Ahead of Brexit, interest rates already falling.
 
-On Friday after the Brexit leave vote was announced, financial markets roiled, with stocks tumbling and Treasury yields falling. But even before the vote was announced, long-term interest rates had been falling.
+On Friday after the Brexit leave vote was announced, financial markets roiled, with stocks tumbling and Treasury yields falling. But even before the vote was announced, long-term interest rates had been falling. 
 
 <img src="{{ site.url }}/img/charts_jun_26_2016/rate_6_23_2016_2.gif" alt="pmms 6 23 2016"/>
 
-With 10-year Treasury yields down almost 19 basis points on Friday, we might expect to see mortgage rates trend lower in the next week.  That's likely, but in times of volatility some of the declines in Treasury yields do not flow into mortgage rates, instead spreads widen.
+Will mortgage rates fall even more next week? With 10-year Treasury yields down almost 19 basis points on Friday, we should expect to see mortgage rates trend lower in the next week. But even if the declines in Treasury yields stick next week, in times of volatility some of the declines in Treasury yields do not flow into mortgage rates, instead spreads widen.
 
 ```{r ,rate-scatter, warning=FALSE, cache=TRUE,echo=F, message=FALSE, include=TRUE, eval=TRUE,fig.height=8 }
 rdata <- fread("data/rates.txt")  #load data
