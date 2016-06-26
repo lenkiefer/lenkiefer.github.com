@@ -58,7 +58,7 @@ The chart below plots the spread, with the 2011-2016 average (about 1.7 percenta
 
 ![plot of chunk rate-spread2](/img/Rfig/rate-spread2-1.svg)
 
-While risks may be elevated, it might be helpful to compare to the 2006-2008 period when spreads were considerably wider:
+While risks may be elevated, it might be helpful to compare to 2008 when spreads were considerably wider:
 
 ![plot of chunk rate-spread3](/img/Rfig/rate-spread3-1.svg)
 
@@ -262,7 +262,7 @@ ggplot(data=rdata[year>2010,],aes(x=date,y=mrate))+
     theme(legend.justification=c(0,0), legend.position="top")+
     theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
     theme(plot.margin=unit(c(0.25,0.25,0.25,0.25),"cm"))+
-    labs(x="",y="Rate (%)",title="10-year Treasury Yields and Mortgage Rates",
+    labs(x="",y="Rate (%)",title="10-year Treasury Yields and 30-year Fixed Mortgage Rates",
          subtitle="2011-2016",
          caption="@lenkiefer Source: Freddie Mac, Federal Reserve\ntop line mortgage rate, bottom 10-year Treasury, shaded area spread.")
 
@@ -279,7 +279,7 @@ ggplot(data=rdata[year>2010,],aes(x=date,y=mrate-rate10y))+
     theme(legend.justification=c(0,0), legend.position="top")+
     theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
     theme(plot.margin=unit(c(0.25,0.25,0.25,0.25),"cm"))+
-    labs(x="",y="Rate (%)",title="Spread: 30-year Fixed Mortgag - 10-year Treasury",
+    labs(x="",y="Rate (%)",title="Spread: 30-year Fixed Mortgage - 10-year Treasury",
          subtitle="2011-2016",
          caption="@lenkiefer Source: Freddie Mac, Federal Reserve dotted line average spread (2011-2016)")
 {% endhighlight %}
