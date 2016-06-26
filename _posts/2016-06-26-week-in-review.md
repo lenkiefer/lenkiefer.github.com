@@ -48,7 +48,7 @@ Will mortgage rates fall even more next week? With 10-year Treasury yields down 
 
 ![plot of chunk rate-scatter](/img/Rfig/rate-scatter-1.svg)
 
-The chart above shows that in general, the 30-year fixed mortgage rate follows the 10-year Treasury pretty closely. However, in 2012 there were several points below the line. Those weeks correspond to the spring of 2012 when 10-year Treasury yields fell more rapidly than mortgage rates. This was partially due to increased volatility and risk aversion around amidst other European macroeconomic risks.
+The chart above shows that in general, the 30-year fixed mortgage rate follows the 10-year Treasury pretty closely. However, in 2012 there were several points below the line. Those weeks correspond to the spring of 2012 when 10-year Treasury yields fell more rapidly than mortgage rates. This was partially due to increased volatility and risk aversion around other European macroeconomic risks.
 
 The chart below shows the time series for the 10-year Treasury and the 30-year mortgage rate, with the spread shaded.
 
