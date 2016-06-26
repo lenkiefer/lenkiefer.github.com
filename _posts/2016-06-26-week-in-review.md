@@ -126,7 +126,8 @@ Make the animation with the following code:
 {% highlight r %}
 ehs$mname<-factor(ehs$mname)  #convert months to factor
 
-#This function will copyt the data table, but overwrite months after the cutoff with values of 0
+#This function will copy the data table, but overwrite months after the cutoff with values of 0
+#This way, tweenr will extend out as we add months and fill in the values
 myf3<-function(m){
   DT<-copy(ehs)
   DT<-DT[month>m,ehs:=0]
@@ -137,7 +138,7 @@ my.list3<-lapply(c(seq(1,5,1),0),myf3)  #the animation will loop through each of
 
 
 tf <- tween_states(my.list3, tweenlength= 2, statelength=3, ease=rep('cubic-in-out',17),nframes=50)
-tf<-data.table(tf)
+tf<-data.table(tf)  
 
 
 oopt = ani.options(interval = 0.125)
@@ -193,7 +194,7 @@ mydata$date<-as.Date(mydata$date, format="%m/%d/%Y")
 
 ### Animated new home sales chart
 
-The animated gif for new sales is pretty strainghtforward to construct.  We won't be using tweenr.  Instead, we'll just loop through each row in the data frame, plotting all the points before that row.
+The animated gif for new sales is pretty straightforward to construct. We won't be using tweenr. Instead, we'll just loop through each row in the data frame, plotting all the points before that row.
 
 
 {% highlight r %}
