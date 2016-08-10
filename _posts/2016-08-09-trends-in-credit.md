@@ -32,7 +32,7 @@ If you take away mortgage debt you can more easily compare the trends in other f
 
 ![plot of chunk debt-2016q2-levels](/img/Rfig/debt-2016q2-levels-1.svg)
 
-While most forms of debt rose, fell and recovered leading up to, during, and after the Great Recession, Student debt has pretty much gone up in a straight line.
+While most forms of debt rose, fell and recovered leading up to, during, and after the Great Recession, student debt has pretty much gone up in a straight line.
 
 If you use an index so that 2003Q1 = 100, you can include mortgage and total debt:
 
@@ -44,7 +44,7 @@ The trend is striking, but I think it jumps out at you even more if you use an a
 
 # State per capita debt trends
 
-The panel also reports on per capita household debt by select states.  In general per capita debt levels have stabilized after fallin during the Great Recession.  The debt trends are diven primarily by mortgage debt, so states with volatile house prices and high rates of foreclosure (*e.g.* AZ, FL, NV) have had the greatest volatility in per capita debt levels.
+The panel also reports on per capita household debt by select states.  In general per capita debt levels have stabilized after falling during the Great Recession.  The debt trends are diven primarily by mortgage debt, so states with volatile house prices and high rates of foreclosure (*e.g.* AZ, FL, NV) have had the greatest volatility in per capita debt levels.
 
 But in recent quarters most states are trending modestly higher.
 
@@ -57,7 +57,7 @@ But in recent quarters most states are trending modestly higher.
 If you've read some of my earlier posts [here]({% post_url 2016-05-08-visual-meditations-on-house-prices %}) and 
 [here]({% post_url 2016-06-26-week-in-review %}) then generating these plots is rather strightforward. 
 
-I have been meaning to do more data wrangling in R, but I'm still falling back on Excel tricks.  One of the folks at [Rstudio](https://www.rstudio.com/)
+I have been meaning to do more data wrangling in R, but I'm still falling back on Excel tricks.  
 
 For the first three plots I've collected my data in a text file called *debt2016q2.txt*. The datafile has four columns and looks like:
 
