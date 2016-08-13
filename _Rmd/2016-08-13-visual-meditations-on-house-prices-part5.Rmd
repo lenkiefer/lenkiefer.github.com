@@ -29,7 +29,7 @@ In order to better understand the distribution of median sales prices, I constru
 
 <img src="{{ site.url }}/img/charts_aug_13_2016/nar dots 2016 q2 v2.gif" alt="nar combo" style="width: 550px;"/>
 
-The chart combines a slow chart showing the trend in house prices from the second quarter of 2015 to the second quarter of 2016 and two histogram of house prices where the bars are replaced with dots representing each individual metro. By looking at the slopes on the left, you can see how house prices have trended across metros (mostly up) and by looking at the histogram on the right, you can compare how individual metros stack up relative to other markets in the country.  On the left I've created two histograms comparing 2015 Q2 to 2016Q2 so you can see how metros have moved in the median price distribution over time.
+The chart combines a slopegraph showing the trend in house prices from the second quarter of 2015 to the second quarter of 2016 and two histogram of house prices where the bars are replaced with dots representing each individual metro. By looking at the slopes on the left, you can see how house prices have trended across metros (mostly up) and by looking at the histogram on the right, you can compare how individual metros stack up relative to other markets in the country.  On the left I've created two histograms comparing 2015 Q2 to 2016Q2 so you can see how metros have moved in the median price distribution over time.
 
 As there is a whole lot of data (180 metros), I use animation to highlight each individual metro one at a time.  I sorted the metros based on their place in the 2016 Q2 price distribution, starting from Youngstown and going up to San Jose.
 
@@ -49,7 +49,7 @@ I tried to manipulate the data in R, but the headers and formatting of the sprea
 
 ### Slopegraph
 
-The slope graph is a line plot with one two points.  In this case, the median price in 2015Q2 and in 2016Q2.  We'll arrange the dates on the x axis and have the price displayed on the y axis.  We'll use a logarithmic scale for the y axis, so the slopes of the lines will approximate the percentage change in the median price.
+The slopegraph is a line plot with two points.  In this case, the median price in 2015Q2 and in 2016Q2.  We'll arrange the dates on the x axis and have the price displayed on the y axis.  We'll use a logarithmic scale for the y axis, so the slopes of the lines will approximate the percentage change in the median price.
 
 We'll call out the United State median sales price by overlaying a red line on tope of gray lines representing each individual metro area.  In the animation we'll loop through each metro and update the histogram.
 
