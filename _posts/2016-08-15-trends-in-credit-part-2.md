@@ -21,11 +21,11 @@ theme :
   }
 </style>
 
-A FEW DAYS AGO I [POSTED]({% post_url 2016-08-09-trends-in-credit %}) on trends in consumer credit using data from the the New York Federal Reserve Bank's [Consumer Credit Panel](https://www.newyorkfed.org/microeconomics/data.html).  The post got many responses, some observing that while student debt has grown a lot the absolute level of it is small relative to mortgage debt.  
+A FEW DAYS AGO I [POSTED]({% post_url 2016-08-09-trends-in-credit %}) on trends in consumer debt using data from the the New York Federal Reserve Bank's [Consumer Credit Panel](https://www.newyorkfed.org/microeconomics/data.html).  The post got many responses, some observing that while student debt has grown a lot the absolute level of it is small relative to mortgage debt.  
 
-I had made that point in my post, but the pictures caught the attention of many who didn't read the post or catch the point. The image of exploding student debt resontated with experience.  
+I had made that point in my post, but the pictures caught the attention of many who didn't read the post or catch the point. The image of exploding student debt resonated with experience. Especially so when animated in a gif.
 
-But let me  post a few additional graphs (using the same data) that compare the original plot without mortgages (or indexed to the first quarter of 2003) to graphs with mortgages.
+But let me  post a few additional graphs using the same data that seem to make different points.
 
 
 
