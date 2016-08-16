@@ -25,7 +25,7 @@ A FEW DAYS AGO I [POSTED]({% post_url 2016-08-09-trends-in-credit %}) on trends 
 
 I had made that point in my post, but the pictures caught the attention of many who didn't read the post or catch the point. The image of exploding student debt resonated with experience. Especially when animated in a gif.
 
-But let me  post a few additional graphs using the same data that seem to make different points.
+But let me post another graph using the same data that seems to make a different point.
 
 
 
@@ -39,7 +39,7 @@ Here I compare the graph in levels without mortgages to the graph with mortgages
 
 ![plot of chunk debt-2016q2-levels-compare-1](/img/Rfig/debt-2016q2-levels-compare-1-1.svg)
 
-Once you include mortgaes the dramatic increase in student loan debt has a little more context.
+Once you include mortgages the dramatic increase in student loan debt has a little more context.
 
 And the gifs below show debt indexed so 2003 Q1 =100 on the left or in log dollars on the right.
 
