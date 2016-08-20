@@ -152,9 +152,9 @@ I spend a lot of time looking at the annual Home Mortgage Disclosure Act (HMDA) 
 
 The data are housed over at the Consumer Financial Protection Bureau [webpage](http://www.consumerfinance.gov/data-research/hmda/explore). They have a public [API](http://www.consumerfinance.gov/data-research/hmda/api), but I haven't seen anything written on using R with it. But they do have a nice summary file generator, which can be quite handy. But for this exercise we'll work with the loan level data.
 
-For this exercise we'ere going to work with mortgage loan origination records from the 2014 HMDA data.
+For this exercise we're going to work with mortgage loan origination records from the 2014 HMDA data.
 
-Every year there are a lot of mortgages originated. [Some](https://twitter.com/lenkiefer/status/765204080604147712) have even said that this year the total market will top $2 Trillion in originated mortgages in 2015. In 2014 there were over 5 million mortgage loans originated for 1-4 family dwellings and manufactured housing. For the following examples I downloaded a loan-level file including all 5 million + observations from the CFPB website. To make things marginally faster I restricted myself to conventional loans, bringing the raw count down to about 4 million loans.
+Every year there are a lot of mortgages originated. [Some](https://twitter.com/lenkiefer/status/765204080604147712) have even said that this year (2016) the total market will top $2 Trillion in originated mortgages. In 2014 there were over 5 million mortgage loans originated for 1-4 family dwellings and manufactured housing. For the following examples I downloaded a loan-level file including all 5 million + observations from the CFPB website. To make things marginally faster I restricted myself to conventional loans, bringing the raw count down to about 4 million loans.
 
 
 ## Beeswarm plots
