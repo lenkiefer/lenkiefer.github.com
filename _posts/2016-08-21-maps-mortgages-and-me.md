@@ -70,6 +70,7 @@ library(viridis)
 #load data and scripts
 mydata <- fread("~/data/hmda_lar.csv")
 source('~/code/multiplot.R')
+# function for combining graphs see: http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/
 
 #data stuff
 
@@ -275,15 +276,19 @@ g3<-
   facet_wrap(~state_name)
 
 m<-multiplot(g1,g2,g3,layout=matrix(c(1,3,2,2,2,2), nrow=3, byrow=TRUE))
-
-  
+# I've source the multiplot function above, and you can find it at:
+# http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/  
 }
 
 # Try it out for California:
 myplot(5)
 {% endhighlight %}
 
-![plot of chunk fig-map-3](/img/Rfig/fig-map-3-1.svg)
+
+
+{% highlight text %}
+## Error in match(x, table, nomatch = 0L): object 'fips' not found
+{% endhighlight %}
 
 ## Animated gif
 We can loop through all states and make a gif out of it:
