@@ -89,11 +89,11 @@ fips.look<-fread("http://www2.census.gov/geo/docs/reference/codes/files/national
 fips.look<-fips.look[,fips := str_c(str_pad(st.fips, 2, "left", "0"),str_pad(county.fips, 3, "left", "0"))]
 #create merged state + county variable
 fips.look<-fips.look[,c.name:=str_c(state_abbr,":",county_name)]
-#get rid of extra columns
-fips.look<-fips.look[,list(fips,c.name)]
+#get rid of extra columns for merge
+fips.look2<-fips.look[,list(fips,c.name)]
 
 #merge fips numbers back onto data
-mydata<-merge(mydata,fips.look,by="c.name")
+mydata<-merge(mydata,fips.look2,by="c.name")
 
 #add state code, will be useful for labeling
 mydata<-mydata[,st.fips:=substr(fips,1,2)]
@@ -258,6 +258,7 @@ g2<-
   theme(axis.text.x = element_text(size=4))+
   facet_wrap(~msamd_name)+theme(strip.text.x = element_text(size = 4))
 
+
 # graph 3: upb distribution by county (using a subsample of 1000 obs)
 g3<-
   ggplot(data=pdata3,aes(y="",x=upb,color=log(upb)))+geom_quasirandom(alpha=0.5,size=0.75)+
@@ -284,11 +285,7 @@ m<-multiplot(g1,g2,g3,layout=matrix(c(1,3,2,2,2,2), nrow=3, byrow=TRUE))
 myplot(5)
 {% endhighlight %}
 
-
-
-{% highlight text %}
-## Error in match(x, table, nomatch = 0L): object 'fips' not found
-{% endhighlight %}
+![plot of chunk fig-map-3](/img/Rfig/fig-map-3-1.svg)
 
 ## Animated gif
 We can loop through all states and make a gif out of it:

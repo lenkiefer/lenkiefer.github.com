@@ -90,11 +90,11 @@ fips.look<-fread("http://www2.census.gov/geo/docs/reference/codes/files/national
 fips.look<-fips.look[,fips := str_c(str_pad(st.fips, 2, "left", "0"),str_pad(county.fips, 3, "left", "0"))]
 #create merged state + county variable
 fips.look<-fips.look[,c.name:=str_c(state_abbr,":",county_name)]
-#get rid of extra columns
-fips.look<-fips.look[,list(fips,c.name)]
+#get rid of extra columns for merge
+fips.look2<-fips.look[,list(fips,c.name)]
 
 #merge fips numbers back onto data
-mydata<-merge(mydata,fips.look,by="c.name")
+mydata<-merge(mydata,fips.look2,by="c.name")
 
 #add state code, will be useful for labeling
 mydata<-mydata[,st.fips:=substr(fips,1,2)]
@@ -255,6 +255,7 @@ g2<-
                    unique(fips.look[st.fips==as.numeric(st.list[i])]$state_abbr)))+
   theme(axis.text.x = element_text(size=4))+
   facet_wrap(~msamd_name)+theme(strip.text.x = element_text(size = 4))
+
 
 # graph 3: upb distribution by county (using a subsample of 1000 obs)
 g3<-
