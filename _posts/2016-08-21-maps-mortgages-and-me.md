@@ -306,7 +306,7 @@ saveGIF({for (i in 1:51) {
 
 I began figuring out make maps in R by replicating Julia Silge's  [excellent example](http://juliasilge.com/blog/Evenly-Distributed/). Then I combined tweenr and beeswarm plots to make show how county population is distributed across states:
 
-<img src="{{ site.url }}/img/charts_aug_21_2016/map and dot.gif" alt="County map and dot" style="height: 550px;"/>
+<img src="{{ site.url }}/img/charts_aug_21_2016/map and dot v2.gif" alt="County map and dot" style="height: 550px;"/>
 
 ## Code for county population example
 
@@ -365,7 +365,8 @@ We'll set up a blank data frame based on Texas and index the county number.  We'
 
 
 {% highlight r %}
-blank.df<-popDF[state==48,] #max number of counties is Texas at 254                
+popDF<-data.table(popDF)
+blank.df<-popDF[state=="48",] #max number of counties is Texas at 254                
 blank.df[,idn:=.I]  #create index
 
 
@@ -392,13 +393,17 @@ my.list2<-lapply(c(st.list,st.list[1]),myf)
 # Apply tweenr:
 
 tf <- tween_states(my.list2, tweenlength= 2, statelength=3, ease=rep('cubic-in-out',53),nframes=300)
+#300 is the number of frames I chose, or about 6 frames per state. 
+# Adding more frames will smooth transitions but made the file larger 
+# Twitter has a 5 MB limit for gifs so I shoot for that if I'm planning on sharing with tweeps
+
 dtf<-data.table(tf)
 
 
 oopt = ani.options(interval = 0.2)
 saveGIF({for (i in unique(dtf$.frame)){
-  st.label<-as.character(data.table(state.fips)[fips==st.label]$abb)  #get label for plot
-   
+  
+
 
 # graph 1: set up animated beeswarm      
 g1<-
@@ -414,12 +419,12 @@ g1<-
                       labels=c("100","10,000","100,000","1,000,000")) +
   scale_x_log10(label=comma,limits=c(100,1e6),breaks=c(1000,10000,100000,1000000))+
   labs(x="Population in 2014 (log scale)",y="",
-       subtitle="Each dot represents 1 county",title="County Population Distributions",
+       subtitle="Each dot represents 1 county",title=paste(st.label,"County Population Distributions"),
        caption="@lenkiefer Source: ACS Five-Year Estimate 2010-2014")
 
 # graph 2: set up map
-
-cmap<-subset(cmap.all, state==dtf[.frame==i & pop2014>0,]$state)
+fips.c<-as.character(head(dtf[.frame==i]$state,1)) #get fips code for iteration i
+cmap<-subset(cmap.all, state==fips.c)
 
 g2<-
   ggplot() +
@@ -439,6 +444,7 @@ g2<-
 
 m<-multiplot(g1,g2,layout=matrix(c(1,1,2,2,2), nrow=5, byrow=TRUE))
 print(m)
+print(i)
 ani.pause() }
 for (i2 in 1:2) {print(m)
   ani.pause()  } },movie.name="map and dot v2.gif",ani.width = 400, ani.height = 500)
