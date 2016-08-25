@@ -67,7 +67,7 @@ ggplot() +
   geom_map(data = smap, map = smap,
            aes(x = long, y = lat, map_id = id),
            color = "#2b2b2b", size = 0.05, fill = NA) +
-  geom_map(data =subset(states@data,yr>2004 & qtr==2), map = smap.all,
+  geom_map(data =subset(states@data,yr>2004 & qtr==2), map = smap,
            aes( map_id = fips_state,fill=hpa12),
            color = "gray", size = .25) +
   theme_map( base_size = 12) +facet_wrap(~mylabel,ncol=3)+

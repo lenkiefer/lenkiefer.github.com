@@ -37,7 +37,7 @@ library(readxl)
 library(data.table)
 library(dplyr)
 library(tidyr)
-library('ggbeeswarm')
+library(ggbeeswarm)
 library(viridis)
 library(ggplot2)
 library(scales)
@@ -46,13 +46,9 @@ library(tweenr)
 library(purrr)
 library(animation)
 library(acs)
-library(dplyr)
 library(reshape2)
 library(stringr)
-library(ggplot2)
-library(ggthemes)
 library(ggalt)
-library(scales)
 library(rgeos)
 library(maptools)
 library(albersusa)
@@ -283,6 +279,12 @@ Aren't ggplot2() and geom_map() just great?
 Several maps have been circulating showing how 1/2 of some country's population lives in a tiny part of the physical area of a country.  Let's use the share data to investigate how the concentration of population might have changed from 1790 to 2010.
 
 ```{r ,fig-graph-4, warning=FALSE, eval=T,cache=TRUE,echo=TRUE, results='asis', message=FALSE,fig.height=6,fig.width=8 }
+#load shares data
+shareDF<-read_excel("data/county2010_hist_pops.xlsx",sheet="national_shares")
+shareDF<-shareDF %>% gather(year.of,"share",5:27) 
+shareDF<-mutate(shareDF,year=substr(year.of,6,10))
+shareDF<-rename(shareDF,fips=GEOID10 )
+
 s2<-subset(shareDF,year %in% c("1810","1860","1910","1960","1980","2010"))
 s2<-data.table(s2)[order(year,-share)]  #order by share of total population
 s2<-s2[, id := 1:.N, by = year][order(year,id)]  #create an index
@@ -311,6 +313,7 @@ Let's find the county where the cumulative line crosses at 50 where it ranked.
 
 ```{r ,fig-graph-5, warning=FALSE, eval=T,cache=TRUE,echo=TRUE, results='asis', message=FALSE,fig.height=4,fig.width=4 }
 
+
 print.table<-merge(s2[ share.run<=50, list(crossing.county.number=max(id)), by=year],
       s2[ share>0,list(total.county.number=.N), by=year],
       by="year")
@@ -318,6 +321,5 @@ print.table[,":="(percent.for.50.percent=percent(crossing.county.number/total.co
 
 htmlTable(print.table, header=c("Year","Rank at 50%","Total Counties","% for 50%"),
           col.rgroup = c("none", "#F7F7F7"),caption="How many counties comprise 50% of U.S. population?",
-          tfoot="&dagger;Counties ranked (descending) in terms of share of total population")
+          tfoot="&dagger;Counties ranked (descending) in terms of share of total population\nTable revised 8/25/2016 to correct # of counties\n(some omitted due to rounding in earlier version)")
 ```
-
