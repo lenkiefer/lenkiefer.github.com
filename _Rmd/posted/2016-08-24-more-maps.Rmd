@@ -9,9 +9,11 @@ theme :
   name : lentheme
 ---
 
+```{r setup, include=FALSE}
+opts_chunk$set(root.dir = "C:/Users/Leonard/Documents/webpage/live/lenkiefer.github.com/_Rmd")
+```
 
-
-IN THIS POST I'M JUST GOING TO share a few data visualizations I've been working on today. For most, no code, but  these build off my previous posts [here]({% post_url 2016-08-21-maps-mortgages-and-me %}) and [here]({% post_url 2016-08-23-US-pop-map-1790-2010 %}) so you can check there for hints and I'll post some more examples with code later.
+IN THIS POST I'M JUST GOING TO share a few data visualizations I've been working on today. For most, no code, but it this builds off my previous posts [here]({% post_url 2016-08-21-maps-mortgages-and-me %}) and [here]({% post_url 2016-08-23-US-pop-map-1790-2010 %}) so you can check there for hints and I'll post some more examples with code later.
 
 # Population maps
 
@@ -31,8 +33,7 @@ This chart combines a map with sparkline-type line charts showing the evolution 
 
 Because the house price data is conveniently available in a text file from the FHFA webpage we can easily construct a static version of this chart (with just the map) using the code below.
 
-
-{% highlight r %}
+```{r ,fig-mymap-1, warning=FALSE, eval=T,cache=TRUE,echo=TRUE, message=FALSE,fig.height=7,fig.width=7 }
 #load some libraries
 library(data.table)
 library(reshape2)
@@ -79,16 +80,13 @@ ggplot() +
   theme(legend.position = "top") +theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
   labs(title=paste0("Annual House Price Growth (Y/Y %)"),
        caption="@lenkiefer Source: FHFA Purchase-Only House Price Index (SA)")
-{% endhighlight %}
-
-![plot of chunk fig-mymap-1](/img/Rfig/fig-mymap-1-1.svg)
+```
 
 We use a small multiple to show how annual percentage gains in house prices have varied from the second quarter of 2005 through the latest data for the second quarter of 2016.  The map part of the gif just morphs between facets of the plot above.
 
 We can also construct a static version of the sparklines fairly easily:
 
-
-{% highlight r %}
+```{r ,fig-mygraph-1, warning=FALSE, eval=T,cache=TRUE,echo=TRUE, message=FALSE,fig.height=7,fig.width=8 }
  mygraph.data<-subset(states@data,(yr>2004 & state !="DC"))
 
   ggplot(data=mygraph.data,aes(x=date,y=hpa12,group=state))+theme_minimal()+
@@ -105,6 +103,5 @@ We can also construct a static version of the sparklines fairly easily:
   theme(plot.caption=element_text(hjust=0))+
   labs(x="",y="",title="Annual House Price Growth (Y/Y %)",
        caption="@lenkiefer Source: FHFA Purchase-Only House Price Index (SA)")
-{% endhighlight %}
 
-![plot of chunk fig-mygraph-1](/img/Rfig/fig-mygraph-1-1.svg)
+```
