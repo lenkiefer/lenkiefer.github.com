@@ -12,7 +12,7 @@ theme :
 
 
 
-WE ARE GOING TO EXAMINE THE DISTRIBUTION OF US POPULATION and make an animated gif combining a map and a kernel density estimate of the distribution of county population distributions in this post. Density of densities, or density squared.
+WE ARE GOING TO EXAMINE THE DISTRIBUTION OF US POPULATION and make an animated gif combining a map and a kernel density estimate of the distribution of county population densities. Density of densities, or density squared.
 
 We are going to use the same [US County Population Estimates 1790-2010](http://conservancy.umn.edu/handle/11299/181605) we used in [my previous post]({% post_url 2016-08-23-US-pop-map-1790-2010 %}).
 
