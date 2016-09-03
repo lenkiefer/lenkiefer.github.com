@@ -72,7 +72,7 @@ And as an animated gif:
 
 ## Code
 
-Code for all the plots (including importing the data from BLS) is below. 
+Code for all the plots (including importing the data from BLS) is below. See [here](http://download.bls.gov/pub/time.series/cx/cx.txt) for documentation from BLS on how to read the data files.
 
 The animated lollipop charts were made using a combination of the animation and tweenr packages for R. 
 

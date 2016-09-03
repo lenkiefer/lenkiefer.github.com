@@ -200,7 +200,7 @@ ggplot(data=pdata3[subcategory_code !="TOTALEXP" & year==yy],
   geom_text(aes(label=paste(" ",mylabel,as.character(dollar(round(spend,0))))),hjust=0,size=3)+
   theme(legend.position="none")+
   labs(x="Average Expenditure ($, log scale)", y="",
-       title="Averaged Consumer Expenditures",
+       title="Average Annual Consumer Expenditures",
        subtitle=head(tf[.frame==i]$year,1),
        caption="@lenkiefer Source: U.S. Bureau of Labor Statistics, Consumer Expenditure Survey")+
   theme(plot.title=element_text(size=14))+
@@ -215,7 +215,7 @@ And as an animated gif:
 
 ## Code
 
-Code for all the plots (including importing the data from BLS) is below. 
+Code for all the plots (including importing the data from BLS) is below. See [here](http://download.bls.gov/pub/time.series/cx/cx.txt) for documentation from BLS on how to read the data files.
 
 The animated lollipop charts were made using a combination of the animation and tweenr packages for R. 
 
