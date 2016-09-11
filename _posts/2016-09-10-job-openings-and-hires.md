@@ -46,7 +46,7 @@ We can break these charts into individual panel plots for hires, job openings an
 
 ## Index the data
 
-In order to make comparisons easier, we can index the data so the series are somewhat comparable. Due to the spike in hiring due to the 2010 Census, we'll omit the Federal category in the graphs to come.
+In order to make comparisons easier, we can index the data so the series can be compared on the same y axis. Due to the spike in hiring due to the 2010 Census, we'll omit the Federal category in the graphs to come.
 
 ![plot of chunk fig-JOLTS-graph3](/img/Rfig/fig-JOLTS-graph3-1.svg)![plot of chunk fig-JOLTS-graph3](/img/Rfig/fig-JOLTS-graph3-2.svg)![plot of chunk fig-JOLTS-graph3](/img/Rfig/fig-JOLTS-graph3-3.svg)
 
@@ -76,7 +76,7 @@ We can also make animated gif versions of these graphs
 
 ## R code for graphics
 
-Below is the R code I used to generate the graphs above.
+Below is the [R](https://www.r-project.org/) code I used to generate the graphs above.
 
 The data are conveniently availabe in text files we can download from the BLS directly.  This [file](http://download.bls.gov/pub/time.series/jt/jt.txt) gives an overview of the different files, which are located [here](http://download.bls.gov/pub/time.series/jt/).
 
@@ -84,6 +84,19 @@ The data are conveniently availabe in text files we can download from the BLS di
 
 
 {% highlight r %}
+## Load libraries:
+
+library(data.table)
+library(dplyr)
+library(tidyr)
+library(viridis)
+library(ggplot2)
+library(ggthemes)
+library(scales)
+library(animation)
+library(tweenr)
+
+
 ## Get data from BLS.gov
 
 jolts.dt<-fread("http://download.bls.gov/pub/time.series/jt/jt.data.1.AllItems")
@@ -294,7 +307,10 @@ ggplot(data=my.out[(industry_code==100000 |(industry_code !=910000 & industry_co
 {% endhighlight %}
 ### Beveridge Curve code
 
-For the Beveridge Curve I need to get the CPS data. We can read it from a flat file, but because I was just looking for the aggregate series I downloaded from the BLS page and stored it, along with the national total nonfarm job openings rate in a simple text file.
+For the Beveridge Curve I need to get the CPS data. We can read it from a flat file, but because I was just looking for the aggregate series I downloaded from the [BLS page](http://www.bls.gov/data/) and stored it along with the national total nonfarm job openings rate in a simple text file. You can follow the links below to get the data:
+
+* [Unemployment Rate: LNS14000000](http://data.bls.gov/timeseries/LNS14000000)
+* [Job Openings Rate: JTS00000000JOR](http://data.bls.gov/timeseries/JTS00000000JOR)
 
 
 {% highlight r %}
