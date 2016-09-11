@@ -1,0 +1,19 @@
+---
+layout: post
+title: "Test widget"
+author: "Len Kiefer"
+date: "September 7, 2016"
+summary: "rstats data visualizations, mortgage data, maps"
+group: navigation
+theme :
+  name : lentheme
+---
+
+```{r}
+library(scatterD3)
+mtcars$names <- rownames(mtcars)
+scatterD3(data = mtcars, x = wt, y = mpg, lab = names,
+          col_var = cyl, symbol_var = am,
+          xlab = "Weight", ylab = "Mpg", col_lab = "Cylinders",
+          symbol_lab = "Manual transmission")
+```

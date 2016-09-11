@@ -1,0 +1,45 @@
+---
+layout: post
+title: "Job growth and homeownership"
+author: "Len Kiefer"
+date: "September 8, 2016"
+summary: "rstats data visualizations, mortgage data, maps"
+group: navigation
+theme :
+  name : lentheme
+---
+
+IN THIS POST I WANT TO EXAMINE PROJECTED JOB GROWTH AND HOMEOWNERSHIP using data from the U.S. Bureau of Labor Statistics (BLS) and the American Community Survey (ACS).  This is a sequel of analysis I wrote about in [my first blog post]({% post_url 2015-08-23-annotated-data-viz 1 %}). In this post we'll update the analaysis and I'll talk more about data manipulations.
+
+ *R code for graphs posted below*
+ 
+## The idea
+
+The idea here is to compare projected job growth by occupation using the [latest employment projections](http://www.bls.gov/emp/) from the BLS to the homeownership rate for each occupation according the ACS.
+
+The latest available data are projections staring in 2014 and detailed homeownership rate tabulations (by occupation of householder) also in 2014. To make things easier, I'm using data from the [Integrated Public Use Microdata Series (IPUMS-USA)](https://usa.ipums.org/usa/). In this example, as we're using a single year of data, the microdata sample direct from [Census](https://www.census.gov/programs-surveys/acs/data/pums.html) wouldn't be too bad to work with.
+
+Once we get the data together we'll be able to compare how projected job growth by occupation relates to homeownership rates within occupations.
+
+
+### Get the data
+
+We are going to need two files.  The first, from the BLS is the simplest, as it is [available as a spreadsheet](http://www.bls.gov/emp/ep_data_occupational_data.htm).  We can simple save the data we need.
+
+We'll need to calculate the homeownership rate using the ACS microdata. IPUMS is an easy-to-use option and it allows us to select only the data columns we are interest in and exclude the rest. The downside is that I want to use R, but IPUMS does not produce R as an output option.  It does allow us to generate SAS or State data. It turns out that using the [haven package](https://cran.r-project.org/web/packages/haven/index.html0) we can convert stata data format into R readable format.
+
+
+
+
+ 
+
+
+
+```{r}
+library(scatterD3)
+mtcars$names <- rownames(mtcars)
+scatterD3(data = mtcars, x = wt, y = mpg, lab = names,
+          col_var = cyl, symbol_var = am,
+          xlab = "Weight", ylab = "Mpg", col_lab = "Cylinders",
+          symbol_lab = "Manual transmission")
+```
