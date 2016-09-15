@@ -36,7 +36,9 @@ A crosswalk between the codes are available [here](http://www.bls.gov/cps/cenind
 
 I'm going to rely on the fact that the industry names are identical in the BLS data and merge on the industry names rather than use the crosswalk. You can confirm this works by comparing [this table](http://www.bls.gov/news.release/jolts.t01.htm) for JOLTS to [this table](http://www.bls.gov/news.release/empsit.t14.htm) for the unemployment rate from CPS.  
 
-### Collect data and arrange
+### Setup files
+
+The code below merges the industry names and codes for JOLTS to (the same) industry name and (different) codes for CPS.
 
 
 {% highlight r %}
@@ -56,9 +58,9 @@ library(viridis)
 #i saved these in a .txt file called incodelu.txt
 
 #indy_code	indy_text
-#0000	All Industries	
-#0169	Agriculture, forestry, fishing, and hunting	
-#0368	Nonagriculture industries	
+# 0000	All Industries	
+# 0169	Agriculture, forestry, fishing, and hunting	
+# 0368	Nonagriculture industries	
 # 0369	Mining, quarrying, and oil and gas extraction	
 # 0569	Utilities	
 # 0770	Construction	
@@ -80,10 +82,24 @@ library(viridis)
 # 6868	Finance and insurance	
 # 6869	Finance	
 # 6990	Insurance carriers and related activities	
-# 7069	Real estate and rental and leasing
+# 7069	Real estate and rental and leasing	
+# 7268	Professional and business services	
+# 7269	Professional and technical services	
+# 7569	Management, administrative, and waste services	
+# 7858	Education and health services	
+# 7859	Educational services	
+# 7968	Health care and social assistance	
+# 8558	Leisure and hospitality	
+# 8559	Arts, entertainment, and recreation	
+# 8658	Accommodation and food services	
+# 8659	Accommodation	
+# 8679	Food services and drinking places	
+# 8767	Other services	
+# 8768	Other services, except private households	
+# 9290	Other services, private households
 
 #read file:
-my.indy<-fread("dataindcodeslu.txt")
+my.indy<-fread("data/indcodeslu.txt")
 
 #I also got the JOLTS codes 
 #saved in a file  indcodesjolts.txt
@@ -124,6 +140,8 @@ my.indy2<-fread("data/indcodesjolts.txt")
 #merge together industry names
 my.indy3<-merge(my.indy2,my.indy,by.x="industry_text",by.y="indy_text")
 {% endhighlight %}
+
+### Prepare data
 
 Now that we have the codes we can read the data from the BLS and use the industry codes to merge the data.
 
@@ -194,7 +212,7 @@ all.dt[ (date>"2001-02-28" & date<="2001-12-01") |
         recession:="Recession" ]
 {% endhighlight %}
 
-
+### Check Data
 Now we should have data in a format that we can use.
 
 
@@ -421,7 +439,9 @@ Source: U.S. Bureau of Labor Statistics<br>
 data are not seasonally adjusted</td></tr></tfoot>
 </table>
 
-Now we can create a panel plot
+### Create Panel Plot
+
+Now we can create a panel plot.
 
 
 {% highlight r %}
