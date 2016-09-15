@@ -15,13 +15,13 @@ opts_chunk$set(root.dir = "C:/Users/Leonard/Documents/webpage/live/lenkiefer.git
 
 IN MY [PREVIOUS POST]({% post_url 2016-09-10-job-openings-and-hires %}) we looked at the [Job Openings and Labor Turnover Survey (JOLTS)](http://www.bls.gov/jlt/home.htm) data and plotted a [Beveridge Curve](https://en.wikipedia.org/wiki/Beveridge_curve). In this post I want to add some more code that allows us to plot Beveridge Curves by industry.
 
-For more on the analysis of industry-specific beveridge curves, see [this paper](http://www.bls.gov/opub/mlr/2012/06/art2full.pdf) published in the June 2012 [Monthly Labor Review](http://www.bls.gov/opub/mlr/about.htm) that decomposes shifts in the Beveridge Curve and looks at it by industry. Analyzing data through March 2012, the authors found that Construction alone shifted the total market Beveridge Curve by a full percentage point (see Table 4 in the paper).
+For more on the analysis of industry-specific Beveridge Curves, see [this paper](http://www.bls.gov/opub/mlr/2012/06/art2full.pdf) published in the June 2012 [Monthly Labor Review](http://www.bls.gov/opub/mlr/about.htm) that decomposes shifts in the Beveridge Curve and looks at it by industry. Analyzing data through March 2012, the authors found that Construction alone shifted the total market Beveridge Curve by a full percentage point (see Table 4 in the paper).
 
 ## The data
 
 While the data is all available from the Bureau of Labor Statistics (BLS) [webpage](bls.gov) it required some looking through the available files to find the right series. In the handy code I post below, we can grab the right data from BLS and produce our plots.
 
-We're going to pull our data from two sources, the JOLTS data, and the [Current Population Survey (CPS)](http://www.bls.gov/cps/).  You can access flat files from BLS [here for JOLTS](http://download.bls.gov/pub/time.series/jt/) and [here for CPS](http://download.bls.gov/pub/time.series/ln/). Unfortuantely the industry codes available in the flat files are not identical, but I hunted down (what I think are) the proper codes and combined them.  You can read more [here](http://www.bls.gov/cps/cpsoccind.htm).
+We're going to pull our data from two sources, the JOLTS data, and the [Current Population Survey (CPS)](http://www.bls.gov/cps/).  You can access flat files from BLS [here for JOLTS](http://download.bls.gov/pub/time.series/jt/) and [here for CPS](http://download.bls.gov/pub/time.series/ln/). Unfortunately the industry codes available in the flat files are not identical, but I hunted down (what I think are) the proper codes and combined them.  You can read more [here](http://www.bls.gov/cps/cpsoccind.htm).
 
 The relevant passages are quoted below
 
@@ -34,7 +34,7 @@ The relevant passages are quoted below
 > The Current Population Survey currently uses the 2010 Census occupational classification and, beginning with data for January 2014, the 2012 Census industry classification. These classifications were derived from the 2010 Standard Occupational Classification (SOC) and the 2012 North American Industry Classification System (NAICS), respectively, to meet the special classification needs of demographic household surveys. The Census classifications use the same basic structure as the SOC and NAICS, but are generally less detailed.
 
 
-A crosswalk between the codes are available [here](http://www.bls.gov/cps/cenind2012.htm). For example, construction has the Census code 0770 whike the corresponding NAICS code is 23.  
+A crosswalk between the codes are available [here](http://www.bls.gov/cps/cenind2012.htm). For example, construction has the Census code 0770 while the corresponding NAICS code is 23.  
 
 I'm going to rely on the fact that the industry names are identical in the BLS data and merge on the industry names rather than use the crosswalk. You can confirm this works by comparing [this table](http://www.bls.gov/news.release/jolts.t01.htm) for JOLTS to [this table](http://www.bls.gov/news.release/empsit.t14.htm) for the unemployment rate from CPS.  
 
