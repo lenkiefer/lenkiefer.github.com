@@ -52,7 +52,7 @@ library(purrr)
 library(dplyr)
 library(viridis)
 
-#get unemployment data
+#get CPS codes
 # These are the major sectors in BLS table 14: http://www.bls.gov/news.release/empsit.t14.htm
 
 #i saved these in a .txt file called incodelu.txt
@@ -101,7 +101,7 @@ library(viridis)
 #read file:
 my.indy<-fread("data/indcodeslu.txt")
 
-#I also got the JOLTS codes 
+#Get JOLTS codes 
 #saved in a file  indcodesjolts.txt
 
 # industry_code	industry_text	display_level	selectable	sort_sequence	blank
@@ -136,7 +136,6 @@ my.indy<-fread("data/indcodeslu.txt")
 
 my.indy2<-fread("data/indcodesjolts.txt")
 
-
 #merge together industry names
 my.indy3<-merge(my.indy2,my.indy,by.x="industry_text",by.y="indy_text")
 {% endhighlight %}
@@ -157,8 +156,6 @@ my.series<-ln.series[grepl("Unemployment Rate",series_title) & indy_code !=0,]
 my.series<-ln.series[(grepl("Unemployment Rate",series_title) & indy_code !=0 & indy_code %in% my.indy3$indy_code
                      & ages_code==0 & periodicity_code=="M" &  sexs_code==0) | series_id=="LNU04000000",]
 
- 
-
 ln.data2<-ln.data[year>1999 & series_id %in% my.series$series_id,]
 ln.data2<-merge(ln.data2,my.series[,list(series_id,indy_code)],by="series_id",all.x=T)
 ln.data2 <-merge(ln.data2,my.indy3[,list(indy_code,industry_text),],by="indy_code",all.x=T)
@@ -172,7 +169,6 @@ jolts.ind<-fread("http://download.bls.gov/pub/time.series/jt/jt.industry",
                  col.names=c("industry_code","industry_text",	"display_level",	"selectable","sort_sequence","blank"))
 jolts.element<-fread("http://download.bls.gov/pub/time.series/jt/jt.dataelement",
                      col.names=c("dataelement_code","dataelement_text","display_level","selectable","sort_sequence","blank"                     ))
-
 
 #we want job openeings: dataelement=JO, not seasonally adjusted, rates (ratelevel_code=R) and U.S. (region_code=00)
 # we also want the aggregate series, whos id is JTU00000000JOR (I found it manually)
@@ -451,7 +447,7 @@ all.dt$ind.textf<-factor(all.dt$industry_text,levels=unique(all.dt$industry_text
 ggplot(data=all.dt,aes(x=ur,y=jo,color=recession))+geom_point(alpha=0.25)+facet_wrap(~ind.textf,ncol=4)+
   theme_minimal()+
   theme(plot.caption=element_text(hjust=0,size=7))+
-  theme(legend.position="none")+
+  #put the legend down at the bottom right
   theme(legend.position = c(0.85, 0.075) )+
   #Let's circle the last available point:
   geom_point(data=all.dt[ date=="2016-07-01"],shape=21,size=3,color=viridis(3)[1])+
@@ -485,7 +481,9 @@ myf<-function(m){
 
 ind.list<-unique(all.dt$industry_text) # get list of industries
 
-my.list<-lapply(c(ind.list,ind.list[1]),myf)  #the animation will loop through each of the first five months of the year an then meet back at 0.
+#the animation will loop through each industry and return to All Industries (ind.list[1]).
+my.list<-lapply(c(ind.list,ind.list[1]),myf)  
+
 tf <- tween_states(my.list, tweenlength= 2, statelength=3, ease=rep('cubic-in-out',17),nframes=300)
 tf<-data.table(tf)  
 N<-max(tf$.frame)
