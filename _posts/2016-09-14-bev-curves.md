@@ -40,6 +40,7 @@ I'm going to rely on the fact that the industry names are identical in the BLS d
 
 
 {% highlight r %}
+# load libraries
 library(ggplot2)
 library(animation)
 library(stringr)
@@ -49,10 +50,11 @@ library(purrr)
 library(dplyr)
 library(viridis)
 
-setwd("C:/Users/Leonard/Documents/Data Viz/blog/blsjobs")
-
 #get unemployment data
 # These are the major sectors in BLS table 14: http://www.bls.gov/news.release/empsit.t14.htm
+
+#i saved these in a .txt file called incodelu.txt
+
 #indy_code	indy_text
 #0000	All Industries	
 #0169	Agriculture, forestry, fishing, and hunting	
@@ -80,12 +82,57 @@ setwd("C:/Users/Leonard/Documents/Data Viz/blog/blsjobs")
 # 6990	Insurance carriers and related activities	
 # 7069	Real estate and rental and leasing
 
+#read file:
+my.indy<-fread("dataindcodeslu.txt")
+
+#I also got the JOLTS codes 
+#saved in a file  indcodesjolts.txt
+
+# industry_code	industry_text	display_level	selectable	sort_sequence	blank
+# 000000	Total nonfarm	0	T	1	
+# 100000	Total private	1	T	2	
+# 110099	Mining and logging	2	T	3	
+# 230000	Construction	2	T	4	
+# 300000	Manufacturing	2	T	5	
+# 320000	Durable goods manufacturing	3	T	6	
+# 340000	Nondurable goods manufacturing	3	T	7	
+# 400000	Trade, transportation, and utilities	2	T	8	
+# 420000	Wholesale trade	3	T	9	
+# 440000	Retail trade	3	T	10	
+# 480099	Transportation, warehousing, and utilities	3	T	11	
+# 510000	Information	2	T	12	
+# 510099	Financial activities	2	T	13	
+# 520000	Finance and insurance	3	T	14	
+# 530000	Real estate and rental and leasing	3	T	15	
+# 540099	Professional and business services	2	T	16	
+# 600000	Education and health services	2	T	17	
+# 610000	Educational services	3	T	18	
+# 620000	Health care and social assistance	3	T	19	
+# 700000	Leisure and hospitality	2	T	20	
+# 710000	Arts, entertainment, and recreation	3	T	21	
+# 720000	Accommodation and food services	3	T	22	
+# 810000	Other services	2	T	23	
+# 900000	Government	1	T	24	
+# 910000	Federal	2	T	25	
+# 920000	State and local	2	T	26	
+# 923000	State and local government education	3	T	27	
+# 929000	State and local government, excluding education	3	T	28	
+
+my.indy2<-fread("data/indcodesjolts.txt")
+
+
+#merge together industry names
+my.indy3<-merge(my.indy2,my.indy,by.x="industry_text",by.y="indy_text")
+{% endhighlight %}
+
+Now that we have the codes we can read the data from the BLS and use the industry codes to merge the data.
+
+
+{% highlight r %}
+# read in unemployment rated
 ln.series<-fread("http://download.bls.gov/pub/time.series/ln/ln.series")
 ln.data<-fread("http://download.bls.gov/pub/time.series/ln/ln.data.1.AllData")
 ln.indy<-fread("http://download.bls.gov/pub/time.series/ln/ln.indy")
-my.indy<-fread("indcodeslu.txt")
-my.indy2<-fread("indcodesjolts.txt")
-my.indy3<-merge(my.indy2,my.indy,by.x="industry_text",by.y="indy_text")
 
 # find series named unemployment rate:
 my.series<-ln.series[grepl("Unemployment Rate",series_title) & indy_code !=0,]
