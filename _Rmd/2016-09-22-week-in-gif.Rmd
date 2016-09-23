@@ -11,7 +11,7 @@ theme :
 
 IT WAS A BUSY WEEK FOR ECONOMIC AND HOUSING DATA this week. Below are some data visaulizations I made tracking key trends in economic and housing market data.
 
-## Homeowner Equity Increases to $12.7 Trillion in the second quarter of 2016
+## Homeowner equity increases to $12.7 Trillion in the second quarter of 2016
 
 With house prices rising by nearly 6 percent on a year-over-year basis, homeowners are building back equity.  According to the Federal Reserve's [Flow of Funds](https://www.federalreserve.gov/releases/z1/current/), owners' equity in real estate was $12.7 Trillion in the second quarter of 2016.  That's just below the maximum of $13.5 trillion in the first quarter of 2006 (not adjusted for inflation).
 
