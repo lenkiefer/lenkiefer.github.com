@@ -1,0 +1,485 @@
+---
+layout: post
+title: "Distribution of mortgage loan amounts in 2015"
+author: "Len Kiefer"
+date: "October 11, 2016"
+summary: "rstats data visualizations, mortgage data, maps"
+group: navigation
+theme :
+  name : lentheme
+---
+
+IN THIS POST I WANT TO CREATE some data visualizations with [R](https://www.r-project.org/) using the [recently released](https://www.ffiec.gov/press/pr092916.htm) Home Mortgage Disclosure Act (HMDA) data. 
+
+For this post I'm going to return to the 2015 HMDA that you can get from the Consumer Financial Protection Bureau (CFPB) [webpage](http://www.consumerfinance.gov/data-research/hmda/explore) and I [discussed earlier]({% post_url 2016-08-18-data-swarm %}).  
+
+Check out my [prior post]({% post_url 2016-08-21-maps-mortgages-and-me %}) for more discussion of how we build these data visualizations.  
+
+*R code for graphs posted below*
+
+```{r setup, include=FALSE}
+opts_chunk$set(root.dir = "C:/Users/Leonard/Documents/webpage/live/lenkiefer.github.com/_Rmd")
+```
+
+```{r ,fig-mysetup-1, warning=FALSE, eval=F,cache=TRUE,echo=F, message=FALSE,fig.height=5,fig.width=7 }
+library('ggbeeswarm')
+library(viridis)
+library(data.table)
+library(ggplot2)
+library(scales)
+library(ggthemes)
+library(tweenr)
+library(purrr)
+library(animation)
+library(acs)
+library(dplyr)
+library(reshape2)
+library(stringr)
+library(ggplot2)
+library(ggthemes)
+library(ggalt)
+library(scales)
+library(rgeos)
+library(maptools)
+library(albersusa)
+library(broom)
+library(dplyr)
+library(zoo)
+library(ineq) #used for concentration indices
+source('C:/Users/Leonard/Documents/Data Viz/blog/multiplot.R')
+
+setwd('C:/Users/Leonard/Documents/Data Viz/blog/hmda')
+mydata <- fread("~/Data Viz/blog/hmda/hmda_lar.csv")
+m0<-copy(mydata)
+
+mydata<-mydata[,list(state_name,state_abbr,county_name,loan_amount_000s,loan_purpose_name,loan_type_name,
+                     agency_abbr,respondent_id,population,property_type_name,
+                     applicant_income_000s,lien_status_name,msamd_name)]
+mydata<-mydata[property_type_name=="One-to-four family dwelling (other than manufactured housing)",]
+# function for combining graphs see: http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/
+
+
+#create merged state + county variable
+mydata<-mydata[, c.name:=str_c(state_abbr,":",county_name)]
+
+#get fips lookup: from census
+
+fips.look<-fread("http://www2.census.gov/geo/docs/reference/codes/files/national_county.txt",
+                 col.names=c("state_abbr","st.fips","county.fips","county_name","CLASSFP"),head=F)
+
+fips.look<-fips.look[,fips := str_c(str_pad(st.fips, 2, "left", "0"),str_pad(county.fips, 3, "left", "0"))]
+#create merged state + county variable
+fips.look<-fips.look[,c.name:=str_c(state_abbr,":",county_name)]
+#get rid of extra columns for merge
+fips.look2<-fips.look[,list(fips,c.name)]
+
+#merge fips numbers back onto data
+mydata<-merge(mydata,fips.look2,by="c.name")
+
+#add state code, will be useful for labeling
+mydata<-mydata[,st.fips:=substr(fips,1,2)]
+mydata<-mydata[,county.fips:=substr(fips,3,5)]
+
+# loan amounts read as character variable, scaled in $1000s, create upb variable in $s and numeric
+mydata$upb<-as.numeric(mydata$loan_amount_000s)*1000
+
+# Create a summary file that has total UPB (upb), median loan amount (upb.med), and count of loans (count)
+county.sum<-mydata[,list(upb=sum(upb),upb.med=median(upb),count=.N), by=list(fips,state_abbr,state_name,county_name,msamd_name)]
+
+
+# Let's load some maps:
+
+states<-usa_composite()  #create a state map thing
+smap<-fortify(states,region="fips_state")
+smap.all<-smap           #we're going to subset smap later, so copy full map
+
+counties <- counties_composite()   #create a county map thing
+
+#add on summary stats by county using FIPS code
+counties@data <- left_join(counties@data, county.sum, by = "fips")   
+cmap <- fortify(counties_composite(), region="fips")
+#create state and county FIPS codes 
+cmap$state<-substr(cmap$id,1,2)  
+cmap$county<-substr(cmap$id,3,5)
+cmap$fips<-paste0(cmap$state,cmap$county)
+cmap.all<-cmap    #we're going to subset cmap later, so copy full map
+
+#test map 2:
+ggplot() +
+  geom_map(data = cmap.all, map = cmap.all,
+           aes(x = long, y = lat, map_id = id),
+           color = "#2b2b2b", size = 0.05, fill = NA) +
+  geom_map(data = counties@data, map = cmap.all,
+           aes(fill =log(upb.med), map_id = fips),
+           color = NA) +
+  #add black state borders (just to see if things are working)
+  geom_map(data = smap.all, map = smap.all,
+           aes(x = long, y = lat, map_id = id),
+           color = "black", size = .5, fill = NA) +
+  theme_map(base_size = 12) +
+  theme(plot.title=element_text(size = 16, margin=margin(b=10))) +
+  theme(plot.subtitle=element_text(size = 14, margin=margin(b=-20))) +
+  theme(plot.caption=element_text(size = 9, margin=margin(t=-15),hjust=0)) +
+  coord_proj(us_laea_proj) +
+  labs(title="Median loan amount by county in 2015",
+       caption="\n@lenkiefer Source: CFPB, FFIEC, Home Mortgage Disclosure Act (HMDA) data\nIncludes all home purchase, home improvement, and refinance loans for 1-4 family dwellings originated in 2014.")+
+  scale_fill_viridis(name="Median Loan Amount\n$, log scale\n",
+                     discrete=F,option="D",end=0.95,direction=-1,limits=c(log(10000),log(1.4e6)),
+                     breaks=c(log(10000),log(100000),log(1e6)),
+                     labels=c("$10,000","$100,000","$1,000,000")  )+  theme(legend.position = "right")
+
+# First step is to get a list of states (we'll exclude FIPS code 72: Puerto Rico)
+
+st.list<-unique(mydata[st.fips !="72",]$st.fips)
+
+# The next step is to make a function that generates the composite plot based on a state FIPS number:
+
+myplot<-function(i){
+  
+  c.list<-unique(mydata[st.fips ==st.list[i]]$fips)  # all counties within selected state [i]
+  smap<-subset(smap.all, id %in% st.list[i])         # subset state map
+  cmap<-subset(cmap.all, fips %in% c.list)           # subset county map
+  
+  #state label
+  st.label<-unique(fips.look[st.fips==as.numeric(st.list[i])]$state_abbr)
+  
+  # graph 1: map (as above, but only including subset)
+  g1<-
+    ggplot() +
+    geom_map(data = cmap, map = cmap,
+             aes(x = long, y = lat, map_id = id),
+             color = "#2b2b2b", size = 0.05, fill = NA) +
+    geom_map(data = counties@data, map = cmap,
+             aes(fill =log(upb.med), map_id = fips),
+             color = NA) +
+    geom_map(data = smap, map = smap,
+             aes(x = long, y = lat, map_id = id),
+             color = "black", size = 1.05, fill = NA) +
+    theme_map( base_size = 12) +
+    theme(plot.title=element_text( size = 16, margin=margin(b=10))) +
+    theme(plot.subtitle=element_text(size = 14, margin=margin(b=-20))) +
+    theme(plot.caption=element_text(size = 9, margin=margin(t=-15),hjust=0)) +
+    coord_proj(us_laea_proj) +
+    labs(y="Loan Amount, $",x="Loan Purpose",
+         title=paste("Median loan amount by county in",
+                     unique(fips.look[st.fips==as.numeric(st.list[i])]$state_abbr)))+
+    scale_fill_viridis(name="Median Loan Amount\n$, log scale\n",
+                       discrete=F,option="D",end=0.95,direction=-1,limits=c(log(10000),log(1.4e6)),
+                       breaks=c(log(10000),log(100000),log(1e6)),
+                       labels=c("$10,000","$100,000","$1,000,000")  )+  theme(legend.position = "right")
+  
+  
+  #plot data:
+  
+  # Prepare data: select only data in the state (derived from c.list)
+  pdata<-county.sum[fips %in% c.list] 
+  
+  pdata2<-mydata[fips %in% c.list,.SD[sample(.N,min(.N,1000))],by = msamd_name ]  #subsample metro data
+  
+  # See note: sample by groups
+  # http://stackoverflow.com/questions/27325656/how-do-you-sample-groups-in-a-data-table-with-a-caveat
+  
+  pdata2[msamd_name=="",msamd_name:="Non-metro"]  #rename missing metros to "Non-Metro"
+  
+  # pdata2[,.N,by=msamd_name]    # Can run this to check how many obs we have per metro
+  
+  pdata3<-mydata[fips %in% c.list][sample(.N,1000)]  #subsample state data
+  
+  
+  # graph 2: upb distribution for entire state
+  g2<-
+    ggplot(data=pdata2,aes(y="",x=upb,color=log(upb)))+
+    geom_quasirandom(alpha=0.5,size=0.35)+
+    theme_minimal()+
+    scale_color_viridis(name="Loan Amount\n$,log scale\n",discrete=F,option="D",end=0.95,direction=-1,
+                        limits=c(log(10000),log(1.4e6)),
+                        breaks=c(log(10000),log(100000),log(1e6)),
+                        labels=c("$10k","$100k","$1,000k") ) +
+    scale_x_log10(limits=c(10000,1.4e6),breaks=c(10000,100000,1000000),
+                  labels=c("$10k","$100k","$1,000k") )+
+    theme(plot.title=element_text(size=14))+
+    theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+    theme(plot.margin=unit(c(0.25,0.25,0.25,0.25),"cm"))+
+    theme(legend.position = "none")+
+    labs(y="",x="Loan Amount ($, log scale)",
+         caption="\n@lenkiefer Source: CFPB, FFIEC, Home Mortgage Disclosure Act (HMDA) data\nIncludes all home purchase, home improvement, and refinance loans for 1-4 family dwellings originated in 2015.",
+    title=paste("Loan size distribution by Metro in",
+                     unique(fips.look[st.fips==as.numeric(st.list[i])]$state_abbr)))+
+    theme(axis.text.x = element_text(size=6))+
+    facet_wrap(~msamd_name)+theme(strip.text.x = element_text(size = 6))
+  
+  
+  # graph 3: upb distribution by county (using a subsample of 1000 obs)
+  g3<-
+    ggplot(data=pdata3,aes(y="",x=upb,color=log(upb)))+geom_quasirandom(alpha=0.5,size=0.75)+
+    theme_minimal()+
+    scale_color_viridis(name="Loan Amount\n$,log scale\n",discrete=F,option="D",end=0.95,direction=-1,
+                        limits=c(log(10000),log(1.4e6)),
+                        breaks=c(log(10000),log(100000),log(1e6)),
+                        labels=c("$10k","$100k","$1,000k")                      ) +
+    scale_x_log10(limits=c(10000,1.4e6),breaks=c(10000,100000,1000000),
+                  labels=c("$10k","$100k","$1,000k") )+
+    theme(plot.title=element_text(size=14))+theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+    theme(plot.margin=unit(c(0.25,0.25,0.25,0.25),"cm"))+  theme(legend.position = "none")+
+    labs(y="",x="Loan Amount ($, log scale)",
+         title=paste("Mortgage loan size distribution in",
+                     unique(fips.look[st.fips==as.numeric(st.list[i])]$state_abbr)))+
+    facet_wrap(~state_name)
+  
+  m<-multiplot(g1,g2,g3,layout=matrix(c(1,3,2,2,2,2), nrow=3, byrow=TRUE))
+  # I've source the multiplot function above, and you can find it at:
+  # http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/  
+}
+```
+
+## Mortgage loan sizes in California
+
+First, we'll update my graph from the [earlier post]({% post_url 2016-08-21-maps-mortgages-and-me %}) to show the distribution of loan sizes in California in 2015.
+
+```{r ,fig-hmda-2015-viz1, warning=FALSE, eval=T,cache=TRUE,echo=F, message=FALSE,fig.height=7,fig.width=10 }
+setwd('C:/Users/Leonard/Documents/Data Viz/blog/hmda')
+# Try it out for California:
+myplot(5)
+```
+
+Many loans in California are over $1 million due to high home values, particularly on the coast.  The graph below looks at the share of loans with a loan amount greater than $1 million.
+
+```{r ,fig-hmda-2015-viz2, warning=FALSE, eval=T,cache=TRUE,echo=F, message=FALSE,fig.height=6,fig.width=9 }
+mydata[,upb.gt1m:=ifelse(upb>1000000,1,0)]
+ca.sums<-mydata[state_abbr=="CA",list(.N,gt1m=sum(upb.gt1m)),by=msamd_name]
+ggplot(data=ca.sums,aes(y=gt1m/N,x=reorder(msamd_name,gt1m/N)))+
+  theme_minimal()+theme(legend.position="none")+
+  geom_bar(stat="identity",aes(fill=gt1m/N))+    theme(axis.text.y = element_text(size=7))+
+  scale_y_continuous(label=percent)+theme(plot.caption=element_text(hjust=0))+
+  scale_fill_viridis(direction=-1,end=0.95)+coord_flip()+
+  labs(y="Share of loans",x="",
+       title="Share of mortgage loans with loan amount greater than $1 Million",
+       subtitle="Home purchase, home improvement and refinance loans on 1-4 family dwellings",
+       caption="@lenkiefer Source: CFPB, FFIEC, Home Mortgage Disclosure Act (HMDA) data\nIncludes all home purchase, home improvement, and refinance loans for\n1-4 family dwellings originated in 2015.")
+
+```       
+
+We can contrast the high loan balances in California with the lower loans sizes typical in Texas.  Less than 1% of the mortgage loans originated in Texas in 2015 were with loan amounts over $1 million.
+
+
+```{r ,fig-hmda-2015-viz3, warning=FALSE, eval=T,cache=TRUE,echo=F, message=FALSE,fig.height=7,fig.width=10 }
+
+myplot(42)
+tx.sums<-mydata[state_abbr=="TX",list(.N,gt1m=sum(upb.gt1m)),by=msamd_name]
+
+```
+
+# R code for graphs
+
+```{r ,fig-hmda-2015-code1, warning=FALSE, eval=F,cache=TRUE,echo=T, message=FALSE,fig.height=7,fig.width=10 }
+
+#load libraries
+library('ggbeeswarm')
+library(viridis)
+library(data.table)
+library(ggplot2)
+library(scales)
+library(ggthemes)
+library(tweenr)
+library(purrr)
+library(animation)
+library(acs)
+library(dplyr)
+library(reshape2)
+library(stringr)
+library(ggplot2)
+library(ggthemes)
+library(ggalt)
+library(scales)
+library(rgeos)
+library(maptools)
+library(albersusa)
+library(broom)
+library(dplyr)
+library(zoo)
+# function for combining graphs see: http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/
+source('code/multiplot.R')
+
+mydata <- fread("data/hmda_lar.csv") #load data  
+#can get from: http://www.consumerfinance.gov/data-research/hmda/explore#!/as_of_year=2015&action_taken=1&section=filters
+
+
+mydata<-mydata[,list(state_name,state_abbr,county_name,loan_amount_000s,loan_purpose_name,loan_type_name,
+                     agency_abbr,respondent_id,population,property_type_name,
+                     applicant_income_000s,lien_status_name,msamd_name)]
+
+#only keep loans on 1-4 family properties
+mydata<-mydata[property_type_name=="One-to-four family dwelling (other than manufactured housing)",]
+
+#create merged state + county variable
+mydata<-mydata[, c.name:=str_c(state_abbr,":",county_name)]
+
+#get fips lookup: from census
+
+fips.look<-fread("http://www2.census.gov/geo/docs/reference/codes/files/national_county.txt",
+                 col.names=c("state_abbr","st.fips","county.fips","county_name","CLASSFP"),head=F)
+
+fips.look<-fips.look[,fips := str_c(str_pad(st.fips, 2, "left", "0"),str_pad(county.fips, 3, "left", "0"))]
+#create merged state + county variable
+fips.look<-fips.look[,c.name:=str_c(state_abbr,":",county_name)]
+#get rid of extra columns for merge
+fips.look2<-fips.look[,list(fips,c.name)]
+
+#merge fips numbers back onto data
+mydata<-merge(mydata,fips.look2,by="c.name")
+
+#add state code, will be useful for labeling
+mydata<-mydata[,st.fips:=substr(fips,1,2)]
+mydata<-mydata[,county.fips:=substr(fips,3,5)]
+
+# loan amounts read as character variable, scaled in $1000s, create upb variable in $s and numeric
+mydata$upb<-as.numeric(mydata$loan_amount_000s)*1000
+
+# Create a summary file that has total UPB (upb), median loan amount (upb.med), and count of loans (count)
+county.sum<-mydata[,list(upb=sum(upb),upb.med=median(upb),count=.N), by=list(fips,state_abbr,state_name,county_name,msamd_name)]
+
+
+# Let's load some maps:
+
+states<-usa_composite()  #create a state map thing
+smap<-fortify(states,region="fips_state")
+smap.all<-smap           #we're going to subset smap later, so copy full map
+
+counties <- counties_composite()   #create a county map thing
+
+#add on summary stats by county using FIPS code
+counties@data <- left_join(counties@data, county.sum, by = "fips")   
+cmap <- fortify(counties_composite(), region="fips")
+#create state and county FIPS codes 
+cmap$state<-substr(cmap$id,1,2)  
+cmap$county<-substr(cmap$id,3,5)
+cmap$fips<-paste0(cmap$state,cmap$county)
+cmap.all<-cmap    #we're going to subset cmap later, so copy full map
+
+
+# First step is to get a list of states (we'll exclude FIPS code 72: Puerto Rico)
+
+st.list<-unique(mydata[st.fips !="72",]$st.fips)
+
+# The next step is to make a function that generates the composite plot based on a state FIPS number:
+
+myplot<-function(i){
+  
+  c.list<-unique(mydata[st.fips ==st.list[i]]$fips)  # all counties within selected state [i]
+  smap<-subset(smap.all, id %in% st.list[i])         # subset state map
+  cmap<-subset(cmap.all, fips %in% c.list)           # subset county map
+  
+  #state label
+  st.label<-unique(fips.look[st.fips==as.numeric(st.list[i])]$state_abbr)
+  
+  # graph 1: map (as above, but only including subset)
+  g1<-
+    ggplot() +
+    geom_map(data = cmap, map = cmap,
+             aes(x = long, y = lat, map_id = id),
+             color = "#2b2b2b", size = 0.05, fill = NA) +
+    geom_map(data = counties@data, map = cmap,
+             aes(fill =log(upb.med), map_id = fips),
+             color = NA) +
+    geom_map(data = smap, map = smap,
+             aes(x = long, y = lat, map_id = id),
+             color = "black", size = 1.05, fill = NA) +
+    theme_map( base_size = 12) +
+    theme(plot.title=element_text( size = 16, margin=margin(b=10))) +
+    theme(plot.subtitle=element_text(size = 14, margin=margin(b=-20))) +
+    theme(plot.caption=element_text(size = 9, margin=margin(t=-15),hjust=0)) +
+    coord_proj(us_laea_proj) +
+    labs(y="Loan Amount, $",x="Loan Purpose",
+         title=paste("Median loan amount by county in",
+                     unique(fips.look[st.fips==as.numeric(st.list[i])]$state_abbr)))+
+    scale_fill_viridis(name="Median Loan Amount\n$, log scale\n",
+                       discrete=F,option="D",end=0.95,direction=-1,limits=c(log(10000),log(1.4e6)),
+                       breaks=c(log(10000),log(100000),log(1e6)),
+                       labels=c("$10,000","$100,000","$1,000,000")  )+  theme(legend.position = "right")
+  
+  
+  #plot data:
+  
+  # Prepare data: select only data in the state (derived from c.list)
+  pdata<-county.sum[fips %in% c.list] 
+  
+  pdata2<-mydata[fips %in% c.list,.SD[sample(.N,min(.N,1000))],by = msamd_name ]  #subsample metro data
+  
+  # See note: sample by groups
+  # http://stackoverflow.com/questions/27325656/how-do-you-sample-groups-in-a-data-table-with-a-caveat
+  
+  pdata2[msamd_name=="",msamd_name:="Non-metro"]  #rename missing metros to "Non-Metro"
+  
+  # pdata2[,.N,by=msamd_name]    # Can run this to check how many obs we have per metro
+  
+  pdata3<-mydata[fips %in% c.list][sample(.N,1000)]  #subsample state data
+  
+  
+  # graph 2: upb distribution for entire state
+  g2<-
+    ggplot(data=pdata2,aes(y="",x=upb,color=log(upb)))+
+    geom_quasirandom(alpha=0.5,size=0.35)+
+    theme_minimal()+
+    scale_color_viridis(name="Loan Amount\n$,log scale\n",discrete=F,option="D",end=0.95,direction=-1,
+                        limits=c(log(10000),log(1.4e6)),
+                        breaks=c(log(10000),log(100000),log(1e6)),
+                        labels=c("$10k","$100k","$1,000k") ) +
+    scale_x_log10(limits=c(10000,1.4e6),breaks=c(10000,100000,1000000),
+                  labels=c("$10k","$100k","$1,000k") )+
+    theme(plot.title=element_text(size=14))+
+    theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+    theme(plot.margin=unit(c(0.25,0.25,0.25,0.25),"cm"))+
+    theme(legend.position = "none")+
+    labs(y="",x="Loan Amount ($, log scale)",
+         caption="\n@lenkiefer Source: CFPB, FFIEC, Home Mortgage Disclosure Act (HMDA) data\nIncludes all home purchase, home improvement, and refinance loans for 1-4 family dwellings originated in 2015.",
+    title=paste("Loan size distribution by Metro in",
+                     unique(fips.look[st.fips==as.numeric(st.list[i])]$state_abbr)))+
+    theme(axis.text.x = element_text(size=6))+
+    facet_wrap(~msamd_name)+theme(strip.text.x = element_text(size = 6))
+  
+  
+  # graph 3: upb distribution by county (using a subsample of 1000 obs)
+  g3<-
+    ggplot(data=pdata3,aes(y="",x=upb,color=log(upb)))+geom_quasirandom(alpha=0.5,size=0.75)+
+    theme_minimal()+
+    scale_color_viridis(name="Loan Amount\n$,log scale\n",discrete=F,option="D",end=0.95,direction=-1,
+                        limits=c(log(10000),log(1.4e6)),
+                        breaks=c(log(10000),log(100000),log(1e6)),
+                        labels=c("$10k","$100k","$1,000k")                      ) +
+    scale_x_log10(limits=c(10000,1.4e6),breaks=c(10000,100000,1000000),
+                  labels=c("$10k","$100k","$1,000k") )+
+    theme(plot.title=element_text(size=14))+theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+    theme(plot.margin=unit(c(0.25,0.25,0.25,0.25),"cm"))+  theme(legend.position = "none")+
+    labs(y="",x="Loan Amount ($, log scale)",
+         title=paste("Mortgage loan size distribution in",
+                     unique(fips.look[st.fips==as.numeric(st.list[i])]$state_abbr)))+
+    facet_wrap(~state_name)
+  
+  m<-multiplot(g1,g2,g3,layout=matrix(c(1,3,2,2,2,2), nrow=3, byrow=TRUE))
+  # I've source the multiplot function above, and you can find it at:
+  # http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/  
+}
+
+# Try it out for California:
+myplot(5)
+
+# compute the number of loans with loan amount greater than $1 Million
+mydata[,upb.gt1m:=ifelse(upb>1000000,1,0)]
+ca.sums<-mydata[state_abbr=="CA",list(.N,gt1m=sum(upb.gt1m)),by=msamd_name]
+
+# make bar chart:
+ggplot(data=ca.sums,aes(y=gt1m/N,x=reorder(msamd_name,gt1m/N)))+
+  theme_minimal()+theme(legend.position="none")+
+  geom_bar(stat="identity",aes(fill=gt1m/N))+    theme(axis.text.y = element_text(size=7))+
+  scale_y_continuous(label=percent)+theme(plot.caption=element_text(hjust=0))+
+  scale_fill_viridis(direction=-1,end=0.95)+coord_flip()+
+  labs(y="Share of loans",x="",
+       title="Share of mortgage loans with loan amount greater than $1 Million",
+       subtitle="Home purchase, home improvement and refinance loans on 1-4 family dwellings",
+       caption="@lenkiefer Source: CFPB, FFIEC, Home Mortgage Disclosure Act (HMDA) data\nIncludes all home purchase, home improvement, and refinance loans for\n1-4 family dwellings originated in 2015.")
+       
+
+# Try out composite plot for Texas:
+
+myplot(48)
+```
