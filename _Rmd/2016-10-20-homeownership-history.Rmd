@@ -52,11 +52,11 @@ ggplot(data=ho.dat[state=="United States",],aes(x=year,y=value))+
    geom_line(color=viridis(5)[2],size=1.05)+
    theme_minimal()+
   geom_text(data=ho.dat[state=="United States" & year==2015,],hjust=0,aes(label=paste(" ",round(value,1))),color=viridis(5)[2])+
-  geom_point(data=tf[.frame==i & year==2015,],color=viridis(5)[2],size=3)+
+  geom_point(data=ho.dat[state=="United States" & year==2015,],color=viridis(5)[2],size=3)+
   scale_x_continuous(breaks=unique(ho.dat$year))+
   scale_y_continuous(breaks=seq(40,70,5))+
   coord_cartesian(xlim=c(1895,2020))+
-  labs(x="",y="",title="Homeownership rate (% of total households)",
+  labs(x="",y="",title="Homeownership rate (%)",
        subtitle="United States",
        caption="@lenkiefer Source: U.S. Census Bureau\n1900-2010 Decennial Census, 2005 & 2015 American Community Survey 1-year estimates")+
   theme(plot.caption=element_text(hjust=0))+
@@ -85,7 +85,7 @@ ggplot(data=ho.dat[! (state %in% c("United States","District of Columbia")),],ae
   scale_x_continuous(breaks=c(1900,2015))+
   scale_y_continuous(breaks=seq(20,80,20))+
   coord_cartesian(xlim=c(1895,2025))+facet_wrap(~state,ncol=5)+
-  labs(x="",y="",title="Homeownership rate (% of total households)",
+  labs(x="",y="",title="Homeownership rate (%)",
        subtitle="by state",
        caption="@lenkiefer Source: U.S. Census Bureau\n1900-2010 Decennial Census, 2005 & 2015 American Community Survey 1-year estimates")+
   theme(plot.caption=element_text(hjust=0))+
@@ -111,7 +111,7 @@ ggplot(data=ho.dat[! (state %in% c("United States","District of Columbia")) & ye
 
   geom_text(aes(label=paste(" ",round(value,1)," "),hjust=ifelse(value>63,0,1)),color=viridis(5)[2],size=4)+
   scale_x_continuous(limits=c(50,75),breaks=seq(50,75,5))+
-    labs(x="",y="",title="Homeownership rate in 2015",
+    labs(x="",y="",title="Homeownership rate (%) in 2015",
        subtitle="",
        caption="@lenkiefer Source: U.S. Census Bureau\n1900-2010 Decennial Census, 2005 & 2015 American Community Survey 1-year estimates")+
   theme(plot.caption=element_text(hjust=0))+
