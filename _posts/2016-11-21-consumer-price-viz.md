@@ -1,0 +1,315 @@
+---
+layout: post
+title: "Visualizing recent trends in consumer prices"
+author: "Len Kiefer"
+date: "2016-11-21"
+summary: "Charts and graphs exploring consumer price trends"
+group: navigation
+theme :
+  name : lentheme
+---
+# Growth in consumer prices
+
+RECENT DATA INDICATE THAT CONSUMER PRICES INFLATION is ticking up, though the overall pace of inflation remains below historical averages. In this post I'm going to create a few plots analyzing trends in the [Consumer Price Index (CPI)](http://www.bls.gov/cpi/) published by the [U.S. Bureau of Labor Statistics (BLS)](http://www.bls.gov).
+
+These visualizations will be made in [R](https://www.r-project.org/), and I'll post code for some of the graphs as we go.
+
+## The data
+
+The BLS has made getting the data quite convenient by providing well organized flat text files that are easy to read. The code below loads some libraries and grab data from the BLS page:
+
+## Load some libraries:
+
+
+{% highlight r %}
+#Load some packages
+library(data.table, warn.conflicts = FALSE, quietly=TRUE)
+library(ggplot2, warn.conflicts = FALSE, quietly=TRUE)
+library(dplyr, warn.conflicts = FALSE, quietly=TRUE)
+library(zoo, warn.conflicts = FALSE, quietly=TRUE)
+library(ggrepel, warn.conflicts = FALSE, quietly=TRUE)
+library(ggthemes, warn.conflicts = FALSE, quietly=TRUE)
+library(scales, warn.conflicts = FALSE, quietly=TRUE)
+library(animation, warn.conflicts = FALSE, quietly=TRUE)
+library(grid, warn.conflicts = FALSE, quietly=TRUE)
+library(tidyr, warn.conflicts = FALSE, quietly=TRUE)
+library(viridis, warn.conflicts = FALSE, quietly=TRUE)
+library(ggrepel, warn.conflicts = FALSE, quietly=TRUE)
+{% endhighlight %}
+
+## Load some data
+
+The code below goes to the BLS website and downloads the text files.  This [file](http://download.bls.gov/pub/time.series/cu/cu.txt) contains summary information about the flat files.
+
+
+{% highlight r %}
+#read files from BLS.gov
+cpi1<-fread('http://download.bls.gov/pub/time.series/cu/cu.data.2.Summaries')
+cpi.item<-fread("http://download.bls.gov/pub/time.series/cu/cu.item",
+                header=FALSE,col.names=c("item.code","item.name","display.level",
+                                         "selectable","sort.sequence","blank"))
+cpi.series<-fread("http://download.bls.gov/pub/time.series/cu/cu.series")
+cpi2<-merge(cpi.item,cpi.series,by.x="item.code",by.y="item_code")
+
+
+#merge on series_id variable:
+setkeyv(cpi1,"series_id")          
+setkeyv(cpi2,"series_id")
+
+
+cpi3<-cpi2[cpi1]
+unique(cpi3$item.code)  #Get list of item codes
+cpi3[,month:=as.numeric(substr(cpi3$period,2,3))]
+cpi3$date<- as.Date(ISOdate(cpi3$year,cpi3$month,1) ) #set up date variable
+
+cpi4<-cpi3[area_code=="0000" & seasonal=="S" & item.code!= "SAA1" & item.code !="SAA2"]
+
+# Create a variable with the index normalized to 100 in January 2000:
+bdata<-cpi4[year==2000 & month==1,]
+bdata<-dplyr::rename(bdata, value00=value)
+bdata<-bdata[, c('value00','series_id'), with = FALSE]
+cpi5<-merge(cpi4,bdata,by="series_id")  #merge back to original data
+cpi5[,cpi00:=100*value/value00] 
+
+
+#get unadjusted index:
+cpi4n<-cpi3[area_code=="0000" & seasonal=="U" & item.code!= "SAA1" & item.code !="SAA2" &
+              !(period %in% c("S01", "S02", "S03"))]
+bdata<-cpi4n[year==2000 & month==1,]
+bdata<-dplyr::rename(bdata, value00=value)
+bdata<-bdata[, c('value00','series_id'), with = FALSE]
+cpi5n<-merge(cpi4n,bdata,by="series_id")
+
+cpi5n[,cpi00:=100*value/value00]
+cpi6n<-cpi5n[year>1999]
+cpi6n<-cpi6n[,cpilag12:=shift(value,13),by=series_id]
+cpi6n<-cpi6n[,datelag12:=shift(date,13),by=series_id]
+cpi6n<-cpi6n[,cpi12:=c(rep(NA,13),((1+diff(value,13)/value))^1)-1,by=series_id]  
+cpi6n<-cpi6n[,cpi1:=c(rep(NA,12),((1+diff(value,1)/value))^1)-1,by=series_id]  
+
+cpi6<-cpi5[year>1999]
+xlim<-c(min(cpi6$date),max(cpi6$date))
+dd<-unique(cpi6$date)  #list of dates since January 2000
+{% endhighlight %}
+
+## Make some charts
+
+First let's look at the level of consumer prices for major aggregates relative to the year 2000. 
+
+
+{% highlight r %}
+i<-length(dd)
+ ggplot(data=cpi6,aes(x=date,y=cpi00,color=item.name))+geom_line()+
+  theme_minimal()+   theme(legend.justification=c(0,0), legend.position="none")+scale_y_log10(limits=c(90,200),breaks=c(90,100,120,140,160,180,200))+
+  #scale_x_date(limits =xlim)+
+    scale_x_date(labels= date_format("%b-%Y"),
+                 limits = as.Date(c('2000-01-01','2018-12-31')))+
+  geom_text_repel(
+    data = cpi6[date==dd[i]],
+    aes(label = item.name),
+    size = 3.5,
+    nudge_x = 1) +
+    labs(x="", y="Consumer Price Index (log scale, Jan 2000=100, SA)",
+         title="Consumer Prices",
+         subtitle="by major category",
+         caption="@lenkiefer Source: U.S. Bureau of Labor Statistics")+
+    theme(plot.title=element_text(size=18))+
+    theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+    theme(plot.margin=unit(c(0.25,0.25,0.25,0.25),"cm"))
+{% endhighlight %}
+
+![plot of chunk fig-cpi-viz-nov16-1](/img/Rfig/fig-cpi-viz-nov16-1-1.svg)
+
+We can also animate this chart:
+
+<img src="{{ site.url }}/img/charts_nov_21_2016/cpi_11_21_all_2016.gif" alt="cpi gif 2"/>
+
+Code for animation:
+
+
+{% highlight r %}
+library(animate)
+oopt = ani.options(interval = 0.075)
+saveGIF({for (i in 1:length(dd)) {
+  g<-
+    ggplot(data=cpi6[date<=dd[i]],aes(x=date,y=cpi00,color=item.name))+geom_line()+
+  theme_minimal()+   theme(legend.justification=c(0,0), legend.position="none")+scale_y_log10(limits=c(90,200),breaks=c(90,100,120,140,160,180,200))+
+    scale_x_date(labels= date_format("%b-%Y"),
+                 limits = as.Date(c('2000-01-01','2018-12-31')))+
+  geom_text(
+    data = cpi6[date==dd[i]],
+    aes(label = item.name),
+    size = 3.5,
+    nudge_x = 1) +
+    labs(x="", y="Consumer Price Index (log scale, Jan 2000=100, SA)",
+         title="Consumer Prices",
+         subtitle="by major category",
+         caption="@lenkiefer Source: U.S. Bureau of Labor Statistics")+
+    theme(plot.title=element_text(size=18))+
+    theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+    theme(plot.margin=unit(c(0.25,0.25,0.25,0.25),"cm"))
+  print(g)
+  ani.pause()
+  print(i)
+}
+for (i2 in 1:30) {
+  print(g)
+  ani.pause()
+}
+},movie.name="cpi_11_21_all_2016.gif",ani.width = 575, ani.height = 450)
+{% endhighlight %}
+
+## Comparing year-over-year inflation
+
+The chart above shows the longer-run inflation for major categories since the year 2000, what about more recent inflation trends?  Let's examine year-over-year changes by major category:
+
+
+{% highlight r %}
+i<-length(dd)  #set index to last date
+ggplot(data=cpi6n[date<=dd[i] & !(item.name %in% c("Transportation","Services","Other goods and services"))],aes(x=date,y=cpi12,color=item.name))+
+  geom_area(aes(fill=item.name),alpha=0.5)+
+  theme_minimal()+   theme(legend.justification=c(0,0), legend.position="none")+
+  scale_y_continuous(label=percent)+
+  geom_hline(yintercept=0,linetype=2,color="black")+
+  #scale_y_log10(limits=c(90,200),breaks=c(90,100,120,140,160,180,200))+
+  scale_x_date(limits =xlim)+
+  #geom_text_repel(    data = subset(cpi6[date<=dd[90]], date == max(date)),    aes(label = item.name, y=180),    size = 5,    nudge_x = 45,    segment.color = NA) +
+  labs(x="", y="Consumer Price Index (y/y % change NSA)",
+       title="Consumer Price Inflation (y/y %)",
+       subtitle="by major category",
+       caption="@lenkiefer Source: U.S. Bureau of Labor Statistics")+
+  theme(plot.title=element_text(size=18))+
+  theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+  theme(plot.margin=unit(c(0.25,0.25,0.25,0.25),"cm"))+facet_wrap(~item.name,ncol=2)
+{% endhighlight %}
+
+![plot of chunk fig-cpi-viz-nov16-2](/img/Rfig/fig-cpi-viz-nov16-2-1.svg)
+
+### Animated version using tweenr
+
+We can also use tweenr to generate a smooth animation for the plot.
+
+See my earlier [post about tweenr]({% post_url 2016-05-29-improving-R-animated-gifs-with-tweenr %}) for an introduction to tweenr, and more examples [here]({% post_url 2016-05-30-more-tweenr-animations %}) and [here]({% post_url 2016-06-26-week-in-review %}). 
+
+Here's the code:
+
+
+{% highlight r %}
+cpi6n$item<-factor(cpi6n$item.name)
+mycat2<-  unique(cpi6n[date<=dd[i] & !(item.name %in% c("Transportation","Services","Other goods and services"))]$item.name)  #exclude a couple categories that have very large % changes 
+
+myf2<-function(ic){as.data.frame(cpi6n[item.name==ic, list(date,cpi12,item)])}
+
+# use lapply to generate the list of data sets:
+my.list<-lapply(c(mycat2,mycat2[1]),myf2)
+library(tweenr)
+
+tf2 <- tween_states(my.list, tweenlength= 2, statelength=3, ease=rep('cubic-in-out',24),nframes=150)
+
+tf2<-data.table(tf2)
+
+oopt = ani.options(interval = 0.1)
+saveGIF({for (i in 1:max(tf2$.frame)) {
+  g<-
+    ggplot(data=tf2,aes(x=date,y=cpi12,color="#00B0F0",fill="#00B0F0"))+
+    geom_line(data=tf2[.frame==i],color="#00B0F0")+
+    theme_minimal()+   theme(legend.justification=c(0,0), legend.position="none")+
+    scale_y_continuous(limits=c(-.08,.08),breaks=seq(-.15,.15,.01),labels=percent)+
+    geom_ribbon(data=tf2[.frame==i],aes(ymin=0,ymax=cpi12),alpha=0.2,color=NA,fill="#00B0F0")+
+    geom_hline(yintercept=0,linetype=2)+
+    scale_x_date(limits =c(min(tf2[cpi12>0,]$date,na.rm=T),max(cpi6n$date,na.rm=T)+120))+
+    geom_point(data=tf2[.frame==i & date==max(tf2$date,na.rm=T)],alpha=0.82,size=3,color="#00B0F0")+
+    geom_text(data=tf2[.frame==i & date==max(tf2$date,na.rm=T)],alpha=0.82,size=4,color="#00B0F0",
+              aes(label=paste(" ",percent(round(cpi12,3)))),hjust=0)+
+    #geom_text(data=tf2[.frame==i],              aes(x=min(tf2$date),y=.1,label=item),              size = 5,hjust=0,color="#00B0F0") +
+    labs(x="", y="Consumer Price Index (y/y % change, NSA)",
+         title="Consumer Price Inflation (y/y %)",
+         subtitle=paste(unique(tf2[.frame==i]$item)) ,
+         caption="@lenkiefer Source: U.S. Bureau of Labor Statistics")+
+    theme(plot.title=element_text(size=18))+
+    theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+    theme(plot.margin=unit(c(0.25,0.25,0.25,0.25),"cm"))+
+    theme(plot.subtitle=element_text(size=14,color="#00B0F0"))
+  print(g)
+  ani.pause()
+  print(i)
+}
+},movie.name="cpi_inflation_11_21_2016.gif",ani.width = 650, ani.height = 450)
+{% endhighlight %}
+
+Which gives us: 
+
+<img src="{{ site.url }}/img/charts_nov_21_2016/cpi_inflation_11_21_2016.gif" alt="cpi gif"/>
+
+## Lollipop charts
+
+
+
+
+{% highlight r %}
+i<-length(dd)  #set index to last date
+ggplot(data=cpi6n[date==dd[i] & !(item.name %in% c("Transportation","Services","Other goods and services"))],aes(x=item.name,y=cpi12,color=cpi12))+
+  scale_color_viridis(option="D",name="Annual Inflation\nRate (%) ",discrete=F,direction=-1,end=0.85,
+                      label=percent)+
+  geom_segment(aes(xend=item.name,yend=0),size=1.2)+coord_flip()+
+  geom_text(aes(label=paste(" ",percent(round(cpi12,3))," "),
+                hjust=ifelse(cpi12>0,0,1)))+  #flip justification if point postiive or negative
+    geom_point(size=3)+
+    theme_minimal()+   
+  theme(legend.position="top",legend.text=element_text(size=7))+
+  theme(legend.key.width=unit(3,"cm"))+
+  scale_y_continuous(label=percent,limits=c(-0.02,.05),breaks=seq(-0.2,.08,.01))  +
+  labs(x="", y="Consumer Price Index (y/y % change NSA)",
+       title="Consumer Price Inflation (y/y %)",
+       subtitle="by major category",
+       caption="@lenkiefer Source: U.S. Bureau of Labor Statistics")+
+  theme(plot.title=element_text(size=18))+
+  theme(plot.caption=element_text(hjust=0))
+{% endhighlight %}
+
+![plot of chunk fig-cpi-viz-nov16-3](/img/Rfig/fig-cpi-viz-nov16-3-1.svg)
+
+And of course, we can make the lollipop dance:
+
+
+
+{% highlight r %}
+cpi7n<-cpi6n[ !(item.name %in% c("Transportation","Services","Other goods and services"))]
+cpi7n$item.namef<-as.factor(cpi7n$item.name)
+cpi7n$datef<-as.factor(cpi7n$date)
+myf3<-function(d){as.data.frame(cpi7n[date==d, list(datef,cpi12,item.namef)])}
+d.list3<-unique(cpi6n[month==10 & year>2000]$date)
+my.list3<-lapply(c(d.list3,d.list3[1]),myf3)
+
+tf3 <- tween_states(my.list3, tweenlength= 2, statelength=3, ease=rep('cubic-in-out',24),nframes=150)
+tf3<-data.table(tf3)
+
+oopt = ani.options(interval = 0.1)
+saveGIF({for (i in 1:max(tf3$.frame)) {
+  g<-
+    ggplot(data=tf3[.frame==i],aes(x=item.namef,y=cpi12,color=cpi12))+
+  scale_color_viridis(option="D",name="Annual Inflation\nRate (%) ",discrete=F,direction=-1,end=0.85,
+                      label=percent,limits=c(-0.04,.08))+
+  geom_segment(aes(xend=item.namef,yend=0),size=1.2)+coord_flip()+
+  geom_text(aes(label=paste(" ",percent(round(cpi12,3))," "),
+                hjust=ifelse(cpi12>0,0,1)))+  #flip justification if point postiive or negative
+    geom_point(size=3)+
+    theme_minimal()+   
+  theme(legend.position="top",legend.text=element_text(size=7))+
+  theme(legend.key.width=unit(2,"cm"))+
+  scale_y_continuous(label=percent,limits=c(-0.04,.08),breaks=seq(-0.2,.08,.01))  +
+  labs(x="", y="Consumer Price Index (y/y % change NSA)",
+       title="Consumer Price Inflation (y/y %)",
+       subtitle=paste("by major category:",as.character(as.Date(tf3[.frame==i]$datef),format="%b-%Y")),
+       caption="@lenkiefer Source: U.S. Bureau of Labor Statistics")+
+  theme(plot.title=element_text(size=18))+
+  theme(plot.caption=element_text(hjust=0))
+
+  print(g)
+  ani.pause()
+  print(i)  #counter 
+}
+},movie.name="cpi_dance_lolly_11_21_2016.gif",ani.width = 650, ani.height = 450)
+{% endhighlight %}
+
+<img src="{{ site.url }}/img/charts_nov_21_2016/cpi_dance_lolly_11_21_2016.gif" alt="cpi gif 3"/>
