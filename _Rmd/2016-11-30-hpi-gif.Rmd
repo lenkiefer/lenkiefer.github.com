@@ -78,3 +78,72 @@ We can also add a gif comparing the ratios of house prices to other prices (Real
 In this chart instead of using general rents, we use the owner's equivalent rent of the primary residece. [See this FAQ from BLS](http://www.bls.gov/cpi/cpifacnewrent.pdf) on the differences in the rent series.
 
 <img src="{{ site.url }}/img/charts_nov_30_2016/house price ratios vs other prices nov 2016.gif" alt="fhfa hpi gif" />
+
+## Add animation to graphs
+
+To add the animation to the gifs we simply use the [animation package](https://cran.r-project.org/web/packages/animation/index.html) and loop through the data. The code below creates the animated gifs.
+
+
+``` {r, fig-fhfa-viz-nov30-2,cache=FALSE,echo=T,eval=F,message=FALSE,warnings=FALSE }
+
+# Make the first gif:
+oopt = ani.options(interval = 0.05)
+saveGIF({for (i in 1:N-1) {
+  g<-
+    ggplot(data=mydata2[var %in% ind.list & date<=d.list[i],],aes(x=date,y=value,color=id))+geom_line(size=0.95,alpha=0.82)+
+    theme_minimal()+theme(legend.position="none")+scale_y_log10(limits=c(100,250),breaks=seq(100,250,50))+
+    scale_x_date(limits=c(min(mydata$date),max(mydata$date)+150),date_labels="%Y",
+                 breaks=seq(as.Date("1990-01-01"),as.Date("2020-01-01"),"5 year"))+
+    scale_color_viridis(discrete=T,option="C",end=0.85)+
+    labs(y="Index: Jan, 1991 = 100, log scale",x="",
+         title="Comparing house prices to rent, income and other prices",
+         caption= mycaption)+theme(plot.caption=element_text(hjust=0,size=10))+
+    geom_text(data=mydata2[var %in% ind.list & date==d.list[i],],aes(label=id,color=id),size=4,alpha=0.9)
+    print(g)
+  print(i)
+  ani.pause()
+}
+  
+  for (i2 in 1:20) {
+    print(g)
+    print(i2)
+    ani.pause()
+  }
+},movie.name="house prices vs other prices nov 2016.gif",ani.width = 650, ani.height = 450)
+
+# Make the second gif (ratios)
+
+#Adjust the caption for the second gif
+
+mycaption2<- "@lenkiefer Source: House Prices: FHFA purchase-only house price index. Rent: U.S. Bureau of Labor Statistics (BLS) consumer price index owner's equivalent rent of primary residence. Other Prices: BLS consumer price index all items less shelter. Income: U.S. Bureau of Economic Analysis per capita disposable personal income (Table 2.6.). All are seasonally adjusted."
+
+mycaption2 <- paste0(strwrap(mycaption2, 120), sep="", collapse="\n")
+
+oopt = ani.options(interval = 0.05)
+saveGIF({for (i in 1:(N-1)) {
+  g<-
+  ggplot(data=mydata[date<=d.list[i]],aes(x=date,y=hpi.100/oer.100))+
+  geom_line(color=viridis(10)[4])+
+  scale_y_continuous(limits=c(0.8,1.6),breaks=seq(0.8,1.6,.1))+
+    #scale_x_date(limits=c(min(mydata$date),max(mydata$date)+150),date_labels="%Y",                 breaks=seq(as.Date("1990-01-01"),as.Date("2020-01-01"),"5 year"))+
+  geom_line(aes(y=hpi.100/noshelter.100),color=viridis(10)[2])+
+  geom_line(aes(y=hpi.100/percapita.100),color=viridis(10)[6])+
+  annotate("text",size=3,x=d.list[i],y=mydata[date==d.list[i],]$hpi.100/mydata[date==d.list[i],]$oer.100,label="Price\nto\nRent",color=viridis(10)[4])+
+  annotate("text",size=3,x=d.list[i],y=mydata[date==d.list[i],]$hpi.100/mydata[date==d.list[i],]$noshelter.100,label="Real\nPrice",color=viridis(10)[2])+
+  annotate("text",size=3,x=d.list[i],y=mydata[date==d.list[i],]$hpi.100/mydata[date==d.list[i],]$percapita.100,label="Price\nto\nIncome",color=viridis(10)[6])+
+  theme_minimal()+theme(plot.caption=element_text(hjust=0,size=11))+
+  labs(subtitle="House prices relative to other prices, rents, and per capita disposable income",
+       y="Index: Jan, 1991=1",x="",caption= mycaption2,title="House price ratios")
+  print(g)
+  print(i)
+  ani.pause()
+}
+
+for (i2 in 1:20) {
+  print(g)
+  print(i2)
+  ani.pause()
+}
+},movie.name="house price ratios vs other prices nov 2016.gif",ani.width = 650, ani.height = 450)
+```
+
