@@ -100,7 +100,7 @@ d.state[,hpa12:=c(rep(NA,12),((1+diff(hpi,12)/hpi))^1)-1,by=state]
 d.state<-d.state[month==9 & year>1975]
 {% endhighlight %}
 
-Now that we have our data loaded let's take a peak at the structure:
+Now that we have our data loaded let's take a peek at the structure:
 
 
 {% highlight r %}
