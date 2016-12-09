@@ -10,17 +10,17 @@ theme :
 ---
 # Introduction
 
-IN ORDER TO HELP PEOPLE UNDERSTAND WHAT'S GOING ON with the economy, housing and mortgage markets I spend a great deal of time thinking about interest rates.  Interest rats, specifically mortgage rates are very important to housing and mortgage markets.  In my [professional life](https://www.linkedin.com/in/leonard-kiefer-51175331) I work on tracking trends in housing and mortgage markets, and that includes mortgage rates.  I create a lot of visualizations of mortgage rates.
+IN ORDER TO HELP PEOPLE UNDERSTAND WHAT'S GOING ON with the economy, housing and mortgage markets I spend a great deal of time thinking about interest rates.  Interest rates, specifically mortgage rates are very important to housing and mortgage markets.  In my [professional life](https://www.linkedin.com/in/leonard-kiefer-51175331) I work on tracking trends in housing and mortgage markets, and that includes mortgage rates.  I create a lot of visualizations of mortgage rates.
 
 In this post I'm going to share with you 10 of my favorate ways to visualize mortgage rates and give you [R](https://www.r-project.org/) code to do it. 
 
 ## The data
 
-The data I'm going to use are estimates of weekly U.S. average 30-year fixed mortgage rates from the Primary Mortgage Market Survey from Freddie Mac. These data can be easily downloaded from the St. Louis Fred database [here](http://bit.ly/2hli7Sh).
+The data I'm going to use are estimates of weekly U.S. average 30-year fixed mortgage rates from the [Primary Mortgage Market Survey](http://www.freddiemac.com/pmms/index.html) from Freddie Mac. These data can be easily downloaded from the St. Louis Fred database [here](http://bit.ly/2hli7Sh).
 
 I have the data saved in a simple text file with a column for data, the mortgage rate, and helper columns week, month, and year, where week is the week number starting with the first week of the year.
 
-Let's load the data and take a peak.
+Let's load the data and take a peek.
 
 
 ``` {r, load-data-rates-dec8-2016,cache=FALSE,echo=T,message=FALSE,warnings=FALSE }
@@ -44,15 +44,13 @@ pmms30yr <- fread("data/pmms30yr.txt")
 #set up date variable
 pmms30yr$date<-as.Date(pmms30yr$date, format="%m/%d/%Y")
 
-
-
 # make tables for viewing formatting dates with purr %>% operations
 htmlTable(head(pmms30yr %>% map_if(is.Date, as.character,format="%b %d,%Y") %>% map_if(is.numeric, round,3) %>%as.data.frame() ,10), col.rgroup = c("none", "#F7F7F7"),caption="30-year Fixed Mortgage Rate (%)",
           tfoot="Source: Freddie Mac Primary Mortgage Market Survey")
 
 ```
 
-The data are weekly observations on mortgage rates running from April 2, 1971 through December 8, 2016.  Now let's take these series and make 10 different visualizations. We'll start simple, and build up to more complex visualizations
+The data are weekly observations on mortgage rates running from April 2, 1971 through December 8, 2016.  Now let's take these series and make 10 different visualizations. We'll start simple, and build up to more complex visualizations.
 
 ### A note on data manipulations
 
@@ -89,7 +87,7 @@ g1
 
 # 2: Line chart comparing weeks by year
 
-This next chart is a variation on the line chart.  Instead of using date for the *x* axis, we use the week of the year and plot a separate line for recent years (2013, 2014, 2015 and 2016). By comparing the lines at any point on the x axis, we can see where rates were one or more years ago on this week.
+This next chart is a variation on the line chart.  Instead of using date for the *x* axis, we use the week of the year and plot a separate line for recent years (2013, 2014, 2015 and 2016). By comparing the lines at any point on the *x* axis, we can see where rates were one or more years ago on this week.
 
 ``` {r, rate-viz2-dec-08-2016,, warning=FALSE, eval=T,cache=TRUE,echo=TRUE, results='asis', message=FALSE,fig.height=4,fig.width=6 }
 i<-max(pmms30yr[year==2016]$week)  #figure out the maximum week number in 2016
@@ -180,8 +178,8 @@ g5<-ggplot(data=pmms30yr[date>'2000-12-31'],
   #add annual average as step function
   geom_step(aes(y=rate.y),color=viridis(5)[2],size=1.1)+
   labs(x="", y="",title="30-year Fixed Mortgage Rate (%)",
-       subtitle="weekly rates since 2001",
-       caption="@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey, blue line annual average")+
+       subtitle="Weekly rates since 2001, blue line annual average",
+       caption="@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey")+
   theme(plot.title=element_text(size=14))+
   theme(axis.text=element_text(size=8))+
   theme(plot.caption=element_text(hjust=0))
@@ -201,7 +199,7 @@ g6<-
 g6
 ```
 
-Ha ha, just kidding, that's awful
+Ha ha, just kidding, that's awful!
 
 # 7: Strip chart
 
