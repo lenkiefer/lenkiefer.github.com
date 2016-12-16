@@ -59,7 +59,6 @@ We need to do a tiny bit of data preparation which is made quite easy by the dat
 # making rolling 52 week min and max
 pmms30yr[, rmax.52:=rollapply(rate,52,max,na.rm=T,fill=NA,align="right")]
 pmms30yr[, rmin.52:=rollapply(rate,52,min,na.rm=T,fill=NA,align="right")]
-
 #compute 52-week max & min and rate
 pmms30yr[,rup:=min(rate,rmin.52),by=date]
 pmms30yr[,rdown:=max(rate,rmax.52),by=date]
