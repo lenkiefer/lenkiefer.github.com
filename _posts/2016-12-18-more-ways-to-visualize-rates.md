@@ -1,0 +1,400 @@
+---
+layout: post
+title: "Even more mortgage rate visualizations"
+author: "Len Kiefer"
+date: "2016-12-18"
+summary: "R statistics rstats mortgage rates dataviz"
+group: navigation
+theme :
+  name : lentheme
+---
+# Introduction
+
+WE ARE BACK WITH EVEN MORE WAYS TO VISUALIZE mortgage rates. A few days ago, I [shared]({% post_url 2016-12-08-10-ways-to-visualize-rates %}) some ways to visualize mortgage rate trends and [here]({% post_url 2016-12-15-more-amazing-mortgage-viz %}) I posted some additional gifs without the code.  I'm going to expand on that last post with [R](https://www.r-project.org/) code for one those charts, and give you a totally new one.
+
+
+## The data
+
+The data I'm going to use are estimates of weekly U.S. average 30-year fixed mortgage rates from the [Primary Mortgage Market Survey](http://www.freddiemac.com/pmms/index.html) from Freddie Mac. These data can be easily downloaded from the St. Louis Fred database [here](http://bit.ly/2hli7Sh).
+
+I have the data saved in a simple text file with a column for data, the mortgage rate, and helper columns week, month, and year, where week is the week number starting with the first week of the year.
+
+Let's load the data and take a peek.
+
+
+
+{% highlight r %}
+#load libraries
+library(data.table, warn.conflicts = FALSE, quietly=TRUE)
+library(ggplot2, warn.conflicts = FALSE, quietly=TRUE)
+library(dplyr, warn.conflicts = FALSE, quietly=TRUE)
+library(zoo, warn.conflicts = FALSE, quietly=TRUE)
+library(ggrepel, warn.conflicts = FALSE, quietly=TRUE)
+library(ggthemes, warn.conflicts = FALSE, quietly=TRUE)
+library(scales, warn.conflicts = FALSE, quietly=TRUE)
+library(tidyr, warn.conflicts = FALSE, quietly=TRUE)
+library(zoo,warn.conflicts=F,quietly=T)
+library(purrr,warn.conflicts=F,quietly=T)
+library(xts,warn.conflicts=F,quietly=T)
+library(lubridate,warn.conflicts=F,quietly=T)
+library(viridis,warn.conflicts = F,quietly = F) #for the colorz
+library("htmlTable")
+#load data from text file
+pmms30yr <- fread("data/pmms30yr.txt")
+#set up date variable
+pmms30yr$date<-as.Date(pmms30yr$date, format="%m/%d/%Y")
+
+# make tables for viewing formatting dates with purr %>% operations
+htmlTable(tail(pmms30yr %>% map_if(is.Date, as.character,format="%b %d,%Y") %>% map_if(is.numeric, round,3) %>%as.data.frame() ,10), col.rgroup = c("none", "#F7F7F7"),caption="30-year Fixed Mortgage Rate (%)",
+          tfoot="Source: Freddie Mac Primary Mortgage Market Survey")
+{% endhighlight %}
+
+<table class='gmisc_table' style='border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;' >
+<thead>
+<tr><td colspan='6' style='text-align: left;'>
+30-year Fixed Mortgage Rate (%)</td></tr>
+<tr>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey;'> </th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>date</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>rate</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>year</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>month</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>week</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style='text-align: left;'>2377</td>
+<td style='text-align: center;'>Oct 13,2016</td>
+<td style='text-align: center;'>3.47</td>
+<td style='text-align: center;'>2016</td>
+<td style='text-align: center;'>10</td>
+<td style='text-align: center;'>41</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>2378</td>
+<td style='background-color: #f7f7f7; text-align: center;'>Oct 20,2016</td>
+<td style='background-color: #f7f7f7; text-align: center;'>3.52</td>
+<td style='background-color: #f7f7f7; text-align: center;'>2016</td>
+<td style='background-color: #f7f7f7; text-align: center;'>10</td>
+<td style='background-color: #f7f7f7; text-align: center;'>42</td>
+</tr>
+<tr>
+<td style='text-align: left;'>2379</td>
+<td style='text-align: center;'>Oct 27,2016</td>
+<td style='text-align: center;'>3.47</td>
+<td style='text-align: center;'>2016</td>
+<td style='text-align: center;'>10</td>
+<td style='text-align: center;'>43</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>2380</td>
+<td style='background-color: #f7f7f7; text-align: center;'>Nov 03,2016</td>
+<td style='background-color: #f7f7f7; text-align: center;'>3.54</td>
+<td style='background-color: #f7f7f7; text-align: center;'>2016</td>
+<td style='background-color: #f7f7f7; text-align: center;'>11</td>
+<td style='background-color: #f7f7f7; text-align: center;'>44</td>
+</tr>
+<tr>
+<td style='text-align: left;'>2381</td>
+<td style='text-align: center;'>Nov 10,2016</td>
+<td style='text-align: center;'>3.57</td>
+<td style='text-align: center;'>2016</td>
+<td style='text-align: center;'>11</td>
+<td style='text-align: center;'>45</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>2382</td>
+<td style='background-color: #f7f7f7; text-align: center;'>Nov 17,2016</td>
+<td style='background-color: #f7f7f7; text-align: center;'>3.94</td>
+<td style='background-color: #f7f7f7; text-align: center;'>2016</td>
+<td style='background-color: #f7f7f7; text-align: center;'>11</td>
+<td style='background-color: #f7f7f7; text-align: center;'>46</td>
+</tr>
+<tr>
+<td style='text-align: left;'>2383</td>
+<td style='text-align: center;'>Nov 23,2016</td>
+<td style='text-align: center;'>4.03</td>
+<td style='text-align: center;'>2016</td>
+<td style='text-align: center;'>11</td>
+<td style='text-align: center;'>47</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>2384</td>
+<td style='background-color: #f7f7f7; text-align: center;'>Dec 01,2016</td>
+<td style='background-color: #f7f7f7; text-align: center;'>4.08</td>
+<td style='background-color: #f7f7f7; text-align: center;'>2016</td>
+<td style='background-color: #f7f7f7; text-align: center;'>12</td>
+<td style='background-color: #f7f7f7; text-align: center;'>48</td>
+</tr>
+<tr>
+<td style='text-align: left;'>2385</td>
+<td style='text-align: center;'>Dec 08,2016</td>
+<td style='text-align: center;'>4.13</td>
+<td style='text-align: center;'>2016</td>
+<td style='text-align: center;'>12</td>
+<td style='text-align: center;'>49</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: left;'>2386</td>
+<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>Dec 15,2016</td>
+<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>4.16</td>
+<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>2016</td>
+<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>12</td>
+<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>50</td>
+</tr>
+</tbody>
+<tfoot><tr><td colspan='6'>
+Source: Freddie Mac Primary Mortgage Market Survey</td></tr></tfoot>
+</table>
+
+The data are weekly observations on mortgage rates running from April 2, 1971 through December 15, 2016 (we added one week since last time). 
+
+# Distribution bars
+
+Let's start by creating this chart:
+
+<img src="{{ site.url }}/img/charts_dec_15_2016/pmms share bars dec 2016.gif" alt="pmms bars"/>
+
+This chart shows how the distribution of weekly mortgage rates has changed since the year 2000.  Even though rates have been heading higher recently, they are still quite low, even judging by the standards of this century.
+
+To make this chart we need to first take our data and bin the data into buckets. We can easily do this using the [cut](https://www.r-bloggers.com/r-function-of-the-day-cut-2/) function to "cut" up the data weekly interest rates into non-overlapping intervals.  Then we can use the data.table() structure to easily compute summary statistics by cuts. 
+
+
+{% highlight r %}
+# cut data into 50 basis points(bp), or 1/2 percentage point buckets
+# in originatl I cut into 25 bp buckets but that's hard to fit, so I coarsened the cut
+pmms30yr[,rc:=cut(rate,seq(0,10,.5))]
+# count up total observations
+pmms30yr[,numN:=.N]
+# count up total observations by year
+pmms30yr[,numY:=.N,by=year]
+# comput summary table by year and cut
+dt<-pmms30yr[,list(num=.N,  # of obs in year/cut 
+                   numy=mean(numY) # of obs per year
+                   ),
+             by=c("year","rc")]
+
+# comput share as % of weeks within range
+dt[,share:=num/numy]
+
+N<-nrow(pmms30yr) #total number of obs
+
+ggplot(data=dt[year==2016,],aes(x=rc,y=share,fill=factor(year),label=max(year),color=factor(year)))+
+  geom_bar(stat="identity",data=dt[year>1999,list(share=sum(num)/N),by=list(year,rc)], alpha=0.5,fill="gray",color=NA)  +
+  theme_minimal()+
+  scale_fill_viridis(discrete="T")+
+  scale_color_viridis(discrete="T")+
+  theme(legend.position="none")+
+  # need to have full data with colors in plot, but set alpha=0 so invisible
+  # could also manuall assign colors, but this works
+  geom_text(data=dt,x=4,y=0.6,family="Georgia",size=20,alpha=0,hjust=0)+  
+  
+  # add a big fat label to the top of the chart
+  geom_text(x=4,y=0.6,family="Arial Black",size=20,alpha=0.75,hjust=0,vjust=0)+
+  geom_bar(stat="identity",color=NA,width=0.6)+
+  scale_y_continuous(label=percent,limits=c(0,.75))+
+  labs(x="30-year fixed mortgage rate (in 0.25pp increments)",
+       y="percent of weeks in range",
+       title="Distribution of 30-year fixed mortgage rates since 2000",
+       subtitle=paste0("Gray bars all years 2000-2016, colored bar only 2016"))+
+  theme(text=element_text( family="Georgia"),
+        plot.caption=element_text(hjust=0 ),
+        plot.subtitle=element_text(face="italic"),
+        axis.text.x=element_text(size=7))
+{% endhighlight %}
+
+![plot of chunk rate-viz1-dec-18-2016,](/img/Rfig/rate-viz1-dec-18-2016,-1.svg)
+
+## Add smooth transitions
+
+To add smooth transitions we use Tweenr. 
+
+
+
+{% highlight r %}
+# function to drop observations for all years by y
+myf<-function(y){
+  dt2<-copy(dt)
+  dt2<-dt2[year !=y ,num:=0]
+  dt2<-dt2[year !=y ,share:=0]
+  dt2$year<-factor(dt2$year)
+  dt2$num<-round(dt2$num,1)
+  return(as.data.frame(dt2))
+}
+
+library(animation)
+library(tweenr)
+#use tweenr
+my.list2<-lapply(c(2016,seq(2000,2016,1)),myf)
+
+#my.list2<-lapply(c(2016,2008,2016),myf)
+tf <- tween_states(my.list2, tweenlength= 2, statelength=3, ease=rep('cubic-in-out',200), nframes=240)
+tf<-data.table(tf)
+
+#create animation:
+oopt = ani.options(interval = 0.1)
+  saveGIF({for (i in 1:max(tf$.frame)) {
+    g<-
+      ggplot(data=tf[.frame==i,],aes(x=rc,y=share,fill=factor(year),color=factor(year),label=year))+
+      geom_bar(stat="identity",data=dt[,list(share=sum(num)/N),by=list(year,rc)],
+               alpha=0.5,fill="gray",color=NA)+
+      theme_minimal()+
+      geom_text(data=tf[.frame==i,],x=4,y=0.55,family="Georgia",size=22,alpha=0)+
+      geom_text(data=head(tf[.frame==i & num>0,],1),x=4,y=0.6,family="Arial Black",size=22,alpha=0.75)+
+      scale_fill_viridis(discrete="T")+
+      scale_color_viridis(discrete="T")+
+      geom_bar(stat="identity",color=NA,width=0.6)+
+      theme(legend.position="none")+
+      scale_y_continuous(label=percent,limits=c(0,.65))+
+      labs(x="30-year fixed mortgage rate (in 0.25pp increments)",
+           y="Percent of weeks in range",
+           title="Distribution of weekly 30-year fixed mortgage rates since 2000",
+           caption="@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey",
+           subtitle="Gray bars all years 2000-2016, colored bar only: ")+
+      theme(text=element_text( family="Arial"),
+            plot.caption=element_text(hjust=0 ),
+            plot.subtitle=element_text(face="italic"),
+            axis.text.x=element_text(size=8))
+    print(g)
+    ani.pause()
+    print(paste(i,"out of",max(tf$.frame)))
+  }
+  },movie.name="pmms share bars dec 2016.gif",ani.width = 840, ani.height =450)
+{% endhighlight %}
+
+# Everything is a tile
+
+Somehow I just stumbled upon [*geom_tile()*](http://docs.ggplot2.org/current/geom_tile.html).  Now everything is a tile.
+
+[Earlier]({% post_url 2016-12-08-10-ways-to-visualize-rates %}) we made a strip chart.  If you don't want to click here it is again (go to link for code):
+
+![plot of chunk rate-viz2-dec-18-2016,](/img/Rfig/rate-viz2-dec-18-2016,-1.svg)
+
+### Make it a tile
+
+The tile chart is very similar to the strip, but instead of having one left/right dimension we'll add an up/down dimension. We'll construct a week number variable indicating the week of the year and display that on the x axis.  Then on the y axis we'll have years going down.
+
+
+{% highlight r %}
+pmms30yr[,id:=1:.N,by=year]  #construct week indicator
+
+# create a year indicator in reverse order
+# we want it in reverse order so year will go down instead of up
+pmms30yr$yearf<-factor(pmms30yr$year,levels=seq(2016,1971,-1))  
+
+g.tile<-
+  ggplot(data=pmms30yr[year>2000,],aes(x=id,y=yearf,color=d52,fill=d52))+
+  geom_tile(color="gray")+
+  scale_x_continuous(breaks=seq(0,50,10))+
+  scale_fill_viridis(name="52-week\nChange (pp)",discrete=F,option="B")+
+  scale_color_viridis(name="52-week\nChange (pp)",discrete=F,option="B")+
+  theme_minimal()+labs(x="week of year",y="year",
+                       title="Annual change in 30-year fixed mortgage rates",
+                       subtitle="52-week change in rates",
+                       caption="@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey")+
+  theme(legend.position="top",plot.caption=element_text(hjust=0))+
+  theme(axis.text.y=element_text(size=6),
+        axis.text.x=element_text(size=6))
+g.tile
+{% endhighlight %}
+
+![plot of chunk rate-viz4-dec-18-2016,](/img/Rfig/rate-viz4-dec-18-2016,-1.svg)
+
+Now we can combine the tile chart with a column chart:
+
+{% highlight r %}
+source("code/multiplot.R")  #code for combining separate ggplot graphs
+# find multiplot code here: http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/
+
+g.diff<-
+    ggplot(data=pmms30yr[year>2000,],aes(x=date,y=d52,color=d52,fill=rate))+
+    geom_col()+
+    scale_fill_viridis(name="52-week\nChange (pp)",discrete=F,option="B")+
+    scale_color_viridis(name="52-week\nChange (pp)",discrete=F,option="B")+
+    theme_minimal()+
+    theme(axis.text.x=element_text(size=6))+
+    labs(x="", y="",
+         title="52-week change in 30-year Fixed Mortgage Rate",
+         #subtitle="52-week change in mortgage rates",
+         caption="@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey")+
+    scale_x_date(date_breaks="1 year",date_label="%Y")+
+    theme(plot.title=element_text(size=14))+
+    theme(axis.text=element_text(size=8))+
+    theme(plot.caption=element_text(hjust=0), legend.position="none")
+
+multiplot(g.diff+labs(caption=""),g.tile+theme(legend.position="none"))
+{% endhighlight %}
+
+![plot of chunk rate-viz5-dec-18-2016,](/img/Rfig/rate-viz5-dec-18-2016,-1.svg)
+
+And we can animate it. First, let's create a function for the column chart of 52-week differences *diff.plot()* and a function for the tile plot *tile.plot()*.  Let's examine the functions and see how they work when we give it a year, 2004 before the end of our sample:
+
+
+{% highlight r %}
+diff.plot<-function(y){
+  g.diff<-
+    ggplot(data=pmms30yr[year>2000 & year<=y,],aes(x=date,y=d52,color=d52,fill=rate))+
+    geom_col(alpha=0,data=pmms30yr[year>2000],color=NA)+
+    geom_col()+
+    scale_fill_viridis(name="52-week\nChange (pp)",discrete=F,option="B")+
+    scale_color_viridis(name="52-week\nChange (pp)",discrete=F,option="B")+
+    theme_minimal()+
+    theme(axis.text.x=element_text(size=6))+
+    labs(x="", y="",
+         title="52-week change in 30-year Fixed Mortgage Rate",
+         caption="@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey")+
+    scale_x_date(date_breaks="1 year",date_label="%Y")+
+    theme(plot.title=element_text(size=14))+
+    theme(axis.text=element_text(size=8))+
+    theme(plot.caption=element_text(hjust=0), legend.position="none")
+  return(g.diff)
+}
+
+tile.plot<-function(y){
+  g.tile<-  
+    ggplot(data=pmms30yr[year>2000 & year<=y,],aes(x=id,y=yearf,color=d52,fill=d52))+
+    geom_tile(alpha=0,data=pmms30yr[year>2000],color=NA)+
+    geom_tile(color="gray")+
+    scale_fill_viridis(name="52-week\nChange (pp)",discrete=F,option="B")+
+    scale_color_viridis(name="52-week\nChange (pp)",discrete=F,option="B")+
+    theme_minimal()+labs(x="week of year",y="year",
+                       title="Annual change in 30-year fixed mortgage rates",
+                       subtitle="52-week change in rates",
+                       caption="@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey")+
+    theme(legend.position="top",plot.caption=element_text(hjust=0))+
+    theme(axis.text.y=element_text(size=6),
+          axis.text.x=element_text(size=6))
+  return(g.tile)
+}
+
+# test it:
+multiplot(diff.plot(2004)+labs(caption=""),tile.plot(2004)+theme(legend.position="none"))
+{% endhighlight %}
+
+![plot of chunk rate-viz6-dec-18-2016,](/img/Rfig/rate-viz6-dec-18-2016,-1.svg)
+
+This plot shows us what our plot will look like in after we get to year 2004.  By adding in the full data with alpha=0 (so it is transparent) our axis will be fully expanded.  We could do it by manually setting the axis, but I just did it this way.
+
+Now we can loop through the data to create the animation:
+
+
+{% highlight r %}
+oopt = ani.options(interval = 0.15)
+saveGIF({for (i in seq(2001,2016,1)) {
+  g<-multiplot(diff.plot(i)+labs(caption=""),tile.plot(i)+theme(legend.position="none"),
+               layout=matrix(c(1,2,2), nrow=3, byrow=TRUE))
+  print(g)
+  ani.pause()
+}
+  for (i2 in 1:10) {
+    g<- multiplot(diff.plot(2016)+labs(caption=""),tile.plot(2016)+theme(legend.position="none"),
+               layout=matrix(c(1,2,2), nrow=3, byrow=TRUE))
+    print(g)
+    ani.pause()
+  }
+},movie.name="tile_rates_12_18_2016.gif",ani.width = 650, ani.height = 800)
+{% endhighlight %}
+
+
+<img src="{{ site.url }}/img/charts_dec_18_2016/tile_rates_12_18_2016.gif" alt="pmms tile col combo"/>
