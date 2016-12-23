@@ -2,7 +2,7 @@
 layout: post
 title: "Populous metros are heavy!"
 author: "Len Kiefer"
-date: "2016-12-19"
+date: "2016-12-23"
 summary: "R statistics map animation ggplot2"
 group: navigation
 theme :
