@@ -9,7 +9,7 @@ theme :
   name : lentheme
 ---
 
-THOUGH 2016 IS NOT OVER YET I want to get a jump on my 2017 resolution; make bettter tables.
+THOUGH 2016 IS NOT OVER YET I want to get a jump on my 2017 resolution: make bettter tables.
 
 I've been re-reading [this paper](http://www.jstor.org/stable/2344922?seq=1#page_scan_tab_contents) on the *Rudiments of Numeracy* by A. S. C. Ehrenberg published in the Journal of the Royal Statistical Society in 1977.  Though the paper is nearly 40 years old, it still offers some valuable insights.
 
