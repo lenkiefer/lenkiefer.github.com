@@ -8,9 +8,9 @@ group: navigation
 theme :
   name : lentheme
 ---
-THE YEAR IS DRAWING TO A CLOSE and by manny measures 2016 was the best year for housing in a decade. Back in [May]({{ site.url}}/chartbooks/may2016/index.html) I shared some trends on housing markets in a [Tufte style document](http://rmarkdown.rstudio.com/tufte_handout_format.html).  Now that we have nearly a full year's worth of data, let's see how housing and mortgage markets did in 2016.
+THE YEAR IS DRAWING TO A CLOSE and by many measures 2016 was the best year for housing in a decade. Back in [May]({{ site.url}}/chartbooks/may2016/index.html) I shared some trends on housing markets in a [Tufte style document](http://rmarkdown.rstudio.com/tufte_handout_format.html).  Now that we have nearly a full year's worth of data, let's see how housing and mortgage markets did in 2016.
 
-Well, I've created a retrospective looking back at the full year.  You can read it [here]({{ site.url}} /chartbooks/dec2016/index.html). 
+Well, I've created a retrospective looking back at the full year.  You can read it [here]({{ site.url}}/chartbooks/dec2016/index.html). 
 
 Check it out and let me know what you think.
 
