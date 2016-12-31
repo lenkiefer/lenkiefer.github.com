@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "A look back at the housing's best year in a decade"
+title: "A look back at housing's best year in a decade"
 author: "Len Kiefer"
 date: "2016-12-31"
 summary: "R statistics dataviz tufte"
