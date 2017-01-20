@@ -15,7 +15,7 @@ I made this dashboard using [crosstalk]( http://rstudio.github.io/crosstalk/) an
 
 In this version I added an animation.  In order to get [the animation to work](https://cpsievert.github.io/plotly_book/key-frame-animations.html) you'll need the [development version of plotly](https://github.com/ropensci/plotly) for R.
 
-It took me a while to get the animation to work, but basically I combined a [ggplot2](http://ggplot2.org/) graph with plotly using [ggplotly](https://plot.ly/ggplot2/).  ggplotly doesn't support all features of ggplot2, for example rug plots are out, but it does quite a lot.  I'm found of thinking if you can make a scatterplot along with line segments and polygons, you basically can create any visualization you want (*you might also need curves if you believe in them*).
+It took me a while to get the animation to work, but basically I combined a [ggplot2](http://ggplot2.org/) graph with plotly using [ggplotly](https://plot.ly/ggplot2/).  ggplotly doesn't support all features of ggplot2, for example rug plots are out, but it does quite a lot.  I'm fond of thinking if you can make a scatterplot along with line segments and polygons, you basically can create any visualization you want (*you might also need curves if you believe in them*).
 
 Check out the [fullscreen version here.]({{ site.url}}/chartbooks/jan2017/friday_flexin.html)
 
