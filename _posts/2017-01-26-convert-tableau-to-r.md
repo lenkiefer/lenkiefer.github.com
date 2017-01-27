@@ -135,10 +135,8 @@ We only want to filter on one state at a time so we set `multiple=FALSE`.
 
 Then, it's just a matter of laying out the flexdashboard and setting up our widgets.  For comparison, we embedded the original Tableau dashboard in our flexdashboard. *How meta!*
 
-You can see a fullscreen version [here]({{ site.url}}/chartbooks/migration_flex2.html). 
+You can see a fullscreen version [here]({{ site.url}}/chartbooks/jan2017/migration_flex2.html). 
 
 You can get the code by clicking on the source button on the top right.
 
 <iframe src="{{ site.url}}/chartbooks/jan2017/migration_flex2.html" height="800" width="1200"></iframe>
-
-
