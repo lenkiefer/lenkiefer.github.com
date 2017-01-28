@@ -9,11 +9,13 @@ theme :
   name : lentheme
 ---
 
+**Edited on 2017-01-27 to correct typos and fix tootip in dashboard**
+
 IN THIS POST WE WILL CONVERT a data visualization dashboard I made some time ago using [Tableau](https://www.tableau.com) into a [flexdashboard](http://rmarkdown.rstudio.com/flexdashboard/index.html) using [R.](https://www.r-project.org/)
 
 On Monday, the Census [posted](http://www.census.gov/newsroom/blogs/random-samplings/2017/01/mover-rate.html) a blog summarizing recent mobility trends. According to the CPS ASEC, 11.2 percent of the U.S. population age 1 and over moved between 2015 and 2016, the lowest since the CPS ASEC began in 1948. This post reminded me a visualization [I made](https://public.tableau.com/profile/leonard.kiefer#!/vizhome/State-to-statemigrationin2014/Mobilitygraphic) some time ago showing state-to-state migration using Census data.
 
-As I have been on a kick making R flexdashboards (see [this]({% post_url 2017-01-08-mortgage-rate-viewer %}), [this]({% post_url 2017-01-14-year-in-review-remix %}), [this]({% post_url 2017-01-16-cross-talk-dashboard %}) and [this]({% post_url 2017-01-20-flexin-friday %}) for examples and [this post for a guide on building a flexdashboard]({% post_url 2017-01-22-build-flex %}) I figured it would be fun to convert this viz into a flexdashboard.
+As I have been on a kick making R flexdashboards (see [this]({% post_url 2017-01-08-mortgage-rate-viewer %}), [this]({% post_url 2017-01-14-year-in-review-remix %}), [this]({% post_url 2017-01-16-cross-talk-dashboard %}) and [this]({% post_url 2017-01-20-flexin-friday %}) for examples and [this post for a guide on building a flexdashboard]({% post_url 2017-01-22-build-flex %})). I figured it would be fun to convert this viz into a flexdashboard.
 
 This would also give me a chance to explore maps with [plotly](https://plot.ly/r/).
 
