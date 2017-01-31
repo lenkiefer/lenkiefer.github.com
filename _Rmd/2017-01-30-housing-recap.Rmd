@@ -38,10 +38,9 @@ mydata$date<-as.Date(mydata$date, format="%m/%d/%Y")
 
 mydata<-data.table(mydata)    
 mydata[, ehsc:=cumsum(ehs), by=year]  #computer cumulative sales YTD
-
 #Make plot
 ggplot(data=mydata[year>2006 & month<19], 
-       aes(x = factor(year), y = ehs,fill=reorder(mname,month),label=mname)) +
+       aes(x = factor(year), y = ehs,fill=reorder(mname,-month),label=mname)) +
   geom_bar(color = "gray", stat = "identity",alpha=0.75)+
   scale_fill_viridis(discrete=T,end=0.95,direction=1,option="D")+  #use viridis color scale
   theme_minimal()+ 
