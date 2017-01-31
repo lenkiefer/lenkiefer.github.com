@@ -1,0 +1,98 @@
+---
+layout: post
+title: "Best year for home sales in a decade"
+author: "Len Kiefer"
+date: "2017-01-30"
+summary: "R statistics dataviz plotly housing mortgage data"
+group: navigation
+theme :
+  name : lentheme
+---
+
+WE ARE ONE MONTH INTO 2017 AND WITH THIS MONTH'S economic releases we've completed most of the picture of 2016. These data by and large matched our expectations as I [outlined in my 2016 year-in-review]({{ site.url}}/chartbooks/dec2016/index.html).
+
+Let's take a quick look.
+
+# Existing homes sales best in a decade
+
+Last week the National Association of Realtors (NAR) [reported](https://www.nar.realtor/news-releases/2017/01/existing-home-sales-slide-in-december-2016-sales-best-since-2006) on existing home sales for December of 2016.  On a seasonally adjusted basis home sales declined 2.8 percent from November's pace.
+Despite the fact that home sales slowed in December home sales finished their best year in a decade.  Lack of inventory on increased mortgage interest rates contributed to the slowdown in existing home sales.  
+
+Nevertheless existing home sales for 2016 outpaced the past 9 years:
+
+
+```{r ehs-graph,warning=F,message=F,echo=F}
+library(tweenr)
+library(ggplot2)
+library(scales)
+library(viridis)
+library(animation)
+library(dplyr)
+library(readxl)
+library(data.table)
+library(tidyverse)
+mydata<-read_excel("data/ehs 2016.xlsx",sheet="sales")
+mydata$date<-as.Date(mydata$date, format="%m/%d/%Y")
+
+mydata$date<-as.Date(mydata$date, format="%m/%d/%Y")
+
+mydata<-data.table(mydata)    
+mydata[, ehsc:=cumsum(ehs), by=year]  #computer cumulative sales YTD
+
+#Make plot
+ggplot(data=mydata[year>2006 & month<19], 
+       aes(x = factor(year), y = ehs,fill=reorder(mname,month),label=mname)) +
+  geom_bar(color = "gray", stat = "identity",alpha=0.75)+
+  scale_fill_viridis(discrete=T,end=0.95,direction=1,option="D")+  #use viridis color scale
+  theme_minimal()+ 
+ geom_text(data=mydata[month==12 & year==2016],aes(y=ehsc),nudge_y=0.25,hjust=-.2)+
+  geom_hline(yintercept=mydata[ month==12 & year==2016]$ehsc,linetype=2,color="black")+
+  xlab("")+ylab("")+
+  scale_y_continuous(breaks=seq(0,6000,1000),limits=c(0,6500))+
+  labs(title="Existing Home Sales (Ths. NSA)",
+       subtitle="dotted line 2016 YTD",
+       caption="@lenkiefer Source:NAR")+
+  theme(plot.title=element_text(size=14))+
+  theme(legend.justification=c(0,0), legend.position="none",
+        plot.caption=element_text(hjust=0))+
+  coord_flip()  #flip so that the bars are horizontal rather than vertical   
+```
+
+### As a gif
+
+We can also view these data as an animated gif:
+
+<img src="{{ site.url}}/img/charts_jan_30_2017/ehs 2016.gif" >
+
+
+### New home sales low by historical standards
+
+On Thursday of last week, the U.S. Census Bureau and HUD [reported](https://www.census.gov/construction/nrs/pdf/newressales.pdf) on new home sales for December 2016. New home sales also dipped a bit in December, though the month-to-month change was not statistically significant. However, sales are still well below the levels we saw last decade, even before the housing boom.
+
+The graph below shows the trend in monthly new home sales, and has a shaded region to account for uncertainty in the monthly estimates.
+
+```{r new-sales-fig,warning=F,echo=F,message=F}
+mydata[, thsc:=cumsum(ths), by=year]  #computer cumulative sales YTD
+i<-length(mydata)
+    ggplot(data=mydata, aes(x=date,y=nhs.sa, label = nhs.sa))+geom_line()+
+    scale_y_continuous(limits = c(200, 1600), breaks=seq(200,1600,200)) + 
+    geom_point(data=tail(mydata,1),colour = plasma(5)[1], size = 3)+
+    scale_x_date(labels= date_format("%y"), limits = as.Date(c('2000-01-01','2016-12-31')),date_breaks="1 year") +
+    geom_ribbon(data=mydata,
+                aes(x=date,ymin=down,ymax=up),fill=plasma(5)[5],alpha=0.5)  +
+    geom_hline(yintercept=tail(mydata,1)$nhs.sa,linetype=2,color=plasma(5)[1])+
+    theme(axis.title.x = element_blank()) +   # Remove x-axis label
+    ylab("")+xlab("")+
+    theme_minimal()+
+    labs(x=NULL, y=NULL,
+         title="New Home Sales (Ths. SAAR)",
+         subtitle="",
+         caption="@lenkiefer Source: Census/HUD, shaded area denotes confidence interval")+
+    theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+    theme(plot.subtitle=element_text(color=plasma(5)[1]))+
+    theme(plot.margin=unit(c(0.5,0.5,0.5,0.75),"cm"))+
+    coord_cartesian(xlim=c(as.Date("2000-01-01"),as.Date("2016-12-31")), y=c(200,1600))
+ 
+```
+
+For more details about last year check out my 2016 [year-in-review]({{ site.url}}/chartbooks/dec2016/index.html) and also check out the interactive [flexdashboard version]({% post_url 2017-01-14-year-in-review-remix %}).
