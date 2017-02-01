@@ -9,7 +9,7 @@ theme :
   name : lentheme
 ---
 
-EARLEIR TODAY I HAPPENED ACROSS AN INTERESTING post by Ken Steif ([twitter @kensteif](https://twitter.com/KenSteif)) at the [Urban Spatialist blog](http://urbanspatialanalysis.com/portfolio/predicting-gentrification-using-longitudinal-census-data/) that predicts gentrification using census data.
+EARLEIR TODAY I HAPPENED ACROSS AN INTERESTING post by Ken Steif ([twitter @kensteif](https://twitter.com/KenSteif)) at the [Urban Spatial Analysis blog](http://urbanspatialanalysis.com/portfolio/predicting-gentrification-using-longitudinal-census-data/) that predicts gentrification using census data.
 
 Do take some time to check out the post.  
 
