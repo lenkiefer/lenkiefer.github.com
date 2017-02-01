@@ -83,17 +83,6 @@ That looks reasonable, but unfortunately we only have the metro numbers, not the
 
 {% highlight r %}
 cbsa.list<-fread("data/cbsanames.txt")
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in fread("data/cbsanames.txt"): File 'data/cbsanames.txt' does not exist. Include one or more spaces to consider the input a system command.
-{% endhighlight %}
-
-
-
-{% highlight r %}
 pop.list<-merge(cbsa.list,pop.list,by.x="cbsa.code",by.y="met2013")
 head(pop.list[order(-pop)],12)
 {% endhighlight %}
