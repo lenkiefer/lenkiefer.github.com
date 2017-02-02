@@ -1,0 +1,235 @@
+---
+layout: post
+title: "Wrangling employment data, plotting trends"
+author: "Len Kiefer"
+date: "2017-02-01"
+summary: "R statistics dataviz housing mortgage data"
+group: navigation
+theme :
+  name : lentheme
+---
+
+We will [get back to house prices]({% post_url 2017-01-31-house-value-distribution%}) soon.
+
+IN THIS POST I WANT TO EXPLORE EMPLOYMENT TRENDS at the state and metro area. 
+Today the U.S. Bureau of Labor Statistics (BLS) [released](https://www.bls.gov/news.release/metro.toc.htm) data on state and metro area employment trends.  [Last month]({% post_url 2017-01-18-workin-workout%}) we looked at unemployment trends.  Today we'll look at trends in nonfarm employment.
+
+# Wrangling the data
+
+We will be importing, preparing, and plotting our data with [R](https://www.r-project.org/). We can get the data pretty easily using the files BLS prepares, though we have to do a little bit of work to organize the data. Fortunately, the data wrangling isn't too bad, and made easier by the [data table](https://cran.r-project.org/web/packages/data.table/index.html) package.
+
+For details about the data files we are using check out [this file](https://download.bls.gov/pub/time.series/sm/sm.txt).
+
+Let's load the data and merge on area names:
+
+```{r data-and-setup,cach=T,warnings=F,include=T,message=F}
+
+######################
+## Load Libraries ##
+######################
+library(data.table,quietly=T)
+library(tidyverse,quietly=T)
+library(plotly,quietly=T)
+
+
+# download big data file
+
+emp.data<-fread("https://download.bls.gov/pub/time.series/sm/sm.data.54.TotalNonFarm.All")
+
+# download series info
+
+emp.series<-fread("https://download.bls.gov/pub/time.series/sm/sm.series")
+
+emp.list<-emp.series[industry_code==0 # get all employment
+           & data_type_code==1 # get employment in thousands
+           & seasonal=="U",]  # get seasonally adjusted data]
+
+emp.area<-fread("https://download.bls.gov/pub/time.series/sm/sm.area",
+                col.names=c("area_code","area_name","drop"))[,c("area_code","area_name"),with=F]
+
+emp.st<-fread("https://download.bls.gov/pub/time.series/sm/sm.state",
+              col.names=c("state_code","state_name","drop"))[,c("state_code","state_name"),with=F]
+
+# merge data
+emp.dt<-merge(emp.data,emp.list,by="series_id",all.y=T)
+
+#create month variable
+emp.dt=emp.dt[,month:=as.numeric(substr(emp.dt$period,2,3))]
+# (this assignment is to get around knitr/data table printing error)
+# see e.g. http://stackoverflow.com/questions/15267018/knitr-gets-tricked-by-data-table-assignment
+
+# M13 = Annual average, drop it:
+emp.dt<-emp.dt[month<13,]
+
+#create date variable
+emp.dt$date<- as.Date(ISOdate(emp.dt$year,emp.dt$month,1) ) 
+
+# merge on area and state codes
+emp.dt<-merge(emp.dt,emp.area,by="area_code")
+emp.dt<-merge(emp.dt,emp.st,by="state_code")
+
+```
+
+Now that we have these data, let's take a quick look at the structure of our data with `str()`:
+
+```{r feb-01-2017-data-peek}
+str(emp.dt)
+```
+
+At the moment we have a bunch of irrelevant variables for our purposes.  The key variables we want to keep are *value* that has the area employment (in thousands), the date variables and the location variables.  Let's drop unneeded variables and add some transformations.
+
+```{r feb-2-2017-data-trans,warnings=F,messages=F}
+
+emp.dt=emp.dt[,c("state_name","area_name","date","year","month","value"),with=F]
+
+
+emp.dt=emp.dt[,emp:=as.numeric(value)] #convert value to numeric
+# Compute year-over-year change in employment and year-over-year percent change
+emp.dt=emp.dt[,emp.yoy:=emp-shift(emp,12,fill=NA),by=c("area_name","state_name")]
+emp.dt=emp.dt[,emp.pc:=(emp-shift(emp,12,fill=NA))/shift(emp,12,fill=NA),by=c("area_name","state_name")]
+emp.dt=emp.dt[,max.emp.st:=max(emp),by=c("state_name")]
+emp.dt=emp.dt[,type:=ifelse(area_name=="Statewide","State","Metro")]
+
+# drop states in c("Puerto Rico","Virgin Islands")
+
+emp.dt=emp.dt[year>1989  &!(state_name %in% c("Puerto Rico","Virgin Islands")),]
+
+# compute max and min percent change by year
+emp.dt=emp.dt[,pc.max:=max(emp.pc),by=c("date","type")]
+emp.dt=emp.dt[,pc.min:=min(emp.pc),by=c("date","type")]
+
+```
+
+Now that we've added these transformations, let's plot the data.  We have 487 areas that we're tracking (436 metro/micro areas and 50 states plus the District of Columbia).  All these series are too much, so let's restrict our attention to Ohio.
+
+We'll start with a time series plot of year-over-year percent changes in employment.  We'll [also add recession shading](https://www.r-bloggers.com/use-geom_rect-to-add-recession-bars-to-your-time-series-plots-rstats-ggplot/) using `geom_rect()` based on [NBER Recession Dates](http://www.nber.org/cycles.html).
+
+```{r feb-01-2017-ohio-plot-1}
+
+#set up recessions:
+recessions.df = read.table(textConnection(
+  "Peak, Trough
+  1857-06-01, 1858-12-01
+  1860-10-01, 1861-06-01
+  1865-04-01, 1867-12-01
+  1869-06-01, 1870-12-01
+  1873-10-01, 1879-03-01
+  1882-03-01, 1885-05-01
+  1887-03-01, 1888-04-01
+  1890-07-01, 1891-05-01
+  1893-01-01, 1894-06-01
+  1895-12-01, 1897-06-01
+  1899-06-01, 1900-12-01
+  1902-09-01, 1904-08-01
+  1907-05-01, 1908-06-01
+  1910-01-01, 1912-01-01
+  1913-01-01, 1914-12-01
+  1918-08-01, 1919-03-01
+  1920-01-01, 1921-07-01
+  1923-05-01, 1924-07-01
+  1926-10-01, 1927-11-01
+  1929-08-01, 1933-03-01
+  1937-05-01, 1938-06-01
+  1945-02-01, 1945-10-01
+  1948-11-01, 1949-10-01
+  1953-07-01, 1954-05-01
+  1957-08-01, 1958-04-01
+  1960-04-01, 1961-02-01
+  1969-12-01, 1970-11-01
+  1973-11-01, 1975-03-01
+  1980-01-01, 1980-07-01
+  1981-07-01, 1982-11-01
+  1990-07-01, 1991-03-01
+  2001-03-01, 2001-11-01
+  2007-12-01, 2009-06-01"), sep=',',
+colClasses=c('Date', 'Date'), header=TRUE)
+
+recessions.trim = subset(recessions.df, Peak >= min(emp.dt$date) )
+
+
+# Plot employment series for Ohio:
+g1<-
+  ggplot(data=emp.dt[state_name=="Ohio" & type=="Metro"])+
+  geom_rect(data=recessions.trim, aes(xmin=Peak, xmax=Trough, ymin=-Inf, ymax=+Inf), fill='gray', alpha=0.5)+
+  geom_line(aes(x=date,y=emp.pc,group=area_name))+theme_minimal()+
+  facet_wrap(~area_name,ncol=3)+scale_y_continuous(labels=percent)+
+  geom_hline(color="black",yintercept=0)+
+  labs(x="",y="",title="Annual percent change in total nonfarm employment",
+       subtitle="Ohio Metro Areas (NSA)",
+       caption="@lenkiefer Source: U.S. Bureau of Labor Statistics")+
+  theme(plot.caption=element_text(hjust=0),
+        plot.subtitle=element_text(face="italic"))
+
+g1
+
+```
+
+These data show that across most metro areas employment growth is picking up since the end of the Great Recession.  Let's zoom in and just look at the most recent month's data:
+
+```{r feb-01-2017-ohio-plot-2}
+g2<-
+  ggplot(data=emp.dt[state_name=="Ohio" & date=="2016-12-01"])+
+  geom_point(aes(y=reorder(area_name,emp.pc),x=emp.pc,group=area_name,color=type),size=3,alpha=0.82)+
+  theme_minimal()+scale_color_manual(name="",values=c("black","red"))+
+  #facet_wrap(~area_name,ncol=3)+
+  scale_x_continuous(labels=percent)+
+  geom_vline(color="black",xintercept=0)+
+  labs(x="",y="",title="Annual percent change in total nonfarm employment",
+       subtitle="Ohio Metro Areas: December 2016 (NSA)",
+       caption="@lenkiefer Source: U.S. Bureau of Labor Statistics")+
+  theme(plot.caption=element_text(hjust=0),legend.position="top",
+        plot.subtitle=element_text(face="italic"))
+
+g2
+```
+
+These data match those in [Table 3](https://www.bls.gov/news.release/metro.t03.htm) of the BLS press release.  They show that while employment is growing in the Buckeye state, some metros are still facing shrinking employment.
+
+## Add interactions with plotly
+
+We can add some interactions and animations with [plotly]( https://plot.ly/r/).  See [this post]({% post_url 2017-01-29-fun-with-plotly %}) for more on using plotly.
+
+Let's plot how state employment growth has varied in December of each year since 1990.  We'll use `geom_jitter` to plot each state overlaid in a strip plot. I'd like to use a [beeswarm](https://github.com/eclarke/ggbeeswarm) plot, but [ggplotly](https://plot.ly/ggplot2/) doesn't support it.
+
+```{r feb-01-2017-plotly-1,eval=F}
+
+g3<-
+  
+  ggplot(data=emp.dt[area_name=="Statewide"&month==12],
+         aes(x=date,y=emp.pc,color=emp.pc,frame=year,label=state_name))+
+  geom_jitter(alpha=0.82,size=3)+
+  scale_color_viridis(name="% Change",label=scales::percent)+
+  theme_minimal()+
+  scale_y_continuous(label=scales::percent)+labs(y="",x="",
+                                                 title="Annual % Change in Nonfarm Employment (Dec/Dec) by State<br>@lenkiefer Source: BLS")
+
+p<-ggplotly(g3) %>% animation_opts(frame=2000,transition=600,redraw=T) 
+htmlwidgets::saveWidget(as.widget(p), "plotly-1.html")
+```
+
+
+<iframe src="{{ site.url}}/img/charts_feb_1_2017/plotly-1.html" height="600" width="800"></iframe>
+
+You can see a fullscreen interactive version [here]({{ site.url}}/img/charts_feb_1_2017/plotly-1.html). 
+
+### Compare state line plots
+
+Let's try another animation, showing how employment growth varies by state and over time.
+
+```{r feb-01-2017-plotly-2,eval=F}
+
+g4<-
+  ggplot(data=emp.dt[area_name=="Statewide"], aes(x=date,y=emp.pc,group=area_name,frame=state_name))+
+  geom_line()+
+  theme_minimal()+
+  scale_y_continuous(label=scales::percent)+labs(y="",x="",
+                                                 title="Annual % Change in Nonfarm Employment (Dec/Dec) by State<br>@lenkiefer Source: BLS")
+
+p<-ggplotly(g4) %>% animation_opts(frame=2000,transition=600,redraw=T) 
+htmlwidgets::saveWidget(as.widget(p), "plotly-2.html")
+```
+
+
+<iframe src="{{ site.url}}/img/charts_feb_1_2017/plotly-2.html" height="600" width="800"></iframe>
+
+You can see a fullscreen interactive version [here]({{ site.url}}/img/charts_feb_1_2017/plotly-2.html). 
