@@ -264,8 +264,6 @@ However, you can see the fruits of me testing out some simple charts within a br
 
 Click here for a fullscreen version [here]({{ site.url}}/img/charts_feb_4_2017/feb-2017-update.html). 
 
-You can get the code by clicking on the source button on the top right.
-
 <iframe src="{{ site.url}}/img/charts_feb_4_2017/feb-2017-update.html" height="500" width="775"></iframe>
 
 # Next steps
