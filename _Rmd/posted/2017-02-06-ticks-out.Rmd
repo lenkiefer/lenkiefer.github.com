@@ -145,9 +145,9 @@ ggplot(data=dt, aes(x=as.numeric(date),y=rate30,label=rate30))+
         plot.caption=element_text(hjust=0))+
   theme(panel.border = element_blank(),
         panel.grid.major = element_blank(),
-                text=element_text(family="Palatino Linotype"),
+        text=element_text(family="Palatino Linotype"),
         panel.grid.minor = element_blank(),
-                axis.ticks.length=unit(0.25,"cm")        ) + 
+        axis.ticks.length=unit(0.25,"cm")        ) + 
   ### Use our sweet axis functions:
   base_breaks_x_date(as.numeric(dt$date),dt$date) +
   base_breaks_y(dt$rate30)
