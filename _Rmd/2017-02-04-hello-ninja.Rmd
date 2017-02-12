@@ -223,7 +223,7 @@ After our title, let's add a slide showing [mortgage rate trends]({% post_url 20
 
 In order to do this, I had to dig into the *.css* file and figure out how to do it.  We have to use `.column-left[]` and `.column-right[]`.  The default *.css* is to have the left column occupy the left 20% of the slide, while the right column will occupy the left 75%.  We could also use `.pull-left[]` and `.pull-right[]` which would split it 47%/47% (for bull `.column` and `.pull` there's a middle buffer). Because I want the graph to occupy more space, we'll used `.column`. Here's how we do it:
 
-```{r, eval=F}
+```{r feb-4-2017-rangeframe-compare2, eval=F}
 
 class: left, top
 ### Mortgage rates low by historical standards
@@ -245,7 +245,7 @@ In order to make our sweet axes, we'll need to draw them. Fortunately it's much 
 
 Putting it together we get:
 
-```{r, eval=T}
+```{r feb-4-2017-rangeframe-compare3, eval=T}
 #dt is a data table of rates.  See http://lenkiefer.com/2016/12/08/10-ways-to-visualize-rates
 
 
