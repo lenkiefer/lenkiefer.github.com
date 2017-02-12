@@ -244,7 +244,7 @@ ggplot(data=dt2, aes(x=as.numeric(date),y=rate30,label=rate30))+
   annotate(geom="text",x=as.numeric(as.Date("2016-06-23")),y=3.4,hjust=1,label=" Brexit \n vote ",vjust=0,fontface="italic")
 {% endhighlight %}
 
-![plot of chunk unnamed-chunk-3](/img/Rfig/unnamed-chunk-3-1.svg)
+![plot of chunk feb-4-2017-rangeframe-compare4](/img/Rfig/feb-4-2017-rangeframe-compare4-1.svg)
 
 ### Divider slide
 

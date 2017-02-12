@@ -322,7 +322,7 @@ ggplot(data=dt, aes(x=as.numeric(date),y=rate30,label=rate30))+
 For the second slide, we'll modify our chart by adding some annotations.  We'll have to manually add in the additional dates to our axis, but it's not so bad. *(much better than with VBA!)*
 
 
-```{r,echo=T, fig.height=5,fig.width=7}
+```{r feb-4-2017-rangeframe-compare4,echo=T, fig.height=5,fig.width=7}
 dt2<-dt[year(date)>2015]  #subset to 2016 and later
 x<-as.numeric(dt2$date)
   b<- as.numeric(c(min(dt2$date),
