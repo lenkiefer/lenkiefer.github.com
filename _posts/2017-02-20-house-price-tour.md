@@ -351,7 +351,7 @@ ggplot(data=dm2[metro=="Miami-Fort Lauderdale-West Palm Beach, FL"],aes(x=date,y
   geom_line()+
   theme_ipsum()+  # try new theme
   scale_y_percent()+  #use scale_y_percent function from hrbrtheme
-  labs(x="",y="House Price Index, (NSA, Dec 2000=100)",
+  labs(x="",y="Annual Percentage Change in House Price Index, (NSA, Dec 2000=100)",
        subtitle="Testing a line plot",
        title="House price appreciation in Miami-Fort Lauderdale-West Palm Beach, FL",
        caption="@lenkiefer Source: Freddie Mac House Price Index" )+
