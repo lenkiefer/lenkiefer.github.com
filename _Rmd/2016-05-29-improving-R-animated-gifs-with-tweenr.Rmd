@@ -22,7 +22,9 @@ theme :
   }
 </style>
 
-
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
 
 RECENTLY I HAVE MADE several animated GIFs, primarily using the [animation package]( https://cran.r-project.org/web/packages/animation/index.html).  These gifs usually work pretty well, coming out something like this ([code here]({% post_url 2016-05-15-mortgage-rates-some-perspective%})).
 
@@ -31,10 +33,9 @@ RECENTLY I HAVE MADE several animated GIFs, primarily using the [animation packa
 
 Unfortunately, these gifs tend to come out rather choppy. I tried to get around that by using variable length sequences to alter the timing of each frame. My primitive approach involves loops and business like this:
 
-
-{% highlight r %}
+```{r , warning=FALSE, cache=TRUE,echo=TRUE, message=FALSE, include=TRUE, eval=FALSE }
   for (i in c(seq(1,365,6),seq(378,716,13),seq(1145,1574,26),seq(1587,2003,13),seq(2016,2185,6),2196) ) {
-{% endhighlight %}
+```
 
 What I was trying to achieve with this clumsy sequence was an easing effect.  [Here's a handy tipsheet](http://easings.net/) on easing functions with interactive examples. From the link above we have the following:
 
@@ -71,8 +72,8 @@ We'll be using the same house price data from [my visual meditations series]({% 
 
 This code will load the libraries we need and set up our data.  You can get the text file with house prices called *fmhpi.txt* [here]({{ site.url }}/img/charts_may_8_2016/fmhpi.txt).
 
-
-{% highlight r %}
+```{r , warning=FALSE, cache=TRUE,echo=TRUE, message=FALSE, include=TRUE, eval=FALSE }
+ 
 # Set up libraries
 library("ggplot2")
 library("scales")
@@ -93,7 +94,9 @@ sdata<-statedata[year>1999, list(date,year,state,hpi)] #truncate data to just ye
 #variables we don't want to interpolate need to be factors-not character-or tweenr will try to interpolate
 sdata$year<-as.factor(sdata$year)
 sdata$state<-as.factor(sdata$state)
-{% endhighlight %}
+
+
+```
 
 
 ## Animation with no easing
@@ -109,8 +112,9 @@ The transitions will be choppy.
 
 **Note 04/13/2017: This post has been updated to correct for a mysterious data frame called dt3, which was not created but called for in the original code. I have replaced dt3 with a data frame that does exist.  Now the code should work.  Thanks to [@butterflyology](https://twitter.com/butterflyology) for pointing this out [@dataandme](https://twitter.com/dataandme) for sharing this post and letting others find it almost a year later.**
 
+```{r , fig-hpi-gif-noease,warning=FALSE, cache=TRUE,echo=TRUE, message=FALSE, include=TRUE, eval=FALSE }
+ 
 
-{% highlight r %}
 # Create a new variable that equals the US index and merge back to main dataset
 # we'll use the US average as referecne line
 data.us<-sdata[state=="US",]
@@ -145,7 +149,9 @@ p<-
 
 gg_animate(p, "ex1_notween.gif", title_frame =T, ani.width = 600, 
            ani.height = 450, interval=0.2)
-{% endhighlight %}
+
+
+```
 
 Run it and you get:
 
@@ -160,8 +166,7 @@ tweenr is a great package, but it's relatively new and doesn't have a lot of exa
 The code below gets us to the tween_states function:
 
 
-
-{% highlight r %}
+```{r , warning=FALSE, cache=TRUE,echo=TRUE, message=FALSE, include=TRUE, eval=FALSE }
 ##### Set up data for animation with easing using tweenr ##### 
 
 
@@ -179,7 +184,7 @@ my.list2<-lapply(states2,myf)
 # Apply tweenr:
 
 tf <- tween_states(my.list2, tweenlength= 2, statelength=3, ease=rep('cubic-in-out',51),nframes=300)
-{% endhighlight %}
+```
 
 ### Looking at the tweenr function
 
@@ -192,8 +197,7 @@ I've created 53 datasets corresponding to the 50 states plus the District of Col
 
 I set the parameters tweenlength to 2 and statelength to 3, meaning we will spend 3/2 as much time pausing between animations and transitioning between them. I chose the "cubic-in-out" easing function because I like how it looks. Tweenr lets you choose from many different easing functions. I'm looking forward to try some others out.
 
-
-{% highlight r %}
+```{r , fig-hpi-gif-ease, warning=FALSE, cache=TRUE,echo=TRUE, message=FALSE, include=TRUE, eval=FALSE }
 tf <- tween_states(my.list2, tweenlength= 2, statelength=3, ease=rep('cubic-in-out',51),nframes=300)
 dtf<-data.table(tf)  # Make tweenr output a data table 
 
@@ -223,7 +227,8 @@ p<-
 #use gganimate to make the GIF:
 gg_animate(p, "ex2_tween.gif", title_frame = F, ani.width = 600, 
            ani.height = 450, interval=0.05)
-{% endhighlight %}
+
+```
 
 Run it and you get this result:
 
