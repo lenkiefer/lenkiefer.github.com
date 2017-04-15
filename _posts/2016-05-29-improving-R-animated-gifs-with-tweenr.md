@@ -221,7 +221,7 @@ p<-
        title="State house price trends")
 
 #use gganimate to make the GIF:
-gg_animate(p, "ex2_tween.gif", title_frame = F, ani.width = 600, 
+gganimate(p, "ex2_tween.gif", title_frame = F, ani.width = 600, 
            ani.height = 450, interval=0.05)
 {% endhighlight %}
 

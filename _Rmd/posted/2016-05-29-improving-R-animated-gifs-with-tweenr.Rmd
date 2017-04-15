@@ -110,6 +110,8 @@ We'll be a little inefficient here and append back on the house price index for 
 The transitions will be choppy.
 
 
+**Note 04/13/2017: This post has been updated to correct for a mysterious data frame called dt3, which was not created but called for in the original code. I have replaced dt3 with a data frame that does exist.  Now the code should work.  Thanks to [@butterflyology](https://twitter.com/butterflyology) for pointing this out [@dataandme](https://twitter.com/dataandme) for sharing this post and letting others find it almost a year later.**
+
 ```{r , fig-hpi-gif-noease,warning=FALSE, cache=TRUE,echo=TRUE, message=FALSE, include=TRUE, eval=FALSE }
  
 
@@ -129,7 +131,15 @@ p<-
   geom_line(aes(cumulative=F),color="red",size=1.2)+
   geom_line(aes(x=date,y=ushpi,frame=state),color="black")+
   theme_minimal()+  theme(plot.title=element_text(face="bold",size=12))+
-  geom_text(data=dt3[date=="2000-12-01"],aes(x=date,y=ushpi,label="US"),nudge_y=5, color="black")+
+
+  # Orginally this code was called, but dt3 doesn't exist so it won't work
+  
+  #geom_text(data=dt3[date=="2000-12-01"],aes(x=date,y=ushpi,label="US"),nudge_y=5, color="black")+
+  
+  # replace with this and it will work:
+  
+    geom_text(data=data.us[date=="2000-12-01"],inherit.aes=F,aes(x=date,y=ushpi,label="US"),nudge_y=5, color="black")+
+  
   theme(plot.caption=element_text(hjust=0))+
   labs(y="House Price Index (Dec 2000=100)",
        x="",
@@ -215,7 +225,7 @@ p<-
        title="State house price trends")
 
 #use gganimate to make the GIF:
-gg_animate(p, "ex2_tween.gif", title_frame = F, ani.width = 600, 
+gganimate(p, "ex2_tween.gif", title_frame = F, ani.width = 600, 
            ani.height = 450, interval=0.05)
 
 ```
