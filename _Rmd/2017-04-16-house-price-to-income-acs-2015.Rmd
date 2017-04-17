@@ -1,0 +1,254 @@
+---
+layout: post
+title: "Of kernels and beeswarms: Comparing the distribution of house values to household income"
+author: "Len Kiefer"
+date: "2017-04-16"
+summary: "R statistics dataviz housing mortgage data"
+group: navigation
+theme :
+  name : lentheme
+---
+
+BACK IN [JANUARY]({% post_url 2017-01-31-house-value-distribution%})  WE LOOKED AT HOUSING microdata from the [American Community Survey Public Microdata](https://www.census.gov/programs-surveys/acs/data/pums.html) that we collected from [IPUMS](https://usa.ipums.org/usa/). Let's pick back up and look at these data some more. Glad you could join us.
+
+Be sure to check out my [earlier post]({% post_url 2017-01-31-house-value-distribution%}) for more discussion of the underlying data. Here we'll pick up where we left off and make some more graphs using [R](https://www.r-project.org/).
+
+Just a quick reminder (read the earlier post for all the details), we have a dataset that includes household level observations for the 20 largest metro areas in the United States for 2010 and 2015 (latest data available). 
+
+Below we load the data and check out its structure:
+
+### Load data
+
+```{r 04-16-2017-setup-1}
+library(data.table)
+library(tidyverse)
+library(ggbeeswarm)
+load("data/acs.RData")
+str(dt.x)
+```
+
+I've cleaned the data up a bit to only include household level observations for owner households for the largest 20 metro areas. I've saved a [data.table()](https://cran.r-project.org/web/packages/data.table/index.html) called `dt.x` using the data described in the earlier post.
+
+In the prior post we filtered to only the top 12 metro areas. But I've prepared data that filters to the top 20. If you are following along from the earlier post, just replace `dt.x<-dt2[cbsa.name %in% pop.list[order(-pop)]$cbsa.name[1:12] & pernum==1]` with `dt.x<-dt2[cbsa.name %in% pop.list[order(-pop)]$cbsa.name[1:20] & pernum==1]` and everything else should follow.
+
+
+As before, let's randomly sample 2,000 observations from these 20 large metro areas using the household weights.
+
+```{r 04-16-2017-metro-list}
+# First draw a random sample of 2,000 observations from each year/metro combination
+dt.samp<-dt.x[,.SD[sample(.N,min(.N,2000),prob=hhwt)],by = c("year","cbsa.name") ]
+
+#Get our list:
+metro.list<-dt.samp[,list(obs=.N),by=c("year","met2013","cbsa.name")]
+
+# check observations:
+# obs is number of observations
+htmlTable::htmlTable(metro.list,col.rgroup = c("none", "#F7F7F7"))
+```
+
+As before, we can use a [beeswarm](https://cran.r-project.org/web/packages/ggbeeswarm/index.html) plot to plot the distribution of house values by metro area.  
+
+```{r 04-16-2017-swarm-1, fig.height=9,fig.width=9}
+
+#make a beewarm plot:
+ggplot(data=dt.samp,
+         aes(y=factor(year),
+             x=valueh,color=log(valueh)))+
+  geom_quasirandom(alpha=0.5,size=0.5)+
+  theme_minimal()+
+  scale_color_viridis(name="House Value\n$,log scale\n",discrete=F,option="D",end=0.95,direction=-1,
+                      limits=c(log(10000),log(1.4e6)),
+                      breaks=c(log(10000),log(100000),log(1e6)),
+                      labels=c("$10k","$100k","$1,000k") ) +
+  scale_x_log10(limits=c(10000,1.4e6),breaks=c(10000,100000,1000000),
+                labels=c("$10k","$100k","$1,000k") )+
+  labs(y="",x="House Value ($, log scale)",
+       caption="@lenkiefer Source: Census 1-year American Community Survey (2010 & 2015),\nIPUMS-USA, University of Minnesota, www.ipums.org.",
+       title="House value distribution by Metro")+
+  theme(axis.text.x = element_text(size=6),
+        strip.text.x = element_text(size = 5),
+        plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)),
+        plot.title=element_text(size=14),
+        legend.position = "top"   )+
+  facet_wrap(~cbsa.name,ncol=4)+theme()
+```
+
+
+We see quite a bit of variation across metro areas.  But how does the distribution of house values compare to the distribution of incomes?  Let's look at Washington D.C. and plot estimates of homeowner household income versus the value of those homeowner's homes. **Note, we've already subsetted on homeowner households, so this metric is different from a more commonly house value to income ratio that uses all households. We are excluding renters from this analysis**
+
+```{r 04-16-2017-dens-1}
+  ggplot(data=dt.x[year==2015 & met2013==47900,], aes(valueh,weight=hhwt))+
+  geom_density(alpha=0.5,aes(fill="House Value"))+
+  geom_density(aes(hhincome,fill="Household Income"),alpha=0.5)+
+  scale_color_manual(name="",values=c("black","black"))+
+  scale_fill_viridis(discrete=T,end=0.85,name="")+
+  scale_x_log10(label=scales::dollar,limits=c(10000,2e6))+
+  theme_minimal()+labs(x="Income and Home Values",y="",
+                        title="House value and homeowner income distribution in Washington D.C. in 2015",
+                       subtitle="kernel density estimates using household weights",
+                       caption="@lenkiefer Source: Census 1-year American Community Survey (2015),\nIPUMS-USA, University of Minnesota, www.ipums.org.")+
+    theme(plot.title=element_text(size=14),legend.position="top",
+          axis.text.y=element_blank(),
+          plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+  facet_wrap(~cbsa.name,scales="free_y")
+
+```
+
+And we can construct a small multiple:
+
+```{r 04-16-2017-dens-2, fig.height=9,fig.width=9}
+  ggplot(data=dt.x[year==2015 & met2013>=4900,], aes(valueh,weight=hhwt))+
+  geom_density(alpha=0.5,aes(fill="House Value"))+
+  geom_density(aes(hhincome,fill="Household Income"),alpha=0.5)+
+  scale_color_manual(name="",values=c("black","black"))+
+  scale_fill_viridis(discrete=T,end=0.85,name="")+
+  scale_x_log10(label=scales::dollar,limits=c(10000,3e6))+
+  theme_minimal()+labs(x="Income and Home Values",y="",
+                        title="House value and homeowner income distribution by Metro in 2015",
+                       subtitle="kernel density estimates using household weights",
+                       caption="@lenkiefer Source: Census 1-year American Community Survey (2015),\nIPUMS-USA, University of Minnesota, www.ipums.org.")+
+    theme(plot.title=element_text(size=14),legend.position="top",
+          axis.text.y=element_blank(),
+          strip.text.x = element_text(size = 5),
+          plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+  facet_wrap(~cbsa.name,scales="free_y",ncol=4)
+
+```
+
+But how does the income of each homeowner compare to the value of their home? Let's take each homeowner in our sample and construct the ratio of their house value to their income.
+
+```{r}
+dt.x<-dt.x[,pti:=valueh/hhincome]  #price to income ratio
+```
+
+Now we can plot the distribution of this ratio for Washington D.C.:
+
+```{r 04-16-2017-dens-3}
+  ggplot(data=dt.x[year==2015 & met2013==47900,], aes(pti,weight=hhwt))+
+  geom_density(alpha=0.5,aes(fill="House value to income ratio"))+
+  #geom_density(aes(hhincome,fill="Household Income"),alpha=0.5)+
+  scale_color_manual(name="",values=c("black","black"))+
+  scale_fill_viridis(discrete=T,end=0.85,name="")+
+  scale_x_continuous(limits=c(0,20),breaks=seq(0,20,2))+
+  theme_minimal()+labs(x="House vaue to income ratio",y="",
+                        title="Ratio of house value to homeowner income distribution in Washington D.C. in 2015",
+                       subtitle="kernel density estimates using household weights",
+                       caption="@lenkiefer Source: Census 1-year American Community Survey (2015),\nIPUMS-USA, University of Minnesota, www.ipums.org.")+
+    theme(plot.title=element_text(size=14),legend.position="none",
+          axis.text.y=element_blank(),
+          plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+  facet_wrap(~cbsa.name,scales="free_y")
+
+```
+
+The average ratio is about 4 in Washington D.C., but it varies a lot by metro area. Let's create another small multiple.
+
+```{r 04-16-2017-dens-4}
+  ggplot(data=dt.x[year==2015 & met2013>=4900,], aes(pti,weight=hhwt))+
+  geom_density(alpha=0.5,aes(fill="House value to income ratio"))+
+  #geom_density(aes(hhincome,fill="Household Income"),alpha=0.5)+
+  scale_color_manual(name="",values=c("black","black"))+
+  scale_fill_viridis(discrete=T,end=0.85,name="")+
+  scale_x_continuous(limits=c(0,20),breaks=seq(0,20,2))+
+  theme_minimal()+labs(x="House vaue to income ratio",y="",
+                        title="Ratio of house value to homeowner income distribution by metro in 2015",
+                       subtitle="kernel density estimates using household weights",
+                       caption="@lenkiefer Source: Census 1-year American Community Survey (2015),\nIPUMS-USA, University of Minnesota, www.ipums.org.")+
+    theme(plot.title=element_text(size=14),legend.position="none",
+          axis.text.y=element_blank(),
+          strip.text.x = element_text(size = 5),
+          plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+  facet_wrap(~cbsa.name,scales="free_y",ncol=4)
+```
+
+Let's compute the weighted average ratio (excluding any values less than 0 or greater than 20) by metro area in 2010 and 2015:
+
+```{r 04-16-2017-ratio}
+dt.wsum<-dt.x[pti>0 & pti<20,list(pti.wm=weighted.mean(pti,hhwt,na.rm=T)),by=c("year","cbsa.name")]
+
+ggplot(data=dt.wsum[year==2015,], 
+       aes(x=pti.wm,y=reorder(cbsa.name,-pti.wm),
+           label=paste("  ",round(pti.wm,1),cbsa.name),
+           color=factor(year)))+
+  geom_point(size=3)+theme_minimal()+
+  geom_text(hjust=0)+
+  scale_x_continuous(limits=c(2.5,9),breaks=seq(2,8,1))+
+  scale_color_viridis(name="Year",discrete=T,end=0.85)+
+  theme(plot.title=element_text(size=14),legend.position="none",
+        axis.text.y=element_blank(),
+        plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+  labs(x="Weighted average homeowner value to household income ratio",
+       y="Metro",
+       title="Ratio of house value to homeowner income distribution by metro in 2015",
+       caption="@lenkiefer Source: Census 1-year American Community Survey (2015),\nIPUMS-USA, University of Minnesota, www.ipums.org.")
+  
+```
+
+This plot makes clear that there is a pretty wide variation in the average house value to household income ratio.  We can look at the full distributions through an animated gif (using our usual [tweenr]({% post_url 2016-12-19-more-tweenr-housing%}) approach).
+
+```{r 04-16-2017-gif-1,eval=F}
+library(tweenr)
+library(animation)
+library(tidyverse)
+library(tidyr)
+
+
+
+#  Function for use with tweenr
+myf<-function (m, yy=2015){
+  d.out<-copy(dt.samp)[met2013==m]
+  d.out %>% map_if(is.character, as.factor) %>% as.data.frame -> d.out
+  return(d.out)
+}
+
+# get list of metros from our summay data: metro.list
+
+# Circle back to Atlanta (met2013==12060)
+my.list2<-lapply(c(unique(metro.list$met2013),12060),myf)  
+
+
+#use tweenr to interploate
+tf <- tween_states(my.list2,tweenlength= 3,
+                   statelength=2, ease=rep('cubic-in-out',2),nframes=200)
+tf<-data.table(tf) #convert output into data table
+
+#Animate plot
+oopt = ani.options(interval = 0.2)
+saveGIF({for (i in 1:max(tf$.frame)) { #loop over frames
+  g<-
+    ggplot(data=tf[.frame==i & pti<= 20 & hhincome>10000 & valueh > 5000 ],
+           aes(y=factor(year),
+               x=pti,color=pti))+
+    geom_quasirandom(alpha=0.5,size=0.75)+
+    theme_minimal()+
+    scale_color_viridis(name="House value to\nhousehold income\nratio",
+                        discrete=F,option="D",
+                        limits=c(0,20),
+                        end=0.95,direction=-1  #,
+                        ) +
+    #scale_x_log10(limits=c(10000,1.4e6),breaks=c(10000,100000,1000000),   
+    #  labels=c("$10k","$100k","$1,000k") )+
+    scale_x_continuous(limits=c(0,20),breaks=seq(0,20,2.5))+
+    theme(plot.title=element_text(size=14))+
+    theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+    theme(plot.margin=unit(c(0.25,0.25,0.25,0.25),"cm"))+
+    theme(legend.position = "top")+
+    labs(y="",x="House value to household income ratio",
+         caption="@lenkiefer Source: Census 1-year American Community Survey (2010 & 2015),\nIPUMS-USA, University of Minnesota, www.ipums.org.\nTo avoid extreme overplotting, 2000 observations sampled at random (using weights),\nonly includes homeowner households with > $10,000 income and an estimated house value > $5,000 & cases where ratio <= 20",
+         title="House value to income ratio distribution by Metro",
+         subtitle=head(tf[.frame==i,],1)$cbsa.name)+
+    theme(axis.text.x = element_text(size=8))+  #coord_flip()+
+    #facet_wrap(~year)+
+    theme(strip.text.x = element_text(size = 6))
+  print(g)
+  ani.pause()
+  print(i)}
+},movie.name="tween acs value 04 16 2017 v2.gif",ani.width = 750, ani.height = 400)
+
+
+```
+
+Run it and you get:
+
+<img src="{{ site.url }}/img/charts_apr_16_2017/tween acs value 04 16 2017 v2.gif" alt="metro pti ratios"/>
+
