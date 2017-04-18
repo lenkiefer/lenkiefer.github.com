@@ -1,0 +1,170 @@
+---
+layout: post
+title: "Let's Pixelate America"
+author: "Len Kiefer"
+date: "2017-04-17"
+summary: "R statistics rstats mortgage rates dataviz"
+group: navigation
+theme :
+  name : lentheme
+---
+
+LET'S PIXELATE AMERICA.  This morning I happend across a [fun blog post](http://colinfay.me/rstats-create-a-pixel-map-with-r/) on how to generate Pixel maps with [R](https://www.r-project.org/) via [R weekly](https://rweekly.org/).
+
+The basic code is so easy, all you need is [ggplot2](http://ggplot2.tidyverse.org/) (which I get from the [tidyverse](http://tidyverse.org/)).
+
+```{r 04-17-2017-pixel-1}
+
+library(tidyverse)
+ggplot(map_data("state"), aes(round(long, 0),round(lat,0), 
+                              group=group, fill = as.factor(group))) +
+  geom_polygon() +
+  guides(fill=FALSE) +
+  coord_map() +
+  theme_void()
+```
+
+We can modify our [dark theme]({% post_url 2017-04-14-after-dark%}) and generate a dark background.  Then we'll animate it to get:
+
+<img src="{{ site.url }}/img/charts_apr_17_2017/pixel map dark.gif" 
+alt="pmms after dark"/>
+
+Using this code:
+
+```{r 04-17-2017-pixel-2,eval=F}
+
+library(animation)
+library(tweenr)
+library(extrafont)
+library(gridExtra)
+library(tidyr)  # for map function
+
+ #  Function for use with tweenr
+  myf<-function (d=6){
+    d.out<-map.df
+    d.out$lat<-round(d.out$lat,d) # round lat and lon
+    d.out$long<-round(d.out$long,d)
+    d.out %>% map_if(is.character, as.factor) %>% as.data.frame -> d.out
+    return(d.out)
+  }
+
+ #pick some points to interpolate
+  my.list2<-lapply(c(8,0,8),myf)  
+  #use tweenr to interploate
+  tf <- tween_states(my.list2,tweenlength= 1,
+                     statelength=3, ease=rep('cubic-in-out',2),nframes=70)
+  tf<-data.table(tf) #convert output into data table
+  
+
+N<-max(tf$.frame)  
+oopt = ani.options(interval = 0.05)
+saveGIF({for (i in 1:max(tf$.frame)) {
+  g<-
+    ggplot(filter(tf,.frame==i), 
+           aes(long,lat, group=group, fill = as.factor(group))) +
+    geom_polygon() +
+    guides(fill=FALSE) +
+    coord_map() + theme_void(base_family = "Courier New")+
+    labs(title="Let's Pixelate America",
+         caption="@lenkiefer \nbased on code from:         http://colinfay.me/rstats-create-a-pixel-map-with-r/",
+        subtitle="Pixel Map" )+
+    # Dark styling:
+    theme(panel.background = element_rect(fill = " gray10", color  =  NA),  
+          plot.background = element_rect(color = " gray10", fill = " gray10"),  
+          plot.title = element_text(size = base_size*1.5,face="bold", 
+                                    color = "white",hjust=0,lineheight=1.25,
+                                    margin=margin(2,2,2,2)),  
+            plot.subtitle = element_text(size = base_size*1, 
+                                         color = "white",hjust=0, 
+                                         margin=margin(2,2,2,2)),  
+            plot.caption = element_text(size = base_size*0.75, 
+                                        color = "white",hjust=0),  
+            plot.margin = unit(rep(1, 4), "lines"))+
+      # Keep zoom constant by fixing lat/long
+      scale_x_continuous(limits=c(-130,-60))+
+      scale_y_continuous(limits=c(20,55))
+    print(g)
+    print(paste(i,"out of",N))
+    ani.pause()
+    }
+},movie.name="pixel map dark.gif",ani.width = 650, ani.height = 400)
+
+
+```
+
+# A practical use for this?
+
+This is fun, but is there any practical use.  Maybe.
+
+When I construct data visualizations I like to use a "squint test" where I squint my eyes and simulate a lower resolution visualization.  If I can still get the main point through squinted eyes, then the visualization passes the test.  Let's try that with some real data. 
+
+We'll plot a state map showing annual house price appreciation as measured by the [FHFA purchase-only house price index](https://www.fhfa.gov/DataTools/Downloads/pages/house-price-index.aspx). These plots are the modified versions of the ones from [this post]({% post_url 2016-08-24-more-maps%}) I shared last year.
+
+```{r 04-17-2017-hpi-1,fig.height=8}
+
+#load some libraries
+library(rgeos)
+library(maptools)
+library(albersusa)
+library(ggalt)
+library(viridis)
+
+#read in data available as a text file from the FHFA website:
+fhfa.data<-fread("http://www.fhfa.gov/DataTools/Downloads/Documents/HPI/HPI_PO_state.txt")
+#create annual house price growth in the SA index:
+fhfa.data<-fhfa.data[,hpa12:=index_sa/shift(index_sa,4)-1,by=state]
+fhfa.data<-fhfa.data[,iso_3166_2:=state]  #rename state to match usa_composite
+fhfa.data<-fhfa.data[,date:=as.Date(ISOdate(yr,qtr*3,1))] #make a date (don't need it here)
+fhfa.data<-fhfa.data[,mylabel:=paste0("Q",qtr,":",yr)]  #create date label for plot
+#do map stuff
+states<-usa_composite()
+smap<-fortify(states,region="fips_state")
+states@data <- left_join(states@data, fhfa.data, by = "iso_3166_2")
+states@data$id<-states@data$fips_state
+smap2<-left_join(smap,states@data,by="id")
+
+#make plots:
+
+ggplot(filter(smap2,qtr==4 & yr>=2005), 
+             aes(long,lat, group=group, fill = hpa12)) +
+      geom_polygon()+
+      theme_map( base_size = 12) +facet_wrap(~yr,ncol=3)+
+  theme(plot.title=element_text( size = 16, margin=margin(b=10))) +
+  theme(plot.subtitle=element_text(size = 14, margin=margin(b=-20))) +
+  theme(plot.caption=element_text(size = 9, margin=margin(t=-15))) +
+  labs(title="",subtitle="" ) +
+  scale_fill_viridis(name = "", discrete=F,option="D",end=0.95,
+                     direction=-1,limits=c(-0.35,0.35),label=percent)+
+  theme(legend.position = "top", 
+        plot.caption=element_text(hjust=0,                                                                  vjust=1,margin=margin(t=10)))+
+  labs(title=paste0("Four quarter house price percent change (Q4/Q4 %)"),
+       caption="@lenkiefer Source: FHFA Purchase-Only House Price Index (SA)")
+
+```
+
+This map seems to do okay on the squint test.  The extreme declines of 2008 and 2009 are clearly seen in the maps.  But let's use the pixelation trick to generate a pixelated version:
+
+
+```{r 04-17-2017-hpi-2,fig.height=8}
+
+
+ggplot(filter(smap2,qtr==4 & yr>=2005), 
+             aes(round(long/3,0)*3,round(lat/3,0)*3, group=group, fill = hpa12)) +
+      geom_polygon()+
+      theme_map( base_size = 12) +facet_wrap(~yr,ncol=3)+
+  theme(plot.title=element_text( size = 16, margin=margin(b=10))) +
+  theme(plot.subtitle=element_text(size = 14, margin=margin(b=-20))) +
+  theme(plot.caption=element_text(size = 9, margin=margin(t=-15))) +
+  labs(title="",subtitle="" ) +
+  scale_fill_viridis(name = "", discrete=F,option="D",end=0.95,
+                     direction=-1,limits=c(-0.35,0.35),label=percent)+
+  theme(legend.position = "top", 
+        plot.caption=element_text(hjust=0,                                                                  vjust=1,margin=margin(t=10)))+
+  labs(title=paste0("Four quarter house price percent change (Q4/Q4 %)"),
+       caption="@lenkiefer Source: FHFA Purchase-Only House Price Index (SA)")
+
+```
+
+Okay, so even with our simulated squint, the key patterns still seem visible.  
+
+
