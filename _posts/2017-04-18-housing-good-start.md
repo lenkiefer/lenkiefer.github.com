@@ -9,7 +9,7 @@ theme :
   name : lentheme
 ---
 
-IN 2016 HOUSING IN THE UNITED STATES HAD ITS BEST YEAR IN A DECADE ([see my review]({{ site.url}}/chartbooks/dec2016/index.html) or my [flexdashboard remix]({% post_url 2017-01-14-year-in-review-remix%}) and so far 2017 has gotten off to a good **start**.  Let's take a look at [residential construction](https://www.census.gov/construction/nrc/index.html), particularly housing starts and see how they stack up to prior years.
+IN 2016 HOUSING IN THE UNITED STATES HAD ITS BEST YEAR IN A DECADE ([see my review]({{ site.url}}/chartbooks/dec2016/index.html) or my [flexdashboard remix]({% post_url 2017-01-14-year-in-review-remix%})) and so far 2017 has gotten off to a good **start**.  Let's take a look at [residential construction](https://www.census.gov/construction/nrc/index.html), particularly housing starts and see how they stack up to prior years.
 
 Per usual we will use [R](https://www.r-project.org/), and the libraries of [data.table()](https://cran.r-project.org/web/packages/data.table/index.html) and the [tidyverse](http://tidyverse.org/) for data management and plotting, and [animation](https://cran.r-project.org/web/packages/animation/index.html) and [tweenr](https://cran.r-project.org/web/packages/tweenr/index.html) for animating.
 
@@ -359,6 +359,7 @@ tf$yearf<-factor(tf$yearf,levels=seq(2017,2000,-1))
 
 
 #Animate plot
+
 oopt = ani.options(interval = 0.2)
 saveGIF({for (i in 1:max(tf$.frame)) { #loop over frames
   g<-
@@ -366,7 +367,7 @@ saveGIF({for (i in 1:max(tf$.frame)) { #loop over frames
            aes(x=yearf,y=val.c))+
     facet_wrap(~dt_idf,ncol=3)+
     geom_segment(color="#00B0F0",aes(yend=0,xend=yearf),size=1.05)+
-    scale_y_continuous(limits=c(0,1000))+
+    scale_y_continuous(limits=c(0,500))+
     geom_point(color="#00B0F0",size=3)+theme_dark2()+coord_flip()+
     theme(axis.ticks.y=element_blank(),
           axis.text.y = element_text(margin = margin(r = -10)),
@@ -381,6 +382,5 @@ saveGIF({for (i in 1:max(tf$.frame)) { #loop over frames
   print(paste(i,"out of",max(tf$.frame)))}
 },movie.name="tween starts YTD total.gif",ani.width = 750, ani.height = 400)
 {% endhighlight %}
-
 
 <img src="{{ site.url }}/img/charts_apr_18_2017/tween starts YTD total.gif" alt="starts ytd 2017q1 gif"/>
