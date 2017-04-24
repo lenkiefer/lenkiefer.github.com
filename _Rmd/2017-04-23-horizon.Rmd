@@ -1,0 +1,376 @@
+---
+layout: post
+title: "What's that on the horizon? An awesome dataviz!"
+author: "Len Kiefer"
+date: "2017-04-23"
+summary: "R statistics rstats mortgage rates dataviz"
+group: navigation
+theme :
+  name : lentheme
+---
+
+> *This post is everything you want  
+it's everything you need  
+it's every viz inside of you that you wish you could see  
+it's all the right viz at exactly the right time  
+but it means nothing to you and you don't know why*  
+
+<img src="{{ site.url }}/img/charts_apr_23_2017/horizon tween flip.gif" alt="horizon gif"/>
+
+
+LET US MAKE SOME HORIZON CHARTS.
+
+What is a horizon chart you ask?  That's exactly what I was thinking earlier this weekend. Well, not exactly. I sort of knew what horizon charts were, but I couldn't say exactly what they were good for.  But then, after making some it struck me.  Come with me on this journey.
+
+As we usually do in this space, we'll use [R](https://www.r-project.org/) to create our plots.  
+
+## Horizon Charts
+
+Check out Flowing Data [on horizon charts](http://flowingdata.com/2015/07/02/changing-price-of-food-items-and-horizon-graphs/) and this [document](http://www.stonesc.com/Vis08_Workshop/DVD/Reijner_submission.pdf) for some other examples of horizon charts.
+
+I was inspired to look into this by this awesome tweet from [@timelyportfolio](https://twitter.com/timelyportfolio):
+
+<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/rstats?src=hash">#rstats</a> <a href="https://twitter.com/hashtag/d3js?src=hash">#d3js</a> horizon charts in DT datatable; great target for shiny<a href="https://t.co/1315jE5jog">https://t.co/1315jE5jog</a> <a href="https://t.co/DM8yPyxSJv">pic.twitter.com/DM8yPyxSJv</a></p>&mdash; timelyportfolio (@timelyportfolio) <a href="https://twitter.com/timelyportfolio/status/855777175563366400">April 22, 2017</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+In this [example](https://bl.ocks.org/timelyportfolio/1c938792957f70cf6069e48f33bdc1b5) timelyportfolio showed how to embed horizon charts into a [datatable](https://rstudio.github.io/DT/) widget. We'll get to that, but first let's build our own horizon chart.
+
+# Building a horizon chart with ggplot2
+
+In building this chart, I was greatly aided by [this post](http://timelyportfolio.blogspot.com/2012/08/horizon-on-ggplot2.html) from timelyportfolio, which dates back to 2012 (!).  Since then, [ggplot2](http://ggplot2.tidyverse.org/) has evolved, so the code needed minor tweaking.  Using that modified code I was able to build up a horizon chart. We'll go over the steps, but first let's get some data.
+
+## Getting data
+
+For today's examples I'm going to use employment data from the U.S. Bureau of Labor Statistis ([BLS](https://bls.gov)) and house price data from the [Freddie Mac](http://www.freddiemac.com/finance/house_price_index.html). We've used these data before, [here for employment]({% post_url 2017-02-01-emp-trends %}) and [here]({% post_url 2017-01-22-build-flex %}) for house prices.  The posts linked to describe more about how to the data.  For the employment data we'll load it from the web, and the house price data is available in a csv file [hpistate.csv]({{ site.url}}/chartbooks/jan2017/data/hpistate.csv).
+
+### Loading, preparing and checking data
+
+Let's follow the strategies from our earlier post and get the employment data from BLS and the house price data from our .csv.  
+
+First, let's check our house price data:
+
+```{r 04-23-2017-setup-1}
+
+################################################################################
+### Load libraries
+################################################################################
+
+library(tidyverse)
+library(data.table)
+library(scales)
+
+################################################################################
+### Load libraries
+################################################################################
+
+df<-fread("data/hpistate.csv")
+df$date<-as.Date(df$date, format="%m/%d/%Y")
+
+# Compute percent change by year
+#df=df[,hpa:=(hpi-shift(hpi,12,fill=NA))/shift(hpi,12,fill=NA),by=c("statename")]
+
+# Print table for checking
+htmlTable::htmlTable(tail(df))
+
+```
+
+Okay, seems all right. We've got a few extra columns from our earlier post, but we'll drop them.
+
+Let's get some employment data from BLS:
+
+
+```{r 04-23-2017-setup-2, cache=T}
+
+################################################################################
+### Go get data from BLS.gov
+################################################################################
+emp.data<-fread("https://download.bls.gov/pub/time.series/sm/sm.data.54.TotalNonFarm.All")
+emp.series<-fread("https://download.bls.gov/pub/time.series/sm/sm.series")
+
+emp.list<-emp.series[industry_code==0 # get all employment
+                     & data_type_code==1 # get employment in thousands
+                     & seasonal=="S",]  # get seasonally adjusted data]
+
+emp.area<-fread("https://download.bls.gov/pub/time.series/sm/sm.area",
+                col.names=c("area_code","area_name","drop"))[,c("area_code","area_name"),with=F]
+
+emp.st<-fread("https://download.bls.gov/pub/time.series/sm/sm.state",
+              col.names=c("state_code","state_name","drop"))[,c("state_code","state_name"),with=F]
+
+# merge data
+emp.dt<-merge(emp.data,emp.list,by="series_id",all.y=T)
+
+#create month variable
+emp.dt=emp.dt[,month:=as.numeric(substr(emp.dt$period,2,3))]
+# (this assignment is to get around knitr/data table printing error)
+# see e.g. http://stackoverflow.com/questions/15267018/knitr-gets-tricked-by-data-table-assignment
+
+# M13 = Annual average, drop it:
+emp.dt<-emp.dt[month<13,]
+
+#create date variable
+emp.dt$date<- as.Date(ISOdate(emp.dt$year,emp.dt$month,1) ) 
+
+# merge on area and state codes
+emp.dt<-merge(emp.dt,emp.area,by="area_code")
+emp.dt<-merge(emp.dt,emp.st,by="state_code")
+emp.dt=emp.dt[,c("state_name","area_name","date","year","month","value"),with=F]
+emp.dt=emp.dt[,emp:=as.numeric(value)] #convert value to numeric
+# Compute year-over-year change in employment and year-over-year percent change
+emp.dt=emp.dt[,emp.yoy:=emp-shift(emp,12,fill=NA),by=c("area_name","state_name")]
+
+# Percent change by year:
+emp.dt=emp.dt[,emp.pc:=(emp-shift(emp,12,fill=NA))/shift(emp,12,fill=NA),by=c("area_name","state_name")]
+
+emp.dt=emp.dt[,type:=ifelse(area_name=="Statewide","State","Metro")]
+
+# drop states in c("Puerto Rico","Virgin Islands")
+emp.dt=emp.dt[!(state_name %in% c("Puerto Rico","Virgin Islands")),]
+
+# only keep state data
+emp.dt.state<-emp.dt[area_name=="Statewide"]
+
+htmlTable::htmlTable(head(emp.dt.state))
+
+```
+
+Great, looks good.  Now that we have our data, let's merge them together.
+
+```{r 04-23-2017-setup-3, cache=T}
+# Rename state_name as statename in emp.dt.state data
+emp.dt.state<-rename(emp.dt.state,statename=state_name)
+# merge on date & statename
+dt<-merge(df,emp.dt.state,by=c("date","statename"))
+```
+
+The key variables in our data are called *hpa12* which represents the 12-month percent change in house prices and *emp.pc* which represents the 12 month-percent change in employment.
+
+## Looking to the horizon
+
+Let's build up a horizon chart. To do so, first let's look at data from the  state of Arizona.
+
+```{r 04-23-2017-graph-1}
+# plot house price trens for Ohio:
+
+ggplot(data=dt[state=="AZ"],aes(x=date,y=hpa12))+geom_line()+theme_minimal()+
+  labs(x="",y="",title="12-month percent change in Arizona house prices",
+       caption="@lenkiefer Source: Freddie Mac House Price Index")+
+  theme(plot.caption=element_text(hjust=0))+scale_y_continuous(labels=percent)
+```
+
+
+Okay, if we are interested in seeing how prices compare to zero we might try an area chart.
+
+```{r 04-23-2017-graph-2}
+# plot house price trens for Arizona:
+
+ggplot(data=dt[state=="AZ"],aes(x=date,y=hpa12))+geom_area(fill="blue",alpha=0.25)+theme_minimal()+
+  labs(x="",y="",title="12-month percent change in Arizona house prices",
+       caption="@lenkiefer Source: Freddie Mac House Price Index")+
+  theme(plot.caption=element_text(hjust=0))+scale_y_continuous(labels=percent)
+```
+
+It might be nice to have gradient shading according to whether or not price changes are positive or negative on a year-over-year basis. We cannot do this directly with ggplot's geom_area, but we can make it happen with a little tweaking:
+
+```{r 04-23-2017-graph-3}
+# tweak data:
+dt2<-copy(dt)
+dt2<-dt2[,":="(hpa.up=max(0,hpa12),
+               hpa.down=min(0,hpa12))
+    ,by=c("state","date")]
+
+
+ggplot(data=dt2[state=="AZ"],aes(x=date))+
+  geom_area(aes(y=hpa.up),fill="blue",alpha=0.25)+
+  geom_area(aes(y=hpa.down),fill="red",alpha=0.25)+
+  theme_minimal()+
+  labs(x="",y="",title="12-month percent change in Arizona house prices",
+       caption="@lenkiefer Source: Freddie Mac House Price Index")+
+  theme(plot.caption=element_text(hjust=0))+scale_y_continuous(labels=percent)
+```
+
+Okay, but sometimes prices are down a little, and other times down a lot.  It would be nice to have shading vary by how much prices are up or down.  We could take two approaches.  
+
+First, we could build a bar chart and have the fill vary according to house prices like so:
+
+```{r 04-23-2017-graph-4}
+ggplot(data=dt[state=="AZ"],aes(x=date,y=hpa12,fill=hpa12))+
+  geom_col()+
+  scale_fill_gradient2(low="red",high="blue",name="12-month\n% change")+
+  theme_minimal()+
+  labs(x="",y="",title="12-month percent change in Arizona house prices",
+       caption="@lenkiefer Source: Freddie Mac House Price Index")+
+  theme(plot.caption=element_text(hjust=0))+scale_y_continuous(labels=percent)
+```
+
+Alternatively, we could keep subdividing the range of house prices and have shading vary by how much house prices have increased or decreased.  Let's try that with three break points on each side of zero.
+
+```{r 04-23-2017-graph-5}
+df.az<-dt2[state %in% c("AZ")]  #subset data
+
+df.az<-df.az[,c("date","state","hpa12"),with=F]  #only keep relevant columns
+colnames(df.az) <- c("date","grouping","y")
+origin<-0
+# compute max deviation
+max.y<-max(abs(df.az$y-origin))
+nbands = 3
+horizonscale<-max(abs(df.az$y-origin))/nbands
+h1<-horizonscale
+h2<-horizonscale*2
+h3<-horizonscale*3
+h1n<- -horizonscale
+h2n<- -horizonscale*2
+h3n<- -horizonscale*3
+
+df.az <- df.az[ , ":="( ypos1  = ifelse(y>0,min(y,h1),0),
+                    ypos2  = ifelse(y>h1,min(y,h2),0),
+                    ypos3  = ifelse(y>h2,min(y,h3),0),
+                    yneg1 = ifelse(y<0,max(y,h1n),0),
+                    yneg2 = ifelse(y<h1n,max(y,h2n),0),
+                    yneg3 = ifelse(y<h2n,max(y,h3n),0)) ,by=c("date","grouping")]
+df.az<- df.az %>% select(-y) %>% gather(type, value, 3:8)
+colnames(df.az) <- c("date","grouping","band","value")
+df.lk<-data.frame(band=c("ypos1","ypos2","ypos3","yneg1","yneg2","yneg3"),
+                  vmin=c(0,h1,h2,0,h1n,h2n))
+
+df.az<-left_join(df.az,df.lk,by="band")
+df.az$v2<-ifelse(abs(df.az$value)<abs(df.az$vmin),df.az$vmin,df.az$value)
+require(RColorBrewer)
+col.brew <- brewer.pal(name="RdBu",n=10)
+
+
+  ggplot(data=arrange(df.az,value)) +
+  geom_ribbon(aes(x = date,ymin=vmin, ymax = v2, fill=band,group=band),alpha=0.75)+
+  scale_fill_manual(values=c("ypos1"=col.brew[7],  #assign the colors to each of the bands; colors get darker as values increase
+                             "ypos2"=col.brew[8],
+                             "ypos3"=col.brew[9],
+                             "yneg1"=col.brew[4],
+                             "yneg2"=col.brew[3],
+                             "yneg3"=col.brew[2]))+
+  labs(x="",y="",title="12-month percent change in Arizona house prices",
+       caption="@lenkiefer Source: Freddie Mac House Price Index")+
+      theme_minimal()+
+  theme(plot.caption=element_text(hjust=0))+scale_y_continuous(labels=percent)
+
+
+```
+
+Here we have sliced prices into 6 regions, three positive and three negative.  The further away from 0, the darker the color.
+
+Now, if we just squish everything together, inverting the negative valuet to postiive values and overlaying each of the 6 colors, we've got a horizon plot:
+
+```{r 04-23-2017-graph-6}
+df.az<-dt2[state %in% c("AZ")]  #subset data
+
+df.az<-df.az[,c("date","state","hpa12"),with=F]  #only keep relevant columns
+colnames(df.az) <- c("date","grouping","y")
+
+df5 <- df.az[ , ":="( ypos1  = ifelse(y>0,min(y,h1),0),
+                    ypos2  = ifelse(y>h1,min(y,h2)-h1,0),
+                    ypos3  = ifelse(y>h2,min(y,h3)-h2,0),
+                    yneg1 = -ifelse(y<0,max(y,h1n),0),
+                    yneg2 = -ifelse(y<h1n,max(y,h2n)-h1n,0),
+                    yneg3 = -ifelse(y<h2n,max(y,h3n)-h2n,0)),
+              by=c("date","grouping")]
+df6<- df5 %>% select(-y) %>% gather(type, value, 3:8)
+colnames(df6) <- c("date","grouping","band","value")
+#df6<-left_join(df6,df.lk,by="band")
+df6$vmin<-0
+df6$v2<-ifelse(abs(df6$value)<abs(df6$vmin),df6$vmin,df6$value)
+
+  ggplot(data=arrange(df6,value)) +
+      theme_minimal()+
+  geom_ribbon(aes(x = date,ymin=vmin, ymax = v2, fill=band,group=band),alpha=0.75)+
+  scale_fill_manual(values=c("ypos1"=col.brew[7],  #assign the colors to each of the bands; colors get darker as values increase
+                             "ypos2"=col.brew[8],
+                             "ypos3"=col.brew[9],
+                             "yneg1"=col.brew[4],
+                             "yneg2"=col.brew[3],
+                             "yneg3"=col.brew[2])) 
+
+```
+
+Yeah, might be hard to see what's going on here.
+
+How about an animated gif:
+
+<img src="{{ site.url }}/img/charts_apr_23_2017/horizon tween.gif" alt="horizon gif"/>
+
+What we have done is *densify* our data. By compressing the vertical area by a factor of 6 (3x >0, 3x <0), we can show the same data in a much smaller space. Of course we have to interpret it too.  
+
+You know what's cool?  We can stick these things inside a data table widget! 
+
+Adapting code from [timelyportfolio]((https://bl.ocks.org/timelyportfolio/1c938792957f70cf6069e48f33bdc1b5)), try this:
+
+```{r 04-23-2017-graph-7, eval=F}
+
+############# magic! ##############################################################
+
+library(htmltools)
+library(DT)
+library(d3horizonR)
+
+
+myf3<-function (s="Ohio"){
+  d.out<- filter(dt,statename==s)$emp.pc
+  return(d.out)
+}
+
+
+myf4<-function (s="Ohio"){
+  d.out<- filter(dt,statename==s)$hpa12
+  return(d.out)
+}
+
+
+emp.dt3 <- dt %>% select(statename)
+emp.dt3<-unique(emp.dt3)
+
+
+emp.dt4 <- emp.dt3 %>%
+  #mutate(y = lapply(x, function(x) {cumprod(1 + runif(365, -0.05, 0.05))})) %>%
+  mutate(x = lapply(statename, myf3 ) )  %>%
+  mutate(x = lapply(x, function(dat) {
+    d3horizon_chr(
+      list(dat),
+      options = d3horizonOptions(height=20),
+      width = 400
+    )
+  }) )%>%
+    mutate(x2 = lapply(statename, myf4 ) )  %>%
+    mutate(x2 = lapply(x2, function(dat) {
+      d3horizon_chr(
+        list(dat),
+        options = d3horizonOptions(height=20),
+        width = 400
+      )
+    })
+    )
+
+m<-
+datatable(
+  emp.dt4,
+    caption = 'Annual growth in employment and house prices',
+  escape = FALSE,
+  colnames=c("State","12 month % change\n in employment ",
+             "12 month % change \n in house prices"),
+  options = list(
+    columnDefs = list(list(width="400px", targets = 2:3)),
+    fnDrawCallback = htmlwidgets::JS(
+      '
+// not the best way but works fairly well
+function(){
+  HTMLWidgets.staticRender();
+}
+'
+    )
+  )
+) %>%
+  tagList(htmlwidgets::getDependency("d3horizon", "d3horizonR")) %>%
+  browsable()
+
+```
+
+<iframe src="{{ site.url}}/img/charts_apr_23_2017/horizon DT.html" height="550" width="1050"></iframe>
+
+Oh yeah! We're going to find a lot of uses for this in near future.
