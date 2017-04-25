@@ -9,6 +9,8 @@ theme :
   name : lentheme
 ---
 
+**NOTE: After I posted this (like within 5 minutes) I found [this post](http://rpubs.com/apsteinmetz/prek) which also constructs bivariate chropleths in R.**
+
 IN THIS POST I WANT TO REVISIT SOME MAPS I MADE LAST YEAR.  At that time, I was using [Tableau](https://www.tableau.com) to create [choropleth](https://en.wikipedia.org/wiki/Choropleth_map) maps, but in this post I want to reimagine the maps and make them in [R](https://www.r-project.org/).
 
 Last year [in this post]({% post_url 2016-05-22-population-growth-housing-supply-and-house-prices %}) we looked at the relationship between population growth and the growth in housing units from 2010 to 2015. While the Census [has released](https://www.census.gov/newsroom/press-releases/2017/cb17-tps38-population-estimates-single-year-age.html) national level estimates for population, the county level estimates are not updated yet. However, you [can get](https://www.census.gov/programs-surveys/popest/data/tables.html) estimates for 2010 through 2015, which is what I used last year and will use again this year.
