@@ -167,7 +167,6 @@ new.sales <- new.sales %>% mutate( up=qnorm(0.95,mean=sales,sd=e.sales/100*sales
 ggplot(data=new.sales, aes(x=date,y=sales, label = sales))+
     geom_line()+
     scale_y_continuous() + 
-    geom_point(data=mydata[i,],colour = plasma(5)[1], size = 3)+
     scale_x_date(labels= date_format("%Y"), date_breaks="1 year" ) +
     geom_ribbon(aes(x=date,ymin=down,ymax=up),fill=plasma(5)[5],alpha=0.5)  +
     theme_minimal()+
