@@ -384,36 +384,40 @@ ggplot(data=filter(output.data,year(date)>2015),
   geom_point(data=filter(output.data,year(date)>2015 & id==1),
              aes(y=sales),color="black",size=3) +
   scale_x_date(date_labels="%b-%Y",date_breaks="2 months")+
-  labs(x="",y="",
-       title="New Home Sales (1000s SAAR)",
-       subtitle="Estimates (black dots) and uncertainty",
-       caption="@lenkiefer Source: U.S. Census Bureau and U.S. Department of Housing and Urban Development")+
+    labs(x="",y="",
+         title="New Home Sales (1000s SAAR)",
+         subtitle="Estimates (black dots) and sampling uncertainty",
+         caption="@lenkiefer Source: U.S. Census Bureau and U.S. Department of Housing and Urban Development\ncolored dots represent draws from a normal distribution centered at estimate with standard error of estimate.")+
       theme(plot.caption=element_text(hjust=0))
 {% endhighlight %}
 
 ![plot of chunk 04-26-2017-viz-3-swarm](/img/Rfig/04-26-2017-viz-3-swarm-1.svg)
+
+And we could animate it:
 
 
 {% highlight r %}
 ##################################################################################
 # Animate plot!
 ##################################################################################
-oopt = ani.options(interval = 0.25)
-saveGIF({for (i in 1:250) {
+oopt = ani.options(interval = 0.2)
+saveGIF({for (i in 1:200) {
   g<-
-    ggplot(data=filter(output.data,year(date)>2015 & id>=i),
+    ggplot(data=filter(output.data,date>="2016-03-01" & id<=i),
            aes(x=date,y=sales.samp,color=sales.samp,
                alpha=ifelse(id==i,1,0.2) ))+
     scale_color_viridis(name="")+ guides(color=F)+
     geom_quasirandom()+theme_minimal()+
-    geom_point(data=filter(output.data,year(date)>2015 & id==1),
-               aes(y=sales),color="black",size=3) +
-    scale_x_date(date_labels="%b-%Y",date_breaks="2 months")+
+    geom_point(data=filter(output.data,date>="2016-03-01" & id==1),
+               aes(y=sales),color="black",size=3,alpha=1) +
+    scale_x_date(date_labels="%b-%Y",date_breaks="2 months",
+                 limits=as.Date(c("2016-02-15","2017-04-15")))+
+    scale_y_continuous(limits=c(400,800))+
     guides(alpha=F)+
     labs(x="",y="",
          title="New Home Sales (1000s SAAR)",
-         subtitle="Estimates (black dots) and uncertainty",
-         caption="@lenkiefer Source: U.S. Census Bureau and U.S. Department of Housing and Urban Development")+
+         subtitle="Estimates (black dots) and sampling uncertainty",
+         caption="@lenkiefer Source: U.S. Census Bureau and U.S. Department of Housing and Urban Development\ncolored dots represent draws from a normal distribution centered at estimate with standard error of estimate.")+
       theme(plot.caption=element_text(hjust=0))
   print(g)
   ani.pause()
