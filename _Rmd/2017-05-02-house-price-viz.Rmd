@@ -27,7 +27,7 @@ And for this one, you have to go way back to my [Visual Meditation on House Pric
 
 ### A little bit of data manipulation
 
-Oh all right, I'll post a little bit of code. Last month we [talked about](({% post_url 2017-04-20-global-hpi-readxl %})) using [readxl](http://readxl.tidyverse.org/index.html) to wrangle some data in Excel spreadsheets.
+Oh all right, I'll post a little bit of code. Last month we [talked about]({% post_url 2017-04-20-global-hpi-readxl %}) using [readxl](http://readxl.tidyverse.org/index.html) to wrangle some data in Excel spreadsheets.
 
 Last year [we saw]({% post_url 2016-05-08-visual-meditations-on-house-prices-part1 %}) how to manipulate data in Excel. Below, we'll use readxl to get our data read for plotting.
 
