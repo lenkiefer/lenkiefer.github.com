@@ -40,7 +40,9 @@ Let's take a tour:
 
 <img src="{{ site.url}}/img/charts_may_03_2017/geo tour emp hpi tween 05 03 2017.gif" >
 
+**BONUS: Let's add an animated scatterplot**
 
+<img src="{{ site.url}}/img/charts_may_03_2017/emp hpa scatter 05 03 2017.gif" >
 
 
 
