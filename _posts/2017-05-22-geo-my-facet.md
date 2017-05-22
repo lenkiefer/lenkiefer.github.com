@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Facet my geo"
+title: "Facet my geo!"
 author: "Len Kiefer"
 date: "2017-05-22"
 summary: "R statistics dataviz ggplot2 housing mortgage data"
