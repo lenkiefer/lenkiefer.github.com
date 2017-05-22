@@ -1,0 +1,166 @@
+---
+layout: post
+title: "Facet my geo"
+author: "Len Kiefer"
+date: "2017-05-22"
+summary: "R statistics dataviz ggplot2 housing mortgage data"
+group: navigation
+theme :
+  name : lentheme
+---
+
+TIME TO TRY OUT ANOTHER HOUSE PRICE VISUALIZATION.
+
+In this post I'll new way to visualize recent house price trends with [R](https://www.r-project.org/). 
+
+Saw a new package [geofacet](https://github.com/hafen/geofacet) for organizing ggplot2 facets along a geographic grid.  It allows use to construct a small multiple graph that roughly looks like the United States. (Thanks to [@yoniceedee](https://twitter.com/yoniceedee) for recommending geofacet). 
+
+Let's try it out using the same house price data we [visualized recently]({% post_url 2017-05-18-state-hpa %}). Details about the data are in that post, but we'll be using the [Freddie Mac House Price Index](http://www.freddiemac.com/finance/house_price_index.html) to once again visualize state house price trends.
+
+Let's get to it.
+
+# Data
+
+We'll start this post with our data in hand. Just follow along [here]({% post_url 2017-05-18-state-hpa %}) to get the data.  We'll begin with a data frame called `df.state` that looks like so.
+
+```{r 05-22-2017-readxl-setup,eval=T,cache=T,warnings=F,echo=F}
+library(zoo,quietly=T,warn.conflicts = F)      # used for rolling window operations
+library(readxl,quietly=T,warn.conflicts=F)
+library(purrr,quietly=T,warn.conflicts=F)
+library(animation,quietly=T,warn.conflicts=F)
+library(tweenr,quietly=T,warn.conflicts=F)
+library(ggplot2,quietly=T,warn.conflicts=F)
+library(tidyr,quietly=T,warn.conflicts=F)
+library(dplyr,quietly=T,warn.conflicts=F)
+library(lubridate,quietly=T,warn.conflicts=F)
+library(data.table,quietly=T,warn.conflicts=F) # for the shift function
+library(scales,quietly=T,warn.conflicts=F)    # for labels
+
+###############################################################################
+#### Read in HPI data  
+###############################################################################
+
+df<-read_excel("data/states.xls", 
+               sheet = "State Indices",  # name of sheet
+               range="B6:BB513" )        # range where data lives
+
+###############################################################################
+#### Set up dates from January 1975 to March 2017
+###############################################################################
+
+df$date<-seq.Date(as.Date("1975-01-01"),as.Date("2017-03-01"),by="1 month")
+df.state<-df %>% gather(geo,hpi,-date) %>% mutate(type="state")
+###############################################################################
+#### Transform data
+#### Needs library zoo for the rolling window operations
+###############################################################################
+df.state<-
+  df.state %>% group_by(geo) %>% 
+  mutate(hpa=hpi/shift(hpi,12)-1,
+         hpilag12=shift(hpi,12,fill=NA),
+         hpimax12=zoo::rollmax(hpi,13,align="right",fill=NA),
+         hpimin12=-zoo::rollmax(-hpi,13,align="right",fill=NA)) %>% ungroup()
+
+###############################################################################
+#### Transform data
+#### Add national variable as us.hpi, us.hpa variables
+###############################################################################
+
+df.state<-df.state %>% group_by(date) %>% 
+  mutate(us.hpa=hpa[geo=="United States not seasonally adjusted"],
+         us.hpi=hpi[geo=="United States not seasonally adjusted"]) %>%
+  mutate(up=ifelse(hpa>us.hpa,hpa,us.hpa),
+         down=ifelse(hpa<=us.hpa,hpa,us.hpa)) %>% 
+  ungroup()
+
+dlist<-unique(filter(df.state,year(date)>1999)$date)
+
+df.state<-df.state %>% group_by(date) %>% 
+  mutate(us.hpa=hpa[geo=="United States not seasonally adjusted"],
+         us.hpi=hpi[geo=="United States not seasonally adjusted"]) %>%
+  mutate(up=ifelse(hpa>us.hpa,hpa,us.hpa),
+         down=ifelse(hpa<=us.hpa,hpa,us.hpa)) %>% 
+  ungroup()
+
+df.state2<-filter(df.state, year(date)>1999 & month(date)==3 & !(geo %in% c("United States not seasonally adjusted",
+                                        "United States seasonally adjusted" )))
+
+htmlTable(
+  tail(df.state2,10) %>% filter(date=="2017-03-01") %>%
+    map_if(is.numeric,round,3) %>% as.data.frame(),
+  col.rgroup = c("none", "#F7F7F7"),
+  caption="Our data frame\ndf.state",
+  tfoot="Source: Freddie Mac House Price Index")
+
+```
+
+The key variable we'll need is `hpa` which captures the 12-month percent change in the house price index. Conveniently, we already have a state identifier to use with `facet_geo` (though we'll have to rename it state).
+
+## Facet my geo
+
+With our data in hand, it's pretty easy to create our plot.  Our data goes from 1975 to March 2017, so we'll subset it to focus on more recent trends.  We'll plot 12-month percent changes in house prices (variable `hpa` in our data) since 2000. We'll also restrict our attention to March of each year (so we can end with the latest data in March 2017).
+
+```{r 05-22-2017-plot1,eval=T,warnings=F,echo=T,fig.height=7,fig.width=9}
+### Run this to get library: 
+# devtools::install_github("hafen/geofacet")
+library(ggplot2)
+library(viridis)
+library(scales)
+library(geofacet)
+
+## Subset data and drop US averages
+df.state2<-filter(df.state, 
+                  year(date)>1999 & month(date)==3 & 
+                    !(geo %in% c("United States not seasonally adjusted",
+                                        "United States seasonally adjusted" )))
+
+# set up date limits for plot
+xlim<-c(min(df.state2$date),max(df.state2$date))
+
+# create state variable
+df.state2$state<-df.state2$geo
+
+# create plot:
+ggplot(df.state2, aes(x=date, y=hpa,fill=hpa)) +
+  
+  # geom col for little bars
+  geom_col()+
+  
+  # use facet_geo
+  facet_geo(~ state, grid = "us_state_grid2")+
+  
+  # my go to theme
+  theme_minimal()+
+
+  # the colors!
+  scale_fill_viridis(option="C",limits=c(-0.35,0.35),
+                     label=percent,name="12-month\n% change")+
+
+  # set up x (date) and y (HPA) axes
+  scale_x_date(limits=xlim,breaks=xlim,date_labels="%y")+
+    
+  scale_y_continuous(label=percent,limits=c(-0.35,0.35),
+                     breaks=seq(-0.3,.3,.3))+
+  
+  # labels, title, caption
+  labs(x="",y="",
+       title="House Price Appreciation",
+       subtitle="12-month percent change in March",
+       caption="@lenkiefer Source: Freddie Mac House Price Index")+
+  
+  # adjust theme
+  theme(plot.caption=element_text(hjust=0),
+        # need to shrink axis text
+        axis.text.x=element_text(size=7), 
+        plot.subtitle=element_text(face="italic"),
+        legend.position="top")
+
+
+```
+
+Pretty neat.  I think I'll be trying this more in the future.
+
+It also works pretty great for an animation. Here's an animated version of our plot:
+
+<img src="{{ site.url}}/img/charts_may_22_2017/geo facet hpa 05 22 2017.gif" >
+
