@@ -11,9 +11,9 @@ theme :
 
 TIME TO TRY OUT ANOTHER HOUSE PRICE VISUALIZATION.
 
-In this post I'll new way to visualize recent house price trends with [R](https://www.r-project.org/). 
+In this post we'll try out a new way to visualize recent house price trends with [R](https://www.r-project.org/). 
 
-Saw a new package [geofacet](https://github.com/hafen/geofacet) for organizing ggplot2 facets along a geographic grid.  It allows use to construct a small multiple graph that roughly looks like the United States. (Thanks to [@yoniceedee](https://twitter.com/yoniceedee) for recommending geofacet). 
+Just this wekeend I saw a new package [geofacet](https://github.com/hafen/geofacet) for organizing ggplot2 facets along a geographic grid. It allows use to construct a small multiple graph that roughly looks like the United States. (Thanks to [@yoniceedee](https://twitter.com/yoniceedee) for recommending geofacet). 
 
 Let's try it out using the same house price data we [visualized recently]({% post_url 2017-05-18-state-hpa %}). Details about the data are in that post, but we'll be using the [Freddie Mac House Price Index](http://www.freddiemac.com/finance/house_price_index.html) to once again visualize state house price trends.
 
