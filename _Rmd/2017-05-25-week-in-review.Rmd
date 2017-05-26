@@ -98,7 +98,7 @@ mygraph.data<-subset(states@data,(yr>2004 & state !="DC"))
 
 ggplot(data=mygraph.data,aes(x=date,y=hpa12,group=state))+theme_minimal()+
   geom_line()+  
-  scale_color_viridis(name = "Annual House Price Growth (Y/Y %)", discrete=F,option="D",end=0.95)+
+  scale_color_viridis(name = "Four-quarter percent change in house prices", discrete=F,option="D",end=0.95)+
   scale_y_continuous(label=percent, breaks=c(-.2,-.1,0,.1,.2))+
   theme(axis.text.y=element_text(size=6))+
     theme(axis.text.x=element_text(size=6))+
@@ -109,12 +109,12 @@ ggplot(data=mygraph.data,aes(x=date,y=hpa12,group=state))+theme_minimal()+
   theme(legend.position = "none")+  
     facet_wrap(~forcats::fct_reorder(state,-hpa12,last),ncol=10)+
   theme(plot.caption=element_text(hjust=0))+
-  labs(x="",y="",title="Annual House Price Growth (Y/Y %)",
+  labs(x="",y="",title="Four-quarter percent change in house prices",
        caption="@lenkiefer Source: FHFA Purchase-Only House Price Index (SA)")
 
 ```
 
-We can use [geofacet](https://github.com/hafen/geofacet) like we did [earlier this month]({% post_url 2017-05-22-geo-my-facet %}) to try an alternate layout for the plot. The plot below focuses on the 12-month percent change in house prices since 2005. It's the same data as above, just arranged differently.
+We can use [geofacet](https://github.com/hafen/geofacet) like we did [earlier this month]({% post_url 2017-05-22-geo-my-facet %}) to try an alternate layout for the plot. The plot below focuses on the four-quarter percent change in house prices since 2005. It's the same data as above, just arranged differently.
 
 ```{r 05-25-2017-plot3, cache=T,warnings=F,echo=F,fig.height=7,fig.width=9}
 library(geofacet)
@@ -135,7 +135,7 @@ ggplot(mygraph.data, aes(x=date, y=hpa12)) +
                      breaks=seq(-0.3,.3,.3))+
   labs(x="",y="",
        title="House Price Appreciation",
-       subtitle="Four-quarter percent change since 2005",
+       subtitle="Four-quarter percent change",
        caption="@lenkiefer Source: FHFA Purchase-Only House Price Index (SA)")+
   
   # adjust theme

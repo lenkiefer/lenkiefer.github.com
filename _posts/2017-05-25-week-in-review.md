@@ -43,7 +43,7 @@ They also released quarterly data on state house price trends.  The plot below c
 
 ![plot of chunk 05-25-2017-plot2](/img/Rfig/05-25-2017-plot2-1.svg)
 
-We can use [geofacet](https://github.com/hafen/geofacet) like we did [earlier this month]({% post_url 2017-05-22-geo-my-facet %}) to try an alternate layout for the plot. The plot below focuses on the 12-month percent change in house prices since 2005. It's the same data as above, just arranged differently.
+We can use [geofacet](https://github.com/hafen/geofacet) like we did [earlier this month]({% post_url 2017-05-22-geo-my-facet %}) to try an alternate layout for the plot. The plot below focuses on the four-quarter percent change in house prices since 2005. It's the same data as above, just arranged differently.
 
 ![plot of chunk 05-25-2017-plot3](/img/Rfig/05-25-2017-plot3-1.svg)
 
