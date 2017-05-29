@@ -226,7 +226,8 @@ ggplot(data=dt,aes(x=year,y=pop/hous,label=round(pop/hous,3)))+
   geom_line()+geom_point()+theme_minimal()+#geom_text(vjust=1,nudge_y=0.005)+
   labs(x="",y="",title="Population increasing faster than housing supply",
        subtitle="U.S. population per housing unit, July of each year",
-     caption="@lenkiefer Source: U.S. Census Bureau")
+     caption="@lenkiefer Source: U.S. Census Bureau")+
+  theme(plot.caption=element_text(hjust=0))
 ```
 
 In 2010 there were 2.347 people for every housing unit in the United States.  That expanded to 2.381 people for every housing unit by 2016. Fixing the 2016 population at 323 million, to keep the ratio of people per housing units at the 2010 level the housing stock would need to expand by 2 million units. And based on our calculations above, we are falling behind by about a half million additional units every year.
