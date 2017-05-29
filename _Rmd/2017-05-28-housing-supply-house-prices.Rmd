@@ -1,0 +1,384 @@
+---
+layout: post
+title: "Housing supply, population, and house prices: The macro view"
+author: "Len Kiefer"
+date: "2017-05-28"
+summary: "R statistics dataviz ggplot2 housing mortgage data"
+group: navigation
+theme :
+  name : lentheme
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+library(data.table,quietly=T)
+library(scales,quietly=T)
+library(readxl)
+library(ggthemes)
+library(readxl)
+library(tidyverse)
+library(extrafont)
+source("code/multiplot.R")
+
+### Load libraries
+library(tidyverse)
+library(quantmod)
+library(data.table)
+library(viridis)  # for the colors
+library(htmlTable)  # for the table
+```  
+
+```{r  fig-05-028-2017-get-fred-data,cache=T, echo=F}
+# Use Quantmod to load data
+# helpful reference https://jeffreybreen.wordpress.com/tag/quantmod/
+
+df.comp= getSymbols('COMPUTSA',src='FRED', auto.assign=F)
+df.comp = data.frame(date=time(df.comp), coredata(df.comp) )
+
+df= getSymbols('CUUR0000SEHA',src='FRED', auto.assign=F) 
+df = data.frame(date=time(df), coredata(df) )
+
+df.hpi =getSymbols('HPIPONM226S',src='FRED', auto.assign=F) 
+df.hpi = data.frame(date=time(df.hpi), coredata(df.hpi) )
+
+df.inc=getSymbols('A229RC0',src='FRED', auto.assign=F) 
+df.inc = data.frame(date=time(df.inc), coredata(df.inc) )
+
+df2= getSymbols('CUSR0000SA0L2',src='FRED', auto.assign=F) 
+df2 = data.frame(date=time(df2), coredata(df2) )
+# merge the data
+df3<-merge(df,df.hpi,by="date")
+df3<-merge(df3,df.inc,by="date")
+df3<-merge(df3,df2,by="date")
+dt<-data.table(df3)
+
+# Gather the data to make it tidy
+
+dt %>% gather(var,value,-date) %>% data.table() ->dt2
+
+# Merge on variable names
+
+dt2<-merge(dt2,my.names,by="var")
+
+# Create and index with January 1991 = 100
+# Count by var
+dt2=dt2[,id:=1:.N, by=var]  # Index running from 1:N by group (var)
+dt2=dt2[,var0:=100*value/sum(ifelse(id==1,value,0)),by=var] #create index
+
+# Create caption
+mycaption<- "@lenkiefer Source: House Prices: FHFA purchase-only house price index. Rent: U.S. Bureau of Labor Statistics (BLS) consumer price index rent of primary residence. Other Prices: BLS consumer price index all items less shelter. Income: U.S. Bureau of Economic Analysis per capita disposable personal income (Table 2.6.). All are seasonally adjusted."
+
+# Wrap caption 120 characters:
+mycaption <- paste0(strwrap(mycaption, 120), sep="", collapse="\n")
+
+
+
+```
+
+
+I travel around the United States giving talks, usually updates on recent trends in housing and mortgage markets.  Often I get the chance to speak with real estate and mortgage professionals. For over two years, since at least 2015, I’ve heard one common theme: housing supply is tight.  It’s difficult to find a home, particularly for first time homebuyers.
+
+It doesn’t matter if I’m in Cincinnati or Detroit, Denver or Dallas, Las Vegas or Los Angeles.  It’s the same thing.  We can’t find enough homes to buy.  
+
+You know what I tell folks?  Same thing I said back in 2015: if you think housing markets are tight this year, wait until next year.  The market’s likely to be even tighter next year, and the year after tighter still. What’s going on?
+
+### *Quick note on code* 
+
+Often in this space I provide links to [R](https://www.r-project.org/) code for wrangling data and creating plots. In this post, I will not be sharing the code. That will come in a sequel. Where I have already included code I will supply links. Look for code on new and interesting plots in a future post. 
+
+# The macro view
+
+It helps to start with the big picture. The United States is a vast nation, with over 300 million people, 125 million households, and 130 million housing units.  The U.S. population and housing stock are slow moving.  Houses are durable, lasting decades, centuries in some cases. People too. It takes a while for things to change.
+
+But they do change. Over time, the next generation comes of age and begins forming households. To meet the needs of a growing population the housing stock needs to expand.
+
+Let's talk a bit about how things move.  Per estimates from the National Association of Home Builders (NAHB) it takes about seven months to build a single-family home. ([See report]( http://eyeonhousing.org/2016/07/time-to-build-a-single-family-home-in-2015/)). An apartment takes longer, around a year. The long lag between a housing start and completion means new supply only can respond gradually to changes in demand. 
+
+Demand on the other hand, is in certain respects even slower moving. Demographic forces drive a shifting U.S. population, but over decades. Young adults start forming households in their early 20s, but the current crop of young adults are taking longer to reach many important life milestones. See this [Census report]( https://www.census.gov/content/dam/Census/library/publications/2017/demo/p20-579.pdf) for a comparison of today's young adults with prior generations. One of the key differences between young adults today and prior generations is delayed marriage. Per the report, in the 1970s 8 in 10 people were married by the time they turned 30, today it's not until the age of 45 that 8 in 10 have married.
+
+Although young adults have been slow to form households they are starting to show up in the market.  When we look at estimates of recent building activity and demographic trends what do we see?
+
+The U.S. Census Bureau and Department of Housing and Urban Development (HUD) publish monthly estimates of new residential construction. See their [latest report]( https://www.census.gov/construction/nrc/pdf/newresconst.pdf). The report tells us how many privately owned housing units were completed in a given month.  For example, the latest report (released May 16, 2017) tells us that privately-owned housing completions in April 2017 were at a seasonally adjusted annual rate of 1,106,000. 
+
+A 1.1 million annual rate of completions is well below what we need to match long-run demand.  Here’s why.
+
+First, completions are only a gross measure, they don’t account for demolitions and other losses to the housing stock.  Per the Components of Inventory Change report from HUD ([see report]( https://www.huduser.gov/portal/datasets/cinch/cinch13/cinch11-13.pdf)) over a two-year period from 2011 to 2013 the U.S. housing stock lost over 700,000 housing units permanently.  The report indicates that the housing stock lost 1.1 million units over that period, but about 400,000 of those were temporary losses.  Temporary losses include conversions to commercial use and badly damaged/condemned units that can be restored.  Roughly, the U.S. is losing about 350,000 units each year permanently and another 200,000 temporarily. 
+
+Second, you have to supply new units for net new households.
+Out of the 1.1 million housing units completed, 350,000 need to cover permanent losses. That leaves us with approximately 750,000 net completions. According to the latest population estimates from the U.S. Census ([LINK]( https://www.census.gov/programs-surveys/popest/data/tables.html))  the U.S. population ages 18 and over increased 0.9% from 2015 to 2016.  There are about 125 million households. Roughly, we should expect to see about 1.1 million (0.9% x 125 million) new households formed each year. They'll be looking for a place to live.  
+
+Third and finally, you also have to figure second home demand.  See again the [NAHB]( http://eyeonhousing.org/2016/12/top-posts-of-2016-where-are-the-nations-second-homes/).  Per the NAHB calculations, second homes account for about 5.6 percent of the total U.S. housing stock, increasing by about 0.6 million from 2009 to 2014. That figure suggests that second home demand is between 100,000 and 200,000 units per year.  
+
+Adding it all up suggests you need around 1.65 million housing units each year to meet long-run demand. But the U.S. is only building at a 1.1 million housing units per year rate. If current trends continue, we’ll end up half a million housing units short of long-run demand this year.  Consider the graph below.
+
+
+```{r 05-28-2017-comp-plot-1,echo=F}
+
+mycaption0<-"@lenkiefer Source: U.S. Bureau of the Census, New Privately-Owned Housing Units Completed: Total [COMPUTSA], \nretrieved from FRED, Federal Reserve Bank of St. Louis; https://fred.stlouisfed.org/series/COMPUTSA, May 28, 2017."
+
+#mycaption <- paste0(strwrap(mycaption0, 120), sep="", collapse="\n")
+
+ggplot(data=df.comp,aes(x=date,y=COMPUTSA))+
+  geom_line(size=1.05)+
+  geom_hline(yintercept=1650,linetype=2)+
+  geom_text(x=as.numeric(max(df.comp$date)), y=1675,label="Long-run\ndemand\n~1.65M",hjust=1,vjust=0)+
+  #scale_y_log10(breaks=c(100,125,150,175,200,250))+
+  theme_minimal()+theme(plot.caption=element_text(hjust=0),
+                        legend.position="top")+
+  guides(linetype=F)+
+  scale_color_viridis(name="Variable",discrete=T,end=0.8)+
+  labs(x="",y="",
+       subtitle="Total housing completions in thousands, seasonally adjusted annual rate",
+       title="Housing completions are running well below long-run demand",
+       caption=mycaption0      )
+```
+
+And that is after several years of low levels of home building.  In 2011, less than 600,000 housing units were completed in the United States.  Since then, construction has picked up, but is nowhere near long-run demand.  Each year, the number of additional housing units fails to keep pace with underlying demand, housing markets get tighter and tighter. For more, including a discussion of vacancies, see my post [vacant housing: from surplus to shortage]({% post_url 2016-04-30-vacant-housing-from-surplus-to-shortage%}). That post is from last year, but the major themes are still true today.
+
+House prices reflect these trends.  Nationally, prices are increasing over 6 percent annually. The rate of house price growth is well above rent growth, income growth, and the rate of increase of non-housing prices. The graph below plots trends in these metrics since 1991. (See [this post]({% post_url 2017-04-11-Fred-plot%})  for R code to get data and generate the graph below).
+
+```{r  fig-05-028-2017-1,cache=T, echo=F}
+# Create Plot
+ggplot(data=dt2,aes(x=date,y=var0,color=name,linetype=name))+
+  geom_line(size=1.1)+
+  scale_y_log10(breaks=c(100,125,150,175,200,250))+
+  theme_minimal()+theme(plot.caption=element_text(hjust=0),
+                        legend.position="top")+
+  guides(linetype=F)+
+  scale_color_viridis(name="Variable",discrete=T,end=0.8)+
+  labs(x="",y="Index, January 1991=100 (log scale)",
+       title="Comparing house prices to rent, income and other prices",
+       caption=mycaption       )
+
+```
+
+The graph shows the trends in house prices, rents, per capita disposable income, and a measure of non-housing consumer prices.  What we see is that since 1991, income has grown fastest.  For a time last decade house prices rose well above incomes, but fell back down during the Great Recession.  Since 2012, house prices have been growing fastest, though they haven’t caught up to income yet. Non-housing prices (things like food, apparel and services) have been rising slowest. Though you’d find interesting patterns looking at various components, see [this post]({% post_url 2017-05-21-consumer-price-household-debt%}) for more on consumer price trends.
+
+# Population and housing unit trends
+
+Here we will dig into some [recently released](https://www.census.gov/newsroom/press-releases/2017/cb17-81-population-estimates-subcounty.html) Census data on population and housing unit growth. 
+
+## Some basic population and housing unit trends
+
+Let us begin by looking at some basic information on population and housing units. The Census data provides estimates down to the county level of the resident population and housing units in July of each year from 2010 through 2016. 
+
+```{r fig-05-028-2017-pop-1,cache=F, echo=F}
+###############################################################################
+#### Read in HPI data  
+###############################################################################
+df<-read_excel("data/pophouse2016.xlsx", 
+               sheet = "cbsa")
+colnames(df)[c(1,4,10,11)]<-c("cbsa","name","FIPS.st","FIPS.county")
+df<- df %>% mutate(FIPS=paste0(FIPS.st,FIPS.county ))
+
+df.pop<-read_excel("data/pophouse2016.xlsx", 
+               sheet = "PEP_2016_PEPANNRES_with_ann",  # name of sheet
+               range="B2:L3144" )        # range where data lives
+
+df.pop2<- df.pop %>% mutate(FIPS=str_pad(Id2, 5, pad = "0")) %>%
+  select(-1,-2,-3,-4) %>% gather(var,pop,-FIPS) %>% 
+  mutate(year=as.numeric(str_sub(var, start= -4))) %>% select(FIPS,year,pop)
+
+df.hous<-read_excel("data/pophouse2016.xlsx", 
+                    sheet = "PEP_2016_PEPANNHU_with_ann",  # name of sheet
+                    range="B2:L3144" )        # range where data lives
+
+df.hous2<- df.hous %>% mutate(FIPS=str_pad(Id2, 5, pad = "0")) %>%
+  select(-1,-2,-3,-4) %>% gather(var,hous,-FIPS) %>% 
+  mutate(year=as.numeric(str_sub(var, start= -4))) %>% select(FIPS,year,hous)
+
+df3<-left_join(df.pop2,df.hous2,by=c("FIPS","year"))
+df4<-left_join(df3,select(df,cbsa,FIPS,name),by="FIPS")
+
+dt<-data.table(df4)[,list(pop=sum(pop),
+                      hous=sum(hous)),by=year]
+
+g1<-
+ggplot(data=dt,aes(x=factor(year),y=pop/1e6,label=round(pop/1e6,0)))+
+  geom_col()+theme_minimal()+
+  scale_y_continuous(limits=c(0,325))+
+    theme(axis.text.y=element_blank(),
+        panel.grid.major=element_blank(),
+        plot.caption=element_text(hjust=0))+
+  geom_text(vjust=1,nudge_y=-0.005,color="white")+
+  labs(x="",y="",title="Population increasing faster than housing supply",
+       subtitle="U.S. population in Millions",
+     caption="@lenkiefer Source: U.S. Census Bureau")
+
+g2<-
+  ggplot(data=dt,aes(x=factor(year),y=hous/1e6,label=round(hous/1e6,0)))+
+  geom_col()+theme_minimal()+
+    scale_y_continuous(limits=c(0,325))+
+  theme(axis.text.y=element_blank(),
+        panel.grid.major=element_blank(),
+        plot.caption=element_text(hjust=0))+
+  geom_text(vjust=1,nudge_y=-0.005,color="white")+
+  labs(x="",y="",title="",
+       subtitle="U.S. housing units in Millions",
+     caption="")
+multiplot(g1,g2,cols=2)
+```
+
+The plot above shows that while the U.S. population expanded by 14 million from 2010 to 2016 (from 309 to 323 million) the U.S. housing stock only expanded by 4 million units from 2010 to 2016 (132 to 136 million). Another way of looking at these data is to consider the ratio of people to housing units. The graph below plots that relationship.
+
+```{r fig-05-028-2017-pop-2,cache=F, echo=F}
+ggplot(data=dt,aes(x=year,y=pop/hous,label=round(pop/hous,3)))+
+  geom_line()+geom_point()+theme_minimal()+#geom_text(vjust=1,nudge_y=0.005)+
+  labs(x="",y="",title="Population increasing faster than housing supply",
+       subtitle="U.S. population per housing unit, July of each year",
+     caption="@lenkiefer Source: U.S. Census Bureau")
+```
+
+In 2010 there were 2.347 people for every housing unit in the United States.  That expanded to 2.381 people for every housing unit by 2016. Fixing the 2016 population at 323 million, to keep the ratio of people per housing units at the 2010 level the housing stock would need to expand by 2 million units. And based on our calculations above, we are falling behind by about a half million additional units every year.
+
+That tight inventory story we heard about to start? We're going to be hearing a lot more about it.
+
+# Regional story
+
+The national view obscures some important regional trends.
+
+As we have documented in a variety of ways, local housing markets differ.  See for example:
+
+* [State house prices relative to national prices]({% post_url 2017-05-18-state-hpa%})
+
+* [Metro house prices, dot chart and geo tour]({% post_url 2017-05-02-house-price-viz
+%})
+
+* [Bivariate choropleth maps of employment and house prices]({% post_url 2017-04-25-bivariate-animate
+%})
+
+* [Horizon charts]({% post_url 2017-04-23-horizon
+%})
+
+* [Comparing the distribution household income to house values by metro area]({% post_url 2017-04-16-house-price-to-income-acs-2015
+%})
+
+* [An interactive flexdashboard]({% post_url 2017-01-22-build-flex
+%})
+
+In my next post, we'll dig into the regional data, exploring in depth some of the key trends. To do so, we'll need to explore (and explain) this figure.
+
+
+```{r fig-05-028-2017-bivariate-map-1,cache=T, echo=F}
+
+ # compute ratio of housing to population
+  df4<-df4 %>% group_by(FIPS) %>% mutate(pop10=100*pop/pop[year==2010],
+                                         hous10=100*hous/hous[year==2010]) %>%
+    mutate(ratio=pop10/hous10) %>% ungroup()
+  
+  d2015<-filter(df4,year==2016)
+  
+  # compute quantiles (dividing into 3rds) 
+  h.v<-quantile(d2015$hous10,c(0.33,0.66,1))
+  p.v<-quantile(d2015$pop10,c(0.33,0.66,1))
+  
+  d2015<- d2015 %>% mutate(y= ifelse(pop10<p.v[1],1,ifelse(pop10<p.v[2],2,3)) ,
+                           x= ifelse(hous10<h.v[1],1,ifelse(hous10<h.v[2],2,3))  )  
+  
+  
+   #################################################################################
+  ### Map Libraries
+  library(ggthemes)
+  library(ggalt)
+  library(maps)
+  library(rgeos)
+  library(maptools)
+  library(albersusa)
+  library(grid)
+  library(ggthemes)
+  #################################################################################
+  
+  #################################################################################
+  # Let's load some maps:
+  states<-usa_composite()  #create a state map thing
+  smap<-fortify(states,region="fips_state")
+  counties <- counties_composite()   #create a county map thing
+  #################################################################################
+  #add on summary stats by county using FIPS code
+  counties@data <- left_join(counties@data, d2015, by = c("fips"="FIPS"))   
+  #################################################################################
+  cmap <- fortify(counties_composite(), region="fips")
+  #create state and county FIPS codes 
+  cmap$state<-substr(cmap$id,1,2)  
+  cmap$county<-substr(cmap$id,3,5)
+  cmap$fips<-paste0(cmap$state,cmap$county)
+  
+  # Add some labels
+  d<-expand.grid(x=1:3,y=1:3)
+  #dlabel<-data.frame(x=1:3,xlabel=c("X low", "X middle","X High"))
+  d<-merge(d,data.frame(x=1:3,xlabel=c("X low", "X middle","X high")),by="x")
+  d<-merge(d,data.frame(y=1:3,ylabel=c("Y low", "Y middle","Y high")),by="y")
+  
+  g.legend<-
+    ggplot(d, aes(x,y,fill=atan(y/x),alpha=x+y,label=paste0(xlabel,"\n",ylabel)))+
+    geom_tile()+
+    geom_text(alpha=1)+
+    scale_fill_viridis()+
+    theme_void()+
+    theme(legend.position="none",
+          panel.background=element_blank(),
+          plot.margin=margin(t=10,b=10,l=10))+
+    labs(title="A bivariate color scheme (Viridis)",x="X",y="Y")+
+    theme(axis.title=element_text(color="black"))+
+    # Draw some arrows:
+    geom_segment(aes(x=1, xend = 3 , y=0, yend = 0), size=1.5,
+                 arrow = arrow(length = unit(0.6,"cm"))) +
+    geom_segment(aes(x=0, xend = 0 , y=1, yend = 3), size=1.5,
+                 arrow = arrow(length = unit(0.6,"cm"))) 
+  #g.legend
+  
+  #### Make a legend
+   g.legend<-
+    ggplot(d, aes(x,y,fill=atan(y/x),alpha=x+y))+
+    geom_tile()+
+    #geom_text(alpha=1,angle=0,aes(label=paste0(xlabel,"\n",ylabel)))+
+    scale_fill_viridis()+
+    theme_void()+  theme(axis.text.x = element_text(angle = 0, debug = FALSE),
+                         axis.text.y=element_text(angle=0)) +
+    theme(legend.position="none",
+          panel.background=element_blank(),
+          axis.line.y=element_blank(),
+          axis.line.x=element_blank(),
+          
+          axis.ticks.y=element_blank(),
+          axis.ticks.x=element_blank(),
+          
+          plot.margin=margin(t=10,b=10,l=10))+
+    labs(title="A bivariate color scheme (Viridis)",x="housing units",y="population")+
+   theme(axis.title=element_text(color="black",angle=0)) #+
+    # Draw some arrows:
+   # geom_segment(aes(x=1, xend = 3 , y=0, yend = 0), size=1.5,
+    #             arrow = arrow(length = unit(0.6,"cm"))) +
+    #geom_segment(aes(x=0, xend = 0 , y=1, yend = 3), size=1.5,
+     #            arrow = arrow(length = unit(0.6,"cm"))) 
+  
+gmap<-
+    ggplot() +
+    geom_map(data =cmap, map = cmap,
+             aes(x = long, y = lat, map_id = id),
+             color = "#2b2b2b", size = 0.05, fill = NA) +
+    geom_map(data = filter(counties@data,year==2016), map = cmap,
+             aes(fill =atan(y/x),alpha=x+y, map_id = fips),
+             color = "gray50") +
+    #add black state borders (just to see if things are working)
+    geom_map(data = smap, map = smap,
+             aes(x = long, y = lat, map_id = id),
+             color = "black", size = .5, fill = NA) +
+    theme_map(base_size = 12) +
+    theme(plot.title=element_text(size = 16, face="bold",margin=margin(b=10))) +
+    theme(plot.subtitle=element_text(size = 14, margin=margin(b=-20))) +
+    theme(plot.caption=element_text(size = 9, margin=margin(t=-15),hjust=0)) +
+    # scale_fill_gradient(low="red",high="blue")
+    scale_fill_viridis()+guides(alpha=F,fill=F)+
+    labs(caption="@lenkiefer Source: U.S. Census Bureau",
+         title="Housing units and Population growth 2010-2016",
+         subtitle="Bivariate choropleth")
+  library(grid)
+  vp<-viewport(width=0.24,height=0.24,x=0.58,y=0.14)
+  
+  print(gmap)
+  print(g.legend+labs(title=""),vp=vp)
+
+```
+
+See you next time.
