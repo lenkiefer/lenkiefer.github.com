@@ -1,0 +1,293 @@
+---
+layout: post
+title: "Housing supply, population, and house prices: The metro view"
+author: "Len Kiefer"
+date: "2017-05-30"
+summary: "R statistics dataviz ggplot2 housing mortgage data"
+group: navigation
+theme :
+  name : lentheme
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+### Load libraries
+library(data.table,quietly=T)
+library(scales,quietly=T)
+library(readxl)
+library(ggthemes)
+library(readxl)
+library(tidyverse)
+library(extrafont)
+source("code/multiplot.R")
+library(tidyverse)
+library(quantmod)
+library(data.table)
+library(viridis)  # for the colors
+library(htmlTable)  # for the table
+library(maps)
+```  
+WE LEFT OFF TALKING about national trends in population and housing supply.  Let's examine some of the regional trends here (see the [prior post]({% post_url 2017-05-28-housing-supply-house-prices%}) for a summary of national trends.)
+
+```{r  fig-05-30-2017-get-data,cache=T, echo=F}
+###############################################################################
+#### Read in HPI data  
+###############################################################################
+df<-read_excel("data/pophouse2016.xlsx", 
+               sheet = "cbsa")
+colnames(df)[c(1,4,10,11)]<-c("cbsa","name","FIPS.st","FIPS.county")
+df<- df %>% mutate(FIPS=paste0(FIPS.st,FIPS.county ))
+
+df.pop<-read_excel("data/pophouse2016.xlsx", 
+               sheet = "PEP_2016_PEPANNRES_with_ann",  # name of sheet
+               range="B2:L3144" )        # range where data lives
+
+df.pop2<- df.pop %>% mutate(FIPS=str_pad(Id2, 5, pad = "0")) %>%
+  select(-1,-2,-3,-4) %>% gather(var,pop,-FIPS) %>% 
+  mutate(year=as.numeric(str_sub(var, start= -4))) %>% select(FIPS,year,pop)
+
+
+df.hous<-read_excel("data/pophouse2016.xlsx", 
+                    sheet = "PEP_2016_PEPANNHU_with_ann",  # name of sheet
+                    range="B2:L3144" )        # range where data lives
+
+df.hous2<- df.hous %>% mutate(FIPS=str_pad(Id2, 5, pad = "0")) %>%
+  select(-1,-2,-3,-4) %>% gather(var,hous,-FIPS) %>% 
+  mutate(year=as.numeric(str_sub(var, start= -4))) %>% select(FIPS,year,hous)
+
+
+#left_join(d1, d2, by = c("x" = "x2", "y" = "y2"))
+
+df3<-left_join(df.pop2,df.hous2,by=c("FIPS","year"))
+df4<-left_join(df3,select(df,cbsa,FIPS,name),by="FIPS") 
+
+data(county.fips)
+
+fc<-fips.county %>% mutate(
+  FIPS=paste0(str_pad(State.ANSI , 2, pad = "0"),
+              str_pad(County.ANSI,3,pad="0")))
+
+df4<-merge(df4,select(fc,State,County.Name,FIPS),by="FIPS")
+df4<-mutate(df4,fullname=paste0(County.Name,", ",State))
+
+df5<-df4 %>% group_by(FIPS) %>%
+  mutate(cpop10=100*pop/pop[year==2010],
+                            chous10=100*hous/hous[year==2010]) %>%
+  mutate(cratio=cpop10/chous10) %>% ungroup()
+
+df6 <- data.table(df5)[,list(pop=sum(pop),
+                             hous=sum(hous)),
+                          by=c("year","name","cbsa")][cbsa>0,]
+
+df6<-df6[,":="(pop10=sum(ifelse(year==2010,pop,0)),
+          hous10=sum(ifelse(year==2010,hous,0))),
+          by=cbsa]
+
+df6<- df6[,":="(pr=pop/pop10,
+          hr=hous/hous10,
+          ratio=(pop/pop10)/(hous/hous10))]
+
+df6<-df6[order(-pop10,cbsa,year)]
+
+df6<-df6[,mid:=1:.N,by=year]
+df6$cbsa<-as.integer(df6$cbsa)
+setkeyv(df6,c("year","cbsa"))
+
+###############################################################################
+#### Load metro data
+###############################################################################
+df.metro1<-read_excel("data//msas_new.xls", 
+                      sheet = "MSA Indices A-L",
+                      range="B6:HG513" )
+df.metro1$date<-seq.Date(as.Date("1975-01-01"),as.Date("2017-03-01"),by="1 month")
+
+
+df.metro2<-read_excel("data/msas_new.xls", 
+                      sheet = "MSA Indices M-Z",
+                      range="B6:FM513" )
+df.metro2$date<-seq.Date(as.Date("1975-01-01"),as.Date("2017-03-01"),by="1 month")
+
+###############################################################################
+#### Load join metro data
+###############################################################################
+df.metro<-left_join(df.metro1,df.metro2,by="date")
+
+df.metro <- df.metro %>% gather(geo,hpi,-date) %>% mutate(type="metro")
+df.metro<-df.metro %>% group_by(geo) %>% mutate(hpa=hpi/shift(hpi,12)-1) %>% ungroup()
+
+
+cbsa.data <-fread("C:/Users/Leonard/Documents/Data Viz/blog/geo/cbsa.city.txt")
+cbsa.metro<-cbsa.data[metro.micro=="Metropolitan Statistical Area"]
+#create lowercase names
+cbsa.metro<-cbsa.metro[,nameL:=tolower(name)]
+cbsa.list<-unique(d$cbsa.name)
+
+df.metro3<-merge(df.metro,select(cbsa.metro,cbsa,cbsa.name),
+                 by.y="cbsa.name",by.x="geo",all.x=T)
+
+df.metro4<- df.metro3 %>% filter(month(date)==7 & year(date)>2009) %>%
+  mutate(year=year(date)) %>% group_by(geo) %>% mutate(hpi10=hpi/hpi[year==2010]) %>% ungroup() %>% data.table()
+
+setkeyv(df.metro4,c("year","cbsa"))
+
+
+df6b<- merge(df6[cbsa>0,],unique(df.metro4[cbsa>0,]))[order(mid,year)]
+
+
+df7<-data.table(df6b)[year==2016,][,list(dr=(pop/hous-pop10/hous10),
+                                        hpi=hpi10-1),
+                                  by=c("cbsa","name","mid")][order(mid)]
+
+
+dt<-data.table(df3)
+dt.us<- dt[,lapply(.SD,sum),by=year,.SDcols=c("pop","hous")]
+
+
+```
+
+Last time we drew a plot showing trends in the national population per housing unit.
+
+```{r fig-05-30-2017-pop-us,cache=F, echo=F}
+ggplot(data=dt.us,aes(x=year,y=pop/hous,label=round(pop/hous,3)))+
+  geom_line()+geom_point()+theme_minimal()+#geom_text(vjust=1,nudge_y=0.005)+
+  labs(x="",y="",title="Population increasing faster than housing supply",
+       subtitle="U.S. population per housing unit, July of each year",
+     caption="@lenkiefer Source: U.S. Census Bureau")+
+  theme(plot.caption=element_text(hjust=0))
+```
+
+Let's consider how the this statistic varies by region. First, let's look at trends by county, summarized in a box plot.
+
+```{r  fig-05-30-2017-plot-county-box-1,cache=T, echo=F}
+ggplot(data=filter(df5,pop>1e4), 
+       aes(y=pop/hous,x=factor(year),weight=pop))+
+  #geom_path(alpha=0.5)+geom_point(alpha=0.5)+ 
+  geom_boxplot(fill="gray")+
+  scale_y_continuous(limits=c(2.2,3),breaks=seq(2,3,.2))+
+  theme_minimal()+
+  theme(legend.position="none",
+        strip.text=element_text(size=7),
+        plot.caption=element_text(hjust=0))+
+  #facet_wrap(~name)+
+    labs(x="",y="",title="Population increasing faster than housing supply",
+       subtitle="Distribution of county population per housing unit\n(counties with population of at least 10,000, weighted by population)",
+       caption="@lenkiefer Source: U.S. Census Bureau, July of each year")
+```
+
+We can also aggregate up to metro areas.  The plot below compares trends over the 9 largest metro areas.
+
+```{r  fig-05-30-2017-plot-1,cache=T, echo=F}
+
+ggplot(data=df6[ cbsa>0 & mid<=16], 
+       aes(y=pop/hous,x=year,color=name,group=name))+
+  geom_path()+geom_point()+ 
+  scale_y_continuous(limits=c(2.2,3),breaks=seq(2,3,.2))+
+  theme_minimal()+
+  theme(legend.position="none",
+        strip.text=element_text(size=7),
+        plot.caption=element_text(hjust=0))+
+  facet_wrap(~name)+
+    labs(x="",y="",title="Population increasing faster than housing supply",
+       subtitle="Metro population per housing unit, July of each year",
+       caption="@lenkiefer Source: U.S. Census Bureau")
+
+```
+
+
+```{r  fig-05-30-2017-plot-2,cache=T, echo=F}
+ggplot(data=filter(df5,year==2016 & pop>2.5e5), 
+       aes(x=cpop10,y=chous10,group=fullname,label=fullname))+
+  geom_point(alpha=0.5)+
+  theme_minimal()+
+  theme(legend.position="none", 
+        plot.caption=element_text(hjust=0))+
+  labs(y="Housing units: 2010 = 100", x="Population: 2010 =100 ",
+       title="Population and housing unit growth",
+       subtitle="Counties with population > 250,000",
+       caption="@lenkiefer Source: U.S. Census Bureau, July")
+
+
+```
+
+If we restrict ourselves to just those counties with over 2 million we can add labels.
+
+```{r  fig-05-30-2017-plot-3,cache=T, echo=F}
+ggplot(data=filter(df5,year==2016 & pop>2e6), 
+       aes(x=cpop10,y=chous10,group=fullname,label=fullname))+
+  geom_point(alpha=0.5)+
+  ggrepel::geom_text_repel()+
+  theme_minimal()+
+  theme(legend.position="none", 
+        plot.caption=element_text(hjust=0))+
+  labs(y="Housing units: 2010 = 100", x="Population: 2010 =100 ",
+       title="Population and housing unit growth 2010 to 2016",
+       subtitle="Counties with population > 2,000,000 in 2016",
+       caption="@lenkiefer Source: U.S. Census Bureau, July")
+```
+
+```{r  fig-05-30-2017-plot-4,cache=T, echo=F}
+ggplot(data=df6[cbsa>0 & mid<=200], 
+       aes(y=pop/hous,x=factor(year),weight=pop))+
+  #geom_path(alpha=0.5)+geom_point(alpha=0.5)+ 
+  geom_boxplot(fill="gray")+
+  scale_y_continuous(limits=c(2,3),breaks=seq(2,3,.2))+
+  theme_minimal()+
+  theme(legend.position="none",
+        strip.text=element_text(size=7),
+        plot.caption=element_text(hjust=0))+
+  #facet_wrap(~name)+
+    labs(x="",y="",title="Population increasing faster than housing supply",
+       subtitle="Distribution of metro population per housing unit\n(200 largest metros, weighted by population)",
+       caption="@lenkiefer Source: U.S. Census Bureau, July of each year")
+
+
+ggplot(data=df6[year %in% c(2016) & cbsa>0 & mid<=20], 
+       aes(x=pop/hous,y=reorder(name,pop/hous),
+           weight=pop,color=pop/hous,label=name))+
+  geom_quasirandom(alpha=0.5,size=3)+ 
+  geom_text(x=2.39,y=20,label="U.S. = 2.38",color="black",hjust=0)+
+  #geom_density()+
+  geom_text(hjust=0,nudge_x=0.01)+
+  scale_color_viridis(end=0.85)+
+  #geom_boxplot(fill="gray")+
+  scale_x_continuous(limits=c(2.15,3.15),breaks=seq(2.1,3.1,.1))+
+  theme_minimal()+
+  theme(legend.position="none",
+        axis.text.y=element_blank(),
+        panel.grid.major.y=element_blank(),
+        strip.text=element_text(size=7),
+        plot.caption=element_text(hjust=0))+
+  geom_vline(xintercept=2.381,linetype=2,color="darkgray")+
+  #facet_wrap(~name)+
+    labs(x="Population per Housing Unit in 2016",y="",title="How many people per housing unit in 2016?",
+       subtitle="Distribution of metro population per housing unit (20 largest metros)",
+       caption="@lenkiefer Source: U.S. Census Bureau")
+
+```
+
+```{r  fig-05-30-2017-plot-5,cache=T, echo=F}
+ggplot(df7[mid<=100,],aes(x=dr,y=hpi))+
+  geom_point(size=3,alpha=0.5)+
+  theme_minimal()+ 
+  stat_smooth(method="lm",fill=NA,color="black",linetype=2)+
+  #geom_point(data=df7[mid<=5,],size=4,alpha=0.95,color="#4575b4")+
+ # ggrepel::geom_text_repel(data=df7[mid<=5,],fontface="bold",color="#4575b4")+
+  scale_y_continuous(labels=percent)+
+  #scale_x_continuous(labels=percent)+
+    theme(legend.position="none",
+        strip.text=element_text(size=7),
+        plot.caption=element_text(hjust=0))+
+  labs(x="Change in population/housing unit ratio: 2010-2016",
+       y="Percent change in house prices: 2010-2016",
+       title="Metros where population grew faster than housing supply tended to experience greater house price appreciation",
+       subtitle="Each dot a metro area (top 100 metros by population)",
+       caption="@lenkiefer Source: U.S. Census, Freddie Mac House Price Index, July of each year")
+```
+
+```{r  fig-05-30-2017-table-1,cache=T, echo=F,results='asis'}
+reg<-lm(data=df7[mid<=100,] ,hpi~dr)
+rego<-stargazer::stargazer(reg,out="html")
+summary(reg)
+
+```
+
