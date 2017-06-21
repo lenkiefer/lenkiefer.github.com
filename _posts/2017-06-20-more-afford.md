@@ -1,0 +1,155 @@
+---
+layout: post
+title: "More on housing affordability"
+author: "Len Kiefer"
+date: "2017-06-20"
+summary: "rstats data visualizations of housing data"
+group: navigation
+theme :
+  name : lentheme
+---
+
+
+
+LET US FOLLOW UP ON [YESTERDAY'S POST]({% post_url 2017-06-19-housing-afford %}) with some more analysis of housing affordability.
+
+Per usual, we'll use [R](https://www.r-project.org/) to generate the plots and I'll share the code below. 
+
+# Measuring affordability
+
+First, let's talk a little bit more about what we are seeing in the plots. What are we measuring? Affordability metrics are often based on market level summary statistics. In our case we are looking at various ways to measure housing costs at a market level. 
+
+In this analysis we hope that market-level statistics capture important trends. For more on looking at distributions see for example, [this post]({% post_url 2017-04-16-house-price-to-income-acs-2015 %}).
+
+In the plot's we looked at [yesterday]({% post_url 2017-06-19-housing-afford %})) and will expand on today, we looked at metro-area estimates of median house prices and median incomes. Using assumptions about mortgage financing, the house prices can be turned into estimates of monthly mortgage payments.  
+
+Specifically the mortgage payment is calculated assuming that a household (earning the median household income in 2016) purchases the median priced home in that market financed with a mortgage with a 5% downpayment (so the mortgage amount is 95% of the median price), property tax of 1.25%, property insurance of 0.25% and mortgage insurance of 0.5%. The only assumption that varies across areas is the house purchase price and thus that drives the monthly payment differentials across areas. 
+
+Of course, the market-level statistics don't capture what's true at an individual level, but the hope is that movements over time and comparisons across space capture important trends.
+
+For our purposes, we are going to take advantage of other's hard work and use the statistics that have been conveniently provided by the Joint Center for Housing Studies (JCHS) of Harvard University in their annual [State of the Nation's Housing](http://www.jchs.harvard.edu/research/state_nations_housing) report and their online appendix with a handy Excel table.
+
+Just like yesterday, we'll proceed assuming you've downloaded the Excel file from JCHS (available [here .xlsx file](http://www.jchs.harvard.edu/sites/jchs.harvard.edu/files/all_son_2017_tables_current_6_12_17.xlsx)).
+
+Now with that in hand, let's get back to it.
+
+# Data prep
+
+Our data prep follow along like yesterday, though at the end we'll merge our two datasets corresponding to information from the two worksheets we extract.
+
+We'll have to use *readxl* (see this [post for more on wrangling Excel data with R]({% post_url 2017-04-20-global-hpi-readxl %})) to get the data ready to use.  It's going to involve understanding the structure of the Excel file and using some of [readxl](https://cran.r-project.org/web/packages/readxl/index.html)'s nice [features](https://blog.rstudio.org/2017/04/19/readxl-1-0-0/).
+
+The spreadsheet is pretty well organized so using the patterns described in the links above we can pretty easily get the data ready.
+
+We are going to use two of the worksheets. Worksheet W-9 contains estimates of metro area median monthly mortgage payments and worksheet W-12 contains estimates of metro area median house price-to-median household income estimates. After we've tidied the data we'll merge the two tidy data into one data frame.
+
+Let's go get that data and wrangle it into shape:
+
+
+{% highlight r %}
+library(readxl)
+library(tidyverse)
+library(ggbeeswarm)
+library(viridis)
+library(scales)
+
+# Load the mortgage payment data
+df<-read_excel(path="data/all_son_2017_tables_current_6_12_17.xlsx",
+               sheet="W-9",
+               range="A5:AB387")
+
+# gather the data to tidy
+df<-df %>% gather(year,pmt,c(2:28))
+# rename the metro column from 'Metropolitan Area', to 'metro'
+colnames(df)[1]<-"metro"
+# convert year to numeric
+df$year<-as.numeric(df$year)
+
+
+# Load the median house price to median income estimates
+
+df2<-read_excel(path="data/all_son_2017_tables_current_6_12_17.xlsx",
+               sheet="W-12",
+               range="A5:AB387")
+
+# gather the data to tidy
+df2<-df2 %>% gather(year,pti,c(2:28))
+# rename the metro column from 'Metropolitan Area', to 'metro'
+colnames(df2)[1]<-"metro"
+# convert year to numeric
+df2$year<-as.numeric(df2$year)
+
+# NEW 06/20/2017
+# merge the data together
+df3<-merge(df,df2,by=c("year","metro"))
+{% endhighlight %}
+
+# Make some plots
+
+Yesterday we looked separately at the distribution of monthly mortgage payments across metro areas and years (in 2016 inflation-adjusted dollars) and the median house price-to-median household income ratio across metro areas and years.
+
+But how do they line up? Do areas with high mortgage payments (driven by higher median house prices) also have higher house price-to-income ratios?  Let's take a look.
+
+
+{% highlight r %}
+ggplot(data=filter(df3,metro !="United States" & year==2016), aes(x=pmt,y=pti,label=metro))+
+  geom_point(alpha=0.75,size=3)+
+  scale_x_log10(breaks=c(500,1000,1500,2000,3000,6000),labels=scales::dollar)+
+  theme_minimal()+
+  theme(plot.caption=element_text(hjust=0),
+        plot.title=element_text(hjust=0,face="bold",size=24),
+        legend.position="bottom",
+        legend.key.width = unit(2, "cm"))+
+  geom_point(size=3,color="red",data=filter(df3,metro %in% c("Youngstown-Warren-Boardman, OH-PA","San Jose-Sunnyvale-Santa Clara, CA") & year==2016))+
+  geom_text(size=3,color="red",hjust=0,data=filter(df3,metro %in% c("Youngstown-Warren-Boardman, OH-PA") & year==2016),aes(y=pti-0.25))+
+    geom_text(size=3,color="red",hjust=1,data=filter(df3,metro %in% c("San Jose-Sunnyvale-Santa Clara, CA") & year==2016),aes(y=pti-0.25))+
+
+  labs(y="Median Home Price-to-Median Income Ratio",x="Monthly payment in 2016 $, log scale",title="How affordable is housing?",
+       subtitle="Metro Area-Median Home Price-to-Median Income Ratios: 2016\nvs U.S.-Monthly Mortgage Payment on the Median Priced Home: 2016",
+       caption="@lenkiefer Each dot represents one metro area.\n\nSources: JCHS tabulations of National Association of Realtors and Moody's Analytics Forecasted Single-Family Seasonally \nAdjusted Quarterly Median Home Price, annualized by DataBuffet; Freddie Mac Annual Primary Mortgage Market Survey.\nJCHS 2017 State of the Nation's Housing, Appendix Tables http://www.jchs.harvard.edu/research/state_nations_housing\n\nNote: Monthly payment assumes a 5% down payment on the median-priced existing single-family home with property taxes of 1.25%, \nproperty insurance of 0.25%, and mortgage insurance of 0.5%. Values are adjusted to 2016 dollars using CPI-U All Items Less Shelter.\nMedian household income in 2016 is forecasted by Moody's Analytics.")
+{% endhighlight %}
+
+![plot of chunk 06-20-2017-scatter-1](/img/Rfig/06-20-2017-scatter-1-1.svg)
+
+This chart tells an interesting story. The chart is upward sloping, which indicates that metro areas where house prices and thus monthly payments are higher tend to have higher median home price-to-median household income ratios. For example, Youngstown-Warren-Boardman, OH-PA which has a monthly payment of about \$500 while San Jose-Sunnyvale-Santa Clara, CA has a monthly payment of over $6,000 dollars. The median home price-to-median household income ratio is less than 2 in Youngstown-Warren-Boardman, OH-PA, while it is 9.5 in San Jose-Sunnyvale-Santa Clara, CA.
+
+## Trends over time
+
+How have these statistics varied over time?  Let's plot one of my favorite visualizations for evolving relationships (no not a [dual axis graph](https://twitter.com/lenkiefer/status/868534823362678784), a connected scatter plot.
+
+
+{% highlight r %}
+ggplot(data=filter(df3,metro %in% c("Youngstown-Warren-Boardman, OH-PA","San Jose-Sunnyvale-Santa Clara, CA") ), 
+       aes(x=pmt,y=pti,color=metro,label=paste(year)))+
+  geom_path(size=0.25,alpha=0.5)+
+  geom_point(alpha=0.75,size=1)+
+  scale_x_log10(breaks=c(500,1000,1500,2000,3000,6000),labels=scales::dollar)+
+  theme_minimal()+
+  theme(plot.caption=element_text(hjust=0),
+        plot.title=element_text(hjust=0,face="bold",size=24),
+        legend.position="bottom",
+        legend.key.width = unit(2, "cm"))+
+  geom_text(size=6, fontface="bold",
+            data=filter(df3,year %in% c(1990,2016)&
+                          metro %in% 
+                          c("Youngstown-Warren-Boardman, OH-PA",
+                            "San Jose-Sunnyvale-Santa Clara, CA"))) +
+
+  labs(y="Median Home Price-to-Median Income Ratio",x="Monthly payment in 2016 $, log scale",title="How affordable is housing?",
+       subtitle="Metro Area-Median Home Price-to-Median Income Ratios: 1990-2016\nvs U.S.-Monthly Mortgage Payment on the Median Priced Home: 1990-2016",
+       caption="@lenkiefer Each dot represents one metro area.\n\nSources: JCHS tabulations of National Association of Realtors and Moody's Analytics Forecasted Single-Family Seasonally \nAdjusted Quarterly Median Home Price, annualized by DataBuffet; Freddie Mac Annual Primary Mortgage Market Survey.\nJCHS 2017 State of the Nation's Housing, Appendix Tables http://www.jchs.harvard.edu/research/state_nations_housing\n\nNote: Monthly payment assumes a 5% down payment on the median-priced existing single-family home with property taxes of 1.25%, \nproperty insurance of 0.25%, and mortgage insurance of 0.5%. Values are adjusted to 2016 dollars using CPI-U All Items Less Shelter.\nMedian household income in 2016 is forecasted by Moody's Analytics.")
+{% endhighlight %}
+
+![plot of chunk 06-20-2017-scatter-2](/img/Rfig/06-20-2017-scatter-2-1.svg)
+
+These two charts trace the fortunes of the two markets. Youngstown-Warren-Boardman, OH-PA has seen little change in the price-to-income ratio over the years. It has seen a decline in the monthly payment (after adjusting for inflation). San Jose-Sunnyvale-Santa Clara, CA on the other hand has seen a dramatic increase in both the monthly payment and the median home price-to-median income ratio. Despite the declines in mortgage rates, buyers in San Jose-Sunnyvale-Santa Clara, CA are paying more in payments and a larger percentage of their income (if they earn the median household income).
+
+The story might be easier to see in an animated gif:
+
+<img src="{{ site.url}}/img/charts_jun_20_2017/scatter.gif" height="472" width="660">
+
+# Follow-up
+
+There's a lot more interesting data compiled in the JCHS report.  If you are interested in U.S. housing market trends, then you definitely should check out the full report ([LINK pdf](http://www.jchs.harvard.edu/sites/jchs.harvard.edu/files/harvard_jchs_state_of_the_nations_housing_2017.pdf)). The JCHS has also prepared some interesting interactive maps [see for example here](http://harvard-cga.maps.arcgis.com/apps/MapSeries/index.html?appid=c3cae00cb1c84af88c2c3774e0808a12) that have a bunch of interesting information.
+
+We can also build some more interesting visualizations with the data. There's a lot more left to explore. See you next time.
