@@ -101,7 +101,7 @@ sdata$state<-as.factor(sdata$state)
 
 ## Animation with no easing
 
-First, let's go over the animation without easing.  I'm going to use the [gganimate package](https://github.com/dgrtwo/gganimate), which I've been avoiding using because I'm a data masochist and love writing loops.  By using gganimate, we can crate the GIF with less code.  We lose some control, but gain some efficiency.
+First, let's go over the animation without easing.  I'm going to use the [gganimate package](https://github.com/dgrtwo/gganimate), which I've been avoiding using because I'm a data masochist and love writing loops.  By using gganimate, we can create the GIF with less code.  We lose some control, but gain some efficiency.
 
 We're going to make a fairly simple data visualization. We're going to plot the [Freddie Mac House Price Index (FMHPI)](http://www.freddiemac.com/finance/house_price_index.html) from January 2000 through March 2016, comparing the national index to each of the 50 states and the District of Columbia.  
 
@@ -116,7 +116,7 @@ The transitions will be choppy.
  
 
 # Create a new variable that equals the US index and merge back to main dataset
-# we'll use the US average as referecne line
+# we'll use the US average as reference line
 data.us<-sdata[state=="US",]
 data.us<-dplyr::rename(data.us, ushpi=hpi) #rename hpi column US HPI
 data.us$state=NULL   #drop state column
