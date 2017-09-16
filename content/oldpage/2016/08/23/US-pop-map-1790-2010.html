@@ -1,0 +1,1028 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>U.S. county population: 1790-2010</title>
+    
+    <meta name="author" content="Len Kiefer">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap styles -->
+    <link href="/assets/themes/lentheme/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Optional theme -->
+    <link href="/assets/themes/lentheme/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <!-- Sticky Footer -->
+    <link href="/assets/themes/lentheme/bootstrap/css/bs-sticky-footer.css" rel="stylesheet">
+    
+    <!-- Custom styles -->
+    <link href="/assets/themes/lentheme/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <!-- Update these with your own images
+      <link rel="shortcut icon" href="images/favicon.ico">
+      <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+      <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+      <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+  </head>
+
+  <body>
+    <div id="wrap">
+      <nav class="navbar navbar-default" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#jb-navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/"><span class="icon-home3" style="font-size:24px"> Len Kiefer</a></span>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="jb-navbar-collapse" style="font-size:24px">
+          <ul class="nav navbar-nav" >
+        <li><a href="/archive.html"><span class="icon-newspaper"> Posts</a></span></li>
+            <!-- li><a href="/chartbook/index.html"><span class="icon-display"> Chartbook</a></span></li-->
+         <li><a href="/resume.html"><span class="icon-profile"> Resume</span></a></li>
+        <li><a href="/about.html"><span class="icon-user-tie"> About</span></a></li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </nav>
+
+      <div class="container">
+        
+<div class="page-header">
+  <h1>U.S. county population: 1790-2010 </h1>
+</div>
+
+<div class="row post-full">
+  <div class="col-xs-12">
+    <div class="date">
+      <span>23 August 2016</span>
+    </div>
+    <div class="content">
+      <p>SOMETIMES YOU ACTUALLY LEARN SOMETHING from social media. Today on Twitter I happened across this Tweet via <a href="https://twitter.com/kyle_e_walker">@kyle_e_walker</a>:</p>
+
+<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">Anybody want population estimates for every US county &amp; metro back to 1790? Well, here are mine. Have fun!<a href="https://t.co/QqdA6226kN">https://t.co/QqdA6226kN</a></p>&mdash; Jonathan Schroeder (@j_p_schroeder) <a href="https://twitter.com/j_p_schroeder/status/765220244822462465">August 15, 2016</a></blockquote>
+<script async="" src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>Seems somebody posted estimates of the U.S. population by county (defined by 2010 county definitions) going back to 1790. This is a perfect dataset to practice my mapping with R.</p>
+
+<p>The data are <a href="http://conservancy.umn.edu/handle/11299/181605">conveniently available</a> via the University of Minnesota. The data come in a <a href="http://conservancy.umn.edu/bitstream/handle/11299/181605/county2010_hist_pops.xlsx?sequence=12&amp;isAllowed=y">nice spreadsheet</a> that we can easily import into R and manipulate.</p>
+
+<p>We’re going to build this:</p>
+
+<p><img src="/img/charts_aug_23_2016/pop gif.gif" alt="population map" /></p>
+
+<h2 id="getting-started">Getting started</h2>
+
+<p>Let’s begin my loading libraries.  I don’t recall which of these libraries are essential for what follows, but here’s what I was working with.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1">#load libraries
+</span><span class="n">library</span><span class="p">(</span><span class="n">readxl</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">data.table</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">tidyr</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">ggbeeswarm</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">viridis</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">scales</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">ggthemes</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">tweenr</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">purrr</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">animation</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">acs</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">reshape2</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">stringr</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">ggalt</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">rgeos</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">maptools</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">albersusa</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">broom</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">ineq</span><span class="p">)</span> <span class="err">#</span><span class="n">used</span> <span class="k">for</span> <span class="n">concentration</span> <span class="n">indices</span></code></pre></figure>
+
+<p>Now we can import the data.  I’ve saved the <a href="http://conservancy.umn.edu/bitstream/handle/11299/181605/county2010_hist_pops.xlsx?sequence=12&amp;isAllowed=y">spreadsheet</a> to my data directory.</p>
+
+<p>There are two excel worksheets we are interested in using.  The <em>c2010_hist_pops</em> worksheet contains population estimates from 1790 to 2010 arranged with years as columns and each county going down.  The <em>national_shares</em> worksheet contains the share of total U.S. population for each county.</p>
+
+<p>Let’s load the data and take a look:</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">library</span><span class="p">(</span><span class="n">readxl</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="s2">"htmlTable"</span><span class="p">)</span>
+<span class="n">popDF</span><span class="o">&lt;-</span><span class="n">read_excel</span><span class="p">(</span><span class="s2">"data/county2010_hist_pops.xlsx"</span><span class="p">,</span><span class="n">sheet</span><span class="o">=</span><span class="s2">"c2010_hist_pops"</span><span class="p">)</span>
+<span class="n">shareDF</span><span class="o">&lt;-</span><span class="n">read_excel</span><span class="p">(</span><span class="s2">"data/county2010_hist_pops.xlsx"</span><span class="p">,</span><span class="n">sheet</span><span class="o">=</span><span class="s2">"national_shares"</span><span class="p">)</span>
+
+<span class="n">popDF.print</span><span class="o">&lt;-</span><span class="n">popDF</span>
+<span class="n">shareDF.print</span><span class="o">&lt;-</span><span class="n">shareDF</span>
+
+<span class="c1">#round the decimals for printing
+</span><span class="n">is.num</span> <span class="o">&lt;-</span> <span class="n">sapply</span><span class="p">(</span><span class="n">popDF.print</span><span class="p">,</span> <span class="n">is.numeric</span><span class="p">)</span>
+<span class="n">popDF.print</span><span class="p">[</span><span class="n">is.num</span><span class="p">]</span> <span class="o">&lt;-</span> <span class="n">lapply</span><span class="p">(</span><span class="n">popDF.print</span><span class="p">[</span><span class="n">is.num</span><span class="p">],</span> <span class="n">round</span><span class="p">,</span> <span class="m">0</span><span class="p">)</span>
+<span class="n">is.num</span> <span class="o">&lt;-</span> <span class="n">sapply</span><span class="p">(</span><span class="n">shareDF.print</span><span class="p">,</span> <span class="n">is.numeric</span><span class="p">)</span>
+<span class="n">shareDF.print</span><span class="p">[</span><span class="n">is.num</span><span class="p">]</span> <span class="o">&lt;-</span> <span class="n">lapply</span><span class="p">(</span><span class="n">shareDF.print</span><span class="p">[</span><span class="n">is.num</span><span class="p">],</span> <span class="n">round</span><span class="p">,</span> <span class="m">2</span><span class="p">)</span>
+
+<span class="c1"># make tables for viewing
+</span><span class="n">htmlTable</span><span class="p">(</span><span class="n">head</span><span class="p">(</span><span class="n">popDF.print</span><span class="p">),</span> <span class="n">col.rgroup</span> <span class="o">=</span> <span class="n">c</span><span class="p">(</span><span class="s2">"none"</span><span class="p">,</span> <span class="s2">"#F7F7F7"</span><span class="p">),</span><span class="n">caption</span><span class="o">=</span><span class="s2">"Population table"</span><span class="p">,</span>
+          <span class="n">tfoot</span><span class="o">=</span><span class="s2">"&amp;dagger;c2010_hist_pops worksheet"</span><span class="p">)</span></code></pre></figure>
+
+<table class="gmisc_table" style="border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;">
+<thead>
+<tr><td colspan="28" style="text-align: left;">
+Population table</td></tr>
+<tr>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey;"> </th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">GISJOIN</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">GEOID10</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">STATE</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">COUNTY</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">epop1790</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">epop1800</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">epop1810</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">epop1820</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">epop1830</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">epop1840</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">epop1850</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">epop1860</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">epop1870</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">epop1880</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">epop1890</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">epop1900</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">epop1910</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">epop1920</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">epop1930</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">epop1940</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">epop1950</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">epop1960</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">epop1970</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">epop1980</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">epop1990</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">epop2000</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">pop2010</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">1</td>
+<td style="text-align: center;">G0100010</td>
+<td style="text-align: center;">01001</td>
+<td style="text-align: center;">Alabama</td>
+<td style="text-align: center;">Autauga</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">2313</td>
+<td style="text-align: center;">6332</td>
+<td style="text-align: center;">7684</td>
+<td style="text-align: center;">8049</td>
+<td style="text-align: center;">8968</td>
+<td style="text-align: center;">11623</td>
+<td style="text-align: center;">13108</td>
+<td style="text-align: center;">13330</td>
+<td style="text-align: center;">17915</td>
+<td style="text-align: center;">20038</td>
+<td style="text-align: center;">18908</td>
+<td style="text-align: center;">19694</td>
+<td style="text-align: center;">20977</td>
+<td style="text-align: center;">18186</td>
+<td style="text-align: center;">18739</td>
+<td style="text-align: center;">24460</td>
+<td style="text-align: center;">32259</td>
+<td style="text-align: center;">34222</td>
+<td style="text-align: center;">43671</td>
+<td style="text-align: center;">54571</td>
+</tr>
+<tr style="background-color: #f7f7f7;">
+<td style="background-color: #f7f7f7; text-align: left;">2</td>
+<td style="background-color: #f7f7f7; text-align: center;">G0100030</td>
+<td style="background-color: #f7f7f7; text-align: center;">01003</td>
+<td style="background-color: #f7f7f7; text-align: center;">Alabama</td>
+<td style="background-color: #f7f7f7; text-align: center;">Baldwin</td>
+<td style="background-color: #f7f7f7; text-align: center;">0</td>
+<td style="background-color: #f7f7f7; text-align: center;">22</td>
+<td style="background-color: #f7f7f7; text-align: center;">26</td>
+<td style="background-color: #f7f7f7; text-align: center;">646</td>
+<td style="background-color: #f7f7f7; text-align: center;">1792</td>
+<td style="background-color: #f7f7f7; text-align: center;">2263</td>
+<td style="background-color: #f7f7f7; text-align: center;">3385</td>
+<td style="background-color: #f7f7f7; text-align: center;">5774</td>
+<td style="background-color: #f7f7f7; text-align: center;">6004</td>
+<td style="background-color: #f7f7f7; text-align: center;">8603</td>
+<td style="background-color: #f7f7f7; text-align: center;">8941</td>
+<td style="background-color: #f7f7f7; text-align: center;">13194</td>
+<td style="background-color: #f7f7f7; text-align: center;">18178</td>
+<td style="background-color: #f7f7f7; text-align: center;">20730</td>
+<td style="background-color: #f7f7f7; text-align: center;">28289</td>
+<td style="background-color: #f7f7f7; text-align: center;">32324</td>
+<td style="background-color: #f7f7f7; text-align: center;">40997</td>
+<td style="background-color: #f7f7f7; text-align: center;">49088</td>
+<td style="background-color: #f7f7f7; text-align: center;">59382</td>
+<td style="background-color: #f7f7f7; text-align: center;">78556</td>
+<td style="background-color: #f7f7f7; text-align: center;">98280</td>
+<td style="background-color: #f7f7f7; text-align: center;">140415</td>
+<td style="background-color: #f7f7f7; text-align: center;">182265</td>
+</tr>
+<tr>
+<td style="text-align: left;">3</td>
+<td style="text-align: center;">G0100050</td>
+<td style="text-align: center;">01005</td>
+<td style="text-align: center;">Alabama</td>
+<td style="text-align: center;">Barbour</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">428</td>
+<td style="text-align: center;">2173</td>
+<td style="text-align: center;">11163</td>
+<td style="text-align: center;">21938</td>
+<td style="text-align: center;">28902</td>
+<td style="text-align: center;">29298</td>
+<td style="text-align: center;">33979</td>
+<td style="text-align: center;">34898</td>
+<td style="text-align: center;">35152</td>
+<td style="text-align: center;">32728</td>
+<td style="text-align: center;">32067</td>
+<td style="text-align: center;">32425</td>
+<td style="text-align: center;">32722</td>
+<td style="text-align: center;">28892</td>
+<td style="text-align: center;">24700</td>
+<td style="text-align: center;">22543</td>
+<td style="text-align: center;">24756</td>
+<td style="text-align: center;">25417</td>
+<td style="text-align: center;">29038</td>
+<td style="text-align: center;">27457</td>
+</tr>
+<tr style="background-color: #f7f7f7;">
+<td style="background-color: #f7f7f7; text-align: left;">4</td>
+<td style="background-color: #f7f7f7; text-align: center;">G0100070</td>
+<td style="background-color: #f7f7f7; text-align: center;">01007</td>
+<td style="background-color: #f7f7f7; text-align: center;">Alabama</td>
+<td style="background-color: #f7f7f7; text-align: center;">Bibb</td>
+<td style="background-color: #f7f7f7; text-align: center;">0</td>
+<td style="background-color: #f7f7f7; text-align: center;">0</td>
+<td style="background-color: #f7f7f7; text-align: center;">0</td>
+<td style="background-color: #f7f7f7; text-align: center;">2908</td>
+<td style="background-color: #f7f7f7; text-align: center;">6144</td>
+<td style="background-color: #f7f7f7; text-align: center;">7088</td>
+<td style="background-color: #f7f7f7; text-align: center;">8526</td>
+<td style="background-color: #f7f7f7; text-align: center;">10188</td>
+<td style="background-color: #f7f7f7; text-align: center;">7512</td>
+<td style="background-color: #f7f7f7; text-align: center;">9549</td>
+<td style="background-color: #f7f7f7; text-align: center;">13948</td>
+<td style="background-color: #f7f7f7; text-align: center;">18650</td>
+<td style="background-color: #f7f7f7; text-align: center;">22884</td>
+<td style="background-color: #f7f7f7; text-align: center;">23236</td>
+<td style="background-color: #f7f7f7; text-align: center;">20780</td>
+<td style="background-color: #f7f7f7; text-align: center;">20155</td>
+<td style="background-color: #f7f7f7; text-align: center;">17987</td>
+<td style="background-color: #f7f7f7; text-align: center;">14357</td>
+<td style="background-color: #f7f7f7; text-align: center;">13812</td>
+<td style="background-color: #f7f7f7; text-align: center;">15723</td>
+<td style="background-color: #f7f7f7; text-align: center;">16576</td>
+<td style="background-color: #f7f7f7; text-align: center;">19889</td>
+<td style="background-color: #f7f7f7; text-align: center;">22915</td>
+</tr>
+<tr>
+<td style="text-align: left;">5</td>
+<td style="text-align: center;">G0100090</td>
+<td style="text-align: center;">01009</td>
+<td style="text-align: center;">Alabama</td>
+<td style="text-align: center;">Blount</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1153</td>
+<td style="text-align: center;">2418</td>
+<td style="text-align: center;">4346</td>
+<td style="text-align: center;">5637</td>
+<td style="text-align: center;">8252</td>
+<td style="text-align: center;">7377</td>
+<td style="text-align: center;">13357</td>
+<td style="text-align: center;">19362</td>
+<td style="text-align: center;">20445</td>
+<td style="text-align: center;">21456</td>
+<td style="text-align: center;">25538</td>
+<td style="text-align: center;">28020</td>
+<td style="text-align: center;">29490</td>
+<td style="text-align: center;">28975</td>
+<td style="text-align: center;">25449</td>
+<td style="text-align: center;">26853</td>
+<td style="text-align: center;">36459</td>
+<td style="text-align: center;">39248</td>
+<td style="text-align: center;">51022</td>
+<td style="text-align: center;">57322</td>
+</tr>
+<tr style="background-color: #f7f7f7;">
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: left;">6</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">G0100110</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">01011</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">Alabama</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">Bullock</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">0</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">0</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">0</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">611</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">2113</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">8126</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">14665</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">18727</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">24500</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">29097</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">27077</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">31944</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">30196</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">25333</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">20016</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">19810</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">16054</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">13462</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">11824</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">10596</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">11042</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">11626</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">10914</td>
+</tr>
+</tbody>
+<tfoot><tr><td colspan="28">
+&dagger;c2010_hist_pops worksheet</td></tr></tfoot>
+</table>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">htmlTable</span><span class="p">(</span><span class="n">head</span><span class="p">(</span><span class="n">shareDF.print</span><span class="p">),</span> <span class="n">col.rgroup</span> <span class="o">=</span> <span class="n">c</span><span class="p">(</span><span class="s2">"none"</span><span class="p">,</span> <span class="s2">"#F7F7F7"</span><span class="p">),</span><span class="n">caption</span><span class="o">=</span><span class="s2">"Population share table"</span><span class="p">,</span>
+          <span class="n">tfoot</span><span class="o">=</span><span class="s2">"&amp;dagger; national_shares_worksheet"</span><span class="p">)</span></code></pre></figure>
+
+<table class="gmisc_table" style="border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;">
+<thead>
+<tr><td colspan="28" style="text-align: left;">
+Population share table</td></tr>
+<tr>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey;"> </th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">GISJOIN</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">GEOID10</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">STATE</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">COUNTY</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">share1790</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">share1800</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">share1810</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">share1820</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">share1830</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">share1840</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">share1850</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">share1860</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">share1870</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">share1880</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">share1890</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">share1900</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">share1910</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">share1920</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">share1930</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">share1940</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">share1950</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">share1960</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">share1970</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">share1980</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">share1990</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">share2000</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">share2010</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">1</td>
+<td style="text-align: center;">G0100010</td>
+<td style="text-align: center;">01001</td>
+<td style="text-align: center;">Alabama</td>
+<td style="text-align: center;">Autauga</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0.02</td>
+<td style="text-align: center;">0.05</td>
+<td style="text-align: center;">0.05</td>
+<td style="text-align: center;">0.03</td>
+<td style="text-align: center;">0.03</td>
+<td style="text-align: center;">0.03</td>
+<td style="text-align: center;">0.03</td>
+<td style="text-align: center;">0.02</td>
+<td style="text-align: center;">0.02</td>
+<td style="text-align: center;">0.02</td>
+<td style="text-align: center;">0.02</td>
+<td style="text-align: center;">0.02</td>
+<td style="text-align: center;">0.02</td>
+<td style="text-align: center;">0.01</td>
+<td style="text-align: center;">0.01</td>
+<td style="text-align: center;">0.01</td>
+<td style="text-align: center;">0.01</td>
+<td style="text-align: center;">0.01</td>
+<td style="text-align: center;">0.02</td>
+<td style="text-align: center;">0.02</td>
+</tr>
+<tr style="background-color: #f7f7f7;">
+<td style="background-color: #f7f7f7; text-align: left;">2</td>
+<td style="background-color: #f7f7f7; text-align: center;">G0100030</td>
+<td style="background-color: #f7f7f7; text-align: center;">01003</td>
+<td style="background-color: #f7f7f7; text-align: center;">Alabama</td>
+<td style="background-color: #f7f7f7; text-align: center;">Baldwin</td>
+<td style="background-color: #f7f7f7; text-align: center;">0</td>
+<td style="background-color: #f7f7f7; text-align: center;">0</td>
+<td style="background-color: #f7f7f7; text-align: center;">0</td>
+<td style="background-color: #f7f7f7; text-align: center;">0.01</td>
+<td style="background-color: #f7f7f7; text-align: center;">0.01</td>
+<td style="background-color: #f7f7f7; text-align: center;">0.01</td>
+<td style="background-color: #f7f7f7; text-align: center;">0.01</td>
+<td style="background-color: #f7f7f7; text-align: center;">0.02</td>
+<td style="background-color: #f7f7f7; text-align: center;">0.02</td>
+<td style="background-color: #f7f7f7; text-align: center;">0.02</td>
+<td style="background-color: #f7f7f7; text-align: center;">0.01</td>
+<td style="background-color: #f7f7f7; text-align: center;">0.02</td>
+<td style="background-color: #f7f7f7; text-align: center;">0.02</td>
+<td style="background-color: #f7f7f7; text-align: center;">0.02</td>
+<td style="background-color: #f7f7f7; text-align: center;">0.02</td>
+<td style="background-color: #f7f7f7; text-align: center;">0.02</td>
+<td style="background-color: #f7f7f7; text-align: center;">0.03</td>
+<td style="background-color: #f7f7f7; text-align: center;">0.03</td>
+<td style="background-color: #f7f7f7; text-align: center;">0.03</td>
+<td style="background-color: #f7f7f7; text-align: center;">0.03</td>
+<td style="background-color: #f7f7f7; text-align: center;">0.04</td>
+<td style="background-color: #f7f7f7; text-align: center;">0.05</td>
+<td style="background-color: #f7f7f7; text-align: center;">0.06</td>
+</tr>
+<tr>
+<td style="text-align: left;">3</td>
+<td style="text-align: center;">G0100050</td>
+<td style="text-align: center;">01005</td>
+<td style="text-align: center;">Alabama</td>
+<td style="text-align: center;">Barbour</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0.02</td>
+<td style="text-align: center;">0.07</td>
+<td style="text-align: center;">0.09</td>
+<td style="text-align: center;">0.09</td>
+<td style="text-align: center;">0.08</td>
+<td style="text-align: center;">0.07</td>
+<td style="text-align: center;">0.06</td>
+<td style="text-align: center;">0.05</td>
+<td style="text-align: center;">0.04</td>
+<td style="text-align: center;">0.03</td>
+<td style="text-align: center;">0.03</td>
+<td style="text-align: center;">0.02</td>
+<td style="text-align: center;">0.02</td>
+<td style="text-align: center;">0.01</td>
+<td style="text-align: center;">0.01</td>
+<td style="text-align: center;">0.01</td>
+<td style="text-align: center;">0.01</td>
+<td style="text-align: center;">0.01</td>
+<td style="text-align: center;">0.01</td>
+</tr>
+<tr style="background-color: #f7f7f7;">
+<td style="background-color: #f7f7f7; text-align: left;">4</td>
+<td style="background-color: #f7f7f7; text-align: center;">G0100070</td>
+<td style="background-color: #f7f7f7; text-align: center;">01007</td>
+<td style="background-color: #f7f7f7; text-align: center;">Alabama</td>
+<td style="background-color: #f7f7f7; text-align: center;">Bibb</td>
+<td style="background-color: #f7f7f7; text-align: center;">0</td>
+<td style="background-color: #f7f7f7; text-align: center;">0</td>
+<td style="background-color: #f7f7f7; text-align: center;">0</td>
+<td style="background-color: #f7f7f7; text-align: center;">0.03</td>
+<td style="background-color: #f7f7f7; text-align: center;">0.05</td>
+<td style="background-color: #f7f7f7; text-align: center;">0.04</td>
+<td style="background-color: #f7f7f7; text-align: center;">0.04</td>
+<td style="background-color: #f7f7f7; text-align: center;">0.03</td>
+<td style="background-color: #f7f7f7; text-align: center;">0.02</td>
+<td style="background-color: #f7f7f7; text-align: center;">0.02</td>
+<td style="background-color: #f7f7f7; text-align: center;">0.02</td>
+<td style="background-color: #f7f7f7; text-align: center;">0.02</td>
+<td style="background-color: #f7f7f7; text-align: center;">0.02</td>
+<td style="background-color: #f7f7f7; text-align: center;">0.02</td>
+<td style="background-color: #f7f7f7; text-align: center;">0.02</td>
+<td style="background-color: #f7f7f7; text-align: center;">0.02</td>
+<td style="background-color: #f7f7f7; text-align: center;">0.01</td>
+<td style="background-color: #f7f7f7; text-align: center;">0.01</td>
+<td style="background-color: #f7f7f7; text-align: center;">0.01</td>
+<td style="background-color: #f7f7f7; text-align: center;">0.01</td>
+<td style="background-color: #f7f7f7; text-align: center;">0.01</td>
+<td style="background-color: #f7f7f7; text-align: center;">0.01</td>
+<td style="background-color: #f7f7f7; text-align: center;">0.01</td>
+</tr>
+<tr>
+<td style="text-align: left;">5</td>
+<td style="text-align: center;">G0100090</td>
+<td style="text-align: center;">01009</td>
+<td style="text-align: center;">Alabama</td>
+<td style="text-align: center;">Blount</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0.01</td>
+<td style="text-align: center;">0.02</td>
+<td style="text-align: center;">0.03</td>
+<td style="text-align: center;">0.02</td>
+<td style="text-align: center;">0.03</td>
+<td style="text-align: center;">0.02</td>
+<td style="text-align: center;">0.03</td>
+<td style="text-align: center;">0.03</td>
+<td style="text-align: center;">0.03</td>
+<td style="text-align: center;">0.02</td>
+<td style="text-align: center;">0.02</td>
+<td style="text-align: center;">0.02</td>
+<td style="text-align: center;">0.02</td>
+<td style="text-align: center;">0.02</td>
+<td style="text-align: center;">0.01</td>
+<td style="text-align: center;">0.01</td>
+<td style="text-align: center;">0.02</td>
+<td style="text-align: center;">0.02</td>
+<td style="text-align: center;">0.02</td>
+<td style="text-align: center;">0.02</td>
+</tr>
+<tr style="background-color: #f7f7f7;">
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: left;">6</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">G0100110</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">01011</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">Alabama</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">Bullock</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">0</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">0</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">0</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">0.01</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">0.02</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">0.05</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">0.06</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">0.06</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">0.06</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">0.06</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">0.04</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">0.04</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">0.03</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">0.02</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">0.02</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">0.01</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">0.01</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">0.01</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">0.01</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">0</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">0</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">0</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">0</td>
+</tr>
+</tbody>
+<tfoot><tr><td colspan="28">
+&dagger; national_shares_worksheet</td></tr></tfoot>
+</table>
+
+<p>In order to get our code to work, we need to gather the data columns and created some year variables.  If you scroll all the way to the right you’ll also see that the last column has a slightly different name (<em>pop2010</em> instead of <em>epop2000</em>), which will have to account for in our code.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1">#set up the population data frame:
+</span><span class="n">popDF</span><span class="o">&lt;-</span><span class="n">popDF</span> <span class="o">%&gt;%</span> <span class="n">gather</span><span class="p">(</span><span class="n">year.of</span><span class="p">,</span><span class="s2">"pop"</span><span class="p">,</span><span class="m">5</span><span class="o">:</span><span class="m">27</span><span class="p">)</span> 
+<span class="c1">#create years, adjusting for last column:
+</span><span class="n">popDF</span><span class="o">&lt;-</span><span class="n">mutate</span><span class="p">(</span><span class="n">popDF</span><span class="p">,</span><span class="n">year</span><span class="o">=</span><span class="n">ifelse</span><span class="p">(</span><span class="n">substr</span><span class="p">(</span><span class="n">year.of</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">)</span><span class="o">==</span><span class="s2">"e"</span><span class="p">,</span><span class="n">substr</span><span class="p">(</span><span class="n">year.of</span><span class="p">,</span><span class="m">5</span><span class="p">,</span><span class="m">9</span><span class="p">),</span><span class="n">substr</span><span class="p">(</span><span class="n">year.of</span><span class="p">,</span><span class="m">4</span><span class="p">,</span><span class="m">8</span><span class="p">)))</span>
+<span class="n">popDF</span><span class="o">&lt;-</span><span class="n">rename</span><span class="p">(</span><span class="n">popDF</span><span class="p">,</span><span class="n">fips</span><span class="o">=</span><span class="n">GEOID10</span> <span class="p">)</span>
+
+<span class="c1"># and shares data frame:
+</span><span class="n">shareDF</span><span class="o">&lt;-</span><span class="n">shareDF</span> <span class="o">%&gt;%</span> <span class="n">gather</span><span class="p">(</span><span class="n">year.of</span><span class="p">,</span><span class="s2">"share"</span><span class="p">,</span><span class="m">5</span><span class="o">:</span><span class="m">27</span><span class="p">)</span> 
+<span class="n">shareDF</span><span class="o">&lt;-</span><span class="n">mutate</span><span class="p">(</span><span class="n">shareDF</span><span class="p">,</span><span class="n">year</span><span class="o">=</span><span class="n">substr</span><span class="p">(</span><span class="n">year.of</span><span class="p">,</span><span class="m">6</span><span class="p">,</span><span class="m">10</span><span class="p">))</span>
+<span class="n">shareDF</span><span class="o">&lt;-</span><span class="n">rename</span><span class="p">(</span><span class="n">shareDF</span><span class="p">,</span><span class="n">fips</span><span class="o">=</span><span class="n">GEOID10</span> <span class="p">)</span>
+
+<span class="c1"># and take a look:
+</span><span class="n">htmlTable</span><span class="p">(</span><span class="n">head</span><span class="p">(</span><span class="n">popDF</span><span class="p">),</span> <span class="n">col.rgroup</span> <span class="o">=</span> <span class="n">c</span><span class="p">(</span><span class="s2">"none"</span><span class="p">,</span> <span class="s2">"#F7F7F7"</span><span class="p">),</span><span class="n">caption</span><span class="o">=</span><span class="s2">"Population table-tidy version"</span><span class="p">,</span>
+          <span class="n">tfoot</span><span class="o">=</span><span class="s2">"&amp;dagger;c2010_hist_pops worksheet"</span><span class="p">)</span></code></pre></figure>
+
+<table class="gmisc_table" style="border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;">
+<thead>
+<tr><td colspan="8" style="text-align: left;">
+Population table-tidy version</td></tr>
+<tr>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey;"> </th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">GISJOIN</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">fips</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">STATE</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">COUNTY</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">year.of</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">pop</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">year</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">1</td>
+<td style="text-align: center;">G0100010</td>
+<td style="text-align: center;">01001</td>
+<td style="text-align: center;">Alabama</td>
+<td style="text-align: center;">Autauga</td>
+<td style="text-align: center;">epop1790</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1790</td>
+</tr>
+<tr style="background-color: #f7f7f7;">
+<td style="background-color: #f7f7f7; text-align: left;">2</td>
+<td style="background-color: #f7f7f7; text-align: center;">G0100030</td>
+<td style="background-color: #f7f7f7; text-align: center;">01003</td>
+<td style="background-color: #f7f7f7; text-align: center;">Alabama</td>
+<td style="background-color: #f7f7f7; text-align: center;">Baldwin</td>
+<td style="background-color: #f7f7f7; text-align: center;">epop1790</td>
+<td style="background-color: #f7f7f7; text-align: center;">0</td>
+<td style="background-color: #f7f7f7; text-align: center;">1790</td>
+</tr>
+<tr>
+<td style="text-align: left;">3</td>
+<td style="text-align: center;">G0100050</td>
+<td style="text-align: center;">01005</td>
+<td style="text-align: center;">Alabama</td>
+<td style="text-align: center;">Barbour</td>
+<td style="text-align: center;">epop1790</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1790</td>
+</tr>
+<tr style="background-color: #f7f7f7;">
+<td style="background-color: #f7f7f7; text-align: left;">4</td>
+<td style="background-color: #f7f7f7; text-align: center;">G0100070</td>
+<td style="background-color: #f7f7f7; text-align: center;">01007</td>
+<td style="background-color: #f7f7f7; text-align: center;">Alabama</td>
+<td style="background-color: #f7f7f7; text-align: center;">Bibb</td>
+<td style="background-color: #f7f7f7; text-align: center;">epop1790</td>
+<td style="background-color: #f7f7f7; text-align: center;">0</td>
+<td style="background-color: #f7f7f7; text-align: center;">1790</td>
+</tr>
+<tr>
+<td style="text-align: left;">5</td>
+<td style="text-align: center;">G0100090</td>
+<td style="text-align: center;">01009</td>
+<td style="text-align: center;">Alabama</td>
+<td style="text-align: center;">Blount</td>
+<td style="text-align: center;">epop1790</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1790</td>
+</tr>
+<tr style="background-color: #f7f7f7;">
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: left;">6</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">G0100110</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">01011</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">Alabama</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">Bullock</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">epop1790</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">0</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">1790</td>
+</tr>
+</tbody>
+<tfoot><tr><td colspan="8">
+&dagger;c2010_hist_pops worksheet</td></tr></tfoot>
+</table>
+
+<p>All right! Now we’re on easy street.  We just have to plug these data into the maps <a href="/2016/08/21/maps-mortgages-and-me">like we did last time</a>.  We’ll add some flourishes to get the animation to work.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1">#set up our map stuff:
+</span><span class="n">states</span><span class="o">&lt;-</span><span class="n">usa_composite</span><span class="p">()</span>
+<span class="n">smap</span><span class="o">&lt;-</span><span class="n">fortify</span><span class="p">(</span><span class="n">states</span><span class="p">,</span><span class="n">region</span><span class="o">=</span><span class="s2">"fips_state"</span><span class="p">)</span>
+<span class="n">smap.all</span><span class="o">&lt;-</span><span class="n">smap</span>
+<span class="n">counties</span> <span class="o">&lt;-</span> <span class="n">counties_composite</span><span class="p">()</span>
+<span class="c1">#get data:
+</span><span class="n">counties</span><span class="o">@</span><span class="n">data</span> <span class="o">&lt;-</span> <span class="n">left_join</span><span class="p">(</span><span class="n">counties</span><span class="o">@</span><span class="n">data</span><span class="p">,</span> <span class="n">popDF.i</span><span class="p">,</span> <span class="n">by</span> <span class="o">=</span> <span class="s2">"fips"</span><span class="p">)</span>
+<span class="n">counties</span><span class="o">@</span><span class="n">data</span> <span class="o">&lt;-</span> <span class="n">left_join</span><span class="p">(</span><span class="n">counties</span><span class="o">@</span><span class="n">data</span><span class="p">,</span> <span class="n">shareDF.i</span><span class="p">,</span> <span class="n">by</span> <span class="o">=</span> <span class="s2">"fips"</span><span class="p">)</span>
+
+<span class="n">cmap</span> <span class="o">&lt;-</span> <span class="n">fortify</span><span class="p">(</span><span class="n">counties_composite</span><span class="p">(),</span> <span class="n">region</span><span class="o">=</span><span class="s2">"fips"</span><span class="p">)</span>
+<span class="n">cmap</span><span class="o">$</span><span class="n">state</span><span class="o">&lt;-</span><span class="n">substr</span><span class="p">(</span><span class="n">cmap</span><span class="o">$</span><span class="n">id</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">)</span>
+<span class="n">cmap</span><span class="o">$</span><span class="n">county</span><span class="o">&lt;-</span><span class="n">substr</span><span class="p">(</span><span class="n">cmap</span><span class="o">$</span><span class="n">id</span><span class="p">,</span><span class="m">3</span><span class="p">,</span><span class="m">5</span><span class="p">)</span>
+<span class="n">cmap</span><span class="o">$</span><span class="n">fips</span><span class="o">&lt;-</span><span class="n">paste0</span><span class="p">(</span><span class="n">cmap</span><span class="o">$</span><span class="n">state</span><span class="p">,</span><span class="n">cmap</span><span class="o">$</span><span class="n">county</span><span class="p">)</span>
+<span class="n">cmap.all</span><span class="o">&lt;-</span><span class="n">cmap</span>
+
+<span class="c1">#we want to cite these data appropriately.  The caption gets long so we'll follow @hrbrmstr 
+#https://www.r-bloggers.com/supreme-annotations/ This post has a bunch of tricks, like the caption one I use here:
+</span><span class="n">mycaption</span><span class="o">&lt;-</span><span class="s2">"@lenkiefer Source: Schroeder, Jonathan P. (2016). Historical Population Estimates for 2010 U.S. States, Counties and Metro/Micro Areas, 1790-2010. Retrieved from the Data Repository for the University of Minnesota, http://doi.org/10.13020/D6XW2H."</span>
+<span class="n">mycaption</span> <span class="o">&lt;-</span> <span class="n">paste0</span><span class="p">(</span><span class="n">strwrap</span><span class="p">(</span><span class="n">mycaption</span><span class="p">,</span> <span class="m">130</span><span class="p">),</span> <span class="n">sep</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="n">collapse</span><span class="o">=</span><span class="s2">"\n"</span><span class="p">)</span></code></pre></figure>
+
+<p>We could just loop through the data subsetting on years.  That would be easy, but the animation would be choppy. We want it to be smoother so we’ll need to use tweenr. See my earlier <a href="/2016/05/29/improving-R-animated-gifs-with-tweenr">post about tweenr</a> for an introduction to tweenr, and more examples <a href="/2016/05/30/more-tweenr-animations">here</a> and <a href="/2016/06/26/week-in-review">here</a>.</p>
+
+<p>To make this work, we’ll build two functions. One to create the maps and distribution plot and a second function to create the data the map/plot function will use.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">source</span><span class="p">(</span><span class="s1">'code/multiplot.R'</span><span class="p">)</span>
+<span class="c1"># function for combining graphs see: http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/
+</span>
+<span class="n">myplotf</span><span class="o">&lt;-</span><span class="k">function</span><span class="p">(</span><span class="n">popDF.i</span><span class="p">){</span>
+  <span class="n">popDF.i</span><span class="o">&lt;-</span><span class="n">data.table</span><span class="p">(</span><span class="n">popDF.i</span><span class="p">)</span>  <span class="c1">#convert to data.table for later
+</span>  <span class="n">counties</span> <span class="o">&lt;-</span> <span class="n">counties_composite</span><span class="p">()</span>
+  <span class="c1">#get data:
+</span>  <span class="n">counties</span><span class="o">@</span><span class="n">data</span> <span class="o">&lt;-</span> <span class="n">left_join</span><span class="p">(</span><span class="n">counties</span><span class="o">@</span><span class="n">data</span><span class="p">,</span> <span class="n">popDF.i</span><span class="p">,</span> <span class="n">by</span> <span class="o">=</span> <span class="s2">"fips"</span><span class="p">)</span>
+  
+<span class="n">map1</span><span class="o">&lt;-</span>
+  <span class="n">ggplot</span><span class="p">()</span> <span class="o">+</span>
+  <span class="n">geom_map</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">cmap.all</span><span class="p">,</span> <span class="n">map</span> <span class="o">=</span> <span class="n">cmap.all</span><span class="p">,</span>
+           <span class="n">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">long</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">lat</span><span class="p">,</span> <span class="n">map_id</span> <span class="o">=</span> <span class="n">id</span><span class="p">),</span>
+           <span class="c1">#color = "#2b2b2b", size = 0.05, fill = NA) +
+</span>  <span class="n">color</span> <span class="o">=</span> <span class="s2">"lightgray"</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="m">0.05</span><span class="p">,</span> <span class="n">fill</span> <span class="o">=</span> <span class="n">NA</span><span class="p">)</span> <span class="o">+</span>
+  <span class="n">geom_map</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">counties</span><span class="o">@</span><span class="n">data</span><span class="p">,</span> <span class="n">map</span> <span class="o">=</span> <span class="n">cmap.all</span><span class="p">,</span>
+           <span class="n">aes</span><span class="p">(</span><span class="n">fill</span> <span class="o">=</span><span class="n">log</span><span class="p">(</span><span class="n">pop</span><span class="p">),</span> <span class="n">map_id</span> <span class="o">=</span> <span class="n">fips</span><span class="p">),</span>
+           <span class="n">color</span> <span class="o">=</span> <span class="n">NA</span><span class="p">)</span> <span class="o">+</span>
+  <span class="n">geom_map</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">smap.all</span><span class="p">,</span> <span class="n">map</span> <span class="o">=</span> <span class="n">smap.all</span><span class="p">,</span>
+           <span class="n">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">long</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">lat</span><span class="p">,</span> <span class="n">map_id</span> <span class="o">=</span> <span class="n">id</span><span class="p">),</span>
+           <span class="n">color</span> <span class="o">=</span> <span class="s2">"lightgray"</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="m">.25</span><span class="p">,</span> <span class="n">fill</span> <span class="o">=</span> <span class="n">NA</span><span class="p">)</span> <span class="o">+</span>
+  <span class="n">theme_map</span><span class="p">(</span> <span class="n">base_size</span> <span class="o">=</span> <span class="m">12</span><span class="p">)</span> <span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">plot.title</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span> <span class="n">size</span> <span class="o">=</span> <span class="m">16</span><span class="p">,</span> <span class="n">margin</span><span class="o">=</span><span class="n">margin</span><span class="p">(</span><span class="n">b</span><span class="o">=</span><span class="m">10</span><span class="p">)))</span> <span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">plot.subtitle</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span> <span class="o">=</span> <span class="m">14</span><span class="p">,</span> <span class="n">margin</span><span class="o">=</span><span class="n">margin</span><span class="p">(</span><span class="n">b</span><span class="o">=</span><span class="m">-20</span><span class="p">)))</span> <span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span> <span class="o">=</span> <span class="m">9</span><span class="p">,</span> <span class="n">margin</span><span class="o">=</span><span class="n">margin</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="m">-15</span><span class="p">)))</span> <span class="o">+</span>
+  <span class="n">coord_proj</span><span class="p">(</span><span class="n">us_laea_proj</span><span class="p">)</span> <span class="o">+</span>   <span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">subtitle</span><span class="o">=</span><span class="s2">""</span> <span class="p">)</span> <span class="o">+</span>
+  <span class="n">scale_fill_viridis</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"Population\nlog scale\n"</span><span class="p">,</span>
+                      <span class="n">discrete</span><span class="o">=</span><span class="n">F</span><span class="p">,</span><span class="n">option</span><span class="o">=</span><span class="s2">"D"</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="m">0.95</span><span class="p">,</span><span class="n">direction</span><span class="o">=</span><span class="m">-1</span><span class="p">,</span><span class="n">limits</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="n">log</span><span class="p">(</span><span class="m">100</span><span class="p">),</span><span class="n">log</span><span class="p">(</span><span class="m">1e7</span><span class="p">)),</span>
+                      <span class="n">breaks</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="n">log</span><span class="p">(</span><span class="m">100</span><span class="p">),</span><span class="n">log</span><span class="p">(</span><span class="m">10000</span><span class="p">),</span><span class="n">log</span><span class="p">(</span><span class="m">100000</span><span class="p">),</span><span class="n">log</span><span class="p">(</span><span class="m">1e7</span><span class="p">)),</span>
+                      <span class="n">labels</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="s2">"100"</span><span class="p">,</span><span class="s2">"10,000"</span><span class="p">,</span><span class="s2">"100,000"</span><span class="p">,</span><span class="s2">"1,000,000"</span><span class="p">))</span> <span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span> <span class="o">=</span> <span class="s2">"right"</span><span class="p">)</span> <span class="o">+</span><span class="n">theme</span><span class="p">(</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">vjust</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="n">margin</span><span class="o">=</span><span class="n">margin</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="m">10</span><span class="p">)))</span><span class="o">+</span>
+  <span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">"Population (log scale)"</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span>
+       <span class="c1">#subtitle="Each dot represents 1 county",
+</span>       <span class="n">title</span><span class="o">=</span><span class="n">paste0</span><span class="p">(</span><span class="s2">"County Population Distributions in "</span><span class="p">,</span><span class="n">popDF.i</span><span class="p">[</span><span class="m">1</span><span class="p">]</span><span class="o">$</span><span class="n">year</span><span class="p">))</span>
+
+<span class="c1">#remove counties with 0 pop as they mess up the log scale
+</span><span class="n">popDF.i</span><span class="p">[,</span><span class="n">pop</span><span class="o">:=</span><span class="n">ifelse</span><span class="p">(</span><span class="n">pop</span><span class="o">&gt;</span><span class="m">0</span><span class="p">,</span><span class="n">pop</span><span class="p">,</span><span class="n">NA</span><span class="p">)]</span>
+
+<span class="n">graph1</span><span class="o">&lt;-</span>
+  <span class="n">ggplot</span><span class="p">(</span><span class="n">popDF.i</span><span class="p">[</span><span class="n">STATE</span> <span class="o">!=</span><span class="s2">"District Of Columbia"</span> <span class="p">],</span>  
+         <span class="c1">#we need 50 states for the columns to look pretty so D.C. has to go
+</span>         <span class="n">aes</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">x</span><span class="o">=</span><span class="n">pop</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">log</span><span class="p">(</span><span class="n">pop</span><span class="p">)))</span><span class="o">+</span>
+  <span class="n">theme_minimal</span><span class="p">()</span><span class="o">+</span>    
+  <span class="n">theme</span><span class="p">(</span><span class="n">plot.title</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">14</span><span class="p">))</span><span class="o">+</span><span class="n">theme</span><span class="p">(</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">vjust</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="n">margin</span><span class="o">=</span><span class="n">margin</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="m">10</span><span class="p">)))</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">plot.margin</span><span class="o">=</span><span class="n">unit</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="m">0.25</span><span class="p">,</span><span class="m">0.25</span><span class="p">,</span><span class="m">0.25</span><span class="p">,</span><span class="m">0.25</span><span class="p">),</span><span class="s2">"cm"</span><span class="p">))</span><span class="o">+</span>  <span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span> <span class="o">=</span> <span class="s2">"none"</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">geom_quasirandom</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="m">0.65</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="m">1</span><span class="p">)</span>  <span class="o">+</span>  <span class="c1">#I like the quasirandom beeswarm option
+</span>  <span class="n">scale_color_viridis</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"Pop\nlog scale\n"</span><span class="p">,</span>
+                      <span class="n">discrete</span><span class="o">=</span><span class="n">F</span><span class="p">,</span><span class="n">option</span><span class="o">=</span><span class="s2">"D"</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="m">0.95</span><span class="p">,</span><span class="n">direction</span><span class="o">=</span><span class="m">-1</span><span class="p">,</span><span class="n">limits</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="n">log</span><span class="p">(</span><span class="m">100</span><span class="p">),</span><span class="n">log</span><span class="p">(</span><span class="m">1e7</span><span class="p">)),</span>
+                      <span class="n">breaks</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="n">log</span><span class="p">(</span><span class="m">1000</span><span class="p">),</span><span class="n">log</span><span class="p">(</span><span class="m">100000</span><span class="p">),</span><span class="n">log</span><span class="p">(</span><span class="m">1e7</span><span class="p">)),</span>
+                      <span class="n">labels</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="s2">"1000"</span><span class="p">,</span><span class="s2">"100,000"</span><span class="p">,</span><span class="s2">"10M"</span><span class="p">))</span> <span class="o">+</span>
+    <span class="n">theme</span><span class="p">(</span><span class="n">axis.text.x</span> <span class="o">=</span> <span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">4</span><span class="p">))</span><span class="o">+</span>  <span class="c1">#shrink axis text size
+</span>  <span class="n">scale_x_log10</span><span class="p">(</span> <span class="n">labels</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="s2">"10K"</span><span class="p">,</span><span class="s2">"1M"</span><span class="p">),</span><span class="n">limits</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">1000</span><span class="p">,</span><span class="m">1e7</span><span class="p">),</span><span class="n">breaks</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">10000</span><span class="p">,</span><span class="m">100000</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">"Population"</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span>
+       <span class="n">subtitle</span><span class="o">=</span><span class="s2">"Each dot represents 1 county"</span><span class="p">,</span>
+       <span class="c1">#title="County Population Distributions",
+</span>       <span class="n">caption</span><span class="o">=</span><span class="n">mycaption</span>  <span class="p">)</span><span class="o">+</span>
+  <span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="n">STATE</span><span class="p">,</span><span class="n">ncol</span><span class="o">=</span><span class="m">10</span><span class="p">)</span>
+
+<span class="n">m</span><span class="o">&lt;-</span><span class="n">multiplot</span><span class="p">(</span><span class="n">map1</span><span class="p">,</span><span class="n">graph1</span><span class="p">,</span><span class="n">layout</span><span class="o">=</span><span class="n">matrix</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">2</span><span class="p">),</span> <span class="n">nrow</span><span class="o">=</span><span class="m">5</span><span class="p">,</span> <span class="n">byrow</span><span class="o">=</span><span class="n">TRUE</span><span class="p">))</span>
+<span class="p">}</span>
+
+<span class="n">y.list</span><span class="o">&lt;-</span><span class="n">unique</span><span class="p">(</span><span class="n">popDF</span><span class="o">$</span><span class="n">year</span><span class="p">)</span> <span class="c1">#get a list of years
+</span><span class="n">yy</span><span class="o">&lt;-</span><span class="n">y.list</span><span class="p">[</span><span class="m">12</span><span class="p">]</span>  <span class="c1">#pick a year 1900 in this case
+</span><span class="n">popDF.i</span><span class="o">&lt;-</span><span class="n">subset</span><span class="p">(</span><span class="n">popDF</span><span class="p">,</span><span class="n">year</span><span class="o">==</span><span class="n">yy</span><span class="p">)</span>
+<span class="n">myplotf</span><span class="p">(</span><span class="n">popDF.i</span><span class="p">)</span>  <span class="err">#</span><span class="n">try</span> <span class="n">it</span> <span class="n">out</span><span class="o">!</span></code></pre></figure>
+
+<p><img src="/img/Rfig/fig-graph-1-1.svg" alt="plot of chunk fig-graph-1" /></p>
+
+<p>Okay, now that we have the graph, we just have to set up the tween_states() call and loop through the animation.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">myf</span> <span class="o">&lt;-</span> <span class="k">function</span><span class="p">(</span><span class="n">yy</span><span class="p">){</span>
+  <span class="n">my.out</span><span class="o">&lt;-</span><span class="n">popDF</span><span class="p">[</span><span class="n">year</span><span class="o">==</span><span class="n">yy</span><span class="p">,]</span>  <span class="c1">#subset data based on year
+</span>  <span class="n">my.out</span> <span class="o">%&gt;%</span> <span class="n">map_if</span><span class="p">(</span><span class="n">is.character</span><span class="p">,</span> <span class="n">as.factor</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="n">as.data.frame</span><span class="p">()</span> <span class="o">-&gt;</span><span class="n">my.out</span>  <span class="c1">#need to convert characters to factors for tweenr
+</span>  <span class="k">return</span><span class="p">(</span><span class="n">data.frame</span><span class="p">(</span><span class="n">my.out</span><span class="p">))}</span>
+
+<span class="n">my.list</span><span class="o">&lt;-</span><span class="n">lapply</span><span class="p">(</span><span class="n">y.list</span><span class="p">,</span><span class="n">myf</span><span class="p">)</span>
+
+<span class="n">tf</span> <span class="o">&lt;-</span> <span class="n">tween_states</span><span class="p">(</span><span class="n">my.list</span><span class="p">,</span><span class="n">tweenlength</span><span class="o">=</span> <span class="m">3</span><span class="p">,</span> <span class="n">statelength</span><span class="o">=</span><span class="m">1</span><span class="p">,</span> <span class="n">ease</span><span class="o">=</span><span class="n">rep</span><span class="p">(</span><span class="s1">'cubic-in-out'</span><span class="p">,</span><span class="m">2</span><span class="p">),</span><span class="n">nframes</span><span class="o">=</span><span class="m">23</span><span class="o">*</span><span class="m">4</span><span class="p">)</span>
+<span class="n">tf</span><span class="o">&lt;-</span><span class="n">data.table</span><span class="p">(</span><span class="n">tf</span><span class="p">)</span> <span class="c1">#data.table useful for subsetting
+</span><span class="n">N</span><span class="o">&lt;-</span><span class="n">max</span><span class="p">(</span><span class="n">tf</span><span class="o">$</span><span class="n">.frame</span><span class="p">)</span>  <span class="c1">#number of frames
+</span>
+<span class="c1">#create the animation
+</span><span class="n">oopt</span> <span class="o">=</span> <span class="n">ani.options</span><span class="p">(</span><span class="n">interval</span> <span class="o">=</span> <span class="m">0.15</span><span class="p">)</span>
+<span class="n">saveGIF</span><span class="p">({</span><span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="k">in</span> <span class="m">1</span><span class="o">:</span><span class="n">N</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">myplotf</span><span class="p">(</span><span class="n">tf</span><span class="p">[</span><span class="n">.frame</span><span class="o">==</span><span class="n">i</span><span class="p">])</span>
+  <span class="n">ani.pause</span><span class="p">()</span>  <span class="p">}</span>
+  <span class="p">},</span><span class="n">movie.name</span><span class="o">=</span><span class="s2">"pop gif2.gif"</span><span class="p">,</span><span class="n">ani.width</span> <span class="o">=</span> <span class="m">900</span><span class="p">,</span> <span class="n">ani.height</span> <span class="o">=</span> <span class="m">700</span><span class="p">)</span></code></pre></figure>
+
+<p>And that’s it. Run through this code and you’ll get the animated gif I posted above.</p>
+
+<h2 id="but-wait-theres-more">But wait! There’s more</h2>
+
+<p>Let’s make a few other static graphs to explore some other features of this fascintating dataset.</p>
+
+<h3 id="small-multiple-map">Small multiple map</h3>
+
+<p>Let’s construct a small multiple map, showing how the share of population has varied by county across time.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">p2</span><span class="o">&lt;-</span><span class="n">subset</span><span class="p">(</span><span class="n">popDF</span><span class="p">,</span><span class="n">year</span> <span class="o">%</span><span class="k">in</span><span class="o">%</span> <span class="n">c</span><span class="p">(</span><span class="s2">"1810"</span><span class="p">,</span><span class="s2">"1860"</span><span class="p">,</span><span class="s2">"1910"</span><span class="p">,</span><span class="s2">"1960"</span><span class="p">,</span><span class="s2">"1980"</span><span class="p">,</span><span class="s2">"2010"</span><span class="p">))</span>
+<span class="n">counties</span> <span class="o">&lt;-</span> <span class="n">counties_composite</span><span class="p">()</span>
+  <span class="c1">#get data:
+</span>  <span class="n">counties</span><span class="o">@</span><span class="n">data</span> <span class="o">&lt;-</span> <span class="n">left_join</span><span class="p">(</span><span class="n">counties</span><span class="o">@</span><span class="n">data</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">by</span> <span class="o">=</span> <span class="s2">"fips"</span><span class="p">)</span>
+  
+<span class="n">map3</span><span class="o">&lt;-</span>
+  <span class="n">ggplot</span><span class="p">()</span> <span class="o">+</span>
+  <span class="n">geom_map</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">cmap.all</span><span class="p">,</span> <span class="n">map</span> <span class="o">=</span> <span class="n">cmap.all</span><span class="p">,</span>
+           <span class="n">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">long</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">lat</span><span class="p">,</span> <span class="n">map_id</span> <span class="o">=</span> <span class="n">id</span><span class="p">),</span>
+           <span class="n">color</span> <span class="o">=</span> <span class="s2">"lightgray"</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="m">0.05</span><span class="p">,</span> <span class="n">fill</span> <span class="o">=</span> <span class="n">NA</span><span class="p">)</span> <span class="o">+</span>
+  <span class="n">geom_map</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">counties</span><span class="o">@</span><span class="n">data</span><span class="p">,</span> <span class="n">map</span> <span class="o">=</span> <span class="n">cmap.all</span><span class="p">,</span>
+           <span class="n">aes</span><span class="p">(</span><span class="n">fill</span> <span class="o">=</span><span class="n">log</span><span class="p">(</span><span class="n">pop</span><span class="p">),</span> <span class="n">map_id</span> <span class="o">=</span> <span class="n">fips</span><span class="p">),</span>
+           <span class="n">color</span> <span class="o">=</span> <span class="n">NA</span><span class="p">)</span> <span class="o">+</span>
+  <span class="n">geom_map</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">smap.all</span><span class="p">,</span> <span class="n">map</span> <span class="o">=</span> <span class="n">smap.all</span><span class="p">,</span>
+           <span class="n">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">long</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">lat</span><span class="p">,</span> <span class="n">map_id</span> <span class="o">=</span> <span class="n">id</span><span class="p">),</span>
+           <span class="n">color</span> <span class="o">=</span> <span class="s2">"lightgray"</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="m">.25</span><span class="p">,</span> <span class="n">fill</span> <span class="o">=</span> <span class="n">NA</span><span class="p">)</span> <span class="o">+</span>
+  <span class="n">theme_map</span><span class="p">(</span> <span class="n">base_size</span> <span class="o">=</span> <span class="m">12</span><span class="p">)</span> <span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">plot.title</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span> <span class="n">size</span> <span class="o">=</span> <span class="m">16</span><span class="p">,</span> <span class="n">margin</span><span class="o">=</span><span class="n">margin</span><span class="p">(</span><span class="n">b</span><span class="o">=</span><span class="m">10</span><span class="p">)))</span> <span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">plot.subtitle</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span> <span class="o">=</span> <span class="m">14</span><span class="p">,</span> <span class="n">margin</span><span class="o">=</span><span class="n">margin</span><span class="p">(</span><span class="n">b</span><span class="o">=</span><span class="m">-20</span><span class="p">)))</span> <span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span> <span class="o">=</span> <span class="m">9</span><span class="p">,</span> <span class="n">margin</span><span class="o">=</span><span class="n">margin</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="m">-15</span><span class="p">)))</span> <span class="o">+</span>
+  <span class="n">coord_proj</span><span class="p">(</span><span class="n">us_laea_proj</span><span class="p">)</span> <span class="o">+</span>   <span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">subtitle</span><span class="o">=</span><span class="s2">""</span> <span class="p">)</span> <span class="o">+</span>
+  <span class="n">scale_fill_viridis</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"Population\nlog scale\n"</span><span class="p">,</span>
+                      <span class="n">discrete</span><span class="o">=</span><span class="n">F</span><span class="p">,</span><span class="n">option</span><span class="o">=</span><span class="s2">"D"</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="m">0.95</span><span class="p">,</span><span class="n">direction</span><span class="o">=</span><span class="m">-1</span><span class="p">,</span><span class="n">limits</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="n">log</span><span class="p">(</span><span class="m">100</span><span class="p">),</span><span class="n">log</span><span class="p">(</span><span class="m">1e7</span><span class="p">)),</span>
+                      <span class="n">breaks</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="n">log</span><span class="p">(</span><span class="m">100</span><span class="p">),</span><span class="n">log</span><span class="p">(</span><span class="m">10000</span><span class="p">),</span><span class="n">log</span><span class="p">(</span><span class="m">100000</span><span class="p">),</span><span class="n">log</span><span class="p">(</span><span class="m">1e7</span><span class="p">)),</span>
+                      <span class="n">labels</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="s2">"100"</span><span class="p">,</span><span class="s2">"10,000"</span><span class="p">,</span><span class="s2">"100,000"</span><span class="p">,</span><span class="s2">"1,000,000"</span><span class="p">))</span> <span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span> <span class="o">=</span> <span class="s2">"right"</span><span class="p">)</span> <span class="o">+</span><span class="n">theme</span><span class="p">(</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">vjust</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="n">margin</span><span class="o">=</span><span class="n">margin</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="m">10</span><span class="p">)))</span><span class="o">+</span>
+  <span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">"Population (log scale)"</span><span class="p">,</span> <span class="n">caption</span><span class="o">=</span><span class="n">mycaption</span><span class="p">,</span>
+       <span class="n">title</span><span class="o">=</span><span class="s2">"U.S. County Population by Year\n"</span><span class="p">)</span><span class="o">+</span><span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="n">year</span><span class="p">)</span>
+
+<span class="n">map3</span></code></pre></figure>
+
+<p><img src="/img/Rfig/fig-graph-3-1.svg" alt="plot of chunk fig-graph-3" /></p>
+
+<p>Aren’t ggplot2() and geom_map() just great?</p>
+
+<h1 id="how-concentrated-is-the-us-population">How concentrated is the US population?</h1>
+
+<p>Several maps have been circulating showing how 1/2 of some country’s population lives in a tiny part of the physical area of a country.  Let’s use the share data to investigate how the concentration of population might have changed from 1790 to 2010.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1">#load shares data
+</span><span class="n">shareDF</span><span class="o">&lt;-</span><span class="n">read_excel</span><span class="p">(</span><span class="s2">"data/county2010_hist_pops.xlsx"</span><span class="p">,</span><span class="n">sheet</span><span class="o">=</span><span class="s2">"national_shares"</span><span class="p">)</span>
+<span class="n">shareDF</span><span class="o">&lt;-</span><span class="n">shareDF</span> <span class="o">%&gt;%</span> <span class="n">gather</span><span class="p">(</span><span class="n">year.of</span><span class="p">,</span><span class="s2">"share"</span><span class="p">,</span><span class="m">5</span><span class="o">:</span><span class="m">27</span><span class="p">)</span> 
+<span class="n">shareDF</span><span class="o">&lt;-</span><span class="n">mutate</span><span class="p">(</span><span class="n">shareDF</span><span class="p">,</span><span class="n">year</span><span class="o">=</span><span class="n">substr</span><span class="p">(</span><span class="n">year.of</span><span class="p">,</span><span class="m">6</span><span class="p">,</span><span class="m">10</span><span class="p">))</span>
+<span class="n">shareDF</span><span class="o">&lt;-</span><span class="n">rename</span><span class="p">(</span><span class="n">shareDF</span><span class="p">,</span><span class="n">fips</span><span class="o">=</span><span class="n">GEOID10</span> <span class="p">)</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-text" data-lang="text">## Error in rename(shareDF, fips = GEOID10): unused argument (fips = GEOID10)</code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">s2</span><span class="o">&lt;-</span><span class="n">subset</span><span class="p">(</span><span class="n">shareDF</span><span class="p">,</span><span class="n">year</span> <span class="o">%</span><span class="k">in</span><span class="o">%</span> <span class="n">c</span><span class="p">(</span><span class="s2">"1810"</span><span class="p">,</span><span class="s2">"1860"</span><span class="p">,</span><span class="s2">"1910"</span><span class="p">,</span><span class="s2">"1960"</span><span class="p">,</span><span class="s2">"1980"</span><span class="p">,</span><span class="s2">"2010"</span><span class="p">))</span>
+<span class="n">s2</span><span class="o">&lt;-</span><span class="n">data.table</span><span class="p">(</span><span class="n">s2</span><span class="p">)[</span><span class="n">order</span><span class="p">(</span><span class="n">year</span><span class="p">,</span><span class="o">-</span><span class="n">share</span><span class="p">)]</span>  <span class="c1">#order by share of total population
+</span><span class="n">s2</span><span class="o">&lt;-</span><span class="n">s2</span><span class="p">[,</span> <span class="n">id</span> <span class="o">:=</span> <span class="m">1</span><span class="o">:</span><span class="n">.N</span><span class="p">,</span> <span class="n">by</span> <span class="o">=</span> <span class="n">year</span><span class="p">][</span><span class="n">order</span><span class="p">(</span><span class="n">year</span><span class="p">,</span><span class="n">id</span><span class="p">)]</span>  <span class="c1">#create an index
+</span><span class="n">library</span><span class="p">(</span><span class="n">zoo</span><span class="p">)</span>
+<span class="n">s2</span><span class="o">&lt;-</span><span class="n">s2</span><span class="p">[,</span> <span class="s2">":="</span><span class="p">(</span><span class="n">share.run</span><span class="o">=</span><span class="n">rollapply</span><span class="p">(</span><span class="n">share</span><span class="p">,</span><span class="n">id</span><span class="p">,</span><span class="n">sum</span><span class="p">,</span><span class="n">align</span><span class="o">=</span><span class="s2">"right"</span><span class="p">)),</span> <span class="n">by</span><span class="o">=</span><span class="n">year</span><span class="p">]</span> <span class="c1">#compute running total by share
+</span>
+
+  <span class="n">ggplot</span><span class="p">(</span><span class="n">s2</span><span class="p">,</span>  
+         <span class="c1">#we need 50 states for the columns to look pretty so D.C. has to go
+</span>         <span class="n">aes</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">share.run</span><span class="p">,</span><span class="n">x</span><span class="o">=</span><span class="n">id</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">year</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">paste0</span><span class="p">(</span><span class="s2">" "</span><span class="p">,</span><span class="n">COUNTY</span><span class="p">,</span><span class="s2">" County, "</span><span class="p">,</span><span class="n">STATE</span><span class="p">,</span><span class="s2">"\n "</span><span class="p">,</span><span class="n">round</span><span class="p">(</span><span class="n">share.run</span><span class="p">,</span><span class="m">1</span><span class="p">),</span><span class="s2">"% of total"</span><span class="p">)))</span><span class="o">+</span>
+    <span class="n">geom_hline</span><span class="p">(</span><span class="n">yintercept</span><span class="o">=</span><span class="m">50</span><span class="p">,</span><span class="n">linetype</span><span class="o">=</span><span class="m">2</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">"black"</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="m">0.5</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">theme_minimal</span><span class="p">()</span><span class="o">+</span>   <span class="n">geom_line</span><span class="p">()</span> <span class="o">+</span><span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="n">year</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">geom_text</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">s2</span><span class="p">[</span><span class="n">id</span><span class="o">==</span><span class="m">1</span><span class="p">],</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">nudge_x</span><span class="o">=</span><span class="m">20</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="m">3</span><span class="p">,</span><span class="n">nudge_y</span><span class="o">=</span><span class="m">5</span><span class="p">)</span><span class="o">+</span>
+    <span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span> <span class="o">=</span> <span class="s2">"none"</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">plot.title</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">14</span><span class="p">))</span><span class="o">+</span><span class="n">theme</span><span class="p">(</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">vjust</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="n">margin</span><span class="o">=</span><span class="n">margin</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="m">10</span><span class="p">)))</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">plot.margin</span><span class="o">=</span><span class="n">unit</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="m">0.25</span><span class="p">,</span><span class="m">0.25</span><span class="p">,</span><span class="m">0.25</span><span class="p">,</span><span class="m">0.25</span><span class="p">),</span><span class="s2">"cm"</span><span class="p">))</span><span class="o">+</span>  <span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span> <span class="o">=</span> <span class="s2">"none"</span><span class="p">)</span><span class="o">+</span>
+      <span class="n">labs</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="s2">"Cumulative share of population (percent)"</span><span class="p">,</span><span class="n">x</span><span class="o">=</span><span class="s2">"County population rank"</span><span class="p">,</span>
+       <span class="n">title</span><span class="o">=</span><span class="s2">"County Population Cumulative Share"</span><span class="p">,</span>
+       <span class="n">caption</span><span class="o">=</span><span class="n">mycaption</span>  <span class="p">)</span></code></pre></figure>
+
+<p><img src="/img/Rfig/fig-graph-4-1.svg" alt="plot of chunk fig-graph-4" /></p>
+
+<p>This plot shows how the cumulative population share by county (sorted by largest to smallest county) has varied.  In 1810, Philadelphia county accounted for 1.5% of the total U.S. population.  In 2010, Los Angeles County was the largest and accounted for 3.2% of the total U.S. population.</p>
+
+<p>Let’s find the county where the cumulative line crosses at 50 where it ranked.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">print.table</span><span class="o">&lt;-</span><span class="n">merge</span><span class="p">(</span><span class="n">s2</span><span class="p">[</span> <span class="n">share.run</span><span class="o">&lt;=</span><span class="m">50</span><span class="p">,</span> <span class="n">list</span><span class="p">(</span><span class="n">crossing.county.number</span><span class="o">=</span><span class="n">max</span><span class="p">(</span><span class="n">id</span><span class="p">)),</span> <span class="n">by</span><span class="o">=</span><span class="n">year</span><span class="p">],</span>
+      <span class="n">s2</span><span class="p">[</span> <span class="n">share</span><span class="o">&gt;</span><span class="m">0</span><span class="p">,</span><span class="n">list</span><span class="p">(</span><span class="n">total.county.number</span><span class="o">=</span><span class="n">.N</span><span class="p">),</span> <span class="n">by</span><span class="o">=</span><span class="n">year</span><span class="p">],</span>
+      <span class="n">by</span><span class="o">=</span><span class="s2">"year"</span><span class="p">)</span>
+<span class="n">print.table</span><span class="p">[,</span><span class="s2">":="</span><span class="p">(</span><span class="n">percent.for.50.percent</span><span class="o">=</span><span class="n">percent</span><span class="p">(</span><span class="n">crossing.county.number</span><span class="o">/</span><span class="n">total.county.number</span><span class="p">))]</span>
+
+<span class="n">htmlTable</span><span class="p">(</span><span class="n">print.table</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="s2">"Year"</span><span class="p">,</span><span class="s2">"Rank at 50%"</span><span class="p">,</span><span class="s2">"Total Counties"</span><span class="p">,</span><span class="s2">"% for 50%"</span><span class="p">),</span>
+          <span class="n">col.rgroup</span> <span class="o">=</span> <span class="n">c</span><span class="p">(</span><span class="s2">"none"</span><span class="p">,</span> <span class="s2">"#F7F7F7"</span><span class="p">),</span><span class="n">caption</span><span class="o">=</span><span class="s2">"How many counties comprise 50% of U.S. population?"</span><span class="p">,</span>
+          <span class="n">tfoot</span><span class="o">=</span><span class="s2">"&amp;dagger;Counties ranked (descending) in terms of share of total population\nTable revised 8/25/2016 to correct # of counties\n(some omitted due to rounding in earlier version)"</span><span class="p">)</span></code></pre></figure>
+
+<table class="gmisc_table" style="border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;">
+<thead>
+<tr><td colspan="5" style="text-align: left;">
+How many counties comprise 50% of U.S. population?</td></tr>
+<tr>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey;"> </th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">Year</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">Rank at 50%</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">Total Counties</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">% for 50%</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">1</td>
+<td style="text-align: center;">1810</td>
+<td style="text-align: center;">142</td>
+<td style="text-align: center;">1385</td>
+<td style="text-align: center;">10.25%</td>
+</tr>
+<tr style="background-color: #f7f7f7;">
+<td style="background-color: #f7f7f7; text-align: left;">2</td>
+<td style="background-color: #f7f7f7; text-align: center;">1860</td>
+<td style="background-color: #f7f7f7; text-align: center;">327</td>
+<td style="background-color: #f7f7f7; text-align: center;">2653</td>
+<td style="background-color: #f7f7f7; text-align: center;">12.33%</td>
+</tr>
+<tr>
+<td style="text-align: left;">3</td>
+<td style="text-align: center;">1910</td>
+<td style="text-align: center;">316</td>
+<td style="text-align: center;">3143</td>
+<td style="text-align: center;">10.05%</td>
+</tr>
+<tr style="background-color: #f7f7f7;">
+<td style="background-color: #f7f7f7; text-align: left;">4</td>
+<td style="background-color: #f7f7f7; text-align: center;">1960</td>
+<td style="background-color: #f7f7f7; text-align: center;">135</td>
+<td style="background-color: #f7f7f7; text-align: center;">3143</td>
+<td style="background-color: #f7f7f7; text-align: center;">4.30%</td>
+</tr>
+<tr>
+<td style="text-align: left;">5</td>
+<td style="text-align: center;">1980</td>
+<td style="text-align: center;">147</td>
+<td style="text-align: center;">3143</td>
+<td style="text-align: center;">4.68%</td>
+</tr>
+<tr style="background-color: #f7f7f7;">
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: left;">6</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">2010</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">147</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">3143</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">4.68%</td>
+</tr>
+</tbody>
+<tfoot><tr><td colspan="5">
+&dagger;Counties ranked (descending) in terms of share of total population<br />
+Table revised 8/25/2016 to correct # of counties<br />
+(some omitted due to rounding in earlier version)</td></tr></tfoot>
+</table>
+
+    </div>
+
+    
+
+    
+  
+    <hr>
+    <ul class="pagination">
+    
+      <li class="prev"><a href="/2016/08/21/maps-mortgages-and-me" title="Maps, mortgages and me">&laquo; Previous</a></li>
+    
+      <li><a href="/archive.html">Archive</a></li>
+    
+      <li class="next"><a href="/2016/08/24/more-maps" title="More map visualizations">Next &raquo;</a></li>
+    
+    </ul>
+    <hr>
+    
+  </div>
+</div>
+
+
+
+      </div>
+
+    </div>
+
+    <div id="footer">
+      <div class="container">
+        <p>&copy; 2017 Len Kiefer
+          with help from <a href="http://jekyllbootstrap.com" target="_blank" title="The Definitive Jekyll Blogging Framework">Jekyll Bootstrap</a>
+          and <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>
+       
+    • <span vertical-align:bottom> <a href="https://twitter.com/lenkiefer" class="twitter-follow-button" data-show-count="false">•   Follow @lenkiefer</a>
+  
+ <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+</span>
+• <script src="//platform.linkedin.com/in.js" type="text/javascript"></script>
+<script type="IN/MemberProfile" data-id="https://www.linkedin.com/pub/leonard-kiefer/31/753/511" data-format="click" data-related="false" data-text="Leonard Kiefer"></script>
+  • lenkiefer@hotmail.com
+           </p>
+      </div>
+    </div>
+    
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+    <!-- Latest compiled and minified JavaScript, requires jQuery 1.x (2.x not supported in IE8) -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="/assets/themes/lentheme/bootstrap/js/bootstrap.min.js"></script>
+  </body>
+</html>
+
+
+
+
+

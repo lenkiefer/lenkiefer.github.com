@@ -1,0 +1,413 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Visualizing the history of U.S. homeownership rates</title>
+    
+    <meta name="author" content="Len Kiefer">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap styles -->
+    <link href="/assets/themes/lentheme/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Optional theme -->
+    <link href="/assets/themes/lentheme/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <!-- Sticky Footer -->
+    <link href="/assets/themes/lentheme/bootstrap/css/bs-sticky-footer.css" rel="stylesheet">
+    
+    <!-- Custom styles -->
+    <link href="/assets/themes/lentheme/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <!-- Update these with your own images
+      <link rel="shortcut icon" href="images/favicon.ico">
+      <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+      <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+      <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+  </head>
+
+  <body>
+    <div id="wrap">
+      <nav class="navbar navbar-default" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#jb-navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/"><span class="icon-home3" style="font-size:24px"> Len Kiefer</a></span>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="jb-navbar-collapse" style="font-size:24px">
+          <ul class="nav navbar-nav" >
+        <li><a href="/archive.html"><span class="icon-newspaper"> Posts</a></span></li>
+            <!-- li><a href="/chartbook/index.html"><span class="icon-display"> Chartbook</a></span></li-->
+         <li><a href="/resume.html"><span class="icon-profile"> Resume</span></a></li>
+        <li><a href="/about.html"><span class="icon-user-tie"> About</span></a></li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </nav>
+
+      <div class="container">
+        
+<div class="page-header">
+  <h1>Visualizing the history of U.S. homeownership rates </h1>
+</div>
+
+<div class="row post-full">
+  <div class="col-xs-12">
+    <div class="date">
+      <span>20 October 2016</span>
+    </div>
+    <div class="content">
+      <p>IN THIS POST I WANT TO LOOK AT THE HISTORY OF HOMEOWNERSHIP in the United States.  I’m going to go relatively far back in time, using Census data to compare the evolution of the homeownership rate by state from 1900 through 2015.  Along the way we’ll make several different visualizations.</p>
+
+<h2 id="data">Data</h2>
+
+<p>For data we’re going to rely on the U.S. Census Bureau.  <a href="https://www.census.gov/hhes/www/housing/census/historic/owner.html">This page</a> has a tabulation of historical homeownership rates from 1900 through 2000.  Then we’ll supplement these estimates with estimates from the 2010 Decennial Census and the 2005 and 2015 American Community Survey, which can be downloaded from Census <a href="http://factfinder.census.gov/faces/nav/jsf/pages/index.xhtml">here</a>.</p>
+
+<p>I’ve put all the data into a single long text file with columns for state, year, and the value of the homeownership rate. You can download these data in a text file <a href="/img/data/horate.txt">here</a>.</p>
+
+<h1 id="lets-make-some-graphs">Let’s make some graphs</h1>
+
+<p>First let’s set up some libraries and take a peek at our data.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">library</span><span class="p">(</span><span class="n">viridis</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">data.table</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">scales</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">tweenr</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">animation</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">viridis</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="s2">"htmlTable"</span><span class="p">)</span>
+<span class="n">ho.dat</span><span class="o">&lt;-</span><span class="n">fread</span><span class="p">(</span><span class="s2">"data/horate.txt"</span><span class="p">)</span>  <span class="c1">#load data
+</span>
+<span class="c1"># view data:
+</span><span class="n">htmlTable</span><span class="p">(</span><span class="n">head</span><span class="p">(</span><span class="n">ho.dat</span><span class="p">),</span> <span class="n">col.rgroup</span> <span class="o">=</span> <span class="n">c</span><span class="p">(</span><span class="s2">"none"</span><span class="p">,</span> <span class="s2">"#F7F7F7"</span><span class="p">),</span><span class="n">caption</span><span class="o">=</span><span class="s2">"Homeownership data:"</span><span class="p">,</span>
+          <span class="n">tfoot</span><span class="o">=</span><span class="s2">"horate.txt"</span><span class="p">)</span></code></pre></figure>
+
+<table class="gmisc_table" style="border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;">
+<thead>
+<tr><td colspan="4" style="text-align: left;">
+Homeownership data:</td></tr>
+<tr>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey;"> </th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">state</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">year</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">1</td>
+<td style="text-align: center;">United States</td>
+<td style="text-align: center;">2010</td>
+<td style="text-align: center;">65.1</td>
+</tr>
+<tr style="background-color: #f7f7f7;">
+<td style="background-color: #f7f7f7; text-align: left;">2</td>
+<td style="background-color: #f7f7f7; text-align: center;">United States</td>
+<td style="background-color: #f7f7f7; text-align: center;">2000</td>
+<td style="background-color: #f7f7f7; text-align: center;">66.2</td>
+</tr>
+<tr>
+<td style="text-align: left;">3</td>
+<td style="text-align: center;">United States</td>
+<td style="text-align: center;">1990</td>
+<td style="text-align: center;">64.2</td>
+</tr>
+<tr style="background-color: #f7f7f7;">
+<td style="background-color: #f7f7f7; text-align: left;">4</td>
+<td style="background-color: #f7f7f7; text-align: center;">United States</td>
+<td style="background-color: #f7f7f7; text-align: center;">1980</td>
+<td style="background-color: #f7f7f7; text-align: center;">64.4</td>
+</tr>
+<tr>
+<td style="text-align: left;">5</td>
+<td style="text-align: center;">United States</td>
+<td style="text-align: center;">1970</td>
+<td style="text-align: center;">62.9</td>
+</tr>
+<tr style="background-color: #f7f7f7;">
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: left;">6</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">United States</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">1960</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">61.9</td>
+</tr>
+</tbody>
+<tfoot><tr><td colspan="4">
+horate.txt</td></tr></tfoot>
+</table>
+
+<p>Now we’ll plot the U.S. homeownership rate:</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">ho.dat</span><span class="o">$</span><span class="n">st</span><span class="o">&lt;-</span><span class="n">factor</span><span class="p">(</span><span class="n">ho.dat</span><span class="o">$</span><span class="n">state</span><span class="p">,</span><span class="n">levels</span><span class="o">=</span><span class="n">unique</span><span class="p">(</span><span class="n">ho.dat</span><span class="o">$</span><span class="n">state</span><span class="p">))</span> <span class="c1">#make a factor out of the state variable for use later
+</span>
+
+<span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">ho.dat</span><span class="p">[</span><span class="n">state</span><span class="o">==</span><span class="s2">"United States"</span><span class="p">,],</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">year</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">value</span><span class="p">))</span><span class="o">+</span>
+   <span class="n">geom_line</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">viridis</span><span class="p">(</span><span class="m">5</span><span class="p">)[</span><span class="m">2</span><span class="p">],</span><span class="n">size</span><span class="o">=</span><span class="m">1.05</span><span class="p">)</span><span class="o">+</span>
+   <span class="n">theme_minimal</span><span class="p">()</span><span class="o">+</span>
+  <span class="n">geom_text</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">ho.dat</span><span class="p">[</span><span class="n">state</span><span class="o">==</span><span class="s2">"United States"</span> <span class="o">&amp;</span> <span class="n">year</span><span class="o">==</span><span class="m">2015</span><span class="p">,],</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">aes</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">paste</span><span class="p">(</span><span class="s2">" "</span><span class="p">,</span><span class="n">round</span><span class="p">(</span><span class="n">value</span><span class="p">,</span><span class="m">1</span><span class="p">))),</span><span class="n">color</span><span class="o">=</span><span class="n">viridis</span><span class="p">(</span><span class="m">5</span><span class="p">)[</span><span class="m">2</span><span class="p">])</span><span class="o">+</span>
+  <span class="n">geom_point</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">ho.dat</span><span class="p">[</span><span class="n">state</span><span class="o">==</span><span class="s2">"United States"</span> <span class="o">&amp;</span> <span class="n">year</span><span class="o">==</span><span class="m">2015</span><span class="p">,],</span><span class="n">color</span><span class="o">=</span><span class="n">viridis</span><span class="p">(</span><span class="m">5</span><span class="p">)[</span><span class="m">2</span><span class="p">],</span><span class="n">size</span><span class="o">=</span><span class="m">3</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">scale_x_continuous</span><span class="p">(</span><span class="n">breaks</span><span class="o">=</span><span class="n">unique</span><span class="p">(</span><span class="n">ho.dat</span><span class="o">$</span><span class="n">year</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">breaks</span><span class="o">=</span><span class="n">seq</span><span class="p">(</span><span class="m">40</span><span class="p">,</span><span class="m">70</span><span class="p">,</span><span class="m">5</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">coord_cartesian</span><span class="p">(</span><span class="n">xlim</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">1895</span><span class="p">,</span><span class="m">2020</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">title</span><span class="o">=</span><span class="s2">"Homeownership rate (%)"</span><span class="p">,</span>
+       <span class="n">subtitle</span><span class="o">=</span><span class="s2">"United States"</span><span class="p">,</span>
+       <span class="n">caption</span><span class="o">=</span><span class="s2">"@lenkiefer Source: U.S. Census Bureau\n1900-2010 Decennial Census, 2005 &amp; 2015 American Community Survey 1-year estimates"</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">axis.text</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">7</span><span class="p">))</span></code></pre></figure>
+
+<p><img src="/img/Rfig/fig-horate-1-1.svg" alt="plot of chunk fig-horate-1" /></p>
+
+<p>This chart shows the decline in the homeownership rate since 2005 for the United States.  At 63% the level of homeownership is the lowest in several decades.  The <a href="http://www.census.gov/housing/hvs/index.html">Housing Vacancy Survey</a> has updated estimates through the second quarter of 2016 and the rate of 62.9 percent in 2016Q2 is the lowest since the start of the survey in 1965.</p>
+
+<p>However, the longer history that we can get from the Decennial Census shows us that the homeownership rate has been much lower before the 1960s.</p>
+
+<h2 id="homeownership-rates-by-state">Homeownership rates by state</h2>
+
+<p>We can also look at the rate of homeownership by state.  Let’s try several different ways to examine it.</p>
+
+<h3 id="panel-plot">Panel plot</h3>
+
+<p>Let’s compare the homeownership rate by state using small multiples.  So we have 50 states, I’m going to drop the District of Columbia.  For each state we’ll plot a line chart using the historical rates of homeownership for each state.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">ho.dat</span><span class="p">[</span><span class="o">!</span> <span class="p">(</span><span class="n">state</span> <span class="o">%</span><span class="k">in</span><span class="o">%</span> <span class="n">c</span><span class="p">(</span><span class="s2">"United States"</span><span class="p">,</span><span class="s2">"District of Columbia"</span><span class="p">)),],</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">year</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">value</span><span class="p">))</span><span class="o">+</span>
+   <span class="n">geom_line</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">viridis</span><span class="p">(</span><span class="m">5</span><span class="p">)[</span><span class="m">2</span><span class="p">],</span><span class="n">size</span><span class="o">=</span><span class="m">.95</span><span class="p">)</span><span class="o">+</span>
+   <span class="n">theme_minimal</span><span class="p">()</span><span class="o">+</span>
+  <span class="n">geom_text</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">ho.dat</span><span class="p">[</span><span class="o">!</span> <span class="p">(</span><span class="n">state</span> <span class="o">%</span><span class="k">in</span><span class="o">%</span> <span class="n">c</span><span class="p">(</span><span class="s2">"United States"</span><span class="p">,</span><span class="s2">"District of Columbia"</span><span class="p">))</span> <span class="o">&amp;</span> <span class="n">year</span><span class="o">==</span><span class="m">2015</span><span class="p">,],</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">aes</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">paste</span><span class="p">(</span><span class="s2">" "</span><span class="p">,</span><span class="n">round</span><span class="p">(</span><span class="n">value</span><span class="p">,</span><span class="m">0</span><span class="p">))),</span><span class="n">color</span><span class="o">=</span><span class="n">viridis</span><span class="p">(</span><span class="m">5</span><span class="p">)[</span><span class="m">2</span><span class="p">],</span><span class="n">size</span><span class="o">=</span><span class="m">2</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">geom_point</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">ho.dat</span><span class="p">[</span><span class="o">!</span> <span class="p">(</span><span class="n">state</span> <span class="o">%</span><span class="k">in</span><span class="o">%</span> <span class="n">c</span><span class="p">(</span><span class="s2">"United States"</span><span class="p">,</span><span class="s2">"District of Columbia"</span><span class="p">))</span> <span class="o">&amp;</span> <span class="n">year</span><span class="o">==</span><span class="m">2015</span><span class="p">,],</span><span class="n">color</span><span class="o">=</span><span class="n">viridis</span><span class="p">(</span><span class="m">5</span><span class="p">)[</span><span class="m">2</span><span class="p">],</span><span class="n">size</span><span class="o">=</span><span class="m">1</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">scale_x_continuous</span><span class="p">(</span><span class="n">breaks</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">1900</span><span class="p">,</span><span class="m">2015</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">breaks</span><span class="o">=</span><span class="n">seq</span><span class="p">(</span><span class="m">20</span><span class="p">,</span><span class="m">80</span><span class="p">,</span><span class="m">20</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">coord_cartesian</span><span class="p">(</span><span class="n">xlim</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">1895</span><span class="p">,</span><span class="m">2025</span><span class="p">))</span><span class="o">+</span><span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="n">state</span><span class="p">,</span><span class="n">ncol</span><span class="o">=</span><span class="m">5</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">title</span><span class="o">=</span><span class="s2">"Homeownership rate (%)"</span><span class="p">,</span>
+       <span class="n">subtitle</span><span class="o">=</span><span class="s2">"by state"</span><span class="p">,</span>
+       <span class="n">caption</span><span class="o">=</span><span class="s2">"@lenkiefer Source: U.S. Census Bureau\n1900-2010 Decennial Census, 2005 &amp; 2015 American Community Survey 1-year estimates"</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">axis.text</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">7</span><span class="p">))</span></code></pre></figure>
+
+<p><img src="/img/Rfig/fig-horate-2-1.svg" alt="plot of chunk fig-horate-2" /></p>
+
+<p>The chart shows that most states follow a pattern similar to the U.S., the the rate of increase and post-2005 decline varies by state.</p>
+
+<h3 id="dot-plot">Dot plot</h3>
+
+<p>An alternative to the line plot is a dot plot, which compares the level of homeownership across states at a particular point in time.  For example, the graph below compares the homeownership rate in 2015 across states:</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">ho.dat</span><span class="p">[</span><span class="o">!</span> <span class="p">(</span><span class="n">state</span> <span class="o">%</span><span class="k">in</span><span class="o">%</span> <span class="n">c</span><span class="p">(</span><span class="s2">"United States"</span><span class="p">,</span><span class="s2">"District of Columbia"</span><span class="p">))</span> <span class="o">&amp;</span> <span class="n">year</span><span class="o">==</span><span class="m">2015</span><span class="p">,],</span><span class="n">aes</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">reorder</span><span class="p">(</span><span class="n">state</span><span class="p">,</span><span class="o">-</span><span class="n">value</span><span class="p">),</span><span class="n">x</span><span class="o">=</span><span class="n">value</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">value</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">scale_color_viridis</span><span class="p">(</span><span class="n">direction</span><span class="o">=</span><span class="m">-1</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="m">0.9</span><span class="p">)</span><span class="o">+</span>
+   <span class="n">geom_point</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">3</span><span class="p">)</span><span class="o">+</span><span class="n">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="o">=</span><span class="m">63</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">"gray"</span><span class="p">,</span><span class="n">linetype</span><span class="o">=</span><span class="m">2</span><span class="p">)</span><span class="o">+</span>
+   <span class="n">theme_minimal</span><span class="p">()</span><span class="o">+</span>
+  <span class="n">annotate</span><span class="p">(</span><span class="n">geom</span><span class="o">=</span><span class="s2">"text"</span><span class="p">,</span><span class="n">x</span><span class="o">=</span><span class="m">63</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="m">50</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">" U.S.:63%"</span><span class="p">,</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="o">=</span><span class="s2">"none"</span><span class="p">)</span><span class="o">+</span> <span class="c1">#suppress color legend
+</span>   <span class="n">theme</span><span class="p">(</span><span class="n">panel.grid.major</span> <span class="o">=</span> <span class="n">element_blank</span><span class="p">(),</span> <span class="n">panel.grid.minor</span> <span class="o">=</span> <span class="n">element_blank</span><span class="p">())</span><span class="o">+</span>  <span class="c1">#remove gridlines
+</span>  <span class="n">geom_segment</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">xend</span><span class="o">=</span><span class="m">63</span><span class="p">,</span><span class="n">x</span><span class="o">=</span><span class="n">value</span><span class="p">,</span><span class="n">yend</span><span class="o">=</span><span class="n">reorder</span><span class="p">(</span><span class="n">state</span><span class="p">,</span><span class="o">-</span><span class="n">value</span><span class="p">)))</span><span class="o">+</span>  <span class="c1">#add segment from U.S. average
+</span>
+  <span class="n">geom_text</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">paste</span><span class="p">(</span><span class="s2">" "</span><span class="p">,</span><span class="n">round</span><span class="p">(</span><span class="n">value</span><span class="p">,</span><span class="m">1</span><span class="p">),</span><span class="s2">" "</span><span class="p">),</span><span class="n">hjust</span><span class="o">=</span><span class="n">ifelse</span><span class="p">(</span><span class="n">value</span><span class="o">&gt;</span><span class="m">63</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">1</span><span class="p">)),</span><span class="n">color</span><span class="o">=</span><span class="n">viridis</span><span class="p">(</span><span class="m">5</span><span class="p">)[</span><span class="m">2</span><span class="p">],</span><span class="n">size</span><span class="o">=</span><span class="m">4</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">scale_x_continuous</span><span class="p">(</span><span class="n">limits</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">50</span><span class="p">,</span><span class="m">75</span><span class="p">),</span><span class="n">breaks</span><span class="o">=</span><span class="n">seq</span><span class="p">(</span><span class="m">50</span><span class="p">,</span><span class="m">75</span><span class="p">,</span><span class="m">5</span><span class="p">))</span><span class="o">+</span>
+    <span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">title</span><span class="o">=</span><span class="s2">"Homeownership rate (%) in 2015"</span><span class="p">,</span>
+       <span class="n">subtitle</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span>
+       <span class="n">caption</span><span class="o">=</span><span class="s2">"@lenkiefer Source: U.S. Census Bureau\n1900-2010 Decennial Census, 2005 &amp; 2015 American Community Survey 1-year estimates"</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">axis.text</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">7</span><span class="p">))</span></code></pre></figure>
+
+<p><img src="/img/Rfig/fig-horate-3-1.svg" alt="plot of chunk fig-horate-3" /></p>
+
+<p>The plot shows that while the U.S. homeownership rate averaged 63 percent in 2015, there’s substantial variation across states.  California and New York, with large populations of renters and high housing costs have the homeownership rates below 54%.  Eight states (DE, IA, ME, MI, MN, NH, VT, and WV) had a homeownership rate over 70 percent in 2015.</p>
+
+<h2 id="animated-plots">Animated plots</h2>
+
+<p>We can use tweenr to create animated versions of these plots to see how homeownership rates have varied over time and across states.</p>
+
+<h3 id="spaghetti-plot">Spaghetti plot</h3>
+
+<p><img src="/img/charts_oct_20_2016/ho rate by state viz.gif" alt="HO gif 1" /></p>
+
+<p>This plot compares each state’s time series.  The backgroud “spaghetti” plot is an individual line for each state. We then cycle through each state and highlight them in turn.</p>
+
+<h3 id="lollipops">Lollipops</h3>
+
+<p>We can also have dancing lollipops, by animating the dot plot to cycle through each year:</p>
+
+<p><img src="/img/charts_oct_20_2016/ho rate by state viz 2.gif" alt="Ho gif 2" /></p>
+
+<p>This chart shows that the dispersion of homeownership rates around the U.S. average has varied quite a lot over history.</p>
+
+<h2 id="animation-code">Animation Code</h2>
+
+<p>Code for the animations can be found below. I’m using the R package tweenr to make the animations.</p>
+
+<p>See my earlier <a href="/2016/05/29/improving-R-animated-gifs-with-tweenr">post about tweenr</a> for an introduction to tweenr, and more examples <a href="/2016/05/30/more-tweenr-animations">here</a> and <a href="/2016/06/26/week-in-review">here</a>.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1">## make the time series plot
+</span>
+<span class="n">myf</span><span class="o">&lt;-</span><span class="k">function</span><span class="p">(</span><span class="n">s</span><span class="p">){</span><span class="n">as.data.frame</span><span class="p">(</span><span class="n">ho.dat</span><span class="p">[</span><span class="n">state</span><span class="o">==</span><span class="n">s</span><span class="p">,</span> <span class="n">list</span><span class="p">(</span><span class="n">year</span><span class="p">,</span><span class="n">st</span><span class="p">,</span><span class="n">value</span><span class="p">)])}</span>
+
+<span class="c1"># use lapply to generate the list of data sets:
+</span><span class="n">my.list</span><span class="o">&lt;-</span><span class="n">lapply</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="n">st.list</span><span class="p">,</span><span class="n">st.list</span><span class="p">[</span><span class="m">1</span><span class="p">]),</span><span class="n">myf</span><span class="p">)</span>
+
+<span class="n">tf</span> <span class="o">&lt;-</span> <span class="n">tween_states</span><span class="p">(</span><span class="n">my.list</span><span class="p">,</span> <span class="n">tweenlength</span><span class="o">=</span> <span class="m">2</span><span class="p">,</span> <span class="n">statelength</span><span class="o">=</span><span class="m">3</span><span class="p">,</span> <span class="n">ease</span><span class="o">=</span><span class="n">rep</span><span class="p">(</span><span class="s1">'cubic-in-out'</span><span class="p">,</span><span class="m">24</span><span class="p">),</span>
+                   <span class="n">nframes</span><span class="o">=</span><span class="m">300</span><span class="p">)</span>
+<span class="n">tf</span><span class="o">&lt;-</span><span class="n">data.table</span><span class="p">(</span><span class="n">tf</span><span class="p">)</span>
+<span class="n">oopt</span> <span class="o">=</span> <span class="n">ani.options</span><span class="p">(</span><span class="n">interval</span> <span class="o">=</span> <span class="m">0.1</span><span class="p">)</span>
+<span class="n">saveGIF</span><span class="p">({</span><span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="k">in</span> <span class="m">1</span><span class="o">:</span><span class="n">max</span><span class="p">(</span><span class="n">tf</span><span class="o">$</span><span class="n">.frame</span><span class="p">))</span> <span class="p">{</span>
+  <span class="n">my.state</span><span class="o">&lt;-</span><span class="n">unique</span><span class="p">(</span><span class="n">tf</span><span class="p">[</span><span class="n">.frame</span><span class="o">==</span><span class="n">i</span><span class="p">]</span><span class="o">$</span><span class="n">st</span><span class="p">)</span>
+  
+<span class="n">g</span><span class="o">&lt;-</span>
+  <span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">tf</span><span class="p">[</span><span class="n">.frame</span><span class="o">==</span><span class="n">i</span><span class="p">,],</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">year</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">value</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">geom_line</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">viridis</span><span class="p">(</span><span class="m">5</span><span class="p">)[</span><span class="m">2</span><span class="p">],</span><span class="n">size</span><span class="o">=</span><span class="m">1.05</span><span class="p">)</span><span class="o">+</span>
+  <span class="c1"># faint lines for states not featured:
+</span>  <span class="n">geom_line</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">ho.dat</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">viridis</span><span class="p">(</span><span class="m">10</span><span class="p">)[</span><span class="m">9</span><span class="p">],</span><span class="n">size</span><span class="o">=</span><span class="m">1.05</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="m">0.1</span><span class="p">,</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">year</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">value</span><span class="p">,</span><span class="n">group</span><span class="o">=</span><span class="n">st</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">geom_text</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">tf</span><span class="p">[</span><span class="n">.frame</span><span class="o">==</span><span class="n">i</span> <span class="o">&amp;</span> <span class="n">year</span><span class="o">==</span><span class="m">2015</span><span class="p">,],</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">aes</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">paste</span><span class="p">(</span><span class="s2">" "</span><span class="p">,</span><span class="n">round</span><span class="p">(</span><span class="n">value</span><span class="p">,</span><span class="m">1</span><span class="p">))),</span><span class="n">color</span><span class="o">=</span><span class="n">viridis</span><span class="p">(</span><span class="m">5</span><span class="p">)[</span><span class="m">2</span><span class="p">])</span><span class="o">+</span>
+  <span class="n">geom_point</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">tf</span><span class="p">[</span><span class="n">.frame</span><span class="o">==</span><span class="n">i</span> <span class="o">&amp;</span> <span class="n">year</span><span class="o">==</span><span class="m">2015</span><span class="p">,],</span><span class="n">color</span><span class="o">=</span><span class="n">viridis</span><span class="p">(</span><span class="m">5</span><span class="p">)[</span><span class="m">2</span><span class="p">],</span><span class="n">size</span><span class="o">=</span><span class="m">3</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">theme_minimal</span><span class="p">()</span><span class="o">+</span>
+  <span class="n">scale_x_continuous</span><span class="p">(</span><span class="n">breaks</span><span class="o">=</span><span class="n">unique</span><span class="p">(</span><span class="n">ho.dat</span><span class="o">$</span><span class="n">year</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">coord_cartesian</span><span class="p">(</span><span class="n">ylim</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">20</span><span class="p">,</span><span class="m">81</span><span class="p">),</span><span class="n">xlim</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">1895</span><span class="p">,</span><span class="m">2020</span><span class="p">))</span><span class="o">+</span>  <span class="c1">#set limites
+</span>  <span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">title</span><span class="o">=</span><span class="s2">"Homeownership rate"</span><span class="p">,</span>
+       <span class="n">subtitle</span><span class="o">=</span><span class="n">my.state</span><span class="p">,</span>
+       <span class="n">caption</span><span class="o">=</span><span class="s2">"@lenkiefer Source: U.S. Census Bureau\n1900-2010 Decennial Census, 2005 &amp; 2015 American Community Survey 1-year estimates"</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">axis.text</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">8</span><span class="p">))</span>
+<span class="n">print</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+<span class="n">ani.pause</span><span class="p">()</span>
+<span class="p">}</span>
+<span class="p">},</span><span class="n">movie.name</span><span class="o">=</span><span class="s2">"ho rate by state viz.gif"</span><span class="p">,</span><span class="n">ani.width</span> <span class="o">=</span> <span class="m">650</span><span class="p">,</span> <span class="n">ani.height</span> <span class="o">=</span> <span class="m">450</span><span class="p">)</span>
+
+<span class="n">ho.dat</span><span class="o">$</span><span class="n">yf</span><span class="o">&lt;-</span><span class="n">factor</span><span class="p">(</span><span class="n">ho.dat</span><span class="o">$</span><span class="n">year</span><span class="p">)</span>  <span class="c1">#create year factor for plots
+</span>
+
+<span class="c1">### make the panel plot
+</span>
+<span class="n">myf2</span><span class="o">&lt;-</span><span class="k">function</span><span class="p">(</span><span class="n">y</span><span class="p">){</span><span class="n">as.data.frame</span><span class="p">(</span><span class="n">ho.dat</span><span class="p">[</span><span class="n">year</span><span class="o">==</span><span class="n">y</span><span class="p">,</span> <span class="n">list</span><span class="p">(</span><span class="n">yf</span><span class="p">,</span><span class="n">st</span><span class="p">,</span><span class="n">value</span><span class="p">)])}</span>
+
+<span class="c1"># use lapply to generate the list of data sets:
+</span><span class="n">my.list2</span><span class="o">&lt;-</span><span class="n">lapply</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="m">2015</span><span class="p">,</span><span class="n">seq</span><span class="p">(</span><span class="m">1900</span><span class="p">,</span><span class="m">2000</span><span class="p">,</span><span class="m">10</span><span class="p">),</span><span class="m">2005</span><span class="p">,</span><span class="m">2010</span><span class="p">,</span><span class="m">2015</span><span class="p">),</span><span class="n">myf2</span><span class="p">)</span>
+
+
+<span class="n">tf</span> <span class="o">&lt;-</span> <span class="n">tween_states</span><span class="p">(</span><span class="n">my.list2</span><span class="p">,</span> <span class="n">tweenlength</span><span class="o">=</span> <span class="m">2</span><span class="p">,</span> <span class="n">statelength</span><span class="o">=</span><span class="m">3</span><span class="p">,</span> <span class="n">ease</span><span class="o">=</span><span class="n">rep</span><span class="p">(</span><span class="s1">'cubic-in-out'</span><span class="p">,</span><span class="m">24</span><span class="p">),</span>
+                   <span class="n">nframes</span><span class="o">=</span><span class="m">200</span><span class="p">)</span>
+
+<span class="n">tf</span><span class="o">&lt;-</span><span class="n">data.table</span><span class="p">(</span><span class="n">tf</span><span class="p">)</span>
+
+
+<span class="n">oopt</span> <span class="o">=</span> <span class="n">ani.options</span><span class="p">(</span><span class="n">interval</span> <span class="o">=</span> <span class="m">0.1</span><span class="p">)</span>
+<span class="n">saveGIF</span><span class="p">({</span><span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="k">in</span> <span class="m">1</span><span class="o">:</span><span class="n">max</span><span class="p">(</span><span class="n">tf</span><span class="o">$</span><span class="n">.frame</span><span class="p">))</span> <span class="p">{</span>
+  <span class="n">us.v</span><span class="o">&lt;-</span><span class="n">unique</span><span class="p">(</span><span class="n">tf</span><span class="p">[</span><span class="n">.frame</span><span class="o">==</span><span class="n">i</span> <span class="o">&amp;</span> <span class="n">st</span><span class="o">==</span><span class="s2">"United States"</span><span class="p">]</span><span class="o">$</span><span class="n">value</span><span class="p">)</span>
+
+<span class="n">g</span><span class="o">&lt;-</span>
+  <span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">tf</span><span class="p">[</span><span class="n">.frame</span><span class="o">==</span><span class="n">i</span> <span class="o">&amp;</span> <span class="o">!</span><span class="p">(</span><span class="n">st</span> <span class="o">%</span><span class="k">in</span><span class="o">%</span> <span class="n">c</span><span class="p">(</span><span class="s2">"United States"</span><span class="p">,</span><span class="s2">"District of Columbia"</span><span class="p">)),],</span><span class="n">aes</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">st</span><span class="p">,</span><span class="n">x</span><span class="o">=</span><span class="n">value</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">value</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">scale_color_viridis</span><span class="p">(</span><span class="n">direction</span><span class="o">=</span><span class="m">-1</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="m">0.9</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">geom_point</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">3</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="o">=</span><span class="n">us.v</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">"gray"</span><span class="p">,</span><span class="n">linetype</span><span class="o">=</span><span class="m">2</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">theme_minimal</span><span class="p">()</span><span class="o">+</span>
+  <span class="c1">#annotate(geom="text",x=us.v,y=0,label=paste(" U.S.:",us.v,"%"),hjust=0)+
+</span>  <span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="o">=</span><span class="s2">"none"</span><span class="p">)</span><span class="o">+</span> <span class="c1">#suppress color legend
+</span>  <span class="n">theme</span><span class="p">(</span><span class="n">panel.grid.major</span> <span class="o">=</span> <span class="n">element_blank</span><span class="p">(),</span> <span class="n">panel.grid.minor</span> <span class="o">=</span> <span class="n">element_blank</span><span class="p">())</span><span class="o">+</span>  <span class="c1">#remove gridlines
+</span>  <span class="n">geom_segment</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">xend</span><span class="o">=</span><span class="n">us.v</span><span class="p">,</span><span class="n">x</span><span class="o">=</span><span class="n">value</span><span class="p">,</span><span class="n">yend</span><span class="o">=</span><span class="n">st</span><span class="p">))</span><span class="o">+</span>  <span class="c1">#add segment from U.S. average
+</span>    <span class="n">geom_text</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">paste</span><span class="p">(</span><span class="s2">" "</span><span class="p">,</span><span class="n">round</span><span class="p">(</span><span class="n">value</span><span class="p">,</span><span class="m">1</span><span class="p">),</span><span class="s2">" "</span><span class="p">),</span><span class="n">hjust</span><span class="o">=</span><span class="n">ifelse</span><span class="p">(</span><span class="n">value</span><span class="o">&gt;</span><span class="n">us.v</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">1</span><span class="p">)),</span><span class="n">color</span><span class="o">=</span><span class="n">viridis</span><span class="p">(</span><span class="m">5</span><span class="p">)[</span><span class="m">2</span><span class="p">],</span><span class="n">size</span><span class="o">=</span><span class="m">4</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">scale_x_continuous</span><span class="p">(</span><span class="n">limits</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">25</span><span class="p">,</span><span class="m">80</span><span class="p">),</span><span class="n">breaks</span><span class="o">=</span><span class="n">seq</span><span class="p">(</span><span class="m">30</span><span class="p">,</span><span class="m">80</span><span class="p">,</span><span class="m">10</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">title</span><span class="o">=</span><span class="s2">"Homeownership rate"</span><span class="p">,</span>
+       <span class="n">subtitle</span><span class="o">=</span><span class="n">paste0</span><span class="p">(</span><span class="s2">"U.S. "</span><span class="p">,</span><span class="n">round</span><span class="p">(</span><span class="n">us.v</span><span class="p">,</span><span class="m">0</span><span class="p">),</span><span class="s2">"% in "</span><span class="p">,</span><span class="n">unique</span><span class="p">(</span><span class="n">tf</span><span class="p">[</span><span class="n">.frame</span><span class="o">==</span><span class="n">i</span><span class="p">,]</span><span class="o">$</span><span class="n">yf</span><span class="p">)),</span>
+       <span class="n">caption</span><span class="o">=</span><span class="s2">"@lenkiefer Source: U.S. Census Bureau\n1900-2010 Decennial Census, 2005 &amp; 2015 American Community Survey 1-year estimates"</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">axis.text</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">7</span><span class="p">))</span>
+
+<span class="n">print</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+<span class="n">ani.pause</span><span class="p">()</span>
+<span class="n">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="p">},</span><span class="n">movie.name</span><span class="o">=</span><span class="s2">"ho rate by state viz 2.gif"</span><span class="p">,</span><span class="n">ani.width</span> <span class="o">=</span> <span class="m">650</span><span class="p">,</span> <span class="n">ani.height</span> <span class="o">=</span> <span class="m">650</span><span class="p">)</span></code></pre></figure>
+
+
+    </div>
+
+    
+
+    
+  
+    <hr>
+    <ul class="pagination">
+    
+      <li class="prev"><a href="/2016/10/14/gifs-10-14-2016" title="Some animated gifs: Week of Oct 14, 2016">&laquo; Previous</a></li>
+    
+      <li><a href="/archive.html">Archive</a></li>
+    
+      <li class="next"><a href="/2016/11/03/visual-meditations-on-house-prices-part6" title="Visual meditations on house prices, Part 6: state recovery">Next &raquo;</a></li>
+    
+    </ul>
+    <hr>
+    
+  </div>
+</div>
+
+
+
+      </div>
+
+    </div>
+
+    <div id="footer">
+      <div class="container">
+        <p>&copy; 2017 Len Kiefer
+          with help from <a href="http://jekyllbootstrap.com" target="_blank" title="The Definitive Jekyll Blogging Framework">Jekyll Bootstrap</a>
+          and <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>
+       
+    • <span vertical-align:bottom> <a href="https://twitter.com/lenkiefer" class="twitter-follow-button" data-show-count="false">•   Follow @lenkiefer</a>
+  
+ <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+</span>
+• <script src="//platform.linkedin.com/in.js" type="text/javascript"></script>
+<script type="IN/MemberProfile" data-id="https://www.linkedin.com/pub/leonard-kiefer/31/753/511" data-format="click" data-related="false" data-text="Leonard Kiefer"></script>
+  • lenkiefer@hotmail.com
+           </p>
+      </div>
+    </div>
+    
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+    <!-- Latest compiled and minified JavaScript, requires jQuery 1.x (2.x not supported in IE8) -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="/assets/themes/lentheme/bootstrap/js/bootstrap.min.js"></script>
+  </body>
+</html>
+
+
+
+
+

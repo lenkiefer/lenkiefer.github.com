@@ -1,0 +1,14 @@
+{{ partial "header.html" . }}
+
+<div id="post-index" class="container">
+ <h1> Post tags
+    <h3> <i>Follow the links below to see all posts tagged with:</i> 
+
+        <ul id="all-tags">
+            {{ range $name, $taxonomy := .Site.Taxonomies.tags }}
+            <li><a href="/tags/{{ $name | urlize }}">{{ $name }}</a></li>
+              {{ end }}
+        </ul>
+</div>
+
+{{ partial "footer.html" . }}

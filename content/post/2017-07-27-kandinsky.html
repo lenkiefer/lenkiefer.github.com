@@ -1,0 +1,116 @@
+---
+title: "Mortgage Rate Kandinsky"
+author: "Len Kiefer"
+date: "2017-07-27"
+summary: "rstats data visualizations of housing data"
+tags: ["mortgage","dataviz","fun"]
+slug: "kandinsky"
+categories: ["dataviz"]
+---
+
+
+
+<p>THINGS ARE ABOUT TO GET A BIT MORE ABSTRACT IN THIS SPACE. Today we make some Kandinsky-style images with <a href="https://www.r-project.org/">R</a>.</p>
+<p>This summer I was fortunate to spend some time at the <a href="https://www.centrepompidou.fr/en">Pompidou Centre</a> in Paris. The Pompidou Centre houses the <a href="https://en.wikipedia.org/wiki/Centre_Georges_Pompidou">largest collection</a> of modern art in Europe. I really enjoyed their collection of abstract and minimalist paintings.</p>
+<p>Well, turns out we can make our own abstract-style art using a <a href="https://github.com/gsimchoni/kandinsky">Kandinsky R package</a> from <a href="http://giorasimchoni.com/">Giora Simchoni</a>. Read about the package <a href="http://giorasimchoni.com/2017/07/../../../../2017/07/30/data-paintings-the-kandinsky-package/">here at Giora’s blog</a>.</p>
+<p>The package takes any data frame and turns it into Kandisky-style painting.</p>
+<div id="data-and-code" class="section level3">
+<h3>Data and code</h3>
+<p>For these paintings I’m going to use the history of U.S. average weekly 30-year fixed rate mortgage rates from the <a href="http://www.freddiemac.com/pmms/">Freddie Mac Primary Mortgage Market Survey</a>. See my earlier post for <a href="../../../../2016/12/08/10-ways-to-visualize-rates">10 amazing ways to visualize rates</a> and <a href="../../../../2016/12/15/more-amazing-mortgage-viz">here for even more amazing visualizations</a>.</p>
+<p>I’ve saved a simple text file with two columns, one with the date and one with the historical rate called <em>rate30yrfrm.txt</em> <a href="%7B%7B%20site.url%20%7D%7D/img/charts_jul_27_2017/rate30yrfrm.txt">download</a>.</p>
+<p>Just save them in a directory (I called mine “data”) and load the libraries.</p>
+<pre class="r"><code>#####################################################################################
+# load libraries
+library(data.table) # i want to use fread and other data.table utilities later
+library(kandinsky)  # available on Github at https://github.com/gsimchoni/kandinsky
+#####################################################################################
+
+#####################################################################################
+# load data:
+#####################################################################################
+
+dt&lt;-fread(&quot;data/rate30yrfrm.txt&quot;)
+dt$date&lt;-as.Date(dt$date, format=&quot;%m/%d/%Y&quot;)  # conver to date
+
+#####################################################################################
+#  draw plot
+#####################################################################################
+kandinsky(dt)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;purrr&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:data.table&#39;:
+## 
+##     transpose</code></pre>
+<p><img src="/post/2017-07-27-kandinsky_files/figure-html/07-27-2017-kandinsky1-1.png" width="672" /></p>
+<p>That’s pretty fun. Let’s try it for just the year 2016. Let’s also add a label.</p>
+<pre class="r"><code>kandinsky(dt[year(date)==2016])
+  grid.text(label=paste(&quot;30-year fixed mortgage rates in 2016&quot;,
+                        &quot;\n@lenkiefer, Made using R package Kandinsky&quot;),
+            gp=gpar(fontsize=12),
+            x=.95,y=0.05,just=&quot;right&quot;)</code></pre>
+<p><img src="/post/2017-07-27-kandinsky_files/figure-html/07-27-2017-kandinsky2-1.png" width="672" /></p>
+<p>That’s pretty fun. What if we want to animate it? You know, using <a href="https://cran.r-project.org/web/packages/tweenr/index.html">tweenr</a>?</p>
+<p>See this <a href="../../../../2016/05/29/improving-R-animated-gifs-with-tweenr">post about tweenr</a> for an introduction to tweenr, and more examples <a href="../../../../2016/05/30/more-tweenr-animations">here</a> and <a href="../../../../2016/06/26/week-in-review">here</a>.</p>
+<p>In this post we’ll do things slightly differently. Instead of using the animation package, I’m going to save the image files and then call a program, <a href="https://www.imagemagick.org/script/index.php">imagemagick</a>, outside of R to make the gif.</p>
+<p>We are going to take a subset of our data, just the weeks in 2017. Then we’ll take 4 week blocks and draw a Kandinsky plot. We’ll tween between 4 week intervals and see how they evolve.</p>
+<pre class="r"><code>#####################################################################################
+library(tidyverse)  # we&#39;ll need some tidyverse functions
+library(tweenr)
+#####################################################################################
+
+#####################################################################################
+# Data stuff: 
+df&lt;-filter(dt,year(date)&gt;2016)  #just get data for 2017
+N&lt;-nrow(df)  # get the number of weeks in our data
+
+# Create a function to subset our data
+myf4 &lt;- function(i) {
+  # take a four week interval starting at week i
+  return( df[i:(i+3),] %&gt;% select(date,rate))  
+  }
+
+# use lapply to generate the list of data sets:
+# stagger from weeks 1 to N-3 by 4
+my.list&lt;-lapply(seq(1,N-3,4),myf4)  
+
+tf &lt;- tween_states(my.list, tweenlength= 2, statelength=3,
+                   ease=rep(&#39;cubic-in-out&#39;,24),
+                   nframes=120)
+# Turn the tweened data fram into a data.table
+tf&lt;-data.table(tf)
+#####################################################################################
+
+#####################################################################################
+
+pathtoyourfolder &lt;- &quot;&quot;
+# be sure to set pathtoyourfolder to some folder where you can store images
+
+#####################################################################################
+
+#####################################################################################
+# Loop for animation
+for (ii in 1:max(tf$.frame)) {
+  file_path = paste0(pathtoyourfolder, &quot;/plot-&quot;,5000+ii ,&quot;.png&quot;)
+  # I add 5000 to the index so that image 10 comes after (not before) image 9
+  # (need to pad with some leading numbers)
+  png(file_path) 
+  kandinsky(tf[.frame==ii])
+  grid.text(label=paste(&quot;30-year rates from&quot;,
+                        tf[.frame==ii,][1,]$date,&quot;to&quot;,
+                        tf[.frame==ii,][4,]$date,
+                        &quot;\n@lenkiefer, Made using R package Kandinsky&quot;),
+            gp=gpar(fontsize=12),
+            x=.95,y=0.05,just=&quot;right&quot;)
+  dev.off()
+  print(ii)
+}
+#####################################################################################</code></pre>
+<p>For this to work, you’ll need <a href="https://www.imagemagick.org/script/index.php">imagemagick</a> on your machine. Navigate to the directory where you saved your images and run the following command in the console:</p>
+<p><code>magick convert -delay 10 loop -0 *.png kandinsky.gif</code></p>
+<p>That should compile all your images (<em>.png</em> files) into a single gif.</p>
+<p><img src="{{ site.url }}/img/charts_jul_27_2017/kandinsky.gif" alt="kandinsky"/></p>
+</div>
+<div id="how-could-it-work-for-you" class="section level2">
+<h2>How could it work for you?</h2>
+<p>You can feed all different types of datasets into the <code>kandinsky</code> function. Choose some that are near and dear to you and try them out.</p>
+</div>

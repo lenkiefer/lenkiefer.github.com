@@ -1,0 +1,237 @@
+---
+title: "Treemapify those pies!"
+author: "Len Kiefer"
+date: "2017-04-22"
+summary: "R statistics rstats mortgage rates dataviz"
+tags: ["fun","dataviz","R"]
+category: ["dataviz"]
+slug: "treemapify-those-pies"
+---
+
+
+
+<p>TIME FOR ANOTHER DATAVIZ REMIX. Saw on Twitter that <span class="citation">[@hrbrmstr]</span>(<a href="https://twitter.com/hrbrmstr" class="uri">https://twitter.com/hrbrmstr</a>) posted a remix of a <a href="https://www.wsj.com/articles/brick-and-mortar-stores-are-shuttering-at-a-record-pace-1492818818">Wall Street Journal</a> visualization over at <a href="https://rud.is/b/2017/04/21/shuttering-pies-with-retiring-stores/">rud.is</a>.</p>
+<p>The original WSJ article used pies of various size to compare recent store closings.</p>
+<p>As we usually do in this space, we’ll use <a href="https://www.r-project.org/">R</a> to create our plots.</p>
+<p>Let’s mix things up and go remix the remix.</p>
+<div id="pies" class="section level2">
+<h2>Pies</h2>
+<p>But first let’s consider the original.</p>
+<p>I’m not going to copy the original from the WSJ (click the link above to check out the story), but I am going to make my own pie version. I can’t believe I spent as much time as I did working with pies in <a href="http://ggplot2.tidyverse.org/reference/coord_polar.html">ggplot2</a>. I wasn’t quite able to replicate the original, but the code below follows the spirit of the original.</p>
+<pre class="r"><code>################################################################################
+### Initial data stuff from https://rud.is/b/2017/04/21/shuttering-pies-with-retiring-stores/
+################################################################################
+
+library(hrbrthemes)
+library(tidyverse)</code></pre>
+<pre><code>## Loading tidyverse: ggplot2
+## Loading tidyverse: tibble
+## Loading tidyverse: tidyr
+## Loading tidyverse: readr
+## Loading tidyverse: purrr
+## Loading tidyverse: dplyr</code></pre>
+<pre><code>## Conflicts with tidy packages ----------------------------------------------</code></pre>
+<pre><code>## filter(): dplyr, stats
+## lag():    dplyr, stats</code></pre>
+<pre class="r"><code>read.table(text=&#39;store,closing,total
+&quot;Radio Shack&quot;,550,1500
+&quot;Payless&quot;,400,2600
+&quot;Rue21&quot;,400,1100
+&quot;The Limited&quot;,250,250
+&quot;bebe&quot;,180,180
+&quot;Wet Seal&quot;,170,170
+&quot;Crocs&quot;,160,560
+&quot;JCPenny&quot;,138,1000
+&quot;American Apparel&quot;,110,110
+&quot;Kmart&quot;,109,735
+&quot;hhgregg&quot;,88,220
+&quot;Sears&quot;,41,695&#39;, sep=&quot;,&quot;, header=TRUE, stringsAsFactors=FALSE) %&gt;% 
+  as_tibble() %&gt;% 
+  mutate(remaining = total - closing,
+         gone = round((closing/total) * 100)/100,
+         stay = 1-gone,
+         rem_lab = ifelse(remaining == 0, &quot;&quot;, scales::comma(remaining))) %&gt;% 
+  arrange(desc(stay)) %&gt;% 
+  mutate(store=factor(store, levels=store)) -&gt; closing_df
+
+update_geom_font_defaults(font_rc)
+
+################################################################################
+### break original
+################################################################################
+
+################################################################################
+# Len&#39;s stuff
+# reorganize the data a bit
+# df 1,2, and 3 are relics of failed pie stuff not reproduced here
+################################################################################
+
+closing_df %&gt;% select(store,remaining,closing) %&gt;% gather( type,value,c(2:3)) -&gt; df3
+closing_df %&gt;% select(store,gone,stay) %&gt;% gather( type2,pct,c(2:3)) -&gt; df4
+df5&lt;-left_join(df3,df4,by=&quot;store&quot;)
+
+################################################################################
+# Pie charts!  sorta
+################################################################################
+
+ggplot(df5, aes(x=factor(1), y = pct, fill = type2, width = value)) +
+  geom_bar(position=&quot;fill&quot;, stat=&quot;identity&quot;) + 
+  geom_col()+
+  facet_wrap(~store)+ 
+  coord_polar(&quot;y&quot;)+
+  theme_void()+
+  scale_fill_ipsum(name=NULL,labels=c(&quot;closing&quot;,&quot;remaining&quot;)) +
+  theme(plot.caption=element_text(hjust=0,size=8),
+        legend.position=&quot;top&quot;,
+        legend.direction=&quot;horizontal&quot;)+
+  labs(title=&quot;Selected 2017 store closings (estimated)&quot;,
+       subtitle=&quot;Smaller specialty chains such as Bebe and American Apparel are closing their stores,\nwhile larger chains such as J.C. Penny and Sears are scaling back their footprint.&quot;,
+       caption=&quot;@lenkiefer based on https://rud.is/b/2017/04/21/shuttering-pies-with-retiring-stores/\nitself a remix of https://www.wsj.com/articles/brick-and-mortar-stores-are-shuttering-at-a-record-pace-1492818818&quot;)</code></pre>
+<pre><code>## Warning: position_stack requires non-overlapping x intervals
+
+## Warning: position_stack requires non-overlapping x intervals
+
+## Warning: position_stack requires non-overlapping x intervals
+
+## Warning: position_stack requires non-overlapping x intervals
+
+## Warning: position_stack requires non-overlapping x intervals
+
+## Warning: position_stack requires non-overlapping x intervals
+
+## Warning: position_stack requires non-overlapping x intervals
+
+## Warning: position_stack requires non-overlapping x intervals
+
+## Warning: position_stack requires non-overlapping x intervals
+
+## Warning: position_stack requires non-overlapping x intervals
+
+## Warning: position_stack requires non-overlapping x intervals
+
+## Warning: position_stack requires non-overlapping x intervals
+
+## Warning: position_stack requires non-overlapping x intervals
+
+## Warning: position_stack requires non-overlapping x intervals
+
+## Warning: position_stack requires non-overlapping x intervals
+
+## Warning: position_stack requires non-overlapping x intervals
+
+## Warning: position_stack requires non-overlapping x intervals
+
+## Warning: position_stack requires non-overlapping x intervals
+
+## Warning: position_stack requires non-overlapping x intervals
+
+## Warning: position_stack requires non-overlapping x intervals
+
+## Warning: position_stack requires non-overlapping x intervals
+
+## Warning: position_stack requires non-overlapping x intervals
+
+## Warning: position_stack requires non-overlapping x intervals
+
+## Warning: position_stack requires non-overlapping x intervals</code></pre>
+<p><img src="/post/2017-04-22-treemapify-those-pies_files/figure-html/4-22-2017-mypie-1.png" width="768" /></p>
+<p>I couldn’t fill in the donut holes, but this chart shows both the percent closing and the percent remaining. The radius of the pie/donut represents the absolute number of stores. As is usual with pies (see <a href="https://www.perceptualedge.com/articles/visual_business_intelligence/save_the_pies_for_dessert.pdf">this essay</a> for some discussion of the challenges with pie charts), making comparisons is difficult.</p>
+</div>
+<div id="first-remix" class="section level1">
+<h1>First remix</h1>
+<div id="via-hrbrmstr" class="section level2">
+<h2>via hrbrmstr</h2>
+<p><span class="citation">[@hrbrmstr]</span>(<a href="https://twitter.com/hrbrmstr" class="uri">https://twitter.com/hrbrmstr</a>) remixed the original chart and posted some ggplot code. It’s short enough to reproduce here:</p>
+<pre class="r"><code>################################################################################
+### Back to code from https://rud.is/b/2017/04/21/shuttering-pies-with-retiring-stores/
+################################################################################
+ggplot(closing_df) +
+  geom_segment(aes(0, store, xend=gone, yend=store, color=&quot;Closing&quot;), size=8) +
+  geom_segment(aes(gone, store, xend=gone+stay, yend=store, color=&quot;Remaining&quot;), size=8) +
+  geom_text(aes(x=0, y=store, label=closing), color=&quot;white&quot;, hjust=0, nudge_x=0.01) +
+  geom_text(aes(x=1, y=store, label=rem_lab), color=&quot;white&quot;, hjust=1, nudge_x=-0.01) +
+  scale_x_percent() +
+  scale_color_ipsum(name=NULL) +
+  labs(x=NULL, y=NULL, 
+       title=&quot;Selected 2017 Store closings (estimated)&quot;,
+       subtitle=&quot;Smaller specialty chains such as Bebe and American Apparel are closing their stores,\nwhile lareger chains such as J.C. Penny and Sears are scaling back their footprint.&quot;) +
+  theme_ipsum_rc(grid=&quot;X&quot;) +
+  theme(axis.text.x=element_text(hjust=c(0, 0.5, 0.5, 0.5, 1))) +
+  theme(legend.position=c(0.875, 1.025)) +
+  theme(legend.direction=&quot;horizontal&quot;)</code></pre>
+<pre><code>## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database</code></pre>
+<pre><code>## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x
+## $y, : font family not found in Windows font database</code></pre>
+<pre><code>## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database</code></pre>
+<p><img src="/post/2017-04-22-treemapify-those-pies_files/figure-html/04-22-2017-hrbrmstr-original-1.png" width="768" /></p>
+<p>This is a pretty good remix, but it’s always worth considering alternatives.</p>
+<p>While the graphic does list the number of stores closing and remaining on the labels, it doesn’t give you any visual sense of the number of stores. For example, JC Penny is closing 138 stores, but it is keeping 862 stores open. American Apparel is closing all 110 stores. The 138 JC Penny stores represents smaller share of the JC Penny footprint but in absolute number is greater than the American Apparel closings.</p>
+</div>
+</div>
+<div id="remix-the-remix" class="section level1">
+<h1>Remix the remix</h1>
+<p>We could also encode the number of stores in either a <a href="https://en.wikipedia.org/wiki/Mosaic_plot">mosaic plot</a> or <a href="https://en.wikipedia.org/wiki/Treemapping">treemap</a>. I decided to try out a treemap, but saw later that a commentator <a href="https://rud.is/b/2017/04/21/shuttering-pies-with-retiring-stores/">left a mosaic plot version</a>(check the comments).</p>
+<p>Making a treemap is not trivial, but once again the internet comes through. On github wilkox shared a library called <a href="https://github.com/wilkox/treemapify">treemapify</a> that lets you create treemaps in R (<em>ggplot2 geoms for drawing treemaps</em>).</p>
+<p>Turns out it’s super simple to create a treemap with the treemapify library. Let’s do it:</p>
+<pre class="r"><code>################################################################################
+# Treemapify!!!!!
+# need viridis (for colors) and scales (for labels) libraries 
+# run this to install treemapify:
+# library(devtools)
+# install_github(&quot;wilkox/ggfittext&quot;)
+# install_github(&quot;wilkox/treemapify&quot;)
+################################################################################
+
+library(treemapify)
+ggplot(closing_df, aes(
+  area = total,
+  fill = gone,
+  label = paste(store,&quot;\n&quot;,closing,&quot; out of &quot;,total) )) +
+  geom_treemap() +
+  geom_treemap_text(
+    colour = &quot;white&quot;,
+    place = &quot;center&quot;,
+    reflow = T
+  )+  viridis::scale_fill_viridis(label=scales::percent,name=&quot;% gone\n&quot;,option=&quot;C&quot;,end=0.85)+
+   theme(plot.caption=element_text(hjust=0),
+         plot.title=element_text(face=&quot;bold&quot;))+
+  labs(title=&quot;Selected 2017 store closings (estimated)&quot;,
+       subtitle=&quot;Smaller specialty chains such as Bebe and American Apparel are closing their stores,\nwhile larger chains such as J.C. Penny and Sears are scaling back their footprint.&quot;,
+    caption=&quot;@lenkiefer based on https://rud.is/b/2017/04/21/shuttering-pies-with-retiring-stores/\nitself a remix of https://www.wsj.com/articles/brick-and-mortar-stores-are-shuttering-at-a-record-pace-1492818818&quot;)</code></pre>
+<p><img src="/post/2017-04-22-treemapify-those-pies_files/figure-html/04-22-2017-treemapify-1.png" width="768" /></p>
+<div id="summary" class="section level3">
+<h3>Summary</h3>
+<p>Overall, I’m not sure the treemap is better than the original remix. The simple bar chart focuses on the reduction in stores (as a percent of total), while the treemap shows multiple dimensions and could be confusing.</p>
+<p>Of course, the data is so small that we can actually show each data point in the treemap or the bar chart. For larger datasets this wouldn’t work and we would have to decide what was most important.</p>
+<p>But it’s pretty good to know we can use treemaps with ggplot2 should we need them.</p>
+</div>
+</div>

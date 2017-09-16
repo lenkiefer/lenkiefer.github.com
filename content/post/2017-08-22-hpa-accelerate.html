@@ -1,0 +1,171 @@
+---
+title: "Visualizing house price acceleration"
+author: "Len Kiefer"
+date: "2017-08-22"
+summary: "R statistics dataviz housing mortgage data"
+---
+
+
+
+<p>I HAVE BEEN BUILDING SOME NEW VISUALIZATIONS to study house price trends. In particular I have been thinking about rates of change of rates of change, or accelerations and decelerations in house price trends. I’ve got more to say on this topic, but for today, let’s create a few visualizations and contemplate an animation.</p>
+<p>Per usual we’ll use <a href="https://www.r-project.org/">R</a> to create some plots.</p>
+<p>Also, for more house price visualizations check out <a href="../../../../2016/05/08/visual-meditations-on-house-prices">Visual Meditations on House Prices</a> and <a href="../../../../2017/08/07/house-price-trends">Plotting Recent House Price Trends</a></p>
+<div id="data" class="section level1">
+<h1>Data</h1>
+<p>For today’s visualizations we’ll use the <a href="https://www.fhfa.gov/AboutUs/Reports/Pages/US-House-Price-Index-Report-2Q-2017.aspx">recently released</a> FHFA House Price Index. We can download these files via a flat text file available on the <a href="https://www.fhfa.gov/DataTools/Downloads/Pages/House-Price-Index-Datasets.aspx#qpo">FHFA webpage</a>.</p>
+<p>The following code will download the state house price data and perform some transformations.</p>
+<pre class="r"><code>#load some libraries
+library(data.table)
+library(tidyverse)</code></pre>
+<pre><code>## Loading tidyverse: ggplot2
+## Loading tidyverse: tibble
+## Loading tidyverse: tidyr
+## Loading tidyverse: readr
+## Loading tidyverse: purrr
+## Loading tidyverse: dplyr</code></pre>
+<pre><code>## Conflicts with tidy packages ----------------------------------------------</code></pre>
+<pre><code>## between():   dplyr, data.table
+## filter():    dplyr, stats
+## first():     dplyr, data.table
+## lag():       dplyr, stats
+## last():      dplyr, data.table
+## transpose(): purrr, data.table</code></pre>
+<pre class="r"><code>library(scales)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;scales&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     discard</code></pre>
+<pre><code>## The following object is masked from &#39;package:readr&#39;:
+## 
+##     col_factor</code></pre>
+<pre class="r"><code>library(viridis)</code></pre>
+<pre><code>## Loading required package: viridisLite</code></pre>
+<pre class="r"><code>library(ggjoy)
+library(geofacet)
+#read in data available as a text file from the FHFA website:
+fhfa.data&lt;-fread(&quot;http://www.fhfa.gov/DataTools/Downloads/Documents/HPI/HPI_PO_state.txt&quot;)
+#create annual house price growth in the SA index:
+
+fhfa.data[,iso_3166_2:=state]  #rename state to match usa_composite
+fhfa.data[,date:=as.Date(ISOdate(yr,qtr*3,1))] #make a date (don&#39;t need it here)
+fhfa.data[,mylabel:=paste0(&quot;Q&quot;,qtr,&quot;:&quot;,yr)]  #create date label for plot
+
+##############################
+### Compute rates of change:
+##############################
+
+# 4 quarter percent change
+fhfa.data[,hpa4:=index_sa/shift(index_sa,4)-1,by=state]
+# 1-quarter percent change at annualized (4-quarter) rate
+fhfa.data[,hpaq:=(index_sa/shift(index_sa,1))^4-1,by=state]</code></pre>
+<p>Now that we have the data, let’s plot it. We’ll use a <a href="https://hafen.github.io/geofacet/">geofacet</a> layout for the state house price trend plots.</p>
+<pre class="r"><code>ggplot(data=filter(fhfa.data, year(date)&gt;1999), 
+         aes(x=date,y=hpa4,label=round(hpa4,0)))+
+  geom_line()+theme_minimal()+
+    geom_ridgeline_gradient(aes(fill=hpa4,y=0,height=hpa4),min_height=-10)+
+    scale_fill_viridis(option=&quot;C&quot;)   +
+  scale_y_continuous(labels=percent)+
+  scale_x_date(date_labels=&quot;%y&quot;,date_breaks=&quot;5 years&quot;)+
+  labs(x=&quot;&quot;, y=&quot;&quot;,
+       title=&quot;House price appreciation by state: 2000Q1 - 2017Q2&quot;,
+       subtitle=&quot;4-quarter percent change in house price index&quot;,
+       caption=&quot;@lenkiefer Source: FHFA purchase only house price index (SA)&quot;)+
+  theme(plot.title=element_text(size=14,face=&quot;bold&quot;),
+        legend.position=&quot;none&quot;,
+        plot.subtitle=element_text(size=10,face=&quot;italic&quot;),
+        plot.caption=element_text(hjust=0,size=8),
+        axis.ticks.length=unit(0.25,&quot;cm&quot;)) +
+    geom_hline(yintercept=0,color=&quot;black&quot;,linetype=2)+
+    facet_geo(~ state, grid = &quot;us_state_grid2&quot;)</code></pre>
+<p><img src="/post/2017-08-22-hpa-accelerate_files/figure-html/08-22-2017-plot-1-1.png" width="1344" /></p>
+<p>Now let’s focus on comparing recent quarterly annualized percent change in house prices to the 4-quarter percent change in house prices in several large states:</p>
+<pre class="r"><code>ggplot(data=fhfa.data[yr&gt;2014 &amp; state %in% c(&quot;CA&quot;,&quot;TX&quot;,&quot;FL&quot;,&quot;WA&quot;,&quot;CO&quot;,&quot;NC&quot;)], aes(x=date,y=hpa4,group=state))+
+  geom_line(size=1.05,aes(linetype=&quot;4-quarter % change&quot;,color=&quot;4-quarter % change&quot;))+
+  geom_line(size=1.05,aes(y=hpaq,linetype=&quot;quarterly % change (annual rate)&quot;,color=&quot;quarterly % change (annual rate)&quot;))+
+  scale_linetype_manual(values=c(1,2),name=&quot;State HPA&quot;)+
+  scale_shape_manual(values=c(21,16),name=&quot;Indicates&quot;)+
+  scale_color_manual(values=c(&quot;#4575b4&quot;,&quot;#d73027&quot;),name=&quot;State HPA&quot;)+
+  facet_wrap(~state)+theme_minimal()+
+  scale_y_continuous(labels=percent)+
+  theme(legend.position=&quot;top&quot;,
+        plot.caption=element_text(hjust=0))+
+  labs(x=&quot;&quot;,y=&quot;&quot;,
+       title=&quot;Recent house price appreciation trends by state&quot;,
+       subtitle=paste0(&quot;data through:&quot;,tail(fhfa.data,1)$mylabel),
+       caption=&quot;@lenkiefer Source: FHFA purchase only house price index (SA)&quot;)</code></pre>
+<p><img src="/post/2017-08-22-hpa-accelerate_files/figure-html/08-22-2017-plot-2-1.png" width="672" /></p>
+<p>Here we can see that though the quarterly estimates are noisy, in some states they are trending up, but in others appear to be trending down.</p>
+<p>Let’s try another way of looking at these data:</p>
+<pre class="r"><code>df&lt;-fhfa.data[date==max(fhfa.data$date,na.rm=T),]
+
+myplot0&lt;-function(in.df=df){
+  g&lt;-
+    ggplot(data=in.df,
+           aes(
+             x=forcats::fct_reorder(state,hpaq,fun=last),
+             xend=forcats::fct_reorder(state,hpaq,fun=last),
+             y=hpaq,label=paste(&quot; &quot;,state,&quot; &quot;),
+             hjust=ifelse(hpa4&gt;hpaq,1,0),
+             linetype=ifelse(hpa4&gt;hpaq,&quot;Decelerating&quot;,&quot;Accelerating&quot;),
+             color=ifelse(hpa4&gt;hpaq,&quot;Decelerating&quot;,&quot;Accelerating&quot;)
+           ))+
+    geom_segment(aes(yend=hpa4),size=1.1,alpha=0.65)+
+    geom_point(aes(shape=&quot;quarterly % change (annual rate)&quot;),size=3,alpha=0.72)+
+    geom_point(aes(shape=&quot;4-quarter percent change&quot;,y=hpa4),size=3,alpha=0.72)+
+    geom_text()+
+    scale_linetype_manual(values=c(1,1),name=&quot;State HPA&quot;)+
+    scale_shape_manual(values=c(21,16),name=&quot;Indicates&quot;)+
+    scale_color_manual(values=c(&quot;#4575b4&quot;,&quot;#d73027&quot;),name=&quot;State HPA&quot;)+
+    coord_flip()+
+    theme_minimal()+
+    facet_wrap(~ifelse(hpa4&gt;hpaq,&quot;Decelerating&quot;,&quot;Accelerating&quot;),scales=&quot;free_y&quot;)+
+    theme(legend.position=&quot;top&quot;,
+          axis.text.y=element_blank(),
+          plot.caption=element_text(hjust=0))+
+    labs(x=&quot;&quot;,y=&quot;&quot;,
+         title=&quot;Are house prices accelerating or decelerating in your state?&quot;,
+         subtitle=head(in.df,1)$mylabel,
+         caption=&quot;@lenkiefer Source: FHFA Purchase only house price index (SA)&quot;)+
+    scale_y_continuous(labels=percent,limits=c(-.25,.25),breaks=seq(-.5,.5,.05))
+  return(g)
+}
+myplot0()</code></pre>
+<p><img src="/post/2017-08-22-hpa-accelerate_files/figure-html/08-22-2017-plot-3-1.png" width="672" /></p>
+</div>
+<div id="animated-plot" class="section level1">
+<h1>Animated plot</h1>
+<p>Let’s try to animate it:</p>
+<p><img src="../../../../img/charts_aug_22_2017/hpavizaug222017.gif"  width="600" height="800"></p>
+</div>
+<div id="scatterplot" class="section level1">
+<h1>Scatterplot</h1>
+<p>We can try a scatterplot too:</p>
+<pre class="r"><code>library(ggrepel)
+df&lt;-fhfa.data[date==max(fhfa.data$date,na.rm=T),]
+
+g&lt;-ggplot(data=df,
+           aes(x=hpaq, y=hpaq-hpa4,label=paste(&quot; &quot;,state,&quot; &quot;),
+               color=ifelse(hpa4&gt;hpaq,&quot;Decelerating\n(q/q % change at annual rate &lt; y/y % change)&quot;,&quot;Accelerating\n(q/q % change at annual rate &gt; y/y % change)&quot; )))+
+  geom_text_repel()+
+  geom_point()+
+  geom_hline(yintercept=0,linetype=2,color=&quot;black&quot;)+
+  scale_color_manual(values=c(&quot;#4575b4&quot;,&quot;#d73027&quot;),name=&quot;State HPA&quot;)+
+  theme_minimal()+
+  theme(legend.position=&quot;top&quot;,
+        plot.caption=element_text(hjust=0))+
+    labs(x=&quot;quarterly percent change in house prices (at annual rate)&quot;,
+         y=&quot;quarterly percent change at annual rate minus\n4-quarter percent change in house prices&quot;,
+         title=&quot;Are house prices accelerating or decelerating in your state?&quot;,
+         subtitle=paste0(head(df,1)$mylabel,
+                         &quot;\ndots above (below) the dotted line are experiencing accelerating (decelerating) house prices.&quot;),
+         caption=&quot;@lenkiefer Source: FHFA purchase only house price index (SA)&quot;)+
+  scale_y_continuous(labels=percent)+
+  scale_x_continuous(labels=percent)
+  
+
+g</code></pre>
+<p><img src="/post/2017-08-22-hpa-accelerate_files/figure-html/08-22-2017-plot-4-1.png" width="672" /></p>
+<p>These plots need some work. The animation is capturing not only the change in house prices and the change in change in house prices (acceleration/deceleration), but it’s also capturing the change in the change in the change in house prices (change in acceleration/deceleration). That’s tricky to grasp.</p>
+<p>Maybe we can better visualize these trends in a different way. We’ll try out some other visualization ideas I have in a future post.</p>
+</div>

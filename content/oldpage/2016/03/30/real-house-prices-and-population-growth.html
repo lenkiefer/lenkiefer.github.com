@@ -1,0 +1,230 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Real house prices and population growth</title>
+    
+    <meta name="author" content="Len Kiefer">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap styles -->
+    <link href="/assets/themes/lentheme/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Optional theme -->
+    <link href="/assets/themes/lentheme/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <!-- Sticky Footer -->
+    <link href="/assets/themes/lentheme/bootstrap/css/bs-sticky-footer.css" rel="stylesheet">
+    
+    <!-- Custom styles -->
+    <link href="/assets/themes/lentheme/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <!-- Update these with your own images
+      <link rel="shortcut icon" href="images/favicon.ico">
+      <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+      <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+      <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+  </head>
+
+  <body>
+    <div id="wrap">
+      <nav class="navbar navbar-default" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#jb-navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/"><span class="icon-home3" style="font-size:24px"> Len Kiefer</a></span>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="jb-navbar-collapse" style="font-size:24px">
+          <ul class="nav navbar-nav" >
+        <li><a href="/archive.html"><span class="icon-newspaper"> Posts</a></span></li>
+            <!-- li><a href="/chartbook/index.html"><span class="icon-display"> Chartbook</a></span></li-->
+         <li><a href="/resume.html"><span class="icon-profile"> Resume</span></a></li>
+        <li><a href="/about.html"><span class="icon-user-tie"> About</span></a></li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </nav>
+
+      <div class="container">
+        
+<div class="page-header">
+  <h1>Real house prices and population growth </h1>
+</div>
+
+<div class="row post-full">
+  <div class="col-xs-12">
+    <div class="date">
+      <span>30 March 2016</span>
+    </div>
+    <div class="content">
+      <p>EARLIER THIS WEEK the U.S. Census Bureau <a href="https://www.census.gov/newsroom/press-releases/2016/cb16-43.html">released</a> updated population figures for 2015.  These data revealed changes in population across the country. Jed Kolko published a <a href="http://jedkolko.com/2016/03/23/2015-population-suburbs-sunbelt/">nice summary</a> of these data, and it got me thinking about the relationship of population growth rates and house prices. In this post I want to consider a few key things I found by exploring these data.</p>
+
+<p>First, let’s have a look at the history of real house prices, relative to the year 2000 for 30 large metro areas:</p>
+
+<p><img src="/img/charts_mar_30_2016/realhpi.gif" alt="nominal bubble" style="width: 650px;" /></p>
+
+<p>This chart shows the rise and fall and recovery of house prices in the largest metro areas.  We see that many markets have real house prices above their 2000 level, but few are above their pre-recession peaks.</p>
+
+<p>How do trends in real house prices correlate with population growth?</p>
+
+<p><img src="/img/charts_mar_30_2016/nominalbubble.jpg" alt="nominal bubble" style="width: 650px;" /></p>
+
+<p>In this chart each bubble corresponds to a metro area.  Along the x axis we have population growth and the y axis displays real house prices.  Each metro is normalized so that population and house prices equal one in 2000.  Moving to the right corresponds to faster population growth. Moving up corresponds to faster real house price growth.  What’s going on with this chart?  Let’s break it down.</p>
+
+<h3 id="some-maps">Some maps</h3>
+
+<p>This map shows metro level population growth from 2000 to 2015.</p>
+
+<p><img src="/img/charts_mar_30_2016/Population growth map.PNG" alt="pop map" style="width: 650px;" /></p>
+
+<p>Most metros have had positive (green) population growth.  The strongest growth has been in the West and South.  Metros in the Midwest have had weaker growth, with several actually experiencing population declines (red).</p>
+
+<p>Next we chart real house price growth from 2000 to 2015 by metro area.</p>
+
+<p><img src="/img/charts_mar_30_2016/Real HPI US.PNG" alt="hpi map" style="width: 650px;" /></p>
+
+<p>This map shows many of the same patterns as the population map. Real house price growth has been strongest in the West and South.  Real house prices have actually declined in many midwestern metro areas and southern cities outside of Florida and Texas.</p>
+
+<h3 id="scatterplots">Scatterplots</h3>
+
+<p>Between these two maps there is a lot going on, so let’s just focus on the largest metro areas, those with populations over 2 million.  The scatterplot below compares the real house price index (with the year 2000 normalized to 1) compared against population (with the year 2000 normalized to 1) for the largest metro areas in 2015.</p>
+
+<p>Dots in the upper right quadrant have seen positive real house price appreciation and population growth since 2000. Pittsburgh, in the upper left quadrant has seen positive real house price appreciation but population loss since 2000. Cleveland and Detroit in the bottom left quadrant have seen real house prices and population decline.  Finally, those in the lower right quadrant have had population growth since 2000, but have seen their real house prices decline.</p>
+
+<p><img src="/img/charts_mar_30_2016/pophpabig.PNG" alt="big scatter" style="width: 650px;" /></p>
+
+<p>The metros are color coded by U.S. Census regions. The West is yellow, the South is green, the Northeast is orange and the Midwest is blue. Lots of green and yellow in the upper right, and a lot of blue in the lower left.</p>
+
+<p>At the far right of the chart we have Austin, Texas.  Austin’s population has grown over 58 percent from 2000 to 2015 and real house prices are up over 50 percent during that time.  Contrast that with Detroit in the lower left corner. Detroit’s population has shrunk by about 3 percent since 2000 and real house prices have fallen by nearly 30 percent.</p>
+
+<h3 id="boxplots">Boxplots!</h3>
+
+<p>Now we’re starting to see a pattern.  The following boxplots help to clarify what we’re seeing.  Boxplots are statistical graphics that help us characterize the distribution of data. In the following plots, each dot measures a single metro area. The box, shaded in gray, will show the points that lie between the 25th and 75th percentiles, while the whiskers show the range out to 1.5 times the distance between the 25th and 75th percentile. Values beyond the whiskers are outliers.</p>
+
+<p><img src="/img/charts_mar_30_2016/hpapopbox1.PNG" alt="boxplot 1" style="width: 650px;" /></p>
+
+<p>This is a panel boxplot which shows real house prices broken down by metro size and region. Each figure depicts the change in real house prices/population relative to the year 2000 in 2015.  A value of 0 means real house prices or population is exactly what it was in 2000, while a value of 0.5 (-0.5) means that  real house prices or population is 1.5 (0.5) times what it was in 2000. 
+I’ve broken the data out by region and metro size. Metro size corresponds to population in the year 2015.  The largest metros, those with population greater than 2 million, tend to have the greatest house price appreciation (outside of the Midwest). Metros in the West regardless of size have tended to experience faster real house price appreciation.</p>
+
+<h3 id="a-more-complicated-chart">A more complicated chart!</h3>
+
+<p>I constructed an even more complicated chart that allows me to trace out the history of real house prices and population for each metro area from 1993 to 2015. Consider this beauty:</p>
+
+<p><img src="/img/charts_mar_30_2016/string.PNG" alt="string" style="width: 650px;" /></p>
+
+<p>This chart tells the house price/population story for four large metro areas: Cleveland, Ohio, New York, Los Angeles, and Dallas. Like before each point corresponds to real house prices and population relative to a starting year (this time 1993). But in this chart each individual point corresponds to one year from 1993 to 2015. All the points start at an origin of 1/1, and then trace out that metro’s fortune over the subsequent years.</p>
+
+<p>For Dallas we see a slow and steady rise in house prices and population with a bit of a blip around the Great Recession. For New York and Los Angeles, we see the meteoric rise in house prices, collapse and recovery. In Cleveland we see a gradual decline in population and a slow downward drift in real house prices.</p>
+
+<p>Now that we’ve walked through that chart, we can consider this one that compares more metros from four large states:</p>
+
+<p><img src="/img/charts_mar_30_2016/string4.PNG" alt="string4" style="width: 650px;" /></p>
+
+<p>From this chart we can see that Texas has done very well in terms of house prices and population growth. Florida metros are recovering, but slower than those out west in California. Ohio metros continue to languish, though Cincinnati and Columbus are faring better than Cleveland.</p>
+
+<p>We’ve come this far, why don’t we go ahead and put all metros on one plot?  This graph I affectionately call the “hairball”:</p>
+
+<p><img src="/img/charts_mar_30_2016/hairball.png" alt="hairball" /></p>
+
+<p>The hairball is like an impressionistic painting. You just squint at it and let it roll over you.  But you might be able to get more out of it by considering the interactive version below.  In it, you can hover for more details, an use some dropdowns to filter the data.</p>
+
+<p>Check it out:</p>
+
+<script type="text/javascript" src="https://public.tableau.com/javascripts/api/viz_v1.js"></script>
+<div class="tableauPlaceholder" style="width: 764px; height: 1033px;"><noscript><a href="#"><img alt="Population and House Prices " src="https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Po&#47;Populationgrowthandhousepricesv2&#47;TheHairballofTruthPopulationandHousePrices&#47;1_rss.png" style="border: none" /></a></noscript><object class="tableauViz" width="764" height="1033" style="display:none;"><param name="host_url" value="https%3A%2F%2Fpublic.tableau.com%2F" /> <param name="site_root" value="" /><param name="name" value="Populationgrowthandhousepricesv2&#47;TheHairballofTruthPopulationandHousePrices" /><param name="tabs" value="no" /><param name="toolbar" value="yes" /><param name="static_image" value="https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Po&#47;Populationgrowthandhousepricesv2&#47;TheHairballofTruthPopulationandHousePrices&#47;1.png" /> <param name="animate_transition" value="yes" /><param name="display_static_image" value="yes" /><param name="display_spinner" value="yes" /><param name="display_overlay" value="yes" /><param name="display_count" value="yes" /><param name="showTabs" value="y" /></object></div>
+
+
+    </div>
+
+    
+
+    
+  
+    <hr>
+    <ul class="pagination">
+    
+      <li class="prev"><a href="/2016/03/24/tight-supply-data-viz-remixed" title="Tight Inventory: Data Viz Remixed">&laquo; Previous</a></li>
+    
+      <li><a href="/archive.html">Archive</a></li>
+    
+      <li class="next"><a href="/2016/04/06/dot-plots-and-distributions" title="dot plots and distributions">Next &raquo;</a></li>
+    
+    </ul>
+    <hr>
+    
+  </div>
+</div>
+
+
+
+      </div>
+
+    </div>
+
+    <div id="footer">
+      <div class="container">
+        <p>&copy; 2017 Len Kiefer
+          with help from <a href="http://jekyllbootstrap.com" target="_blank" title="The Definitive Jekyll Blogging Framework">Jekyll Bootstrap</a>
+          and <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>
+       
+    • <span vertical-align:bottom> <a href="https://twitter.com/lenkiefer" class="twitter-follow-button" data-show-count="false">•   Follow @lenkiefer</a>
+  
+ <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+</span>
+• <script src="//platform.linkedin.com/in.js" type="text/javascript"></script>
+<script type="IN/MemberProfile" data-id="https://www.linkedin.com/pub/leonard-kiefer/31/753/511" data-format="click" data-related="false" data-text="Leonard Kiefer"></script>
+  • lenkiefer@hotmail.com
+           </p>
+      </div>
+    </div>
+    
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+    <!-- Latest compiled and minified JavaScript, requires jQuery 1.x (2.x not supported in IE8) -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="/assets/themes/lentheme/bootstrap/js/bootstrap.min.js"></script>
+  </body>
+</html>
+
+
+
+
+

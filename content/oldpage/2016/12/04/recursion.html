@@ -1,0 +1,610 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Nested recursion: Loops within loops within data frames </title>
+    
+    <meta name="author" content="Len Kiefer">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap styles -->
+    <link href="/assets/themes/lentheme/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Optional theme -->
+    <link href="/assets/themes/lentheme/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <!-- Sticky Footer -->
+    <link href="/assets/themes/lentheme/bootstrap/css/bs-sticky-footer.css" rel="stylesheet">
+    
+    <!-- Custom styles -->
+    <link href="/assets/themes/lentheme/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <!-- Update these with your own images
+      <link rel="shortcut icon" href="images/favicon.ico">
+      <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+      <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+      <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+  </head>
+
+  <body>
+    <div id="wrap">
+      <nav class="navbar navbar-default" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#jb-navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/"><span class="icon-home3" style="font-size:24px"> Len Kiefer</a></span>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="jb-navbar-collapse" style="font-size:24px">
+          <ul class="nav navbar-nav" >
+        <li><a href="/archive.html"><span class="icon-newspaper"> Posts</a></span></li>
+            <!-- li><a href="/chartbook/index.html"><span class="icon-display"> Chartbook</a></span></li-->
+         <li><a href="/resume.html"><span class="icon-profile"> Resume</span></a></li>
+        <li><a href="/about.html"><span class="icon-user-tie"> About</span></a></li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </nav>
+
+      <div class="container">
+        
+<div class="page-header">
+  <h1>Nested recursion: Loops within loops within data frames  </h1>
+</div>
+
+<div class="row post-full">
+  <div class="col-xs-12">
+    <div class="date">
+      <span>04 December 2016</span>
+    </div>
+    <div class="content">
+      <h1 id="introduction">Introduction</h1>
+
+<p>I HAVE BEEN WATCHING SOME VIDEOS of <a href="https://plotcon.plot.ly/">Plotcon 2016</a>.  All of the videos I’ve watched are worth watching (<a href="https://www.youtube.com/playlist?list=PLR7d32uh__xbrzSdfzxxCxCEFQnt7BcOj">check out the playlist</a>), but I was particularly interested in this one from Hadley Wickham:</p>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/cU0-NrUxRw4?list=PLR7d32uh__xbrzSdfzxxCxCEFQnt7BcOj" frameborder="0" allowfullscreen=""></iframe>
+
+<p>Among other things Hadley talks about the idea of nesting data frames, models and model results within a data frame. That idea struck me as something that could be quite useful and not at all something that could lead to explosive increase in the size of data frames or unending loops.</p>
+
+<p>We’ll try these ideas out in a simple, stylized forecasting exercise. We’ll use <a href="https://www.r-project.org/">R</a> to explore and model.</p>
+
+<h2 id="the-data">The data</h2>
+
+<p>I happen to have some data <a href="/2016/12/03/visual-meditations-on-house-prices-part7">handy</a> that’s perfect for this exercise.  It’s the <a href="http://www.freddiemac.com/finance/house_price_index.html">Freddie Mac House Price Index</a> I’ve been using for my series of <a href="/2016/05/08/visual-meditations-on-house-prices">Visual Meditations on House Prices</a>.</p>
+
+<p>We’re going to use data house prices for the United States, each of the 50 states and the District of Columbia collected in the following file:</p>
+
+<ol>
+  <li><a href="/img/charts_nov_3_2016/fmhpi2016q3.txt"><em>state and national called fmhpi2016q3.txt</em></a></li>
+</ol>
+
+<p><strong>Important note: Though I’m going to use house prices as an illustrative example, this shouldn’t be interpreted as my recommendation for a reasonable way to model house prices in any way.  This is just for fun, and trying out some coding things.</strong></p>
+
+<h2 id="the-strategy">The strategy</h2>
+
+<p>Here’s what we’re going to do.  We’re going to take our house price data, a dataset with monthly observations on the house price index from January 1975 to September 2016, and construct a simple forecast for house price growth (year-over-year percent change) for each state rolling forward from 1985.</p>
+
+<p>To make things simple we’ll subset the data to just include observations in September of each (the last month available for 2016). That will reduce the number of observations and get rid of overlapping time series observations.</p>
+
+<p>We can apply the techniques outlined in Hadley’s Plotcon talk to organize our results in a single data frame.</p>
+
+<h3 id="the-old-way">The old way</h3>
+
+<p>What I would usually do in this situation, is construct a series of loops to iterate over each state and each time period.  Something like this (where <em>forecast.function</em>, and <em>stack.data.function</em> are some functions that compute forecasts and organize the output data respectively):</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="o">:</span> <span class="m">1</span><span class="o">:</span><span class="n">N.states</span><span class="p">){</span>                                                    <span class="c1"># iterate over states
+</span>  <span class="k">for</span> <span class="p">(</span><span class="n">t</span><span class="o">:</span> <span class="m">1</span><span class="o">:</span><span class="n">T.months</span><span class="p">){</span>                                                  <span class="c1"># iterate over time periods
+</span>    <span class="n">newdata</span><span class="o">&lt;-</span><span class="n">filter</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">date</span><span class="o">&lt;=</span><span class="n">T</span> <span class="o">&amp;</span> <span class="n">state</span><span class="o">==</span><span class="n">i</span><span class="p">)</span>                           <span class="c1"># filter data, state=i, date &lt;= T
+</span>    <span class="n">forecast.data</span><span class="o">&lt;-</span><span class="n">forecast.function</span><span class="p">(</span><span class="n">newdata</span><span class="p">)</span>                           <span class="c1"># forecast function
+</span>    <span class="n">output.data</span><span class="o">&lt;-</span><span class="n">stack.data.function</span><span class="p">(</span><span class="n">output.data</span><span class="p">,</span><span class="n">forecast.data</span><span class="p">)</span>         <span class="c1"># organize data function
+</span>    <span class="p">}</span>
+  <span class="p">}</span></code></pre></figure>
+
+<h3 id="nest-with-map">Nest with map</h3>
+
+<p>Now we can avoid the loops by using the <em>map</em> or <em>map2</em> functions from the <a href="https://cran.r-project.org/web/packages/purrr/index.html">purrr</a> package.  Instead of loops, we can take a dataframe with a list of states and dates and then use the <em>map2</em> function to store our model results in the same dataframe. Like so:</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">output.data</span><span class="o">&lt;-</span> <span class="n">data</span> <span class="o">%&gt;%</span> <span class="n">mutate</span><span class="p">(</span><span class="n">mod</span><span class="o">=</span><span class="n">map2</span><span class="p">(</span><span class="n">state</span><span class="p">,</span><span class="n">date</span><span class="p">,</span><span class="n">forecast.function</span><span class="p">))</span></code></pre></figure>
+
+<p>Besides being more efficient to write, this will result in a nice structure and we don’t have to worry about index numbers and aligning things if we want to add or subtract rows.</p>
+
+<h1 id="example-using-house-prices">Example using house prices</h1>
+
+<p>Let’s load packages, import the data from the text file above, and do some data manipulations:</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1">#load libraries
+</span><span class="n">library</span><span class="p">(</span><span class="n">data.table</span><span class="p">,</span> <span class="n">warn.conflicts</span> <span class="o">=</span> <span class="n">FALSE</span><span class="p">,</span> <span class="n">quietly</span><span class="o">=</span><span class="n">TRUE</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">,</span> <span class="n">warn.conflicts</span> <span class="o">=</span> <span class="n">FALSE</span><span class="p">,</span> <span class="n">quietly</span><span class="o">=</span><span class="n">TRUE</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">,</span> <span class="n">warn.conflicts</span> <span class="o">=</span> <span class="n">FALSE</span><span class="p">,</span> <span class="n">quietly</span><span class="o">=</span><span class="n">TRUE</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">zoo</span><span class="p">,</span> <span class="n">warn.conflicts</span> <span class="o">=</span> <span class="n">FALSE</span><span class="p">,</span> <span class="n">quietly</span><span class="o">=</span><span class="n">TRUE</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">ggrepel</span><span class="p">,</span> <span class="n">warn.conflicts</span> <span class="o">=</span> <span class="n">FALSE</span><span class="p">,</span> <span class="n">quietly</span><span class="o">=</span><span class="n">TRUE</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">ggthemes</span><span class="p">,</span> <span class="n">warn.conflicts</span> <span class="o">=</span> <span class="n">FALSE</span><span class="p">,</span> <span class="n">quietly</span><span class="o">=</span><span class="n">TRUE</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">scales</span><span class="p">,</span> <span class="n">warn.conflicts</span> <span class="o">=</span> <span class="n">FALSE</span><span class="p">,</span> <span class="n">quietly</span><span class="o">=</span><span class="n">TRUE</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">tidyr</span><span class="p">,</span> <span class="n">warn.conflicts</span> <span class="o">=</span> <span class="n">FALSE</span><span class="p">,</span> <span class="n">quietly</span><span class="o">=</span><span class="n">TRUE</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">zoo</span><span class="p">,</span><span class="n">warn.conflicts</span><span class="o">=</span><span class="n">F</span><span class="p">,</span><span class="n">quietly</span><span class="o">=</span><span class="n">T</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">purrr</span><span class="p">,</span><span class="n">warn.conflicts</span><span class="o">=</span><span class="n">F</span><span class="p">,</span><span class="n">quietly</span><span class="o">=</span><span class="n">T</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">xts</span><span class="p">,</span><span class="n">warn.conflicts</span><span class="o">=</span><span class="n">F</span><span class="p">,</span><span class="n">quietly</span><span class="o">=</span><span class="n">T</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">lubridate</span><span class="p">,</span><span class="n">warn.conflicts</span><span class="o">=</span><span class="n">F</span><span class="p">,</span><span class="n">quietly</span><span class="o">=</span><span class="n">T</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">viridis</span><span class="p">,</span><span class="n">warn.conflicts</span> <span class="o">=</span> <span class="n">F</span><span class="p">,</span><span class="n">quietly</span> <span class="o">=</span> <span class="n">F</span><span class="p">)</span> <span class="c1">#for the colorz
+</span>
+<span class="c1">#load data from text file
+</span><span class="n">d.state</span> <span class="o">&lt;-</span> <span class="n">fread</span><span class="p">(</span><span class="s2">"data/fmhpi2016q3.txt"</span><span class="p">)</span>
+<span class="c1">#set up date variable
+</span><span class="n">d.state</span><span class="o">$</span><span class="n">date</span><span class="o">&lt;-</span><span class="n">as.Date</span><span class="p">(</span><span class="n">d.state</span><span class="o">$</span><span class="n">date</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s2">"%m/%d/%Y"</span><span class="p">)</span>
+<span class="c1">#get list of states
+</span><span class="n">state.list</span><span class="o">&lt;-</span><span class="n">unique</span><span class="p">(</span><span class="n">d.state</span><span class="o">$</span><span class="n">state</span><span class="p">)</span>
+
+<span class="c1"># construct variable hpa12 which is 12-month percentage change in house price index
+# using data.table for convenience of rolling operations across groups
+</span><span class="n">d.state</span><span class="p">[,</span><span class="n">hpa12</span><span class="o">:=</span><span class="n">c</span><span class="p">(</span><span class="n">rep</span><span class="p">(</span><span class="n">NA</span><span class="p">,</span><span class="m">12</span><span class="p">),((</span><span class="m">1</span><span class="o">+</span><span class="n">diff</span><span class="p">(</span><span class="n">hpi</span><span class="p">,</span><span class="m">12</span><span class="p">)</span><span class="o">/</span><span class="n">hpi</span><span class="p">))</span><span class="o">^</span><span class="m">1</span><span class="p">)</span><span class="m">-1</span><span class="p">,</span><span class="n">by</span><span class="o">=</span><span class="n">state</span><span class="p">]</span>
+
+<span class="c1">#subset so that year &gt;1975 and month ==9
+</span><span class="n">d.state</span><span class="o">&lt;-</span><span class="n">d.state</span><span class="p">[</span><span class="n">month</span><span class="o">==</span><span class="m">9</span> <span class="o">&amp;</span> <span class="n">year</span><span class="o">&gt;</span><span class="m">1975</span><span class="p">]</span></code></pre></figure>
+
+<p>Now that we have our data loaded let’s take a peek at the structure:</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">library</span><span class="p">(</span><span class="s2">"htmlTable"</span><span class="p">)</span>
+<span class="c1"># make tables for viewing formatting dates with purr %&gt;% operations
+</span><span class="n">htmlTable</span><span class="p">(</span><span class="n">head</span><span class="p">(</span><span class="n">d.state</span> <span class="o">%&gt;%</span> <span class="n">map_if</span><span class="p">(</span><span class="n">is.Date</span><span class="p">,</span> <span class="n">as.character</span><span class="p">,</span><span class="n">format</span><span class="o">=</span><span class="s2">"%b-%Y"</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="n">map_if</span><span class="p">(</span><span class="n">is.numeric</span><span class="p">,</span> <span class="n">round</span><span class="p">,</span><span class="m">3</span><span class="p">)</span> <span class="o">%&gt;%</span><span class="n">as.data.frame</span><span class="p">()</span> <span class="p">,</span><span class="m">10</span><span class="p">),</span> <span class="n">col.rgroup</span> <span class="o">=</span> <span class="n">c</span><span class="p">(</span><span class="s2">"none"</span><span class="p">,</span> <span class="s2">"#F7F7F7"</span><span class="p">),</span><span class="n">caption</span><span class="o">=</span><span class="s2">"State House Price Data"</span><span class="p">,</span>
+          <span class="n">tfoot</span><span class="o">=</span><span class="s2">"Source: Freddie Mac House Price Index"</span><span class="p">)</span></code></pre></figure>
+
+<table class="gmisc_table" style="border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;">
+<thead>
+<tr><td colspan="8" style="text-align: left;">
+State House Price Data</td></tr>
+<tr>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey;"> </th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">date</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">state</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">hpi</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">year</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">month</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">type</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">hpa12</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">1</td>
+<td style="text-align: center;">Sep-1976</td>
+<td style="text-align: center;">AK</td>
+<td style="text-align: center;">41.953</td>
+<td style="text-align: center;">1976</td>
+<td style="text-align: center;">9</td>
+<td style="text-align: center;">State</td>
+<td style="text-align: center;">0.077</td>
+</tr>
+<tr style="background-color: #f7f7f7;">
+<td style="background-color: #f7f7f7; text-align: left;">2</td>
+<td style="background-color: #f7f7f7; text-align: center;">Sep-1976</td>
+<td style="background-color: #f7f7f7; text-align: center;">AL</td>
+<td style="background-color: #f7f7f7; text-align: center;">38.775</td>
+<td style="background-color: #f7f7f7; text-align: center;">1976</td>
+<td style="background-color: #f7f7f7; text-align: center;">9</td>
+<td style="background-color: #f7f7f7; text-align: center;">State</td>
+<td style="background-color: #f7f7f7; text-align: center;">0.073</td>
+</tr>
+<tr>
+<td style="text-align: left;">3</td>
+<td style="text-align: center;">Sep-1976</td>
+<td style="text-align: center;">AR</td>
+<td style="text-align: center;">41.717</td>
+<td style="text-align: center;">1976</td>
+<td style="text-align: center;">9</td>
+<td style="text-align: center;">State</td>
+<td style="text-align: center;">0.084</td>
+</tr>
+<tr style="background-color: #f7f7f7;">
+<td style="background-color: #f7f7f7; text-align: left;">4</td>
+<td style="background-color: #f7f7f7; text-align: center;">Sep-1976</td>
+<td style="background-color: #f7f7f7; text-align: center;">AZ</td>
+<td style="background-color: #f7f7f7; text-align: center;">30.269</td>
+<td style="background-color: #f7f7f7; text-align: center;">1976</td>
+<td style="background-color: #f7f7f7; text-align: center;">9</td>
+<td style="background-color: #f7f7f7; text-align: center;">State</td>
+<td style="background-color: #f7f7f7; text-align: center;">0.039</td>
+</tr>
+<tr>
+<td style="text-align: left;">5</td>
+<td style="text-align: center;">Sep-1976</td>
+<td style="text-align: center;">CA</td>
+<td style="text-align: center;">19.974</td>
+<td style="text-align: center;">1976</td>
+<td style="text-align: center;">9</td>
+<td style="text-align: center;">State</td>
+<td style="text-align: center;">0.162</td>
+</tr>
+<tr style="background-color: #f7f7f7;">
+<td style="background-color: #f7f7f7; text-align: left;">6</td>
+<td style="background-color: #f7f7f7; text-align: center;">Sep-1976</td>
+<td style="background-color: #f7f7f7; text-align: center;">CO</td>
+<td style="background-color: #f7f7f7; text-align: center;">22.027</td>
+<td style="background-color: #f7f7f7; text-align: center;">1976</td>
+<td style="background-color: #f7f7f7; text-align: center;">9</td>
+<td style="background-color: #f7f7f7; text-align: center;">State</td>
+<td style="background-color: #f7f7f7; text-align: center;">0.066</td>
+</tr>
+<tr>
+<td style="text-align: left;">7</td>
+<td style="text-align: center;">Sep-1976</td>
+<td style="text-align: center;">CT</td>
+<td style="text-align: center;">27.238</td>
+<td style="text-align: center;">1976</td>
+<td style="text-align: center;">9</td>
+<td style="text-align: center;">State</td>
+<td style="text-align: center;">0.06</td>
+</tr>
+<tr style="background-color: #f7f7f7;">
+<td style="background-color: #f7f7f7; text-align: left;">8</td>
+<td style="background-color: #f7f7f7; text-align: center;">Sep-1976</td>
+<td style="background-color: #f7f7f7; text-align: center;">DC</td>
+<td style="background-color: #f7f7f7; text-align: center;">22.244</td>
+<td style="background-color: #f7f7f7; text-align: center;">1976</td>
+<td style="background-color: #f7f7f7; text-align: center;">9</td>
+<td style="background-color: #f7f7f7; text-align: center;">State</td>
+<td style="background-color: #f7f7f7; text-align: center;">0.101</td>
+</tr>
+<tr>
+<td style="text-align: left;">9</td>
+<td style="text-align: center;">Sep-1976</td>
+<td style="text-align: center;">DE</td>
+<td style="text-align: center;">28.837</td>
+<td style="text-align: center;">1976</td>
+<td style="text-align: center;">9</td>
+<td style="text-align: center;">State</td>
+<td style="text-align: center;">0.011</td>
+</tr>
+<tr style="background-color: #f7f7f7;">
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: left;">10</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">Sep-1976</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">FL</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">34.051</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">1976</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">9</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">State</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;">0.036</td>
+</tr>
+</tbody>
+<tfoot><tr><td colspan="8">
+Source: Freddie Mac House Price Index</td></tr></tfoot>
+</table>
+
+<p>What we want to do is forecast the house price appreciation (“hpa12”: year-over-year percent change in index) at different points in time.</p>
+
+<h3 id="working-on-a-single-state">Working on a single state</h3>
+
+<p>Before we get into the nesting business, let’s just do it for a single state, for a single month.  Let’s extract the history of house price growth (hereafter HPA) in Virginia from 1976 through 2016 in September of each year:</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1"># just plot data for VA
+</span>
+<span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">d.state</span><span class="p">[</span><span class="n">state</span><span class="o">==</span><span class="s2">"VA"</span><span class="p">,],</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">hpa12</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">paste</span><span class="p">(</span><span class="n">percent</span><span class="p">(</span><span class="n">hpa12</span><span class="p">))))</span><span class="o">+</span>
+  <span class="n">geom_line</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">viridis</span><span class="p">(</span><span class="m">10</span><span class="p">)[</span><span class="m">1</span><span class="p">],</span><span class="n">size</span><span class="o">=</span><span class="m">1.1</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">geom_point</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">tail</span><span class="p">(</span><span class="n">d.state</span><span class="p">[</span><span class="n">state</span><span class="o">==</span><span class="s2">"VA"</span><span class="p">,],</span><span class="m">1</span><span class="p">),</span><span class="n">color</span><span class="o">=</span><span class="n">viridis</span><span class="p">(</span><span class="m">10</span><span class="p">)[</span><span class="m">8</span><span class="p">],</span><span class="n">alpha</span><span class="o">=</span><span class="m">0.82</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="m">3</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">geom_text</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">tail</span><span class="p">(</span><span class="n">d.state</span><span class="p">[</span><span class="n">state</span><span class="o">==</span><span class="s2">"VA"</span><span class="p">,],</span><span class="m">1</span><span class="p">),</span><span class="n">color</span><span class="o">=</span><span class="n">viridis</span><span class="p">(</span><span class="m">10</span><span class="p">)[</span><span class="m">8</span><span class="p">],</span><span class="n">alpha</span><span class="o">=</span><span class="m">0.82</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="m">3</span><span class="p">,</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">vjust</span><span class="o">=</span><span class="m">-1</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">percent</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">coord_cartesian</span><span class="p">(</span><span class="n">xlim</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="n">as.Date</span><span class="p">(</span><span class="s2">"1976-01-01"</span><span class="p">),</span><span class="n">as.Date</span><span class="p">(</span><span class="s2">"2017-12-31"</span><span class="p">)))</span><span class="o">+</span>
+  <span class="n">theme_minimal</span><span class="p">()</span><span class="o">+</span><span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">title</span><span class="o">=</span><span class="s2">"Annual percentage change in house prices"</span><span class="p">,</span>
+                       <span class="n">subtitle</span><span class="o">=</span><span class="s2">"Virginia in September"</span><span class="p">,</span>
+                       <span class="n">caption</span><span class="o">=</span><span class="s2">"@lenkiefer Source: Freddie Mac House Price Index"</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">))</span></code></pre></figure>
+
+<p><img src="/img/Rfig/va-plot-recursion-dec4-2016,-1.svg" alt="plot of chunk va-plot-recursion-dec4-2016," /></p>
+
+<p>House prices in Virginia are growing by just under 3 percent year-over-year in September 2016, up from the lows of 2009, but below the middle part of last decade and also a bit below the long-run average.</p>
+
+<p>Let’s construct a simple times series forecasting model for house prices (see my note above, this is just for illustration) based onthe history of HPA.  There are many models we could use, but one of the simplest is an Autoregressive Model.We can code this pretty easily in R, but working with dates can be tricky.  I’ve tried a couple things, but <a href="https://cran.r-project.org/web/packages/xts/index.html">xts</a> works for me.</p>
+
+<p>We use a simple <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/ar.ols.html">autoregressive model</a> fit to up to two lags of HPA.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r">  <span class="n">df</span><span class="o">&lt;-</span><span class="n">d.state</span><span class="p">[</span><span class="n">state</span><span class="o">==</span><span class="s2">"VA"</span><span class="p">,]</span>                       <span class="c1">#just get data for VA
+</span>  <span class="n">va.ts</span><span class="o">&lt;-</span><span class="n">xts</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">hpa12</span><span class="p">,</span><span class="n">df</span><span class="o">$</span><span class="n">date</span><span class="p">)</span>                    <span class="c1">#create xts time series of hpa12 with data
+</span>  <span class="n">va.out</span><span class="o">&lt;-</span><span class="n">ar.ols</span><span class="p">(</span><span class="n">va.ts</span><span class="p">,</span><span class="n">order.max</span><span class="o">=</span><span class="m">2</span><span class="p">)</span>               <span class="c1">#construct ar model
+</span>  <span class="n">va.out</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-text" data-lang="text">## 
+## Call:
+## ar.ols(x = va.ts, order.max = 2)
+## 
+## Coefficients:
+##       1        2  
+##  0.9019  -0.2672  
+## 
+## Intercept: -0.0009794 (0.00611) 
+## 
+## Order selected 2  sigma^2 estimated as  0.001456</code></pre></figure>
+
+<p>There’s quite a bit of persistence in the HPA series, reflected in the coefficients.  We might be concerned about stationarity with this series.  We can use some nice <a href="http://robjhyndman.com/hyndsight/arma-roots/">functions from Rob Hyndman</a> to check:</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">source</span><span class="p">(</span><span class="s2">"code/roots.R"</span><span class="p">)</span>  <span class="c1">#load AR roots
+# see http://robjhyndman.com/hyndsight/arma-roots/ 
+# for code
+</span><span class="n">plot.armaroots</span><span class="p">(</span><span class="n">arroots</span><span class="p">(</span><span class="n">va.out</span><span class="p">))</span></code></pre></figure>
+
+<p><img src="/img/Rfig/va-ar-recursion-2-dec4-2016,-1.svg" alt="plot of chunk va-ar-recursion-2-dec4-2016," /></p>
+
+<p>Now we can use this simple AR model to forecast house prices.  The code below will stack the predictions to the input data. Then we’ll make a simple forecast plot:</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r">  <span class="n">va.p</span><span class="o">&lt;-</span><span class="n">predict</span><span class="p">(</span><span class="n">va.out</span><span class="p">,</span> <span class="n">n.ahead</span> <span class="o">=</span> <span class="m">4</span><span class="p">)</span>              <span class="c1">#forecasts from ar model
+</span>  <span class="n">va.p.ts</span><span class="o">&lt;-</span><span class="n">xts</span><span class="p">(</span><span class="n">va.p</span><span class="o">$</span><span class="n">pred</span><span class="p">,</span>
+                 <span class="n">seq</span><span class="p">(</span><span class="n">max</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">date</span><span class="p">)</span><span class="o">+</span><span class="n">years</span><span class="p">(</span><span class="m">1</span><span class="p">),</span>
+                     <span class="n">max</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">date</span><span class="p">)</span><span class="o">+</span><span class="n">years</span><span class="p">(</span><span class="m">4</span><span class="p">),</span><span class="s2">"1 year"</span><span class="p">))</span>
+  <span class="n">va.ts</span><span class="o">&lt;-</span><span class="n">rbind</span><span class="p">(</span><span class="n">va.ts</span><span class="p">,</span><span class="n">va.p.ts</span><span class="p">)</span>
+  <span class="n">f.data</span><span class="o">&lt;-</span><span class="n">data.frame</span><span class="p">(</span><span class="n">date</span><span class="o">=</span><span class="n">index</span><span class="p">(</span><span class="n">va.ts</span><span class="p">),</span> 
+                     <span class="n">hpa12</span><span class="o">=</span><span class="n">coredata</span><span class="p">(</span><span class="n">va.ts</span><span class="p">))</span>
+    <span class="n">f.data</span><span class="o">$</span><span class="n">f</span><span class="o">&lt;-</span><span class="n">ifelse</span><span class="p">(</span><span class="n">f.data</span><span class="o">$</span><span class="n">date</span><span class="o">&gt;</span><span class="n">max</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">date</span><span class="p">),</span><span class="s2">"forecast"</span><span class="p">,</span><span class="s2">"actual"</span><span class="p">)</span>
+
+    <span class="c1">#plot forecast:
+</span>    <span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">f.data</span><span class="p">,</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">hpa12</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">paste</span><span class="p">(</span><span class="n">percent</span><span class="p">(</span><span class="n">hpa12</span><span class="p">)),</span><span class="n">color</span><span class="o">=</span><span class="n">f</span><span class="p">,</span><span class="n">linetype</span><span class="o">=</span><span class="n">f</span><span class="p">))</span><span class="o">+</span>
+      <span class="n">geom_line</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">1.1</span><span class="p">)</span><span class="o">+</span>
+      <span class="n">scale_color_viridis</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">discrete</span><span class="o">=</span><span class="n">T</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="m">0.75</span><span class="p">,</span><span class="n">direction</span><span class="o">=</span><span class="m">1</span><span class="p">)</span><span class="o">+</span>
+      <span class="n">geom_point</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">tail</span><span class="p">(</span><span class="n">f.data</span><span class="p">,</span><span class="m">1</span><span class="p">),</span><span class="n">color</span><span class="o">=</span><span class="n">viridis</span><span class="p">(</span><span class="m">10</span><span class="p">)[</span><span class="m">8</span><span class="p">],</span><span class="n">alpha</span><span class="o">=</span><span class="m">0.82</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="m">3</span><span class="p">)</span><span class="o">+</span>
+      <span class="n">geom_text</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">tail</span><span class="p">(</span><span class="n">f.data</span><span class="p">,</span><span class="m">1</span><span class="p">),</span><span class="n">color</span><span class="o">=</span><span class="n">viridis</span><span class="p">(</span><span class="m">10</span><span class="p">)[</span><span class="m">8</span><span class="p">],</span><span class="n">alpha</span><span class="o">=</span><span class="m">0.82</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="m">3</span><span class="p">,</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">vjust</span><span class="o">=</span><span class="m">-1</span><span class="p">)</span><span class="o">+</span>
+      <span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">percent</span><span class="p">)</span><span class="o">+</span>
+      <span class="n">coord_cartesian</span><span class="p">(</span><span class="n">xlim</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="n">as.Date</span><span class="p">(</span><span class="s2">"1976-01-01"</span><span class="p">),</span><span class="n">as.Date</span><span class="p">(</span><span class="s2">"2021-12-31"</span><span class="p">)))</span><span class="o">+</span>
+      <span class="n">theme_minimal</span><span class="p">()</span><span class="o">+</span><span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">title</span><span class="o">=</span><span class="s2">"Annual percentage change in house prices"</span><span class="p">,</span>
+                           <span class="n">subtitle</span><span class="o">=</span><span class="s2">"Virginia in September, dotted line forecast from AR(2) model"</span><span class="p">,</span>
+                           <span class="n">caption</span><span class="o">=</span><span class="s2">"@lenkiefer Source: Freddie Mac House Price Index"</span><span class="p">)</span><span class="o">+</span>
+      <span class="n">guides</span><span class="p">(</span><span class="n">linetype</span><span class="o">=</span><span class="n">F</span><span class="p">)</span><span class="o">+</span>
+      <span class="n">theme</span><span class="p">(</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">),</span>
+            <span class="n">legend.position</span><span class="o">=</span><span class="s2">"top"</span><span class="p">)</span></code></pre></figure>
+
+<p><img src="/img/Rfig/va-ar-recursion-3-dec4-2016,-1.svg" alt="plot of chunk va-ar-recursion-3-dec4-2016," /></p>
+
+<p>Okay things look reasonable. These forecasts are sort of dumb, they don’t account for inflation or other factors, but based on the history of house prices they aren’t totally outlandish. What’s a little more interesting is to consider if we rolled back the clock, what these simple forecasts would have looked like.</p>
+
+<p>Again, just using Virginia as an example, we can go back for each year since 1985, fit a forecasting model on history up to that point in time, and then project forward a few years. We could do it with a loop, but instead we’ll use Hadley’s approach described in Plotcon and store the results of each estimate as a dataframe nested inside a data frame. This structure will be more compact, and also make plotting with ggplot quite simple, no explicit loops involved.</p>
+
+<h3 id="build-a-function">Build a function</h3>
+
+<p>To get this to work we’re going to require a function with two inputs. First, it will take the name of state and second it will take a maximum date. Then it will construct the forecast for that state up to that time (as we did for Virginia above) and stack the forecasts.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">fcst.d3</span><span class="o">&lt;-</span><span class="k">function</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="n">dmax</span><span class="p">)</span> <span class="p">{</span> 
+  <span class="c1">#subset data based on state s and up to date dmax:
+</span>  <span class="n">df</span><span class="o">&lt;-</span><span class="n">d.state</span><span class="p">[</span><span class="n">state</span><span class="o">==</span><span class="n">s</span> <span class="o">&amp;</span> <span class="n">date</span><span class="o">&lt;=</span><span class="n">dmax</span><span class="p">,</span><span class="n">c</span><span class="p">(</span><span class="s2">"state"</span><span class="p">,</span><span class="s2">"date"</span><span class="p">,</span><span class="s2">"hpa12"</span><span class="p">),</span><span class="n">with</span><span class="o">=</span><span class="n">F</span><span class="p">]</span>
+  <span class="n">test.ts</span><span class="o">&lt;-</span><span class="n">xts</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">hpa12</span><span class="p">,</span><span class="n">df</span><span class="o">$</span><span class="n">date</span><span class="p">)</span>
+  <span class="n">test.out</span><span class="o">&lt;-</span><span class="n">ar</span><span class="p">(</span><span class="n">test.ts</span><span class="p">,</span><span class="n">order.max</span><span class="o">=</span><span class="m">2</span><span class="p">)</span>
+  <span class="n">test.p</span><span class="o">&lt;-</span><span class="n">predict</span><span class="p">(</span><span class="n">test.out</span><span class="p">,</span> <span class="n">n.ahead</span> <span class="o">=</span> <span class="m">4</span><span class="p">)</span>
+  <span class="n">test.p.ts</span><span class="o">&lt;-</span><span class="n">xts</span><span class="p">(</span><span class="n">test.p</span><span class="o">$</span><span class="n">pred</span><span class="p">,</span><span class="n">seq</span><span class="p">(</span><span class="n">max</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">date</span><span class="p">)</span><span class="o">+</span><span class="n">years</span><span class="p">(</span><span class="m">1</span><span class="p">),</span><span class="n">max</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">date</span><span class="p">)</span><span class="o">+</span><span class="n">years</span><span class="p">(</span><span class="m">4</span><span class="p">),</span><span class="s2">"1 year"</span><span class="p">))</span>
+  <span class="n">test.ts</span><span class="o">&lt;-</span><span class="n">rbind</span><span class="p">(</span><span class="n">tail</span><span class="p">(</span><span class="n">test.ts</span><span class="p">,</span><span class="m">1</span><span class="p">),</span><span class="n">test.p.ts</span><span class="p">)</span>
+  <span class="n">f.data</span><span class="o">&lt;-</span><span class="n">data.frame</span><span class="p">(</span><span class="n">state</span><span class="o">=</span><span class="n">s</span><span class="p">,</span><span class="n">date</span><span class="o">=</span><span class="n">index</span><span class="p">(</span><span class="n">test.ts</span><span class="p">),</span> <span class="n">hpa12</span><span class="o">=</span><span class="n">coredata</span><span class="p">(</span><span class="n">test.ts</span><span class="p">))</span>
+  <span class="n">f.data</span><span class="o">$</span><span class="n">f</span><span class="o">&lt;-</span><span class="n">ifelse</span><span class="p">(</span><span class="n">f.data</span><span class="o">$</span><span class="n">date</span><span class="o">&gt;</span><span class="n">max</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">date</span><span class="p">),</span><span class="s2">"forecast"</span><span class="p">,</span><span class="s2">"actual"</span><span class="p">)</span>
+  <span class="k">return</span><span class="p">(</span><span class="n">f.data</span><span class="p">)</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Let’s use this function by adding a forecast based on data up to September 2005 to our original plot for Virginia:</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1"># Examine forecast output
+</span><span class="n">htmlTable</span><span class="p">(</span><span class="n">fcst.d3</span><span class="p">(</span><span class="s2">"VA"</span><span class="p">,</span><span class="s2">"2005-09-01"</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="n">map_if</span><span class="p">(</span><span class="n">is.Date</span><span class="p">,</span> <span class="n">as.character</span><span class="p">,</span><span class="n">format</span><span class="o">=</span><span class="s2">"%b-%Y"</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="n">map_if</span><span class="p">(</span><span class="n">is.numeric</span><span class="p">,</span> <span class="n">round</span><span class="p">,</span><span class="m">3</span><span class="p">)</span> <span class="o">%&gt;%</span><span class="n">as.data.frame</span><span class="p">()</span> <span class="p">,</span> <span class="n">col.rgroup</span> <span class="o">=</span> <span class="n">c</span><span class="p">(</span><span class="s2">"none"</span><span class="p">,</span> <span class="s2">"#F7F7F7"</span><span class="p">),</span><span class="n">caption</span><span class="o">=</span><span class="s2">"Virginia house price forecasts\nfrom simple AR(2) model"</span><span class="p">,</span>
+          <span class="n">tfoot</span><span class="o">=</span><span class="s2">"Source: Freddie Mac House Price Index\nAR(2) forecast fit on data through Sep 2005"</span><span class="p">)</span></code></pre></figure>
+
+<table class="gmisc_table" style="border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;">
+<thead>
+<tr><td colspan="4" style="text-align: left;">
+Virginia house price forecasts
+from simple AR(2) model</td></tr>
+<tr>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey;"> </th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">date</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">hpa12</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">state</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">1</td>
+<td style="text-align: center;">Sep-2005</td>
+<td style="text-align: center;">0.179</td>
+<td style="text-align: center;">VA</td>
+</tr>
+<tr style="background-color: #f7f7f7;">
+<td style="background-color: #f7f7f7; text-align: left;">2</td>
+<td style="background-color: #f7f7f7; text-align: center;">Sep-2006</td>
+<td style="background-color: #f7f7f7; text-align: center;">0.14</td>
+<td style="background-color: #f7f7f7; text-align: center;">VA</td>
+</tr>
+<tr>
+<td style="text-align: left;">3</td>
+<td style="text-align: center;">Sep-2007</td>
+<td style="text-align: center;">0.114</td>
+<td style="text-align: center;">VA</td>
+</tr>
+<tr style="background-color: #f7f7f7;">
+<td style="background-color: #f7f7f7; text-align: left;">4</td>
+<td style="background-color: #f7f7f7; text-align: center;">Sep-2008</td>
+<td style="background-color: #f7f7f7; text-align: center;">0.097</td>
+<td style="background-color: #f7f7f7; text-align: center;">VA</td>
+</tr>
+<tr>
+<td style="border-bottom: 2px solid grey; text-align: left;">5</td>
+<td style="border-bottom: 2px solid grey; text-align: center;">Sep-2009</td>
+<td style="border-bottom: 2px solid grey; text-align: center;">0.086</td>
+<td style="border-bottom: 2px solid grey; text-align: center;">VA</td>
+</tr>
+</tbody>
+<tfoot><tr><td colspan="4">
+Source: Freddie Mac House Price Index<br />
+AR(2) forecast fit on data through Sep 2005</td></tr></tfoot>
+</table>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1"># Create plot
+</span>
+<span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">d.state</span><span class="p">[</span><span class="n">state</span><span class="o">==</span><span class="s2">"VA"</span><span class="p">,],</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">hpa12</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">paste</span><span class="p">(</span><span class="n">percent</span><span class="p">(</span><span class="n">hpa12</span><span class="p">))))</span><span class="o">+</span>
+  <span class="n">geom_line</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">viridis</span><span class="p">(</span><span class="m">10</span><span class="p">)[</span><span class="m">1</span><span class="p">],</span><span class="n">size</span><span class="o">=</span><span class="m">1.1</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">geom_line</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">fcst.d3</span><span class="p">(</span><span class="s2">"VA"</span><span class="p">,</span><span class="s2">"2005-09-01"</span><span class="p">),</span> <span class="c1">#use forecast function data
+</span>            <span class="n">linetype</span><span class="o">=</span><span class="m">2</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">viridis</span><span class="p">(</span><span class="m">10</span><span class="p">)[</span><span class="m">4</span><span class="p">],</span><span class="n">size</span><span class="o">=</span><span class="m">1.1</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">geom_point</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">tail</span><span class="p">(</span><span class="n">d.state</span><span class="p">[</span><span class="n">state</span><span class="o">==</span><span class="s2">"VA"</span><span class="p">,],</span><span class="m">1</span><span class="p">),</span><span class="n">color</span><span class="o">=</span><span class="n">viridis</span><span class="p">(</span><span class="m">10</span><span class="p">)[</span><span class="m">1</span><span class="p">],</span><span class="n">alpha</span><span class="o">=</span><span class="m">0.82</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="m">3</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">geom_text</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">tail</span><span class="p">(</span><span class="n">d.state</span><span class="p">[</span><span class="n">state</span><span class="o">==</span><span class="s2">"VA"</span><span class="p">,],</span><span class="m">1</span><span class="p">),</span><span class="n">color</span><span class="o">=</span><span class="n">viridis</span><span class="p">(</span><span class="m">10</span><span class="p">)[</span><span class="m">1</span><span class="p">],</span><span class="n">alpha</span><span class="o">=</span><span class="m">0.82</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="m">3</span><span class="p">,</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">vjust</span><span class="o">=</span><span class="m">-1</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">percent</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">coord_cartesian</span><span class="p">(</span><span class="n">xlim</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="n">as.Date</span><span class="p">(</span><span class="s2">"1976-01-01"</span><span class="p">),</span><span class="n">as.Date</span><span class="p">(</span><span class="s2">"2017-12-31"</span><span class="p">)))</span><span class="o">+</span>
+  <span class="n">theme_minimal</span><span class="p">()</span><span class="o">+</span><span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">title</span><span class="o">=</span><span class="s2">"Annual percentage change in house prices"</span><span class="p">,</span>
+                       <span class="n">subtitle</span><span class="o">=</span><span class="s2">"Virginia in September, dotted line forecast from AR(2) model fit on data through 2005"</span><span class="p">,</span>
+                       <span class="n">caption</span><span class="o">=</span><span class="s2">"@lenkiefer Source: Freddie Mac House Price Index"</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">))</span></code></pre></figure>
+
+<p><img src="/img/Rfig/va-plot-recursion-5-dec4-2016,-1.svg" alt="plot of chunk va-plot-recursion-5-dec4-2016," /></p>
+
+<p>Here we can see that based on the history of hpa, a simple model would have expected some mean reversion back towards a long-run average, as depicted by the tentacle extending from the plot.  What would it look like if we added a tentacle for each year?  We could do that through a loop, or use the nesting described in Hadley’s talk.  Let’s try that:</p>
+
+<h3 id="nesting">Nesting</h3>
+
+<p>The function below will allow us to next each prediction in our dataframe.  For now, we’ll restrict the data just to Virginia, but soon we’ll add in all 50 states plus D.C.  Turns out it just takes a couple lines of code!</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">fcsts.va</span><span class="o">&lt;-</span> <span class="n">d.state</span><span class="p">[</span><span class="n">year</span><span class="p">(</span><span class="n">date</span><span class="p">)</span><span class="o">&gt;</span><span class="m">1984</span> <span class="o">&amp;</span> <span class="n">state</span><span class="o">==</span><span class="s2">"VA"</span><span class="p">,</span> <span class="n">c</span><span class="p">(</span><span class="s2">"date"</span><span class="p">,</span><span class="s2">"state"</span><span class="p">,</span><span class="s2">"hpa12"</span><span class="p">),</span><span class="n">with</span><span class="o">=</span><span class="n">F</span><span class="p">]</span> <span class="o">%&gt;%</span> 
+           <span class="n">mutate</span><span class="p">(</span><span class="n">fcst</span><span class="o">=</span><span class="n">map2</span><span class="p">(</span><span class="n">state</span><span class="p">,</span><span class="n">date</span><span class="p">,</span><span class="n">fcst.d3</span><span class="p">))</span>
+<span class="n">head</span><span class="p">(</span><span class="n">fcsts.va</span><span class="p">,</span><span class="m">5</span><span class="p">)</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-text" data-lang="text">##          date state      hpa12         fcst
+## 1: 1985-09-01    VA 0.05019297 &lt;data.frame&gt;
+## 2: 1986-09-01    VA 0.06988367 &lt;data.frame&gt;
+## 3: 1987-09-01    VA 0.10303571 &lt;data.frame&gt;
+## 4: 1988-09-01    VA 0.09598973 &lt;data.frame&gt;
+## 5: 1989-09-01    VA 0.07379588 &lt;data.frame&gt;</code></pre></figure>
+
+<p>Now we have a data frame with a set of data frames (one for each date) corresponding to forecasts beginning at the date and extending 4 years.</p>
+
+<p>Now we can easily construct our tentacle plot. We use the <em>unnest()</em> function to expand the data.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">p.data</span><span class="o">&lt;-</span><span class="n">unnest</span><span class="p">(</span><span class="n">fcsts.va</span><span class="p">,</span><span class="n">fcst</span><span class="p">,</span><span class="n">.sep</span><span class="o">=</span><span class="s2">"."</span><span class="p">)</span> <span class="c1">#unnest the data for plotting
+</span><span class="n">ggplot</span><span class="p">()</span><span class="o">+</span>  
+  <span class="n">geom_path</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">fcst.date</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">fcst.hpa12</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">factor</span><span class="p">(</span><span class="n">year</span><span class="p">(</span><span class="n">date</span><span class="p">))),</span>
+                     <span class="n">data</span><span class="o">=</span><span class="n">unnest</span><span class="p">(</span><span class="n">fcsts.va</span><span class="p">,</span><span class="n">fcst</span><span class="p">,</span><span class="n">.sep</span><span class="o">=</span><span class="s2">"."</span><span class="p">)</span>
+            <span class="p">,</span><span class="n">linetype</span><span class="o">=</span><span class="m">2</span> <span class="p">)</span>    <span class="o">+</span>
+  
+      <span class="n">geom_path</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">hpa12</span><span class="p">),</span>
+                <span class="n">data</span><span class="o">=</span><span class="n">d.state</span><span class="p">[</span><span class="n">year</span><span class="p">(</span><span class="n">date</span><span class="p">)</span><span class="o">&gt;</span><span class="m">1984</span> <span class="o">&amp;</span> <span class="n">state</span><span class="o">==</span><span class="s2">"VA"</span><span class="p">,</span> <span class="n">c</span><span class="p">(</span><span class="s2">"date"</span><span class="p">,</span><span class="s2">"state"</span><span class="p">,</span><span class="s2">"hpa12"</span><span class="p">),</span><span class="n">with</span><span class="o">=</span><span class="n">F</span><span class="p">]</span>
+                <span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="m">1.05</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">theme_minimal</span><span class="p">()</span><span class="o">+</span><span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="o">=</span><span class="s2">"none"</span><span class="p">)</span><span class="o">+</span>  <span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">percent</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">title</span><span class="o">=</span><span class="s2">"Annual percentage change in house prices"</span><span class="p">,</span>
+                       <span class="n">subtitle</span><span class="o">=</span><span class="s2">"Virginia in September, dotted lines forecast from AR(2) model fit"</span><span class="p">,</span>
+                       <span class="n">caption</span><span class="o">=</span><span class="s2">"@lenkiefer Source: Freddie Mac House Price Index\nAR(2) forecast fit on data up to point where solid line and dotted lines diverge"</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">))</span><span class="o">+</span>
+
+  <span class="n">coord_cartesian</span><span class="p">(</span><span class="n">xlim</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="n">as.Date</span><span class="p">(</span><span class="s2">"1985-01-01"</span><span class="p">),</span><span class="n">max</span><span class="p">(</span><span class="n">p.data</span><span class="o">$</span><span class="n">fcst.date</span><span class="p">)),</span><span class="n">ylim</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">-.1</span><span class="p">,</span><span class="m">.2</span><span class="p">))</span></code></pre></figure>
+
+<p><img src="/img/Rfig/va-plot-recursion-7-dec4-2016,-1.svg" alt="plot of chunk va-plot-recursion-7-dec4-2016," /></p>
+
+<p>We can also roll over each state:</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">fcsts.st</span><span class="o">&lt;-</span> <span class="n">d.state</span><span class="p">[</span><span class="n">year</span><span class="p">(</span><span class="n">date</span><span class="p">)</span><span class="o">&gt;</span><span class="m">1984</span><span class="p">,</span> <span class="n">c</span><span class="p">(</span><span class="s2">"date"</span><span class="p">,</span><span class="s2">"state"</span><span class="p">,</span><span class="s2">"hpa12"</span><span class="p">),</span><span class="n">with</span><span class="o">=</span><span class="n">F</span><span class="p">]</span> <span class="o">%&gt;%</span> 
+           <span class="n">mutate</span><span class="p">(</span><span class="n">fcst</span><span class="o">=</span><span class="n">map2</span><span class="p">(</span><span class="n">state</span><span class="p">,</span><span class="n">date</span><span class="p">,</span><span class="n">fcst.d3</span><span class="p">))</span>
+           
+<span class="n">p.data2</span><span class="o">&lt;-</span><span class="n">unnest</span><span class="p">(</span><span class="n">fcsts.va</span><span class="p">,</span><span class="n">fcst</span><span class="p">,</span><span class="n">.sep</span><span class="o">=</span><span class="s2">"."</span><span class="p">)</span>
+
+<span class="n">ggplot</span><span class="p">()</span><span class="o">+</span>  
+  <span class="n">geom_path</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">fcst.date</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">fcst.hpa12</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">factor</span><span class="p">(</span><span class="n">year</span><span class="p">(</span><span class="n">date</span><span class="p">))),</span>
+                     <span class="n">data</span><span class="o">=</span><span class="n">unnest</span><span class="p">(</span><span class="n">filter</span><span class="p">(</span><span class="n">fcsts.st</span><span class="p">,</span><span class="o">!</span> <span class="n">state</span> <span class="o">%</span><span class="k">in</span><span class="o">%</span> <span class="n">c</span><span class="p">(</span><span class="s2">"DC"</span><span class="p">,</span><span class="s2">"US.NSA"</span><span class="p">,</span><span class="s2">"US.SA"</span><span class="p">)),</span><span class="n">fcst</span><span class="p">,</span><span class="n">.sep</span><span class="o">=</span><span class="s2">"."</span><span class="p">)</span>
+            <span class="p">,</span><span class="n">linetype</span><span class="o">=</span><span class="m">2</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="m">.75</span> <span class="p">)</span>    <span class="o">+</span>
+  
+      <span class="n">geom_path</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">hpa12</span><span class="p">),</span>
+                <span class="n">data</span><span class="o">=</span><span class="n">d.state</span><span class="p">[</span><span class="n">year</span><span class="p">(</span><span class="n">date</span><span class="p">)</span><span class="o">&gt;</span><span class="m">1984</span> <span class="o">&amp;</span> <span class="o">!</span> <span class="n">state</span> <span class="o">%</span><span class="k">in</span><span class="o">%</span> <span class="n">c</span><span class="p">(</span><span class="s2">"DC"</span><span class="p">,</span><span class="s2">"US.NSA"</span><span class="p">,</span><span class="s2">"US.SA"</span><span class="p">)</span> <span class="p">,</span> <span class="n">c</span><span class="p">(</span><span class="s2">"date"</span><span class="p">,</span><span class="s2">"state"</span><span class="p">,</span><span class="s2">"hpa12"</span><span class="p">),</span><span class="n">with</span><span class="o">=</span><span class="n">F</span><span class="p">]</span>
+                <span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="m">.85</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">theme_minimal</span><span class="p">()</span><span class="o">+</span><span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="o">=</span><span class="s2">"none"</span><span class="p">)</span><span class="o">+</span>  <span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">percent</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">title</span><span class="o">=</span><span class="s2">"Annual percentage change in house prices"</span><span class="p">,</span>
+                       <span class="n">subtitle</span><span class="o">=</span><span class="s2">"Dotted lines forecast from AR(2) model fit"</span><span class="p">,</span>
+                       <span class="n">caption</span><span class="o">=</span><span class="s2">"@lenkiefer Source: Freddie Mac House Price Index\nAR(2) forecast fit on data up to point where solid line and dotted lines diverge"</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="n">state</span><span class="p">,</span><span class="n">ncol</span><span class="o">=</span><span class="m">5</span><span class="p">)</span></code></pre></figure>
+
+<p><img src="/img/Rfig/va-plot-recursion-8-dec4-2016,-1.svg" alt="plot of chunk va-plot-recursion-8-dec4-2016," /></p>
+
+<p>And we can make a gif looping through a few key states:</p>
+
+<p><img src="/img/charts_dec_4_2016/hpi tentacles.gif" alt="tentacle gifs" /></p>
+
+<h1 id="going-forward">Going forward</h1>
+
+<p>This type of approach could be quite useful for a number of other applications. The <em>map</em> functions from <em>purrr</em> have a lot of potential uses I’m looking forward to trying out in the future. So far, I haven’t blown up my computer with an endless loop. If I can keep it that way, I’ll follow up in this space with some other applications.</p>
+
+    </div>
+
+    
+
+    
+  
+    <hr>
+    <ul class="pagination">
+    
+      <li class="prev"><a href="/2016/12/03/visual-meditations-on-house-prices-part7" title="Visual meditations on house prices, Part 7: Don't cross the streams!">&laquo; Previous</a></li>
+    
+      <li><a href="/archive.html">Archive</a></li>
+    
+      <li class="next"><a href="/2016/12/08/10-ways-to-visualize-rates" title="10 ways to visualize mortgage rates ">Next &raquo;</a></li>
+    
+    </ul>
+    <hr>
+    
+  </div>
+</div>
+
+
+
+      </div>
+
+    </div>
+
+    <div id="footer">
+      <div class="container">
+        <p>&copy; 2017 Len Kiefer
+          with help from <a href="http://jekyllbootstrap.com" target="_blank" title="The Definitive Jekyll Blogging Framework">Jekyll Bootstrap</a>
+          and <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>
+       
+    • <span vertical-align:bottom> <a href="https://twitter.com/lenkiefer" class="twitter-follow-button" data-show-count="false">•   Follow @lenkiefer</a>
+  
+ <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+</span>
+• <script src="//platform.linkedin.com/in.js" type="text/javascript"></script>
+<script type="IN/MemberProfile" data-id="https://www.linkedin.com/pub/leonard-kiefer/31/753/511" data-format="click" data-related="false" data-text="Leonard Kiefer"></script>
+  • lenkiefer@hotmail.com
+           </p>
+      </div>
+    </div>
+    
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+    <!-- Latest compiled and minified JavaScript, requires jQuery 1.x (2.x not supported in IE8) -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="/assets/themes/lentheme/bootstrap/js/bootstrap.min.js"></script>
+  </body>
+</html>
+
+
+
+
+

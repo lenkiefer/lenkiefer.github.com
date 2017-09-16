@@ -1,0 +1,119 @@
+---
+title: Hello Hugo! Hello Blogdown!
+author: Len Kiefer
+date: '2017-09-16'
+slug: hello-hugo-hello-blogdown
+categories:
+  - meta
+tags:
+  - meta
+  - personal
+---
+
+ALL RIGHT! LOOKS LIKE WE'RE BACK ONLINE. 
+
+I took the opportunity to try out the [newly released](https://blog.rstudio.com/2017/09/11/announcing-blogdown/) [blogdown](https://github.com/rstudio/blogdown) [R](https://www.r-project.org/) package and migrate my blog over from [Jekyll](https://jekyllrb.com/) to [Hugo](https://gohugo.io/).
+
+This blog has been up for just over two years and Jekyll was working fine, but I never felt really comfortable. I'm guessing that the Blogdown package will become enormously popular and it seems that Hugo has more flexibility for me. Also, Blogdown and [Rstudio](https://www.rstudio.com/products/rstudio/) integrate better with Hugo than Jekyll.
+
+# And we got a fancy new theme
+
+By far the best part of migrating was picking out a fancy new theme for this space. There's quite a lot of different [themes available](https://themes.gohugo.io/) for Hugo, though not all of them play nice with Blogdown.
+
+After trying several out, I decided that [Ghostwriter](https://themes.gohugo.io/ghostwriter/) would be a nice simple theme for this space. It's pretty close to my old theme, especially after I tweaked it. 
+
+In addition to shifting the main color from red to royal blue, I also took the opportunity to make [the page more readable](https://www.wired.com/2016/10/how-the-web-became-unreadable/) by changing the font from gray to black. I just had to dig into the Ghostwriter .css file and switch out the colors (in several places).
+
+# Migration
+
+Migration wasn't too hard.  My original site wasn't too complicated, though I did have a lot of images. The biggest challenge was broken links and redirecting image sources. Fortunately, I picked up some regular expressions and code snippets from the [Blogdown book](https://bookdown.org/yihui/blogdown/) that made it easy. I also decided to add tags and categories to my posts which is hard to do ex post and consumed a fair amount of time.
+
+Also, getting the links and images to work took some time. Gave me the motivation to learn some regular expressions. Here's a flavor of what I had to do.
+
+## Fixing links with regular expressions
+
+My markdown code under Jekyll referenced links in the following manner:  
+
+`[awesome link]({% post_url 2017-08-07-house-price-trends %})`
+
+which would become
+
+`<a href="/2017/08/07/house-price-trends">` 
+
+when Jekyll built my site.
+
+In order to get the links to work for Blogdown and Hugo (assuming I got the Post URLs to remain the same) I needed the markdown to look like:
+
+`[awesome link](../../../../2017/08/07/house-price-trends )`
+
+The `../` business probably isn't necessary but it worked.  You see under my new setup posts are stored under `lenkiefer.com/YYYY/MM/DD/slug` where `YYYY` is year, `MM` is month, `DD` is date and `slug` is the post slug (which I based on the original markdown file names).
+
+In order to get this to work I modified a bit of code from the super-helpful [Blogdown book](https://bookdown.org/yihui/blogdown/). I created it piecemeal through trial and error so it probably could be condensed. But here's what I had:
+
+```{r 09-16-2017-regex, eval=F}
+################################################################################
+## Get a list of markdown files (or sub in Rmd for Rmarkdown files) ##
+################################################################################
+
+files = list.files(
+  'content/', '[.](md)$', full.names = TRUE,
+  recursive = TRUE
+)
+
+
+################################################################################
+## Drop post "{% post_url "##
+################################################################################
+
+for( f in files ){
+  x <- readLines(f)
+  y <- gsub( '\\{% post_url ', "../", x )
+  cat(y, file=f, sep="\n")  }
+
+################################################################################
+## Drop "%}"" ##
+################################################################################
+
+for( f in files ){
+  x <- readLines(f)
+  y <- gsub( "\\%}", "", x )
+  cat(y, file=f, sep="\n") }
+
+################################################################################
+## Replace  "YYYY-MM-DD-" with "../../../../YYYY/MM/DD/""
+## e.g. :"2017-08-07-" with ../../../../2017/08/07/
+################################################################################
+
+for( f in files ){
+  x <- readLines(f)
+  y <- gsub( '(..\\/)(\\d{4})(-)(\\d{2})(-)(\\d{2})(-)', 
+             '..\\/..\\/..\\/..\\/\\2\\/\\4\\/\\6\\/', x )
+  cat(y, file=f, sep="\n") }
+```
+
+Not the most elegant solution, but running this code over both markdown and Rmarkdown files got my links to work.  I also needed to do something similar to get image sources (like my many gifs) to work.
+
+### images
+
+I also needed to do something similar to get image sources (like my many gifs) to work. For my setup I needed to replace `{{site.url}}` with `../../../..`.  This little bit handled it.
+
+```{r 09-16-2017-regex-2, eval=F}
+################################################################################
+## {{ site.url}} with "../../../.."
+################################################################################
+
+for( f in files ){
+  x <- readLines(f)
+  y <- gsub( '\\{\\{ site.url\\}\\}', "../../../..", x )
+  cat(y, file=f, sep="\n")}
+```
+
+Then I copied over my image files from the Jekyll blog and stored them in the `\static\img` folder in my new Hugo blog.
+
+## Recompile and go
+
+The last thing was to re-run my Rmarkdown code and rebuild the site. The Rmarkdown code mostly ran well, but I had to go back and reload some libraries I hadn't reinstalled when updated R.
+
+The final step was to all the stuff in my new blog and save it under my old blog directory (after I archived the old blog). Then I was good to go and here we are.
+
+Be sure to check out my new [post tags](../../../../tag/) which should help you find posts based on topic. I've also added a [projects](../../../../project/) page that I'll be adding longer pieces to from time to time.

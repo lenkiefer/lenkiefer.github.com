@@ -1,0 +1,391 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Visual meditations on house prices, Part 2: sparklines and dots (animated)</title>
+    
+    <meta name="author" content="Len Kiefer">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap styles -->
+    <link href="/assets/themes/lentheme/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Optional theme -->
+    <link href="/assets/themes/lentheme/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <!-- Sticky Footer -->
+    <link href="/assets/themes/lentheme/bootstrap/css/bs-sticky-footer.css" rel="stylesheet">
+    
+    <!-- Custom styles -->
+    <link href="/assets/themes/lentheme/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <!-- Update these with your own images
+      <link rel="shortcut icon" href="images/favicon.ico">
+      <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+      <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+      <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+  </head>
+
+  <body>
+    <div id="wrap">
+      <nav class="navbar navbar-default" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#jb-navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/"><span class="icon-home3" style="font-size:24px"> Len Kiefer</a></span>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="jb-navbar-collapse" style="font-size:24px">
+          <ul class="nav navbar-nav" >
+        <li><a href="/archive.html"><span class="icon-newspaper"> Posts</a></span></li>
+            <!-- li><a href="/chartbook/index.html"><span class="icon-display"> Chartbook</a></span></li-->
+         <li><a href="/resume.html"><span class="icon-profile"> Resume</span></a></li>
+        <li><a href="/about.html"><span class="icon-user-tie"> About</span></a></li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </nav>
+
+      <div class="container">
+        
+<div class="page-header">
+  <h1>Visual meditations on house prices, Part 2: sparklines and dots (animated) </h1>
+</div>
+
+<div class="row post-full">
+  <div class="col-xs-12">
+    <div class="date">
+      <span>08 May 2016</span>
+    </div>
+    <div class="content">
+      <p>THIS IS PART TWO of my series of meditations on house prices.  In our <a href="http://lenkiefer.com/2016/05/08/visual-meditations-on-house-prices-part1"><em>earlier post</em></a> we covered the data collection, wrangling, and some useful transformations.</p>
+
+<h2 id="recap">Recap</h2>
+
+<p>For convenience, the data files you’ll need to replicate these results are right here:</p>
+
+<ol>
+  <li><a href="/img/charts_may_8_2016/fmhpi.txt"><em>state and national called fmhpi.txt</em></a></li>
+  <li><a href="/img/charts_may_8_2016/fmhpi2.txt"><em>metro called fmhpi2.txt</em></a></li>
+</ol>
+
+<p>And the data preparation code is <a href="http://lenkiefer.com/2016/05/08/visual-meditations-on-house-prices-part1"><em>here in the previous post</em></a></p>
+
+<p>Now we’ll need to load and prepare some data. We’ll do this using the <a href="https://cran.r-project.org/web/packages/data.table/index.html"><em>data.table</em></a> package to set up our data.</p>
+
+<p>Let’s take a peek at the data:</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1">#State Data
+</span><span class="n">head</span><span class="p">(</span><span class="n">statedata</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="m">13L</span><span class="p">)</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-text" data-lang="text">##       Cycle state   hpi year month       date  type   pmax   pmin
+##  1: 1975M01    AK 34.43 1975     1 1975-01-01 State 161.63 152.97
+##  2: 1975M02    AK 34.94 1975     2 1975-02-01 State 161.63 152.97
+##  3: 1975M03    AK 35.46 1975     3 1975-03-01 State 161.63 152.97
+##  4: 1975M04    AK 36.01 1975     4 1975-04-01 State 161.63 152.97
+##  5: 1975M05    AK 36.60 1975     5 1975-05-01 State 161.63 152.97
+##  6: 1975M06    AK 37.24 1975     6 1975-06-01 State 161.63 152.97
+##  7: 1975M07    AK 37.88 1975     7 1975-07-01 State 161.63 152.97
+##  8: 1975M08    AK 38.46 1975     8 1975-08-01 State 161.63 152.97
+##  9: 1975M09    AK 38.97 1975     9 1975-09-01 State 161.63 152.97
+## 10: 1975M10    AK 39.43 1975    10 1975-10-01 State 161.63 152.97
+## 11: 1975M11    AK 39.84 1975    11 1975-11-01 State 161.63 152.97
+## 12: 1975M12    AK 40.17 1975    12 1975-12-01 State 161.63 152.97
+## 13: 1976M01    AK 40.44 1976     1 1976-01-01 State 161.63 152.97
+##            hpa     hpa12      hpa3 hpi12 hpi12min hpi12max
+##  1:         NA        NA        NA    NA       NA       NA
+##  2: 0.19297278        NA        NA    NA       NA       NA
+##  3: 0.19396052        NA        NA    NA       NA       NA
+##  4: 0.20285335        NA        NA    NA       NA       NA
+##  5: 0.21533378        NA        NA    NA       NA       NA
+##  6: 0.23124093        NA        NA    NA       NA       NA
+##  7: 0.22688421        NA        NA    NA       NA       NA
+##  8: 0.20002893        NA        NA    NA       NA       NA
+##  9: 0.17126054        NA        NA    NA       NA       NA
+## 10: 0.15121504        NA        NA    NA       NA       NA
+## 11: 0.13216737        NA        NA    NA       NA       NA
+## 12: 0.10405326        NA        NA    NA    34.43    40.17
+## 13: 0.08370676 0.1745571 0.1965873 34.43    34.94    40.44</code></pre></figure>
+
+<p>Above is the first 13 rows of the state data.  The key variable is hpi, which tracks the house price index (normalized so that December 2000=100).  We computed differences, and I also added pmin and pmax which compute the minimum of hpi after the year 2007 by state and the maximum of hpi before the year 2008 by state respectively. I happened to have computed these values in <span class="icon-file-excel" style="color:green;"></span> Excel and merged them back on our data before I saved it as a text file.  But we could pretty easily replicate these calculations in R.</p>
+
+<p>For today’s exercise we’ll just need the state, year, month, date, and hpi variables (hpi, hpi12min, hpi12max, and hpa12).</p>
+
+<h3 id="what-are-these-data">What are these data?</h3>
+
+<p><a href="http://lenkiefer.com/2016/05/08/visual-meditations-on-house-prices-part1"><em>Remember</em></a> these data are the Freddie Mac House Price Index for the U.S., 50 states plus D.C. and over 300 metro areas. You can read technical documentation <a href="http://www.freddiemac.com/finance/fmhpi/docs/FMHPI.pdf"><em>pdf</em></a> and a <a href="http://www.freddiemac.com/finance/fmhpi/fmhpi_faq.html#13"><em>FAQ</em></a>, but the basic explanation-from the FAQ-is:</p>
+
+<p><strong>How can I interpret index values?</strong></p>
+
+<blockquote>
+  <p>Index values represent the value of single-family housing, relative to the last month in the series. To calculate the growth rate between any two months, simply apply the formula: (I2/I1)-1, where I1 is the index value of the first month and I2 is the index value of the second month.</p>
+</blockquote>
+
+<p>Now that we have the data in hand we can start to make some visualizations.</p>
+
+<h3 id="on-animation">On animation</h3>
+
+<p>I’ve been using the <a href="https://cran.r-project.org/web/packages/animation/index.html"><em>animation package</em></a> to make the gifs. In order for this package to work, you’ll need to have one of ImageMagick (http://imagemagick.org) or GraphicsMagick (http://www.graphicsmagick.org) or LyX (http://www.lyx.org) to run the programs.</p>
+
+<h1 id="meditation-1-small-multiple-line-plots">Meditation 1: small multiple line plots</h1>
+
+<p>Let’s start by constructing a small multiple line plot, where we plot the FMHPI for each state in a separate small plot, sort of like a sparkline. As we have 50 states, we’ll exclude D.C. and the US from this visualization so that we have nice number to work with in the panel plot.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1">#set a maximum date with year and month
+</span><span class="n">yy</span><span class="o">&lt;</span><span class="m">-2016</span> <span class="c1">#year 
+</span><span class="n">mm</span><span class="o">&lt;</span><span class="m">-3</span>    <span class="c1">#month- march is latest available
+#Create the plot, exlude if state = 'US' or state = 'DC', and year &lt; 2000:
+</span><span class="n">g</span><span class="o">&lt;-</span>
+ <span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">statedata</span><span class="p">[</span><span class="n">state</span> <span class="o">!=</span> <span class="s2">"US"</span> <span class="o">&amp;</span> <span class="n">state</span> <span class="o">!=</span><span class="s2">"DC"</span> <span class="o">&amp;</span> <span class="n">year</span><span class="o">&gt;</span><span class="m">1999</span> <span class="o">&amp;</span> <span class="n">year</span><span class="o">&lt;=</span><span class="n">yy</span><span class="p">],</span> <span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">hpi</span><span class="p">))</span><span class="o">+</span>
+  <span class="c1">#set theme
+</span>  <span class="n">theme_minimal</span><span class="p">()</span><span class="o">+</span>
+  <span class="c1">#set dates, 
+</span>  <span class="c1">#the axis will be tight so we'll only show the year every 4 years and only print the last 2 digits
+</span>  <span class="n">scale_x_date</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span> <span class="n">date_format</span><span class="p">(</span><span class="s2">"%y"</span><span class="p">),</span><span class="n">date_breaks</span><span class="o">=</span><span class="s2">"4 year"</span><span class="p">,</span>
+               <span class="n">limits</span> <span class="o">=</span> <span class="n">as.Date</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="s1">'2000-01-01'</span><span class="p">,</span><span class="s1">'2016-03-30'</span><span class="p">)))</span> <span class="o">+</span>
+  <span class="c1">#set y axis, I prefer a log axis for indices like this
+</span>  <span class="n">scale_y_log10</span><span class="p">(</span><span class="n">limits</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">70</span><span class="p">,</span><span class="m">350</span><span class="p">),</span> <span class="n">breaks</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">75</span><span class="p">,</span><span class="m">100</span><span class="p">,</span><span class="m">125</span><span class="p">,</span><span class="m">150</span><span class="p">,</span><span class="m">200</span><span class="p">,</span><span class="m">250</span><span class="p">,</span><span class="m">350</span><span class="p">))</span><span class="o">+</span>
+  <span class="c1">#plot data with black line
+</span>  <span class="n">geom_line</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">"black"</span><span class="p">)</span>  <span class="o">+</span>
+   
+  <span class="c1">#add a marker at teh end
+</span>  <span class="n">geom_point</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">statedata</span><span class="p">[</span><span class="n">state</span> <span class="o">!=</span><span class="s1">'US'</span> <span class="o">&amp;</span> <span class="n">state</span> <span class="o">!=</span> <span class="s2">"DC"</span> <span class="o">&amp;</span> <span class="n">year</span><span class="o">==</span><span class="n">yy</span> <span class="o">&amp;</span> <span class="n">month</span><span class="o">==</span><span class="n">mm</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">"red"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="m">0.7</span><span class="p">)</span><span class="o">+</span>
+  <span class="c1">#use the facet feature to plot each state as it's own small plot
+</span>  <span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="n">state</span><span class="p">,</span> <span class="n">ncol</span><span class="o">=</span><span class="m">10</span><span class="p">)</span> <span class="o">+</span>
+  <span class="c1"># add a horiztonal line at the last data point, helpufl to compare to prior peak
+</span>  <span class="n">geom_hline</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">statedata</span><span class="p">[</span><span class="n">year</span><span class="o">==</span><span class="n">yy</span> <span class="o">&amp;</span> <span class="n">month</span><span class="o">==</span><span class="n">mm</span><span class="o">&amp;</span> <span class="n">state</span> <span class="o">!=</span><span class="s2">"US"</span> <span class="o">&amp;</span> <span class="n">state</span> <span class="o">!=</span><span class="s2">"DC"</span><span class="p">],</span> <span class="n">aes</span><span class="p">(</span><span class="n">yintercept</span> <span class="o">=</span> <span class="n">hpi</span><span class="p">),</span> <span class="n">linetype</span><span class="o">=</span><span class="m">2</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="m">0.8</span><span class="p">)</span><span class="o">+</span>
+   <span class="c1">#modify plot features
+</span>  <span class="n">theme</span><span class="p">(</span><span class="n">plot.title</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">face</span><span class="o">=</span><span class="s2">"bold"</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="m">12</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">xlab</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span><span class="o">+</span><span class="n">ylab</span><span class="p">(</span><span class="s2">"House price index, log scale"</span><span class="p">)</span><span class="o">+</span>
+  <span class="c1">#create a subtitle that prints the last date, useful later
+</span>  <span class="n">labs</span><span class="p">(</span><span class="n">caption</span><span class="o">=</span><span class="s2">"@lenkiefer Source: Freddie Mac House Price Index (Dec 2000 = 100, NSA)"</span><span class="p">,</span>
+       <span class="n">subtitle</span><span class="o">=</span><span class="n">paste</span><span class="p">(</span><span class="n">as.character</span><span class="p">(</span><span class="n">statedata</span><span class="p">[</span><span class="n">year</span><span class="o">==</span><span class="n">yy</span> <span class="o">&amp;</span> <span class="n">month</span><span class="o">==</span><span class="n">mm</span> <span class="o">&amp;</span> <span class="n">state</span><span class="o">==</span><span class="s2">"US"</span><span class="p">]</span><span class="o">$</span><span class="n">date</span><span class="p">,</span><span class="n">format</span><span class="o">=</span><span class="s2">"%b-%Y"</span><span class="p">)),</span>
+       <span class="n">title</span><span class="o">=</span><span class="s2">"State house price trends"</span><span class="p">)</span>
+<span class="n">g</span></code></pre></figure>
+
+<p><img src="/img/Rfig/hpiviz1-1.svg" alt="plot of chunk hpiviz1" /></p>
+
+<p>Depending on your monitor size, you might need to zoom out to see the figure all at once. However, you can compress the graphic to a fairly small size, and still get the main points:</p>
+
+<p><img src="/img/charts_may_8_2016/sparklines.PNG" alt="FMHPI 1" style="width: 550px;" /></p>
+
+<p>By comparing the red dot and dotted line to recent history you can see which states are above their pre-recession peaks and at an all-time high.</p>
+
+<h2 id="add-some-animation">Add some animation</h2>
+
+<p>Adding some animation might help us absorb the huge amount of information in the charts.  What we’re going to do is take the same sparkline, and repeat it several times, building up each state through time. The code below constructs this graph. And you’ll see that the code is not much more than the code above.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">oopt</span> <span class="o">=</span> <span class="n">ani.options</span><span class="p">(</span><span class="n">interval</span> <span class="o">=</span> <span class="m">0.25</span><span class="p">)</span>
+<span class="n">saveGIF</span><span class="p">({</span><span class="k">for</span> <span class="p">(</span><span class="n">yy</span> <span class="k">in</span> <span class="m">2000</span><span class="o">:</span><span class="m">2016</span><span class="p">)</span> <span class="p">{</span>
+
+  <span class="n">mm</span><span class="o">&lt;</span><span class="m">-12</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">yy</span><span class="o">==</span><span class="m">2016</span><span class="p">)</span> <span class="p">{</span><span class="n">mm</span><span class="o">&lt;</span><span class="m">-3</span><span class="p">}</span>
+  <span class="n">g</span><span class="o">&lt;-</span>
+  <span class="c1">#When we run the data we only use the data up to year yy
+</span>  <span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">statedata</span><span class="p">[</span><span class="n">state</span> <span class="o">!=</span> <span class="s2">"US"</span> <span class="o">&amp;</span> <span class="n">state</span> <span class="o">!=</span><span class="s2">"DC"</span> <span class="o">&amp;</span> <span class="n">year</span><span class="o">&gt;</span><span class="m">1999</span> <span class="o">&amp;</span> <span class="n">year</span><span class="o">&lt;=</span><span class="n">yy</span><span class="p">],</span> <span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">hpi</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">theme_minimal</span><span class="p">()</span><span class="o">+</span>
+  <span class="n">scale_y_log10</span><span class="p">(</span><span class="n">limits</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">70</span><span class="p">,</span><span class="m">350</span><span class="p">),</span> <span class="n">breaks</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">75</span><span class="p">,</span><span class="m">100</span><span class="p">,</span><span class="m">125</span><span class="p">,</span><span class="m">150</span><span class="p">,</span><span class="m">200</span><span class="p">,</span><span class="m">250</span><span class="p">,</span><span class="m">350</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">geom_point</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">statedata</span><span class="p">[</span><span class="n">state</span> <span class="o">!=</span><span class="s1">'US'</span> <span class="o">&amp;</span> <span class="n">state</span> <span class="o">!=</span> <span class="s2">"DC"</span> <span class="o">&amp;</span> <span class="n">year</span><span class="o">==</span><span class="n">yy</span> <span class="o">&amp;</span> <span class="n">month</span><span class="o">==</span><span class="n">mm</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">"red"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="m">0.7</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">scale_x_date</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span> <span class="n">date_format</span><span class="p">(</span><span class="s2">"%y"</span><span class="p">),</span><span class="n">date_breaks</span><span class="o">=</span><span class="s2">"4 year"</span><span class="p">,</span>
+               <span class="n">limits</span> <span class="o">=</span> <span class="n">as.Date</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="s1">'2000-01-01'</span><span class="p">,</span><span class="s1">'2016-03-30'</span><span class="p">)))</span> <span class="o">+</span>
+  <span class="n">geom_line</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">"black"</span><span class="p">)</span>  <span class="o">+</span>  <span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="n">state</span><span class="p">,</span> <span class="n">ncol</span><span class="o">=</span><span class="m">10</span><span class="p">)</span> <span class="o">+</span>
+  <span class="n">geom_hline</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">statedata</span><span class="p">[</span><span class="n">year</span><span class="o">==</span><span class="n">yy</span> <span class="o">&amp;</span> <span class="n">month</span><span class="o">==</span><span class="n">mm</span><span class="o">&amp;</span> <span class="n">state</span> <span class="o">!=</span><span class="s2">"US"</span> <span class="o">&amp;</span> <span class="n">state</span> <span class="o">!=</span><span class="s2">"DC"</span><span class="p">],</span> <span class="n">aes</span><span class="p">(</span><span class="n">yintercept</span> <span class="o">=</span> <span class="n">hpi</span><span class="p">),</span> <span class="n">linetype</span><span class="o">=</span><span class="m">2</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="m">0.8</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">plot.title</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">face</span><span class="o">=</span><span class="s2">"bold"</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="m">12</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">xlab</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span><span class="o">+</span><span class="n">ylab</span><span class="p">(</span><span class="s2">"House price index, log scale"</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">labs</span><span class="p">(</span><span class="n">caption</span><span class="o">=</span><span class="s2">"@lenkiefer Source: Freddie Mac House Price Index (Dec 2000 = 100, NSA)"</span><span class="p">,</span>
+       <span class="c1">#now the subtitle will allow us to print the last year plotted
+</span>       <span class="n">subtitle</span><span class="o">=</span><span class="n">paste</span><span class="p">(</span><span class="n">as.character</span><span class="p">(</span><span class="n">statedata</span><span class="p">[</span><span class="n">year</span><span class="o">==</span><span class="n">yy</span> <span class="o">&amp;</span> <span class="n">month</span><span class="o">==</span><span class="n">mm</span> <span class="o">&amp;</span> <span class="n">state</span><span class="o">==</span><span class="s2">"US"</span><span class="p">]</span><span class="o">$</span><span class="n">date</span><span class="p">,</span><span class="n">format</span><span class="o">=</span><span class="s2">"%b-%Y"</span><span class="p">)),</span>
+       <span class="n">title</span><span class="o">=</span><span class="s2">"State house price trends"</span><span class="p">)</span>
+<span class="n">print</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+<span class="n">ani.pause</span><span class="p">()</span>
+<span class="p">}</span>
+  <span class="k">for</span> <span class="p">(</span><span class="n">i2</span> <span class="k">in</span> <span class="m">1</span><span class="o">:</span><span class="m">2</span><span class="p">)</span> <span class="p">{</span>
+    
+    <span class="n">print</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+    <span class="n">ani.pause</span><span class="p">()</span>
+  <span class="p">}</span>
+<span class="p">},</span><span class="n">movie.name</span><span class="o">=</span><span class="s2">"sparkline.gif"</span><span class="p">,</span><span class="n">ani.width</span> <span class="o">=</span> <span class="m">800</span><span class="p">,</span> <span class="n">ani.height</span> <span class="o">=</span> <span class="m">700</span><span class="p">)</span></code></pre></figure>
+
+<p><img src="/img/charts_may_8_2016/sparkline.gif" alt="animated sparkline" /></p>
+
+<p>This code simply loops through years and creates a version of the plot and then compiles it into an animated gif. I originally <a href="https://twitter.com/lenkiefer/status/729033740341620736"><em>posted this gif to Twitter</em></a> and they have a 5MB limit on gifs so I had to reduce the number of images, skipping 12 months at a time.  You can modify the code to loop through each month to create the plot if you have no such space restriction.</p>
+
+<h1 id="meditation-2-dot-plot">Meditation 2: dot plot</h1>
+
+<p>The time series sparklines provide a lot of information. Perhaps too much, particularly for an animated gif.</p>
+
+<p>Let’s also construct a dot plot. The idea is to plot a single month’s value of the index for each state as a dot on the horizontal x axis, and use the vertical axis to display each state. This way, you can compare the relative position of each state. We’ll also add some additional features.</p>
+
+<p>First the code and plot:</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">g</span><span class="o">&lt;-</span>
+  <span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">statedata</span><span class="p">[(</span><span class="n">year</span><span class="o">==</span><span class="n">yy</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">month</span><span class="o">==</span><span class="n">mm</span> <span class="o">&amp;</span> <span class="n">state</span> <span class="o">!=</span><span class="s2">"DC"</span> <span class="o">&amp;</span> <span class="n">state</span> <span class="o">!=</span><span class="s2">"US"</span><span class="p">],</span> <span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">hpi</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">state</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">state</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">hpa12</span><span class="p">))</span><span class="o">+</span>
+  
+  <span class="n">geom_text</span><span class="p">(</span><span class="n">nudge_x</span> <span class="o">=</span> <span class="m">0.025</span><span class="p">)</span>  <span class="o">+</span>
+  
+  <span class="n">geom_point</span><span class="p">()</span><span class="o">+</span><span class="n">scale_x_log10</span><span class="p">(</span><span class="n">limits</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">70</span><span class="p">,</span><span class="m">350</span><span class="p">),</span> <span class="n">breaks</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">70</span><span class="p">,</span><span class="m">100</span><span class="p">,</span><span class="m">150</span><span class="p">,</span><span class="m">250</span><span class="p">,</span><span class="m">350</span><span class="p">))</span><span class="o">+</span>
+  
+  <span class="n">geom_segment</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">xend</span><span class="o">=</span><span class="n">hpi12min</span><span class="p">,</span><span class="n">x</span><span class="o">=</span><span class="n">hpi12max</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">state</span><span class="p">,</span><span class="n">yend</span><span class="o">=</span><span class="n">state</span><span class="p">),</span><span class="n">alpha</span><span class="o">=</span><span class="m">0.7</span><span class="p">)</span><span class="o">+</span>
+  
+  <span class="n">theme_minimal</span><span class="p">()</span>  <span class="o">+</span>
+  
+  <span class="n">scale_colour_gradient</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="s2">"red"</span><span class="p">,</span><span class="n">high</span><span class="o">=</span><span class="s2">"blue"</span><span class="p">,</span><span class="n">name</span> <span class="o">=</span> <span class="s2">"12-month HPA"</span><span class="p">,</span><span class="n">labels</span> <span class="o">=</span> <span class="n">percent</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">labs</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="s2">"State"</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">"House price index (log scale, Dec 2000 =100, NSA)"</span><span class="p">,</span>
+       <span class="n">title</span><span class="o">=</span><span class="s2">"State house price dynamics"</span><span class="p">,</span>
+       <span class="n">subtitle</span><span class="o">=</span><span class="n">paste</span><span class="p">(</span><span class="n">as.character</span><span class="p">(</span><span class="n">statedata</span><span class="p">[</span><span class="n">year</span><span class="o">==</span><span class="n">yy</span> <span class="o">&amp;</span> <span class="n">month</span><span class="o">==</span><span class="n">mm</span> <span class="o">&amp;</span> <span class="n">state</span><span class="o">==</span><span class="s2">"US"</span><span class="p">]</span><span class="o">$</span><span class="n">date</span><span class="p">,</span><span class="n">format</span><span class="o">=</span><span class="s2">"%b-%Y"</span><span class="p">)),</span>
+       <span class="n">caption</span><span class="o">=</span><span class="s2">"@lenkiefer Source: Freddie Mac house price index, each dot a state, lines trailing 12-month min-max"</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">plot.title</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">18</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">vjust</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="n">margin</span><span class="o">=</span><span class="n">margin</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="m">10</span><span class="p">)))</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">plot.margin</span><span class="o">=</span><span class="n">unit</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="m">0.25</span><span class="p">,</span><span class="m">0.25</span><span class="p">,</span><span class="m">0.25</span><span class="p">,</span><span class="m">0.25</span><span class="p">),</span><span class="s2">"cm"</span><span class="p">))</span><span class="o">+</span> 
+  
+  <span class="n">theme</span><span class="p">(</span><span class="n">legend.justification</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">),</span> <span class="n">legend.position</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">.8</span><span class="p">,</span><span class="m">.75</span><span class="p">))</span>
+<span class="n">g</span></code></pre></figure>
+
+<p><img src="/img/Rfig/hpiviz2-1.svg" alt="plot of chunk hpiviz2" /></p>
+
+<p>Each dot corresponds to the house price index value for an individual state in March of 2016. I’ve also added a “tail” that is a line segment stretching from the rolling 12-month minimum to the rolling 12-month maximum. When the index is up (down) over the past year then the dot will be at the right (left) end of the line. The length of the line helps us compare relative movements in different states. The log scale is important here so that we’re comparing percentage changes in indices, which are meaningful, and not total change in index points, which are not meaningful.</p>
+
+<p>I’ve also added a gradient color scale between red and blue that denotes the percentage change in house prices over the past year. This color is slightly redundant as the length of the segment almost perfectly correlates with this measure. Still, by scanning the chart the bluest dot and tail is the fastest growing, and the reddest will be the slowest (or most negative).</p>
+
+<h2 id="adding-animation">Adding animation</h2>
+
+<p>This chart is enhanced by adding animations I think. The time sequence of the gif allows us to trace the history of house prices. Watching the line segements increase and decrease in length gives you a sense of the trajectory of house prices for that state. Comparisons acrosss states are also easier in this chart.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">oopt</span> <span class="o">=</span> <span class="n">ani.options</span><span class="p">(</span><span class="n">interval</span> <span class="o">=</span> <span class="m">0.2</span><span class="p">)</span>
+<span class="n">saveGIF</span><span class="p">({</span><span class="k">for</span> <span class="p">(</span><span class="n">yy</span> <span class="k">in</span> <span class="m">2000</span><span class="o">:</span><span class="m">2016</span><span class="p">)</span> <span class="k">for</span><span class="p">(</span><span class="n">mm</span> <span class="k">in</span> <span class="n">seq</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">12</span><span class="p">,</span><span class="m">1</span><span class="p">))</span> <span class="p">{</span>  <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">yy</span><span class="o">==</span><span class="m">2016</span><span class="p">)</span> <span class="p">{</span><span class="n">mm</span><span class="o">&lt;</span><span class="m">-3</span><span class="p">}</span>
+  <span class="n">g</span><span class="o">&lt;-</span>
+  <span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">statedata</span><span class="p">[(</span><span class="n">year</span><span class="o">==</span><span class="n">yy</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">month</span><span class="o">==</span><span class="n">mm</span> <span class="o">&amp;</span> <span class="n">state</span> <span class="o">!=</span><span class="s2">"DC"</span> <span class="o">&amp;</span> <span class="n">state</span> <span class="o">!=</span><span class="s2">"US"</span><span class="p">],</span> <span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">hpi</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">state</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">state</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">hpa12</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">geom_text</span><span class="p">(</span><span class="n">nudge_x</span> <span class="o">=</span> <span class="m">0.025</span><span class="p">)</span>  <span class="o">+</span>
+  <span class="n">geom_point</span><span class="p">()</span><span class="o">+</span><span class="n">scale_x_log10</span><span class="p">(</span><span class="n">limits</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">70</span><span class="p">,</span><span class="m">350</span><span class="p">),</span> <span class="n">breaks</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">70</span><span class="p">,</span><span class="m">100</span><span class="p">,</span><span class="m">150</span><span class="p">,</span><span class="m">250</span><span class="p">,</span><span class="m">350</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">geom_segment</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">xend</span><span class="o">=</span><span class="n">hpi12min</span><span class="p">,</span><span class="n">x</span><span class="o">=</span><span class="n">hpi12max</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">state</span><span class="p">,</span><span class="n">yend</span><span class="o">=</span><span class="n">state</span><span class="p">),</span><span class="n">alpha</span><span class="o">=</span><span class="m">0.7</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">theme_minimal</span><span class="p">()</span>  <span class="o">+</span>
+  <span class="c1">#scale_colour_gradient2(low="red",mid="gray", high="blue")+
+</span>  <span class="c1">#scale_colour_gradient2(low="red",mid="#00B0F0",high="blue",limits=c(-.7,.7),name = "12-month HPA",labels = percent)+
+</span>   <span class="n">scale_colour_gradient</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="s2">"red"</span><span class="p">,</span><span class="n">high</span><span class="o">=</span><span class="s2">"blue"</span><span class="p">,</span><span class="n">name</span> <span class="o">=</span> <span class="s2">"12-month HPA"</span><span class="p">,</span><span class="n">labels</span> <span class="o">=</span> <span class="n">percent</span><span class="p">)</span><span class="o">+</span>
+    <span class="n">labs</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="s2">"State"</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">"House price index (log scale, Dec 2000 =100, NSA)"</span><span class="p">,</span>
+       <span class="n">title</span><span class="o">=</span><span class="s2">"State house price dynamics"</span><span class="p">,</span>
+       <span class="n">subtitle</span><span class="o">=</span><span class="n">paste</span><span class="p">(</span><span class="n">as.character</span><span class="p">(</span><span class="n">statedata</span><span class="p">[</span><span class="n">year</span><span class="o">==</span><span class="n">yy</span> <span class="o">&amp;</span> <span class="n">month</span><span class="o">==</span><span class="n">mm</span> <span class="o">&amp;</span> <span class="n">state</span><span class="o">==</span><span class="s2">"US"</span><span class="p">]</span><span class="o">$</span><span class="n">date</span><span class="p">,</span><span class="n">format</span><span class="o">=</span><span class="s2">"%b-%Y"</span><span class="p">)),</span>
+       <span class="n">caption</span><span class="o">=</span><span class="s2">"@lenkiefer Source: Freddie Mac house price index, each dot a state, lines trailing 12-month min-max"</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">plot.title</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">18</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">vjust</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="n">margin</span><span class="o">=</span><span class="n">margin</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="m">10</span><span class="p">)))</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">plot.margin</span><span class="o">=</span><span class="n">unit</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="m">0.25</span><span class="p">,</span><span class="m">0.25</span><span class="p">,</span><span class="m">0.25</span><span class="p">,</span><span class="m">0.25</span><span class="p">),</span><span class="s2">"cm"</span><span class="p">))</span><span class="o">+</span> 
+  <span class="c1">#theme(legend.position="bottom")
+</span>  <span class="n">theme</span><span class="p">(</span><span class="n">legend.justification</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">),</span> <span class="n">legend.position</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">.8</span><span class="p">,</span><span class="m">.75</span><span class="p">))</span>
+  <span class="n">print</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+  <span class="n">ani.pause</span><span class="p">()</span>
+<span class="p">}</span>
+<span class="p">}</span>
+  <span class="k">for</span> <span class="p">(</span><span class="n">i2</span> <span class="k">in</span> <span class="m">1</span><span class="o">:</span><span class="m">2</span><span class="p">)</span> <span class="p">{</span><span class="n">print</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+    <span class="n">ani.pause</span><span class="p">()</span>  <span class="p">}</span>
+  <span class="p">},</span><span class="n">movie.name</span><span class="o">=</span><span class="s2">"redbluedot.gif"</span><span class="p">,</span><span class="n">ani.width</span> <span class="o">=</span> <span class="m">600</span><span class="p">,</span> <span class="n">ani.height</span> <span class="o">=</span> <span class="m">750</span><span class="p">)</span></code></pre></figure>
+
+<p><img src="/img/charts_may_8_2016/redbluedot.gif" alt="red blue gif" /></p>
+
+<p>There are some features of this chart (the changing meaning of the scales) that from a data science perspective are probably not recommended. Still, I like this chart. I think you really get a feeling of momentum that is so important in housing markets.  The shifting colors make decoding the specific percent changes with color difficult, but the importance of colors is really to say which state is fastest and slowest.  As a state comes on strong, they shift from red to blue.</p>
+
+<h1 id="future-meditations">Future meditations</h1>
+
+<p>That’s enough R for this post.  I’ve got other meditations (we still haven’t used the metro data yet) to consider, like this one:</p>
+
+<p><img src="/img/charts_may_8_2016/hpi_dots2.gif" alt="hpi dots 2" /></p>
+
+<p>We’ll go over this one, and maybe something else, in my next post.</p>
+
+<p><a href="/2016/05/08/visual-meditations-on-house-prices-part1">Click here for Part 1: data wrangling </a></p>
+
+    </div>
+
+    
+
+    
+  
+    <hr>
+    <ul class="pagination">
+    
+      <li class="prev"><a href="/2016/05/08/visual-meditations-on-house-prices-part1" title="Visual meditations on house prices, Part 1: data wrangling">&laquo; Previous</a></li>
+    
+      <li><a href="/archive.html">Archive</a></li>
+    
+      <li class="next"><a href="/2016/05/08/visual-meditations-on-house-prices" title="Visual meditations on house prices">Next &raquo;</a></li>
+    
+    </ul>
+    <hr>
+    
+  </div>
+</div>
+
+
+
+      </div>
+
+    </div>
+
+    <div id="footer">
+      <div class="container">
+        <p>&copy; 2017 Len Kiefer
+          with help from <a href="http://jekyllbootstrap.com" target="_blank" title="The Definitive Jekyll Blogging Framework">Jekyll Bootstrap</a>
+          and <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>
+       
+    • <span vertical-align:bottom> <a href="https://twitter.com/lenkiefer" class="twitter-follow-button" data-show-count="false">•   Follow @lenkiefer</a>
+  
+ <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+</span>
+• <script src="//platform.linkedin.com/in.js" type="text/javascript"></script>
+<script type="IN/MemberProfile" data-id="https://www.linkedin.com/pub/leonard-kiefer/31/753/511" data-format="click" data-related="false" data-text="Leonard Kiefer"></script>
+  • lenkiefer@hotmail.com
+           </p>
+      </div>
+    </div>
+    
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+    <!-- Latest compiled and minified JavaScript, requires jQuery 1.x (2.x not supported in IE8) -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="/assets/themes/lentheme/bootstrap/js/bootstrap.min.js"></script>
+  </body>
+</html>
+
+
+
+
+

@@ -1,0 +1,385 @@
+---
+title: "Hello Ninja! Crafting a browser-based presentation and how I got (re)started with R"
+author: "Len Kiefer"
+date: "2017-02-04"
+summary: "R statistics dataviz plotly housing mortgage data"
+slug: "hello-ninja"
+categories: "presentation"
+tags: ["dataviz","slides","presentation","economy","R"]
+---
+
+
+
+<p>I GIVE A LOT OF TALKS. Some are formal presentations or keynotes to large groups, while many are in small group settings. Sometimes I get impromptu requests so I have to be ready pretty much at all times to give some sort of talk.</p>
+<p>On this blog I’ve shared many different DATA VISUALIZATIONS which could be part of a talk. Many of the more complex visualizations-probably most of the animated gifs-wouldn’t work great in most presentation settings.</p>
+<p>In this post I want to put together a particular kind of presentation, a chartbook. This will enable me to try out <a href="https://github.com/gnab/remark">remark.js</a> a simple in-browser slideshow tool. We’ll construct our presentation as a stand-alone web page using the <a href="https://github.com/yihui/xaringan">xaringan</a> package for <a href="http://rmarkdown.rstudio.com/">Rmarkdown</a>.</p>
+<p>We’ll build up a small(ish) chartbook using data we’ve worked with before.</p>
+<div id="how-i-got-restarted-with-r" class="section level2">
+<h2>How I got (re)started with R</h2>
+<p>Over the past year I’ve shared many visualizations made with <a href="https://www.r-project.org/">R</a>. What you might not realize if you’ve <a href="https://twitter.com/lenkiefer">been following me</a> is that up until about a year ago I rarely used R.</p>
+<p>Many years ago I used <a href="https://en.wikipedia.org/wiki/S-PLUS">S-Plus</a>, a commercial software that’s fallen in popularity in recent years. Over the past few years I drifted away from S-Plus and started using R more, but only infrequently. So how did I shift into using R?</p>
+<p>It was because I wanted a certain kind of axis.</p>
+<p>I’ve read many books about presentations. There are many good ones. Someday I’ll tell you about them. One of my favorites is <a href="http://www.treesmapsandtheorems.com/"><em>Trees, maps and theorems</em></a> by Jean-luc Doumont. It’s a beautiful book with a lot of interesting ideas. Check out the webpage. Also check out <a href="https://www.youtube.com/watch?v=IFu3jaLmse0">this Youtube Video</a> of Doumont lecturing at Stanford on communicating science to non-scientists.</p>
+<p><em>Trees, maps and theorems</em> is laid out so beautifully. There are many great illustrations. Doumont adopts a <a href="https://www.edwardtufte.com/tufte/index">Tufte-like</a> minimalism in his charts. I particularly liked the way he laid out the axes in his chart. They had few tick marks, sometimes just the min and max of the data. Much later I would discover that you can (sort of) create these using <a href="http://motioninsocial.com/tufte/"><code>theme_tufte</code></a> for <a href="http://ggplot2.org/">ggplot2</a>.</p>
+<div id="standard-plot-and-what-i-wanted" class="section level3">
+<h3>Standard plot and what I wanted</h3>
+<pre><code>## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database</code></pre>
+<div class="figure"><span id="fig:feb-4-2017-rangeframe-compare"></span>
+<img src="/post/2017-02-04-hello-ninja_files/figure-html/feb-4-2017-rangeframe-compare-1.png" alt="Comparing axis types" width="720" />
+<p class="caption">
+Figure 1: Comparing axis types
+</p>
+</div>
+<p>At the time I was making a lot of charts in <span class="icon-file-excel" style="color:green;">Microsoft Excel</span>. Don’t laugh. Microsoft Office products get a bad reputation because they are so widely used, not because they are inherently terrible. They certainly can be abused. But the realities of <a href="https://www.linkedin.com/in/leonard-kiefer-51175331">corporate life</a> make a certain amount of Office in certain industries inescapable.</p>
+<p>But what I was doing was truly laughable. The results weren’t so bad. Here’s an example from February of last year:</p>
+<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">Mrtg rates headed down. The 30yr FRM lowest since April of last year. <a href="https://t.co/fi42GGuj3P">pic.twitter.com/fi42GGuj3P</a></p>&mdash; Leonard Kiefer (@lenkiefer) <a href="https://twitter.com/lenkiefer/status/697832886003748869">February 11, 2016</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p>It was the execution that was terrible. I set up a macro-enabled <span class="icon-file-excel" style="color:green;">Microsoft Excel</span> workbook using <a href="https://en.wikipedia.org/wiki/Visual_Basic_for_Applications">VBA</a> to draw the axes. To make the chart I suppressed the axis and drew my own using line segments and error bars.</p>
+<p>Each week I would update it. I had some formulas to automate the adjustment of the axis and shift the callouts. I did this every Thursday for a while, but eventually wised up. Updating the chart wasn’t too bad, but exporting the figures sort of a pain. Also, my workbook wasn’t completely stable and I’d sometimes lose my work. I realized I needed a scripting language.</p>
+<p><a href="http://www.sas.com/en_us/home.html">SAS</a>, while useful for many tasks, was right out. Though in the past I had made presentation-worthy graphs in that language it wasn’t flexible enough for what I wanted. I temporarily fired up S-Plus, but eventually gravitated to <a href="https://www.r-project.org/">R</a>.</p>
+</div>
+</div>
+<div id="can-we-escape-planet-powerpoint-with-r-power" class="section level1">
+<h1>Can we escape Planet PowerPoint with R power?</h1>
+<p>For certain presentations in certain places I am unable to escape using Microsoft PowerPoint. But this blog is a perfect place to test out an <em>html</em> based presentation.</p>
+<p>I didn’t get to attend <a href="https://www.rstudio.com/conference/">rstudioconference</a>. But via Twitter I was able to keep up with many of the goings on and found <a href="https://github.com/kbroman/RStudioConf2017Slides">this useful summary</a>. One thing I heard about was a new package for making browser-based presentations with Rmarkdown called <a href="https://github.com/yihui/xaringan">xaringan</a>.</p>
+<p>Let’s try it out!</p>
+</div>
+<div id="craft-a-presentation" class="section level1">
+<h1>Craft a presentation</h1>
+<p>Because this is my first go-around with this software, we won’t be building an <em>excellent</em> presentation. Instead, we’ll go for a functional one that includes graphs with awesome axes. We’re going to focus on form and the particulars of each slide and not worry too much (today) about constructing a coherent narrative.</p>
+<p>We’ll be revisiting the data I track regularly (see e.g. my <a href="../../../../chartbooks/dec2016/index.html">2016 housing year-in review</a>).</p>
+<div id="styles" class="section level2">
+<h2>Styles</h2>
+<p>Being a browser-based presentation, we can easily customize the appearance using <em>css</em>. It’s pretty easy in xaringan. We simply have to save a file in the same directory as the code for our presentation and call it out in the front matter. I called mine <em>mycss.css</em>.</p>
+<pre class="r"><code>---
+title: &quot;Housing Market Update&quot;
+subtitle: &quot;Recent housing market trends&quot;
+author: &quot;Len Kiefer&quot;
+date: &quot;2017/02/04&quot;
+output:
+  xaringan::moon_reader:
+    yolo: FALSE     # what do we say to the god of death? http://gameofthrones.wikia.com/wiki/Syrio_Forel
+    css: mycss.css  # our .css file
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---</code></pre>
+<p>I wanted to shift fonts, so <em>mycss.css</em> is the same as the default for xaringan except for the following:</p>
+<pre><code>body { font-family:  &#39;Palatino Linotype&#39;, &#39;Droid Serif&#39;,&#39;Book Antiqua&#39;, Palatino, &#39;Microsoft YaHei&#39;, &#39;Songti SC&#39;, serif; }
+h1, h2, h3 {
+  font-family: &#39;Palatino Linotype&#39;;
+  font-weight: normal;
+}</code></pre>
+<p>All this does is change the font for text and headers to <a href="https://en.wikipedia.org/wiki/Palatino#Palatino_Linotype"><em>Palatino Linotype</em></a>. I’m not looking to start any font war, I’m really not equipped for that, I just wanted to use a serifed font and Palatino is available. More importatly, this shows you how to modify the <em>.css</em> file, which allows for more customization.</p>
+</div>
+</div>
+<div id="make-some-slides" class="section level1">
+<h1>Make some slides</h1>
+<p>After our title, let’s add a slide showing <a href="../../../../2016/12/08/10-ways-to-visualize-rates">mortgage rate trends</a>. I’m not actually going to <em>give</em> this particular presentation in person, rather it will be read on the web. We’ll add some text commentary on the right.</p>
+<p>In order to do this, I had to dig into the <em>.css</em> file and figure out how to do it. We have to use <code>.column-left[]</code> and <code>.column-right[]</code>. The default <em>.css</em> is to have the left column occupy the left 20% of the slide, while the right column will occupy the left 75%. We could also use <code>.pull-left[]</code> and <code>.pull-right[]</code> which would split it 47%/47% (for bull <code>.column</code> and <code>.pull</code> there’s a middle buffer). Because I want the graph to occupy more space, we’ll used <code>.column</code>. Here’s how we do it:</p>
+<pre class="r"><code>class: left, top
+### Mortgage rates low by historical standards
+.left-column[
+Rates remain quite low by historical standards
+
+Rates have been on a 30+ year secular decline
+]
+
+.right-column[
+  myplot1()
+  ]</code></pre>
+<p>Inside <code>.column-left[]</code> we insert a list of text. We could do bullets, but as space is limited we’ll ommit them. We don’t really miss them. On the right we’ll insert R code for plots.</p>
+<p>In order to make our sweet axes, we’ll need to draw them. Fortunately it’s much easier to do with R than it was in <span class="icon-file-excel" style="color:green;">Microsoft Excel</span>. We’ll need to follow the advice from <a href="http://stackoverflow.com/questions/10808761/r-style-axes-with-ggplot">this StackOverflow post</a> and build a couple of functions.</p>
+<p>Putting it together we get:</p>
+<pre class="r"><code>#dt is a data table of rates.  See http://lenkiefer.com/2016/12/08/10-ways-to-visualize-rates
+
+
+###########################################
+#######  Functions for better axis ########
+###########################################
+
+################################
+# for use with continuous axis
+################################
+base_breaks_x &lt;- function(x){
+  b &lt;- pretty(x)
+  d &lt;- data.frame(y=-Inf, yend=-Inf, x=min(b), xend=max(b))
+  list(geom_segment(data=d, aes(x=x, y=y, xend=xend, yend=yend), inherit.aes=FALSE),
+       scale_x_continuous(breaks=b))
+}
+
+################################
+# for use with date axis
+################################
+
+base_breaks_x_date &lt;- function(x,dd,dd.format=&quot;default&quot;){
+  #b &lt;- pretty(x)
+  b&lt;- c(min(x),max(x))
+  b2&lt;- c(min(dd),max(dd))
+  if (dd.format != &quot;default&quot;) {b2&lt;-as.character(b2,format=dd.format)}
+  d &lt;- data.frame(y=-Inf, yend=-Inf, x=min(x), xend=max(x))
+  list(geom_segment(data=d, aes(x=x, y=y, xend=xend, yend=yend), 
+                    inherit.aes=FALSE),
+       scale_x_continuous(breaks=b,labels=b2))
+}
+
+################################
+# for use on y axis
+################################
+base_breaks_y &lt;- function(x){
+  b &lt;- pretty(x)
+  d &lt;- data.frame(x=-Inf, xend=-Inf, y=min(b), yend=max(b))
+  list(geom_segment(data=d, aes(x=x, y=y, xend=xend, yend=yend), inherit.aes=FALSE),
+       scale_y_continuous(breaks=b))
+}
+
+
+#####################
+####  Make Graph ####
+#####################
+
+
+ggplot(data=dt, aes(x=as.numeric(date),y=rate30,label=rate30))+
+  geom_line()+theme_bw()+
+  #scale_x_date(date_breaks=&quot;1 month&quot;, date_labels=&quot;%b-%y&quot;)+
+  #scale_y_continuous(limits=c(3,4.4),breaks=seq(3,4.4,.1))+
+   labs(x=&quot;&quot;, y=&quot;&quot;,
+       title=&quot;30-year Fixed Mortgage Rate (%)&quot;,
+       subtitle=&quot;weekly average rates&quot;,
+       caption=&quot;@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey&quot;)+
+  theme(plot.title=element_text(size=18),
+        plot.caption=element_text(hjust=0))+
+  theme(panel.border = element_blank(),
+        panel.grid.major = element_blank(),
+                text=element_text(family=&quot;Palatino Linotype&quot;),
+        panel.grid.minor = element_blank(),
+                axis.ticks.length=unit(-0.25,&quot;cm&quot;),
+        axis.text.y = element_text(margin=unit(c(0.5,0.5,0.5,0.5), &quot;cm&quot;)),
+        axis.text.x = element_text(margin=unit(c(0.5,0.5,0.5,0.5), &quot;cm&quot;))
+        ) + 
+  ### Use our sweet axis functions:
+  base_breaks_x_date(as.numeric(dt$date),dt$date) +
+  base_breaks_y(dt$rate30)</code></pre>
+<pre><code>## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database</code></pre>
+<p><img src="/post/2017-02-04-hello-ninja_files/figure-html/feb-4-2017-rangeframe-compare3-1.png" width="672" /></p>
+<div id="adding-an-annotated-chart" class="section level3">
+<h3>Adding an annotated chart</h3>
+<p>For the second slide, we’ll modify our chart by adding some annotations. We’ll have to manually add in the additional dates to our axis, but it’s not so bad. <em>(much better than with VBA!)</em></p>
+<pre class="r"><code>dt2&lt;-dt[year(date)&gt;2015]  #subset to 2016 and later
+x&lt;-as.numeric(dt2$date)
+  b&lt;- as.numeric(c(min(dt2$date),
+                   as.Date(&quot;2016-06-23&quot;),
+                   as.Date(&quot;2016-11-08&quot;),max(dt2$date)))
+  b2&lt;- c(min(dt2$date), as.Date(&quot;2016-06-23&quot;),as.Date(&quot;2016-11-08&quot;),max(dt2$date))
+    d &lt;- data.frame(y=-Inf, yend=-Inf, x=min(x), xend=max(x))
+
+ggplot(data=dt2, aes(x=as.numeric(date),y=rate30,label=rate30))+
+  geom_line()+theme_bw()+
+  #scale_x_date(date_breaks=&quot;1 month&quot;, date_labels=&quot;%b-%y&quot;)+
+  #scale_y_continuous(limits=c(3,4.4),breaks=seq(3,4.4,.1))+
+   labs(x=&quot;&quot;, y=&quot;&quot;,
+       title=&quot;30-year Fixed Mortgage Rate (%)&quot;,
+       subtitle=&quot;weekly average rates&quot;,
+       caption=&quot;@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey&quot;)+
+  theme(plot.title=element_text(size=18),
+        plot.caption=element_text(hjust=0))+
+  theme(panel.border = element_blank(),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+                text=element_text(family=&quot;Palatino Linotype&quot;),
+        #axis.ticks.length=unit(0.25,&quot;cm&quot;),
+                axis.ticks.length=unit(-0.25,&quot;cm&quot;),
+        axis.text.y = element_text(margin=unit(c(0.5,0.5,0.5,0.5), &quot;cm&quot;)),
+        axis.text.x = element_text(margin=unit(c(0.5,0.5,0.5,0.5), &quot;cm&quot;))
+        ) + #geom_rangeframe()
+ #base_breaks_x_date(as.numeric(dt2$date),dt$date) +
+  base_breaks_y(dt2$rate30)+  list(geom_segment(data=d, aes(x=x, y=y, xend=xend, yend=yend), 
+                    inherit.aes=FALSE),
+       scale_x_continuous(breaks=b,labels=b2))+
+  geom_vline(xintercept=as.numeric(as.Date(&quot;2016-11-08&quot;)),linetype=2,color=&quot;black&quot;)+
+  annotate(geom=&quot;text&quot;,x=as.numeric(as.Date(&quot;2016-11-08&quot;)),y=3.4,hjust=0,label=&quot; U.S.\n election&quot;,vjust=0,fontface=&quot;italic&quot;)+
+
+  geom_vline(xintercept=as.numeric(as.Date(&quot;2016-06-23&quot;)),linetype=2,color=&quot;black&quot;)+
+  annotate(geom=&quot;text&quot;,x=as.numeric(as.Date(&quot;2016-06-23&quot;)),y=3.4,hjust=1,label=&quot; Brexit \n vote &quot;,vjust=0,fontface=&quot;italic&quot;)</code></pre>
+<pre><code>## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database</code></pre>
+<p><img src="/post/2017-02-04-hello-ninja_files/figure-html/feb-4-2017-rangeframe-compare4-1.png" width="672" /></p>
+</div>
+<div id="divider-slide" class="section level3">
+<h3>Divider slide</h3>
+<p>We can use <code>.inverse</code> at the slide header to add a black background divider slide. We specify a new slide with <code>---</code> and we can set features of the slide using <code>class:</code>. Then we use a third level heading like so <code>###</code>. I wanted smaller header, so I went with <code>###</code> instead of a first level heading specified with <code>#</code>.</p>
+<pre><code>---
+class: inverse, center, middle
+### What might rising rates mean for housing?</code></pre>
+</div>
+<div id="add-more-slides" class="section level3">
+<h3>Add more slides</h3>
+<p>We can add a few more slides depicting trends in other areas of the housing market. For a real presentation I would spend considerably more time thinking about sequencing and the overall structure.</p>
+<p>However, you can see the fruits of me testing out some simple charts within a browser-based presentation below.</p>
+<p>Click here for a fullscreen version <a href="../../../../img/charts_feb_4_2017/feb-2017-update.html">here</a>.</p>
+<iframe src="../../../../img/charts_feb_4_2017/feb-2017-update.html" height="500" width="775">
+</iframe>
+</div>
+</div>
+<div id="next-steps" class="section level1">
+<h1>Next steps</h1>
+<p>I really enjoyed putting togethere these slides. In future I’ll talk more about how I structure a real presentation and how I approach delivery.</p>
+</div>

@@ -1,0 +1,283 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Dataviz Remix: Housing Trilemma</title>
+    
+    <meta name="author" content="Len Kiefer">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap styles -->
+    <link href="/assets/themes/lentheme/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Optional theme -->
+    <link href="/assets/themes/lentheme/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <!-- Sticky Footer -->
+    <link href="/assets/themes/lentheme/bootstrap/css/bs-sticky-footer.css" rel="stylesheet">
+    
+    <!-- Custom styles -->
+    <link href="/assets/themes/lentheme/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <!-- Update these with your own images
+      <link rel="shortcut icon" href="images/favicon.ico">
+      <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+      <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+      <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+  </head>
+
+  <body>
+    <div id="wrap">
+      <nav class="navbar navbar-default" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#jb-navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/"><span class="icon-home3" style="font-size:24px"> Len Kiefer</a></span>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="jb-navbar-collapse" style="font-size:24px">
+          <ul class="nav navbar-nav" >
+        <li><a href="/archive.html"><span class="icon-newspaper"> Posts</a></span></li>
+            <!-- li><a href="/chartbook/index.html"><span class="icon-display"> Chartbook</a></span></li-->
+         <li><a href="/resume.html"><span class="icon-profile"> Resume</span></a></li>
+        <li><a href="/about.html"><span class="icon-user-tie"> About</span></a></li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </nav>
+
+      <div class="container">
+        
+<div class="page-header">
+  <h1>Dataviz Remix: Housing Trilemma </h1>
+</div>
+
+<div class="row post-full">
+  <div class="col-xs-12">
+    <div class="date">
+      <span>09 June 2016</span>
+    </div>
+    <div class="content">
+      <h2 id="a-dataviz-remix">A dataviz remix</h2>
+
+<p>I came across some <a href="https://oregoneconomicanalysis.com/2016/06/08/the-housing-trilemma/">interesting analysis</a> from Josh Lehner at the <a href="https://oregoneconomicanalysis.com/">Oregon Office of Economic Analysis</a> about the “Housing Trilemma”.</p>
+
+<p>The Housing Trilemma, captured in the chart below is based on the following claim:</p>
+
+<blockquote>
+  <p>Every city wants to have a strong local economy, high quality of life and housing affordability for its residents. Unfortunately these three dimensions represent the Housing Trilemma. A city can achieve success on two but not all three at the same time. Underlying all of these tradeoffs are local policies as well.</p>
+</blockquote>
+
+<p><img src="/img/charts_jun_9_2016/trilemma.png" alt="trilemma" />
+*image from Oregon Office of Economic Analysis.</p>
+
+<p>Josh put together an interactive chart, both as <span class="icon-file-excel" style="color:green;"></span><a href="https://oregoneconomicanalysis.files.wordpress.com/2016/06/housingtrilemma1001.xlsx">Excel</a> and a <a href="https://docs.google.com/spreadsheets/d/1sZ2wlPnYJf83pYMjk3H90AJUjBPRpjPGUv63M9xvqT4/edit?usp=sharing">Google Doc</a>. The charts allowed you to toggle between metros and see how they stacked up across ten variables in 4 categories:</p>
+
+<ul>
+  <li>Affordability
+    <ul>
+      <li>Price Income Ratio</li>
+      <li>Cost Burdened Renters</li>
+      <li>Vacancy Rate</li>
+    </ul>
+  </li>
+  <li>Job Availability
+    <ul>
+      <li>Job Growth</li>
+      <li>Working Age Emp-Pop Ratio</li>
+      <li>Start-Ups</li>
+    </ul>
+  </li>
+  <li>Livability
+    <ul>
+      <li>Quality of Life</li>
+      <li>Household Purchasing Power</li>
+    </ul>
+  </li>
+  <li>Policy
+    <ul>
+      <li>Housing Unit Growth</li>
+      <li>Housing Cost Differential</li>
+    </ul>
+  </li>
+</ul>
+
+<p>The  <span class="icon-file-excel" style="color:green;"></span> Excel spreadsheet contained all the data, along with a list of sources, and the percentile rank of each metro across each variable.</p>
+
+<p>The interactive spreadsheet was well done and easy to use, but I thought this might be a good case for a remix.  Using animation through tweenr we could compare all the metros at once.</p>
+
+<h1 id="the-remix">The Remix</h1>
+
+<p>Ultimately, I ended up with the chart below. Let’s build it.</p>
+
+<p><img src="/img/charts_jun_9_2016/trilemma_viz.gif" alt="trilemma" /></p>
+
+<h2 id="building-the-remix">Building the remix</h2>
+
+<p>I’m going to be using R and the animation and tweenr packages along with ggplot2.  See my earlier <a href="/2016/05/29/improving-R-animated-gifs-with-tweenr">post about tweenr</a> for an introduction, and <a href="/2016/05/30/more-tweenr-animations">more examples here</a>.</p>
+
+<p>The R code for the viz above is below. I used some Excel tricks to manipulate the original dataset into a text file.  We start with a simple text file you can download called <a href="/img/charts_jun_9_2016/trilemma.txt">trilemma.txt</a>.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1">#load the data
+</span><span class="n">tridata</span> <span class="o">&lt;-</span> <span class="n">fread</span><span class="p">(</span><span class="s2">"trilemma.txt"</span><span class="p">)</span>
+
+<span class="c1">#get a list of variable names
+</span><span class="n">myvars</span><span class="o">&lt;-</span><span class="n">unique</span><span class="p">(</span><span class="n">tridata</span><span class="o">$</span><span class="n">var</span><span class="p">)</span>
+
+<span class="c1">#convert character variables into strings
+</span><span class="n">tridata</span><span class="o">$</span><span class="n">metro</span><span class="o">&lt;-</span><span class="n">factor</span><span class="p">(</span><span class="n">tridata</span><span class="o">$</span><span class="n">metro</span><span class="p">)</span>
+<span class="n">tridata</span><span class="o">$</span><span class="n">var</span><span class="o">&lt;-</span><span class="n">factor</span><span class="p">(</span><span class="n">tridata</span><span class="o">$</span><span class="n">var</span><span class="p">)</span>
+
+<span class="c1"># define a function to subset data as dataframe (data tables don't seem to work with tweenr)
+</span><span class="n">myf</span><span class="o">&lt;-</span><span class="k">function</span><span class="p">(</span><span class="n">m</span><span class="p">){</span><span class="n">as.data.frame</span><span class="p">(</span><span class="n">tridata</span><span class="p">[</span><span class="n">var</span><span class="o">==</span><span class="n">m</span><span class="p">,</span> <span class="n">list</span><span class="p">(</span><span class="n">metro</span><span class="p">,</span><span class="n">var</span><span class="p">,</span><span class="n">value</span><span class="p">,</span><span class="n">percentile</span><span class="p">)])}</span>
+
+<span class="c1"># use lapply to generate the list of data sets:
+</span><span class="n">my.list</span><span class="o">&lt;-</span><span class="n">lapply</span><span class="p">(</span><span class="n">myvars</span><span class="p">,</span><span class="n">myf</span><span class="p">)</span>
+
+<span class="c1"># set up animations
+</span><span class="n">tf</span> <span class="o">&lt;-</span> <span class="n">tween_states</span><span class="p">(</span><span class="n">my.list</span><span class="p">,</span> <span class="n">tweenlength</span><span class="o">=</span> <span class="m">1</span><span class="p">,</span> <span class="n">statelength</span><span class="o">=</span><span class="m">3</span><span class="p">,</span> <span class="n">ease</span><span class="o">=</span><span class="n">rep</span><span class="p">(</span><span class="s1">'cubic-in-out'</span><span class="p">,</span><span class="m">51</span><span class="p">),</span><span class="n">nframes</span><span class="o">=</span><span class="m">300</span><span class="p">)</span>
+
+<span class="c1"># convert back to data table for easier use
+</span><span class="n">tf</span><span class="o">&lt;-</span><span class="n">data.table</span><span class="p">(</span><span class="n">tf</span><span class="p">)</span>
+
+<span class="c1">#run the animation
+</span><span class="n">oopt</span> <span class="o">=</span> <span class="n">ani.options</span><span class="p">(</span><span class="n">interval</span> <span class="o">=</span> <span class="m">0.075</span><span class="p">)</span>
+<span class="n">saveGIF</span><span class="p">({</span><span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="k">in</span> <span class="m">1</span><span class="o">:</span><span class="n">max</span><span class="p">(</span><span class="n">tf</span><span class="o">$</span><span class="n">.frame</span><span class="p">))</span> <span class="p">{</span>
+  <span class="n">p</span><span class="o">&lt;-</span>
+    <span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">tf</span><span class="p">[</span><span class="n">.frame</span><span class="o">==</span><span class="n">i</span><span class="p">],</span> <span class="c1">#we'll look through each frame
+</span>           <span class="n">aes</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">reorder</span><span class="p">(</span><span class="n">metro</span><span class="p">,</span><span class="n">percentile</span><span class="p">),</span> <span class="c1">#we want the metros to be ordered by their rank (percentile, so we reorder)
+</span>               <span class="n">x</span><span class="o">=</span><span class="n">value</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">metro</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">value</span><span class="p">))</span><span class="o">+</span>
+    
+    <span class="c1">#minimal style from ggthemes
+</span>    <span class="n">theme_minimal</span><span class="p">()</span><span class="o">+</span>
+    
+    <span class="c1">#set up colors red to blue, high to low
+</span>    <span class="n">scale_colour_gradient</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="s2">"red"</span><span class="p">,</span><span class="n">high</span><span class="o">=</span><span class="s2">"blue"</span><span class="p">)</span><span class="o">+</span>
+  
+    <span class="c1">#add a label
+</span>    <span class="n">geom_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">2.5</span><span class="p">,</span><span class="n">hjust</span><span class="o">=</span><span class="m">-0.1</span><span class="p">)</span><span class="o">+</span>  
+    
+    <span class="c1">#draw a point
+</span>    <span class="n">geom_point</span><span class="p">()</span><span class="o">+</span>
+    
+    <span class="c1"># adjust axis
+</span>      <span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">tf</span><span class="p">[</span><span class="n">.frame</span><span class="o">==</span><span class="n">i</span><span class="p">,]</span><span class="o">$</span><span class="n">var</span><span class="p">,</span>
+         <span class="n">y</span><span class="o">=</span><span class="s2">"metro"</span><span class="p">,</span>
+         <span class="n">title</span><span class="o">=</span><span class="s2">"Housing trilemma visualized - metros ranked by indicator"</span><span class="p">,</span>
+         <span class="n">subtitle</span><span class="o">=</span><span class="s2">"based on data &amp; analysis by Josh Lehner, Oregon Office of Economic Analysis"</span><span class="p">,</span>
+         <span class="n">caption</span><span class="o">=</span><span class="s2">"@lenkiefer Source: Oregon Office of Economic Analysis: https://oregoneconomicanalysis.com/2016/06/08/the-housing-trilemma/\n2014 ACS, IHS Global Insight, U.S. Census Bureau, BEA, davidalbouy.net"</span><span class="p">)</span><span class="o">+</span>
+    
+    <span class="c1"># adjust plot style:
+</span>    <span class="n">theme</span><span class="p">(</span><span class="n">axis.text.y</span>  <span class="o">=</span> <span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">7</span><span class="p">))</span><span class="o">+</span>
+    <span class="n">theme</span><span class="p">(</span><span class="n">panel.grid.major.y</span> <span class="o">=</span> <span class="n">element_blank</span><span class="p">())</span><span class="o">+</span>
+    <span class="n">theme</span><span class="p">(</span><span class="n">axis.text.y</span>  <span class="o">=</span> <span class="n">element_blank</span><span class="p">())</span><span class="o">+</span>
+    <span class="n">theme</span><span class="p">(</span><span class="n">plot.title</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">12</span><span class="p">))</span><span class="o">+</span>  <span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="o">=</span><span class="s2">"none"</span><span class="p">)</span><span class="o">+</span>
+    <span class="n">theme</span><span class="p">(</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">8</span><span class="p">,</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">vjust</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="n">margin</span><span class="o">=</span><span class="n">margin</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="m">10</span><span class="p">)))</span><span class="o">+</span>
+    <span class="n">theme</span><span class="p">(</span><span class="n">plot.margin</span><span class="o">=</span><span class="n">unit</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="m">0.25</span><span class="p">,</span><span class="m">0.25</span><span class="p">,</span><span class="m">0.25</span><span class="p">,</span><span class="m">0.25</span><span class="p">),</span><span class="s2">"cm"</span><span class="p">))</span>
+  
+  <span class="n">print</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+  <span class="n">ani.pause</span><span class="p">()</span>
+  <span class="n">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="p">}</span>
+  <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="k">in</span> <span class="m">1</span><span class="o">:</span><span class="m">10</span><span class="p">){</span>
+    <span class="n">print</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">ani.pause</span><span class="p">()</span>
+    <span class="n">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+  <span class="p">}</span>
+  
+<span class="p">},</span><span class="n">movie.name</span><span class="o">=</span><span class="s2">"trilemma_viz.gif"</span><span class="p">,</span><span class="n">ani.width</span> <span class="o">=</span> <span class="m">600</span><span class="p">,</span> <span class="n">ani.height</span> <span class="o">=</span><span class="m">800</span><span class="p">)</span>  <span class="err">#</span><span class="n">save</span> <span class="n">movie</span></code></pre></figure>
+
+
+    </div>
+
+    
+
+    
+  
+    <hr>
+    <ul class="pagination">
+    
+      <li class="prev"><a href="/2016/06/06/visualizing-the-us-housing-stock" title="Visualizing the U.S. housing stock">&laquo; Previous</a></li>
+    
+      <li><a href="/archive.html">Archive</a></li>
+    
+      <li class="next"><a href="/2016/06/22/Make-a-dotplot" title="Let's make a dot plot">Next &raquo;</a></li>
+    
+    </ul>
+    <hr>
+    
+  </div>
+</div>
+
+
+
+      </div>
+
+    </div>
+
+    <div id="footer">
+      <div class="container">
+        <p>&copy; 2017 Len Kiefer
+          with help from <a href="http://jekyllbootstrap.com" target="_blank" title="The Definitive Jekyll Blogging Framework">Jekyll Bootstrap</a>
+          and <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>
+       
+    • <span vertical-align:bottom> <a href="https://twitter.com/lenkiefer" class="twitter-follow-button" data-show-count="false">•   Follow @lenkiefer</a>
+  
+ <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+</span>
+• <script src="//platform.linkedin.com/in.js" type="text/javascript"></script>
+<script type="IN/MemberProfile" data-id="https://www.linkedin.com/pub/leonard-kiefer/31/753/511" data-format="click" data-related="false" data-text="Leonard Kiefer"></script>
+  • lenkiefer@hotmail.com
+           </p>
+      </div>
+    </div>
+    
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+    <!-- Latest compiled and minified JavaScript, requires jQuery 1.x (2.x not supported in IE8) -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="/assets/themes/lentheme/bootstrap/js/bootstrap.min.js"></script>
+  </body>
+</html>
+
+
+
+
+

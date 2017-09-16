@@ -1,0 +1,338 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Visual meditations on house prices, Part 7: Don't cross the streams!</title>
+    
+    <meta name="author" content="Len Kiefer">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap styles -->
+    <link href="/assets/themes/lentheme/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Optional theme -->
+    <link href="/assets/themes/lentheme/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <!-- Sticky Footer -->
+    <link href="/assets/themes/lentheme/bootstrap/css/bs-sticky-footer.css" rel="stylesheet">
+    
+    <!-- Custom styles -->
+    <link href="/assets/themes/lentheme/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <!-- Update these with your own images
+      <link rel="shortcut icon" href="images/favicon.ico">
+      <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+      <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+      <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+  </head>
+
+  <body>
+    <div id="wrap">
+      <nav class="navbar navbar-default" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#jb-navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/"><span class="icon-home3" style="font-size:24px"> Len Kiefer</a></span>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="jb-navbar-collapse" style="font-size:24px">
+          <ul class="nav navbar-nav" >
+        <li><a href="/archive.html"><span class="icon-newspaper"> Posts</a></span></li>
+            <!-- li><a href="/chartbook/index.html"><span class="icon-display"> Chartbook</a></span></li-->
+         <li><a href="/resume.html"><span class="icon-profile"> Resume</span></a></li>
+        <li><a href="/about.html"><span class="icon-user-tie"> About</span></a></li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </nav>
+
+      <div class="container">
+        
+<div class="page-header">
+  <h1>Visual meditations on house prices, Part 7: Don't cross the streams! </h1>
+</div>
+
+<div class="row post-full">
+  <div class="col-xs-12">
+    <div class="date">
+      <span>03 December 2016</span>
+    </div>
+    <div class="content">
+      <h1 id="introduction">Introduction</h1>
+
+<p>ON FRIDAY I MADE SOME ACCIDENTAL data art. I ended up with something pretty much useless, but kind of pretty.  I shared it on Twitter:</p>
+
+<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">made an unintentional sorta streamgraph <a href="https://twitter.com/hashtag/graphfail?src=hash">#graphfail</a> <a href="https://t.co/uW4IOnbrcL">pic.twitter.com/uW4IOnbrcL</a></p>&mdash; Leonard Kiefer (@lenkiefer) <a href="https://twitter.com/lenkiefer/status/804448317891457024">December 1, 2016</a></blockquote>
+<script async="" src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>We’ll see if we can redeem this graphfail in another Visual Meditation on house prices.</p>
+
+<h2 id="visual-meditations">Visual Meditations</h2>
+
+<p>I’ve been collecting various graphical thoughts about house prices in my Visual Meditations series. For reference, the prior meditations are listed below, and I’ll keep an updated list of all of them <a href="/2016/05/08/visual-meditations-on-house-prices">here</a>.</p>
+
+<ul>
+  <li><a href="/2016/05/08/visual-meditations-on-house-prices-part1">Part 1: data wrangling </a></li>
+  <li><a href="/2016/05/08/visual-meditations-on-house-prices-part2">Part 2: sparklines and dots (animated) </a></li>
+  <li><a href="/2016/05/10/visual-meditations-on-house-prices-part3">Part 3: bubbles and bounce </a></li>
+  <li><a href="/2016/05/14/visual-meditations-on-house-prices-part4">Part 4: graph gallery </a></li>
+  <li><a href="/2016/08/13/visual-meditations-on-house-prices-part5">Part 5: distributions </a></li>
+  <li><a href="/2016/11/03/visual-meditations-on-house-prices-part6">Part 6: state recovery </a></li>
+</ul>
+
+<p>These visualizations will be made in <a href="https://www.r-project.org/">R</a>, and I’ll post code for some of the graphs at the bottom.</p>
+
+<h2 id="the-data">The data</h2>
+
+<p>Once <a href="/2016/05/08/visual-meditations-on-house-prices-part1">again</a> we’ll use the <a href="http://www.freddiemac.com/finance/house_price_index.html">Freddie Mac House Price Index</a> for many of these visualizations.  We’re going to need a text file organized as described in that post. Just follow those examples to set up the data. Or you can download the two text files below:</p>
+
+<ol>
+  <li><a href="/img/charts_nov_3_2016/fmhpi2016q3.txt"><em>state and national called fmhpi2016q3.txt</em></a></li>
+  <li><a href="/img/charts_nov_3_2016/fmhpi2016q3metro.txt"><em>metro called fmhpi2016q3metro.txt</em></a></li>
+</ol>
+
+<p>The code below will load the data and do some manipulations to generate the required variables.  I also use this helper file with region names associated with each state.</p>
+
+<ol>
+  <li><a href="/img/charts_nov_3_2016/fmhpi2016q3metro.txt"><em>region lookup called region.txt</em></a></li>
+</ol>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1">#Load some packages
+</span><span class="n">library</span><span class="p">(</span><span class="n">data.table</span><span class="p">,</span> <span class="n">warn.conflicts</span> <span class="o">=</span> <span class="n">FALSE</span><span class="p">,</span> <span class="n">quietly</span><span class="o">=</span><span class="n">TRUE</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">,</span> <span class="n">warn.conflicts</span> <span class="o">=</span> <span class="n">FALSE</span><span class="p">,</span> <span class="n">quietly</span><span class="o">=</span><span class="n">TRUE</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">,</span> <span class="n">warn.conflicts</span> <span class="o">=</span> <span class="n">FALSE</span><span class="p">,</span> <span class="n">quietly</span><span class="o">=</span><span class="n">TRUE</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">zoo</span><span class="p">,</span> <span class="n">warn.conflicts</span> <span class="o">=</span> <span class="n">FALSE</span><span class="p">,</span> <span class="n">quietly</span><span class="o">=</span><span class="n">TRUE</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">ggthemes</span><span class="p">,</span> <span class="n">warn.conflicts</span> <span class="o">=</span> <span class="n">FALSE</span><span class="p">,</span> <span class="n">quietly</span><span class="o">=</span><span class="n">TRUE</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">scales</span><span class="p">,</span> <span class="n">warn.conflicts</span> <span class="o">=</span> <span class="n">FALSE</span><span class="p">,</span> <span class="n">quietly</span><span class="o">=</span><span class="n">TRUE</span><span class="p">)</span>
+
+<span class="n">d.metro</span> <span class="o">&lt;-</span> <span class="n">fread</span><span class="p">(</span><span class="s2">"data/fmhpi2016q3metro.txt"</span><span class="p">)</span>
+<span class="n">d.metro</span><span class="o">$</span><span class="n">date</span><span class="o">&lt;-</span><span class="n">as.Date</span><span class="p">(</span><span class="n">d.metro</span><span class="o">$</span><span class="n">date</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s2">"%m/%d/%Y"</span><span class="p">)</span>
+
+<span class="c1">#Now uses some data table caclulations to compute percent changes in house prices by state/metro
+</span><span class="n">d.metro</span><span class="p">[,</span><span class="n">hpa12</span><span class="o">:=</span><span class="n">c</span><span class="p">(</span><span class="n">rep</span><span class="p">(</span><span class="n">NA</span><span class="p">,</span><span class="m">12</span><span class="p">),((</span><span class="m">1</span><span class="o">+</span><span class="n">diff</span><span class="p">(</span><span class="n">hpi</span><span class="p">,</span><span class="m">12</span><span class="p">)</span><span class="o">/</span><span class="n">hpi</span><span class="p">))</span><span class="o">^</span><span class="m">1</span><span class="p">)</span><span class="m">-1</span><span class="p">,</span><span class="n">by</span><span class="o">=</span><span class="n">metro</span><span class="p">]</span>  
+
+<span class="c1"># set up statecode for primary state, first 2 digits after column in metro name
+</span><span class="n">d.metro</span><span class="p">[,</span><span class="n">statecode</span><span class="o">:=</span><span class="n">substr</span><span class="p">(</span><span class="n">regmatches</span><span class="p">(</span><span class="n">metro</span><span class="p">,</span><span class="n">regexec</span><span class="p">(</span><span class="s2">", +[A-Z][A-Z]"</span><span class="p">,</span><span class="n">metro</span><span class="p">)),</span><span class="m">3</span><span class="p">,</span><span class="m">4</span><span class="p">)]</span>
+
+<span class="c1">#load file with regions 
+</span><span class="n">region</span><span class="o">&lt;-</span><span class="n">fread</span><span class="p">(</span><span class="s2">"data/region.txt"</span><span class="p">)</span>
+<span class="n">reg.list</span><span class="o">&lt;-</span><span class="n">unique</span><span class="p">(</span><span class="n">region</span><span class="p">[</span><span class="n">order</span><span class="p">(</span><span class="n">region</span><span class="p">),]</span><span class="o">$</span><span class="n">region</span><span class="p">)</span> <span class="c1">#list of regions
+</span><span class="n">d.metro</span><span class="o">&lt;-</span><span class="n">merge</span><span class="p">(</span><span class="n">d.metro</span><span class="p">,</span><span class="n">region</span><span class="p">,</span><span class="n">by</span><span class="o">=</span><span class="s2">"statecode"</span><span class="p">)</span>
+
+<span class="c1"># create quantiles across regions and dates:
+</span><span class="n">d.metro</span><span class="p">[,</span> <span class="n">hpa12.rmin</span><span class="o">:=</span><span class="n">quantile</span><span class="p">(</span><span class="n">hpa12</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="n">na.rm</span><span class="o">=</span><span class="n">T</span><span class="p">),</span><span class="n">by</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="s2">"region"</span><span class="p">,</span><span class="s2">"date"</span><span class="p">)]</span>
+<span class="n">d.metro</span><span class="p">[,</span> <span class="n">hpa12.r5</span><span class="o">:=</span><span class="n">quantile</span><span class="p">(</span><span class="n">hpa12</span><span class="p">,</span><span class="m">.05</span><span class="p">,</span><span class="n">na.rm</span><span class="o">=</span><span class="n">T</span><span class="p">),</span><span class="n">by</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="s2">"region"</span><span class="p">,</span><span class="s2">"date"</span><span class="p">)]</span>
+<span class="n">d.metro</span><span class="p">[,</span> <span class="n">hpa12.r25</span><span class="o">:=</span><span class="n">quantile</span><span class="p">(</span><span class="n">hpa12</span><span class="p">,</span><span class="m">.25</span><span class="p">,</span><span class="n">na.rm</span><span class="o">=</span><span class="n">T</span><span class="p">),</span><span class="n">by</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="s2">"region"</span><span class="p">,</span><span class="s2">"date"</span><span class="p">)]</span>
+<span class="n">d.metro</span><span class="p">[,</span> <span class="n">hpa12.r50</span><span class="o">:=</span><span class="n">quantile</span><span class="p">(</span><span class="n">hpa12</span><span class="p">,</span><span class="m">.5</span><span class="p">,</span><span class="n">na.rm</span><span class="o">=</span><span class="n">T</span><span class="p">),</span><span class="n">by</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="s2">"region"</span><span class="p">,</span><span class="s2">"date"</span><span class="p">)]</span>
+<span class="n">d.metro</span><span class="p">[,</span> <span class="n">hpa12.r75</span><span class="o">:=</span><span class="n">quantile</span><span class="p">(</span><span class="n">hpa12</span><span class="p">,</span><span class="m">.75</span><span class="p">,</span><span class="n">na.rm</span><span class="o">=</span><span class="n">T</span><span class="p">),</span><span class="n">by</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="s2">"region"</span><span class="p">,</span><span class="s2">"date"</span><span class="p">)]</span>
+<span class="n">d.metro</span><span class="p">[,</span> <span class="n">hpa12.r95</span><span class="o">:=</span><span class="n">quantile</span><span class="p">(</span><span class="n">hpa12</span><span class="p">,</span><span class="m">.95</span><span class="p">,</span><span class="n">na.rm</span><span class="o">=</span><span class="n">T</span><span class="p">),</span><span class="n">by</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="s2">"region"</span><span class="p">,</span><span class="s2">"date"</span><span class="p">)]</span>
+<span class="n">d.metro</span><span class="p">[,</span> <span class="n">hpa12.rmax</span><span class="o">:=</span><span class="n">quantile</span><span class="p">(</span><span class="n">hpa12</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="n">na.rm</span><span class="o">=</span><span class="n">T</span><span class="p">),</span><span class="n">by</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="s2">"region"</span><span class="p">,</span><span class="s2">"date"</span><span class="p">)]</span></code></pre></figure>
+
+<p>Now we’re ready to create the plot I tweeted out.  Even with the labels you don’t really get a lot out of it, but it’s kind of pretty.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">d.metro</span><span class="p">,</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="n">fill</span><span class="o">=</span><span class="n">region</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">region</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">geom_ribbon</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">ymin</span><span class="o">=</span><span class="n">hpa12.rmin</span><span class="p">,</span><span class="n">ymax</span><span class="o">=</span><span class="n">hpa12.r5</span><span class="p">),</span><span class="n">alpha</span><span class="o">=</span><span class="m">0.1</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">geom_ribbon</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">ymin</span><span class="o">=</span><span class="n">hpa12.r5</span><span class="p">,</span><span class="n">ymax</span><span class="o">=</span><span class="n">hpa12.r25</span><span class="p">),</span><span class="n">alpha</span><span class="o">=</span><span class="m">0.5</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">geom_ribbon</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">ymin</span><span class="o">=</span><span class="n">hpa12.r25</span><span class="p">,</span><span class="n">ymax</span><span class="o">=</span><span class="n">hpa12.r75</span><span class="p">),</span><span class="n">alpha</span><span class="o">=</span><span class="m">0.75</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">geom_ribbon</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">ymin</span><span class="o">=</span><span class="n">hpa12.r75</span><span class="p">,</span><span class="n">ymax</span><span class="o">=</span><span class="n">hpa12.r95</span><span class="p">),</span><span class="n">alpha</span><span class="o">=</span><span class="m">0.5</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">geom_ribbon</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">ymin</span><span class="o">=</span><span class="n">hpa12.r95</span><span class="p">,</span><span class="n">ymax</span><span class="o">=</span><span class="n">hpa12.rmax</span><span class="p">),</span><span class="n">alpha</span><span class="o">=</span><span class="m">0.1</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">geom_line</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">hpa12.r50</span><span class="p">))</span><span class="o">+</span> <span class="n">theme_minimal</span><span class="p">()</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="o">=</span><span class="s2">"none"</span><span class="p">,</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">),</span>
+        <span class="n">plot.subtitle</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">face</span><span class="o">=</span><span class="s2">"italic"</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">percent</span><span class="p">)</span><span class="o">+</span>
+      <span class="n">coord_cartesian</span><span class="p">(</span><span class="n">xlim</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="n">as.Date</span><span class="p">(</span><span class="s2">"1990-01-01"</span><span class="p">),</span><span class="n">as.Date</span><span class="p">(</span><span class="s2">"2016-12-31"</span><span class="p">)))</span><span class="o">+</span>
+  <span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="s2">"Annual House Price Percent Change"</span><span class="p">,</span><span class="n">title</span><span class="o">=</span><span class="s2">"Distribution of year-over-year house price growth across metros"</span><span class="p">,</span> <span class="n">subtitle</span><span class="o">=</span><span class="s2">"Black line median metro, central region 25th to 75th percentiles,\nlighter regions are 5th to 25th (75th to 95th) and min to 5th (95th to max)"</span><span class="p">,</span>
+       <span class="n">caption</span><span class="o">=</span><span class="s2">"@lenkiefer Source: Freddie Mac House Price Index (NSA), metros assigned to region based on primary state."</span><span class="p">)</span></code></pre></figure>
+
+<p><img src="/img/Rfig/fig-hpimed6-viz1-1.svg" alt="plot of chunk fig-hpimed6-viz1" /></p>
+
+<p>What I wanted to do with this graph was compare the dispersion across metro areas of house price growth.  By adding a simple facet_wrap() statement we can get something a little more useful:</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">d.metro</span><span class="p">,</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="n">fill</span><span class="o">=</span><span class="n">region</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">region</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">geom_ribbon</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">ymin</span><span class="o">=</span><span class="n">hpa12.rmin</span><span class="p">,</span><span class="n">ymax</span><span class="o">=</span><span class="n">hpa12.r5</span><span class="p">),</span><span class="n">alpha</span><span class="o">=</span><span class="m">0.1</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">geom_ribbon</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">ymin</span><span class="o">=</span><span class="n">hpa12.r5</span><span class="p">,</span><span class="n">ymax</span><span class="o">=</span><span class="n">hpa12.r25</span><span class="p">),</span><span class="n">alpha</span><span class="o">=</span><span class="m">0.5</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">geom_ribbon</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">ymin</span><span class="o">=</span><span class="n">hpa12.r25</span><span class="p">,</span><span class="n">ymax</span><span class="o">=</span><span class="n">hpa12.r75</span><span class="p">),</span><span class="n">alpha</span><span class="o">=</span><span class="m">0.75</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">geom_ribbon</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">ymin</span><span class="o">=</span><span class="n">hpa12.r75</span><span class="p">,</span><span class="n">ymax</span><span class="o">=</span><span class="n">hpa12.r95</span><span class="p">),</span><span class="n">alpha</span><span class="o">=</span><span class="m">0.5</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">geom_ribbon</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">ymin</span><span class="o">=</span><span class="n">hpa12.r95</span><span class="p">,</span><span class="n">ymax</span><span class="o">=</span><span class="n">hpa12.rmax</span><span class="p">),</span><span class="n">alpha</span><span class="o">=</span><span class="m">0.1</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">geom_line</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">hpa12.r50</span><span class="p">))</span><span class="o">+</span> <span class="n">theme_minimal</span><span class="p">()</span><span class="o">+</span>
+  <span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="n">region</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="o">=</span><span class="s2">"none"</span><span class="p">,</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">),</span>
+        <span class="n">plot.subtitle</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">face</span><span class="o">=</span><span class="s2">"italic"</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">percent</span><span class="p">)</span><span class="o">+</span>
+      <span class="n">coord_cartesian</span><span class="p">(</span><span class="n">xlim</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="n">as.Date</span><span class="p">(</span><span class="s2">"1990-01-01"</span><span class="p">),</span><span class="n">as.Date</span><span class="p">(</span><span class="s2">"2016-12-31"</span><span class="p">)))</span><span class="o">+</span>
+  <span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="s2">"Annual House Price Percent Change"</span><span class="p">,</span><span class="n">title</span><span class="o">=</span><span class="s2">"Distribution of year-over-year house price growth across metros"</span><span class="p">,</span> <span class="n">subtitle</span><span class="o">=</span><span class="s2">"Black line median metro, central region 25th to 75th percentiles,\nlighter regions are 5th to 25th (75th to 95th) and min to 5th (95th to max)"</span><span class="p">,</span>
+       <span class="n">caption</span><span class="o">=</span><span class="s2">"@lenkiefer Source: Freddie Mac House Price Index (NSA), metros assigned to region based on primary state."</span><span class="p">)</span></code></pre></figure>
+
+<p><img src="/img/Rfig/fig-hpimed6-viz2-1.svg" alt="plot of chunk fig-hpimed6-viz2" /></p>
+
+<p>Now we kind of have something.  What this plot shows is the distribution across metro areas in terms of annual house price appreciation. I’ve also broken out the metros by <a href="http://www.census.gov/econ/census/help/geography/regions_and_divisions.html">Census Region</a>.  We can see that dispersion is greater in the South and West relative to the Midwest and Northeast Regions.</p>
+
+<p>We can also animated a version using tweenr.See my earlier <a href="/2016/05/29/improving-R-animated-gifs-with-tweenr">post about tweenr</a> for an introduction to tweenr, and more examples <a href="/2016/05/30/more-tweenr-animations">here</a> and <a href="/2016/06/26/week-in-review">here</a>.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1">#create a function for animation
+# if r = all, plot all regions, otherwise only plot region r
+</span><span class="n">myf</span><span class="o">&lt;-</span><span class="k">function</span><span class="p">(</span><span class="n">r</span><span class="p">){</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">r</span> <span class="o">!=</span> <span class="s2">"All"</span><span class="p">){</span>
+  <span class="n">d.metro2</span><span class="o">&lt;-</span><span class="n">copy</span><span class="p">(</span><span class="n">d.metro</span><span class="p">)</span>
+  <span class="c1">#if region == r keep hpa12
+</span>  <span class="n">d.metro2</span><span class="p">[,</span><span class="n">yhpa12</span><span class="o">:=</span><span class="n">ifelse</span><span class="p">(</span><span class="n">region</span><span class="o">==</span><span class="n">r</span><span class="p">,</span><span class="n">hpa12</span><span class="p">,</span><span class="m">0</span><span class="p">)]</span>
+  <span class="n">d.metro3</span><span class="o">&lt;-</span><span class="n">d.metro2</span><span class="p">[,</span><span class="n">list</span><span class="p">(</span><span class="n">yhpa12.min</span><span class="o">=</span><span class="n">quantile</span><span class="p">(</span><span class="n">yhpa12</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="n">na.rm</span><span class="o">=</span><span class="n">T</span><span class="p">),</span>
+                 <span class="n">yhpa12.5</span><span class="o">=</span><span class="n">quantile</span><span class="p">(</span><span class="n">yhpa12</span><span class="p">,</span><span class="m">.05</span><span class="p">,</span><span class="n">na.rm</span><span class="o">=</span><span class="n">T</span><span class="p">),</span>
+                 <span class="n">yhpa12.25</span><span class="o">=</span><span class="n">quantile</span><span class="p">(</span><span class="n">yhpa12</span><span class="p">,</span><span class="m">.25</span><span class="p">,</span><span class="n">na.rm</span><span class="o">=</span><span class="n">T</span><span class="p">),</span>
+                 <span class="n">yhpa12.50</span><span class="o">=</span><span class="n">quantile</span><span class="p">(</span><span class="n">yhpa12</span><span class="p">,</span><span class="m">.5</span><span class="p">,</span><span class="n">na.rm</span><span class="o">=</span><span class="n">T</span><span class="p">),</span>
+                 <span class="n">yhpa12.75</span><span class="o">=</span><span class="n">quantile</span><span class="p">(</span><span class="n">yhpa12</span><span class="p">,</span><span class="m">.75</span><span class="p">,</span><span class="n">na.rm</span><span class="o">=</span><span class="n">T</span><span class="p">),</span>
+                 <span class="n">yhpa12.95</span><span class="o">=</span><span class="n">quantile</span><span class="p">(</span><span class="n">yhpa12</span><span class="p">,</span><span class="m">.95</span><span class="p">,</span><span class="n">na.rm</span><span class="o">=</span><span class="n">T</span><span class="p">),</span>
+                 <span class="n">yhpa12.max</span><span class="o">=</span><span class="n">quantile</span><span class="p">(</span><span class="n">yhpa12</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="n">na.rm</span><span class="o">=</span><span class="n">T</span><span class="p">)),</span><span class="n">by</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="s2">"date"</span><span class="p">,</span><span class="s2">"region"</span><span class="p">)]</span>
+  <span class="n">d.metro3</span> <span class="o">%&gt;%</span> <span class="n">map_if</span><span class="p">(</span><span class="n">is.character</span><span class="p">,</span> <span class="n">as.factor</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="n">as_data_frame</span> <span class="o">-&gt;</span> <span class="n">d.metro3</span>
+  <span class="k">return</span><span class="p">(</span><span class="n">d.metro3</span><span class="p">)</span>
+<span class="p">}</span>
+ <span class="k">else</span> <span class="p">{</span>
+  <span class="n">d.metro2</span><span class="o">&lt;-</span><span class="n">copy</span><span class="p">(</span><span class="n">d.metro</span><span class="p">)</span>
+  <span class="n">d.metro2</span><span class="p">[,</span><span class="n">yhpa12</span><span class="o">:=</span><span class="n">hpa12</span><span class="p">]</span>
+  <span class="n">d.metro3</span><span class="o">&lt;-</span><span class="n">d.metro2</span><span class="p">[,</span><span class="n">list</span><span class="p">(</span><span class="n">yhpa12.min</span><span class="o">=</span><span class="n">quantile</span><span class="p">(</span><span class="n">yhpa12</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="n">na.rm</span><span class="o">=</span><span class="n">T</span><span class="p">),</span>
+                           <span class="n">yhpa12.5</span><span class="o">=</span><span class="n">quantile</span><span class="p">(</span><span class="n">yhpa12</span><span class="p">,</span><span class="m">.05</span><span class="p">,</span><span class="n">na.rm</span><span class="o">=</span><span class="n">T</span><span class="p">),</span>
+                           <span class="n">yhpa12.25</span><span class="o">=</span><span class="n">quantile</span><span class="p">(</span><span class="n">yhpa12</span><span class="p">,</span><span class="m">.25</span><span class="p">,</span><span class="n">na.rm</span><span class="o">=</span><span class="n">T</span><span class="p">),</span>
+                           <span class="n">yhpa12.50</span><span class="o">=</span><span class="n">quantile</span><span class="p">(</span><span class="n">yhpa12</span><span class="p">,</span><span class="m">.5</span><span class="p">,</span><span class="n">na.rm</span><span class="o">=</span><span class="n">T</span><span class="p">),</span>
+                           <span class="n">yhpa12.75</span><span class="o">=</span><span class="n">quantile</span><span class="p">(</span><span class="n">yhpa12</span><span class="p">,</span><span class="m">.75</span><span class="p">,</span><span class="n">na.rm</span><span class="o">=</span><span class="n">T</span><span class="p">),</span>
+                           <span class="n">yhpa12.95</span><span class="o">=</span><span class="n">quantile</span><span class="p">(</span><span class="n">yhpa12</span><span class="p">,</span><span class="m">.95</span><span class="p">,</span><span class="n">na.rm</span><span class="o">=</span><span class="n">T</span><span class="p">),</span>
+                           <span class="n">yhpa12.max</span><span class="o">=</span><span class="n">quantile</span><span class="p">(</span><span class="n">yhpa12</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="n">na.rm</span><span class="o">=</span><span class="n">T</span><span class="p">)),</span><span class="n">by</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="s2">"date"</span><span class="p">,</span><span class="s2">"region"</span><span class="p">)]</span>
+  
+  <span class="n">d.metro3</span> <span class="o">%&gt;%</span> <span class="n">map_if</span><span class="p">(</span><span class="n">is.character</span><span class="p">,</span> <span class="n">as.factor</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="n">as_data_frame</span> <span class="o">-&gt;</span> <span class="n">d.metro3</span>
+  <span class="c1">#as.data.frame()
+</span>  <span class="k">return</span><span class="p">(</span><span class="n">d.metro3</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="p">}</span>
+
+
+<span class="n">my.list</span><span class="o">&lt;-</span><span class="n">lapply</span><span class="p">(</span><span class="n">reg.list</span><span class="p">,</span><span class="n">myf</span><span class="p">)</span>
+<span class="n">my.list2</span><span class="o">&lt;-</span><span class="n">lapply</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="s2">"All"</span><span class="p">,</span><span class="n">reg.list</span><span class="p">,</span><span class="s2">"All"</span><span class="p">),</span><span class="n">myf</span><span class="p">)</span>
+
+<span class="n">library</span><span class="p">(</span><span class="n">animation</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">tweenr</span><span class="p">)</span>
+<span class="c1">#use tweenr
+</span><span class="n">tf</span> <span class="o">&lt;-</span> <span class="n">tween_states</span><span class="p">(</span><span class="n">my.list2</span><span class="p">,</span> <span class="n">tweenlength</span><span class="o">=</span> <span class="m">2</span><span class="p">,</span> <span class="n">statelength</span><span class="o">=</span><span class="m">3</span><span class="p">,</span> <span class="n">ease</span><span class="o">=</span><span class="n">rep</span><span class="p">(</span><span class="s1">'cubic-in-out'</span><span class="p">,</span><span class="m">50</span><span class="p">),</span> <span class="n">nframes</span><span class="o">=</span><span class="m">60</span><span class="p">)</span>
+<span class="n">tf</span><span class="o">&lt;-</span><span class="n">data.table</span><span class="p">(</span><span class="n">tf</span><span class="p">)</span>
+
+<span class="c1">#loop through data and animate:
+</span><span class="n">oopt</span> <span class="o">=</span> <span class="n">ani.options</span><span class="p">(</span><span class="n">interval</span> <span class="o">=</span> <span class="m">0.1</span><span class="p">)</span>
+<span class="n">saveGIF</span><span class="p">({</span><span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="k">in</span> <span class="m">1</span><span class="o">:</span><span class="n">max</span><span class="p">(</span><span class="n">tf</span><span class="o">$</span><span class="n">.frame</span><span class="p">))</span> <span class="p">{</span>
+  <span class="n">g</span><span class="o">&lt;-</span>
+    <span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">tf</span><span class="p">[</span><span class="n">.frame</span><span class="o">==</span><span class="n">i</span><span class="p">],</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="n">fill</span><span class="o">=</span><span class="n">region</span><span class="p">))</span><span class="o">+</span>
+    <span class="n">geom_ribbon</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">ymin</span><span class="o">=</span><span class="n">yhpa12.min</span><span class="p">,</span><span class="n">ymax</span><span class="o">=</span><span class="n">yhpa12.5</span><span class="p">),</span><span class="n">alpha</span><span class="o">=</span><span class="m">0.1</span><span class="p">)</span><span class="o">+</span>
+    <span class="n">geom_ribbon</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">ymin</span><span class="o">=</span><span class="n">yhpa12.5</span><span class="p">,</span><span class="n">ymax</span><span class="o">=</span><span class="n">yhpa12.25</span><span class="p">),</span><span class="n">alpha</span><span class="o">=</span><span class="m">0.5</span><span class="p">)</span><span class="o">+</span>
+    <span class="n">geom_ribbon</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">ymin</span><span class="o">=</span><span class="n">yhpa12.25</span><span class="p">,</span><span class="n">ymax</span><span class="o">=</span><span class="n">yhpa12.75</span><span class="p">),</span><span class="n">alpha</span><span class="o">=</span><span class="m">0.75</span><span class="p">)</span><span class="o">+</span>
+    <span class="n">geom_ribbon</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">ymin</span><span class="o">=</span><span class="n">yhpa12.75</span><span class="p">,</span><span class="n">ymax</span><span class="o">=</span><span class="n">yhpa12.95</span><span class="p">),</span><span class="n">alpha</span><span class="o">=</span><span class="m">0.5</span><span class="p">)</span><span class="o">+</span>
+    <span class="n">geom_ribbon</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">ymin</span><span class="o">=</span><span class="n">yhpa12.95</span><span class="p">,</span><span class="n">ymax</span><span class="o">=</span><span class="n">yhpa12.max</span><span class="p">),</span><span class="n">alpha</span><span class="o">=</span><span class="m">0.1</span><span class="p">)</span><span class="o">+</span>
+    <span class="n">geom_line</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">yhpa12.50</span><span class="p">),</span><span class="n">color</span><span class="o">=</span><span class="s2">"black"</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="m">1.05</span><span class="p">)</span><span class="o">+</span> <span class="n">theme_minimal</span><span class="p">()</span><span class="o">+</span>
+    <span class="n">scale_fill_discrete</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">""</span><span class="p">)</span><span class="o">+</span><span class="n">guides</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">"none"</span><span class="p">)</span><span class="o">+</span>
+    <span class="n">coord_cartesian</span><span class="p">(</span><span class="n">xlim</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="n">as.Date</span><span class="p">(</span><span class="s2">"1990-01-01"</span><span class="p">),</span><span class="n">as.Date</span><span class="p">(</span><span class="s2">"2016-12-31"</span><span class="p">)))</span><span class="o">+</span>
+    <span class="c1">#facet_wrap(~region)+
+</span>    <span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="o">=</span><span class="s2">"bottom"</span><span class="p">,</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">),</span>
+          <span class="n">plot.subtitle</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">face</span><span class="o">=</span><span class="s2">"italic"</span><span class="p">))</span><span class="o">+</span>
+    <span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">percent</span><span class="p">,</span><span class="n">limits</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">-.5</span><span class="p">,</span><span class="m">.5</span><span class="p">))</span><span class="o">+</span>
+    <span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="s2">"Annual House Price Percent Change"</span><span class="p">,</span><span class="n">title</span><span class="o">=</span><span class="s2">"Distribution of year-over-year house price growth across metros"</span><span class="p">,</span>
+         <span class="n">subtitle</span><span class="o">=</span><span class="s2">"Black line median metro, central region 25th to 75th percentiles,\nlighter regions are 5th to 25th (75th to 95th) and min to 5th (95th to max)"</span><span class="p">,</span>
+         <span class="n">caption</span><span class="o">=</span><span class="s2">"@lenkiefer Source: Freddie Mac House Price Index (NSA), metros assigned to region based on primary state."</span><span class="p">)</span>
+  
+  <span class="n">print</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+  <span class="n">ani.pause</span><span class="p">()</span>
+  <span class="n">print</span><span class="p">(</span><span class="n">paste</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="s2">"out of"</span><span class="p">,</span><span class="n">max</span><span class="p">(</span><span class="n">tf</span><span class="o">$</span><span class="n">.frame</span><span class="p">)))</span>
+<span class="p">}</span>
+<span class="p">},</span><span class="n">movie.name</span><span class="o">=</span><span class="s2">"fmhpi2016Q3 metro fan 1990.gif"</span><span class="p">,</span><span class="n">ani.width</span> <span class="o">=</span> <span class="m">650</span><span class="p">,</span> <span class="n">ani.height</span> <span class="o">=</span> <span class="m">450</span><span class="p">)</span></code></pre></figure>
+
+<p><img src="/img/charts_dec_3_2016/fmhpi2016Q3 metro fan 1990.gif" alt="fan gifs" /></p>
+
+
+    </div>
+
+    
+
+    
+  
+    <hr>
+    <ul class="pagination">
+    
+      <li class="prev"><a href="/2016/11/30/hpi-gif" title="Comparing house prices, rents, other prices and incomes">&laquo; Previous</a></li>
+    
+      <li><a href="/archive.html">Archive</a></li>
+    
+      <li class="next"><a href="/2016/12/04/recursion" title="Nested recursion: Loops within loops within data frames ">Next &raquo;</a></li>
+    
+    </ul>
+    <hr>
+    
+  </div>
+</div>
+
+
+
+      </div>
+
+    </div>
+
+    <div id="footer">
+      <div class="container">
+        <p>&copy; 2017 Len Kiefer
+          with help from <a href="http://jekyllbootstrap.com" target="_blank" title="The Definitive Jekyll Blogging Framework">Jekyll Bootstrap</a>
+          and <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>
+       
+    • <span vertical-align:bottom> <a href="https://twitter.com/lenkiefer" class="twitter-follow-button" data-show-count="false">•   Follow @lenkiefer</a>
+  
+ <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+</span>
+• <script src="//platform.linkedin.com/in.js" type="text/javascript"></script>
+<script type="IN/MemberProfile" data-id="https://www.linkedin.com/pub/leonard-kiefer/31/753/511" data-format="click" data-related="false" data-text="Leonard Kiefer"></script>
+  • lenkiefer@hotmail.com
+           </p>
+      </div>
+    </div>
+    
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+    <!-- Latest compiled and minified JavaScript, requires jQuery 1.x (2.x not supported in IE8) -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="/assets/themes/lentheme/bootstrap/js/bootstrap.min.js"></script>
+  </body>
+</html>
+
+
+
+
+

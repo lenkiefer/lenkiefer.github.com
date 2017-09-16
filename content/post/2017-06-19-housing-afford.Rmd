@@ -1,0 +1,227 @@
+---
+layout: post
+title: "Housing affordability trends"
+author: "Len Kiefer"
+date: "2017-06-19"
+summary: "rstats data visualizations of houisng data"
+group: navigation
+theme :
+  name : lentheme
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+HOW IS YOUR SUMMER GOING?  Well okay, it's not summer yet, but it sure is hot around where I am. Haven't posted recently, so I'm going to share a couple of visualizations.
+
+Per usual, we'll use [R](https://www.r-project.org/) to generate the plots and I'll share the code below. 
+
+
+# Visualizing affordability
+
+Last week the Joint Center for Housing Studies (JCHS) of Harvard University released their annual [State of the Nation's Housing](http://www.jchs.harvard.edu/research/state_nations_housing) report. The report is full of useful information about housing markets in the United States.
+
+# Data
+
+The JCHS makes data available in an excel spreadsheet ([LINK .xlsx](http://www.jchs.harvard.edu/sites/jchs.harvard.edu/files/all_son_2017_tables_current_6_12_17.xlsx)). The code below will presume that you've saved this spreadsheet somewhere.
+
+We'll have to use *readxl* (see this [post for more on wrangling Excel data with R](../../../../2017/04/20/global-hpi-readxl )) to get the data ready to use.  It's going to involve understanding the structure of the Excel file and using some of [readxl](https://cran.r-project.org/web/packages/readxl/index.html)'s nice [features](https://blog.rstudio.org/2017/04/19/readxl-1-0-0/).
+
+The spreadsheet is pretty well organized so using the patterns described in the links above we can pretty easily get the data ready.
+
+We are going to use two of the worksheets. Worksheet W-9 contains estimates of metro area median monthly mortgage payments and worksheet W-11 contains estimates of metro area median house price-to-median household income estimates.
+
+Let's go get that data and wrangle it into shape:
+
+```{r 06-19-2017-load-data-1}
+library(readxl)
+library(tidyverse)
+library(ggbeeswarm)
+library(viridis)
+library(scales)
+
+# Load the mortgage payment data
+df<-read_excel(path="data/all_son_2017_tables_current_6_12_17.xlsx",
+               sheet="W-9",
+               range="A5:AB387")
+
+# gather the data to tidy
+df<-df %>% gather(year,pmt,c(2:28))
+# rename the metro column from 'Metropolitan Area', to 'metro'
+colnames(df)[1]<-"metro"
+# convert year to numeric
+df$year<-as.numeric(df$year)
+
+
+# Load the median house price to median income estimates
+
+df2<-read_excel(path="data/all_son_2017_tables_current_6_12_17.xlsx",
+               sheet="W-12",
+               range="A5:AB387")
+
+# gather the data to tidy
+df2<-df2 %>% gather(year,pti,c(2:28))
+# rename the metro column from 'Metropolitan Area', to 'metro'
+colnames(df2)[1]<-"metro"
+# convert year to numeric
+df2$year<-as.numeric(df2$year)
+
+```
+
+# Make some plots
+
+Now that we have our data loaded and tidied we are ready to make a couple of plots.  I'm going to use [ggbeeswarm](https://cran.r-project.org/web/packages/ggbeeswarm/index.html) plots to show the distribution of our stats across metro areas. See [this post](../../../../2016/08/18/data-swarm)) for more on ggbeeswarm plots. 
+
+For additional context we'll add a thick black line showing trends in the U.S. level statistics over time.
+
+```{r 06-19-2017-swarm-1,fig.width=9}
+
+ggplot(data=filter(df,metro !="United States"), aes(x=year,y=pmt,color=log(pmt)))+
+  geom_quasirandom(alpha=0.75,size=0.75)+
+  scale_color_viridis(name="Monthly mortgage payment, 2016 $",breaks=c(log(500),log(1000),log(2000),log(3000),log(6000)),
+                      labels=c("$500","$1,000","$2,000","$3,000","$6,000"))+
+  scale_y_log10(breaks=c(500,1000,1500,2000,3000,6000),labels=scales::dollar)+
+  geom_path(data=filter(df,metro =="United States"),color="black",size=1.1)+
+  theme_minimal()+
+  theme(plot.caption=element_text(hjust=0),
+        plot.title=element_text(hjust=0,face="bold",size=24),
+        legend.position="bottom",
+        legend.key.width = unit(2, "cm"))+
+  labs(x="",y="Monthly payment in 2016 $, log scale",title="How affordable is housing?",
+       subtitle="Metro Area-Monthly Mortgage Payment on the Median Priced Home: 1990-2016",
+       caption="@lenkiefer Each dot represents one metro area, the solid line is the U.S.\n\nSources: JCHS tabulations of National Association of Realtors and Moody's Analytics Forecasted Single-Family Seasonally \nAdjusted Quarterly Median Home Price, annualized by DataBuffet; Freddie Mac Annual Primary Mortgage Market Survey.\nJCHS 2017 State of the Nation's Housing, Appendix Tables http://www.jchs.harvard.edu/research/state_nations_housing\n\nNote: Monthly payment assumes a 5% down payment on the median-priced existing single-family home with property taxes of 1.25%, \nproperty insurance of 0.25%, and mortgage insurance of 0.5%. Values are adjusted to 2016 dollars using CPI-U All Items Less Shelter.")
+```
+
+
+```{r 06-19-2017-swarm-2,fig.width=9}
+  ggplot(data=filter(df2,metro !="United States"), aes(x=year,y=pti,color=log(pti)))+
+  geom_quasirandom(alpha=0.75,size=0.75)+
+  scale_color_viridis(name="Median Price-to-Median Income ratio",labels=exp,
+                      breaks=c(log(1.5),log(3),log(6),log(10),log(15)))+
+  scale_y_log10(breaks=c(1.5,3,6,10,15))+
+  geom_path(data=filter(df2,metro =="United States"),color="black",size=1.1)+
+  theme_minimal()+
+  theme(plot.caption=element_text(hjust=0),
+        plot.title=element_text(hjust=0,face="bold",size=24),
+        legend.position="bottom",
+        legend.key.width = unit(2, "cm"))+
+  labs(x="",y="Median Home Price-to-Median Income Ratio, log scale",title="How affordable is housing?",
+       subtitle="Metro Area-Median Home Price-to-Median Income Ratios: 1990-2016",
+       caption="@lenkiefer Each dot represents one metro area, the solid line is the U.S.\n\nSources:  JCHS tabulations of National Association of Realtors and Moody's Analytics Forecasted Single-Family \nQuarterly Median Home Price;Moody's Analystics Forecasted Median Household Income.\nJCHS 2017 State of the Nation's Housing, Appendix Tables http://www.jchs.harvard.edu/research/state_nations_housing\n\nNote: Median home price is for existing single-family homes only. Median household income in 2016 is forecasted by Moody's Analytics.")
+
+```
+
+## Discussion
+
+These two plots show two ways of looking at housing affordability trends. To understand, let's reconstruct these charts bit by bit.
+
+First, let's just focus on the national trends.
+
+Consider this chart of national trends in monthly mortgage payments.
+
+```{r 06-19-2017-line-1,fig.width=9}
+
+ggplot(data=filter(df,metro =="United States"), aes(x=year,y=pmt,color=log(pmt)))+
+  scale_y_log10(breaks=c(500,1000,1750,1500,2000,3000,6000),
+                labels=scales::dollar,limits=c(950,2050))+
+  geom_path(data=filter(df,metro =="United States"),color="black",size=1.1)+
+  theme_minimal()+
+  theme(plot.caption=element_text(hjust=0),
+        plot.title=element_text(hjust=0,face="bold",size=24),
+        legend.position="bottom",
+        legend.key.width = unit(2, "cm"))+
+  labs(x="",y="Monthly payment in 2016 $, log scale",title="How affordable is housing?",
+       subtitle="U.S.-Monthly Mortgage Payment on the Median Priced Home: 1990-2016",
+       caption="@lenkiefer Sources: JCHS tabulations of National Association of Realtors and Moody's Analytics Forecasted Single-Family Seasonally \nAdjusted Quarterly Median Home Price, annualized by DataBuffet; Freddie Mac Annual Primary Mortgage Market Survey.\nJCHS 2017 State of the Nation's Housing, Appendix Tables http://www.jchs.harvard.edu/research/state_nations_housing\n\nNote: Monthly payment assumes a 5% down payment on the median-priced existing single-family home with property taxes of 1.25%, \nproperty insurance of 0.25%, and mortgage insurance of 0.5%. Values are adjusted to 2016 dollars using CPI-U All Items Less Shelter.")
+```
+
+For the U.S. as a whole, monthly mortgage payments for the median-priced home ranged between \$1,500 and $1,750 from 1990 through the middle part of last decade (all these estimates are in inflation-adjusted 2016 dollars). From 2004 onwards, payments reached up to nearly \$2,000 before collapsing during the crash. Since then, they have recovered, but are still below historical averages.
+
+Contrast this chart with trends in home price-to-income ratios.
+
+```{r 06-19-2017-line-2,fig.width=9}
+  ggplot(data=filter(df2,metro =="United States"), aes(x=year,y=pti,color=log(pti)))+
+  scale_y_log10(breaks=c(3,3.25,3.5,3.75,4,4.5,5),limits=c(2.95,5.05))+
+  geom_path(data=filter(df2,metro =="United States"),color="black",size=1.1)+
+  theme_minimal()+
+  theme(plot.caption=element_text(hjust=0),
+        plot.title=element_text(hjust=0,face="bold",size=24),
+        legend.position="bottom",
+        legend.key.width = unit(2, "cm"))+
+  labs(x="",y="Median Home Price-to-Median Income Ratio, log scale",title="How affordable is housing?",
+       subtitle="U.S.-Median Home Price-to-Median Income Ratios: 1990-2016",
+       caption="@lenkiefer Sources: JCHS tabulations of National Association of Realtors and Moody's Analytics Forecasted Single-Family \nQuarterly Median Home Price;Moody's Analystics Forecasted Median Household Income.\nJCHS 2017 State of the Nation's Housing, Appendix Tables http://www.jchs.harvard.edu/research/state_nations_housing\n\nNote: Median home price is for existing single-family homes only. Median household income in 2016 is forecasted by Moody's Analytics.")
+```
+
+The charts shows how median home prices have evolved after adjusting for trends in median house prices but not adjusting for lower mortgage rates.  Here the trend is upward.
+
+### Adding metro distributions
+
+We'd like to compare how the distribution of these statistics evolved over time. First, let's just consider a single year for the mortgage payment:
+
+```{r 06-19-2017-swarm-1-2016,fig.width=9}
+
+ggplot(data=filter(df,metro !="United States" & year==2016), aes(x="2016",y=pmt,color=log(pmt)))+
+  geom_quasirandom(alpha=0.75,size=2)+
+  scale_color_viridis(name="Monthly mortgage payment, 2016 $",breaks=c(log(500),log(1000),log(2000),log(3000),log(6000)),
+                      labels=c("$500","$1,000","$2,000","$3,000","$6,000"))+
+  scale_y_log10(breaks=c(500,1000,1500,2000,3000,6000),labels=scales::dollar)+
+  geom_hline(data=filter(df,metro =="United States" & year==2016),color="black",size=1.1,aes(yintercept=pmt))+
+  theme_minimal()+
+  theme(plot.caption=element_text(hjust=0),
+        plot.title=element_text(hjust=0,face="bold",size=24),
+        legend.position="bottom",
+        legend.key.width = unit(2, "cm"))+
+  labs(x="",y="Monthly payment in 2016 $, log scale",title="How affordable is housing?",
+       subtitle="Metro Area-Monthly Mortgage Payment on the Median Priced Home: 2016",
+       caption="@lenkiefer Each dot represents one metro area, the solid line is the U.S.\n\nSources: JCHS tabulations of National Association of Realtors and Moody's Analytics Forecasted Single-Family Seasonally \nAdjusted Quarterly Median Home Price, annualized by DataBuffet; Freddie Mac Annual Primary Mortgage Market Survey.\nJCHS 2017 State of the Nation's Housing, Appendix Tables http://www.jchs.harvard.edu/research/state_nations_housing\n\nNote: Monthly payment assumes a 5% down payment on the median-priced existing single-family home with property taxes of 1.25%, \nproperty insurance of 0.25%, and mortgage insurance of 0.5%. Values are adjusted to 2016 dollars using CPI-U All Items Less Shelter.")
+```
+
+Each dot represents a single metro area with the black line the U.S. as a reference. 
+
+Now let's compare just two points in time, 2015 and 2016.
+
+```{r 06-19-2017-swarm-1-15-16,fig.width=9}
+
+ggplot(data=filter(df,metro !="United States" & year>=2015), aes(x=factor(year),y=pmt,color=log(pmt)))+
+  geom_quasirandom(alpha=0.75,size=2)+
+  scale_color_viridis(name="Monthly mortgage payment, 2016 $",breaks=c(log(500),log(1000),log(2000),log(3000),log(6000)),
+                      labels=c("$500","$1,000","$2,000","$3,000","$6,000"))+
+  scale_y_log10(breaks=c(500,1000,1500,2000,3000,6000),labels=scales::dollar)+
+  geom_path(data=filter(df,metro =="United States"& year>=2015),color="black",size=1.1,aes(group=metro))+
+  theme_minimal()+
+  theme(plot.caption=element_text(hjust=0),
+        plot.title=element_text(hjust=0,face="bold",size=24),
+        legend.position="bottom",
+        legend.key.width = unit(2, "cm"))+
+  labs(x="",y="Monthly payment in 2016 $, log scale",title="How affordable is housing?",
+       subtitle="Metro Area-Monthly Mortgage Payment on the Median Priced Home: 2015-2016",
+       caption="@lenkiefer Each dot represents one metro area, the solid line is the U.S.\n\nSources: JCHS tabulations of National Association of Realtors and Moody's Analytics Forecasted Single-Family Seasonally \nAdjusted Quarterly Median Home Price, annualized by DataBuffet; Freddie Mac Annual Primary Mortgage Market Survey.\nJCHS 2017 State of the Nation's Housing, Appendix Tables http://www.jchs.harvard.edu/research/state_nations_housing\n\nNote: Monthly payment assumes a 5% down payment on the median-priced existing single-family home with property taxes of 1.25%, \nproperty insurance of 0.25%, and mortgage insurance of 0.5%. Values are adjusted to 2016 dollars using CPI-U All Items Less Shelter.")
+```
+
+By adding another year we can see that the distribution has shifted up ever so slightly.
+
+And now that we have two, the small multiple we started with should make more sense:
+
+```{r 06-19-2017-swarm-1-redo,fig.width=9}
+
+ggplot(data=filter(df,metro !="United States"), aes(x=year,y=pmt,color=log(pmt)))+
+  geom_quasirandom(alpha=0.75,size=0.75)+
+  scale_color_viridis(name="Monthly mortgage payment, 2016 $",breaks=c(log(500),log(1000),log(2000),log(3000),log(6000)),
+                      labels=c("$500","$1,000","$2,000","$3,000","$6,000"))+
+  scale_y_log10(breaks=c(500,1000,1500,2000,3000,6000),labels=scales::dollar)+
+  geom_path(data=filter(df,metro =="United States"),color="black",size=1.1)+
+  theme_minimal()+
+  theme(plot.caption=element_text(hjust=0),
+        plot.title=element_text(hjust=0,face="bold",size=24),
+        legend.position="bottom",
+        legend.key.width = unit(2, "cm"))+
+  labs(x="",y="Monthly payment in 2016 $, log scale",title="How affordable is housing?",
+       subtitle="Metro Area-Monthly Mortgage Payment on the Median Priced Home: 1990-2016",
+       caption="@lenkiefer Each dot represents one metro area, the solid line is the U.S.\n\nSources: JCHS tabulations of National Association of Realtors and Moody's Analytics Forecasted Single-Family Seasonally \nAdjusted Quarterly Median Home Price, annualized by DataBuffet; Freddie Mac Annual Primary Mortgage Market Survey.\nJCHS 2017 State of the Nation's Housing, Appendix Tables http://www.jchs.harvard.edu/research/state_nations_housing\n\nNote: Monthly payment assumes a 5% down payment on the median-priced existing single-family home with property taxes of 1.25%, \nproperty insurance of 0.25%, and mortgage insurance of 0.5%. Values are adjusted to 2016 dollars using CPI-U All Items Less Shelter.")
+```
+
+# Follow-up
+
+There's a lot more interesting data compiled in the JCHS report.  If you are interested in U.S. housing market trends, then you definitely should check out the full report ([LINK pdf](http://www.jchs.harvard.edu/sites/jchs.harvard.edu/files/harvard_jchs_state_of_the_nations_housing_2017.pdf)). The JCHS has also prepared some interesting interactive maps [see for example here](http://harvard-cga.maps.arcgis.com/apps/MapSeries/index.html?appid=c3cae00cb1c84af88c2c3774e0808a12) that have a bunch of interesting information.

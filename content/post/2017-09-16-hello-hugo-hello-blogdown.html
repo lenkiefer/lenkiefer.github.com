@@ -1,0 +1,98 @@
+---
+title: Hello Hugo! Hello Blogdown!
+author: Len Kiefer
+date: '2017-09-16'
+slug: hello-hugo-hello-blogdown
+categories:
+  - meta
+tags:
+  - meta
+  - personal
+---
+
+
+
+<p>ALL RIGHT! LOOKS LIKE WE’RE BACK ONLINE.</p>
+<p>I took the opportunity to try out the <a href="https://blog.rstudio.com/2017/09/11/announcing-blogdown/">newly released</a> <a href="https://github.com/rstudio/blogdown">blogdown</a> <a href="https://www.r-project.org/">R</a> package and migrate my blog over from <a href="https://jekyllrb.com/">Jekyll</a> to <a href="https://gohugo.io/">Hugo</a>.</p>
+<p>This blog has been up for just over two years and Jekyll was working fine, but I never felt really comfortable. I’m guessing that the Blogdown package will become enormously popular and it seems that Hugo has more flexibility for me. Also, Blogdown and <a href="https://www.rstudio.com/products/rstudio/">Rstudio</a> integrate better with Hugo than Jekyll.</p>
+<div id="and-we-got-a-fancy-new-theme" class="section level1">
+<h1>And we got a fancy new theme</h1>
+<p>By far the best part of migrating was picking out a fancy new theme for this space. There’s quite a lot of different <a href="https://themes.gohugo.io/">themes available</a> for Hugo, though not all of them play nice with Blogdown.</p>
+<p>After trying several out, I decided that <a href="https://themes.gohugo.io/ghostwriter/">Ghostwriter</a> would be a nice simple theme for this space. It’s pretty close to my old theme, especially after I tweaked it.</p>
+<p>In addition to shifting the main color from red to royal blue, I also took the opportunity to make <a href="https://www.wired.com/2016/10/how-the-web-became-unreadable/">the page more readable</a> by changing the font from gray to black. I just had to dig into the Ghostwriter .css file and switch out the colors (in several places).</p>
+</div>
+<div id="migration" class="section level1">
+<h1>Migration</h1>
+<p>Migration wasn’t too hard. My original site wasn’t too complicated, though I did have a lot of images. The biggest challenge was broken links and redirecting image sources. Fortunately, I picked up some regular expressions and code snippets from the <a href="https://bookdown.org/yihui/blogdown/">Blogdown book</a> that made it easy. I also decided to add tags and categories to my posts which is hard to do ex post and consumed a fair amount of time.</p>
+<p>Also, getting the links and images to work took some time. Gave me the motivation to learn some regular expressions. Here’s a flavor of what I had to do.</p>
+<div id="fixing-links-with-regular-expressions" class="section level2">
+<h2>Fixing links with regular expressions</h2>
+<p>My markdown code under Jekyll referenced links in the following manner:</p>
+<p><code>[awesome link]({% post_url 2017-08-07-house-price-trends %})</code></p>
+<p>which would become</p>
+<p><code>&lt;a href=&quot;/2017/08/07/house-price-trends&quot;&gt;</code></p>
+<p>when Jekyll built my site.</p>
+<p>In order to get the links to work for Blogdown and Hugo (assuming I got the Post URLs to remain the same) I needed the markdown to look like:</p>
+<p><code>[awesome link](../../../../2017/08/07/house-price-trends )</code></p>
+<p>The <code>../</code> business probably isn’t necessary but it worked. You see under my new setup posts are stored under <code>lenkiefer.com/YYYY/MM/DD/slug</code> where <code>YYYY</code> is year, <code>MM</code> is month, <code>DD</code> is date and <code>slug</code> is the post slug (which I based on the original markdown file names).</p>
+<p>In order to get this to work I modified a bit of code from the super-helpful <a href="https://bookdown.org/yihui/blogdown/">Blogdown book</a>. I created it piecemeal through trial and error so it probably could be condensed. But here’s what I had:</p>
+<pre class="r"><code>################################################################################
+## Get a list of markdown files (or sub in Rmd for Rmarkdown files) ##
+################################################################################
+
+files = list.files(
+  &#39;content/&#39;, &#39;[.](md)$&#39;, full.names = TRUE,
+  recursive = TRUE
+)
+
+
+################################################################################
+## Drop post &quot;{% post_url &quot;##
+################################################################################
+
+for( f in files ){
+  x &lt;- readLines(f)
+  y &lt;- gsub( &#39;\\{% post_url &#39;, &quot;../&quot;, x )
+  cat(y, file=f, sep=&quot;\n&quot;)  }
+
+################################################################################
+## Drop &quot;%}&quot;&quot; ##
+################################################################################
+
+for( f in files ){
+  x &lt;- readLines(f)
+  y &lt;- gsub( &quot;\\%}&quot;, &quot;&quot;, x )
+  cat(y, file=f, sep=&quot;\n&quot;) }
+
+################################################################################
+## Replace  &quot;YYYY-MM-DD-&quot; with &quot;../../../../YYYY/MM/DD/&quot;&quot;
+## e.g. :&quot;2017-08-07-&quot; with ../../../../2017/08/07/
+################################################################################
+
+for( f in files ){
+  x &lt;- readLines(f)
+  y &lt;- gsub( &#39;(..\\/)(\\d{4})(-)(\\d{2})(-)(\\d{2})(-)&#39;, 
+             &#39;..\\/..\\/..\\/..\\/\\2\\/\\4\\/\\6\\/&#39;, x )
+  cat(y, file=f, sep=&quot;\n&quot;) }</code></pre>
+<p>Not the most elegant solution, but running this code over both markdown and Rmarkdown files got my links to work. I also needed to do something similar to get image sources (like my many gifs) to work.</p>
+<div id="images" class="section level3">
+<h3>images</h3>
+<p>I also needed to do something similar to get image sources (like my many gifs) to work. For my setup I needed to replace <code>{{site.url}}</code> with <code>../../../..</code>. This little bit handled it.</p>
+<pre class="r"><code>################################################################################
+## {{ site.url}} with &quot;../../../..&quot;
+################################################################################
+
+for( f in files ){
+  x &lt;- readLines(f)
+  y &lt;- gsub( &#39;\\{\\{ site.url\\}\\}&#39;, &quot;../../../..&quot;, x )
+  cat(y, file=f, sep=&quot;\n&quot;)}</code></pre>
+<p>Then I copied over my image files from the Jekyll blog and stored them in the <code>\static\img</code> folder in my new Hugo blog.</p>
+</div>
+</div>
+<div id="recompile-and-go" class="section level2">
+<h2>Recompile and go</h2>
+<p>The last thing was to re-run my Rmarkdown code and rebuild the site. The Rmarkdown code mostly ran well, but I had to go back and reload some libraries I hadn’t reinstalled when updated R.</p>
+<p>The final step was to all the stuff in my new blog and save it under my old blog directory (after I archived the old blog). Then I was good to go and here we are.</p>
+<p>Be sure to check out my new <a href="../../../../tag/">post tags</a> which should help you find posts based on topic. I’ve also added a <a href="../../../../project/">projects</a> page that I’ll be adding longer pieces to from time to time.</p>
+</div>
+</div>

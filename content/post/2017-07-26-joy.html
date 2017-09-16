@@ -1,0 +1,231 @@
+---
+title: "Joyful dataviz"
+author: "Len Kiefer"
+date: "2017-07-26"
+summary: "rstats data visualizations of housing data"
+slug: "joy"
+tags: ["dataviz","R"]
+categories: ["dataviz"]
+---
+
+
+
+<p>I TOOK SOME TIME OFF OVER THE SUMMER, away from data visualizations. It’s good to get away from time to time, but oh boy did I miss out.</p>
+<p>I wasn’t gone long, but in the short time I was gone people came up with some wonderful things.</p>
+<p>Let me dive back into it with some joyful dataviz.</p>
+<div id="joy-plots" class="section level2">
+<h2>Joy plots</h2>
+<p>Claus Wilke (<a href="https://twitter.com/ClausWilke">Twitter</a>) authored a new <a href="https://www.r-project.org/">R</a> package for creating joy plots ( <a href="https://cran.r-project.org/web/packages/ggjoy/vignettes/introduction.html">LINK for ggjoy vignette</a>). See also <a href="http://blog.revolutionanalytics.com/2017/07/joyplots.html">this post from Revolution Analytics</a> with some other joyplot examples and some more background. Let’s try them out.</p>
+<pre><code>## Loading tidyverse: ggplot2
+## Loading tidyverse: tibble
+## Loading tidyverse: tidyr
+## Loading tidyverse: readr
+## Loading tidyverse: purrr
+## Loading tidyverse: dplyr</code></pre>
+<pre><code>## Conflicts with tidy packages ----------------------------------------------</code></pre>
+<pre><code>## filter(): dplyr, stats
+## lag():    dplyr, stats</code></pre>
+<pre><code>## Loading required package: viridisLite</code></pre>
+<pre><code>## 
+## Attaching package: &#39;scales&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     discard</code></pre>
+<pre><code>## The following object is masked from &#39;package:readr&#39;:
+## 
+##     col_factor</code></pre>
+<pre><code>## 
+## Attaching package: &#39;lubridate&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:base&#39;:
+## 
+##     date</code></pre>
+<pre><code>## 
+## Attaching package: &#39;data.table&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:lubridate&#39;:
+## 
+##     hour, isoweek, mday, minute, month, quarter, second, wday,
+##     week, yday, year</code></pre>
+<pre><code>## The following objects are masked from &#39;package:dplyr&#39;:
+## 
+##     between, first, last</code></pre>
+<pre><code>## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     transpose</code></pre>
+<pre><code>## Picking joint bandwidth of 0.0138</code></pre>
+<pre><code>## Warning: Removed 38 rows containing non-finite values (stat_joy).</code></pre>
+<p><img src="/post/2017-07-26-joy_files/figure-html/07-26-2017-load-1-1.png" width="672" /></p>
+<p>As David Smith over at Revolution Analytics points out, the plots can obscure some data. Nevertheless I find them evocative enough that some data obfuscation might be worth the interest they create. I dunno, let’s try it out.</p>
+<div id="data" class="section level3">
+<h3>Data</h3>
+<p>Let’s revisit the house price data <a href="../../../../2017/05/02/house-price-viz">we used before here</a>. The data will have monthly observations over more than 300 metro areas tracked in the <a href="http://www.freddiemac.com/finance/house_price_index.html">Freddie Mac House Price Index</a>.</p>
+<p>We’ll pick up with a data frame called <code>df.metro</code> that looks like so:</p>
+<pre class="r"><code>htmlTable::htmlTable(rbind(tail(df.metro %&gt;% 
+                                  map_if(is_numeric,round,0) %&gt;% 
+                                  data.frame() %&gt;% as.tbl())))</code></pre>
+<table class='gmisc_table' style='border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;' >
+<thead>
+<tr>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey;'> </th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>date</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>geo</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>hpi</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>type</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>state</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>hpa12</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>hpa</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>id</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>year</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>month</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>mname</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style='text-align: left;'>1</td>
+<td style='text-align: center;'>2016-10-01</td>
+<td style='text-align: center;'>Yuma, AZ</td>
+<td style='text-align: center;'>144</td>
+<td style='text-align: center;'>metro</td>
+<td style='text-align: center;'>AZ</td>
+<td style='text-align: center;'>0</td>
+<td style='text-align: center;'>0</td>
+<td style='text-align: center;'>7</td>
+<td style='text-align: center;'>2016</td>
+<td style='text-align: center;'>10</td>
+<td style='text-align: center;'>Oct</td>
+</tr>
+<tr>
+<td style='text-align: left;'>2</td>
+<td style='text-align: center;'>2016-11-01</td>
+<td style='text-align: center;'>Yuma, AZ</td>
+<td style='text-align: center;'>145</td>
+<td style='text-align: center;'>metro</td>
+<td style='text-align: center;'>AZ</td>
+<td style='text-align: center;'>0</td>
+<td style='text-align: center;'>0</td>
+<td style='text-align: center;'>7</td>
+<td style='text-align: center;'>2016</td>
+<td style='text-align: center;'>11</td>
+<td style='text-align: center;'>Nov</td>
+</tr>
+<tr>
+<td style='text-align: left;'>3</td>
+<td style='text-align: center;'>2016-12-01</td>
+<td style='text-align: center;'>Yuma, AZ</td>
+<td style='text-align: center;'>145</td>
+<td style='text-align: center;'>metro</td>
+<td style='text-align: center;'>AZ</td>
+<td style='text-align: center;'>0</td>
+<td style='text-align: center;'>0</td>
+<td style='text-align: center;'>7</td>
+<td style='text-align: center;'>2016</td>
+<td style='text-align: center;'>12</td>
+<td style='text-align: center;'>Dec</td>
+</tr>
+<tr>
+<td style='text-align: left;'>4</td>
+<td style='text-align: center;'>2017-01-01</td>
+<td style='text-align: center;'>Yuma, AZ</td>
+<td style='text-align: center;'>146</td>
+<td style='text-align: center;'>metro</td>
+<td style='text-align: center;'>AZ</td>
+<td style='text-align: center;'>0</td>
+<td style='text-align: center;'>0</td>
+<td style='text-align: center;'>7</td>
+<td style='text-align: center;'>2017</td>
+<td style='text-align: center;'>1</td>
+<td style='text-align: center;'>Jan</td>
+</tr>
+<tr>
+<td style='text-align: left;'>5</td>
+<td style='text-align: center;'>2017-02-01</td>
+<td style='text-align: center;'>Yuma, AZ</td>
+<td style='text-align: center;'>146</td>
+<td style='text-align: center;'>metro</td>
+<td style='text-align: center;'>AZ</td>
+<td style='text-align: center;'>0</td>
+<td style='text-align: center;'>0</td>
+<td style='text-align: center;'>7</td>
+<td style='text-align: center;'>2017</td>
+<td style='text-align: center;'>2</td>
+<td style='text-align: center;'>Feb</td>
+</tr>
+<tr>
+<td style='border-bottom: 2px solid grey; text-align: left;'>6</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>2017-03-01</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>Yuma, AZ</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>146</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>metro</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>AZ</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>0</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>0</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>7</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>2017</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>3</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>Mar</td>
+</tr>
+</tbody>
+</table>
+<p>The variable hpi is the house price index (normalized so that January 2000 = 100). The variables <code>hpa</code> and <code>hpa12</code> are the one-month and 12-month percent changes in the house price index. The other variables tell us the date, the metro name (<code>geo</code>), the primary state for the metro area, the year and the month.</p>
+</div>
+<div id="distributions" class="section level3">
+<h3>Distributions</h3>
+<p>Let’s construct a joyplot showing how the 12-month appreciation in house prices varies across metro areas by year.</p>
+<pre class="r"><code>ggplot(data=filter(df.metro,year(date)&gt;1979 &amp; month==3 ),
+       aes(x=hpa12,y=reorder(factor(year),-year), fill= ..x.. )) +
+  geom_joy_gradient(rel_min_height = 0.01,scale=3)+
+  scale_fill_viridis(discrete=F)+
+  labs(x=&quot;12-month percent change in house prices&quot;,y=&quot;year&quot;,
+       title=&quot;Distribution of metro house price growth&quot;,
+       subtitle=&quot;March of each year&quot;,
+       caption=&quot;@lenkiefer Source: Freddie Mac House Price Index in March of each year, distribution across metro areas&quot;)+
+  theme_minimal()+theme(legend.position=&quot;none&quot;)+
+  scale_x_continuous(label=percent)</code></pre>
+<pre><code>## Picking joint bandwidth of 0.0102</code></pre>
+<p><img src="/post/2017-07-26-joy_files/figure-html/07-26-2017-joy-2-1.png" width="672" /></p>
+<p>This plot shows the time series history of metro house price appreciation. We can see the wide dispersion during the housing bust, when some metros saw house prices decline by more than 20 percent annually.</p>
+<p>Let’s look compare the distributions across two large states, metros in California and metros in Texas.</p>
+<pre class="r"><code>ggplot(data=filter(df.metro,year(date)&gt;1979 &amp; month(date)==3 &amp; 
+                     state %in% c(&quot;TX&quot;,&quot;CA&quot;)),
+       aes(x=hpa12,y=reorder(factor(year),-year))) +
+  geom_joy(rel_min_height = 0.01,alpha=0.75,aes(fill=state))+
+  scale_fill_viridis(discrete=T)+
+  labs(x=&quot;12-month percent change in house prices&quot;,y=&quot;year&quot;,
+       title=&quot;Distribution of metro house price growth: CA and TX&quot;,
+       subtitle=&quot;March of each year&quot;,
+       caption=&quot;@lenkiefer Source: Freddie Mac House Price Index in March of each year, distribution across metro areas&quot;)+
+  theme_minimal()+theme(legend.position=&quot;none&quot;)+
+  scale_x_continuous(label=percent)+  theme(legend.position=&quot;top&quot;)</code></pre>
+<pre><code>## Picking joint bandwidth of 0.0153</code></pre>
+<p><img src="/post/2017-07-26-joy_files/figure-html/07-26-2017-joy-3-1.png" width="672" /></p>
+<p>We can see that while Texas house prices held up pretty well during the Great Recession, many California markets saw big declines. Since then, California has rebounded and in recent years California metros have had faster house price growth than Texas metros.</p>
+</div>
+<div id="how-about-that-crazy-plot" class="section level3">
+<h3>How about that crazy plot?</h3>
+<p>In my first plot, I intentionally left off the labels. But it’s just the CA vs TX plot above with all 50 states + D.C. included. Let’s recreate it with a few labels.</p>
+<pre class="r"><code>ggplot(data=filter(df.metro,year(date)&gt;1979 &amp; month(date)==3 ),
+       aes(x=hpa12,y=factor(year(date))))+
+  geom_joy(rel_min_height = 0.01,alpha=0.75,aes(fill=state))+
+  theme_minimal()+theme(legend.position=&quot;none&quot;)+
+  labs(x=&quot;Annual % change in house prices&quot;,y=&quot;Year&quot;,
+       title=&quot;Distribution of metro house price growth by states&quot;,
+       subtitle=&quot;Each curve estimated distribution across metros in each state&quot;,
+       caption=&quot;@lenkiefer Source: Freddie Mac House Price Index in March&quot;)+
+  scale_x_continuous(labels=percent)</code></pre>
+<pre><code>## Picking joint bandwidth of 0.0138</code></pre>
+<pre><code>## Warning: Removed 38 rows containing non-finite values (stat_joy).</code></pre>
+<p><img src="/post/2017-07-26-joy_files/figure-html/07-26-2017-joy-4-1.png" width="672" /></p>
+</div>
+<div id="home-sales" class="section level3">
+<h3>Home sales</h3>
+<p>I think joyplots work well if there are some important differences across groups. For example, I think they work to highlight seasonal patterns. The graph below shows monthly existing home sales, not seasonally adjusted.</p>
+<pre><code>## Picking joint bandwidth of 30.5</code></pre>
+<p><img src="/post/2017-07-26-joy_files/figure-html/07-26-2017-ehs-joy-1.png" width="672" /></p>
+</div>
+<div id="is-it-useful" class="section level3">
+<h3>Is it useful?</h3>
+<p>Joyplots certainly are useful insofar as they make an impression. Other chart types are probably better for many applications. For example, if you really want to compare distributions good old boxplots are hard to beat unless you have a very odd distribution.</p>
+<p>But without a doubt, making joyplots is a joyful exercise. And when is joy not useful?</p>
+<p>Don’t discount the importance of being able to resonate with your intended audience. It might well be worth it to sacrifice some clarity if it buys us joy.</p>
+</div>
+</div>

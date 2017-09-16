@@ -1,0 +1,143 @@
+---
+title: "Simple tweenr animations with ggplot2 "
+author: "Len Kiefer"
+date: "2016-12-19"
+summary: "R statistics housing animation ggplot2"
+slug: "more-tweenr-housing"
+category: "dataviz"
+tags: ["animation","R","dataviz"]
+---
+# Animations with tweenr
+
+IN THIS POST WE ARE GOING TO CREATE TWO SIMPLE animated data visualizations using [R](https://www.r-project.org/) *ggplot2*, *animation*, and *tweenr* packages.
+
+See this [post about tweenr](../../../../2016/05/29/improving-R-animated-gifs-with-tweenr ) for an introduction to tweenr, and more examples [here](../../../../2016/05/30/more-tweenr-animations ) and [here](../../../../2016/06/26/week-in-review ). 
+
+Unlike those examples we are going to create visualizations using the data that ship with the [tidyverse](https://blog.rstudio.org/2016/09/15/tidyverse-1-0-0/) packages (mainly ggplot2).  This will allow for easier replication.
+
+# A simple stripped down example.
+
+Let's start with a stripped down example. I actually tweeted this out starting here:
+
+<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">.<a href="https://twitter.com/Heinonmatti">@Heinonmatti</a> give me a second... I&#39;ll shoot you a reproducible <a href="https://twitter.com/hashtag/rstats?src=hash">#rstats</a> example. via tweetstorm!</p>&mdash; Leonard Kiefer (@lenkiefer) <a href="https://twitter.com/lenkiefer/status/810997043716038656">December 19, 2016</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+But let's put it all in a single place.
+
+``` {r, animation-1-dec19-2016,cache=FALSE,eval=T,echo=T,message=FALSE,warnings=FALSE }
+#load libraries
+library(tidyverse)
+library(animation)
+library(tweenr)
+library(ggplot2)
+
+myf<-function(i){
+  df<-mtcars
+  df$y<-mtcars[,i]
+  df$yname<-as.factor(names(df)[i])
+  return(df)
+}
+
+mylist<-lapply(seq(11,1),myf)
+tween.df<-tween_states(mylist,tweenlength=1,statelength=2, ease=rep('cubic-in-out',11), nframes=121)
+
+myplot<-function(i){  
+g<-ggplot(data=filter(tween.df,i==.frame),aes(x=mpg,y=y))+geom_point(size=3)+theme_bw()+
+  labs(y=filter(tween.df,i==.frame)$yname)
+return(g)
+}
+
+oopt = ani.options(interval = 0.1)
+saveGIF({for (i in 1:max(tween.df$.frame)) {
+  g<-myplot(i)
+  print(g)
+  print(i)
+  ani.pause()
+}
+},movie.name="mtcars tween.gif",ani.width = 840, ani.height =450)
+
+```
+
+Running this creates:
+
+<img src="{{ site.url }}/img/charts_dec_19_2016/mtcars tween.gif" alt="mtcars gif"/>
+
+In this example, we loop through the mtcars data and plot successive scatterplots showing the relationship between *mpg* and other variables in the dataset.
+
+We first create a simple function to create a dataset for each frame in our animation. Then we use tweenr to interpolate between frames to create a smooth animation.  I've also found it convenient to create a plot function and insert that in the loop.
+
+# Animated map
+
+We can make another example using a map.  I'm going to use the [txhousing](https://github.com/tidyverse/ggplot2/blob/master/data-raw/tx-housing.R) dataset that comes with ggplot2.
+
+These data, from the [Real Estate Center at Texas A&M University](https://www.recenter.tamu.edu/) provide some basic stats on trends in Texas housing markets.  Modifying [example 4 in this post](http://jcyhong.github.io/ggplot_demo.html) we can create a simple map of median sales prices by city in June 2015:
+
+``` {r, animation-2-dec19-2016,cache=FALSE,eval=T,echo=T,message=FALSE,warnings=FALSE }
+library(maps)
+data(us.cities) # from the package maps
+data(txhousing) # from the package ggplot2
+
+# Preprocessing
+tx.cities <- subset(us.cities, country.etc == "TX" & pop >= 100000)
+tx.cities$city <- unlist(strsplit(tx.cities$name, " TX"))
+txhousing.2015 <- subset(txhousing, year == 2015 & month == 6 &
+                             city %in% tx.cities$city)
+temp <- tx.cities[tx.cities$city %in% txhousing.2015$city, c("pop", "lat", "long")]
+temp <- temp[rep(seq_len(nrow(temp)), each = 6), ]
+txhousing.2015.geo <- cbind(txhousing.2015, temp)
+
+ggplot(txhousing.2015.geo, aes(x = long, y = lat,  colour = median/1000)) +
+  borders("county", "texas", colour = "grey70") + 
+  geom_point(size=3,alpha=0.82) + 
+  ggtitle("Housing market for populous cities in Texas (Jun 2015)") +
+  scale_colour_continuous(name  = "Median price ($, Ths)") +
+  labs(caption="test caption")
+```
+
+Now we can use tweenr to interpolate between points.
+
+For the animation we'll just plot an outline of the state of Texas and then have a dot for each city move around the map. In a future exercise we could combine the map with a time series line or bar chart to show trends in metro data.  As that would be more complicated we'll do that at a later time.  Right now, let's just make the map and animate following the same approach as above.
+
+
+``` {r, animation-3-dec19-2016,cache=FALSE,eval=F,echo=T,message=FALSE,warnings=FALSE }
+city.list<-unique(txhousing.2015.geo$city)
+
+myf<-function(c){
+  df<-subset(merge(txhousing.2015,tx.cities),city==city.list[c])
+  df$city<-factor(df$city)
+  df %>% map_if(is.character, as.factor) %>% as_data_frame -> df
+  return(df)
+}
+
+myplot<-function(indata){  
+  g<-
+  ggplot(data=indata, aes(x = long, y = lat,  label=city)) +
+  borders("county", "texas", colour = "grey70") + 
+  geom_point(data=indata,size=3,alpha=0.82) + 
+  geom_text(data=indata,vjust=0,nudge_y=.5)+
+  ggtitle("Texas Metros") +
+  labs(caption="@lenkiefer",subtitle=" These metros are moving!")+
+  theme(plot.caption=element_text(hjust=0))
+  return(g)
+}
+
+mylist<-lapply(c(seq(1,18),1),myf)
+tween.df<-tween_states(mylist,tweenlength=1,statelength=2, ease=rep('cubic-in-out',20), nframes=210)
+tween.df$country.etc<-as.character(tween.df$country.etc)
+
+oopt = ani.options(interval = 0.1)
+saveGIF({for (i in 1:max(tween.df$.frame)) {
+  g<-myplot(tween.df[i,])
+  print(g)
+  print(i)
+  ani.pause()
+}
+},movie.name="TX map tween.gif",ani.width = 600, ani.height =600)
+
+```
+
+<img src="{{ site.url }}/img/charts_dec_19_2016/TX map tween.gif" alt="TX metros move!"/>
+
+### Extend the example
+
+That's enough for now, but perhaps in future we can extend these examples.

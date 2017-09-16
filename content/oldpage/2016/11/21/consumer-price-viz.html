@@ -1,0 +1,432 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Visualizing recent trends in consumer prices</title>
+    
+    <meta name="author" content="Len Kiefer">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap styles -->
+    <link href="/assets/themes/lentheme/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Optional theme -->
+    <link href="/assets/themes/lentheme/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <!-- Sticky Footer -->
+    <link href="/assets/themes/lentheme/bootstrap/css/bs-sticky-footer.css" rel="stylesheet">
+    
+    <!-- Custom styles -->
+    <link href="/assets/themes/lentheme/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <!-- Update these with your own images
+      <link rel="shortcut icon" href="images/favicon.ico">
+      <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+      <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+      <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+  </head>
+
+  <body>
+    <div id="wrap">
+      <nav class="navbar navbar-default" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#jb-navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/"><span class="icon-home3" style="font-size:24px"> Len Kiefer</a></span>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="jb-navbar-collapse" style="font-size:24px">
+          <ul class="nav navbar-nav" >
+        <li><a href="/archive.html"><span class="icon-newspaper"> Posts</a></span></li>
+            <!-- li><a href="/chartbook/index.html"><span class="icon-display"> Chartbook</a></span></li-->
+         <li><a href="/resume.html"><span class="icon-profile"> Resume</span></a></li>
+        <li><a href="/about.html"><span class="icon-user-tie"> About</span></a></li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </nav>
+
+      <div class="container">
+        
+<div class="page-header">
+  <h1>Visualizing recent trends in consumer prices </h1>
+</div>
+
+<div class="row post-full">
+  <div class="col-xs-12">
+    <div class="date">
+      <span>21 November 2016</span>
+    </div>
+    <div class="content">
+      <h1 id="growth-in-consumer-prices">Growth in consumer prices</h1>
+
+<p>RECENT DATA INDICATE THAT CONSUMER PRICES INFLATION is ticking up, though the overall pace of inflation remains below historical averages. In this post I’m going to create a few plots analyzing trends in the <a href="http://www.bls.gov/cpi/">Consumer Price Index (CPI)</a> published by the <a href="http://www.bls.gov">U.S. Bureau of Labor Statistics (BLS)</a>.</p>
+
+<p>These visualizations will be made in <a href="https://www.r-project.org/">R</a>, and I’ll post code for some of the graphs as we go.</p>
+
+<h2 id="the-data">The data</h2>
+
+<p>The BLS has made getting the data quite convenient by providing well organized flat text files that are easy to read. The code below loads some libraries and grab data from the BLS page:</p>
+
+<h2 id="load-some-libraries">Load some libraries:</h2>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1">#Load some packages
+</span><span class="n">library</span><span class="p">(</span><span class="n">data.table</span><span class="p">,</span> <span class="n">warn.conflicts</span> <span class="o">=</span> <span class="n">FALSE</span><span class="p">,</span> <span class="n">quietly</span><span class="o">=</span><span class="n">TRUE</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">,</span> <span class="n">warn.conflicts</span> <span class="o">=</span> <span class="n">FALSE</span><span class="p">,</span> <span class="n">quietly</span><span class="o">=</span><span class="n">TRUE</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">,</span> <span class="n">warn.conflicts</span> <span class="o">=</span> <span class="n">FALSE</span><span class="p">,</span> <span class="n">quietly</span><span class="o">=</span><span class="n">TRUE</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">zoo</span><span class="p">,</span> <span class="n">warn.conflicts</span> <span class="o">=</span> <span class="n">FALSE</span><span class="p">,</span> <span class="n">quietly</span><span class="o">=</span><span class="n">TRUE</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">ggrepel</span><span class="p">,</span> <span class="n">warn.conflicts</span> <span class="o">=</span> <span class="n">FALSE</span><span class="p">,</span> <span class="n">quietly</span><span class="o">=</span><span class="n">TRUE</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">ggthemes</span><span class="p">,</span> <span class="n">warn.conflicts</span> <span class="o">=</span> <span class="n">FALSE</span><span class="p">,</span> <span class="n">quietly</span><span class="o">=</span><span class="n">TRUE</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">scales</span><span class="p">,</span> <span class="n">warn.conflicts</span> <span class="o">=</span> <span class="n">FALSE</span><span class="p">,</span> <span class="n">quietly</span><span class="o">=</span><span class="n">TRUE</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">animation</span><span class="p">,</span> <span class="n">warn.conflicts</span> <span class="o">=</span> <span class="n">FALSE</span><span class="p">,</span> <span class="n">quietly</span><span class="o">=</span><span class="n">TRUE</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">warn.conflicts</span> <span class="o">=</span> <span class="n">FALSE</span><span class="p">,</span> <span class="n">quietly</span><span class="o">=</span><span class="n">TRUE</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">tidyr</span><span class="p">,</span> <span class="n">warn.conflicts</span> <span class="o">=</span> <span class="n">FALSE</span><span class="p">,</span> <span class="n">quietly</span><span class="o">=</span><span class="n">TRUE</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">viridis</span><span class="p">,</span> <span class="n">warn.conflicts</span> <span class="o">=</span> <span class="n">FALSE</span><span class="p">,</span> <span class="n">quietly</span><span class="o">=</span><span class="n">TRUE</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">ggrepel</span><span class="p">,</span> <span class="n">warn.conflicts</span> <span class="o">=</span> <span class="n">FALSE</span><span class="p">,</span> <span class="n">quietly</span><span class="o">=</span><span class="n">TRUE</span><span class="p">)</span></code></pre></figure>
+
+<h2 id="load-some-data">Load some data</h2>
+
+<p>The code below goes to the BLS website and downloads the text files.  This <a href="http://download.bls.gov/pub/time.series/cu/cu.txt">file</a> contains summary information about the flat files.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1">#read files from BLS.gov
+</span><span class="n">cpi1</span><span class="o">&lt;-</span><span class="n">fread</span><span class="p">(</span><span class="s1">'http://download.bls.gov/pub/time.series/cu/cu.data.2.Summaries'</span><span class="p">)</span>
+<span class="n">cpi.item</span><span class="o">&lt;-</span><span class="n">fread</span><span class="p">(</span><span class="s2">"http://download.bls.gov/pub/time.series/cu/cu.item"</span><span class="p">,</span>
+                <span class="n">header</span><span class="o">=</span><span class="n">FALSE</span><span class="p">,</span><span class="n">col.names</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="s2">"item.code"</span><span class="p">,</span><span class="s2">"item.name"</span><span class="p">,</span><span class="s2">"display.level"</span><span class="p">,</span>
+                                         <span class="s2">"selectable"</span><span class="p">,</span><span class="s2">"sort.sequence"</span><span class="p">,</span><span class="s2">"blank"</span><span class="p">))</span>
+<span class="n">cpi.series</span><span class="o">&lt;-</span><span class="n">fread</span><span class="p">(</span><span class="s2">"http://download.bls.gov/pub/time.series/cu/cu.series"</span><span class="p">)</span>
+<span class="n">cpi2</span><span class="o">&lt;-</span><span class="n">merge</span><span class="p">(</span><span class="n">cpi.item</span><span class="p">,</span><span class="n">cpi.series</span><span class="p">,</span><span class="n">by.x</span><span class="o">=</span><span class="s2">"item.code"</span><span class="p">,</span><span class="n">by.y</span><span class="o">=</span><span class="s2">"item_code"</span><span class="p">)</span>
+
+
+<span class="c1">#merge on series_id variable:
+</span><span class="n">setkeyv</span><span class="p">(</span><span class="n">cpi1</span><span class="p">,</span><span class="s2">"series_id"</span><span class="p">)</span>          
+<span class="n">setkeyv</span><span class="p">(</span><span class="n">cpi2</span><span class="p">,</span><span class="s2">"series_id"</span><span class="p">)</span>
+
+
+<span class="n">cpi3</span><span class="o">&lt;-</span><span class="n">cpi2</span><span class="p">[</span><span class="n">cpi1</span><span class="p">]</span>
+<span class="n">unique</span><span class="p">(</span><span class="n">cpi3</span><span class="o">$</span><span class="n">item.code</span><span class="p">)</span>  <span class="c1">#Get list of item codes
+</span><span class="n">cpi3</span><span class="p">[,</span><span class="n">month</span><span class="o">:=</span><span class="n">as.numeric</span><span class="p">(</span><span class="n">substr</span><span class="p">(</span><span class="n">cpi3</span><span class="o">$</span><span class="n">period</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">))]</span>
+<span class="n">cpi3</span><span class="o">$</span><span class="n">date</span><span class="o">&lt;-</span> <span class="n">as.Date</span><span class="p">(</span><span class="n">ISOdate</span><span class="p">(</span><span class="n">cpi3</span><span class="o">$</span><span class="n">year</span><span class="p">,</span><span class="n">cpi3</span><span class="o">$</span><span class="n">month</span><span class="p">,</span><span class="m">1</span><span class="p">)</span> <span class="p">)</span> <span class="c1">#set up date variable
+</span>
+<span class="n">cpi4</span><span class="o">&lt;-</span><span class="n">cpi3</span><span class="p">[</span><span class="n">area_code</span><span class="o">==</span><span class="s2">"0000"</span> <span class="o">&amp;</span> <span class="n">seasonal</span><span class="o">==</span><span class="s2">"S"</span> <span class="o">&amp;</span> <span class="n">item.code</span><span class="o">!=</span> <span class="s2">"SAA1"</span> <span class="o">&amp;</span> <span class="n">item.code</span> <span class="o">!=</span><span class="s2">"SAA2"</span><span class="p">]</span>
+
+<span class="c1"># Create a variable with the index normalized to 100 in January 2000:
+</span><span class="n">bdata</span><span class="o">&lt;-</span><span class="n">cpi4</span><span class="p">[</span><span class="n">year</span><span class="o">==</span><span class="m">2000</span> <span class="o">&amp;</span> <span class="n">month</span><span class="o">==</span><span class="m">1</span><span class="p">,]</span>
+<span class="n">bdata</span><span class="o">&lt;-</span><span class="n">dplyr</span><span class="o">::</span><span class="n">rename</span><span class="p">(</span><span class="n">bdata</span><span class="p">,</span> <span class="n">value00</span><span class="o">=</span><span class="n">value</span><span class="p">)</span>
+<span class="n">bdata</span><span class="o">&lt;-</span><span class="n">bdata</span><span class="p">[,</span> <span class="n">c</span><span class="p">(</span><span class="s1">'value00'</span><span class="p">,</span><span class="s1">'series_id'</span><span class="p">),</span> <span class="n">with</span> <span class="o">=</span> <span class="n">FALSE</span><span class="p">]</span>
+<span class="n">cpi5</span><span class="o">&lt;-</span><span class="n">merge</span><span class="p">(</span><span class="n">cpi4</span><span class="p">,</span><span class="n">bdata</span><span class="p">,</span><span class="n">by</span><span class="o">=</span><span class="s2">"series_id"</span><span class="p">)</span>  <span class="c1">#merge back to original data
+</span><span class="n">cpi5</span><span class="p">[,</span><span class="n">cpi00</span><span class="o">:=</span><span class="m">100</span><span class="o">*</span><span class="n">value</span><span class="o">/</span><span class="n">value00</span><span class="p">]</span> 
+
+
+<span class="c1">#get unadjusted index:
+</span><span class="n">cpi4n</span><span class="o">&lt;-</span><span class="n">cpi3</span><span class="p">[</span><span class="n">area_code</span><span class="o">==</span><span class="s2">"0000"</span> <span class="o">&amp;</span> <span class="n">seasonal</span><span class="o">==</span><span class="s2">"U"</span> <span class="o">&amp;</span> <span class="n">item.code</span><span class="o">!=</span> <span class="s2">"SAA1"</span> <span class="o">&amp;</span> <span class="n">item.code</span> <span class="o">!=</span><span class="s2">"SAA2"</span> <span class="o">&amp;</span>
+              <span class="o">!</span><span class="p">(</span><span class="n">period</span> <span class="o">%</span><span class="k">in</span><span class="o">%</span> <span class="n">c</span><span class="p">(</span><span class="s2">"S01"</span><span class="p">,</span> <span class="s2">"S02"</span><span class="p">,</span> <span class="s2">"S03"</span><span class="p">))]</span>
+<span class="n">bdata</span><span class="o">&lt;-</span><span class="n">cpi4n</span><span class="p">[</span><span class="n">year</span><span class="o">==</span><span class="m">2000</span> <span class="o">&amp;</span> <span class="n">month</span><span class="o">==</span><span class="m">1</span><span class="p">,]</span>
+<span class="n">bdata</span><span class="o">&lt;-</span><span class="n">dplyr</span><span class="o">::</span><span class="n">rename</span><span class="p">(</span><span class="n">bdata</span><span class="p">,</span> <span class="n">value00</span><span class="o">=</span><span class="n">value</span><span class="p">)</span>
+<span class="n">bdata</span><span class="o">&lt;-</span><span class="n">bdata</span><span class="p">[,</span> <span class="n">c</span><span class="p">(</span><span class="s1">'value00'</span><span class="p">,</span><span class="s1">'series_id'</span><span class="p">),</span> <span class="n">with</span> <span class="o">=</span> <span class="n">FALSE</span><span class="p">]</span>
+<span class="n">cpi5n</span><span class="o">&lt;-</span><span class="n">merge</span><span class="p">(</span><span class="n">cpi4n</span><span class="p">,</span><span class="n">bdata</span><span class="p">,</span><span class="n">by</span><span class="o">=</span><span class="s2">"series_id"</span><span class="p">)</span>
+
+<span class="n">cpi5n</span><span class="p">[,</span><span class="n">cpi00</span><span class="o">:=</span><span class="m">100</span><span class="o">*</span><span class="n">value</span><span class="o">/</span><span class="n">value00</span><span class="p">]</span>
+<span class="n">cpi6n</span><span class="o">&lt;-</span><span class="n">cpi5n</span><span class="p">[</span><span class="n">year</span><span class="o">&gt;</span><span class="m">1999</span><span class="p">]</span>
+<span class="n">cpi6n</span><span class="o">&lt;-</span><span class="n">cpi6n</span><span class="p">[,</span><span class="n">cpilag12</span><span class="o">:=</span><span class="n">shift</span><span class="p">(</span><span class="n">value</span><span class="p">,</span><span class="m">13</span><span class="p">),</span><span class="n">by</span><span class="o">=</span><span class="n">series_id</span><span class="p">]</span>
+<span class="n">cpi6n</span><span class="o">&lt;-</span><span class="n">cpi6n</span><span class="p">[,</span><span class="n">datelag12</span><span class="o">:=</span><span class="n">shift</span><span class="p">(</span><span class="n">date</span><span class="p">,</span><span class="m">13</span><span class="p">),</span><span class="n">by</span><span class="o">=</span><span class="n">series_id</span><span class="p">]</span>
+<span class="n">cpi6n</span><span class="o">&lt;-</span><span class="n">cpi6n</span><span class="p">[,</span><span class="n">cpi12</span><span class="o">:=</span><span class="n">c</span><span class="p">(</span><span class="n">rep</span><span class="p">(</span><span class="n">NA</span><span class="p">,</span><span class="m">13</span><span class="p">),((</span><span class="m">1</span><span class="o">+</span><span class="n">diff</span><span class="p">(</span><span class="n">value</span><span class="p">,</span><span class="m">13</span><span class="p">)</span><span class="o">/</span><span class="n">value</span><span class="p">))</span><span class="o">^</span><span class="m">1</span><span class="p">)</span><span class="m">-1</span><span class="p">,</span><span class="n">by</span><span class="o">=</span><span class="n">series_id</span><span class="p">]</span>  
+<span class="n">cpi6n</span><span class="o">&lt;-</span><span class="n">cpi6n</span><span class="p">[,</span><span class="n">cpi1</span><span class="o">:=</span><span class="n">c</span><span class="p">(</span><span class="n">rep</span><span class="p">(</span><span class="n">NA</span><span class="p">,</span><span class="m">12</span><span class="p">),((</span><span class="m">1</span><span class="o">+</span><span class="n">diff</span><span class="p">(</span><span class="n">value</span><span class="p">,</span><span class="m">1</span><span class="p">)</span><span class="o">/</span><span class="n">value</span><span class="p">))</span><span class="o">^</span><span class="m">1</span><span class="p">)</span><span class="m">-1</span><span class="p">,</span><span class="n">by</span><span class="o">=</span><span class="n">series_id</span><span class="p">]</span>  
+
+<span class="n">cpi6</span><span class="o">&lt;-</span><span class="n">cpi5</span><span class="p">[</span><span class="n">year</span><span class="o">&gt;</span><span class="m">1999</span><span class="p">]</span>
+<span class="n">xlim</span><span class="o">&lt;-</span><span class="n">c</span><span class="p">(</span><span class="n">min</span><span class="p">(</span><span class="n">cpi6</span><span class="o">$</span><span class="n">date</span><span class="p">),</span><span class="n">max</span><span class="p">(</span><span class="n">cpi6</span><span class="o">$</span><span class="n">date</span><span class="p">))</span>
+<span class="n">dd</span><span class="o">&lt;-</span><span class="n">unique</span><span class="p">(</span><span class="n">cpi6</span><span class="o">$</span><span class="n">date</span><span class="p">)</span>  <span class="err">#</span><span class="n">list</span> <span class="n">of</span> <span class="n">dates</span> <span class="n">since</span> <span class="n">January</span> <span class="m">2000</span></code></pre></figure>
+
+<h2 id="make-some-charts">Make some charts</h2>
+
+<p>First let’s look at the level of consumer prices for major aggregates relative to the year 2000.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">i</span><span class="o">&lt;-</span><span class="n">length</span><span class="p">(</span><span class="n">dd</span><span class="p">)</span>
+ <span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">cpi6</span><span class="p">,</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">cpi00</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">item.name</span><span class="p">))</span><span class="o">+</span><span class="n">geom_line</span><span class="p">()</span><span class="o">+</span>
+  <span class="n">theme_minimal</span><span class="p">()</span><span class="o">+</span>   <span class="n">theme</span><span class="p">(</span><span class="n">legend.justification</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">),</span> <span class="n">legend.position</span><span class="o">=</span><span class="s2">"none"</span><span class="p">)</span><span class="o">+</span><span class="n">scale_y_log10</span><span class="p">(</span><span class="n">limits</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">90</span><span class="p">,</span><span class="m">200</span><span class="p">),</span><span class="n">breaks</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">90</span><span class="p">,</span><span class="m">100</span><span class="p">,</span><span class="m">120</span><span class="p">,</span><span class="m">140</span><span class="p">,</span><span class="m">160</span><span class="p">,</span><span class="m">180</span><span class="p">,</span><span class="m">200</span><span class="p">))</span><span class="o">+</span>
+  <span class="c1">#scale_x_date(limits =xlim)+
+</span>    <span class="n">scale_x_date</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span> <span class="n">date_format</span><span class="p">(</span><span class="s2">"%b-%Y"</span><span class="p">),</span>
+                 <span class="n">limits</span> <span class="o">=</span> <span class="n">as.Date</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="s1">'2000-01-01'</span><span class="p">,</span><span class="s1">'2018-12-31'</span><span class="p">)))</span><span class="o">+</span>
+  <span class="n">geom_text_repel</span><span class="p">(</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">cpi6</span><span class="p">[</span><span class="n">date</span><span class="o">==</span><span class="n">dd</span><span class="p">[</span><span class="n">i</span><span class="p">]],</span>
+    <span class="n">aes</span><span class="p">(</span><span class="n">label</span> <span class="o">=</span> <span class="n">item.name</span><span class="p">),</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="m">3.5</span><span class="p">,</span>
+    <span class="n">nudge_x</span> <span class="o">=</span> <span class="m">1</span><span class="p">)</span> <span class="o">+</span>
+    <span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">"Consumer Price Index (log scale, Jan 2000=100, SA)"</span><span class="p">,</span>
+         <span class="n">title</span><span class="o">=</span><span class="s2">"Consumer Prices"</span><span class="p">,</span>
+         <span class="n">subtitle</span><span class="o">=</span><span class="s2">"by major category"</span><span class="p">,</span>
+         <span class="n">caption</span><span class="o">=</span><span class="s2">"@lenkiefer Source: U.S. Bureau of Labor Statistics"</span><span class="p">)</span><span class="o">+</span>
+    <span class="n">theme</span><span class="p">(</span><span class="n">plot.title</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">18</span><span class="p">))</span><span class="o">+</span>
+    <span class="n">theme</span><span class="p">(</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">vjust</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="n">margin</span><span class="o">=</span><span class="n">margin</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="m">10</span><span class="p">)))</span><span class="o">+</span>
+    <span class="n">theme</span><span class="p">(</span><span class="n">plot.margin</span><span class="o">=</span><span class="n">unit</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="m">0.25</span><span class="p">,</span><span class="m">0.25</span><span class="p">,</span><span class="m">0.25</span><span class="p">,</span><span class="m">0.25</span><span class="p">),</span><span class="s2">"cm"</span><span class="p">))</span></code></pre></figure>
+
+<p><img src="/img/Rfig/fig-cpi-viz-nov16-1-1.svg" alt="plot of chunk fig-cpi-viz-nov16-1" /></p>
+
+<p>We can also animate this chart:</p>
+
+<p><img src="/img/charts_nov_21_2016/cpi_11_21_all_2016.gif" alt="cpi gif 2" /></p>
+
+<p>Code for animation:</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">library</span><span class="p">(</span><span class="n">animate</span><span class="p">)</span>
+<span class="n">oopt</span> <span class="o">=</span> <span class="n">ani.options</span><span class="p">(</span><span class="n">interval</span> <span class="o">=</span> <span class="m">0.075</span><span class="p">)</span>
+<span class="n">saveGIF</span><span class="p">({</span><span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="k">in</span> <span class="m">1</span><span class="o">:</span><span class="n">length</span><span class="p">(</span><span class="n">dd</span><span class="p">))</span> <span class="p">{</span>
+  <span class="n">g</span><span class="o">&lt;-</span>
+    <span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">cpi6</span><span class="p">[</span><span class="n">date</span><span class="o">&lt;=</span><span class="n">dd</span><span class="p">[</span><span class="n">i</span><span class="p">]],</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">cpi00</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">item.name</span><span class="p">))</span><span class="o">+</span><span class="n">geom_line</span><span class="p">()</span><span class="o">+</span>
+  <span class="n">theme_minimal</span><span class="p">()</span><span class="o">+</span>   <span class="n">theme</span><span class="p">(</span><span class="n">legend.justification</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">),</span> <span class="n">legend.position</span><span class="o">=</span><span class="s2">"none"</span><span class="p">)</span><span class="o">+</span><span class="n">scale_y_log10</span><span class="p">(</span><span class="n">limits</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">90</span><span class="p">,</span><span class="m">200</span><span class="p">),</span><span class="n">breaks</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">90</span><span class="p">,</span><span class="m">100</span><span class="p">,</span><span class="m">120</span><span class="p">,</span><span class="m">140</span><span class="p">,</span><span class="m">160</span><span class="p">,</span><span class="m">180</span><span class="p">,</span><span class="m">200</span><span class="p">))</span><span class="o">+</span>
+    <span class="n">scale_x_date</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span> <span class="n">date_format</span><span class="p">(</span><span class="s2">"%b-%Y"</span><span class="p">),</span>
+                 <span class="n">limits</span> <span class="o">=</span> <span class="n">as.Date</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="s1">'2000-01-01'</span><span class="p">,</span><span class="s1">'2018-12-31'</span><span class="p">)))</span><span class="o">+</span>
+  <span class="n">geom_text</span><span class="p">(</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">cpi6</span><span class="p">[</span><span class="n">date</span><span class="o">==</span><span class="n">dd</span><span class="p">[</span><span class="n">i</span><span class="p">]],</span>
+    <span class="n">aes</span><span class="p">(</span><span class="n">label</span> <span class="o">=</span> <span class="n">item.name</span><span class="p">),</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="m">3.5</span><span class="p">,</span>
+    <span class="n">nudge_x</span> <span class="o">=</span> <span class="m">1</span><span class="p">)</span> <span class="o">+</span>
+    <span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">"Consumer Price Index (log scale, Jan 2000=100, SA)"</span><span class="p">,</span>
+         <span class="n">title</span><span class="o">=</span><span class="s2">"Consumer Prices"</span><span class="p">,</span>
+         <span class="n">subtitle</span><span class="o">=</span><span class="s2">"by major category"</span><span class="p">,</span>
+         <span class="n">caption</span><span class="o">=</span><span class="s2">"@lenkiefer Source: U.S. Bureau of Labor Statistics"</span><span class="p">)</span><span class="o">+</span>
+    <span class="n">theme</span><span class="p">(</span><span class="n">plot.title</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">18</span><span class="p">))</span><span class="o">+</span>
+    <span class="n">theme</span><span class="p">(</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">vjust</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="n">margin</span><span class="o">=</span><span class="n">margin</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="m">10</span><span class="p">)))</span><span class="o">+</span>
+    <span class="n">theme</span><span class="p">(</span><span class="n">plot.margin</span><span class="o">=</span><span class="n">unit</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="m">0.25</span><span class="p">,</span><span class="m">0.25</span><span class="p">,</span><span class="m">0.25</span><span class="p">,</span><span class="m">0.25</span><span class="p">),</span><span class="s2">"cm"</span><span class="p">))</span>
+  <span class="n">print</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+  <span class="n">ani.pause</span><span class="p">()</span>
+  <span class="n">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="k">for</span> <span class="p">(</span><span class="n">i2</span> <span class="k">in</span> <span class="m">1</span><span class="o">:</span><span class="m">30</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">print</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+  <span class="n">ani.pause</span><span class="p">()</span>
+<span class="p">}</span>
+<span class="p">},</span><span class="n">movie.name</span><span class="o">=</span><span class="s2">"cpi_11_21_all_2016.gif"</span><span class="p">,</span><span class="n">ani.width</span> <span class="o">=</span> <span class="m">575</span><span class="p">,</span> <span class="n">ani.height</span> <span class="o">=</span> <span class="m">450</span><span class="p">)</span></code></pre></figure>
+
+<h2 id="comparing-year-over-year-inflation">Comparing year-over-year inflation</h2>
+
+<p>The chart above shows the longer-run inflation for major categories since the year 2000, what about more recent inflation trends?  Let’s examine year-over-year changes by major category:</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">i</span><span class="o">&lt;-</span><span class="n">length</span><span class="p">(</span><span class="n">dd</span><span class="p">)</span>  <span class="c1">#set index to last date
+</span><span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">cpi6n</span><span class="p">[</span><span class="n">date</span><span class="o">&lt;=</span><span class="n">dd</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&amp;</span> <span class="o">!</span><span class="p">(</span><span class="n">item.name</span> <span class="o">%</span><span class="k">in</span><span class="o">%</span> <span class="n">c</span><span class="p">(</span><span class="s2">"Transportation"</span><span class="p">,</span><span class="s2">"Services"</span><span class="p">,</span><span class="s2">"Other goods and services"</span><span class="p">))],</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">cpi12</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">item.name</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">geom_area</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="n">item.name</span><span class="p">),</span><span class="n">alpha</span><span class="o">=</span><span class="m">0.5</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">theme_minimal</span><span class="p">()</span><span class="o">+</span>   <span class="n">theme</span><span class="p">(</span><span class="n">legend.justification</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">),</span> <span class="n">legend.position</span><span class="o">=</span><span class="s2">"none"</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">percent</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">geom_hline</span><span class="p">(</span><span class="n">yintercept</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">linetype</span><span class="o">=</span><span class="m">2</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">"black"</span><span class="p">)</span><span class="o">+</span>
+  <span class="c1">#scale_y_log10(limits=c(90,200),breaks=c(90,100,120,140,160,180,200))+
+</span>  <span class="n">scale_x_date</span><span class="p">(</span><span class="n">limits</span> <span class="o">=</span><span class="n">xlim</span><span class="p">)</span><span class="o">+</span>
+  <span class="c1">#geom_text_repel(    data = subset(cpi6[date&lt;=dd[90]], date == max(date)),    aes(label = item.name, y=180),    size = 5,    nudge_x = 45,    segment.color = NA) +
+</span>  <span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">"Consumer Price Index (y/y % change NSA)"</span><span class="p">,</span>
+       <span class="n">title</span><span class="o">=</span><span class="s2">"Consumer Price Inflation (y/y %)"</span><span class="p">,</span>
+       <span class="n">subtitle</span><span class="o">=</span><span class="s2">"by major category"</span><span class="p">,</span>
+       <span class="n">caption</span><span class="o">=</span><span class="s2">"@lenkiefer Source: U.S. Bureau of Labor Statistics"</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">plot.title</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">18</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">vjust</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="n">margin</span><span class="o">=</span><span class="n">margin</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="m">10</span><span class="p">)))</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">plot.margin</span><span class="o">=</span><span class="n">unit</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="m">0.25</span><span class="p">,</span><span class="m">0.25</span><span class="p">,</span><span class="m">0.25</span><span class="p">,</span><span class="m">0.25</span><span class="p">),</span><span class="s2">"cm"</span><span class="p">))</span><span class="o">+</span><span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="n">item.name</span><span class="p">,</span><span class="n">ncol</span><span class="o">=</span><span class="m">2</span><span class="p">)</span></code></pre></figure>
+
+<p><img src="/img/Rfig/fig-cpi-viz-nov16-2-1.svg" alt="plot of chunk fig-cpi-viz-nov16-2" /></p>
+
+<h3 id="animated-version-using-tweenr">Animated version using tweenr</h3>
+
+<p>We can also use tweenr to generate a smooth animation for the plot.</p>
+
+<p>See my earlier <a href="/2016/05/29/improving-R-animated-gifs-with-tweenr">post about tweenr</a> for an introduction to tweenr, and more examples <a href="/2016/05/30/more-tweenr-animations">here</a> and <a href="/2016/06/26/week-in-review">here</a>.</p>
+
+<p>Here’s the code:</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">cpi6n</span><span class="o">$</span><span class="n">item</span><span class="o">&lt;-</span><span class="n">factor</span><span class="p">(</span><span class="n">cpi6n</span><span class="o">$</span><span class="n">item.name</span><span class="p">)</span>
+<span class="n">mycat2</span><span class="o">&lt;-</span>  <span class="n">unique</span><span class="p">(</span><span class="n">cpi6n</span><span class="p">[</span><span class="n">date</span><span class="o">&lt;=</span><span class="n">dd</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&amp;</span> <span class="o">!</span><span class="p">(</span><span class="n">item.name</span> <span class="o">%</span><span class="k">in</span><span class="o">%</span> <span class="n">c</span><span class="p">(</span><span class="s2">"Transportation"</span><span class="p">,</span><span class="s2">"Services"</span><span class="p">,</span><span class="s2">"Other goods and services"</span><span class="p">))]</span><span class="o">$</span><span class="n">item.name</span><span class="p">)</span>  <span class="c1">#exclude a couple categories that have very large % changes 
+</span>
+<span class="n">myf2</span><span class="o">&lt;-</span><span class="k">function</span><span class="p">(</span><span class="n">ic</span><span class="p">){</span><span class="n">as.data.frame</span><span class="p">(</span><span class="n">cpi6n</span><span class="p">[</span><span class="n">item.name</span><span class="o">==</span><span class="n">ic</span><span class="p">,</span> <span class="n">list</span><span class="p">(</span><span class="n">date</span><span class="p">,</span><span class="n">cpi12</span><span class="p">,</span><span class="n">item</span><span class="p">)])}</span>
+
+<span class="c1"># use lapply to generate the list of data sets:
+</span><span class="n">my.list</span><span class="o">&lt;-</span><span class="n">lapply</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="n">mycat2</span><span class="p">,</span><span class="n">mycat2</span><span class="p">[</span><span class="m">1</span><span class="p">]),</span><span class="n">myf2</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">tweenr</span><span class="p">)</span>
+
+<span class="n">tf2</span> <span class="o">&lt;-</span> <span class="n">tween_states</span><span class="p">(</span><span class="n">my.list</span><span class="p">,</span> <span class="n">tweenlength</span><span class="o">=</span> <span class="m">2</span><span class="p">,</span> <span class="n">statelength</span><span class="o">=</span><span class="m">3</span><span class="p">,</span> <span class="n">ease</span><span class="o">=</span><span class="n">rep</span><span class="p">(</span><span class="s1">'cubic-in-out'</span><span class="p">,</span><span class="m">24</span><span class="p">),</span><span class="n">nframes</span><span class="o">=</span><span class="m">150</span><span class="p">)</span>
+
+<span class="n">tf2</span><span class="o">&lt;-</span><span class="n">data.table</span><span class="p">(</span><span class="n">tf2</span><span class="p">)</span>
+
+<span class="n">oopt</span> <span class="o">=</span> <span class="n">ani.options</span><span class="p">(</span><span class="n">interval</span> <span class="o">=</span> <span class="m">0.1</span><span class="p">)</span>
+<span class="n">saveGIF</span><span class="p">({</span><span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="k">in</span> <span class="m">1</span><span class="o">:</span><span class="n">max</span><span class="p">(</span><span class="n">tf2</span><span class="o">$</span><span class="n">.frame</span><span class="p">))</span> <span class="p">{</span>
+  <span class="n">g</span><span class="o">&lt;-</span>
+    <span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">tf2</span><span class="p">,</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">cpi12</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">"#00B0F0"</span><span class="p">,</span><span class="n">fill</span><span class="o">=</span><span class="s2">"#00B0F0"</span><span class="p">))</span><span class="o">+</span>
+    <span class="n">geom_line</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">tf2</span><span class="p">[</span><span class="n">.frame</span><span class="o">==</span><span class="n">i</span><span class="p">],</span><span class="n">color</span><span class="o">=</span><span class="s2">"#00B0F0"</span><span class="p">)</span><span class="o">+</span>
+    <span class="n">theme_minimal</span><span class="p">()</span><span class="o">+</span>   <span class="n">theme</span><span class="p">(</span><span class="n">legend.justification</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">),</span> <span class="n">legend.position</span><span class="o">=</span><span class="s2">"none"</span><span class="p">)</span><span class="o">+</span>
+    <span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">limits</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">-.08</span><span class="p">,</span><span class="m">.08</span><span class="p">),</span><span class="n">breaks</span><span class="o">=</span><span class="n">seq</span><span class="p">(</span><span class="m">-.15</span><span class="p">,</span><span class="m">.15</span><span class="p">,</span><span class="m">.01</span><span class="p">),</span><span class="n">labels</span><span class="o">=</span><span class="n">percent</span><span class="p">)</span><span class="o">+</span>
+    <span class="n">geom_ribbon</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">tf2</span><span class="p">[</span><span class="n">.frame</span><span class="o">==</span><span class="n">i</span><span class="p">],</span><span class="n">aes</span><span class="p">(</span><span class="n">ymin</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">ymax</span><span class="o">=</span><span class="n">cpi12</span><span class="p">),</span><span class="n">alpha</span><span class="o">=</span><span class="m">0.2</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">NA</span><span class="p">,</span><span class="n">fill</span><span class="o">=</span><span class="s2">"#00B0F0"</span><span class="p">)</span><span class="o">+</span>
+    <span class="n">geom_hline</span><span class="p">(</span><span class="n">yintercept</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">linetype</span><span class="o">=</span><span class="m">2</span><span class="p">)</span><span class="o">+</span>
+    <span class="n">scale_x_date</span><span class="p">(</span><span class="n">limits</span> <span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="n">min</span><span class="p">(</span><span class="n">tf2</span><span class="p">[</span><span class="n">cpi12</span><span class="o">&gt;</span><span class="m">0</span><span class="p">,]</span><span class="o">$</span><span class="n">date</span><span class="p">,</span><span class="n">na.rm</span><span class="o">=</span><span class="n">T</span><span class="p">),</span><span class="n">max</span><span class="p">(</span><span class="n">cpi6n</span><span class="o">$</span><span class="n">date</span><span class="p">,</span><span class="n">na.rm</span><span class="o">=</span><span class="n">T</span><span class="p">)</span><span class="m">+120</span><span class="p">))</span><span class="o">+</span>
+    <span class="n">geom_point</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">tf2</span><span class="p">[</span><span class="n">.frame</span><span class="o">==</span><span class="n">i</span> <span class="o">&amp;</span> <span class="n">date</span><span class="o">==</span><span class="n">max</span><span class="p">(</span><span class="n">tf2</span><span class="o">$</span><span class="n">date</span><span class="p">,</span><span class="n">na.rm</span><span class="o">=</span><span class="n">T</span><span class="p">)],</span><span class="n">alpha</span><span class="o">=</span><span class="m">0.82</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="m">3</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">"#00B0F0"</span><span class="p">)</span><span class="o">+</span>
+    <span class="n">geom_text</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">tf2</span><span class="p">[</span><span class="n">.frame</span><span class="o">==</span><span class="n">i</span> <span class="o">&amp;</span> <span class="n">date</span><span class="o">==</span><span class="n">max</span><span class="p">(</span><span class="n">tf2</span><span class="o">$</span><span class="n">date</span><span class="p">,</span><span class="n">na.rm</span><span class="o">=</span><span class="n">T</span><span class="p">)],</span><span class="n">alpha</span><span class="o">=</span><span class="m">0.82</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="m">4</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">"#00B0F0"</span><span class="p">,</span>
+              <span class="n">aes</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">paste</span><span class="p">(</span><span class="s2">" "</span><span class="p">,</span><span class="n">percent</span><span class="p">(</span><span class="n">round</span><span class="p">(</span><span class="n">cpi12</span><span class="p">,</span><span class="m">3</span><span class="p">)))),</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">)</span><span class="o">+</span>
+    <span class="c1">#geom_text(data=tf2[.frame==i],              aes(x=min(tf2$date),y=.1,label=item),              size = 5,hjust=0,color="#00B0F0") +
+</span>    <span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">"Consumer Price Index (y/y % change, NSA)"</span><span class="p">,</span>
+         <span class="n">title</span><span class="o">=</span><span class="s2">"Consumer Price Inflation (y/y %)"</span><span class="p">,</span>
+         <span class="n">subtitle</span><span class="o">=</span><span class="n">paste</span><span class="p">(</span><span class="n">unique</span><span class="p">(</span><span class="n">tf2</span><span class="p">[</span><span class="n">.frame</span><span class="o">==</span><span class="n">i</span><span class="p">]</span><span class="o">$</span><span class="n">item</span><span class="p">))</span> <span class="p">,</span>
+         <span class="n">caption</span><span class="o">=</span><span class="s2">"@lenkiefer Source: U.S. Bureau of Labor Statistics"</span><span class="p">)</span><span class="o">+</span>
+    <span class="n">theme</span><span class="p">(</span><span class="n">plot.title</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">18</span><span class="p">))</span><span class="o">+</span>
+    <span class="n">theme</span><span class="p">(</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">vjust</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="n">margin</span><span class="o">=</span><span class="n">margin</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="m">10</span><span class="p">)))</span><span class="o">+</span>
+    <span class="n">theme</span><span class="p">(</span><span class="n">plot.margin</span><span class="o">=</span><span class="n">unit</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="m">0.25</span><span class="p">,</span><span class="m">0.25</span><span class="p">,</span><span class="m">0.25</span><span class="p">,</span><span class="m">0.25</span><span class="p">),</span><span class="s2">"cm"</span><span class="p">))</span><span class="o">+</span>
+    <span class="n">theme</span><span class="p">(</span><span class="n">plot.subtitle</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">14</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">"#00B0F0"</span><span class="p">))</span>
+  <span class="n">print</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+  <span class="n">ani.pause</span><span class="p">()</span>
+  <span class="n">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="p">},</span><span class="n">movie.name</span><span class="o">=</span><span class="s2">"cpi_inflation_11_21_2016.gif"</span><span class="p">,</span><span class="n">ani.width</span> <span class="o">=</span> <span class="m">650</span><span class="p">,</span> <span class="n">ani.height</span> <span class="o">=</span> <span class="m">450</span><span class="p">)</span></code></pre></figure>
+
+<p>Which gives us:</p>
+
+<p><img src="/img/charts_nov_21_2016/cpi_inflation_11_21_2016.gif" alt="cpi gif" /></p>
+
+<h2 id="lollipop-charts">Lollipop charts</h2>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">i</span><span class="o">&lt;-</span><span class="n">length</span><span class="p">(</span><span class="n">dd</span><span class="p">)</span>  <span class="c1">#set index to last date
+</span><span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">cpi6n</span><span class="p">[</span><span class="n">date</span><span class="o">==</span><span class="n">dd</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&amp;</span> <span class="o">!</span><span class="p">(</span><span class="n">item.name</span> <span class="o">%</span><span class="k">in</span><span class="o">%</span> <span class="n">c</span><span class="p">(</span><span class="s2">"Transportation"</span><span class="p">,</span><span class="s2">"Services"</span><span class="p">,</span><span class="s2">"Other goods and services"</span><span class="p">))],</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">item.name</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">cpi12</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">cpi12</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">scale_color_viridis</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">"D"</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="s2">"Annual Inflation\nRate (%) "</span><span class="p">,</span><span class="n">discrete</span><span class="o">=</span><span class="n">F</span><span class="p">,</span><span class="n">direction</span><span class="o">=</span><span class="m">-1</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="m">0.85</span><span class="p">,</span>
+                      <span class="n">label</span><span class="o">=</span><span class="n">percent</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">geom_segment</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">xend</span><span class="o">=</span><span class="n">item.name</span><span class="p">,</span><span class="n">yend</span><span class="o">=</span><span class="m">0</span><span class="p">),</span><span class="n">size</span><span class="o">=</span><span class="m">1.2</span><span class="p">)</span><span class="o">+</span><span class="n">coord_flip</span><span class="p">()</span><span class="o">+</span>
+  <span class="n">geom_text</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">paste</span><span class="p">(</span><span class="s2">" "</span><span class="p">,</span><span class="n">percent</span><span class="p">(</span><span class="n">round</span><span class="p">(</span><span class="n">cpi12</span><span class="p">,</span><span class="m">3</span><span class="p">)),</span><span class="s2">" "</span><span class="p">),</span>
+                <span class="n">hjust</span><span class="o">=</span><span class="n">ifelse</span><span class="p">(</span><span class="n">cpi12</span><span class="o">&gt;</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">1</span><span class="p">)))</span><span class="o">+</span>  <span class="c1">#flip justification if point postiive or negative
+</span>    <span class="n">geom_point</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">3</span><span class="p">)</span><span class="o">+</span>
+    <span class="n">theme_minimal</span><span class="p">()</span><span class="o">+</span>   
+  <span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="o">=</span><span class="s2">"top"</span><span class="p">,</span><span class="n">legend.text</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">7</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">legend.key.width</span><span class="o">=</span><span class="n">unit</span><span class="p">(</span><span class="m">3</span><span class="p">,</span><span class="s2">"cm"</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">percent</span><span class="p">,</span><span class="n">limits</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">-0.02</span><span class="p">,</span><span class="m">.05</span><span class="p">),</span><span class="n">breaks</span><span class="o">=</span><span class="n">seq</span><span class="p">(</span><span class="m">-0.2</span><span class="p">,</span><span class="m">.08</span><span class="p">,</span><span class="m">.01</span><span class="p">))</span>  <span class="o">+</span>
+  <span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">"Consumer Price Index (y/y % change NSA)"</span><span class="p">,</span>
+       <span class="n">title</span><span class="o">=</span><span class="s2">"Consumer Price Inflation (y/y %)"</span><span class="p">,</span>
+       <span class="n">subtitle</span><span class="o">=</span><span class="s2">"by major category"</span><span class="p">,</span>
+       <span class="n">caption</span><span class="o">=</span><span class="s2">"@lenkiefer Source: U.S. Bureau of Labor Statistics"</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">plot.title</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">18</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">))</span></code></pre></figure>
+
+<p><img src="/img/Rfig/fig-cpi-viz-nov16-3-1.svg" alt="plot of chunk fig-cpi-viz-nov16-3" /></p>
+
+<p>And of course, we can make the lollipop dance:</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">cpi7n</span><span class="o">&lt;-</span><span class="n">cpi6n</span><span class="p">[</span> <span class="o">!</span><span class="p">(</span><span class="n">item.name</span> <span class="o">%</span><span class="k">in</span><span class="o">%</span> <span class="n">c</span><span class="p">(</span><span class="s2">"Transportation"</span><span class="p">,</span><span class="s2">"Services"</span><span class="p">,</span><span class="s2">"Other goods and services"</span><span class="p">))]</span>
+<span class="n">cpi7n</span><span class="o">$</span><span class="n">item.namef</span><span class="o">&lt;-</span><span class="n">as.factor</span><span class="p">(</span><span class="n">cpi7n</span><span class="o">$</span><span class="n">item.name</span><span class="p">)</span>
+<span class="n">cpi7n</span><span class="o">$</span><span class="n">datef</span><span class="o">&lt;-</span><span class="n">as.factor</span><span class="p">(</span><span class="n">cpi7n</span><span class="o">$</span><span class="n">date</span><span class="p">)</span>
+<span class="n">myf3</span><span class="o">&lt;-</span><span class="k">function</span><span class="p">(</span><span class="n">d</span><span class="p">){</span><span class="n">as.data.frame</span><span class="p">(</span><span class="n">cpi7n</span><span class="p">[</span><span class="n">date</span><span class="o">==</span><span class="n">d</span><span class="p">,</span> <span class="n">list</span><span class="p">(</span><span class="n">datef</span><span class="p">,</span><span class="n">cpi12</span><span class="p">,</span><span class="n">item.namef</span><span class="p">)])}</span>
+<span class="n">d.list3</span><span class="o">&lt;-</span><span class="n">unique</span><span class="p">(</span><span class="n">cpi6n</span><span class="p">[</span><span class="n">month</span><span class="o">==</span><span class="m">10</span> <span class="o">&amp;</span> <span class="n">year</span><span class="o">&gt;</span><span class="m">2000</span><span class="p">]</span><span class="o">$</span><span class="n">date</span><span class="p">)</span>
+<span class="n">my.list3</span><span class="o">&lt;-</span><span class="n">lapply</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="n">d.list3</span><span class="p">,</span><span class="n">d.list3</span><span class="p">[</span><span class="m">1</span><span class="p">]),</span><span class="n">myf3</span><span class="p">)</span>
+
+<span class="n">tf3</span> <span class="o">&lt;-</span> <span class="n">tween_states</span><span class="p">(</span><span class="n">my.list3</span><span class="p">,</span> <span class="n">tweenlength</span><span class="o">=</span> <span class="m">2</span><span class="p">,</span> <span class="n">statelength</span><span class="o">=</span><span class="m">3</span><span class="p">,</span> <span class="n">ease</span><span class="o">=</span><span class="n">rep</span><span class="p">(</span><span class="s1">'cubic-in-out'</span><span class="p">,</span><span class="m">24</span><span class="p">),</span><span class="n">nframes</span><span class="o">=</span><span class="m">150</span><span class="p">)</span>
+<span class="n">tf3</span><span class="o">&lt;-</span><span class="n">data.table</span><span class="p">(</span><span class="n">tf3</span><span class="p">)</span>
+
+<span class="n">oopt</span> <span class="o">=</span> <span class="n">ani.options</span><span class="p">(</span><span class="n">interval</span> <span class="o">=</span> <span class="m">0.1</span><span class="p">)</span>
+<span class="n">saveGIF</span><span class="p">({</span><span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="k">in</span> <span class="m">1</span><span class="o">:</span><span class="n">max</span><span class="p">(</span><span class="n">tf3</span><span class="o">$</span><span class="n">.frame</span><span class="p">))</span> <span class="p">{</span>
+  <span class="n">g</span><span class="o">&lt;-</span>
+    <span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">tf3</span><span class="p">[</span><span class="n">.frame</span><span class="o">==</span><span class="n">i</span><span class="p">],</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">item.namef</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">cpi12</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">cpi12</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">scale_color_viridis</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">"D"</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="s2">"Annual Inflation\nRate (%) "</span><span class="p">,</span><span class="n">discrete</span><span class="o">=</span><span class="n">F</span><span class="p">,</span><span class="n">direction</span><span class="o">=</span><span class="m">-1</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="m">0.85</span><span class="p">,</span>
+                      <span class="n">label</span><span class="o">=</span><span class="n">percent</span><span class="p">,</span><span class="n">limits</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">-0.04</span><span class="p">,</span><span class="m">.08</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">geom_segment</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">xend</span><span class="o">=</span><span class="n">item.namef</span><span class="p">,</span><span class="n">yend</span><span class="o">=</span><span class="m">0</span><span class="p">),</span><span class="n">size</span><span class="o">=</span><span class="m">1.2</span><span class="p">)</span><span class="o">+</span><span class="n">coord_flip</span><span class="p">()</span><span class="o">+</span>
+  <span class="n">geom_text</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">paste</span><span class="p">(</span><span class="s2">" "</span><span class="p">,</span><span class="n">percent</span><span class="p">(</span><span class="n">round</span><span class="p">(</span><span class="n">cpi12</span><span class="p">,</span><span class="m">3</span><span class="p">)),</span><span class="s2">" "</span><span class="p">),</span>
+                <span class="n">hjust</span><span class="o">=</span><span class="n">ifelse</span><span class="p">(</span><span class="n">cpi12</span><span class="o">&gt;</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">1</span><span class="p">)))</span><span class="o">+</span>  <span class="c1">#flip justification if point postiive or negative
+</span>    <span class="n">geom_point</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">3</span><span class="p">)</span><span class="o">+</span>
+    <span class="n">theme_minimal</span><span class="p">()</span><span class="o">+</span>   
+  <span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="o">=</span><span class="s2">"top"</span><span class="p">,</span><span class="n">legend.text</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">7</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">legend.key.width</span><span class="o">=</span><span class="n">unit</span><span class="p">(</span><span class="m">2</span><span class="p">,</span><span class="s2">"cm"</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">percent</span><span class="p">,</span><span class="n">limits</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">-0.04</span><span class="p">,</span><span class="m">.08</span><span class="p">),</span><span class="n">breaks</span><span class="o">=</span><span class="n">seq</span><span class="p">(</span><span class="m">-0.2</span><span class="p">,</span><span class="m">.08</span><span class="p">,</span><span class="m">.01</span><span class="p">))</span>  <span class="o">+</span>
+  <span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">"Consumer Price Index (y/y % change NSA)"</span><span class="p">,</span>
+       <span class="n">title</span><span class="o">=</span><span class="s2">"Consumer Price Inflation (y/y %)"</span><span class="p">,</span>
+       <span class="n">subtitle</span><span class="o">=</span><span class="n">paste</span><span class="p">(</span><span class="s2">"by major category:"</span><span class="p">,</span><span class="n">as.character</span><span class="p">(</span><span class="n">as.Date</span><span class="p">(</span><span class="n">tf3</span><span class="p">[</span><span class="n">.frame</span><span class="o">==</span><span class="n">i</span><span class="p">]</span><span class="o">$</span><span class="n">datef</span><span class="p">),</span><span class="n">format</span><span class="o">=</span><span class="s2">"%b-%Y"</span><span class="p">)),</span>
+       <span class="n">caption</span><span class="o">=</span><span class="s2">"@lenkiefer Source: U.S. Bureau of Labor Statistics"</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">plot.title</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">18</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">))</span>
+
+  <span class="n">print</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+  <span class="n">ani.pause</span><span class="p">()</span>
+  <span class="n">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>  <span class="c1">#counter 
+</span><span class="p">}</span>
+<span class="p">},</span><span class="n">movie.name</span><span class="o">=</span><span class="s2">"cpi_dance_lolly_11_21_2016.gif"</span><span class="p">,</span><span class="n">ani.width</span> <span class="o">=</span> <span class="m">650</span><span class="p">,</span> <span class="n">ani.height</span> <span class="o">=</span> <span class="m">450</span><span class="p">)</span></code></pre></figure>
+
+<p><img src="/img/charts_nov_21_2016/cpi_dance_lolly_11_21_2016.gif" alt="cpi gif 3" /></p>
+
+    </div>
+
+    
+
+    
+  
+    <hr>
+    <ul class="pagination">
+    
+      <li class="prev"><a href="/2016/11/03/visual-meditations-on-house-prices-part6" title="Visual meditations on house prices, Part 6: state recovery">&laquo; Previous</a></li>
+    
+      <li><a href="/archive.html">Archive</a></li>
+    
+      <li class="next"><a href="/2016/11/30/hpi-gif" title="Comparing house prices, rents, other prices and incomes">Next &raquo;</a></li>
+    
+    </ul>
+    <hr>
+    
+  </div>
+</div>
+
+
+
+      </div>
+
+    </div>
+
+    <div id="footer">
+      <div class="container">
+        <p>&copy; 2017 Len Kiefer
+          with help from <a href="http://jekyllbootstrap.com" target="_blank" title="The Definitive Jekyll Blogging Framework">Jekyll Bootstrap</a>
+          and <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>
+       
+    • <span vertical-align:bottom> <a href="https://twitter.com/lenkiefer" class="twitter-follow-button" data-show-count="false">•   Follow @lenkiefer</a>
+  
+ <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+</span>
+• <script src="//platform.linkedin.com/in.js" type="text/javascript"></script>
+<script type="IN/MemberProfile" data-id="https://www.linkedin.com/pub/leonard-kiefer/31/753/511" data-format="click" data-related="false" data-text="Leonard Kiefer"></script>
+  • lenkiefer@hotmail.com
+           </p>
+      </div>
+    </div>
+    
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+    <!-- Latest compiled and minified JavaScript, requires jQuery 1.x (2.x not supported in IE8) -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="/assets/themes/lentheme/bootstrap/js/bootstrap.min.js"></script>
+  </body>
+</html>
+
+
+
+
+

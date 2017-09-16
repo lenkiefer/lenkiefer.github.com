@@ -1,0 +1,178 @@
+---
+title: Let's make a dot plot
+author: Len Kiefer
+date: '2016-06-22'
+slug: Make-a-dotplot
+tags: ["dataviz","R","animation"]
+
+---
+
+IN THIS POST WE'RE GOING to make an animated version of the famous Federal Reserve dot plot comparing the dots in March 2016 to June 2016.  As far as celebrity charts go, the dot plot has to be up there. Check out how much "dot plot" has grown in search popularity since the Fed introduced their dot plot in 2012:
+
+<img src="../../../../img/charts_jun_22_2016/dottrends.PNG" alt="dot trends" width="400"/>
+
+Ultimately, it will look something like this:
+
+<img src="../../../../img/charts_jun_22_2016/fed_dots_2016.gif" alt="dot plot"/>
+
+The dot plot is a special chart that shows the distribution of expectations of the Federal Open Market Committee (FOMC) for the federal funds rate. Specifically it captures the views of each individual FOMC member for the following:
+
+> Each shaded circle indicates the value (rounded to the nearest 1/8 percentage point) of an individual participant's judgment of the midpoint of the appropriate target range for the federal funds rate or the appropriate target level for the federal funds rate at the end of the specified calendar year or over the longer run. 
+
+
+The Fed makes the dot plot information available in a handy format here: [FOMC materials](https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm). For example, the June 2016 projections look like this: 
+
+<img src="../../../../img/charts_jun_22_2016/jun2016dots.PNG" alt="jun2016dots.PNG"/>
+
+I've tidied the data (in Excel) so that it has three columns.  One corresponding to the rate (rate), one corresponding to the horizon (x), and one corresponding to the count of dots (count).  It looks like:
+
+<img src="../../../../img/charts_jun_22_2016/dotsetup.PNG" alt="dotsetup.PNG"/>
+
+We're going to begin with two text files capturing (tidied) tables for [March 2016](https://www.federalreserve.gov/monetarypolicy/fomcprojtabl20160316.htm) and [June 2016](https://www.federalreserve.gov/monetarypolicy/fomcprojtabl20160615.htm).  With these two files in hand our R dataviz party can get started.
+
+## Making the dots
+
+We'll be using ggplot2, which has a plot type called [geom_dotplot](http://docs.ggplot2.org/current/geom_dotplot.html), but unfortunately this plot doesn't work very well for what we want to do.  Perhaps parameters could be set to make the image we want, but I'm going to build the plot myself.  This follows a pattern similar to what we did with the distribution plots for unemployment [in an earlier post](../../../../2016/04/06/dot-plots-and-distributions ).
+
+### Setup
+
+First we'll set up our libraries:
+
+
+{% highlight r 
+library(ggplot2)
+library(scales)
+library(animation)
+library(ggthemes)
+library(data.table)
+library(tweenr)  #used for animation
+{% endhighlight 
+
+Next we're going to find the location for each dot in the dot plot.  This requires some simple math.  We're going to set the dots along a line between +/-0.4 from the index value for each entry on the x axis (1 for 2016, 2 for 2017, 3 for 2018 and 4 for Longer Run).  If there is an odd number of dots, we'll being at the index value and add two dots +/- a fixed amount of spacing **the interval**.  The **interval** will be determined by the maximum number of dots along any row.  For an even number of dots, we'll set the first two dots at +/- the **interval**.
+
+Turns out for this example, we can set the **interval** to 0.2. This seems to work with the number of dots we have, but isn't a general solution. For different data you might need to tune the **interval**.
+
+
+{% highlight r 
+d6<-fread("data/jun2016.txt")  #load data for Jun 2016
+d3<-fread("data/mar2016.txt")  #load data for March 2016
+
+# get a unique list of horizon values appearing in the FOMC projection table (2016,2017,2018,Longer Run)
+xlist<-unique(d6$x)  
+# Set up an empty data frame
+df<-data.frame(rate=numeric(),x=numeric())
+#str(df)
+for (xx in 1:length(xlist)){  #loop through x values
+  for (i in 1:length(d6[x==xlist[xx]]$rate) ){ #create a dot for each observation
+    for (j in 1:d6[x==xlist[xx] ]$count[i])   #count along each row
+    {if (d6[x==xlist[xx]]$count[i]>0){   #do something if count is greater than 0
+      myc<-j  #j corresponds to the number of dots in a row
+      #set up a counter for total number of dots in a row
+      #if number in row is odd, start at zero
+      #if number in row is even, start at 1/2 0.4 = 0.2 around zero
+      df1<-data.frame(rate=d6[x==xlist[xx]]$rate[i],x=ifelse(d6[x==xlist[xx]]$count[i] %% 2 ==1, 
+                                                          ifelse(myc %% 2 ==1,xx+(-1)^myc * (myc-1)*0.04,xx+(-1)^myc * (myc)*0.04),
+                                                          xx-.02+(-1)^myc * (myc)*0.04)   )
+      df<-rbind(df,df1)
+}}}}
+
+caption <- "@lenkiefer Source: Federal Reserve Board Note: Each shaded circle indicates the value (rounded to the nearest 1/8 percentage point) of an individual participant's judgment of the midpoint of the appropriate target range for the federal funds rate or the appropriate target level for the federal funds rate at the end of the specified calendar year or over the longer run. One participant did not submit longer-run projections in June 2016. 
+"
+{% endhighlight 
+
+Now make a static plot:
+
+
+{% highlight r 
+#make a plot
+ggplot(data=df,aes(x=x,y=rate))+
+  theme_minimal()+
+  scale_x_continuous(breaks=seq(1,4,1),labels=c("2016","2017","2018","Longer Run"))+
+  geom_point(size=2,color="#00B0F0")+scale_y_continuous(limits=c(0,4.5))+
+  labs(y="Midpoint of target range or target level for the federal funds rate (%)",x="Horizon",
+       subtitle="June 2016",
+       title="FOMC participants' assessments of appropriate monetary policy:\nMidpoint of target range or target level for the federal funds rate",
+       caption=label_wrap_gen(100)(caption))+ #wrap the label 
+  theme(plot.title=element_text(size=14))+theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+  theme(plot.margin=unit(c(0.25,0.25,0.25,0.25),"cm"))+  theme(legend.justification=c(0,0), legend.position="none")
+{% endhighlight 
+
+![plot of chunk dot-chunk](/img/Rfig/dot-chunk-1.svg)
+
+## Animating the dots
+
+Now we're ready to animate.  For more explicit discussion, see my [earlier post]({%post_url 2016-05-29-improving-R-animated-gifs-with-tweenr). What we're going to do is load each month worth of dots and then then use tweenr to interpolate between the points.
+
+### A dot goes missing
+
+The way I'm using tweenr, with the tween_states function, I need each dataset to have the same number of observations (rows).  This normally wouldn't be a problem as there are usually 17 dots corresponding to each FOMC member. But in June 2016 one dot went missing.  There were only 16 dots for the "Longer Run" dot.
+
+It turns out that James Bullard from the St. Louis Fed [claimed the missing dot](http://www.bloomberg.com/news/articles/2016-06-17/st-louis-fed-s-bullard-claims-the-dot-missing-from-fed-estimate), and even wrote a short paper on why he didn't think the "Longer Run" dot was useful.  You can read more about it [here](https://www.stlouisfed.org/from-the-president/commentary/2016/new-characterization-outlook-economy).
+
+In order to deal with the missing dot and have the animation work, we're going to need to pad the data frame with the June dots.  I chose to do it by adding a large positive value (8) outside the range of the plot.  This will result in the dot flying off the top of the chart in the animation. I imagine a tiny voice say "forget this I'm outta here!"
+
+### Animation code
+
+
+{% highlight r 
+#pad the dot for June 2016:
+df6<-rbind(df6,data.frame(rate=8,x=4))
+
+#replicate the business above for march 2016
+
+d3<-fread("mar2016.txt")
+xlist<-unique(d3$x)  
+# Set up an empty data frame
+df<-data.frame(rate=numeric(),x=numeric())
+#str(df)
+for (xx in 1:length(xlist)){  #loop through x values
+  for (i in 1:length(d6[x==xlist[xx]]$rate) ){ #create a dot for each observation
+    for (j in 1:d6[x==xlist[xx] ]$count[i])
+    {if (d6[x==xlist[xx]]$count[i]>0){
+      myc<-j
+      #set up a counter for total number of dots in a row
+      #if number in row is odd, start at zero
+      #if number in row is even, start at 1/2 0.4 = 0.2 around zero
+      df1<-data.frame(rate=d3[x==xlist[xx]]$rate[i],x=ifelse(d3[x==xlist[xx]]$count[i] %% 2 ==1, 
+                                                          ifelse(myc %% 2 ==1,xx+(-1)^myc * (myc-1)*0.04,xx+(-1)^myc * (myc)*0.04),
+                                                          xx-.02+(-1)^myc * (myc)*0.04)   )
+      df<-rbind(df,df1)
+}}}}
+
+df3<-df
+
+#tween the data sets.
+df3$date<-factor("March 2016")  #set date label
+df6$date<-factor("June 2016")   #set date label
+
+# use tweenr to interpolate the data
+tf <- tween_states(list(df3,df6,df3), tweenlength= 3, statelength=1, ease=rep('cubic-in-out',2),nframes=50)
+tf<-data.table(tf)  #make a data table for convenience
+
+# Run the animation:
+
+oopt = ani.options(interval = 0.01)
+saveGIF({for (i in 1:max(tf$.frame)) {
+  g<- 
+    ggplot(data=tf[.frame==i],aes(x=x,y=rate,color=date))+
+    theme_minimal()+scale_x_continuous(breaks=seq(1,4,1),labels=c("2016","2017","2018","Longer Run"))+
+    geom_point(size=2,aes(color=date))+scale_y_continuous(limits=c(0,4.5))+
+    scale_color_manual(limits=c("March 2016","June 2016"),values=c("red","#00B0F0"))+
+    labs(y="Midpoint of target range or target level for the federal funds rate (%)",x="Horizon",
+         subtitle=tf[.frame==i]$date,
+         title="FOMC participants' assessments of appropriate monetary policy:\nMidpoint of target range or target level for the federal funds rate",
+         caption=label_wrap_gen(100)(caption))+
+    theme(plot.title=element_text(size=14))+theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+    theme(plot.margin=unit(c(0.25,0.25,0.25,0.25),"cm"))+  theme(legend.justification=c(0,0), legend.position="none")
+  print(g)
+  ani.pause()
+  print(i)  #I like to print a counter so I know about when the animation will finish
+}
+},movie.name="fed_dots_2016.gif",ani.width = 575, ani.height = 450)  #save the output
+{% endhighlight 
+
+Running this code should create our animated dot plot:
+
+<img src="../../../../img/charts_jun_22_2016/fed_dots_2016.gif" alt="dot plot"/>
+
+

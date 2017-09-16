@@ -1,0 +1,1146 @@
+---
+title: "A grand tour of house price trends"
+author: "Len Kiefer"
+date: "2017-02-20"
+summary: "R statistics dataviz housing mortgage data"
+slug: "house-price-tour"
+categories: ["economics"] 
+tags: ["R","housing","house prices", "dataviz"]
+---
+
+
+
+<p>LET US BUILD ON YESTERDAY’S POST (<a href="../../../../2017/02/19/house-price-update">LINK</a>) and construct more VISUALIZATIONS of house prices. In this post, I’ll include some <a href="https://www.r-project.org/">R</a> code so you can play along.</p>
+<p>We are going to construct our own GRAND TOUR (<a href="https://en.wikipedia.org/wiki/Grand_Tour">Wikipedia</a>) except instead of touring European antiquity, we will explore recent trends in house prices around the continental United States. But we will perhaps still pick up some culture, or at least a new <a href="http://ggplot2.org/">ggplot2</a> theme.</p>
+<div id="a-new-theme" class="section level2">
+<h2>A new theme</h2>
+<p>For this post, we’ll most ignore the <a href="../../../../2017/02/06/ticks-out">ticks out</a> business from an earlier post and instead try a different theme. We will use the newly released <a href="https://github.com/hrbrmstr/hrbrthemes">hrbrthemes</a> package.</p>
+</div>
+<div id="data-carpentry" class="section level1">
+<h1>Data carpentry</h1>
+<p>This morning, <a href="https://twitter.com/robinlovelace/status/833622374037721089">via twitter</a> I came across the following essay (<a href="https://csgillespie.github.io/efficientR/data-carpentry.html">LINK</a>) arguing that instead of data wrangling, munging and the like, we should describe data manipulation attempts as <em>Data Carpentry</em>. A good idea, and it inspired me to <a href="https://twitter.com/lenkiefer/status/833666399650328576">tweet</a> the following poem:</p>
+<blockquote>
+<p><strong>Data carpentry</strong><br />
+<em>Some are expert artisans crafting custom design,</em><br />
+<em>Others cogs on efficient assembly line,</em><br />
+<em>Me: Chair wobbling. Seems just fine!</em></p>
+</blockquote>
+<p>So let us construct our wobbly chair, full of loving care.</p>
+<div id="get-data" class="section level2">
+<h2>Get data</h2>
+<p>We are going to combine data from two sources. First, we will get house price data from the publicly available <a href="http://www.freddiemac.com/finance/fmhpi/about.html">Freddie Mac House Price Index</a> and second we’ll use employment data from the <a href="https://www.bls.gov/sae/data.htm">Bureau of Labor Statistics (BLS)</a>.</p>
+<p>For more details on these data see respectively:</p>
+<ul>
+<li><p><a href="../../../../2016/05/08/visual-meditations-on-house-prices-part1">Visual Meditations on House Prices Part 1: data wrangling</a></p></li>
+<li><p><a href="../../../../2017/02/01/emp-trends">Wrangling employment data, plotting trends</a></p></li>
+</ul>
+<p>Following the house price post, we’ll begin with a text file with metro area house prices, and following the second we’ll get employment data directly from BLS. To make things easier, I’ve post a link to the updated house price text file below, and copied the employment data code below that.</p>
+<div id="house-price-data" class="section level3">
+<h3>House price data</h3>
+<p>In order to make our map, we’ll want to merge on the latitude and longitude of the principal city for each metro.</p>
+<p>We are going to use the <em>us.cities</em> data that comes with the maps library. To get the cbsa locations, we need to merge on the principal city of each metro area to the <em>us.cities</em> data. The <em>us.cities</em> file has the latitude and longitude of many U.S. cities.</p>
+<p>The U.S. Census Bureau has convenient files <a href="https://www.census.gov/data/tables/2015/demo/popest/total-metro-and-micro-statistical-areas.html">here</a> that will allows us to map U.S. cities to metro areas. We can grab a mapping of principal cities to CBSA and merge to the <em>us.cities</em> data. I’ve also added metro population (in 2015), which will be useful for sorting later.</p>
+<p>I’ve also created a utility file that has the principal state and Census Region and Census Division for that principal state for each metro area. I’ve called that <em>region.txt</em>.</p>
+<p>In summary, we’ll need these three files:</p>
+<ul>
+<li><p>File with house price data <a href="../../../../img/charts_feb_20_2017/fmhpi2016q4metro.txt">fmhpi2016q4metro.txt</a></p></li>
+<li><p>File with principal cities of CBSA along with metro pop <a href="../../../../img/charts_feb_20_2017/cbsa.city.txt">cbsa.city.txt</a></p></li>
+<li><p>File with regions <a href="../../../../img/charts_feb_20_2017/region.txt">region.txt</a></p></li>
+</ul>
+<p>Armed with these files we can run the following data preparation code:</p>
+<pre class="r"><code>################################################
+## Load libraries
+################################################
+library(tidyverse)</code></pre>
+<pre><code>## Loading tidyverse: ggplot2
+## Loading tidyverse: tibble
+## Loading tidyverse: tidyr
+## Loading tidyverse: readr
+## Loading tidyverse: purrr
+## Loading tidyverse: dplyr</code></pre>
+<pre><code>## Conflicts with tidy packages ----------------------------------------------</code></pre>
+<pre><code>## filter(): dplyr, stats
+## lag():    dplyr, stats</code></pre>
+<pre class="r"><code>library(data.table)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;data.table&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:dplyr&#39;:
+## 
+##     between, first, last</code></pre>
+<pre><code>## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     transpose</code></pre>
+<pre class="r"><code>library(viridis)  #we want pretty colors later</code></pre>
+<pre><code>## Loading required package: viridisLite</code></pre>
+<pre class="r"><code>library(maps)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;maps&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     map</code></pre>
+<pre class="r"><code>library(scales)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;scales&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     discard</code></pre>
+<pre><code>## The following object is masked from &#39;package:readr&#39;:
+## 
+##     col_factor</code></pre>
+<pre class="r"><code>#### HRBRTHEMES ################################
+
+### Run to install #############################
+#devtools::install_github(&quot;hrbrmstr/hrbrthemes&quot;)
+library(hrbrthemes)
+library(gcookbook)
+library(extrafont)</code></pre>
+<pre><code>## Registering fonts with R</code></pre>
+<pre class="r"><code>################################################
+
+source(&quot;code/multiplot.R&quot;)
+
+data(us.cities) # from the package maps
+cbsa.data &lt;-fread(&quot;data/cbsa.city.txt&quot;) #our first utility file
+cbsa.metro&lt;-cbsa.data[metro.micro==&quot;Metropolitan Statistical Area&quot;]
+
+#create lowercase names
+cbsa.metro[,nameL:=tolower(name)]
+us.cities&lt;-data.table(us.cities)[,nameL:=tolower(name)]
+
+d&lt;-merge(cbsa.metro,us.cities,by=&quot;nameL&quot;)
+#get rid of duplicates
+# see: http://stackoverflow.com/questions/15776064/r-first-observation-by-group-using-data-table-self-join
+d&lt;-d[order(-pop)]
+d&lt;-d[d[,list(row1 = .I[1]), by = list(cbsa)][,row1]]
+
+# load house price data
+dm&lt;-fread(&quot;data/fmhpi2016q4metro.txt&quot;)
+dm$date&lt;-as.Date(dm$date, format=&quot;%m/%d/%Y&quot;)
+#compute year-over-year house price growth
+dm[,hpa12:=hpi/shift(hpi,12,fill=NA)-1,by=metro]
+
+# for merging:
+setkey(d,cbsa.name)
+setkey(dm,metro)
+dm2&lt;-merge(dm,d,by.y=&quot;cbsa.name&quot;,by.x=&quot;metro&quot;,all.x=T)
+
+#load regions
+regions&lt;-fread(&quot;data/region.txt&quot;)
+dm2&lt;-merge(dm2,regions,by.x=&quot;state&quot;,by.y=&quot;statecode&quot;)
+
+# Only keep necessary columns
+dm2&lt;-dm2[,c(&quot;state&quot;,&quot;statename&quot;,&quot;division&quot;,&quot;region&quot;,&quot;metro&quot;,&quot;cbsa&quot;,&quot;lat&quot;,&quot;long&quot;,&quot;date&quot;,&quot;year&quot;,&quot;month&quot;,&quot;hpi&quot;,&quot;hpa12&quot;,&quot;metro.pop&quot;), with=F]</code></pre>
+<pre class="r"><code># Check data
+library(&quot;htmlTable&quot;)
+library(lubridate)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;lubridate&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:data.table&#39;:
+## 
+##     hour, isoweek, mday, minute, month, quarter, second, wday,
+##     week, yday, year</code></pre>
+<pre><code>## The following object is masked from &#39;package:base&#39;:
+## 
+##     date</code></pre>
+<pre class="r"><code># make tables for viewing formatting dates with purr %&gt;% operations
+htmlTable(head(dm2 %&gt;% map_if(is.Date, as.character,format=&quot;%b %d,%Y&quot;) %&gt;% map_if(is.numeric, round,0) %&gt;%as.data.frame() ,10), col.rgroup = c(&quot;none&quot;, &quot;#F7F7F7&quot;),caption=&quot;Merged house price data&quot;,
+          tfoot=&quot;Source: Freddie Mac House Price Index, Census&quot;)</code></pre>
+<table class='gmisc_table' style='border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;' >
+<thead>
+<tr><td colspan='15' style='text-align: left;'>
+Merged house price data</td></tr>
+<tr>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey;'> </th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>state</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>statename</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>division</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>region</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>metro</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>cbsa</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>lat</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>long</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>date</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>year</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>month</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>hpi</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>hpa12</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>metro.pop</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style='text-align: left;'>1</td>
+<td style='text-align: center;'>AK</td>
+<td style='text-align: center;'>Alaska</td>
+<td style='text-align: center;'>Pacific Division</td>
+<td style='text-align: center;'>West Region</td>
+<td style='text-align: center;'>Anchorage, AK</td>
+<td style='text-align: center;'>11260</td>
+<td style='text-align: center;'>61</td>
+<td style='text-align: center;'>-149</td>
+<td style='text-align: center;'>Jan 01,1975</td>
+<td style='text-align: center;'>1975</td>
+<td style='text-align: center;'>1</td>
+<td style='text-align: center;'>36</td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'>399790</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>2</td>
+<td style='background-color: #f7f7f7; text-align: center;'>AK</td>
+<td style='background-color: #f7f7f7; text-align: center;'>Alaska</td>
+<td style='background-color: #f7f7f7; text-align: center;'>Pacific Division</td>
+<td style='background-color: #f7f7f7; text-align: center;'>West Region</td>
+<td style='background-color: #f7f7f7; text-align: center;'>Anchorage, AK</td>
+<td style='background-color: #f7f7f7; text-align: center;'>11260</td>
+<td style='background-color: #f7f7f7; text-align: center;'>61</td>
+<td style='background-color: #f7f7f7; text-align: center;'>-149</td>
+<td style='background-color: #f7f7f7; text-align: center;'>Feb 01,1975</td>
+<td style='background-color: #f7f7f7; text-align: center;'>1975</td>
+<td style='background-color: #f7f7f7; text-align: center;'>2</td>
+<td style='background-color: #f7f7f7; text-align: center;'>36</td>
+<td style='background-color: #f7f7f7; text-align: center;'></td>
+<td style='background-color: #f7f7f7; text-align: center;'>399790</td>
+</tr>
+<tr>
+<td style='text-align: left;'>3</td>
+<td style='text-align: center;'>AK</td>
+<td style='text-align: center;'>Alaska</td>
+<td style='text-align: center;'>Pacific Division</td>
+<td style='text-align: center;'>West Region</td>
+<td style='text-align: center;'>Anchorage, AK</td>
+<td style='text-align: center;'>11260</td>
+<td style='text-align: center;'>61</td>
+<td style='text-align: center;'>-149</td>
+<td style='text-align: center;'>Mar 01,1975</td>
+<td style='text-align: center;'>1975</td>
+<td style='text-align: center;'>3</td>
+<td style='text-align: center;'>37</td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'>399790</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>4</td>
+<td style='background-color: #f7f7f7; text-align: center;'>AK</td>
+<td style='background-color: #f7f7f7; text-align: center;'>Alaska</td>
+<td style='background-color: #f7f7f7; text-align: center;'>Pacific Division</td>
+<td style='background-color: #f7f7f7; text-align: center;'>West Region</td>
+<td style='background-color: #f7f7f7; text-align: center;'>Anchorage, AK</td>
+<td style='background-color: #f7f7f7; text-align: center;'>11260</td>
+<td style='background-color: #f7f7f7; text-align: center;'>61</td>
+<td style='background-color: #f7f7f7; text-align: center;'>-149</td>
+<td style='background-color: #f7f7f7; text-align: center;'>Apr 01,1975</td>
+<td style='background-color: #f7f7f7; text-align: center;'>1975</td>
+<td style='background-color: #f7f7f7; text-align: center;'>4</td>
+<td style='background-color: #f7f7f7; text-align: center;'>37</td>
+<td style='background-color: #f7f7f7; text-align: center;'></td>
+<td style='background-color: #f7f7f7; text-align: center;'>399790</td>
+</tr>
+<tr>
+<td style='text-align: left;'>5</td>
+<td style='text-align: center;'>AK</td>
+<td style='text-align: center;'>Alaska</td>
+<td style='text-align: center;'>Pacific Division</td>
+<td style='text-align: center;'>West Region</td>
+<td style='text-align: center;'>Anchorage, AK</td>
+<td style='text-align: center;'>11260</td>
+<td style='text-align: center;'>61</td>
+<td style='text-align: center;'>-149</td>
+<td style='text-align: center;'>May 01,1975</td>
+<td style='text-align: center;'>1975</td>
+<td style='text-align: center;'>5</td>
+<td style='text-align: center;'>38</td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'>399790</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>6</td>
+<td style='background-color: #f7f7f7; text-align: center;'>AK</td>
+<td style='background-color: #f7f7f7; text-align: center;'>Alaska</td>
+<td style='background-color: #f7f7f7; text-align: center;'>Pacific Division</td>
+<td style='background-color: #f7f7f7; text-align: center;'>West Region</td>
+<td style='background-color: #f7f7f7; text-align: center;'>Anchorage, AK</td>
+<td style='background-color: #f7f7f7; text-align: center;'>11260</td>
+<td style='background-color: #f7f7f7; text-align: center;'>61</td>
+<td style='background-color: #f7f7f7; text-align: center;'>-149</td>
+<td style='background-color: #f7f7f7; text-align: center;'>Jun 01,1975</td>
+<td style='background-color: #f7f7f7; text-align: center;'>1975</td>
+<td style='background-color: #f7f7f7; text-align: center;'>6</td>
+<td style='background-color: #f7f7f7; text-align: center;'>39</td>
+<td style='background-color: #f7f7f7; text-align: center;'></td>
+<td style='background-color: #f7f7f7; text-align: center;'>399790</td>
+</tr>
+<tr>
+<td style='text-align: left;'>7</td>
+<td style='text-align: center;'>AK</td>
+<td style='text-align: center;'>Alaska</td>
+<td style='text-align: center;'>Pacific Division</td>
+<td style='text-align: center;'>West Region</td>
+<td style='text-align: center;'>Anchorage, AK</td>
+<td style='text-align: center;'>11260</td>
+<td style='text-align: center;'>61</td>
+<td style='text-align: center;'>-149</td>
+<td style='text-align: center;'>Jul 01,1975</td>
+<td style='text-align: center;'>1975</td>
+<td style='text-align: center;'>7</td>
+<td style='text-align: center;'>39</td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'>399790</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>8</td>
+<td style='background-color: #f7f7f7; text-align: center;'>AK</td>
+<td style='background-color: #f7f7f7; text-align: center;'>Alaska</td>
+<td style='background-color: #f7f7f7; text-align: center;'>Pacific Division</td>
+<td style='background-color: #f7f7f7; text-align: center;'>West Region</td>
+<td style='background-color: #f7f7f7; text-align: center;'>Anchorage, AK</td>
+<td style='background-color: #f7f7f7; text-align: center;'>11260</td>
+<td style='background-color: #f7f7f7; text-align: center;'>61</td>
+<td style='background-color: #f7f7f7; text-align: center;'>-149</td>
+<td style='background-color: #f7f7f7; text-align: center;'>Aug 01,1975</td>
+<td style='background-color: #f7f7f7; text-align: center;'>1975</td>
+<td style='background-color: #f7f7f7; text-align: center;'>8</td>
+<td style='background-color: #f7f7f7; text-align: center;'>40</td>
+<td style='background-color: #f7f7f7; text-align: center;'></td>
+<td style='background-color: #f7f7f7; text-align: center;'>399790</td>
+</tr>
+<tr>
+<td style='text-align: left;'>9</td>
+<td style='text-align: center;'>AK</td>
+<td style='text-align: center;'>Alaska</td>
+<td style='text-align: center;'>Pacific Division</td>
+<td style='text-align: center;'>West Region</td>
+<td style='text-align: center;'>Anchorage, AK</td>
+<td style='text-align: center;'>11260</td>
+<td style='text-align: center;'>61</td>
+<td style='text-align: center;'>-149</td>
+<td style='text-align: center;'>Sep 01,1975</td>
+<td style='text-align: center;'>1975</td>
+<td style='text-align: center;'>9</td>
+<td style='text-align: center;'>40</td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'>399790</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: left;'>10</td>
+<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>AK</td>
+<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>Alaska</td>
+<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>Pacific Division</td>
+<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>West Region</td>
+<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>Anchorage, AK</td>
+<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>11260</td>
+<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>61</td>
+<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>-149</td>
+<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>Oct 01,1975</td>
+<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>1975</td>
+<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>10</td>
+<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>41</td>
+<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'></td>
+<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>399790</td>
+</tr>
+</tbody>
+<tfoot><tr><td colspan='15'>
+Source: Freddie Mac House Price Index, Census</td></tr></tfoot>
+</table>
+<p>These data have geographic identifies (state=Principal state, metro=name,cbsa=cbsa code, statename=State long name, division=Census division,region=Census region, lat=latitude,long=longtitutde), and data variables (date, year, month), house price information (hpi=house price index, hpa12=year-over-year percent change in index,metro.pop=metro population in 2015).</p>
+</div>
+<div id="testing" class="section level3">
+<h3>Testing…</h3>
+<p>We could just let that data chill for a second, but let’s give that new theme a spin. Let’s make a simple line chart showing the house price index for Columbus, Ohio.</p>
+<pre class="r"><code>ggplot(data=dm2[metro==&quot;Columbus, OH&quot;],aes(x=date,y=hpi))+
+  geom_line()+
+  theme_ipsum()+  # try new theme
+  labs(x=&quot;&quot;,y=&quot;House Price Index, (NSA, Dec 2000=100)&quot;,
+       subtitle=&quot;Testing a line plot&quot;,
+       title=&quot;House prices in Columbus, Ohio&quot;,
+       caption=&quot;@lenkiefer Source: Freddie Mac House Price Index&quot; )</code></pre>
+<pre><code>## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database</code></pre>
+<pre><code>## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x
+## $y, : font family not found in Windows font database</code></pre>
+<pre><code>## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database</code></pre>
+<p><img src="/post/2017-02-20-house-price-tour_files/figure-html/feb-20-2017-graph-1-1.png" width="672" /></p>
+<p>For whatever reason, I think the gridlines are a little too dark, so I’d rather they be <em>lightgray</em>. Let’s tweak the theme and redraw with annual house price appreciation for Miami, Florida.</p>
+<pre class="r"><code>ggplot(data=dm2[metro==&quot;Miami-Fort Lauderdale-West Palm Beach, FL&quot;],aes(x=date,y=hpa12))+
+  geom_line()+
+  theme_ipsum()+  # try new theme
+  scale_y_percent()+  #use scale_y_percent function from hrbrtheme
+  labs(x=&quot;&quot;,y=&quot;Annual Percentage Change in House Price Index, (NSA, Dec 2000=100)&quot;,
+       subtitle=&quot;Testing a line plot&quot;,
+       title=&quot;House price appreciation in Miami-Fort Lauderdale-West Palm Beach, FL&quot;,
+       caption=&quot;@lenkiefer Source: Freddie Mac House Price Index&quot; )+
+  theme(panel.grid.major=element_line(color=&quot;lightgray&quot;),
+        panel.grid.minor=element_line(color=&quot;lightgray&quot;))+
+  geom_hline(yintercept=0) #darken the x axis at 0</code></pre>
+<pre><code>## Warning: Removed 12 rows containing missing values (geom_path).</code></pre>
+<pre><code>## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database</code></pre>
+<pre><code>## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x
+## $y, : font family not found in Windows font database</code></pre>
+<pre><code>## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database</code></pre>
+<p><img src="/post/2017-02-20-house-price-tour_files/figure-html/feb-20-2017-graph-2-1.png" width="672" /></p>
+</div>
+</div>
+<div id="employment-data" class="section level2">
+<h2>Employment data</h2>
+<p>Getting the employment data is exactly as in my <a href="(../../../../2017/02/01/emp-trends%20)">wrangling employment data post</a>, but we’ll recreate it here for completeness.</p>
+<pre class="r"><code>emp.data&lt;-fread(&quot;https://download.bls.gov/pub/time.series/sm/sm.data.54.TotalNonFarm.All&quot;)</code></pre>
+<pre><code>## Warning in fread(&quot;https://download.bls.gov/pub/time.series/sm/sm.data.
+## 54.TotalNonFarm.All&quot;): Bumped column 4 to type character on data row
+## 521667, field contains &#39;-&#39;. Coercing previously read values in this
+## column from logical, integer or numeric back to character which may not
+## be lossless; e.g., if &#39;00&#39; and &#39;000&#39; occurred before they will now be just
+## &#39;0&#39;, and there may be inconsistencies with treatment of &#39;,,&#39; and &#39;,NA,&#39; too
+## (if they occurred in this column before the bump). If this matters please
+## rerun and set &#39;colClasses&#39; to &#39;character&#39; for this column. Please note that
+## column type detection uses a sample of 1,000 rows (100 rows at 10 points)
+## so hopefully this message should be very rare. If reporting to datatable-
+## help, please rerun and include the output from verbose=TRUE.</code></pre>
+<pre class="r"><code>emp.series&lt;-fread(&quot;https://download.bls.gov/pub/time.series/sm/sm.series&quot;)
+
+emp.list&lt;-emp.series[industry_code==0 # get all employment
+                     &amp; data_type_code==1 # get employment in thousands
+                     &amp; seasonal==&quot;U&quot;,]  # get seasonally adjusted data]
+
+emp.area&lt;-fread(&quot;https://download.bls.gov/pub/time.series/sm/sm.area&quot;,
+                col.names=c(&quot;area_code&quot;,&quot;area_name&quot;,&quot;drop&quot;))[,c(&quot;area_code&quot;,&quot;area_name&quot;),with=F]</code></pre>
+<pre><code>## Warning in fread(&quot;https://download.bls.gov/pub/time.series/sm/sm.area&quot;, :
+## Starting data input on line 2 and discarding line 1 because it has too few
+## or too many items to be column names or data: area_code area_name</code></pre>
+<pre class="r"><code>emp.st&lt;-fread(&quot;https://download.bls.gov/pub/time.series/sm/sm.state&quot;,
+              col.names=c(&quot;state_code&quot;,&quot;state_name&quot;,&quot;drop&quot;))[,c(&quot;state_code&quot;,&quot;state_name&quot;),with=F]</code></pre>
+<pre><code>## Warning in fread(&quot;https://download.bls.gov/pub/time.series/sm/sm.state&quot;, :
+## Starting data input on line 2 and discarding line 1 because it has too few
+## or too many items to be column names or data: state_code state_name</code></pre>
+<pre class="r"><code># merge data
+emp.dt&lt;-merge(emp.data,emp.list,by=&quot;series_id&quot;,all.y=T)
+
+#create month variable
+emp.dt=emp.dt[,month:=as.numeric(substr(emp.dt$period,2,3))]
+# (this assignment is to get around knitr/data table printing error)
+# see e.g. http://stackoverflow.com/questions/15267018/knitr-gets-tricked-by-data-table-assignment
+
+# M13 = Annual average, drop it:
+emp.dt&lt;-emp.dt[month&lt;13,]
+
+#create date variable
+emp.dt$date&lt;- as.Date(ISOdate(emp.dt$year,emp.dt$month,1) ) 
+
+# merge on area and state codes
+emp.dt&lt;-merge(emp.dt,emp.area,by=&quot;area_code&quot;)
+emp.dt&lt;-merge(emp.dt,emp.st,by=&quot;state_code&quot;)
+emp.dt=emp.dt[,c(&quot;state_name&quot;,&quot;area_name&quot;,&quot;date&quot;,&quot;year&quot;,&quot;month&quot;,&quot;value&quot;),with=F]
+
+emp.dt=emp.dt[,emp:=as.numeric(value)] #convert value to numeric</code></pre>
+<pre><code>## Warning in eval(jsub, SDenv, parent.frame()): NAs introduced by coercion</code></pre>
+<pre class="r"><code># Compute year-over-year change in employment and year-over-year percent change
+emp.dt=emp.dt[,emp.yoy:=emp-shift(emp,12,fill=NA),by=c(&quot;area_name&quot;,&quot;state_name&quot;)]
+emp.dt=emp.dt[,emp.pc:=(emp-shift(emp,12,fill=NA))/shift(emp,12,fill=NA),by=c(&quot;area_name&quot;,&quot;state_name&quot;)]
+emp.dt=emp.dt[,max.emp.st:=max(emp),by=c(&quot;state_name&quot;)]
+emp.dt=emp.dt[,type:=ifelse(area_name==&quot;Statewide&quot;,&quot;State&quot;,&quot;Metro&quot;)]
+
+# drop states in c(&quot;Puerto Rico&quot;,&quot;Virgin Islands&quot;)
+emp.dt=emp.dt[year&gt;1989  &amp;!(state_name %in% c(&quot;Puerto Rico&quot;,&quot;Virgin Islands&quot;)),]</code></pre>
+<p>Now that we have those data, let’s make a quick plot, replicating our employment plot for Ohio metros, but using the new theme:</p>
+<pre class="r"><code>#set up recessions:
+recessions.df = read.table(textConnection(
+  &quot;Peak, Trough
+  1973-11-01, 1975-03-01
+  1980-01-01, 1980-07-01
+  1981-07-01, 1982-11-01
+  1990-07-01, 1991-03-01
+  2001-03-01, 2001-11-01
+  2007-12-01, 2009-06-01&quot;), sep=&#39;,&#39;,
+colClasses=c(&#39;Date&#39;, &#39;Date&#39;), header=TRUE)
+# trim down
+recessions.trim = subset(recessions.df, Peak &gt;= &quot;1990-01-01&quot; )
+# Plot employment series for Ohio:
+g1&lt;-
+  ggplot(data=emp.dt[state_name==&quot;Ohio&quot; &amp; type==&quot;Metro&quot;&amp; year&gt;1989])+
+  geom_rect(data=recessions.trim, aes(xmin=Peak, xmax=Trough, ymin=-Inf, ymax=+Inf), fill=&#39;gray&#39;, alpha=0.5)+
+  geom_line(aes(x=date,y=emp.pc,group=area_name))+
+  theme_ipsum()+
+  facet_wrap(~area_name,ncol=3)+scale_y_continuous(labels=percent)+
+  geom_hline(color=&quot;black&quot;,yintercept=0)+
+  labs(x=&quot;&quot;,y=&quot;&quot;,title=&quot;Annual percent change in total nonfarm employment&quot;,
+       subtitle=&quot;Ohio Metro Areas (NSA)&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Bureau of Labor Statistics&quot;)+
+  theme(panel.grid.major=element_line(color=&quot;lightgray&quot;),
+        panel.grid.minor=element_line(color=&quot;lightgray&quot;))
+g1</code></pre>
+<pre><code>## Warning: Removed 120 rows containing missing values (geom_path).</code></pre>
+<pre><code>## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database</code></pre>
+<p><img src="/post/2017-02-20-house-price-tour_files/figure-html/feb-20-2017-ohio-plot-1-1.png" width="672" /></p>
+<p>Okay, we’ve got the data we want. Now let’s put it together. Things are about to get slightly interesting.</p>
+</div>
+<div id="combining-data" class="section level2">
+<h2>Combining data</h2>
+<p>We want to merge our house price data in <em>dm2</em> with the employment data in <em>emp.dt</em>. Fortunately, we have a common key in metro names and for the most part names line up. However, it turns out that the metros in New England are recorded as NECTAs rather than MSAs.</p>
+<p>There are some options, but we’ll choose the hacksaw rather than the scalpel. We’re really only going to be interested in the largest metro areas, and the only large metro area in New England is Boston, so we’ll take care of that and ignore the smaller metro areas for today. For our purposes the Boston NECTA and Boston MSA are close enough. For details see: <a href="https://www.census.gov/population/metro/data/def.html" class="uri">https://www.census.gov/population/metro/data/def.html</a>.</p>
+<pre class="r"><code># replace Boston-Cambridge-Nashua, MA-NH NECTA with Boston-Cambridge-Newton, MA-NH
+# FIX for Boston (approximate)
+emp.dt&lt;-emp.dt[,area_name:=ifelse(area_name==&quot;Boston-Cambridge-Newton, MA NECTA Division&quot;,
+                &quot;Boston-Cambridge-Newton, MA-NH&quot;,
+                area_name)]
+
+# Create common key mergind date and metro
+dm2&lt;-dm2[,md:=paste(as.character(date),metro)]
+emp.dt2&lt;-emp.dt[,md:=paste(as.character(date),area_name)]
+dt&lt;-merge(dm2,emp.dt2[,c(&quot;md&quot;,&quot;emp&quot;,&quot;emp.yoy&quot;,&quot;emp.pc&quot;,&quot;type&quot;),with=F],by=&quot;md&quot;)</code></pre>
+<p>Now that w ehave our merged data, let’s create a plot showing the relationship of year-over-year house price percentage changes to employment percentage changes by metro area in December of 2016.</p>
+<pre class="r"><code>ggplot(data=dt[date==&quot;2016-12-01&quot;,],
+       aes(x=emp.pc,y=hpa12,color=region,size=metro.pop))+
+  geom_point(alpha=0.82)+
+  theme_ipsum()+
+  scale_color_ipsum() + # special theme colors
+  scale_y_percent()+
+  scale_x_percent()+
+      geom_hline(yintercept=0,color=&quot;black&quot;)+
+    guides(size=F)+
+    geom_vline(xintercept=0,color=&quot;black&quot;)+
+  labs(x=&quot;Annual percentage change\nin metro employment&quot;,
+       y=&quot;Annual percentage change\nin metro house prices&quot;,
+       title=&quot;Metros with stronger labor markets \nexperience stronger house price growth&quot;,
+       subtitle=&quot;House prices and employment in December 2016&quot;,
+       caption=&quot;@lenkiefer Source: Freddie Mac House Price Index, U.S. Bureau of Labor Statistics\nEach dot represents one metro area color coded by region and size based on metro area population (2015).&quot;)+
+    theme(panel.grid.major=element_line(color=&quot;lightgray&quot;),
+          panel.grid.minor=element_line(color=&quot;lightgray&quot;),
+          legend.position=&quot;bottom&quot;)</code></pre>
+<pre><code>## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database</code></pre>
+<pre><code>## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x
+## $y, : font family not found in Windows font database
+
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x
+## $y, : font family not found in Windows font database
+
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x
+## $y, : font family not found in Windows font database
+
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x
+## $y, : font family not found in Windows font database
+
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x
+## $y, : font family not found in Windows font database</code></pre>
+<pre><code>## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database</code></pre>
+<p><img src="/post/2017-02-20-house-price-tour_files/figure-html/feb-20-2017-graph-3-1.png" width="672" /></p>
+<p>This chart tells a host of stories. In general house prices rise with stronger employment growth (we’ll soon see that’s true across most time periods). Also, there are regional differences. While I’ve color coded the regions, it might not jump out, so let’s use <em>facet_wrap</em> to create a small multiple by region and add a regression line.</p>
+<pre class="r"><code>ggplot(data=dt[date==&quot;2016-12-01&quot;,],
+       aes(x=emp.pc,y=hpa12,color=region,size=metro.pop))+
+  geom_point(alpha=0.82)+
+  theme_ipsum()+
+  scale_color_ipsum() + # special theme colors
+  scale_y_percent()+
+  scale_x_percent()+
+      geom_hline(yintercept=0,color=&quot;black&quot;)+
+    guides(size=F)+
+    geom_vline(xintercept=0,color=&quot;black&quot;)+
+  labs(x=&quot;Annual percentage change\nin metro employment&quot;,
+       y=&quot;Annual percentage change\nin metro house prices&quot;,
+       title=&quot;Metros with stronger labor markets \nexperience stronger house price growth&quot;,
+       subtitle=&quot;House prices and employment in December 2016&quot;,
+       caption=&quot;@lenkiefer Source: Freddie Mac House Price Index, U.S. Bureau of Labor Statistics\nEach dot represents one metro area color coded by region and size based on metro area population (2015).&quot;)+
+    theme(panel.grid.major=element_line(color=&quot;lightgray&quot;),
+          panel.grid.minor=element_line(color=&quot;lightgray&quot;),
+          legend.position=&quot;bottom&quot;)+
+  facet_wrap(~region)+stat_smooth(method=&quot;lm&quot;,size=0.75,formula=y~x,se=F)</code></pre>
+<pre><code>## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database</code></pre>
+<pre><code>## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x
+## $y, : font family not found in Windows font database
+
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x
+## $y, : font family not found in Windows font database
+
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x
+## $y, : font family not found in Windows font database
+
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x
+## $y, : font family not found in Windows font database
+
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x
+## $y, : font family not found in Windows font database</code></pre>
+<pre><code>## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database</code></pre>
+<p><img src="/post/2017-02-20-house-price-tour_files/figure-html/feb-20-2017-graph-4-1.png" width="672" /></p>
+<p>Here, we can see that the positive relationship between house price growth and employment appears to be strongest in the South and West Regions.</p>
+<div id="animate-it" class="section level3">
+<h3>Animate it</h3>
+<p>Of course, this scatterplot is practically dying to be animated, so let’s do it!</p>
+<p>If you’ve been about, you know the drill. For the newcomers (welcome!, consider <a href="https://twitter.com/lenkiefer">following me</a>), <a href="../../../../2016/12/19/more-tweenr-housing">see this simple example</a>.</p>
+<p>For smoother animations we’ll use tweenr. See my earlier <a href="../../../../2016/05/29/improving-R-animated-gifs-with-tweenr">post about tweenr</a> for an introduction to tweenr, and more examples <a href="../../../../2016/05/30/more-tweenr-animations">here</a> and <a href="../../../../2016/06/26/week-in-review">here</a>.</p>
+<pre class="r"><code>library(tweenr)
+library(animation)
+
+# Function for data prepartion
+# Subset on December
+myf&lt;-function(in.y){
+  dt2&lt;-subset(dt, year==in.y &amp; month==12)
+  dt2 %&gt;% map_if(is.character, as.factor) %&gt;% as.data.frame -&gt; dt.out
+  dt.out$year&lt;-factor(dt.out$year)
+  return(dt.out)
+}
+
+# cycle through years
+my.list&lt;-lapply(c(2016,seq(1991,2016,1)),myf)
+
+# Tweenr functions
+tf &lt;- tween_states(my.list, tweenlength= 2, statelength=3, ease=rep(&#39;cubic-in-out&#39;,3),
+                   nframes=300)
+
+tf&lt;-data.table(tf)
+
+# Loop to animate:
+oopt = ani.options(interval = 0.15)
+saveGIF({for (i in 1:max(tf$.frame)) {
+  g&lt;-
+    ggplot(data=tf[.frame==i],
+           aes(x=emp.pc,y=hpa12,group=metro,color=region,size=metro.pop))+
+    geom_hline(yintercept=0,color=&quot;black&quot;)+
+    guides(size=F)+
+    geom_vline(xintercept=0,color=&quot;black&quot;)+
+    geom_point(alpha=0.82)+theme_ipsum()+  scale_color_ipsum(name=&quot;Region&quot;) +
+    scale_y_continuous(label=percent,limits=c(-.41,.4),breaks=seq(-.4,.4,.1))+
+    scale_x_continuous(label=percent,limits=c(-.3,.2),breaks=seq(-.3,.2,.1))+
+    theme(panel.grid.major=element_line(color=&quot;lightgray&quot;),
+          panel.grid.minor=element_line(color=&quot;lightgray&quot;),
+          legend.position=&quot;bottom&quot;)+
+    labs(x=&quot;Annual percentage change in metro employment&quot;,
+         y=&quot;Annual percentage change in metro house prices&quot;,
+         title=&quot;Metros with stronger labor markets \nexperience stronger house price growth&quot;,
+         subtitle=paste(&quot;House prices and employment in December&quot;,tf[.frame==i]$year),
+         caption=&quot;@lenkiefer Source: Freddie Mac House Price Index, U.S. Bureau of Labor Statistics\nEach dot represents one metro area color coded by region and size based on metro area population (2015).&quot;)
+  print(g)
+  print(paste(i,&quot;out of&quot;,max(tf$.frame)))
+  ani.pause()}
+},movie.name=&quot;emp hpi tween 02 20 2017.gif&quot;,ani.width = 650, ani.height = 550)</code></pre>
+<p>Running this generates:</p>
+<p><img src="{{ site.url }}/img/charts_feb_20_2017/emp hpi tween 02 20 2017.gif" alt="scatter gif weekly"/></p>
+<p>And if we simply add <code>facet_wrap(~region)</code> to the <code>g</code> function we get:</p>
+<p><img src="{{ site.url }}/img/charts_feb_20_2017/emp hpi tween region 02 20 2017.gif" alt="scatter gif weekly"/></p>
+</div>
+</div>
+</div>
+<div id="lets-take-a-tour" class="section level1">
+<h1>Let’s take a tour</h1>
+<p>Now that we’ve got our wobbly data tables let’s go ahead and build up a tour.</p>
+<p>The idea is to generate a composite plot combining a map (to tell us where we are), a scatterplot and two line plots. Then we’ll animate it.</p>
+<div id="the-composite-static-plot" class="section level2">
+<h2>The composite static plot</h2>
+<p>Let’s first build our static plot for a particular metro area, Washington D.C.</p>
+<p>We’ll call the <a href="http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/">multiplot</a> function to combine ggplot graphs and wrap it in a function.</p>
+<pre class="r"><code>myplot&lt;-function(df){
+
+#make a map (sorry no AlbersUSA today)
+  g.map&lt;-
+    ggplot(df, aes(x = long, y = lat)) +
+    borders(&quot;state&quot;,  colour = &quot;grey70&quot;,fill=&quot;lightgray&quot;,alpha=0.5)+
+    theme_void()+
+    theme(legend.position=&quot;none&quot;,
+          plot.title=element_text(face=&quot;bold&quot;,size=18))+
+    geom_point(alpha=0.82,color=&quot;black&quot;,size=3)+
+    labs(title=&quot;House price &amp; employment trends&quot;,
+         subtitle=head(df,1)$metro,
+         caption=&quot;@lenkiefer Source: Freddie Mac House Price Index, U.S. Bureau of Labor Statistics&quot;)+
+    theme(plot.caption=element_text(hjust=0))
+
+  #house price bar  
+  g.bar&lt;-
+    ggplot(data=df,aes(x=date,y=hpa12,fill=hpa12))+geom_col()+
+    theme_ipsum()+
+    scale_y_continuous(label=percent,limits=c(-.45,.45),breaks=seq(-.45,.45,.15))+
+    scale_fill_viridis(option=&quot;B&quot;,limits=c(-.45,.45))+
+    labs(x=&quot;&quot;,y=&quot;&quot;,
+         title=&quot;House Price Appreciation&quot;,
+         subtitle=&quot;year-over-year percent change in index&quot;)+
+    theme(plot.caption=element_text(hjust=0),
+          panel.grid.major=element_line(color=&quot;lightgray&quot;),
+          panel.grid.minor=element_line(color=&quot;lightgray&quot;),
+          legend.position=&quot;none&quot;)
+  
+  #employment bar
+  g.bar2&lt;-
+    ggplot(data=df,aes(x=date,y=emp.pc,fill=emp.pc))+geom_col()+
+    theme_ipsum()+
+    scale_y_continuous(label=percent,limits=c(-.11,.11),breaks=seq(-.1,.1,.05))+
+    scale_fill_viridis(option=&quot;B&quot;,limits=c(-.11,.11))+
+    labs(x=&quot;&quot;,y=&quot;&quot;,
+         title=&quot;Employment growth&quot;,
+         subtitle=&quot;year-over-year percent change metro employment&quot;)+
+    theme(plot.caption=element_text(hjust=0),
+          panel.grid.major=element_line(color=&quot;lightgray&quot;),
+          panel.grid.minor=element_line(color=&quot;lightgray&quot;),
+          legend.position=&quot;none&quot;)
+  # scatter
+  g.scatter&lt;-
+    ggplot(data=df,aes(x=emp.pc,y=hpa12))+
+    geom_point()+theme_ipsum()+
+    geom_hline(yintercept=0,color=&quot;black&quot;)+
+    guides(size=F)+
+    geom_vline(xintercept=0,color=&quot;black&quot;)+
+    geom_point(alpha=0.82)+theme_ipsum()+  scale_color_ipsum(name=&quot;Region&quot;) +
+    scale_y_continuous(label=percent,limits=c(-.41,.4),breaks=seq(-.4,.4,.1))+
+    scale_x_continuous(label=percent,limits=c(-.11,.11),breaks=seq(-.1,.1,.05))+
+    theme(panel.grid.major=element_line(color=&quot;lightgray&quot;),
+          panel.grid.minor=element_line(color=&quot;lightgray&quot;),
+          legend.position=&quot;bottom&quot;)+
+    labs(x=&quot;Annual percentage change\n in metro employment&quot;,
+         y=&quot;Annual percentage change\n in metro house prices&quot;,
+         title=&quot;&quot;,
+         subtitle=&quot;&quot;,
+         caption=&quot;&quot;)
+  
+    #combine
+  g&lt;-multiplot(g.map,g.scatter,g.bar,g.bar2,
+               layout=matrix(c(1,2,3,4), nrow=2, byrow=TRUE))
+  
+  return(g)
+}
+
+# test for Washington DC
+df&lt;-subset(dt,metro==&quot;Washington-Arlington-Alexandria, DC-VA-MD-WV&quot;)
+myplot(df)</code></pre>
+<pre><code>## Warning: Removed 12 rows containing missing values (geom_point).
+
+## Warning: Removed 12 rows containing missing values (geom_point).</code></pre>
+<pre><code>## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database</code></pre>
+<pre><code>## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x
+## $y, : font family not found in Windows font database
+
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x
+## $y, : font family not found in Windows font database
+
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x
+## $y, : font family not found in Windows font database</code></pre>
+<pre><code>## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database</code></pre>
+<pre><code>## Warning: Removed 12 rows containing missing values (position_stack).</code></pre>
+<pre><code>## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database</code></pre>
+<p><img src="/post/2017-02-20-house-price-tour_files/figure-html/feb-20-2017-graph-5-1.png" width="672" /></p>
+<pre><code>## NULL</code></pre>
+<p>This plot shows what you would expect, that periods of strong employment growth are generally periods of strong house price growth and vice versa.</p>
+<p>Now, using our tweenr tricks, we can creat an animated tour:</p>
+<pre class="r"><code># sort metros by metro.pop
+cbsa.list3&lt;-d[order(-metro.pop)]$cbsa.name
+
+
+myf&lt;-function(i){
+  dt2&lt;-subset(dt,metro==d[order(-metro.pop)]$cbsa.name[i] &amp; year&gt;1989)
+  dt2 %&gt;% map_if(is.character, as.factor) %&gt;% as.data.frame -&gt; dt.out
+  return(dt.out)
+}
+
+# take top 20 metros
+my.list&lt;-lapply(c(seq(1,20),1),myf)
+
+tf &lt;- tween_states(my.list, tweenlength= 2, statelength=3, ease=rep(&#39;cubic-in-out&#39;,3),
+                   nframes=200)
+
+tf&lt;-data.table(tf)
+
+oopt = ani.options(interval = 0.15)
+saveGIF({for (i in 1:max(tf$.frame)) {
+  g&lt;-myplot(tf[.frame==i])
+  print(g)
+  print(paste(i,&quot;out of&quot;,max(tf$.frame)))
+  ani.pause()}
+},movie.name=&quot;geo tour emp hpi tween 02 20 2017.gif&quot;,ani.width = 650, ani.height = 600)</code></pre>
+<p>Running this generates:</p>
+<p><img src="{{ site.url }}/img/charts_feb_20_2017/geo tour emp hpi tween 02 20 2017.gif" alt="tour gif"/></p>
+<div id="other-options" class="section level3">
+<h3>Other options</h3>
+<p>We could use <a href="https://plot.ly/r/">plotly</a> and <a href="https://github.com/rstudio/crosstalk">crosstalk</a> to make an interactive version of this. Indeed, that’s exactly what I did in <a href="../../../../2017/01/22/build-flex">this post <em>A guide to building an interactive flexdashboard</em></a> where you’ll find detailed instructions.</p>
+<p>Perhaps you’ll find this post useful, and be inspired to construct your own wobbly table with <em>data carpentry</em>.</p>
+</div>
+</div>
+</div>

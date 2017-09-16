@@ -1,0 +1,7 @@
+ <div > Post tags
+        <ul id="all-tags">
+            {{ range $name, $taxonomy := .Site.Taxonomies.tags }}
+            <ul><a href="/tags/{{ $name | urlize }}">{{ $name }}</a></ul>
+            {{ end }}
+        </ul>
+ </div>

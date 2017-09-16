@@ -1,0 +1,1204 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Data tables are Viz too</title>
+    
+    <meta name="author" content="Len Kiefer">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap styles -->
+    <link href="/assets/themes/lentheme/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Optional theme -->
+    <link href="/assets/themes/lentheme/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <!-- Sticky Footer -->
+    <link href="/assets/themes/lentheme/bootstrap/css/bs-sticky-footer.css" rel="stylesheet">
+    
+    <!-- Custom styles -->
+    <link href="/assets/themes/lentheme/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <!-- Update these with your own images
+      <link rel="shortcut icon" href="images/favicon.ico">
+      <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+      <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+      <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+  </head>
+
+  <body>
+    <div id="wrap">
+      <nav class="navbar navbar-default" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#jb-navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/"><span class="icon-home3" style="font-size:24px"> Len Kiefer</a></span>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="jb-navbar-collapse" style="font-size:24px">
+          <ul class="nav navbar-nav" >
+        <li><a href="/archive.html"><span class="icon-newspaper"> Posts</a></span></li>
+            <!-- li><a href="/chartbook/index.html"><span class="icon-display"> Chartbook</a></span></li-->
+         <li><a href="/resume.html"><span class="icon-profile"> Resume</span></a></li>
+        <li><a href="/about.html"><span class="icon-user-tie"> About</span></a></li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </nav>
+
+      <div class="container">
+        
+<div class="page-header">
+  <h1>Data tables are Viz too </h1>
+</div>
+
+<div class="row post-full">
+  <div class="col-xs-12">
+    <div class="date">
+      <span>27 December 2016</span>
+    </div>
+    <div class="content">
+      <p>THOUGH 2016 IS NOT OVER YET I want to get a jump on my 2017 resolution: make better tables.</p>
+
+<p>I’ve been re-reading <a href="http://www.jstor.org/stable/2344922?seq=1#page_scan_tab_contents">this paper</a> on the <em>Rudiments of Numeracy</em> by A. S. C. Ehrenberg published in the Journal of the Royal Statistical Society in 1977.  Though the paper is nearly 40 years old, it still offers some valuable insights.</p>
+
+<p>This little post makes a simple table displaying monthly averages for 30-year fixed mortgage rates. I use the <a href="https://cran.r-project.org/web/packages/htmlTable/index.html">htmlTable</a> package for <a href="https://www.r-project.org/">R</a> to make the table.</p>
+
+<h2 id="data">Data</h2>
+
+<p>The data I’m going to use are estimates of weekly U.S. average 30-year fixed mortgage rates from the <a href="http://www.freddiemac.com/pmms/index.html">Primary Mortgage Market Survey</a> from Freddie Mac. These data can be easily downloaded from the St. Louis Fred database <a href="http://bit.ly/2hli7Sh">here</a>.</p>
+
+<p>I have the data saved in a simple text file with a column for data, the mortgage rate, and helper columns week, month, and year, where week is the week number starting with the first week of the year.</p>
+
+<h2 id="code-for-table">Code for table</h2>
+
+<p>Now we’ll load the data, do some data manipulations and make our table.  We’re going to add some additional styling to the table.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1"># load libraries
+</span><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">,</span><span class="n">quietly</span><span class="o">=</span><span class="n">T</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">xtable</span><span class="p">,</span><span class="n">quietly</span><span class="o">=</span><span class="n">T</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">data.table</span><span class="p">,</span><span class="n">quietly</span><span class="o">=</span><span class="n">T</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">htmlTable</span><span class="p">,</span><span class="n">quietly</span><span class="o">=</span><span class="n">T</span><span class="p">)</span>
+
+<span class="c1"># load data on weekly mortgage rates:
+</span><span class="n">pmms30yr</span> <span class="o">&lt;-</span> <span class="n">fread</span><span class="p">(</span><span class="s2">"data/pmms30yr.txt"</span><span class="p">)</span>
+<span class="n">pmms30yr</span><span class="o">$</span><span class="n">date</span><span class="o">&lt;-</span><span class="n">as.Date</span><span class="p">(</span><span class="n">pmms30yr</span><span class="o">$</span><span class="n">date</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s2">"%m/%d/%Y"</span><span class="p">)</span>
+
+<span class="c1"># create month name variable "mname"
+</span><span class="n">pmms30yr</span><span class="p">[,</span><span class="n">mname</span><span class="o">:=</span><span class="n">as.character</span><span class="p">(</span><span class="n">date</span><span class="p">,</span><span class="n">format</span><span class="o">=</span><span class="s2">"%b"</span><span class="p">)]</span>
+
+<span class="c1">#Compute averages by year/month
+</span><span class="n">pm</span><span class="o">&lt;-</span><span class="n">pmms30yr</span><span class="p">[,</span><span class="n">list</span><span class="p">(</span><span class="n">rate</span><span class="o">=</span><span class="n">round</span><span class="p">(</span><span class="n">mean</span><span class="p">(</span><span class="n">rate</span><span class="p">,</span><span class="n">na.rm</span><span class="o">=</span><span class="n">T</span><span class="p">),</span><span class="m">2</span><span class="p">)),</span><span class="n">by</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="s2">"year"</span><span class="p">,</span><span class="s2">"mname"</span><span class="p">)]</span>
+
+<span class="c1"># "spread" rates over month in a wide data frame and coerce to data.frame
+</span><span class="n">pms</span><span class="o">&lt;-</span><span class="n">data.frame</span><span class="p">(</span><span class="n">spread</span><span class="p">(</span><span class="n">pm</span><span class="p">,</span><span class="n">mname</span><span class="p">,</span><span class="n">rate</span><span class="p">))</span>
+
+<span class="c1"># drop year column
+</span><span class="n">pms2</span> <span class="o">&lt;-</span> <span class="n">pms</span><span class="p">[,</span><span class="m">-1</span><span class="p">]</span>
+
+<span class="c1"># use the first column (year) as rownames 
+</span><span class="n">rownames</span><span class="p">(</span><span class="n">pms2</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="n">pms</span><span class="p">[,</span><span class="m">1</span><span class="p">]</span>
+
+<span class="c1"># reorder the columns to by month (Jan, Feb, etc) instead of alphabetically (Apr, Aug, etc.)
+</span><span class="n">pms2</span><span class="o">&lt;-</span><span class="n">pms2</span><span class="p">[,</span><span class="n">unique</span><span class="p">(</span><span class="n">pmms30yr</span><span class="p">[</span><span class="n">year</span><span class="o">&gt;</span><span class="m">1971</span><span class="p">]</span><span class="o">$</span><span class="n">mname</span><span class="p">)]</span>
+
+<span class="c1"># Compute annual averages
+</span><span class="n">pm.a</span><span class="o">&lt;-</span><span class="n">pmms30yr</span><span class="p">[,</span><span class="n">list</span><span class="p">(</span><span class="n">Avg</span><span class="o">=</span><span class="n">round</span><span class="p">(</span><span class="n">mean</span><span class="p">(</span><span class="n">rate</span><span class="p">,</span><span class="n">na.rm</span><span class="o">=</span><span class="n">T</span><span class="p">),</span><span class="m">2</span><span class="p">)),</span><span class="n">by</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="s2">"year"</span><span class="p">)]</span>
+
+<span class="c1"># Add annual averages to data
+</span><span class="n">pm3</span><span class="o">&lt;-</span><span class="n">cbind</span><span class="p">(</span><span class="n">pms2</span><span class="p">,</span><span class="n">pm.a</span><span class="p">[,</span><span class="m">2</span><span class="p">,</span><span class="n">with</span><span class="o">=</span><span class="n">F</span><span class="p">])</span>
+<span class="n">pm3</span><span class="o">&lt;-</span><span class="n">format</span><span class="p">(</span><span class="n">pm3</span><span class="p">,</span><span class="n">digits</span><span class="o">=</span><span class="m">3</span><span class="p">)</span>
+
+<span class="c1"># Apply conditiional formatting to 2016 December and Annual averages to reflect fact that
+# data is incomplete for those dates
+</span>
+<span class="n">my.format</span><span class="o">&lt;-</span><span class="k">function</span><span class="p">(</span><span class="n">x</span><span class="p">){</span><span class="n">paste0</span><span class="p">(</span><span class="s2">"&lt;span style='color:darkgray; font-style:italic'&gt;"</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="s2">"*&lt;/span&gt;"</span><span class="p">)}</span>
+
+<span class="c1"># overwrite values with styling using &lt;span&gt; and CSS
+</span><span class="n">pm3</span><span class="p">[</span><span class="m">46</span><span class="p">,</span><span class="m">12</span><span class="o">:</span><span class="m">13</span><span class="p">]</span><span class="o">&lt;-</span><span class="n">lapply</span><span class="p">(</span><span class="n">pm3</span><span class="p">[</span><span class="m">46</span><span class="p">,</span><span class="m">12</span><span class="o">:</span><span class="m">13</span><span class="p">],</span><span class="n">my.format</span><span class="p">)</span>
+
+<span class="c1">#replace 
+</span>
+<span class="c1">#create htmlTable
+</span>
+<span class="n">htmlTable</span><span class="p">(</span>
+  <span class="n">caption</span><span class="o">=</span> <span class="c1"># use CSS styling for title
+</span>    <span class="s2">"&lt;span style='text-align: left; font-size:x-large; font-weight:bold'&gt;30-year Fixed Mortgage Rates in Percentage Points&lt;/span&gt;"</span><span class="p">,</span><span class="n">pm3</span><span class="p">,</span> 
+  <span class="c1"># right align numbers
+</span>  <span class="n">align</span><span class="o">=</span><span class="s2">"right"</span><span class="p">,</span>
+  <span class="c1"># apply zebra striping
+</span>  <span class="n">col.rgroup</span> <span class="o">=</span> <span class="n">c</span><span class="p">(</span><span class="s2">"none"</span><span class="p">,</span> <span class="s2">"#F7F7F7"</span><span class="p">),</span>
+  <span class="c1"># group columns by quarter
+</span>  <span class="n">cgroup</span> <span class="o">=</span> <span class="n">c</span><span class="p">(</span><span class="s2">"1st Quarter"</span><span class="p">,</span> <span class="s2">"2nd Quarter"</span><span class="p">,</span><span class="s2">"3rd Quarter"</span><span class="p">,</span><span class="s2">"4th Quarter"</span><span class="p">,</span><span class="s2">"Annual"</span><span class="p">),</span>
+  <span class="n">n.cgroup</span> <span class="o">=</span> <span class="n">c</span><span class="p">(</span><span class="m">3</span><span class="p">,</span><span class="m">3</span><span class="p">,</span><span class="m">3</span><span class="p">,</span><span class="m">3</span><span class="p">,</span><span class="m">1</span><span class="p">),</span>
+  <span class="c1"># increase spacing for table
+</span>  <span class="n">css.cell</span> <span class="o">=</span> <span class="s2">"padding-left: .5em; padding-right: .1em;"</span><span class="p">,</span>
+  <span class="c1"># group data by decade
+</span>  <span class="n">tspanner</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="s2">"1970s"</span><span class="p">,</span><span class="s2">"1980s"</span><span class="p">,</span><span class="s2">"1990s"</span><span class="p">,</span><span class="s2">"2000s"</span><span class="p">,</span><span class="s2">"2010s"</span><span class="p">),</span>
+  <span class="n">n.tspanner</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">9</span><span class="p">,</span><span class="n">rep</span><span class="p">(</span><span class="m">10</span><span class="p">,</span><span class="m">3</span><span class="p">),</span><span class="m">7</span><span class="p">),</span>
+  <span class="c1"># add a footnote
+</span>  <span class="n">tfoot</span><span class="o">=</span><span class="s2">"Source: Primary Mortgage Market Survey, Average of weekly rates\nData through 12/27/2016, &lt;span style='color:darkgray; font-style:italic'&gt;*based on year-to-date values&lt;/span&gt;"</span>
+          <span class="p">)</span></code></pre></figure>
+
+<table class="gmisc_table" style="border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;">
+<caption style="caption-side: top">
+<span style="text-align: left; font-size:x-large; font-weight:bold">30-year Fixed Mortgage Rates in Percentage Points</span></caption>
+<thead>
+<tr>
+<th style="border-top: 2px solid grey;"></th>
+<th colspan="3" style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">1st Quarter</th><th style="border-top: 2px solid grey;; border-bottom: hidden;">&nbsp;</th>
+<th colspan="3" style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">2nd Quarter</th><th style="border-top: 2px solid grey;; border-bottom: hidden;">&nbsp;</th>
+<th colspan="3" style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">3rd Quarter</th><th style="border-top: 2px solid grey;; border-bottom: hidden;">&nbsp;</th>
+<th colspan="3" style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">4th Quarter</th><th style="border-top: 2px solid grey;; border-bottom: hidden;">&nbsp;</th>
+<th colspan="1" style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">Annual</th>
+</tr>
+<tr>
+<th style="border-bottom: 1px solid grey;"> </th>
+<th style="border-bottom: 1px solid grey; text-align: center;">Jan</th>
+<th style="border-bottom: 1px solid grey; text-align: center;">Feb</th>
+<th style="border-bottom: 1px solid grey; text-align: center;">Mar</th>
+<th style="border-bottom: 1px solid grey;" colspan="1">&nbsp;</th>
+<th style="border-bottom: 1px solid grey; text-align: center;">Apr</th>
+<th style="border-bottom: 1px solid grey; text-align: center;">May</th>
+<th style="border-bottom: 1px solid grey; text-align: center;">Jun</th>
+<th style="border-bottom: 1px solid grey;" colspan="1">&nbsp;</th>
+<th style="border-bottom: 1px solid grey; text-align: center;">Jul</th>
+<th style="border-bottom: 1px solid grey; text-align: center;">Aug</th>
+<th style="border-bottom: 1px solid grey; text-align: center;">Sep</th>
+<th style="border-bottom: 1px solid grey;" colspan="1">&nbsp;</th>
+<th style="border-bottom: 1px solid grey; text-align: center;">Oct</th>
+<th style="border-bottom: 1px solid grey; text-align: center;">Nov</th>
+<th style="border-bottom: 1px solid grey; text-align: center;">Dec</th>
+<th style="border-bottom: 1px solid grey;" colspan="1">&nbsp;</th>
+<th style="border-bottom: 1px solid grey; text-align: center;">Avg</th>
+</tr>
+</thead>
+<tbody>
+<tr><td colspan="18" style="font-weight: 900; text-align: left;">1970s</td></tr>
+<tr>
+<td style="text-align: left;">1971</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">   NA</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">   NA</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">   NA</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.31</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.42</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.53</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.60</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.70</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.69</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.63</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.55</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.48</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.54</td>
+</tr>
+<tr style="background-color: #f7f7f7;">
+<td style="background-color: #f7f7f7; text-align: left;">1972</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 7.44</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 7.32</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 7.30</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 7.29</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 7.37</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 7.37</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 7.40</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 7.40</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 7.42</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 7.42</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 7.43</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 7.44</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 7.38</td>
+</tr>
+<tr>
+<td style="text-align: left;">1973</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.44</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.44</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.46</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.54</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.65</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.73</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 8.05</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 8.50</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 8.81</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 8.77</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 8.58</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 8.54</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 8.04</td>
+</tr>
+<tr style="background-color: #f7f7f7;">
+<td style="background-color: #f7f7f7; text-align: left;">1974</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 8.54</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 8.46</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 8.41</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 8.58</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 8.97</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 9.09</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 9.28</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 9.59</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 9.96</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 9.98</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 9.79</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 9.62</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 9.19</td>
+</tr>
+<tr>
+<td style="text-align: left;">1975</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 9.43</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 9.11</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 8.90</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 8.82</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 8.91</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 8.89</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 8.89</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 8.94</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 9.13</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 9.22</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 9.14</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 9.10</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 9.05</td>
+</tr>
+<tr style="background-color: #f7f7f7;">
+<td style="background-color: #f7f7f7; text-align: left;">1976</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 9.02</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 8.81</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 8.75</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 8.73</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 8.77</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 8.85</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 8.93</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 9.00</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 8.98</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 8.93</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 8.81</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 8.79</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 8.87</td>
+</tr>
+<tr>
+<td style="text-align: left;">1977</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 8.72</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 8.67</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 8.69</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 8.75</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 8.83</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 8.86</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 8.94</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 8.94</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 8.90</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 8.92</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 8.92</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 8.96</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 8.85</td>
+</tr>
+<tr style="background-color: #f7f7f7;">
+<td style="background-color: #f7f7f7; text-align: left;">1978</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 9.02</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 9.14</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 9.20</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 9.36</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 9.57</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 9.71</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 9.74</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 9.79</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 9.76</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 9.86</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">10.11</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">10.35</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 9.64</td>
+</tr>
+<tr>
+<td style="text-align: left;">1979</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">10.39</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">10.41</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">10.43</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">10.50</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">10.69</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">11.04</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">11.09</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">11.09</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">11.30</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">11.64</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">12.83</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">12.90</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">11.20</td>
+</tr>
+<tr><td colspan="18" style="font-weight: 900; text-align: left; border-top: 1px solid #BEBEBE;">1980s</td></tr>
+<tr style="background-color: #f7f7f7;">
+<td style="background-color: #f7f7f7; text-align: left;">1980</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">12.88</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">13.04</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">15.28</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">16.33</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">14.26</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">12.71</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">12.19</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">12.56</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">13.20</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">13.79</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">14.21</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">14.79</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">13.74</td>
+</tr>
+<tr>
+<td style="text-align: left;">1981</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">14.90</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">15.13</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">15.40</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">15.58</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">16.40</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">16.70</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">16.83</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">17.29</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">18.16</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">18.45</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">17.82</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">16.95</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">16.64</td>
+</tr>
+<tr style="background-color: #f7f7f7;">
+<td style="background-color: #f7f7f7; text-align: left;">1982</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">17.48</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">17.60</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">17.16</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">16.89</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">16.68</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">16.70</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">16.82</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">16.27</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">15.43</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">14.61</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">13.82</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">13.62</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">16.04</td>
+</tr>
+<tr>
+<td style="text-align: left;">1983</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">13.25</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">13.04</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">12.80</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">12.78</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">12.63</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">12.87</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">13.42</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">13.81</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">13.73</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">13.54</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">13.44</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">13.42</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">13.24</td>
+</tr>
+<tr style="background-color: #f7f7f7;">
+<td style="background-color: #f7f7f7; text-align: left;">1984</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">13.37</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">13.23</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">13.39</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">13.65</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">13.94</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">14.42</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">14.67</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">14.47</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">14.35</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">14.13</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">13.64</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">13.18</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">13.88</td>
+</tr>
+<tr>
+<td style="text-align: left;">1985</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">13.07</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">12.92</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">13.17</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">13.20</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">12.91</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">12.21</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">12.03</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">12.19</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">12.19</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">12.13</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">11.78</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">11.26</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">12.43</td>
+</tr>
+<tr style="background-color: #f7f7f7;">
+<td style="background-color: #f7f7f7; text-align: left;">1986</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">10.89</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">10.71</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">10.08</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 9.94</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">10.14</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">10.68</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">10.51</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">10.20</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">10.01</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 9.97</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 9.70</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 9.31</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">10.19</td>
+</tr>
+<tr>
+<td style="text-align: left;">1987</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 9.20</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 9.08</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 9.04</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 9.83</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">10.60</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">10.54</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">10.28</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">10.33</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">10.89</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">11.26</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">10.65</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">10.64</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">10.21</td>
+</tr>
+<tr style="background-color: #f7f7f7;">
+<td style="background-color: #f7f7f7; text-align: left;">1988</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">10.38</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 9.89</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 9.93</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">10.20</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">10.46</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">10.46</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">10.43</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">10.60</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">10.48</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">10.30</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">10.27</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">10.61</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">10.34</td>
+</tr>
+<tr>
+<td style="text-align: left;">1989</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">10.73</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">10.64</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">11.03</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">11.05</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">10.77</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">10.20</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 9.88</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 9.98</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">10.13</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 9.95</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 9.77</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 9.74</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;">10.32</td>
+</tr>
+<tr><td colspan="18" style="font-weight: 900; text-align: left; border-top: 1px solid #BEBEBE;">1990s</td></tr>
+<tr style="background-color: #f7f7f7;">
+<td style="background-color: #f7f7f7; text-align: left;">1990</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 9.89</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">10.20</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">10.27</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">10.37</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">10.48</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">10.16</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">10.04</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">10.10</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">10.18</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">10.18</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">10.01</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 9.67</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;">10.13</td>
+</tr>
+<tr>
+<td style="text-align: left;">1991</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 9.64</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 9.37</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 9.50</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 9.49</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 9.47</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 9.62</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 9.57</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 9.24</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 9.01</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 8.86</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 8.71</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 8.50</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 9.25</td>
+</tr>
+<tr style="background-color: #f7f7f7;">
+<td style="background-color: #f7f7f7; text-align: left;">1992</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 8.43</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 8.76</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 8.94</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 8.85</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 8.67</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 8.51</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 8.13</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 7.97</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 7.92</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 8.09</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 8.30</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 8.21</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 8.39</td>
+</tr>
+<tr>
+<td style="text-align: left;">1993</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.99</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.68</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.50</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.47</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.46</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.42</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.21</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.11</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 6.92</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 6.83</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.16</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.17</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.31</td>
+</tr>
+<tr style="background-color: #f7f7f7;">
+<td style="background-color: #f7f7f7; text-align: left;">1994</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 7.06</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 7.15</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 7.67</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 8.32</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 8.60</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 8.40</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 8.61</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 8.51</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 8.64</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 8.93</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 9.17</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 9.20</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 8.38</td>
+</tr>
+<tr>
+<td style="text-align: left;">1995</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 9.15</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 8.83</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 8.46</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 8.32</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.96</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.57</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.61</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.86</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.64</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.47</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.38</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.20</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.93</td>
+</tr>
+<tr style="background-color: #f7f7f7;">
+<td style="background-color: #f7f7f7; text-align: left;">1996</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 7.03</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 7.08</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 7.62</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 7.93</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 8.07</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 8.32</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 8.25</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 8.00</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 8.23</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 7.92</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 7.62</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 7.60</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 7.81</td>
+</tr>
+<tr>
+<td style="text-align: left;">1997</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.82</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.65</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.90</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 8.14</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.94</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.69</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.50</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.48</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.43</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.29</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.21</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.10</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.60</td>
+</tr>
+<tr style="background-color: #f7f7f7;">
+<td style="background-color: #f7f7f7; text-align: left;">1998</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 6.99</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 7.04</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 7.13</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 7.14</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 7.14</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 7.00</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 6.95</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 6.92</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 6.72</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 6.71</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 6.87</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 6.74</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 6.94</td>
+</tr>
+<tr>
+<td style="text-align: left;">1999</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 6.79</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 6.81</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.04</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 6.92</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.14</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.55</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.63</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.94</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.82</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.85</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.74</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.91</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.44</td>
+</tr>
+<tr><td colspan="18" style="font-weight: 900; text-align: left; border-top: 1px solid #BEBEBE;">2000s</td></tr>
+<tr style="background-color: #f7f7f7;">
+<td style="background-color: #f7f7f7; text-align: left;">2000</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 8.21</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 8.32</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 8.24</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 8.15</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 8.52</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 8.29</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 8.15</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 8.03</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 7.91</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 7.80</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 7.75</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 7.38</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 8.05</td>
+</tr>
+<tr>
+<td style="text-align: left;">2001</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.03</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.05</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 6.95</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.08</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.14</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.16</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.13</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 6.95</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 6.82</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 6.62</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 6.66</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 7.06</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 6.97</td>
+</tr>
+<tr style="background-color: #f7f7f7;">
+<td style="background-color: #f7f7f7; text-align: left;">2002</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 7.00</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 6.89</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 7.01</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 6.99</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 6.81</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 6.65</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 6.49</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 6.29</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 6.09</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 6.11</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 6.07</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 6.05</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 6.54</td>
+</tr>
+<tr>
+<td style="text-align: left;">2003</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 5.92</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 5.84</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 5.75</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 5.81</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 5.48</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 5.23</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 5.63</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 6.26</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 6.15</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 5.95</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 5.93</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 5.88</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 5.83</td>
+</tr>
+<tr style="background-color: #f7f7f7;">
+<td style="background-color: #f7f7f7; text-align: left;">2004</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 5.71</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 5.63</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 5.45</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 5.83</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 6.27</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 6.29</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 6.06</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 5.87</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 5.75</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 5.72</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 5.73</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 5.75</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 5.84</td>
+</tr>
+<tr>
+<td style="text-align: left;">2005</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 5.71</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 5.63</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 5.93</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 5.86</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 5.72</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 5.58</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 5.70</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 5.82</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 5.77</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 6.07</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 6.33</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 6.27</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 5.87</td>
+</tr>
+<tr style="background-color: #f7f7f7;">
+<td style="background-color: #f7f7f7; text-align: left;">2006</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 6.14</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 6.25</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 6.32</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 6.51</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 6.60</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 6.68</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 6.76</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 6.52</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 6.40</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 6.36</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 6.24</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 6.13</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 6.41</td>
+</tr>
+<tr>
+<td style="text-align: left;">2007</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 6.22</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 6.29</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 6.16</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 6.18</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 6.26</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 6.66</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 6.70</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 6.57</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 6.38</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 6.38</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 6.21</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 6.09</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 6.34</td>
+</tr>
+<tr style="background-color: #f7f7f7;">
+<td style="background-color: #f7f7f7; text-align: left;">2008</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 5.76</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 5.92</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 5.97</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 5.92</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 6.04</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 6.32</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 6.43</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 6.48</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 6.04</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 6.20</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 6.09</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 5.29</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 6.03</td>
+</tr>
+<tr>
+<td style="text-align: left;">2009</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 5.05</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 5.13</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 5.00</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 4.81</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 4.86</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 5.42</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 5.22</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 5.19</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 5.06</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 4.95</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 4.88</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 4.93</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 5.04</td>
+</tr>
+<tr><td colspan="18" style="font-weight: 900; text-align: left; border-top: 1px solid #BEBEBE;">2010s</td></tr>
+<tr style="background-color: #f7f7f7;">
+<td style="background-color: #f7f7f7; text-align: left;">2010</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 5.03</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 4.99</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 4.97</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 5.10</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 4.89</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 4.74</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 4.56</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 4.43</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 4.35</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 4.22</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 4.30</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 4.71</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 4.69</td>
+</tr>
+<tr>
+<td style="text-align: left;">2011</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 4.75</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 4.95</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 4.84</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 4.84</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 4.64</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 4.51</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 4.54</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 4.27</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 4.11</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 4.07</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 3.99</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 3.96</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 4.45</td>
+</tr>
+<tr style="background-color: #f7f7f7;">
+<td style="background-color: #f7f7f7; text-align: left;">2012</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 3.92</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 3.89</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 3.95</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 3.91</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 3.80</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 3.67</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 3.55</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 3.60</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 3.50</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 3.38</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 3.35</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 3.34</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 3.66</td>
+</tr>
+<tr>
+<td style="text-align: left;">2013</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 3.41</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 3.53</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 3.56</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 3.45</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 3.54</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 4.07</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 4.37</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 4.46</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 4.49</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 4.19</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 4.25</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 4.46</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 3.98</td>
+</tr>
+<tr style="background-color: #f7f7f7;">
+<td style="background-color: #f7f7f7; text-align: left;">2014</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 4.43</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 4.30</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 4.34</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 4.34</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 4.19</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 4.16</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 4.13</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 4.12</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 4.16</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 4.04</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 4.00</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 3.86</td>
+<td style="background-color: #f7f7f7;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; text-align: right;"> 4.17</td>
+</tr>
+<tr>
+<td style="text-align: left;">2015</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 3.67</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 3.71</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 3.77</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 3.67</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 3.84</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 3.98</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 4.05</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 3.91</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 3.89</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 3.80</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 3.94</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 3.96</td>
+<td style="" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; text-align: right;"> 3.85</td>
+</tr>
+<tr style="background-color: #f7f7f7;">
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: left;">2016</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: right;"> 3.87</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: right;"> 3.66</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: right;"> 3.69</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: right;"> 3.60</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: right;"> 3.60</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: right;"> 3.57</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: right;"> 3.44</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: right;"> 3.44</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: right;"> 3.46</td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: right;"> 3.47</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: right;"> 3.77</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: right;"><span style="color:darkgray; font-style:italic"> 4.17*</span></td>
+<td style="background-color: #f7f7f7; border-bottom: 2px solid grey;" colspan="1">&nbsp;</td>
+<td style="padding-left: .5em; padding-right: .1em; background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: right;"><span style="color:darkgray; font-style:italic"> 3.64*</span></td>
+</tr>
+</tbody>
+<tfoot><tr><td colspan="18">
+Source: Primary Mortgage Market Survey, Average of weekly rates<br />
+Data through 12/27/2016, <span style="color:darkgray; font-style:italic">*based on year-to-date values</span></td></tr></tfoot>
+</table>
+
+<h1 id="data-tables-are-viz-too">Data tables are viz too</h1>
+
+<p>Data tables are a data visualization too. Artful tables can achieve as much or more than fancy statistical graphs. Check back in this space as I explore more ways to construct tables and deploy them together with other data visualization techniques I’ve been exploring here..</p>
+
+    </div>
+
+    
+
+    
+  
+    <hr>
+    <ul class="pagination">
+    
+      <li class="prev"><a href="/2016/12/23/populous-metros-are-heavy" title="Populous metros are heavy!">&laquo; Previous</a></li>
+    
+      <li><a href="/archive.html">Archive</a></li>
+    
+      <li class="next"><a href="/2016/12/31/year-in-review" title="A look back at housing's best year in a decade">Next &raquo;</a></li>
+    
+    </ul>
+    <hr>
+    
+  </div>
+</div>
+
+
+
+      </div>
+
+    </div>
+
+    <div id="footer">
+      <div class="container">
+        <p>&copy; 2017 Len Kiefer
+          with help from <a href="http://jekyllbootstrap.com" target="_blank" title="The Definitive Jekyll Blogging Framework">Jekyll Bootstrap</a>
+          and <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>
+       
+    • <span vertical-align:bottom> <a href="https://twitter.com/lenkiefer" class="twitter-follow-button" data-show-count="false">•   Follow @lenkiefer</a>
+  
+ <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+</span>
+• <script src="//platform.linkedin.com/in.js" type="text/javascript"></script>
+<script type="IN/MemberProfile" data-id="https://www.linkedin.com/pub/leonard-kiefer/31/753/511" data-format="click" data-related="false" data-text="Leonard Kiefer"></script>
+  • lenkiefer@hotmail.com
+           </p>
+      </div>
+    </div>
+    
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+    <!-- Latest compiled and minified JavaScript, requires jQuery 1.x (2.x not supported in IE8) -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="/assets/themes/lentheme/bootstrap/js/bootstrap.min.js"></script>
+  </body>
+</html>
+
+
+
+
+

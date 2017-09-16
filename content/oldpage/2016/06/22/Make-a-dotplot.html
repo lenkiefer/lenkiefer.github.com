@@ -1,0 +1,311 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Let's make a dot plot</title>
+    
+    <meta name="author" content="Len Kiefer">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap styles -->
+    <link href="/assets/themes/lentheme/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Optional theme -->
+    <link href="/assets/themes/lentheme/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <!-- Sticky Footer -->
+    <link href="/assets/themes/lentheme/bootstrap/css/bs-sticky-footer.css" rel="stylesheet">
+    
+    <!-- Custom styles -->
+    <link href="/assets/themes/lentheme/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <!-- Update these with your own images
+      <link rel="shortcut icon" href="images/favicon.ico">
+      <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+      <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+      <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+  </head>
+
+  <body>
+    <div id="wrap">
+      <nav class="navbar navbar-default" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#jb-navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/"><span class="icon-home3" style="font-size:24px"> Len Kiefer</a></span>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="jb-navbar-collapse" style="font-size:24px">
+          <ul class="nav navbar-nav" >
+        <li><a href="/archive.html"><span class="icon-newspaper"> Posts</a></span></li>
+            <!-- li><a href="/chartbook/index.html"><span class="icon-display"> Chartbook</a></span></li-->
+         <li><a href="/resume.html"><span class="icon-profile"> Resume</span></a></li>
+        <li><a href="/about.html"><span class="icon-user-tie"> About</span></a></li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </nav>
+
+      <div class="container">
+        
+<div class="page-header">
+  <h1>Let's make a dot plot </h1>
+</div>
+
+<div class="row post-full">
+  <div class="col-xs-12">
+    <div class="date">
+      <span>22 June 2016</span>
+    </div>
+    <div class="content">
+      <p>IN THIS POST WE’RE GOING to make an animated version of the famous Federal Reserve dot plot comparing the dots in March 2016 to June 2016.  As far as celebrity charts go, the dot plot has to be up there. Check out how much “dot plot” has grown in search popularity since the Fed introduced their dot plot in 2012:</p>
+
+<p><img src="/img/charts_jun_22_2016/dottrends.PNG" alt="dot trends" width="400" /></p>
+
+<p>Ultimately, it will look something like this:</p>
+
+<p><img src="/img/charts_jun_22_2016/fed_dots_2016.gif" alt="dot plot" /></p>
+
+<p>The dot plot is a special chart that shows the distribution of expectations of the Federal Open Market Committee (FOMC) for the federal funds rate. Specifically it captures the views of each individual FOMC member for the following:</p>
+
+<blockquote>
+  <p>Each shaded circle indicates the value (rounded to the nearest 1/8 percentage point) of an individual participant’s judgment of the midpoint of the appropriate target range for the federal funds rate or the appropriate target level for the federal funds rate at the end of the specified calendar year or over the longer run.</p>
+</blockquote>
+
+<p>The Fed makes the dot plot information available in a handy format here: <a href="https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm">FOMC materials</a>. For example, the June 2016 projections look like this:</p>
+
+<p><img src="/img/charts_jun_22_2016/jun2016dots.PNG" alt="jun2016dots.PNG" /></p>
+
+<p>I’ve tidied the data (in Excel) so that it has three columns.  One corresponding to the rate (rate), one corresponding to the horizon (x), and one corresponding to the count of dots (count).  It looks like:</p>
+
+<p><img src="/img/charts_jun_22_2016/dotsetup.PNG" alt="dotsetup.PNG" /></p>
+
+<p>We’re going to begin with two text files capturing (tidied) tables for <a href="https://www.federalreserve.gov/monetarypolicy/fomcprojtabl20160316.htm">March 2016</a> and <a href="https://www.federalreserve.gov/monetarypolicy/fomcprojtabl20160615.htm">June 2016</a>.  With these two files in hand our R dataviz party can get started.</p>
+
+<h2 id="making-the-dots">Making the dots</h2>
+
+<p>We’ll be using ggplot2, which has a plot type called <a href="http://docs.ggplot2.org/current/geom_dotplot.html">geom_dotplot</a>, but unfortunately this plot doesn’t work very well for what we want to do.  Perhaps parameters could be set to make the image we want, but I’m going to build the plot myself.  This follows a pattern similar to what we did with the distribution plots for unemployment <a href="/2016/04/06/dot-plots-and-distributions">in an earlier post</a>.</p>
+
+<h3 id="setup">Setup</h3>
+
+<p>First we’ll set up our libraries:</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">scales</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">animation</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">ggthemes</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">data.table</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">tweenr</span><span class="p">)</span>  <span class="err">#</span><span class="n">used</span> <span class="k">for</span> <span class="n">animation</span></code></pre></figure>
+
+<p>Next we’re going to find the location for each dot in the dot plot.  This requires some simple math.  We’re going to set the dots along a line between +/-0.4 from the index value for each entry on the x axis (1 for 2016, 2 for 2017, 3 for 2018 and 4 for Longer Run).  If there is an odd number of dots, we’ll being at the index value and add two dots +/- a fixed amount of spacing <strong>the interval</strong>.  The <strong>interval</strong> will be determined by the maximum number of dots along any row.  For an even number of dots, we’ll set the first two dots at +/- the <strong>interval</strong>.</p>
+
+<p>Turns out for this example, we can set the <strong>interval</strong> to 0.2. This seems to work with the number of dots we have, but isn’t a general solution. For different data you might need to tune the <strong>interval</strong>.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">d6</span><span class="o">&lt;-</span><span class="n">fread</span><span class="p">(</span><span class="s2">"data/jun2016.txt"</span><span class="p">)</span>  <span class="c1">#load data for Jun 2016
+</span><span class="n">d3</span><span class="o">&lt;-</span><span class="n">fread</span><span class="p">(</span><span class="s2">"data/mar2016.txt"</span><span class="p">)</span>  <span class="c1">#load data for March 2016
+</span>
+<span class="c1"># get a unique list of horizon values appearing in the FOMC projection table (2016,2017,2018,Longer Run)
+</span><span class="n">xlist</span><span class="o">&lt;-</span><span class="n">unique</span><span class="p">(</span><span class="n">d6</span><span class="o">$</span><span class="n">x</span><span class="p">)</span>  
+<span class="c1"># Set up an empty data frame
+</span><span class="n">df</span><span class="o">&lt;-</span><span class="n">data.frame</span><span class="p">(</span><span class="n">rate</span><span class="o">=</span><span class="n">numeric</span><span class="p">(),</span><span class="n">x</span><span class="o">=</span><span class="n">numeric</span><span class="p">())</span>
+<span class="c1">#str(df)
+</span><span class="k">for</span> <span class="p">(</span><span class="n">xx</span> <span class="k">in</span> <span class="m">1</span><span class="o">:</span><span class="n">length</span><span class="p">(</span><span class="n">xlist</span><span class="p">)){</span>  <span class="c1">#loop through x values
+</span>  <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="k">in</span> <span class="m">1</span><span class="o">:</span><span class="n">length</span><span class="p">(</span><span class="n">d6</span><span class="p">[</span><span class="n">x</span><span class="o">==</span><span class="n">xlist</span><span class="p">[</span><span class="n">xx</span><span class="p">]]</span><span class="o">$</span><span class="n">rate</span><span class="p">)</span> <span class="p">){</span> <span class="c1">#create a dot for each observation
+</span>    <span class="k">for</span> <span class="p">(</span><span class="n">j</span> <span class="k">in</span> <span class="m">1</span><span class="o">:</span><span class="n">d6</span><span class="p">[</span><span class="n">x</span><span class="o">==</span><span class="n">xlist</span><span class="p">[</span><span class="n">xx</span><span class="p">]</span> <span class="p">]</span><span class="o">$</span><span class="n">count</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>   <span class="c1">#count along each row
+</span>    <span class="p">{</span><span class="k">if</span> <span class="p">(</span><span class="n">d6</span><span class="p">[</span><span class="n">x</span><span class="o">==</span><span class="n">xlist</span><span class="p">[</span><span class="n">xx</span><span class="p">]]</span><span class="o">$</span><span class="n">count</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">&gt;</span><span class="m">0</span><span class="p">){</span>   <span class="c1">#do something if count is greater than 0
+</span>      <span class="n">myc</span><span class="o">&lt;-</span><span class="n">j</span>  <span class="c1">#j corresponds to the number of dots in a row
+</span>      <span class="c1">#set up a counter for total number of dots in a row
+</span>      <span class="c1">#if number in row is odd, start at zero
+</span>      <span class="c1">#if number in row is even, start at 1/2 0.4 = 0.2 around zero
+</span>      <span class="n">df1</span><span class="o">&lt;-</span><span class="n">data.frame</span><span class="p">(</span><span class="n">rate</span><span class="o">=</span><span class="n">d6</span><span class="p">[</span><span class="n">x</span><span class="o">==</span><span class="n">xlist</span><span class="p">[</span><span class="n">xx</span><span class="p">]]</span><span class="o">$</span><span class="n">rate</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">x</span><span class="o">=</span><span class="n">ifelse</span><span class="p">(</span><span class="n">d6</span><span class="p">[</span><span class="n">x</span><span class="o">==</span><span class="n">xlist</span><span class="p">[</span><span class="n">xx</span><span class="p">]]</span><span class="o">$</span><span class="n">count</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">%%</span> <span class="m">2</span> <span class="o">==</span><span class="m">1</span><span class="p">,</span> 
+                                                          <span class="n">ifelse</span><span class="p">(</span><span class="n">myc</span> <span class="o">%%</span> <span class="m">2</span> <span class="o">==</span><span class="m">1</span><span class="p">,</span><span class="n">xx</span><span class="o">+</span><span class="p">(</span><span class="m">-1</span><span class="p">)</span><span class="o">^</span><span class="n">myc</span> <span class="o">*</span> <span class="p">(</span><span class="n">myc</span><span class="m">-1</span><span class="p">)</span><span class="o">*</span><span class="m">0.04</span><span class="p">,</span><span class="n">xx</span><span class="o">+</span><span class="p">(</span><span class="m">-1</span><span class="p">)</span><span class="o">^</span><span class="n">myc</span> <span class="o">*</span> <span class="p">(</span><span class="n">myc</span><span class="p">)</span><span class="o">*</span><span class="m">0.04</span><span class="p">),</span>
+                                                          <span class="n">xx</span><span class="m">-.02</span><span class="o">+</span><span class="p">(</span><span class="m">-1</span><span class="p">)</span><span class="o">^</span><span class="n">myc</span> <span class="o">*</span> <span class="p">(</span><span class="n">myc</span><span class="p">)</span><span class="o">*</span><span class="m">0.04</span><span class="p">)</span>   <span class="p">)</span>
+      <span class="n">df</span><span class="o">&lt;-</span><span class="n">rbind</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="n">df1</span><span class="p">)</span>
+<span class="p">}}}}</span>
+
+<span class="n">caption</span> <span class="o">&lt;-</span> <span class="s2">"@lenkiefer Source: Federal Reserve Board Note: Each shaded circle indicates the value (rounded to the nearest 1/8 percentage point) of an individual participant's judgment of the midpoint of the appropriate target range for the federal funds rate or the appropriate target level for the federal funds rate at the end of the specified calendar year or over the longer run. One participant did not submit longer-run projections in June 2016. 
+"</span></code></pre></figure>
+
+<p>Now make a static plot:</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1">#make a plot
+</span><span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">rate</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">theme_minimal</span><span class="p">()</span><span class="o">+</span>
+  <span class="n">scale_x_continuous</span><span class="p">(</span><span class="n">breaks</span><span class="o">=</span><span class="n">seq</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">4</span><span class="p">,</span><span class="m">1</span><span class="p">),</span><span class="n">labels</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="s2">"2016"</span><span class="p">,</span><span class="s2">"2017"</span><span class="p">,</span><span class="s2">"2018"</span><span class="p">,</span><span class="s2">"Longer Run"</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">geom_point</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">2</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">"#00B0F0"</span><span class="p">)</span><span class="o">+</span><span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">limits</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">4.5</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">labs</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="s2">"Midpoint of target range or target level for the federal funds rate (%)"</span><span class="p">,</span><span class="n">x</span><span class="o">=</span><span class="s2">"Horizon"</span><span class="p">,</span>
+       <span class="n">subtitle</span><span class="o">=</span><span class="s2">"June 2016"</span><span class="p">,</span>
+       <span class="n">title</span><span class="o">=</span><span class="s2">"FOMC participants' assessments of appropriate monetary policy:\nMidpoint of target range or target level for the federal funds rate"</span><span class="p">,</span>
+       <span class="n">caption</span><span class="o">=</span><span class="n">label_wrap_gen</span><span class="p">(</span><span class="m">100</span><span class="p">)(</span><span class="n">caption</span><span class="p">))</span><span class="o">+</span> <span class="c1">#wrap the label 
+</span>  <span class="n">theme</span><span class="p">(</span><span class="n">plot.title</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">14</span><span class="p">))</span><span class="o">+</span><span class="n">theme</span><span class="p">(</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">vjust</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="n">margin</span><span class="o">=</span><span class="n">margin</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="m">10</span><span class="p">)))</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">plot.margin</span><span class="o">=</span><span class="n">unit</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="m">0.25</span><span class="p">,</span><span class="m">0.25</span><span class="p">,</span><span class="m">0.25</span><span class="p">,</span><span class="m">0.25</span><span class="p">),</span><span class="s2">"cm"</span><span class="p">))</span><span class="o">+</span>  <span class="n">theme</span><span class="p">(</span><span class="n">legend.justification</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">),</span> <span class="n">legend.position</span><span class="o">=</span><span class="s2">"none"</span><span class="p">)</span></code></pre></figure>
+
+<p><img src="/img/Rfig/dot-chunk-1.svg" alt="plot of chunk dot-chunk" /></p>
+
+<h2 id="animating-the-dots">Animating the dots</h2>
+
+<p>Now we’re ready to animate.  For more explicit discussion, see my <a href="/2016/05/29/improving-R-animated-gifs-with-tweenr">earlier post</a>. What we’re going to do is load each month worth of dots and then then use tweenr to interpolate between the points.</p>
+
+<h3 id="a-dot-goes-missing">A dot goes missing</h3>
+
+<p>The way I’m using tweenr, with the tween_states function, I need each dataset to have the same number of observations (rows).  This normally wouldn’t be a problem as there are usually 17 dots corresponding to each FOMC member. But in June 2016 one dot went missing.  There were only 16 dots for the “Longer Run” dot.</p>
+
+<p>It turns out that James Bullard from the St. Louis Fed <a href="http://www.bloomberg.com/news/articles/2016-06-17/st-louis-fed-s-bullard-claims-the-dot-missing-from-fed-estimate">claimed the missing dot</a>, and even wrote a short paper on why he didn’t think the “Longer Run” dot was useful.  You can read more about it <a href="https://www.stlouisfed.org/from-the-president/commentary/2016/new-characterization-outlook-economy">here</a>.</p>
+
+<p>In order to deal with the missing dot and have the animation work, we’re going to need to pad the data frame with the June dots.  I chose to do it by adding a large positive value (8) outside the range of the plot.  This will result in the dot flying off the top of the chart in the animation. I imagine a tiny voice say “forget this I’m outta here!”</p>
+
+<h3 id="animation-code">Animation code</h3>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1">#pad the dot for June 2016:
+</span><span class="n">df6</span><span class="o">&lt;-</span><span class="n">rbind</span><span class="p">(</span><span class="n">df6</span><span class="p">,</span><span class="n">data.frame</span><span class="p">(</span><span class="n">rate</span><span class="o">=</span><span class="m">8</span><span class="p">,</span><span class="n">x</span><span class="o">=</span><span class="m">4</span><span class="p">))</span>
+
+<span class="c1">#replicate the business above for march 2016
+</span>
+<span class="n">d3</span><span class="o">&lt;-</span><span class="n">fread</span><span class="p">(</span><span class="s2">"mar2016.txt"</span><span class="p">)</span>
+<span class="n">xlist</span><span class="o">&lt;-</span><span class="n">unique</span><span class="p">(</span><span class="n">d3</span><span class="o">$</span><span class="n">x</span><span class="p">)</span>  
+<span class="c1"># Set up an empty data frame
+</span><span class="n">df</span><span class="o">&lt;-</span><span class="n">data.frame</span><span class="p">(</span><span class="n">rate</span><span class="o">=</span><span class="n">numeric</span><span class="p">(),</span><span class="n">x</span><span class="o">=</span><span class="n">numeric</span><span class="p">())</span>
+<span class="c1">#str(df)
+</span><span class="k">for</span> <span class="p">(</span><span class="n">xx</span> <span class="k">in</span> <span class="m">1</span><span class="o">:</span><span class="n">length</span><span class="p">(</span><span class="n">xlist</span><span class="p">)){</span>  <span class="c1">#loop through x values
+</span>  <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="k">in</span> <span class="m">1</span><span class="o">:</span><span class="n">length</span><span class="p">(</span><span class="n">d6</span><span class="p">[</span><span class="n">x</span><span class="o">==</span><span class="n">xlist</span><span class="p">[</span><span class="n">xx</span><span class="p">]]</span><span class="o">$</span><span class="n">rate</span><span class="p">)</span> <span class="p">){</span> <span class="c1">#create a dot for each observation
+</span>    <span class="k">for</span> <span class="p">(</span><span class="n">j</span> <span class="k">in</span> <span class="m">1</span><span class="o">:</span><span class="n">d6</span><span class="p">[</span><span class="n">x</span><span class="o">==</span><span class="n">xlist</span><span class="p">[</span><span class="n">xx</span><span class="p">]</span> <span class="p">]</span><span class="o">$</span><span class="n">count</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="p">{</span><span class="k">if</span> <span class="p">(</span><span class="n">d6</span><span class="p">[</span><span class="n">x</span><span class="o">==</span><span class="n">xlist</span><span class="p">[</span><span class="n">xx</span><span class="p">]]</span><span class="o">$</span><span class="n">count</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">&gt;</span><span class="m">0</span><span class="p">){</span>
+      <span class="n">myc</span><span class="o">&lt;-</span><span class="n">j</span>
+      <span class="c1">#set up a counter for total number of dots in a row
+</span>      <span class="c1">#if number in row is odd, start at zero
+</span>      <span class="c1">#if number in row is even, start at 1/2 0.4 = 0.2 around zero
+</span>      <span class="n">df1</span><span class="o">&lt;-</span><span class="n">data.frame</span><span class="p">(</span><span class="n">rate</span><span class="o">=</span><span class="n">d3</span><span class="p">[</span><span class="n">x</span><span class="o">==</span><span class="n">xlist</span><span class="p">[</span><span class="n">xx</span><span class="p">]]</span><span class="o">$</span><span class="n">rate</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">x</span><span class="o">=</span><span class="n">ifelse</span><span class="p">(</span><span class="n">d3</span><span class="p">[</span><span class="n">x</span><span class="o">==</span><span class="n">xlist</span><span class="p">[</span><span class="n">xx</span><span class="p">]]</span><span class="o">$</span><span class="n">count</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">%%</span> <span class="m">2</span> <span class="o">==</span><span class="m">1</span><span class="p">,</span> 
+                                                          <span class="n">ifelse</span><span class="p">(</span><span class="n">myc</span> <span class="o">%%</span> <span class="m">2</span> <span class="o">==</span><span class="m">1</span><span class="p">,</span><span class="n">xx</span><span class="o">+</span><span class="p">(</span><span class="m">-1</span><span class="p">)</span><span class="o">^</span><span class="n">myc</span> <span class="o">*</span> <span class="p">(</span><span class="n">myc</span><span class="m">-1</span><span class="p">)</span><span class="o">*</span><span class="m">0.04</span><span class="p">,</span><span class="n">xx</span><span class="o">+</span><span class="p">(</span><span class="m">-1</span><span class="p">)</span><span class="o">^</span><span class="n">myc</span> <span class="o">*</span> <span class="p">(</span><span class="n">myc</span><span class="p">)</span><span class="o">*</span><span class="m">0.04</span><span class="p">),</span>
+                                                          <span class="n">xx</span><span class="m">-.02</span><span class="o">+</span><span class="p">(</span><span class="m">-1</span><span class="p">)</span><span class="o">^</span><span class="n">myc</span> <span class="o">*</span> <span class="p">(</span><span class="n">myc</span><span class="p">)</span><span class="o">*</span><span class="m">0.04</span><span class="p">)</span>   <span class="p">)</span>
+      <span class="n">df</span><span class="o">&lt;-</span><span class="n">rbind</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="n">df1</span><span class="p">)</span>
+<span class="p">}}}}</span>
+
+<span class="n">df3</span><span class="o">&lt;-</span><span class="n">df</span>
+
+<span class="c1">#tween the data sets.
+</span><span class="n">df3</span><span class="o">$</span><span class="n">date</span><span class="o">&lt;-</span><span class="n">factor</span><span class="p">(</span><span class="s2">"March 2016"</span><span class="p">)</span>  <span class="c1">#set date label
+</span><span class="n">df6</span><span class="o">$</span><span class="n">date</span><span class="o">&lt;-</span><span class="n">factor</span><span class="p">(</span><span class="s2">"June 2016"</span><span class="p">)</span>   <span class="c1">#set date label
+</span>
+<span class="c1"># use tweenr to interpolate the data
+</span><span class="n">tf</span> <span class="o">&lt;-</span> <span class="n">tween_states</span><span class="p">(</span><span class="n">list</span><span class="p">(</span><span class="n">df3</span><span class="p">,</span><span class="n">df6</span><span class="p">,</span><span class="n">df3</span><span class="p">),</span> <span class="n">tweenlength</span><span class="o">=</span> <span class="m">3</span><span class="p">,</span> <span class="n">statelength</span><span class="o">=</span><span class="m">1</span><span class="p">,</span> <span class="n">ease</span><span class="o">=</span><span class="n">rep</span><span class="p">(</span><span class="s1">'cubic-in-out'</span><span class="p">,</span><span class="m">2</span><span class="p">),</span><span class="n">nframes</span><span class="o">=</span><span class="m">50</span><span class="p">)</span>
+<span class="n">tf</span><span class="o">&lt;-</span><span class="n">data.table</span><span class="p">(</span><span class="n">tf</span><span class="p">)</span>  <span class="c1">#make a data table for convenience
+</span>
+<span class="c1"># Run the animation:
+</span>
+<span class="n">oopt</span> <span class="o">=</span> <span class="n">ani.options</span><span class="p">(</span><span class="n">interval</span> <span class="o">=</span> <span class="m">0.01</span><span class="p">)</span>
+<span class="n">saveGIF</span><span class="p">({</span><span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="k">in</span> <span class="m">1</span><span class="o">:</span><span class="n">max</span><span class="p">(</span><span class="n">tf</span><span class="o">$</span><span class="n">.frame</span><span class="p">))</span> <span class="p">{</span>
+  <span class="n">g</span><span class="o">&lt;-</span> 
+    <span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">tf</span><span class="p">[</span><span class="n">.frame</span><span class="o">==</span><span class="n">i</span><span class="p">],</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">rate</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">date</span><span class="p">))</span><span class="o">+</span>
+    <span class="n">theme_minimal</span><span class="p">()</span><span class="o">+</span><span class="n">scale_x_continuous</span><span class="p">(</span><span class="n">breaks</span><span class="o">=</span><span class="n">seq</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">4</span><span class="p">,</span><span class="m">1</span><span class="p">),</span><span class="n">labels</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="s2">"2016"</span><span class="p">,</span><span class="s2">"2017"</span><span class="p">,</span><span class="s2">"2018"</span><span class="p">,</span><span class="s2">"Longer Run"</span><span class="p">))</span><span class="o">+</span>
+    <span class="n">geom_point</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">2</span><span class="p">,</span><span class="n">aes</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">date</span><span class="p">))</span><span class="o">+</span><span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">limits</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">4.5</span><span class="p">))</span><span class="o">+</span>
+    <span class="n">scale_color_manual</span><span class="p">(</span><span class="n">limits</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="s2">"March 2016"</span><span class="p">,</span><span class="s2">"June 2016"</span><span class="p">),</span><span class="n">values</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="s2">"red"</span><span class="p">,</span><span class="s2">"#00B0F0"</span><span class="p">))</span><span class="o">+</span>
+    <span class="n">labs</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="s2">"Midpoint of target range or target level for the federal funds rate (%)"</span><span class="p">,</span><span class="n">x</span><span class="o">=</span><span class="s2">"Horizon"</span><span class="p">,</span>
+         <span class="n">subtitle</span><span class="o">=</span><span class="n">tf</span><span class="p">[</span><span class="n">.frame</span><span class="o">==</span><span class="n">i</span><span class="p">]</span><span class="o">$</span><span class="n">date</span><span class="p">,</span>
+         <span class="n">title</span><span class="o">=</span><span class="s2">"FOMC participants' assessments of appropriate monetary policy:\nMidpoint of target range or target level for the federal funds rate"</span><span class="p">,</span>
+         <span class="n">caption</span><span class="o">=</span><span class="n">label_wrap_gen</span><span class="p">(</span><span class="m">100</span><span class="p">)(</span><span class="n">caption</span><span class="p">))</span><span class="o">+</span>
+    <span class="n">theme</span><span class="p">(</span><span class="n">plot.title</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">14</span><span class="p">))</span><span class="o">+</span><span class="n">theme</span><span class="p">(</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">vjust</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="n">margin</span><span class="o">=</span><span class="n">margin</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="m">10</span><span class="p">)))</span><span class="o">+</span>
+    <span class="n">theme</span><span class="p">(</span><span class="n">plot.margin</span><span class="o">=</span><span class="n">unit</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="m">0.25</span><span class="p">,</span><span class="m">0.25</span><span class="p">,</span><span class="m">0.25</span><span class="p">,</span><span class="m">0.25</span><span class="p">),</span><span class="s2">"cm"</span><span class="p">))</span><span class="o">+</span>  <span class="n">theme</span><span class="p">(</span><span class="n">legend.justification</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">),</span> <span class="n">legend.position</span><span class="o">=</span><span class="s2">"none"</span><span class="p">)</span>
+  <span class="n">print</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+  <span class="n">ani.pause</span><span class="p">()</span>
+  <span class="n">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>  <span class="c1">#I like to print a counter so I know about when the animation will finish
+</span><span class="p">}</span>
+<span class="p">},</span><span class="n">movie.name</span><span class="o">=</span><span class="s2">"fed_dots_2016.gif"</span><span class="p">,</span><span class="n">ani.width</span> <span class="o">=</span> <span class="m">575</span><span class="p">,</span> <span class="n">ani.height</span> <span class="o">=</span> <span class="m">450</span><span class="p">)</span>  <span class="err">#</span><span class="n">save</span> <span class="n">the</span> <span class="n">output</span></code></pre></figure>
+
+<p>Running this code should create our animated dot plot:</p>
+
+<p><img src="/img/charts_jun_22_2016/fed_dots_2016.gif" alt="dot plot" /></p>
+
+
+    </div>
+
+    
+
+    
+  
+    <hr>
+    <ul class="pagination">
+    
+      <li class="prev"><a href="/2016/06/09/Dataviz-Remix-Housing-Trilemma" title="Dataviz Remix: Housing Trilemma">&laquo; Previous</a></li>
+    
+      <li><a href="/archive.html">Archive</a></li>
+    
+      <li class="next"><a href="/2016/06/26/week-in-review" title="Brexit, State of the Nation's Housing, and home sales: the week in charts.">Next &raquo;</a></li>
+    
+    </ul>
+    <hr>
+    
+  </div>
+</div>
+
+
+
+      </div>
+
+    </div>
+
+    <div id="footer">
+      <div class="container">
+        <p>&copy; 2017 Len Kiefer
+          with help from <a href="http://jekyllbootstrap.com" target="_blank" title="The Definitive Jekyll Blogging Framework">Jekyll Bootstrap</a>
+          and <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>
+       
+    • <span vertical-align:bottom> <a href="https://twitter.com/lenkiefer" class="twitter-follow-button" data-show-count="false">•   Follow @lenkiefer</a>
+  
+ <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+</span>
+• <script src="//platform.linkedin.com/in.js" type="text/javascript"></script>
+<script type="IN/MemberProfile" data-id="https://www.linkedin.com/pub/leonard-kiefer/31/753/511" data-format="click" data-related="false" data-text="Leonard Kiefer"></script>
+  • lenkiefer@hotmail.com
+           </p>
+      </div>
+    </div>
+    
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+    <!-- Latest compiled and minified JavaScript, requires jQuery 1.x (2.x not supported in IE8) -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="/assets/themes/lentheme/bootstrap/js/bootstrap.min.js"></script>
+  </body>
+</html>
+
+
+
+
+

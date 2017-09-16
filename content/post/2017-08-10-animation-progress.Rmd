@@ -1,0 +1,146 @@
+---
+title: "Adding an animation progress bar"
+author: "Len Kiefer"
+date: "2017-08-10"
+summary: "R statistics dataviz housing mortgage data"
+categories: ["dataviz"]
+tags: ["R","dataviz","animation"]
+slug: "animation-progress"
+---
+  
+I LIKE TO MAKE ANIMATED GIFS with my data.  But frankly, sometimes they can be confusing. I got a good suggestion via twitter in response to a gif I shared there:
+
+<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">This is very cool. Has anyone added a visual &quot;progress bar&quot; to a gganimate loop to show the frame visually? It&#39;s hard to grasp time as text.</p>&mdash; Jonathan Spring (@JustTheSpring) <a href="https://twitter.com/JustTheSpring/status/894011996202450944">August 6, 2017</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+Now it's very likely that others have tried this, but I haven't seen it. But let's go ahead an make one in [R](https://www.r-project.org/).
+
+If we use [cowplot](https://cran.r-project.org/web/packages/cowplot/index.html) together with [ggplot2](http://ggplot2.tidyverse.org/) it's pretty easy.
+
+## GET SOME DATA
+
+Let's use some real world data.  Following the strategy from [this post](../../../../2017/04/11/Fred-plot ) we'll go to the [Saint Louis Federal Reserve Economic Database (FRED)](https://fred.stlouisfed.org/) and get some data. We'll try out 30-year fixed mortgage rates, stored with ticker **MORTGAGE30US**.  
+
+We'll plot a simple time series for weekly rates since 2016.  We'll have a progress bar keep track of how far we've gone.  First, get some data and make a static plot.
+
+```{r 08-10-2017-setup}
+library(tidyverse)
+library(quantmod)
+library(cowplot)
+library(lubridate)
+
+df= getSymbols('MORTGAGE30US',src='FRED', auto.assign=F) 
+df = data.frame(date=time(df), coredata(df) )
+ggplot(data=filter(df,year(date)>=2016), aes(x=date, y=MORTGAGE30US))+
+  geom_line(color="#0033a0",alpha=0.82)+
+  theme_minimal()+
+  geom_point(data=tail(df,1),size=1.5,color="#0033a0")+
+  scale_x_date(limits=c(as.Date("2016-01-01"),as.Date("2017-08-31")),
+               date_labels="%b-%Y")+
+    labs(x="", y="",
+         title="30-year Fixed Mortgage Rate (%)",
+         subtitle="U.S. weekly average rates",
+         caption="@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey")+
+    theme(plot.title=element_text(color="#0033a0"),
+          plot.caption=element_text(hjust=0))
+
+```
+
+Now, let's build a progress bar indicator and put it below the plot. 
+
+```{r 08-10-2017-plot1}
+
+dlist<-unique(filter(df,year(date)>=2016)$date)
+N<-length(dlist)
+
+## Make a function to create the bar
+
+g.progress<- function(i=10,maxi=N){
+  ggplot(data=data.frame(x="progress",y=i/maxi),
+         aes(x=x,y=y))+geom_bar(stat="identity",color=NA,fill="#0033a0",alpha=0.82)+
+    geom_bar(stat="identity", data=data.frame(x="progress",y=1),
+             color="black",fill=NA)+
+    theme_void()+scale_y_continuous(limits=c(0,1))+
+    theme(plot.title=element_text(size=8,hjust=0.1))+
+    labs(title="Animation progress")+
+    coord_flip()
+}
+
+```
+
+Test it out:
+
+```{r 08-10-2017-plot-2, fig.height=1,fig.width=5}
+g.progress(10)
+```
+
+
+Now we can use cowplot to combine our progress bar with our original plot. 
+
+First, let's make a function that returns our line plot given an index number.
+
+```{r 08-10-2017-plot-3}
+# function for line plot:
+g.plot<- function(i=10,d.list=dlist){
+    ggplot(data=filter(df,year(date)>=2016 & date<=d.list[i]), 
+         aes(x=date, y=MORTGAGE30US))+
+    geom_line(color="#0033a0",alpha=0.82)+
+    theme_minimal()+
+    scale_y_continuous(limits=c(3.25,4.5))+
+    geom_point(data=filter(df,date==d.list[i]),size=1.5,color="#0033a0")+
+    scale_x_date(limits=c(as.Date("2016-01-01"),as.Date("2017-08-31")),
+               date_labels="%b-%Y")+
+    labs(x="", y="",
+         title="30-year Fixed Mortgage Rate (%)",
+         subtitle="U.S. weekly average rates",
+         caption="@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey")+
+    theme(plot.title=element_text(color="#0033a0"),
+          plot.caption=element_text(hjust=0))
+  }
+g.plot(10)
+
+```
+
+Now combine via cowplot's `plot_grid()` function:
+
+```{r 08-10-2017-plot-4}
+#use plot_grid to arrange the layout 5 to 1 ratio seems to work okay
+plot_grid(g.plot(10),g.progress(10), rel_heights=c(5,1),ncol=1)
+```
+
+We can create an animation by cycling through our data and saving the images and combining them into a *gif*.  Let's see if I can use the [purrr](http://purrr.tidyverse.org/) tricks to save the images. I'm going to save my images into a folder called bar. Then I'll use [Imagemagick](https://www.imagemagick.org/script/index.php) to create the gif.
+
+```{r 08-10-2017-plot-animate, eval=F}
+# Function for plots:
+plotf<- function(i=10){plot_grid(g.plot(i),g.progress(i), rel_heights=c(5,1),ncol=1)}
+
+# set up your directory where you want to save images
+mydir<-("YOURDIRECTORY")   # change YOURDIRECTORY
+
+# function for saving images
+plot.save<-function(i=10){
+  # add 5000 to index so images are in the right order (10 comes after 9)
+  file_path = paste0(mydir, "/plot-",5000+i ,".png")
+    ggsave(filename=file_path, plotf(i),
+           width = 8, height = 6 , units = "cm",scale=1.85)
+  
+}
+# use PURRR map (instead of lapply)
+# see: https://jennybc.github.io/purrr-tutorial/bk01_base-functions.html
+map(1:N, plot.save)
+```
+
+Once you have all these images save, you'll need to combine them in a gif.  I use Imagemagick from the command line.  You just need to run:
+
+`cd YOURDIRECTORY`
+
+and then
+
+`magick convert -delay 10 loop -0 *.png pmmsline.gif`
+
+And you should have file like this in YOURDIRECTORY. Note that `*.png` is going to convert all png files into your gif, so make sure YOURDIRECTORY only contains the image files you want in your gif.
+
+<img src="../../../../img/charts_aug_10_2017/pmmsline.gif" height="600" width="800">
+
+Maybe this could work for you?
+

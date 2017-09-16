@@ -1,0 +1,594 @@
+---
+title: "What's that on the horizon? An awesome dataviz!"
+author: "Len Kiefer"
+date: "2017-04-23"
+summary: "R statistics rstats mortgage rates dataviz"
+category: "dataviz"
+tags: ["R","fun","dataviz"]
+slug: "horizon"
+
+---
+
+
+
+<blockquote>
+<p><em>This post is everything you want<br />
+it’s everything you need<br />
+it’s every viz inside of you that you wish you could see<br />
+it’s all the right viz at exactly the right time<br />
+but it means nothing to you and you don’t know why</em></p>
+</blockquote>
+<p><img src="{{ site.url }}/img/charts_apr_23_2017/horizon tween flip.gif" alt="horizon gif"/></p>
+<p>LET US MAKE SOME HORIZON CHARTS.</p>
+<p>What is a horizon chart you ask? That’s exactly what I was thinking earlier this weekend. Well, not exactly. I sort of knew what horizon charts were, but I couldn’t say exactly what they were good for. But then, after making some it struck me. Come with me on this journey.</p>
+<p>As we usually do in this space, we’ll use <a href="https://www.r-project.org/">R</a> to create our plots.</p>
+<div id="horizon-charts" class="section level2">
+<h2>Horizon Charts</h2>
+<p>Check out Flowing Data <a href="http://flowingdata.com/2015/07/02/changing-price-of-food-items-and-horizon-graphs/">on horizon charts</a> and this <a href="http://www.stonesc.com/Vis08_Workshop/DVD/Reijner_submission.pdf">document</a> for some other examples of horizon charts.</p>
+<p>I was inspired to look into this by this awesome tweet from <span class="citation">[@timelyportfolio]</span>(<a href="https://twitter.com/timelyportfolio" class="uri">https://twitter.com/timelyportfolio</a>):</p>
+<blockquote class="twitter-tweet" data-lang="en">
+<p lang="en" dir="ltr">
+<a href="https://twitter.com/hashtag/rstats?src=hash">#rstats</a> <a href="https://twitter.com/hashtag/d3js?src=hash">#d3js</a> horizon charts in DT datatable; great target for shiny<a href="https://t.co/1315jE5jog">https://t.co/1315jE5jog</a> <a href="https://t.co/DM8yPyxSJv">pic.twitter.com/DM8yPyxSJv</a>
+</p>
+— timelyportfolio (<span class="citation">@timelyportfolio</span>) <a href="https://twitter.com/timelyportfolio/status/855777175563366400">April 22, 2017</a>
+</blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p>In this <a href="https://bl.ocks.org/timelyportfolio/1c938792957f70cf6069e48f33bdc1b5">example</a> timelyportfolio showed how to embed horizon charts into a <a href="https://rstudio.github.io/DT/">datatable</a> widget. We’ll get to that, but first let’s build our own horizon chart.</p>
+</div>
+<div id="building-a-horizon-chart-with-ggplot2" class="section level1">
+<h1>Building a horizon chart with ggplot2</h1>
+<p>In building this chart, I was greatly aided by <a href="http://timelyportfolio.blogspot.com/2012/08/horizon-on-ggplot2.html">this post</a> from timelyportfolio, which dates back to 2012 (!). Since then, <a href="http://ggplot2.tidyverse.org/">ggplot2</a> has evolved, so the code needed minor tweaking. Using that modified code I was able to build up a horizon chart. We’ll go over the steps, but first let’s get some data.</p>
+<div id="getting-data" class="section level2">
+<h2>Getting data</h2>
+<p>For today’s examples I’m going to use employment data from the U.S. Bureau of Labor Statistis (<a href="https://bls.gov">BLS</a>) and house price data from the <a href="http://www.freddiemac.com/finance/house_price_index.html">Freddie Mac</a>. We’ve used these data before, <a href="../../../../2017/02/01/emp-trends">here for employment</a> and <a href="../../../../2017/01/22/build-flex">here</a> for house prices. The posts linked to describe more about how to the data. For the employment data we’ll load it from the web, and the house price data is available in a csv file <a href="../../../../chartbooks/jan2017/data/hpistate.csv">hpistate.csv</a>.</p>
+<div id="loading-preparing-and-checking-data" class="section level3">
+<h3>Loading, preparing and checking data</h3>
+<p>Let’s follow the strategies from our earlier post and get the employment data from BLS and the house price data from our .csv.</p>
+<p>First, let’s check our house price data:</p>
+<pre class="r"><code>################################################################################
+### Load libraries
+################################################################################
+
+library(tidyverse)</code></pre>
+<pre><code>## Loading tidyverse: ggplot2
+## Loading tidyverse: tibble
+## Loading tidyverse: tidyr
+## Loading tidyverse: readr
+## Loading tidyverse: purrr
+## Loading tidyverse: dplyr</code></pre>
+<pre><code>## Conflicts with tidy packages ----------------------------------------------</code></pre>
+<pre><code>## filter(): dplyr, stats
+## lag():    dplyr, stats</code></pre>
+<pre class="r"><code>library(data.table)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;data.table&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:dplyr&#39;:
+## 
+##     between, first, last</code></pre>
+<pre><code>## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     transpose</code></pre>
+<pre class="r"><code>library(scales)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;scales&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     discard</code></pre>
+<pre><code>## The following object is masked from &#39;package:readr&#39;:
+## 
+##     col_factor</code></pre>
+<pre class="r"><code>################################################################################
+### Load libraries
+################################################################################
+
+df&lt;-fread(&quot;data/hpistate.csv&quot;)
+df$date&lt;-as.Date(df$date, format=&quot;%m/%d/%Y&quot;)
+
+# Compute percent change by year
+#df=df[,hpa:=(hpi-shift(hpi,12,fill=NA))/shift(hpi,12,fill=NA),by=c(&quot;statename&quot;)]
+
+# Print table for checking
+htmlTable::htmlTable(tail(df))</code></pre>
+<table class='gmisc_table' style='border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;' >
+<thead>
+<tr>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey;'> </th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>state</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>geo</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>date</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>hpi</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>year</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>month</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>type</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>hpa12</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>lat</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>long</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>metro.pop</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>fips</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>statename</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>division</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>region</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style='text-align: left;'>1</td>
+<td style='text-align: center;'>WY</td>
+<td style='text-align: center;'>WY</td>
+<td style='text-align: center;'>2016-04-01</td>
+<td style='text-align: center;'>185.7677316</td>
+<td style='text-align: center;'>2016</td>
+<td style='text-align: center;'>4</td>
+<td style='text-align: center;'>State</td>
+<td style='text-align: center;'>0.0157535023308515</td>
+<td style='text-align: center;'>41.15</td>
+<td style='text-align: center;'>-104.79</td>
+<td style='text-align: center;'>97121</td>
+<td style='text-align: center;'>56</td>
+<td style='text-align: center;'>Wyoming</td>
+<td style='text-align: center;'>Mountain Division</td>
+<td style='text-align: center;'>West Region</td>
+</tr>
+<tr>
+<td style='text-align: left;'>2</td>
+<td style='text-align: center;'>WY</td>
+<td style='text-align: center;'>WY</td>
+<td style='text-align: center;'>2016-05-01</td>
+<td style='text-align: center;'>186.6263416</td>
+<td style='text-align: center;'>2016</td>
+<td style='text-align: center;'>5</td>
+<td style='text-align: center;'>State</td>
+<td style='text-align: center;'>0.0111053021335621</td>
+<td style='text-align: center;'>41.15</td>
+<td style='text-align: center;'>-104.79</td>
+<td style='text-align: center;'>97121</td>
+<td style='text-align: center;'>56</td>
+<td style='text-align: center;'>Wyoming</td>
+<td style='text-align: center;'>Mountain Division</td>
+<td style='text-align: center;'>West Region</td>
+</tr>
+<tr>
+<td style='text-align: left;'>3</td>
+<td style='text-align: center;'>WY</td>
+<td style='text-align: center;'>WY</td>
+<td style='text-align: center;'>2016-06-01</td>
+<td style='text-align: center;'>187.2050436</td>
+<td style='text-align: center;'>2016</td>
+<td style='text-align: center;'>6</td>
+<td style='text-align: center;'>State</td>
+<td style='text-align: center;'>0.00508809832570378</td>
+<td style='text-align: center;'>41.15</td>
+<td style='text-align: center;'>-104.79</td>
+<td style='text-align: center;'>97121</td>
+<td style='text-align: center;'>56</td>
+<td style='text-align: center;'>Wyoming</td>
+<td style='text-align: center;'>Mountain Division</td>
+<td style='text-align: center;'>West Region</td>
+</tr>
+<tr>
+<td style='text-align: left;'>4</td>
+<td style='text-align: center;'>WY</td>
+<td style='text-align: center;'>WY</td>
+<td style='text-align: center;'>2016-07-01</td>
+<td style='text-align: center;'>187.6827817</td>
+<td style='text-align: center;'>2016</td>
+<td style='text-align: center;'>7</td>
+<td style='text-align: center;'>State</td>
+<td style='text-align: center;'>0.00144925455864708</td>
+<td style='text-align: center;'>41.15</td>
+<td style='text-align: center;'>-104.79</td>
+<td style='text-align: center;'>97121</td>
+<td style='text-align: center;'>56</td>
+<td style='text-align: center;'>Wyoming</td>
+<td style='text-align: center;'>Mountain Division</td>
+<td style='text-align: center;'>West Region</td>
+</tr>
+<tr>
+<td style='text-align: left;'>5</td>
+<td style='text-align: center;'>WY</td>
+<td style='text-align: center;'>WY</td>
+<td style='text-align: center;'>2016-08-01</td>
+<td style='text-align: center;'>188.0179497</td>
+<td style='text-align: center;'>2016</td>
+<td style='text-align: center;'>8</td>
+<td style='text-align: center;'>State</td>
+<td style='text-align: center;'>0.00186408591734799</td>
+<td style='text-align: center;'>41.15</td>
+<td style='text-align: center;'>-104.79</td>
+<td style='text-align: center;'>97121</td>
+<td style='text-align: center;'>56</td>
+<td style='text-align: center;'>Wyoming</td>
+<td style='text-align: center;'>Mountain Division</td>
+<td style='text-align: center;'>West Region</td>
+</tr>
+<tr>
+<td style='border-bottom: 2px solid grey; text-align: left;'>6</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>WY</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>WY</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>2016-09-01</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>187.743011</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>2016</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>9</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>State</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>0.00291143018858708</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>41.15</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>-104.79</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>97121</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>56</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>Wyoming</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>Mountain Division</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>West Region</td>
+</tr>
+</tbody>
+</table>
+<p>Okay, seems all right. We’ve got a few extra columns from our earlier post, but we’ll drop them.</p>
+<p>Let’s get some employment data from BLS:</p>
+<pre class="r"><code>################################################################################
+### Go get data from BLS.gov
+################################################################################
+emp.data&lt;-fread(&quot;https://download.bls.gov/pub/time.series/sm/sm.data.54.TotalNonFarm.All&quot;)</code></pre>
+<pre><code>## Warning in fread(&quot;https://download.bls.gov/pub/time.series/sm/sm.data.
+## 54.TotalNonFarm.All&quot;): Bumped column 4 to type character on data row
+## 521667, field contains &#39;-&#39;. Coercing previously read values in this
+## column from logical, integer or numeric back to character which may not
+## be lossless; e.g., if &#39;00&#39; and &#39;000&#39; occurred before they will now be just
+## &#39;0&#39;, and there may be inconsistencies with treatment of &#39;,,&#39; and &#39;,NA,&#39; too
+## (if they occurred in this column before the bump). If this matters please
+## rerun and set &#39;colClasses&#39; to &#39;character&#39; for this column. Please note that
+## column type detection uses a sample of 1,000 rows (100 rows at 10 points)
+## so hopefully this message should be very rare. If reporting to datatable-
+## help, please rerun and include the output from verbose=TRUE.</code></pre>
+<pre class="r"><code>emp.series&lt;-fread(&quot;https://download.bls.gov/pub/time.series/sm/sm.series&quot;)
+
+emp.list&lt;-emp.series[industry_code==0 # get all employment
+                     &amp; data_type_code==1 # get employment in thousands
+                     &amp; seasonal==&quot;S&quot;,]  # get seasonally adjusted data]
+
+emp.area&lt;-fread(&quot;https://download.bls.gov/pub/time.series/sm/sm.area&quot;,
+                col.names=c(&quot;area_code&quot;,&quot;area_name&quot;,&quot;drop&quot;))[,c(&quot;area_code&quot;,&quot;area_name&quot;),with=F]</code></pre>
+<pre><code>## Warning in fread(&quot;https://download.bls.gov/pub/time.series/sm/sm.area&quot;, :
+## Starting data input on line 2 and discarding line 1 because it has too few
+## or too many items to be column names or data: area_code area_name</code></pre>
+<pre class="r"><code>emp.st&lt;-fread(&quot;https://download.bls.gov/pub/time.series/sm/sm.state&quot;,
+              col.names=c(&quot;state_code&quot;,&quot;state_name&quot;,&quot;drop&quot;))[,c(&quot;state_code&quot;,&quot;state_name&quot;),with=F]</code></pre>
+<pre><code>## Warning in fread(&quot;https://download.bls.gov/pub/time.series/sm/sm.state&quot;, :
+## Starting data input on line 2 and discarding line 1 because it has too few
+## or too many items to be column names or data: state_code state_name</code></pre>
+<pre class="r"><code># merge data
+emp.dt&lt;-merge(emp.data,emp.list,by=&quot;series_id&quot;,all.y=T)
+
+#create month variable
+emp.dt=emp.dt[,month:=as.numeric(substr(emp.dt$period,2,3))]
+# (this assignment is to get around knitr/data table printing error)
+# see e.g. http://stackoverflow.com/questions/15267018/knitr-gets-tricked-by-data-table-assignment
+
+# M13 = Annual average, drop it:
+emp.dt&lt;-emp.dt[month&lt;13,]
+
+#create date variable
+emp.dt$date&lt;- as.Date(ISOdate(emp.dt$year,emp.dt$month,1) ) 
+
+# merge on area and state codes
+emp.dt&lt;-merge(emp.dt,emp.area,by=&quot;area_code&quot;)
+emp.dt&lt;-merge(emp.dt,emp.st,by=&quot;state_code&quot;)
+emp.dt=emp.dt[,c(&quot;state_name&quot;,&quot;area_name&quot;,&quot;date&quot;,&quot;year&quot;,&quot;month&quot;,&quot;value&quot;),with=F]
+emp.dt=emp.dt[,emp:=as.numeric(value)] #convert value to numeric
+# Compute year-over-year change in employment and year-over-year percent change
+emp.dt=emp.dt[,emp.yoy:=emp-shift(emp,12,fill=NA),by=c(&quot;area_name&quot;,&quot;state_name&quot;)]
+
+# Percent change by year:
+emp.dt=emp.dt[,emp.pc:=(emp-shift(emp,12,fill=NA))/shift(emp,12,fill=NA),by=c(&quot;area_name&quot;,&quot;state_name&quot;)]
+
+emp.dt=emp.dt[,type:=ifelse(area_name==&quot;Statewide&quot;,&quot;State&quot;,&quot;Metro&quot;)]
+
+# drop states in c(&quot;Puerto Rico&quot;,&quot;Virgin Islands&quot;)
+emp.dt=emp.dt[!(state_name %in% c(&quot;Puerto Rico&quot;,&quot;Virgin Islands&quot;)),]
+
+# only keep state data
+emp.dt.state&lt;-emp.dt[area_name==&quot;Statewide&quot;]
+
+htmlTable::htmlTable(head(emp.dt.state))</code></pre>
+<table class='gmisc_table' style='border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;' >
+<thead>
+<tr>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey;'> </th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>state_name</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>area_name</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>date</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>year</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>month</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>value</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>emp</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>emp.yoy</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>emp.pc</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style='text-align: left;'>1</td>
+<td style='text-align: center;'>Alabama</td>
+<td style='text-align: center;'>Statewide</td>
+<td style='text-align: center;'>1990-01-01</td>
+<td style='text-align: center;'>1990</td>
+<td style='text-align: center;'>1</td>
+<td style='text-align: center;'>1626.70</td>
+<td style='text-align: center;'>1626.7</td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'>State</td>
+</tr>
+<tr>
+<td style='text-align: left;'>2</td>
+<td style='text-align: center;'>Alabama</td>
+<td style='text-align: center;'>Statewide</td>
+<td style='text-align: center;'>1990-02-01</td>
+<td style='text-align: center;'>1990</td>
+<td style='text-align: center;'>2</td>
+<td style='text-align: center;'>1625.30</td>
+<td style='text-align: center;'>1625.3</td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'>State</td>
+</tr>
+<tr>
+<td style='text-align: left;'>3</td>
+<td style='text-align: center;'>Alabama</td>
+<td style='text-align: center;'>Statewide</td>
+<td style='text-align: center;'>1990-03-01</td>
+<td style='text-align: center;'>1990</td>
+<td style='text-align: center;'>3</td>
+<td style='text-align: center;'>1623.50</td>
+<td style='text-align: center;'>1623.5</td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'>State</td>
+</tr>
+<tr>
+<td style='text-align: left;'>4</td>
+<td style='text-align: center;'>Alabama</td>
+<td style='text-align: center;'>Statewide</td>
+<td style='text-align: center;'>1990-04-01</td>
+<td style='text-align: center;'>1990</td>
+<td style='text-align: center;'>4</td>
+<td style='text-align: center;'>1635.90</td>
+<td style='text-align: center;'>1635.9</td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'>State</td>
+</tr>
+<tr>
+<td style='text-align: left;'>5</td>
+<td style='text-align: center;'>Alabama</td>
+<td style='text-align: center;'>Statewide</td>
+<td style='text-align: center;'>1990-05-01</td>
+<td style='text-align: center;'>1990</td>
+<td style='text-align: center;'>5</td>
+<td style='text-align: center;'>1639.80</td>
+<td style='text-align: center;'>1639.8</td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'>State</td>
+</tr>
+<tr>
+<td style='border-bottom: 2px solid grey; text-align: left;'>6</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>Alabama</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>Statewide</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>1990-06-01</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>1990</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>6</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>1639.20</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>1639.2</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'></td>
+<td style='border-bottom: 2px solid grey; text-align: center;'></td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>State</td>
+</tr>
+</tbody>
+</table>
+<p>Great, looks good. Now that we have our data, let’s merge them together.</p>
+<pre class="r"><code># Rename state_name as statename in emp.dt.state data
+emp.dt.state&lt;-rename(emp.dt.state,statename=state_name)
+# merge on date &amp; statename
+dt&lt;-merge(df,emp.dt.state,by=c(&quot;date&quot;,&quot;statename&quot;))</code></pre>
+<p>The key variables in our data are called <em>hpa12</em> which represents the 12-month percent change in house prices and <em>emp.pc</em> which represents the 12 month-percent change in employment.</p>
+</div>
+</div>
+<div id="looking-to-the-horizon" class="section level2">
+<h2>Looking to the horizon</h2>
+<p>Let’s build up a horizon chart. To do so, first let’s look at data from the state of Arizona.</p>
+<pre class="r"><code># plot house price trens for Ohio:
+
+ggplot(data=dt[state==&quot;AZ&quot;],aes(x=date,y=hpa12))+geom_line()+theme_minimal()+
+  labs(x=&quot;&quot;,y=&quot;&quot;,title=&quot;12-month percent change in Arizona house prices&quot;,
+       caption=&quot;@lenkiefer Source: Freddie Mac House Price Index&quot;)+
+  theme(plot.caption=element_text(hjust=0))+scale_y_continuous(labels=percent)</code></pre>
+<p><img src="/post/2017-04-23-horizon_files/figure-html/04-23-2017-graph-1-1.png" width="672" /></p>
+<p>Okay, if we are interested in seeing how prices compare to zero we might try an area chart.</p>
+<pre class="r"><code># plot house price trens for Arizona:
+
+ggplot(data=dt[state==&quot;AZ&quot;],aes(x=date,y=hpa12))+geom_area(fill=&quot;blue&quot;,alpha=0.25)+theme_minimal()+
+  labs(x=&quot;&quot;,y=&quot;&quot;,title=&quot;12-month percent change in Arizona house prices&quot;,
+       caption=&quot;@lenkiefer Source: Freddie Mac House Price Index&quot;)+
+  theme(plot.caption=element_text(hjust=0))+scale_y_continuous(labels=percent)</code></pre>
+<p><img src="/post/2017-04-23-horizon_files/figure-html/04-23-2017-graph-2-1.png" width="672" /></p>
+<p>It might be nice to have gradient shading according to whether or not price changes are positive or negative on a year-over-year basis. We cannot do this directly with ggplot’s geom_area, but we can make it happen with a little tweaking:</p>
+<pre class="r"><code># tweak data:
+dt2&lt;-copy(dt)
+dt2&lt;-dt2[,&quot;:=&quot;(hpa.up=max(0,hpa12),
+               hpa.down=min(0,hpa12))
+    ,by=c(&quot;state&quot;,&quot;date&quot;)]
+
+
+ggplot(data=dt2[state==&quot;AZ&quot;],aes(x=date))+
+  geom_area(aes(y=hpa.up),fill=&quot;blue&quot;,alpha=0.25)+
+  geom_area(aes(y=hpa.down),fill=&quot;red&quot;,alpha=0.25)+
+  theme_minimal()+
+  labs(x=&quot;&quot;,y=&quot;&quot;,title=&quot;12-month percent change in Arizona house prices&quot;,
+       caption=&quot;@lenkiefer Source: Freddie Mac House Price Index&quot;)+
+  theme(plot.caption=element_text(hjust=0))+scale_y_continuous(labels=percent)</code></pre>
+<p><img src="/post/2017-04-23-horizon_files/figure-html/04-23-2017-graph-3-1.png" width="672" /></p>
+<p>Okay, but sometimes prices are down a little, and other times down a lot. It would be nice to have shading vary by how much prices are up or down. We could take two approaches.</p>
+<p>First, we could build a bar chart and have the fill vary according to house prices like so:</p>
+<pre class="r"><code>ggplot(data=dt[state==&quot;AZ&quot;],aes(x=date,y=hpa12,fill=hpa12))+
+  geom_col()+
+  scale_fill_gradient2(low=&quot;red&quot;,high=&quot;blue&quot;,name=&quot;12-month\n% change&quot;)+
+  theme_minimal()+
+  labs(x=&quot;&quot;,y=&quot;&quot;,title=&quot;12-month percent change in Arizona house prices&quot;,
+       caption=&quot;@lenkiefer Source: Freddie Mac House Price Index&quot;)+
+  theme(plot.caption=element_text(hjust=0))+scale_y_continuous(labels=percent)</code></pre>
+<p><img src="/post/2017-04-23-horizon_files/figure-html/04-23-2017-graph-4-1.png" width="672" /></p>
+<p>Alternatively, we could keep subdividing the range of house prices and have shading vary by how much house prices have increased or decreased. Let’s try that with three break points on each side of zero.</p>
+<pre class="r"><code>df.az&lt;-dt2[state %in% c(&quot;AZ&quot;)]  #subset data
+
+df.az&lt;-df.az[,c(&quot;date&quot;,&quot;state&quot;,&quot;hpa12&quot;),with=F]  #only keep relevant columns
+colnames(df.az) &lt;- c(&quot;date&quot;,&quot;grouping&quot;,&quot;y&quot;)
+origin&lt;-0
+# compute max deviation
+max.y&lt;-max(abs(df.az$y-origin))
+nbands = 3
+horizonscale&lt;-max(abs(df.az$y-origin))/nbands
+h1&lt;-horizonscale
+h2&lt;-horizonscale*2
+h3&lt;-horizonscale*3
+h1n&lt;- -horizonscale
+h2n&lt;- -horizonscale*2
+h3n&lt;- -horizonscale*3
+
+df.az &lt;- df.az[ , &quot;:=&quot;( ypos1  = ifelse(y&gt;0,min(y,h1),0),
+                    ypos2  = ifelse(y&gt;h1,min(y,h2),0),
+                    ypos3  = ifelse(y&gt;h2,min(y,h3),0),
+                    yneg1 = ifelse(y&lt;0,max(y,h1n),0),
+                    yneg2 = ifelse(y&lt;h1n,max(y,h2n),0),
+                    yneg3 = ifelse(y&lt;h2n,max(y,h3n),0)) ,by=c(&quot;date&quot;,&quot;grouping&quot;)]
+df.az&lt;- df.az %&gt;% select(-y) %&gt;% gather(type, value, 3:8)
+colnames(df.az) &lt;- c(&quot;date&quot;,&quot;grouping&quot;,&quot;band&quot;,&quot;value&quot;)
+df.lk&lt;-data.frame(band=c(&quot;ypos1&quot;,&quot;ypos2&quot;,&quot;ypos3&quot;,&quot;yneg1&quot;,&quot;yneg2&quot;,&quot;yneg3&quot;),
+                  vmin=c(0,h1,h2,0,h1n,h2n))
+
+df.az&lt;-left_join(df.az,df.lk,by=&quot;band&quot;)</code></pre>
+<pre><code>## Warning: Column `band` joining character vector and factor, coercing into
+## character vector</code></pre>
+<pre class="r"><code>df.az$v2&lt;-ifelse(abs(df.az$value)&lt;abs(df.az$vmin),df.az$vmin,df.az$value)
+require(RColorBrewer)</code></pre>
+<pre><code>## Loading required package: RColorBrewer</code></pre>
+<pre class="r"><code>col.brew &lt;- brewer.pal(name=&quot;RdBu&quot;,n=10)
+
+
+  ggplot(data=arrange(df.az,value)) +
+  geom_ribbon(aes(x = date,ymin=vmin, ymax = v2, fill=band,group=band),alpha=0.75)+
+  scale_fill_manual(values=c(&quot;ypos1&quot;=col.brew[7],  #assign the colors to each of the bands; colors get darker as values increase
+                             &quot;ypos2&quot;=col.brew[8],
+                             &quot;ypos3&quot;=col.brew[9],
+                             &quot;yneg1&quot;=col.brew[4],
+                             &quot;yneg2&quot;=col.brew[3],
+                             &quot;yneg3&quot;=col.brew[2]))+
+  labs(x=&quot;&quot;,y=&quot;&quot;,title=&quot;12-month percent change in Arizona house prices&quot;,
+       caption=&quot;@lenkiefer Source: Freddie Mac House Price Index&quot;)+
+      theme_minimal()+
+  theme(plot.caption=element_text(hjust=0))+scale_y_continuous(labels=percent)</code></pre>
+<p><img src="/post/2017-04-23-horizon_files/figure-html/04-23-2017-graph-5-1.png" width="672" /></p>
+<p>Here we have sliced prices into 6 regions, three positive and three negative. The further away from 0, the darker the color.</p>
+<p>Now, if we just squish everything together, inverting the negative valuet to postiive values and overlaying each of the 6 colors, we’ve got a horizon plot:</p>
+<pre class="r"><code>df.az&lt;-dt2[state %in% c(&quot;AZ&quot;)]  #subset data
+
+df.az&lt;-df.az[,c(&quot;date&quot;,&quot;state&quot;,&quot;hpa12&quot;),with=F]  #only keep relevant columns
+colnames(df.az) &lt;- c(&quot;date&quot;,&quot;grouping&quot;,&quot;y&quot;)
+
+df5 &lt;- df.az[ , &quot;:=&quot;( ypos1  = ifelse(y&gt;0,min(y,h1),0),
+                    ypos2  = ifelse(y&gt;h1,min(y,h2)-h1,0),
+                    ypos3  = ifelse(y&gt;h2,min(y,h3)-h2,0),
+                    yneg1 = -ifelse(y&lt;0,max(y,h1n),0),
+                    yneg2 = -ifelse(y&lt;h1n,max(y,h2n)-h1n,0),
+                    yneg3 = -ifelse(y&lt;h2n,max(y,h3n)-h2n,0)),
+              by=c(&quot;date&quot;,&quot;grouping&quot;)]
+df6&lt;- df5 %&gt;% select(-y) %&gt;% gather(type, value, 3:8)
+colnames(df6) &lt;- c(&quot;date&quot;,&quot;grouping&quot;,&quot;band&quot;,&quot;value&quot;)
+#df6&lt;-left_join(df6,df.lk,by=&quot;band&quot;)
+df6$vmin&lt;-0
+df6$v2&lt;-ifelse(abs(df6$value)&lt;abs(df6$vmin),df6$vmin,df6$value)
+
+  ggplot(data=arrange(df6,value)) +
+      theme_minimal()+
+  geom_ribbon(aes(x = date,ymin=vmin, ymax = v2, fill=band,group=band),alpha=0.75)+
+  scale_fill_manual(values=c(&quot;ypos1&quot;=col.brew[7],  #assign the colors to each of the bands; colors get darker as values increase
+                             &quot;ypos2&quot;=col.brew[8],
+                             &quot;ypos3&quot;=col.brew[9],
+                             &quot;yneg1&quot;=col.brew[4],
+                             &quot;yneg2&quot;=col.brew[3],
+                             &quot;yneg3&quot;=col.brew[2])) </code></pre>
+<p><img src="/post/2017-04-23-horizon_files/figure-html/04-23-2017-graph-6-1.png" width="672" /></p>
+<p>Yeah, might be hard to see what’s going on here.</p>
+<p>How about an animated gif:</p>
+<p><img src="{{ site.url }}/img/charts_apr_23_2017/horizon tween.gif" alt="horizon gif"/></p>
+<p>What we have done is <em>densify</em> our data. By compressing the vertical area by a factor of 6 (3x &gt;0, 3x &lt;0), we can show the same data in a much smaller space. Of course we have to interpret it too.</p>
+<p>You know what’s cool? We can stick these things inside a data table widget!</p>
+<p>Adapting code from <a href="(https://bl.ocks.org/timelyportfolio/1c938792957f70cf6069e48f33bdc1b5)">timelyportfolio</a>, try this:</p>
+<pre class="r"><code>############# magic! ##############################################################
+
+library(htmltools)
+library(DT)
+library(d3horizonR)
+
+
+myf3&lt;-function (s=&quot;Ohio&quot;){
+  d.out&lt;- filter(dt,statename==s)$emp.pc
+  return(d.out)
+}
+
+
+myf4&lt;-function (s=&quot;Ohio&quot;){
+  d.out&lt;- filter(dt,statename==s)$hpa12
+  return(d.out)
+}
+
+
+emp.dt3 &lt;- dt %&gt;% select(statename)
+emp.dt3&lt;-unique(emp.dt3)
+
+
+emp.dt4 &lt;- emp.dt3 %&gt;%
+  #mutate(y = lapply(x, function(x) {cumprod(1 + runif(365, -0.05, 0.05))})) %&gt;%
+  mutate(x = lapply(statename, myf3 ) )  %&gt;%
+  mutate(x = lapply(x, function(dat) {
+    d3horizon_chr(
+      list(dat),
+      options = d3horizonOptions(height=20),
+      width = 400
+    )
+  }) )%&gt;%
+    mutate(x2 = lapply(statename, myf4 ) )  %&gt;%
+    mutate(x2 = lapply(x2, function(dat) {
+      d3horizon_chr(
+        list(dat),
+        options = d3horizonOptions(height=20),
+        width = 400
+      )
+    })
+    )
+
+m&lt;-
+datatable(
+  emp.dt4,
+    caption = &#39;Annual growth in employment and house prices&#39;,
+  escape = FALSE,
+  colnames=c(&quot;State&quot;,&quot;12 month % change\n in employment &quot;,
+             &quot;12 month % change \n in house prices&quot;),
+  options = list(
+    columnDefs = list(list(width=&quot;400px&quot;, targets = 2:3)),
+    fnDrawCallback = htmlwidgets::JS(
+      &#39;
+// not the best way but works fairly well
+function(){
+  HTMLWidgets.staticRender();
+}
+&#39;
+    )
+  )
+) %&gt;%
+  tagList(htmlwidgets::getDependency(&quot;d3horizon&quot;, &quot;d3horizonR&quot;)) %&gt;%
+  browsable()</code></pre>
+<iframe src="../../../../img/charts_apr_23_2017/horizon DT.html" height="550" width="1050">
+</iframe>
+<p>Oh yeah! We’re going to find a lot of uses for this in near future.</p>
+</div>
+</div>

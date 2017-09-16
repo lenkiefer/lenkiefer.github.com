@@ -1,0 +1,494 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>JOLTS! Job openings and labor turnover trends</title>
+    
+    <meta name="author" content="Len Kiefer">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap styles -->
+    <link href="/assets/themes/lentheme/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Optional theme -->
+    <link href="/assets/themes/lentheme/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <!-- Sticky Footer -->
+    <link href="/assets/themes/lentheme/bootstrap/css/bs-sticky-footer.css" rel="stylesheet">
+    
+    <!-- Custom styles -->
+    <link href="/assets/themes/lentheme/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <!-- Update these with your own images
+      <link rel="shortcut icon" href="images/favicon.ico">
+      <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+      <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+      <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+  </head>
+
+  <body>
+    <div id="wrap">
+      <nav class="navbar navbar-default" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#jb-navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/"><span class="icon-home3" style="font-size:24px"> Len Kiefer</a></span>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="jb-navbar-collapse" style="font-size:24px">
+          <ul class="nav navbar-nav" >
+        <li><a href="/archive.html"><span class="icon-newspaper"> Posts</a></span></li>
+            <!-- li><a href="/chartbook/index.html"><span class="icon-display"> Chartbook</a></span></li-->
+         <li><a href="/resume.html"><span class="icon-profile"> Resume</span></a></li>
+        <li><a href="/about.html"><span class="icon-user-tie"> About</span></a></li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </nav>
+
+      <div class="container">
+        
+<div class="page-header">
+  <h1>JOLTS! Job openings and labor turnover trends </h1>
+</div>
+
+<div class="row post-full">
+  <div class="col-xs-12">
+    <div class="date">
+      <span>10 September 2016</span>
+    </div>
+    <div class="content">
+      <p>IN THIS POST WE’LL LOOK AT recent job openings and hires data from the Bureau of Labor Statistics <a href="http://www.bls.gov/jlt/home.htm">Job Openings and Labor Turnover Survey (JOLTS)</a>.</p>
+
+<p><em>R code for selected graphs posted below</em></p>
+
+<h2 id="job-openings-and-labor-turnover">Job openings and labor turnover</h2>
+
+<h3 id="total-nonfarm-trends">Total nonfarm trends</h3>
+
+<p>Let’s start by looking at aggregate national trends for total nonfarm sector.  The plot below compares hires, job openings and separations (the sum of quits, layoffs and discharges, and other separations) over time.  The JOLTS data begins in December 2000.</p>
+
+<p>In the <a href="http://www.bls.gov/news.release/pdf/jolts.pdf">latest release</a> for July 2016, total job openings in the U.S. were 5.9 million, the highest recorded. The graph below compares hires, job openings and separations.</p>
+
+<p><img src="/img/Rfig/fig-JOLTS-graph1-1.svg" alt="plot of chunk fig-JOLTS-graph1" /></p>
+
+<h3 id="trends-by-industry">Trends by industry</h3>
+
+<p>We also can compare trends by industry.</p>
+
+<p><img src="/img/Rfig/fig-JOLTS-graph2-1.svg" alt="plot of chunk fig-JOLTS-graph2" /></p>
+
+<p>We can break these charts into individual panel plots for hires, job openings and total separations.</p>
+
+<p><img src="/img/Rfig/fig-JOLTS-graph2b-1.svg" alt="plot of chunk fig-JOLTS-graph2b" /><img src="/img/Rfig/fig-JOLTS-graph2b-2.svg" alt="plot of chunk fig-JOLTS-graph2b" /><img src="/img/Rfig/fig-JOLTS-graph2b-3.svg" alt="plot of chunk fig-JOLTS-graph2b" /></p>
+
+<h2 id="index-the-data">Index the data</h2>
+
+<p>In order to make comparisons easier, we can index the data so the series can be compared on the same y axis. Due to the spike in hiring due to the 2010 Census, we’ll omit the Federal category in the graphs to come.</p>
+
+<p><img src="/img/Rfig/fig-JOLTS-graph3-1.svg" alt="plot of chunk fig-JOLTS-graph3" /><img src="/img/Rfig/fig-JOLTS-graph3-2.svg" alt="plot of chunk fig-JOLTS-graph3" /><img src="/img/Rfig/fig-JOLTS-graph3-3.svg" alt="plot of chunk fig-JOLTS-graph3" /></p>
+
+<h2 id="the-beveridge-curve">The Beveridge Curve</h2>
+
+<p>If we add the unemployment rate from the BLS <a href="http://www.census.gov/programs-surveys/cps.html">Current Population Survey  (CPS)</a> we can draw a <a href="https://en.wikipedia.org/wiki/Beveridge_curve">Beveridge Curve</a>.</p>
+
+<p><img src="/img/charts_sep_10_2016/bv.png" alt="Beveridge Curve" /></p>
+
+<h1 id="animated-gifs">Animated gifs</h1>
+
+<p>We can also make animated gif versions of these graphs</p>
+
+<p><img src="/img/charts_sep_10_2016/JO.gif" alt="JOLTS gif" /></p>
+
+<p><img src="/img/charts_sep_10_2016/HI.gif" alt="JOLTS gif" /></p>
+
+<p><img src="/img/charts_sep_10_2016/JO ind.gif" alt="JOLTS gif" /></p>
+
+<p><img src="/img/charts_sep_10_2016/HI ind.gif" alt="JOLTS gif" /></p>
+
+<p><img src="/img/charts_sep_10_2016/HI vs JO.gif" alt="JOLTS gif" /></p>
+
+<p><img src="/img/charts_sep_10_2016/bv curve.gif" alt="JOLTS gif" /></p>
+
+<h2 id="r-code-for-graphics">R code for graphics</h2>
+
+<p>Below is the <a href="https://www.r-project.org/">R</a> code I used to generate the graphs above.</p>
+
+<p>The data are conveniently availabe in text files we can download from the BLS directly.  This <a href="http://download.bls.gov/pub/time.series/jt/jt.txt">file</a> gives an overview of the different files, which are located <a href="http://download.bls.gov/pub/time.series/jt/">here</a>.</p>
+
+<h3 id="data-preparations">Data Preparations</h3>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1">## Load libraries:
+</span>
+<span class="n">library</span><span class="p">(</span><span class="n">data.table</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">tidyr</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">viridis</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">ggthemes</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">scales</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">animation</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">tweenr</span><span class="p">)</span>
+
+
+<span class="c1">## Get data from BLS.gov
+</span>
+<span class="n">jolts.dt</span><span class="o">&lt;-</span><span class="n">fread</span><span class="p">(</span><span class="s2">"http://download.bls.gov/pub/time.series/jt/jt.data.1.AllItems"</span><span class="p">)</span>
+<span class="n">jolts.series</span><span class="o">&lt;-</span><span class="n">fread</span><span class="p">(</span><span class="s2">"http://download.bls.gov/pub/time.series/jt/jt.series"</span><span class="p">)</span>
+<span class="n">jolts.ind</span><span class="o">&lt;-</span><span class="n">fread</span><span class="p">(</span><span class="s2">"http://download.bls.gov/pub/time.series/jt/jt.industry"</span><span class="p">,</span>
+                 <span class="n">col.names</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="s2">"industry_code"</span><span class="p">,</span><span class="s2">"industry_text"</span><span class="p">,</span>	<span class="s2">"display_level"</span><span class="p">,</span>	<span class="s2">"selectable"</span><span class="p">,</span><span class="s2">"sort_sequence"</span><span class="p">,</span><span class="s2">"blank"</span><span class="p">))</span>
+<span class="n">jolts.element</span><span class="o">&lt;-</span><span class="n">fread</span><span class="p">(</span><span class="s2">"http://download.bls.gov/pub/time.series/jt/jt.dataelement"</span><span class="p">,</span>
+                     <span class="n">col.names</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="s2">"dataelement_code"</span><span class="p">,</span><span class="s2">"dataelement_text"</span><span class="p">,</span><span class="s2">"display_level"</span><span class="p">,</span><span class="s2">"selectable"</span><span class="p">,</span><span class="s2">"sort_sequence"</span><span class="p">,</span><span class="s2">"blank"</span>                     <span class="p">))</span>
+
+<span class="c1">## Set up data, merge industry names etc.
+</span>
+<span class="c1">#ratelevel: R=rate, L=level
+</span>
+<span class="c1">#dataelement_code	dataelement_text	display_level	selectable	sort_sequence
+#HI	Hires	0	T	2	
+#JO	Job openings	0	T	1	
+#LD	Layoffs and discharges	1	T	5	
+#OS	Other separations	1	T	6	
+#QU	Quits	1	T	4	
+#TS	Total separations	0	T	3
+</span>
+<span class="c1">#region_code	region_text	display_level	selectable	sort_sequence
+#00	Total US	0	T	1	
+#MW	Midwest (Only available for Total Nonfarm)	1	T	4	
+#NE	Northeast (Only available for Total Nonfarm)	1	T	2	
+#SO	South (Only available for Total Nonfarm)	1	T	3	
+#WE	West (Only available for Total Nonfarm)	1	T	5	
+</span>
+<span class="c1">#industries
+</span>  <span class="n">ind.list</span><span class="o">&lt;-</span><span class="n">unique</span><span class="p">(</span><span class="n">jolts.series</span><span class="o">$</span><span class="n">industry_code</span><span class="p">)</span>                  <span class="c1">#industry list
+</span>  <span class="n">ind.list1</span><span class="o">&lt;-</span><span class="n">unique</span><span class="p">(</span><span class="n">jolts.ind</span><span class="p">[</span><span class="n">display_level</span><span class="o">==</span><span class="m">1</span><span class="p">,]</span><span class="o">$</span><span class="n">industry_code</span><span class="p">)</span> <span class="c1">#industry level 1 list
+</span>  <span class="n">ind.list2</span><span class="o">&lt;-</span><span class="n">unique</span><span class="p">(</span><span class="n">jolts.ind</span><span class="p">[</span><span class="n">display_level</span><span class="o">==</span><span class="m">2</span><span class="p">,]</span><span class="o">$</span><span class="n">industry_code</span><span class="p">)</span> <span class="c1">#industry level 2 list
+</span>  <span class="n">ind.list3</span><span class="o">&lt;-</span><span class="n">unique</span><span class="p">(</span><span class="n">jolts.ind</span><span class="p">[</span><span class="n">display_level</span><span class="o">==</span><span class="m">3</span><span class="p">,]</span><span class="o">$</span><span class="n">industry_code</span><span class="p">)</span> <span class="c1">#industry level 3 list
+</span>  <span class="n">reg.list</span><span class="o">&lt;-</span><span class="n">unique</span><span class="p">(</span><span class="n">jolts.series</span><span class="o">$</span><span class="n">region_code</span><span class="p">)</span>  <span class="c1">#region list
+</span>  <span class="n">elem.list</span><span class="o">&lt;-</span><span class="n">unique</span><span class="p">(</span><span class="n">jolts.element</span><span class="o">$</span><span class="n">dataelement_code</span><span class="p">)</span> <span class="c1">#data element list
+</span>
+  
+  <span class="c1">#create data:
+</span>  <span class="n">my.series</span><span class="o">&lt;-</span><span class="n">jolts.series</span><span class="p">[</span> <span class="n">seasonal</span><span class="o">==</span><span class="s2">"S"</span>  <span class="o">&amp;</span>
+                            <span class="n">ratelevel_code</span><span class="o">==</span><span class="s2">"L"</span> <span class="o">&amp;</span> <span class="n">region_code</span><span class="o">==</span><span class="s2">"00"</span><span class="p">,</span> <span class="p">]</span>
+  <span class="n">my.out</span><span class="o">&lt;-</span><span class="n">jolts.dt</span><span class="p">[</span> <span class="n">series_id</span> <span class="o">%</span><span class="k">in</span><span class="o">%</span> <span class="n">my.series</span><span class="o">$</span><span class="n">series_id</span><span class="p">,]</span> 
+  <span class="n">my.out</span><span class="o">&lt;-</span><span class="n">merge</span><span class="p">(</span><span class="n">my.out</span><span class="p">,</span><span class="n">jolts.series</span><span class="p">[,</span><span class="n">list</span><span class="p">(</span><span class="n">series_id</span><span class="p">,</span><span class="n">industry_code</span><span class="p">,</span><span class="n">dataelement_code</span><span class="p">)],</span><span class="n">by</span><span class="o">=</span><span class="s2">"series_id"</span><span class="p">)</span>
+  <span class="n">my.out</span><span class="o">&lt;-</span><span class="n">merge</span><span class="p">(</span><span class="n">my.out</span><span class="p">,</span><span class="n">jolts.ind</span><span class="p">[,</span><span class="n">list</span><span class="p">(</span><span class="n">industry_code</span><span class="p">,</span><span class="n">industry_text</span><span class="p">)],</span><span class="n">by</span><span class="o">=</span><span class="s2">"industry_code"</span><span class="p">)</span>
+  <span class="n">my.out</span><span class="p">[,</span><span class="n">month</span><span class="o">:=</span><span class="n">as.numeric</span><span class="p">(</span><span class="n">substr</span><span class="p">(</span><span class="n">period</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">))]</span>
+  <span class="n">my.out</span><span class="p">[,</span><span class="n">date</span><span class="o">:=</span> <span class="n">as.Date</span><span class="p">(</span><span class="n">ISOdate</span><span class="p">(</span><span class="n">year</span><span class="p">,</span><span class="n">month</span><span class="p">,</span><span class="m">1</span><span class="p">))]</span>
+
+  <span class="c1">#Create index to December 2000 (first observations)
+</span>  <span class="n">bdata</span><span class="o">&lt;-</span><span class="n">my.out</span><span class="p">[</span><span class="n">year</span><span class="o">==</span><span class="m">2000</span> <span class="o">&amp;</span> <span class="n">month</span><span class="o">==</span><span class="m">12</span><span class="p">,]</span>
+  <span class="n">bdata</span><span class="o">&lt;-</span><span class="n">dplyr</span><span class="o">::</span><span class="n">rename</span><span class="p">(</span><span class="n">bdata</span><span class="p">,</span> <span class="n">value00</span><span class="o">=</span><span class="n">value</span><span class="p">)</span>
+  <span class="n">bdata</span><span class="o">&lt;-</span><span class="n">bdata</span><span class="p">[,</span> <span class="n">c</span><span class="p">(</span><span class="s1">'value00'</span><span class="p">,</span><span class="s1">'series_id'</span><span class="p">),</span> <span class="n">with</span> <span class="o">=</span> <span class="n">FALSE</span><span class="p">]</span>
+  <span class="n">my.out</span><span class="o">&lt;-</span><span class="n">merge</span><span class="p">(</span><span class="n">my.out</span><span class="p">,</span><span class="n">bdata</span><span class="p">,</span><span class="n">by</span><span class="o">=</span><span class="s2">"series_id"</span><span class="p">)</span>
+  <span class="n">my.out</span><span class="p">[,</span><span class="n">val00</span><span class="o">:=</span><span class="m">100</span><span class="o">*</span><span class="n">value</span><span class="o">/</span><span class="n">value00</span><span class="p">]</span>
+  
+  <span class="c1">#Create index to December 2007
+</span>  <span class="n">bdata</span><span class="o">&lt;-</span><span class="n">my.out</span><span class="p">[</span><span class="n">year</span><span class="o">==</span><span class="m">2007</span> <span class="o">&amp;</span> <span class="n">month</span><span class="o">==</span><span class="m">12</span><span class="p">,]</span>
+  <span class="n">bdata</span><span class="o">&lt;-</span><span class="n">dplyr</span><span class="o">::</span><span class="n">rename</span><span class="p">(</span><span class="n">bdata</span><span class="p">,</span> <span class="n">value07</span><span class="o">=</span><span class="n">value</span><span class="p">)</span>
+  <span class="n">bdata</span><span class="o">&lt;-</span><span class="n">bdata</span><span class="p">[,</span> <span class="n">c</span><span class="p">(</span><span class="s1">'value07'</span><span class="p">,</span><span class="s1">'series_id'</span><span class="p">),</span> <span class="n">with</span> <span class="o">=</span> <span class="n">FALSE</span><span class="p">]</span>
+  <span class="n">my.out</span><span class="o">&lt;-</span><span class="n">merge</span><span class="p">(</span><span class="n">my.out</span><span class="p">,</span><span class="n">bdata</span><span class="p">,</span><span class="n">by</span><span class="o">=</span><span class="s2">"series_id"</span><span class="p">)</span>
+  <span class="n">my.out</span><span class="p">[,</span><span class="n">val07</span><span class="o">:=</span><span class="m">100</span><span class="o">*</span><span class="n">value</span><span class="o">/</span><span class="n">value07</span><span class="p">]</span>
+  
+  <span class="c1">#order the industries by employment in 2000
+</span>  <span class="n">my.out</span><span class="o">&lt;-</span><span class="n">my.out</span><span class="p">[</span><span class="n">order</span><span class="p">(</span><span class="n">date</span><span class="p">,</span><span class="o">-</span><span class="n">value00</span><span class="p">),]</span>
+  <span class="c1">#Create factor (for plot facets)
+</span>  <span class="n">my.out</span><span class="p">[,</span><span class="n">industry_textf</span><span class="o">:=</span><span class="n">factor</span><span class="p">(</span><span class="n">industry_text</span><span class="p">,</span><span class="n">levels</span><span class="o">=</span><span class="n">unique</span><span class="p">(</span><span class="n">my.out</span><span class="o">$</span><span class="n">industry_text</span><span class="p">))]</span></code></pre></figure>
+
+<h3 id="make-the-plots">Make the plots</h3>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1"># Total nonfarm plot
+</span><span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">my.out</span><span class="p">[</span><span class="n">industry_code</span><span class="o">==</span><span class="m">00000</span> <span class="o">&amp;</span> <span class="n">dataelement_code</span> <span class="o">%</span><span class="k">in</span><span class="o">%</span> <span class="n">c</span><span class="p">(</span><span class="s2">"HI"</span><span class="p">,</span><span class="s2">"JO"</span><span class="p">,</span><span class="s2">"TS"</span><span class="p">),],</span>
+         <span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">value</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">dataelement_text</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="n">dataelement_text</span><span class="p">)</span><span class="o">+</span><span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">comma</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">scale_color_viridis</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">discrete</span><span class="o">=</span><span class="n">T</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="m">0.8</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">strip.text.x</span> <span class="o">=</span> <span class="n">element_text</span><span class="p">(</span><span class="n">size</span> <span class="o">=</span> <span class="m">8</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">geom_line</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">1.1</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">theme_minimal</span><span class="p">()</span><span class="o">+</span><span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="o">=</span><span class="s2">"none"</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="m">7</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">strip.text.x</span> <span class="o">=</span> <span class="n">element_text</span><span class="p">(</span><span class="n">size</span> <span class="o">=</span> <span class="m">8</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span>
+       <span class="n">subtitle</span><span class="o">=</span><span class="s2">"Total Nonfarm, (Ths, Seasonally-Adjusted)"</span><span class="p">,</span>
+       <span class="n">title</span><span class="o">=</span><span class="s2">"Hires, Job Openings, and Separations "</span><span class="p">,</span>
+       <span class="n">caption</span><span class="o">=</span><span class="s2">"@lenkiefer Source: U.S. Bureau of Labor Statistics Job Openings and Labor Turnover Survey (JOLTS)"</span><span class="p">)</span>
+ 
+<span class="c1"># Hires, Job Openings and Separations by Inudstry plot
+</span><span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">my.out</span><span class="p">[</span><span class="n">industry_code</span> <span class="o">%</span><span class="k">in</span><span class="o">%</span> <span class="n">ind.list2</span> <span class="o">&amp;</span> <span class="n">dataelement_code</span> <span class="o">%</span><span class="k">in</span><span class="o">%</span> <span class="n">c</span><span class="p">(</span><span class="s2">"HI"</span><span class="p">,</span><span class="s2">"JO"</span><span class="p">,</span><span class="s2">"TS"</span><span class="p">),],</span>
+         <span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">value</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">dataelement_text</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="n">industry_textf</span><span class="p">,</span><span class="n">scales</span><span class="o">=</span><span class="s2">"free_y"</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">comma</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">scale_color_viridis</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">discrete</span><span class="o">=</span><span class="n">T</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="m">0.8</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">strip.text.x</span> <span class="o">=</span> <span class="n">element_text</span><span class="p">(</span><span class="n">size</span> <span class="o">=</span> <span class="m">8</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">geom_line</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">0.75</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">theme_minimal</span><span class="p">()</span><span class="o">+</span><span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="o">=</span><span class="s2">"top"</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="m">7</span><span class="p">))</span><span class="o">+</span>
+    <span class="n">theme</span><span class="p">(</span><span class="n">strip.text.x</span> <span class="o">=</span> <span class="n">element_text</span><span class="p">(</span><span class="n">size</span> <span class="o">=</span> <span class="m">7</span><span class="p">))</span><span class="o">+</span>
+    <span class="n">theme</span><span class="p">(</span><span class="n">axis.text.x</span> <span class="o">=</span> <span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">7</span><span class="p">),</span>
+          <span class="n">axis.text.y</span> <span class="o">=</span> <span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">7</span><span class="p">)</span>  <span class="p">)</span> <span class="o">+</span>
+  <span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">"Ths, Seasonally-adjusted"</span><span class="p">,</span>
+       <span class="n">subtitle</span><span class="o">=</span><span class="s2">"by industry"</span><span class="p">,</span>
+       <span class="n">title</span><span class="o">=</span><span class="s2">"Hires, Job Openings, and Separations "</span><span class="p">,</span>
+       <span class="n">caption</span><span class="o">=</span><span class="s2">"@lenkiefer Source: U.S. Bureau of Labor Statistics Job Openings and Labor Turnover Survey (JOLTS)"</span><span class="p">)</span>
+ 
+
+<span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">my.out</span><span class="p">[</span> <span class="n">industry_code</span> <span class="o">%</span><span class="k">in</span><span class="o">%</span> <span class="n">ind.list2</span> <span class="o">&amp;</span> <span class="n">dataelement_code</span><span class="o">==</span><span class="s2">"HI"</span><span class="p">,],</span>
+         <span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">value</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">industry_text</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="n">industry_textf</span><span class="p">,</span><span class="n">scales</span><span class="o">=</span><span class="s2">"free_y"</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">geom_line</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">0.85</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">theme_minimal</span><span class="p">()</span><span class="o">+</span><span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="o">=</span><span class="s2">"none"</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">scale_x_date</span><span class="p">(</span><span class="n">limits</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="n">min</span><span class="p">(</span><span class="n">d.list2</span><span class="p">),</span><span class="n">max</span><span class="p">(</span><span class="n">d.list2</span><span class="p">)))</span><span class="o">+</span>  
+  <span class="n">theme</span><span class="p">(</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="m">7</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">strip.text.x</span> <span class="o">=</span> <span class="n">element_text</span><span class="p">(</span><span class="n">size</span> <span class="o">=</span> <span class="m">7</span><span class="p">))</span><span class="o">+</span>
+    <span class="n">theme</span><span class="p">(</span><span class="n">axis.text.x</span> <span class="o">=</span> <span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">7</span><span class="p">),</span>
+          <span class="n">axis.text.y</span> <span class="o">=</span> <span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">7</span><span class="p">)</span>  <span class="p">)</span> <span class="o">+</span>
+  <span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">"Ths, Seasonally-adjusted"</span><span class="p">,</span>
+       <span class="n">subtitle</span><span class="o">=</span><span class="s2">"by industry"</span><span class="p">,</span>
+       <span class="n">title</span><span class="o">=</span><span class="s2">"Hires (Ths, Seasonally-Adjusted)"</span><span class="p">,</span>
+       <span class="n">caption</span><span class="o">=</span><span class="s2">"@lenkiefer Source: U.S. Bureau of Labor Statistics Job Openings and Labor Turnover Survey (JOLTS)"</span><span class="p">)</span>
+ 
+<span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">my.out</span><span class="p">[</span> <span class="n">industry_code</span> <span class="o">%</span><span class="k">in</span><span class="o">%</span> <span class="n">ind.list2</span> <span class="o">&amp;</span> <span class="n">dataelement_code</span><span class="o">==</span><span class="s2">"JO"</span><span class="p">,],</span>
+         <span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">value</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">industry_text</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="n">industry_textf</span><span class="p">,</span><span class="n">scales</span><span class="o">=</span><span class="s2">"free_y"</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">strip.text.x</span> <span class="o">=</span> <span class="n">element_text</span><span class="p">(</span><span class="n">size</span> <span class="o">=</span> <span class="m">8</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">geom_line</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">0.85</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">theme_minimal</span><span class="p">()</span><span class="o">+</span><span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="o">=</span><span class="s2">"none"</span><span class="p">)</span><span class="o">+</span>
+  <span class="c1">#scale_x_date(limits=c(min(d.list2),max(d.list2)))+  
+</span>      <span class="n">scale_x_date</span><span class="p">(</span><span class="n">limits</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="n">as.Date</span><span class="p">(</span><span class="s2">"2007-12-01"</span><span class="p">),</span><span class="n">max</span><span class="p">(</span><span class="n">d.list</span><span class="p">)))</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="m">7</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">strip.text.x</span> <span class="o">=</span> <span class="n">element_text</span><span class="p">(</span><span class="n">size</span> <span class="o">=</span> <span class="m">7</span><span class="p">))</span><span class="o">+</span>
+    <span class="n">theme</span><span class="p">(</span><span class="n">axis.text.x</span> <span class="o">=</span> <span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">7</span><span class="p">),</span>
+          <span class="n">axis.text.y</span> <span class="o">=</span> <span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">7</span><span class="p">)</span>  <span class="p">)</span> <span class="o">+</span>
+  <span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">"Ths, Seasonally-adjusted"</span><span class="p">,</span>
+       <span class="n">subtitle</span><span class="o">=</span><span class="s2">"by industry"</span><span class="p">,</span>
+       <span class="n">title</span><span class="o">=</span><span class="s2">"Job Openings (Ths, Seasonally-Adjusted)"</span><span class="p">,</span>
+       <span class="n">caption</span><span class="o">=</span><span class="s2">"@lenkiefer Source: U.S. Bureau of Labor Statistics Job Openings and Labor Turnover Survey (JOLTS)"</span><span class="p">)</span>
+
+<span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">my.out</span><span class="p">[</span> <span class="n">industry_code</span> <span class="o">%</span><span class="k">in</span><span class="o">%</span> <span class="n">ind.list2</span> <span class="o">&amp;</span> <span class="n">dataelement_code</span><span class="o">==</span><span class="s2">"TS"</span><span class="p">,],</span>
+         <span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">value</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">industry_text</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="n">industry_textf</span><span class="p">,</span><span class="n">scales</span><span class="o">=</span><span class="s2">"free_y"</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">strip.text.x</span> <span class="o">=</span> <span class="n">element_text</span><span class="p">(</span><span class="n">size</span> <span class="o">=</span> <span class="m">8</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">geom_line</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">0.85</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">theme_minimal</span><span class="p">()</span><span class="o">+</span><span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="o">=</span><span class="s2">"none"</span><span class="p">)</span><span class="o">+</span>
+  <span class="c1">#scale_x_date(limits=c(min(d.list2),max(d.list2)))+  
+</span>      <span class="n">scale_x_date</span><span class="p">(</span><span class="n">limits</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="n">as.Date</span><span class="p">(</span><span class="s2">"2007-12-01"</span><span class="p">),</span><span class="n">max</span><span class="p">(</span><span class="n">d.list</span><span class="p">)))</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="m">7</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">strip.text.x</span> <span class="o">=</span> <span class="n">element_text</span><span class="p">(</span><span class="n">size</span> <span class="o">=</span> <span class="m">7</span><span class="p">))</span><span class="o">+</span>
+    <span class="n">theme</span><span class="p">(</span><span class="n">axis.text.x</span> <span class="o">=</span> <span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">7</span><span class="p">),</span>
+          <span class="n">axis.text.y</span> <span class="o">=</span> <span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">7</span><span class="p">)</span>  <span class="p">)</span> <span class="o">+</span>
+  <span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">"Ths, Seasonally-adjusted"</span><span class="p">,</span>
+       <span class="n">subtitle</span><span class="o">=</span><span class="s2">"by industry"</span><span class="p">,</span>
+       <span class="n">title</span><span class="o">=</span><span class="s2">"Total Separations (Ths, Seasonally-Adjusted)"</span><span class="p">,</span>
+       <span class="n">caption</span><span class="o">=</span><span class="s2">"@lenkiefer Source: U.S. Bureau of Labor Statistics Job Openings and Labor Turnover Survey (JOLTS)"</span><span class="p">)</span></code></pre></figure>
+
+<h3 id="index-the-data-and-and-plot">Index the data and and plot</h3>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">my.out</span><span class="p">[(</span><span class="n">industry_code</span><span class="o">==</span><span class="m">100000</span> <span class="o">|</span><span class="p">(</span><span class="n">industry_code</span> <span class="o">!=</span><span class="m">910000</span> <span class="o">&amp;</span> <span class="n">industry_code</span> <span class="o">%</span><span class="k">in</span><span class="o">%</span> <span class="n">ind.list2</span><span class="p">)</span> <span class="p">)</span>
+                       <span class="o">&amp;</span> <span class="n">dataelement_code</span><span class="o">==</span><span class="s2">"HI"</span><span class="p">,],</span>
+         <span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">val07</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">industry_text</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="n">industry_textf</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">strip.text.x</span> <span class="o">=</span> <span class="n">element_text</span><span class="p">(</span><span class="n">size</span> <span class="o">=</span> <span class="m">8</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">limits</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">250</span><span class="p">),</span><span class="n">breaks</span><span class="o">=</span><span class="n">seq</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">350</span><span class="p">,</span><span class="m">50</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">geom_ribbon</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="m">0.5</span><span class="p">,</span><span class="n">aes</span><span class="p">(</span><span class="n">ymin</span><span class="o">=</span><span class="m">100</span><span class="p">,</span><span class="n">ymax</span><span class="o">=</span><span class="n">val07</span><span class="p">,</span><span class="n">fill</span><span class="o">=</span><span class="n">industry_text</span><span class="p">),</span><span class="n">color</span><span class="o">=</span><span class="n">NA</span><span class="p">)</span><span class="o">+</span><span class="n">geom_line</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">0.85</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">theme_minimal</span><span class="p">()</span><span class="o">+</span><span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="o">=</span><span class="s2">"none"</span><span class="p">)</span><span class="o">+</span><span class="n">geom_hline</span><span class="p">(</span><span class="n">yintercept</span><span class="o">=</span><span class="m">100</span><span class="p">,</span><span class="n">linetype</span><span class="o">=</span><span class="m">2</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">"black"</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="m">0.75</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">scale_x_date</span><span class="p">(</span><span class="n">limits</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="n">min</span><span class="p">(</span><span class="n">d.list2</span><span class="p">),</span><span class="n">max</span><span class="p">(</span><span class="n">d.list2</span><span class="p">)))</span><span class="o">+</span>    <span class="n">theme</span><span class="p">(</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">strip.text.x</span> <span class="o">=</span> <span class="n">element_text</span><span class="p">(</span><span class="n">size</span> <span class="o">=</span> <span class="m">8</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">"Index, Dec 2007=100"</span><span class="p">,</span>
+       <span class="n">subtitle</span><span class="o">=</span><span class="s2">"by industry"</span><span class="p">,</span>
+       <span class="n">title</span><span class="o">=</span><span class="s2">"Hires (Seasonally-Adjusted Index, Dec 2007=100)"</span><span class="p">,</span>
+       <span class="n">caption</span><span class="o">=</span><span class="s2">"@lenkiefer Source: U.S. Bureau of Labor Statistics Job Openings and Labor Turnover Survey (JOLTS)"</span><span class="p">)</span>
+ 
+<span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">my.out</span><span class="p">[(</span><span class="n">industry_code</span><span class="o">==</span><span class="m">100000</span> <span class="o">|</span><span class="p">(</span><span class="n">industry_code</span> <span class="o">!=</span><span class="m">910000</span> <span class="o">&amp;</span> <span class="n">industry_code</span> <span class="o">%</span><span class="k">in</span><span class="o">%</span> <span class="n">ind.list2</span><span class="p">)</span> <span class="p">)</span><span class="o">&amp;</span> 
+                         <span class="n">dataelement_code</span><span class="o">==</span><span class="s2">"JO"</span><span class="p">,],</span>
+           <span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">val07</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">industry_text</span><span class="p">))</span><span class="o">+</span>
+    <span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="n">industry_textf</span><span class="p">)</span><span class="o">+</span>
+    <span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">limits</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">250</span><span class="p">),</span><span class="n">breaks</span><span class="o">=</span><span class="n">seq</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">350</span><span class="p">,</span><span class="m">50</span><span class="p">))</span><span class="o">+</span>
+    <span class="n">geom_ribbon</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="m">0.5</span><span class="p">,</span><span class="n">aes</span><span class="p">(</span><span class="n">ymin</span><span class="o">=</span><span class="m">100</span><span class="p">,</span><span class="n">ymax</span><span class="o">=</span><span class="n">val07</span><span class="p">,</span><span class="n">fill</span><span class="o">=</span><span class="n">industry_text</span><span class="p">),</span><span class="n">color</span><span class="o">=</span><span class="n">NA</span><span class="p">)</span><span class="o">+</span><span class="n">geom_line</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">0.85</span><span class="p">)</span><span class="o">+</span>
+    <span class="n">theme_minimal</span><span class="p">()</span><span class="o">+</span><span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="o">=</span><span class="s2">"none"</span><span class="p">)</span><span class="o">+</span><span class="n">geom_hline</span><span class="p">(</span><span class="n">yintercept</span><span class="o">=</span><span class="m">100</span><span class="p">,</span><span class="n">linetype</span><span class="o">=</span><span class="m">2</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">"black"</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="m">0.75</span><span class="p">)</span><span class="o">+</span>
+    <span class="n">scale_x_date</span><span class="p">(</span><span class="n">limits</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="n">min</span><span class="p">(</span><span class="n">d.list2</span><span class="p">),</span><span class="n">max</span><span class="p">(</span><span class="n">d.list2</span><span class="p">)))</span><span class="o">+</span>
+    <span class="n">theme</span><span class="p">(</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="m">7</span><span class="p">))</span><span class="o">+</span>
+    <span class="n">theme</span><span class="p">(</span><span class="n">strip.text.x</span> <span class="o">=</span> <span class="n">element_text</span><span class="p">(</span><span class="n">size</span> <span class="o">=</span> <span class="m">8</span><span class="p">))</span><span class="o">+</span>
+    <span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">"Index, Dec 2007=100"</span><span class="p">,</span>
+         <span class="n">subtitle</span><span class="o">=</span><span class="s2">"by industry"</span><span class="p">,</span>
+         <span class="n">title</span><span class="o">=</span><span class="s2">"Job Openings (Seasonally-Adjusted Index, Dec 2007=100)"</span><span class="p">,</span>
+         <span class="n">caption</span><span class="o">=</span><span class="s2">"@lenkiefer Source: U.S. Bureau of Labor Statistics Job Openings and Labor Turnover Survey (JOLTS)"</span><span class="p">)</span>
+
+    
+<span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">my.out</span><span class="p">[(</span><span class="n">industry_code</span><span class="o">==</span><span class="m">100000</span> <span class="o">|</span><span class="p">(</span><span class="n">industry_code</span> <span class="o">!=</span><span class="m">910000</span> <span class="o">&amp;</span> <span class="n">industry_code</span> <span class="o">%</span><span class="k">in</span><span class="o">%</span> <span class="n">ind.list2</span><span class="p">)</span> <span class="p">)</span><span class="o">&amp;</span> 
+                        <span class="n">dataelement_code</span> <span class="o">%</span><span class="k">in</span><span class="o">%</span> <span class="n">c</span><span class="p">(</span><span class="s2">"HI"</span><span class="p">,</span><span class="s2">"JO"</span><span class="p">)],</span>
+           <span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">val07</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">dataelement_code</span><span class="p">))</span><span class="o">+</span>
+    <span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="n">industry_textf</span><span class="p">)</span><span class="o">+</span>
+    <span class="n">scale_color_viridis</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"Hires (Hi) and Job Openings (JO)"</span><span class="p">,</span><span class="n">discrete</span><span class="o">=</span><span class="n">T</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="m">0.75</span><span class="p">,</span><span class="n">begin</span><span class="o">=</span><span class="m">0.25</span><span class="p">)</span><span class="o">+</span>
+    <span class="n">scale_linetype_discrete</span><span class="p">(</span><span class="n">guide</span><span class="o">=</span><span class="n">FALSE</span><span class="p">)</span><span class="o">+</span>
+    <span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">limits</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">250</span><span class="p">),</span><span class="n">breaks</span><span class="o">=</span><span class="n">seq</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">350</span><span class="p">,</span><span class="m">50</span><span class="p">))</span><span class="o">+</span>
+    <span class="c1">#geom_ribbon(alpha=0.5,aes(ymin=100,ymax=val07,fill=dataelement_code),color=NA)+
+</span>    <span class="n">geom_line</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">0.85</span><span class="p">)</span><span class="o">+</span>
+
+    <span class="n">theme_minimal</span><span class="p">()</span><span class="o">+</span><span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="o">=</span><span class="s2">"bottom"</span><span class="p">)</span><span class="o">+</span><span class="n">geom_hline</span><span class="p">(</span><span class="n">yintercept</span><span class="o">=</span><span class="m">100</span><span class="p">,</span><span class="n">linetype</span><span class="o">=</span><span class="m">2</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">"black"</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="m">0.75</span><span class="p">)</span><span class="o">+</span>
+    <span class="n">scale_x_date</span><span class="p">(</span><span class="n">limits</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="n">as.Date</span><span class="p">(</span><span class="s2">"2007-12-01"</span><span class="p">),</span><span class="n">max</span><span class="p">(</span><span class="n">d.list</span><span class="p">)))</span><span class="o">+</span>
+    <span class="n">theme</span><span class="p">(</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="m">7</span><span class="p">))</span><span class="o">+</span>
+    <span class="n">theme</span><span class="p">(</span><span class="n">strip.text.x</span> <span class="o">=</span> <span class="n">element_text</span><span class="p">(</span><span class="n">size</span> <span class="o">=</span> <span class="m">8</span><span class="p">))</span><span class="o">+</span>
+    <span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span>
+         <span class="n">subtitle</span><span class="o">=</span><span class="s2">"Seasonally-Adjusted Index, Dec 2007=100"</span><span class="p">,</span>
+         <span class="n">title</span><span class="o">=</span><span class="s2">"Hires and Job Openings by industry"</span><span class="p">,</span>
+         <span class="n">caption</span><span class="o">=</span><span class="s2">"@lenkiefer Source: U.S. Bureau of Labor Statistics Job Openings and Labor Turnover Survey (JOLTS)"</span><span class="p">)</span></code></pre></figure>
+
+<h3 id="beveridge-curve-code">Beveridge Curve code</h3>
+
+<p>For the Beveridge Curve I need to get the CPS data. We can read it from a flat file, but because I was just looking for the aggregate series I downloaded from the <a href="http://www.bls.gov/data/">BLS page</a> and stored it along with the national total nonfarm job openings rate in a simple text file. You can follow the links below to get the data:</p>
+
+<ul>
+  <li><a href="http://data.bls.gov/timeseries/LNS14000000">Unemployment Rate: LNS14000000</a></li>
+  <li><a href="http://data.bls.gov/timeseries/JTS00000000JOR">Job Openings Rate: JTS00000000JOR</a></li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1"># Load data from text file. 
+# data can be found here: http://www.bls.gov/data/
+</span>
+<span class="n">bv</span><span class="o">&lt;-</span><span class="n">fread</span><span class="p">(</span><span class="s2">"data/bv.txt"</span><span class="p">)</span>
+<span class="n">bv</span><span class="o">$</span><span class="n">date</span><span class="o">&lt;-</span><span class="n">as.Date</span><span class="p">(</span><span class="n">bv</span><span class="o">$</span><span class="n">date</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s2">"%m/%d/%Y"</span><span class="p">)</span>
+<span class="n">bv</span><span class="o">$</span><span class="n">id</span><span class="o">&lt;-</span><span class="n">factor</span><span class="p">(</span><span class="n">bv</span><span class="o">$</span><span class="n">id</span><span class="p">,</span><span class="n">levels</span><span class="o">=</span><span class="n">unique</span><span class="p">(</span><span class="n">bv</span><span class="o">$</span><span class="n">id</span><span class="p">))</span>
+
+
+<span class="c1"># Draw Plot
+</span>    <span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">bv</span><span class="p">,</span><span class="n">aes</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">jo.rate</span><span class="p">,</span><span class="n">x</span><span class="o">=</span><span class="n">ur.rate</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">rec</span><span class="p">,</span><span class="n">group</span><span class="o">=</span><span class="n">code</span><span class="p">))</span><span class="o">+</span>
+    <span class="n">geom_point</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="n">as.numeric</span><span class="p">(</span><span class="n">date</span><span class="p">)</span><span class="o">/</span><span class="n">as.numeric</span><span class="p">(</span><span class="n">d.list</span><span class="p">[</span><span class="n">i</span><span class="p">])))</span><span class="o">+</span>
+    <span class="n">scale_alpha_continuous</span><span class="p">(</span><span class="n">guide</span><span class="o">=</span><span class="n">F</span><span class="p">)</span><span class="o">+</span>
+    <span class="n">theme_minimal</span><span class="p">()</span><span class="o">+</span><span class="n">coord_cartesian</span><span class="p">(</span><span class="n">xlim</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">4</span><span class="p">,</span><span class="m">10</span><span class="p">),</span><span class="n">ylim</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">1.5</span><span class="p">,</span><span class="m">4</span><span class="p">))</span><span class="o">+</span>
+    <span class="n">scale_color_viridis</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"Recession or\nExpansion?"</span><span class="p">,</span><span class="n">discrete</span><span class="o">=</span><span class="n">T</span><span class="p">,</span><span class="n">direction</span><span class="o">=</span><span class="m">-1</span><span class="p">,</span><span class="n">option</span><span class="o">=</span><span class="s2">"D"</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="m">0.75</span><span class="p">,</span><span class="n">begin</span><span class="o">=</span><span class="m">0.25</span><span class="p">)</span><span class="o">+</span>
+    <span class="n">geom_path</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="m">0.5</span><span class="p">)</span><span class="o">+</span> 
+  <span class="n">theme</span><span class="p">(</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="m">7</span><span class="p">))</span><span class="o">+</span>
+    <span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">"Unemployment Rate"</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="s2">"Job Openings Rate"</span><span class="p">,</span>
+         <span class="n">title</span><span class="o">=</span><span class="s2">"The Beveridge Curve"</span><span class="p">,</span>
+         <span class="n">subtitle</span><span class="o">=</span><span class="s2">"job openings rate vs unemployment rate (SA)"</span><span class="p">,</span>
+         <span class="n">caption</span><span class="o">=</span><span class="s2">"@lenkiefer Source: U.S. Bureau of Labor Statistics, Current Population Survey and Job Opening and Labor Turnover Survey"</span><span class="p">)</span></code></pre></figure>
+
+<h3 id="animation">Animation</h3>
+
+<p>The animated charts were made using a combination of the animation and tweenr packages for R.</p>
+
+<p><em>See my earlier <a href="/2016/05/29/improving-R-animated-gifs-with-tweenr">post about tweenr</a> for an introduction to tweenr, and more examples <a href="/2016/05/30/more-tweenr-animations">here</a> and <a href="/2016/06/26/week-in-review">here</a>.</em></p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1">#gifs are made in the usual fashion, like so:
+</span>
+<span class="n">d.list2</span><span class="o">&lt;-</span><span class="n">unique</span><span class="p">(</span><span class="n">my.out</span><span class="p">[</span><span class="n">date</span><span class="o">&gt;=</span><span class="s2">"2007-12-01"</span><span class="p">,]</span><span class="o">$</span><span class="n">date</span><span class="p">)</span>
+<span class="n">N</span><span class="o">&lt;-</span><span class="n">length</span><span class="p">(</span><span class="n">d.list2</span><span class="p">)</span>
+<span class="n">oopt</span> <span class="o">=</span> <span class="n">ani.options</span><span class="p">(</span><span class="n">interval</span> <span class="o">=</span> <span class="m">0.1</span><span class="p">)</span>
+<span class="n">saveGIF</span><span class="p">({</span><span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="k">in</span> <span class="m">1</span><span class="o">:</span><span class="n">N</span><span class="p">)</span> <span class="p">{</span>
+<span class="n">g</span><span class="o">&lt;-</span>
+  <span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">my.out</span><span class="p">[(</span><span class="n">industry_code</span><span class="o">==</span><span class="m">100000</span> <span class="o">|</span><span class="p">(</span><span class="n">industry_code</span> <span class="o">!=</span><span class="m">910000</span> <span class="o">&amp;</span> <span class="n">industry_code</span> <span class="o">%</span><span class="k">in</span><span class="o">%</span> <span class="n">ind.list2</span><span class="p">)</span> <span class="p">)</span><span class="o">&amp;</span> 
+                       <span class="n">date</span><span class="o">&lt;=</span><span class="n">d.list2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&amp;</span> <span class="n">dataelement_code</span><span class="o">==</span><span class="s2">"JO"</span><span class="p">,],</span>
+         <span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">val07</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">industry_text</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="n">industry_textf</span><span class="p">)</span><span class="o">+</span>
+  <span class="c1">#scale_y_continuous(limits=c(25,150),breaks=seq(25,175,25))+
+</span>  <span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">limits</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">250</span><span class="p">),</span><span class="n">breaks</span><span class="o">=</span><span class="n">seq</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">350</span><span class="p">,</span><span class="m">50</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">geom_ribbon</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="m">0.5</span><span class="p">,</span><span class="n">aes</span><span class="p">(</span><span class="n">ymin</span><span class="o">=</span><span class="m">100</span><span class="p">,</span><span class="n">ymax</span><span class="o">=</span><span class="n">val07</span><span class="p">,</span><span class="n">fill</span><span class="o">=</span><span class="n">industry_text</span><span class="p">),</span><span class="n">color</span><span class="o">=</span><span class="n">NA</span><span class="p">)</span><span class="o">+</span><span class="n">geom_line</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">0.85</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">theme_minimal</span><span class="p">()</span><span class="o">+</span><span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="o">=</span><span class="s2">"none"</span><span class="p">)</span><span class="o">+</span><span class="n">geom_hline</span><span class="p">(</span><span class="n">yintercept</span><span class="o">=</span><span class="m">100</span><span class="p">,</span><span class="n">linetype</span><span class="o">=</span><span class="m">2</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">"black"</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="m">0.75</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">scale_x_date</span><span class="p">(</span><span class="n">limits</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="n">min</span><span class="p">(</span><span class="n">d.list2</span><span class="p">),</span><span class="n">max</span><span class="p">(</span><span class="n">d.list2</span><span class="p">)))</span><span class="o">+</span>    <span class="n">theme</span><span class="p">(</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">))</span><span class="o">+</span>
+  <span class="c1">#scale_y_log10()+
+</span>  <span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">"Index, Dec 2007=100"</span><span class="p">,</span>
+       <span class="n">subtitle</span><span class="o">=</span><span class="s2">"by industry"</span><span class="p">,</span>
+       <span class="n">title</span><span class="o">=</span><span class="s2">"Job Openings (Index: Dec 2007=100, Seasonally-adjusted)"</span><span class="p">,</span>
+       <span class="n">caption</span><span class="o">=</span><span class="s2">"@lenkiefer Source: U.S. Bureau of Labor Statistics Job Openings and Labor Turnover Survey (JOLTS)"</span><span class="p">)</span>
+  <span class="n">print</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+  <span class="n">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+  <span class="n">ani.pause</span><span class="p">()</span>  <span class="p">}</span>
+  <span class="k">for</span> <span class="p">(</span><span class="n">i2</span> <span class="k">in</span> <span class="m">1</span><span class="o">:</span><span class="m">10</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">print</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+    <span class="n">ani.pause</span><span class="p">()</span>  <span class="p">}</span>
+  <span class="p">},</span><span class="n">movie.name</span><span class="o">=</span><span class="s2">"tween jolts jo industry.gif"</span><span class="p">,</span><span class="n">ani.width</span> <span class="o">=</span> <span class="m">800</span><span class="p">,</span> <span class="n">ani.height</span> <span class="o">=</span> <span class="m">450</span><span class="p">)</span></code></pre></figure>
+
+
+    </div>
+
+    
+
+    
+  
+    <hr>
+    <ul class="pagination">
+    
+      <li class="prev"><a href="/2016/09/02/consumer-spend" title="What we spend: Consumer Expenditures in 2015">&laquo; Previous</a></li>
+    
+      <li><a href="/archive.html">Archive</a></li>
+    
+      <li class="next"><a href="/2016/09/14/bev-curves" title="Industry-specific Beveridge Curves">Next &raquo;</a></li>
+    
+    </ul>
+    <hr>
+    
+  </div>
+</div>
+
+
+
+      </div>
+
+    </div>
+
+    <div id="footer">
+      <div class="container">
+        <p>&copy; 2017 Len Kiefer
+          with help from <a href="http://jekyllbootstrap.com" target="_blank" title="The Definitive Jekyll Blogging Framework">Jekyll Bootstrap</a>
+          and <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>
+       
+    • <span vertical-align:bottom> <a href="https://twitter.com/lenkiefer" class="twitter-follow-button" data-show-count="false">•   Follow @lenkiefer</a>
+  
+ <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+</span>
+• <script src="//platform.linkedin.com/in.js" type="text/javascript"></script>
+<script type="IN/MemberProfile" data-id="https://www.linkedin.com/pub/leonard-kiefer/31/753/511" data-format="click" data-related="false" data-text="Leonard Kiefer"></script>
+  • lenkiefer@hotmail.com
+           </p>
+      </div>
+    </div>
+    
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+    <!-- Latest compiled and minified JavaScript, requires jQuery 1.x (2.x not supported in IE8) -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="/assets/themes/lentheme/bootstrap/js/bootstrap.min.js"></script>
+  </body>
+</html>
+
+
+
+
+

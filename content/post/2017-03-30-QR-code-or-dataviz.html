@@ -1,0 +1,115 @@
+---
+layout: post
+title: "QR code or dataviz?"
+author: "Len Kiefer"
+date: "2017-03-30"
+summary: "R statistics dataviz housing mortgage data"
+group: navigation
+theme :
+  name : lentheme
+---
+
+
+
+<p>TODAY I MADE A KIND OF SILLY DATAVIZ, a tile plot of weekly changes in mortgage rates. A colleague happened by my viz terminal, pointed at my monitor and asked “what is that, a QR code?”</p>
+<p>Nope, it was a tile plot.</p>
+<p>We’re going to make the plot with <a href="https://www.r-project.org/">R</a>. As before, we’ll use data we used in our <a href="../../../../2016/12/08/10-ways-to-visualize-rates">mortgage rate post</a> to explore weekly average mortgage rates in the United States based on Freddie Mac’s <a href="http://www.freddiemac.com/pmms/index.html">Primary Mortgage Market Survey</a>.</p>
+<div id="get-started" class="section level1">
+<h1>Get started</h1>
+<p>Let’s load our mortgage rates data and make a plot.</p>
+<pre class="r"><code>########################
+####  Load Packages ####
+########################
+
+library(data.table)
+library(tidyverse)
+library(viridis)
+
+
+########################
+####  Load Data ########
+########################
+
+#for more on these data see http://lenkiefer.com/2016/12/08/10-ways-to-visualize-rates
+
+# read in data
+dt&lt;- read_excel(&#39;data/rates.xlsx&#39;,sheet= &#39;rates&#39;)
+
+##########################################################
+
+##########################################################
+# Add variables to data
+##########################################################
+
+dt$date&lt;-as.Date(dt$date, format=&quot;%m/%d/%Y&quot;)
+dt&lt;-data.table(dt) 
+dt$year&lt;-year(dt$date) # create year variable
+
+# create a year factor, levels going backwards from 2017 to 1971
+dt$yearf&lt;-factor(dt$year,levels=seq(2017,1971,-1))  
+
+# create a weekly indicator by year:
+
+dt=dt[,week:=1:.N,by=year]
+
+# weekly change in rates
+dt=dt[,dr:=rate30-shift(rate30,1)]
+
+# indicator rates up, no change, or down
+dt=dt[,dri:=ifelse(dr&gt;0,&quot;Up&quot;,ifelse(dr==0,&quot;No change&quot;,&quot;Down&quot;))]
+
+
+##########################################################
+# Function for plotting
+##########################################################
+
+tile.plot&lt;-function(d=&quot;2017-03-30&quot;){
+  g.tile&lt;-  
+    ggplot(data=dt[year&gt;1971 &amp; date&lt;=d,],aes(x=week,y=yearf,color=dri,fill=dri))+
+    geom_tile(data=dt[year&gt;1971,],alpha=0,color=NA)+
+    geom_tile(color=&quot;gray&quot;)  +
+    scale_fill_viridis(name=&quot;1-week\nChange&quot;,discrete=T,option=&quot;D&quot;,end=0.85)+
+    scale_color_viridis(name=&quot;1-week\nChange&quot;,discrete=T,option=&quot;D&quot;)+
+    theme_minimal()+labs(x=&quot;week of year&quot;,y=&quot;year&quot;,
+                       title=&quot;Weekly change in 30-year fixed mortgage rates&quot;,
+                       subtitle=&quot;Down, no change, or up?&quot;,
+                       caption=&quot;@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey&quot;)+
+    scale_x_continuous(breaks=seq(0,50,10))+
+    theme(legend.position=&quot;top&quot;,plot.caption=element_text(hjust=0))+
+    theme(axis.text.y=element_text(size=8),
+          axis.text.x=element_text(size=8))
+  return(g.tile)
+}</code></pre>
+<p>We can now call our function to create our plot.</p>
+<pre class="r"><code>tile.plot()</code></pre>
+<p><img src="/post/2017-03-30-QR-code-or-dataviz_files/figure-html/mar-30-2017-chart-1-1.png" width="576" /></p>
+<p>Isn’t it beautiful?</p>
+<p>By why stop there, as we’ve done in the past, why don’t we animate it? The code below animates the plot.</p>
+<pre class="r"><code>##########################################################
+# animate the plot
+##########################################################
+
+dlist&lt;-unique(dt[year&gt;1971 &amp; week %in% c(13,26,39,52),]$date)
+
+
+#dlist&lt;-unique(dt[year&gt;1971 &amp; week %in% c(13,52),]$date)
+
+oopt = ani.options(interval = 0.05)
+saveGIF({for (i in 1:length(dlist)) {
+  g&lt;-tile.plot(dlist[i])
+  print(g)
+  print(paste(i,&quot;out of&quot;,length(dlist)))  # print a counter
+  ani.pause()
+}
+  for (i2 in 1:10) {
+    print(g)
+    ani.pause()
+  }
+},movie.name=&quot;tile_rates_03_30_2017.gif&quot;,ani.width = 650, ani.height = 800)</code></pre>
+<p><img src="../../../../img/charts_mar_30_2017/tile_rates_03_30_2017.gif"></p>
+<div id="what-do-we-get-out-of-it" class="section level2">
+<h2>What do we get out of it?</h2>
+<p>This plot isn’t that informative. It does answer one question though. Folks had been asking me about seasonality in mortgage rates. But mortgage rates follow Treasury yields pretty closely and don’t have a lot of seasonality. The lack of a distinctive pattern (all down in winter, all up in the summer say) kind of shows it.</p>
+<p>For better mortgage rate charts, check out <a href="../../../../2016/12/08/10-ways-to-visualize-rates">my earlier post</a> and <a href="../../../../2017/01/08/mortgage-rate-viewer">my mortgage rates flexdashboard</a> .</p>
+</div>
+</div>

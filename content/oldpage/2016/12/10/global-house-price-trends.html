@@ -1,0 +1,525 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Global house price trends </title>
+    
+    <meta name="author" content="Len Kiefer">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap styles -->
+    <link href="/assets/themes/lentheme/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Optional theme -->
+    <link href="/assets/themes/lentheme/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <!-- Sticky Footer -->
+    <link href="/assets/themes/lentheme/bootstrap/css/bs-sticky-footer.css" rel="stylesheet">
+    
+    <!-- Custom styles -->
+    <link href="/assets/themes/lentheme/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <!-- Update these with your own images
+      <link rel="shortcut icon" href="images/favicon.ico">
+      <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+      <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+      <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+  </head>
+
+  <body>
+    <div id="wrap">
+      <nav class="navbar navbar-default" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#jb-navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/"><span class="icon-home3" style="font-size:24px"> Len Kiefer</a></span>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="jb-navbar-collapse" style="font-size:24px">
+          <ul class="nav navbar-nav" >
+        <li><a href="/archive.html"><span class="icon-newspaper"> Posts</a></span></li>
+            <!-- li><a href="/chartbook/index.html"><span class="icon-display"> Chartbook</a></span></li-->
+         <li><a href="/resume.html"><span class="icon-profile"> Resume</span></a></li>
+        <li><a href="/about.html"><span class="icon-user-tie"> About</span></a></li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </nav>
+
+      <div class="container">
+        
+<div class="page-header">
+  <h1>Global house price trends  </h1>
+</div>
+
+<div class="row post-full">
+  <div class="col-xs-12">
+    <div class="date">
+      <span>10 December 2016</span>
+    </div>
+    <div class="content">
+      <h1 id="introduction">Introduction</h1>
+
+<p>THE GREAT THING ABOUT SOCIAL MEDIA is that it helps put me in contact with people from around the world.  I started up a conversation with Twitter user @benmyers29 who shared some recent trends in Canadian housing markets.</p>
+
+<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">89% of Canadians have more than 25% equity in their homes. Avg equity ratio is 74%. Nearly 40% of Canadians have their homes fully paid off. <a href="https://t.co/mAfkO38Kg2">pic.twitter.com/mAfkO38Kg2</a></p>&mdash; Big Ben Myers (@benmyers29) <a href="https://twitter.com/benmyers29/status/806956597155131393">December 8, 2016</a></blockquote>
+<script async="" src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>@benmyers29 pointed out that homeowner equity in Canada was quite high, with only about 1% of Canadian mortgaged residential properties underwater (where the mortgage amount is greater than the property value so homeowner equity is negative) per <a href="http://www.mortgageproscan.ca/en/site/doc/40632">this report</a> referenced in the tweet.  This was in contrast to a <a href="http://www.corelogic.com/blog/authors/molly-boesel/2016/12/borrower-equity-update-third-quarter-2016.aspx#.WEwsyfkrIfl">recent report from CoreLogic</a> that estimates more than 6 percent of U.S. mortgaged residential properties were underwater.</p>
+
+<p>Of course, the primary driver of this is going to be house prices, so I thought it would be helpful to look at some trends in international house prices.  In this post I’ll share some charts I made (along with <a href="https://www.r-project.org/">R</a> code) to help visualize the trends.</p>
+
+<h2 id="get-data-on-house-prices">Get data on house prices</h2>
+
+<p>First we’re going to need to gather some data on house prices.  Fortunately, the <a href="http://www.dallasfed.org/index.cfm">Dallas Federal Reserve Bank</a> has compiled statistics on <a href="http://www.dallasfed.org/institute/houseprice/">international house price trends</a>. Fed researchers have gone through the hard work of collecting data for many countries and harmonizing the series so they are more easily comparable.  Read about their hard work and the details <a href="http://www.dallasfed.org/assets/documents/institute/wpapers/2011/0099.pdf">here.</a></p>
+
+<p>The data are available in a convenient spreadsheet (<a href="http://www.dallasfed.org/assets/documents/institute/houseprice/hp1602.xlsx">2016Q2 data</a>), and they even posted some R code to import it.</p>
+
+<h1 id="comparing-house-price-trends">Comparing house price trends</h1>
+
+<p>First, let’s just look at nominal house price trends by country.  “Aggregate” is a purchase-power parity GDP weighted composition of the countries in the series. Let’s take a look:</p>
+
+<p><img src="/img/Rfig/fig-global-viz1-12-10-2016-1.svg" alt="plot of chunk fig-global-viz1-12-10-2016" /></p>
+
+<p>A lot going on… let’s just compare Canada to the US:</p>
+
+<p><img src="/img/Rfig/fig-global-viz2-12-10-2016-1.svg" alt="plot of chunk fig-global-viz2-12-10-2016" /></p>
+
+<p>Here we can see that since 2005, US prices are only up slightly, while Canadian prices are almost double (index value of 2000).  That alone goes a long way to explaining why so many more Americans are underwater relative to Canadians.  In fact, given the Canadian house price path, I bet the 1% figure is rounded up.</p>
+
+<h1 id="trends-in-real-prices">Trends in real prices</h1>
+
+<p>Comparing nominal price trends can be misleading if inflation differs significantly across countries.  Because mortgage debt is typically not inflation-adjusted, comparing nominal prices is appropriate for thinking about negative equity. But how about if we wanted to know how house prices are evolving relative to other goods (something I’ve <a href="/2016/11/30/hpi-gif">written about for the U.S. recently</a>)?</p>
+
+<p>Fortunately the Dallas Fed has included both a real (inflation-adjusted) house price series for each country along with estimates of personal disposable income.  Let’s examine trends in these variables. First, let’s recreate the panel plot for real house price trends:</p>
+
+<p><img src="/img/Rfig/fig-global-viz3-12-10-2016-1.svg" alt="plot of chunk fig-global-viz3-12-10-2016" /></p>
+
+<p>We can see quite a bit of differences across countries.  Trends in the log-level of the index might not be the best way to visualize these data.  Let’s instead look at 3-year percent changes in real house prices by country:</p>
+
+<p><img src="/img/Rfig/fig-global-viz4-12-10-2016-1.svg" alt="plot of chunk fig-global-viz4-12-10-2016" /></p>
+
+<p>Now I think we can better see what’s going on across the globe. Many countries saw real house prices decline during the Great Recession, but not all are recovering the same. Let’s try an alternative visualization that lets us see more history.</p>
+
+<p><img src="/img/Rfig/fig-global-viz5-12-10-2016-1.svg" alt="plot of chunk fig-global-viz5-12-10-2016" /></p>
+
+<p>This chart and the panel line chart above tells several stories.  S. Korea hit hard by late 90s financial crisis, Japan slows in 90s, US mostly positive until 2007, Germany stable, Australia, and New Zealand not as much.</p>
+
+<h1 id="affordability">Affordability</h1>
+
+<p>Real house price trends don’t tell us bout affordability, whether or not average households can afford to buy homes.  We also need to take into account incomes and interest rates.  Fortunately the Dallas Fed database gives us estimates of disposable income. Unfortunately it doesn’t provide mortgage interest rates. Complicating things further, <a href="https://cbaweb.sdsu.edu/assets/files/research/Lea/10122_Research_RIHA_Lea_Report.pdf">typical mortgage terms differ quite a bit by country.</a></p>
+
+<p>Nevertheless, we can get some idea about how housing markets are evolving relative to the rest of the economy by comparing house prices to income.</p>
+
+<p><img src="/img/Rfig/fig-global-viz6-12-10-2016-1.svg" alt="plot of chunk fig-global-viz6-12-10-2016" /></p>
+
+<p>Here we see that since 2005, house prices have outstripped personal income growth in Canada, while the opposite is true for the U.S.  Because 2005 is so close to the peak of the U.S. housing cycle, it might make sense to re-index the variables.  Here we re-index the data so that 1990 Q1 is equal to 100:</p>
+
+<p><img src="/img/Rfig/fig-global-viz7-12-10-2016-1.svg" alt="plot of chunk fig-global-viz7-12-10-2016" /></p>
+
+<p>Now we can create a small multiple for each country in the database:</p>
+
+<p><img src="/img/Rfig/fig-global-viz8-12-10-2016-1.svg" alt="plot of chunk fig-global-viz8-12-10-2016" /></p>
+
+<p>If we normalize the price-to-income ratio to be 100 at 1990 we can see how the ratio has evolved (how much space between the two lines).</p>
+
+<p><img src="/img/Rfig/fig-global-viz9-12-10-2016-1.svg" alt="plot of chunk fig-global-viz9-12-10-2016" /></p>
+
+<p>And a strip chart:</p>
+
+<p><img src="/img/Rfig/fig-global-viz10-12-10-2016-1.svg" alt="plot of chunk fig-global-viz10-12-10-2016" /></p>
+
+<h1 id="wrapping-up">Wrapping up</h1>
+
+<p>I’ve looked at trends in U.S. house prices <a href="/2016/05/08/visual-meditations-on-house-prices">see my series</a>, but haven’t studied international trends as closely. In this post we took a look at some general trends in key housing market indicators from around the world. Let me leave you–for now–with this animated gif:</p>
+
+<p><img src="/img/charts_dec_10_2016/hpi compare international.gif" alt="global hpi gif" /></p>
+
+<h1 id="code-for-plots">Code for plots</h1>
+
+<p>R code for the plots in this article can be found below.  I had to do some adjustments to the Dallas Fed spreadsheet to play nice.  I deleted comments from the worksheets, removed the spacer row between country names and the first data rows, and I added a date column.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1">#load packages
+</span><span class="n">library</span><span class="p">(</span><span class="n">data.table</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">viridis</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">lubridate</span><span class="p">)</span>
+
+<span class="c1">#load data files
+</span>
+<span class="n">hpi</span> <span class="o">&lt;-</span> <span class="n">read_excel</span><span class="p">(</span><span class="s2">"data/dallas fed hp1602b.xlsx"</span><span class="p">,</span><span class="n">sheet</span><span class="o">=</span><span class="s2">"HPI"</span><span class="p">)</span>
+<span class="n">hpi</span><span class="o">$</span><span class="n">date</span><span class="o">&lt;-</span><span class="n">as.Date</span><span class="p">(</span><span class="n">hpi</span><span class="o">$</span><span class="n">date</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s2">"%m/%d/%Y"</span><span class="p">)</span>
+
+<span class="n">rhpi</span> <span class="o">&lt;-</span> <span class="n">read_excel</span><span class="p">(</span><span class="s2">"data/dallas fed hp1602b.xlsx"</span><span class="p">,</span><span class="n">sheet</span><span class="o">=</span><span class="s2">"RHPI"</span><span class="p">)</span>
+<span class="n">rhpi</span><span class="o">$</span><span class="n">date</span><span class="o">&lt;-</span><span class="n">as.Date</span><span class="p">(</span><span class="n">rhpi</span><span class="o">$</span><span class="n">date</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s2">"%m/%d/%Y"</span><span class="p">)</span>
+
+<span class="n">pdi</span> <span class="o">&lt;-</span> <span class="n">read_excel</span><span class="p">(</span><span class="s2">"data/dallas fed hp1602b.xlsx"</span><span class="p">,</span><span class="n">sheet</span><span class="o">=</span><span class="s2">"PDI"</span><span class="p">)</span>
+<span class="n">pdi</span><span class="o">$</span><span class="n">date</span><span class="o">&lt;-</span><span class="n">as.Date</span><span class="p">(</span><span class="n">pdi</span><span class="o">$</span><span class="n">date</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s2">"%m/%d/%Y"</span><span class="p">)</span>
+
+<span class="n">rpdi</span> <span class="o">&lt;-</span> <span class="n">read_excel</span><span class="p">(</span><span class="s2">"data/dallas fed hp1602b.xlsx"</span><span class="p">,</span><span class="n">sheet</span><span class="o">=</span><span class="s2">"RPDI"</span><span class="p">)</span>
+<span class="n">rpdi</span><span class="o">$</span><span class="n">date</span><span class="o">&lt;-</span><span class="n">as.Date</span><span class="p">(</span><span class="n">rpdi</span><span class="o">$</span><span class="n">date</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s2">"%m/%d/%Y"</span><span class="p">)</span>
+
+<span class="c1"># tidy data with gather()
+</span><span class="n">pdi</span> <span class="o">%&gt;%</span> <span class="n">gather</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">country</span><span class="p">,</span><span class="n">value</span><span class="o">=</span><span class="n">dpi</span> <span class="p">,</span><span class="o">-</span><span class="n">c</span><span class="p">(</span><span class="n">date</span><span class="p">,</span><span class="n">cycle</span><span class="p">))</span> <span class="o">%&gt;%</span> <span class="n">data.table</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">pdi.dt</span>
+<span class="n">rpdi</span> <span class="o">%&gt;%</span> <span class="n">gather</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">country</span><span class="p">,</span><span class="n">value</span><span class="o">=</span><span class="n">rpdi</span> <span class="p">,</span><span class="o">-</span><span class="n">c</span><span class="p">(</span><span class="n">date</span><span class="p">,</span><span class="n">cycle</span><span class="p">))</span> <span class="o">%&gt;%</span> <span class="n">data.table</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">rpdi.dt</span>
+<span class="n">hpi</span>  <span class="o">%&gt;%</span> <span class="n">gather</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">country</span><span class="p">,</span><span class="n">value</span><span class="o">=</span><span class="n">hpi</span> <span class="p">,</span><span class="o">-</span><span class="n">c</span><span class="p">(</span><span class="n">date</span><span class="p">,</span><span class="n">cycle</span><span class="p">))</span> <span class="o">%&gt;%</span> <span class="n">data.table</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">hpi.dt</span>
+<span class="n">rhpi</span>  <span class="o">%&gt;%</span> <span class="n">gather</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">country</span><span class="p">,</span><span class="n">value</span><span class="o">=</span><span class="n">rhpi</span> <span class="p">,</span><span class="o">-</span><span class="n">c</span><span class="p">(</span><span class="n">date</span><span class="p">,</span><span class="n">cycle</span><span class="p">))</span> <span class="o">%&gt;%</span> <span class="n">data.table</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">rhpi.dt</span>
+
+<span class="c1"># 1: panel plot
+</span>
+<span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">hpi.dt</span><span class="p">[</span><span class="n">year</span><span class="p">(</span><span class="n">date</span><span class="p">)</span><span class="o">&gt;</span><span class="m">2004</span> <span class="o">&amp;</span> 
+                      <span class="o">!</span><span class="p">(</span><span class="n">country</span> <span class="o">%</span><span class="k">in</span><span class="o">%</span> <span class="n">c</span><span class="p">(</span><span class="s2">"Aggregate2"</span><span class="p">))],</span>
+       <span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">hpi</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">country</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">country</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">geom_line</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">1.1</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">scale_x_date</span><span class="p">(</span><span class="n">breaks</span><span class="o">=</span><span class="n">seq</span><span class="p">(</span><span class="n">dlist</span><span class="p">[</span><span class="m">121</span><span class="p">],</span><span class="n">dlist</span><span class="p">[</span><span class="m">166</span><span class="p">]</span><span class="o">+</span><span class="n">years</span><span class="p">(</span><span class="m">1</span><span class="p">),</span><span class="s2">"2 year"</span><span class="p">),</span>
+               <span class="n">date_labels</span><span class="o">=</span><span class="s2">"%y"</span><span class="p">,</span><span class="n">limits</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="n">dlist</span><span class="p">[</span><span class="m">121</span><span class="p">],</span><span class="n">dlist</span><span class="p">[</span><span class="m">166</span><span class="p">]</span><span class="o">+</span><span class="n">years</span><span class="p">(</span><span class="m">1</span><span class="p">)))</span><span class="o">+</span>
+  <span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="n">country</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">theme_minimal</span><span class="p">()</span><span class="o">+</span> <span class="n">geom_hline</span><span class="p">(</span><span class="n">yintercept</span><span class="o">=</span><span class="m">100</span><span class="p">,</span><span class="n">linetype</span><span class="o">=</span><span class="m">2</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">scale_y_log10</span><span class="p">(</span><span class="n">breaks</span><span class="o">=</span><span class="n">seq</span><span class="p">(</span><span class="m">75</span><span class="p">,</span><span class="m">200</span><span class="p">,</span><span class="m">25</span><span class="p">),</span><span class="n">limits</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">60</span><span class="p">,</span><span class="m">225</span><span class="p">))</span><span class="o">+</span> <span class="n">theme_fivethirtyeight</span><span class="p">()</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="o">=</span><span class="s2">"none"</span><span class="p">,</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="m">7</span><span class="p">),</span><span class="n">plot.subtitle</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">face</span><span class="o">=</span><span class="s2">"italic"</span><span class="p">),</span>
+        <span class="n">axis.text</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">7.5</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">title</span><span class="o">=</span><span class="s2">"Comparing house prices"</span><span class="p">,</span>
+       <span class="n">caption</span><span class="o">=</span><span class="s2">"\n@lenkiefer Source: Dallas Federal Reserve International House Price Database: http://www.dallasfed.org/institute/houseprice/"</span><span class="p">,</span>
+       <span class="n">subtitle</span><span class="o">=</span><span class="s2">"Seasonally adjusted index (2005=100, log scale)"</span><span class="p">)</span>
+
+<span class="c1"># 2: compare just Canada and US
+</span>
+<span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">hpi.dt</span><span class="p">[</span><span class="n">year</span><span class="p">(</span><span class="n">date</span><span class="p">)</span><span class="o">&gt;</span><span class="m">2004</span> <span class="o">&amp;</span> 
+                      <span class="p">(</span><span class="n">country</span> <span class="o">%</span><span class="k">in</span><span class="o">%</span> <span class="n">c</span><span class="p">(</span><span class="s2">"Canada"</span><span class="p">,</span><span class="s2">"US"</span><span class="p">))],</span>
+       <span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">hpi</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">country</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">country</span><span class="p">,</span><span class="n">linetype</span><span class="o">=</span><span class="n">country</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">geom_line</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">1.1</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">scale_x_date</span><span class="p">(</span><span class="n">breaks</span><span class="o">=</span><span class="n">seq</span><span class="p">(</span><span class="n">dlist</span><span class="p">[</span><span class="m">121</span><span class="p">],</span><span class="n">dlist</span><span class="p">[</span><span class="m">166</span><span class="p">]</span><span class="o">+</span><span class="n">years</span><span class="p">(</span><span class="m">1</span><span class="p">),</span><span class="s2">"2 year"</span><span class="p">),</span>
+               <span class="n">date_labels</span><span class="o">=</span><span class="s2">"%y"</span><span class="p">,</span><span class="n">limits</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="n">dlist</span><span class="p">[</span><span class="m">121</span><span class="p">],</span><span class="n">dlist</span><span class="p">[</span><span class="m">166</span><span class="p">]</span><span class="o">+</span><span class="n">years</span><span class="p">(</span><span class="m">1</span><span class="p">)))</span><span class="o">+</span>
+ <span class="n">geom_text</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">hpi.dt</span><span class="p">[</span><span class="n">date</span><span class="o">==</span><span class="n">dlist</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&amp;</span>
+                            <span class="n">country</span> <span class="o">%</span><span class="k">in</span><span class="o">%</span> <span class="n">c</span><span class="p">(</span><span class="s2">"US"</span><span class="p">,</span><span class="s2">"Canada"</span><span class="p">)],</span>
+              <span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">nudge_x</span><span class="o">=</span><span class="m">30</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">theme_minimal</span><span class="p">()</span><span class="o">+</span> <span class="n">geom_hline</span><span class="p">(</span><span class="n">yintercept</span><span class="o">=</span><span class="m">100</span><span class="p">,</span><span class="n">linetype</span><span class="o">=</span><span class="m">2</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">scale_y_log10</span><span class="p">(</span><span class="n">breaks</span><span class="o">=</span><span class="n">seq</span><span class="p">(</span><span class="m">75</span><span class="p">,</span><span class="m">200</span><span class="p">,</span><span class="m">25</span><span class="p">),</span><span class="n">limits</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">60</span><span class="p">,</span><span class="m">225</span><span class="p">))</span><span class="o">+</span> <span class="n">theme_fivethirtyeight</span><span class="p">()</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="o">=</span><span class="s2">"none"</span><span class="p">,</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="m">7</span><span class="p">),</span><span class="n">plot.subtitle</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">face</span><span class="o">=</span><span class="s2">"italic"</span><span class="p">),</span>
+        <span class="n">axis.text</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">7.5</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">title</span><span class="o">=</span><span class="s2">"Comparing house prices"</span><span class="p">,</span>
+       <span class="n">caption</span><span class="o">=</span><span class="s2">"\n@lenkiefer Source: Dallas Federal Reserve International House Price Database: http://www.dallasfed.org/institute/houseprice/"</span><span class="p">,</span>
+       <span class="n">subtitle</span><span class="o">=</span><span class="s2">"Seasonally adjusted index (2005=100, log scale)"</span><span class="p">)</span>
+
+<span class="c1"># 3: panel plot
+</span>
+<span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">rhpi.dt</span><span class="p">[</span><span class="n">year</span><span class="p">(</span><span class="n">date</span><span class="p">)</span><span class="o">&gt;</span><span class="m">2004</span> <span class="o">&amp;</span> 
+                      <span class="o">!</span><span class="p">(</span><span class="n">country</span> <span class="o">%</span><span class="k">in</span><span class="o">%</span> <span class="n">c</span><span class="p">(</span><span class="s2">"Aggregate2"</span><span class="p">))],</span>
+       <span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">rhpi</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">country</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">country</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">geom_line</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">1.1</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">scale_x_date</span><span class="p">(</span><span class="n">breaks</span><span class="o">=</span><span class="n">seq</span><span class="p">(</span><span class="n">dlist</span><span class="p">[</span><span class="m">121</span><span class="p">],</span><span class="n">dlist</span><span class="p">[</span><span class="m">166</span><span class="p">]</span><span class="o">+</span><span class="n">years</span><span class="p">(</span><span class="m">1</span><span class="p">),</span><span class="s2">"2 year"</span><span class="p">),</span>
+               <span class="n">date_labels</span><span class="o">=</span><span class="s2">"%y"</span><span class="p">,</span><span class="n">limits</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="n">dlist</span><span class="p">[</span><span class="m">121</span><span class="p">],</span><span class="n">dlist</span><span class="p">[</span><span class="m">166</span><span class="p">]</span><span class="o">+</span><span class="n">years</span><span class="p">(</span><span class="m">1</span><span class="p">)))</span><span class="o">+</span>
+  <span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="n">country</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">theme_minimal</span><span class="p">()</span><span class="o">+</span> <span class="n">geom_hline</span><span class="p">(</span><span class="n">yintercept</span><span class="o">=</span><span class="m">100</span><span class="p">,</span><span class="n">linetype</span><span class="o">=</span><span class="m">2</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">scale_y_log10</span><span class="p">(</span><span class="n">breaks</span><span class="o">=</span><span class="n">seq</span><span class="p">(</span><span class="m">75</span><span class="p">,</span><span class="m">200</span><span class="p">,</span><span class="m">25</span><span class="p">),</span><span class="n">limits</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">60</span><span class="p">,</span><span class="m">225</span><span class="p">))</span><span class="o">+</span> <span class="n">theme_fivethirtyeight</span><span class="p">()</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="o">=</span><span class="s2">"none"</span><span class="p">,</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="m">7</span><span class="p">),</span><span class="n">plot.subtitle</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">face</span><span class="o">=</span><span class="s2">"italic"</span><span class="p">),</span>
+        <span class="n">axis.text</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">7.5</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">title</span><span class="o">=</span><span class="s2">"Comparing real house prices"</span><span class="p">,</span>
+       <span class="n">caption</span><span class="o">=</span><span class="s2">"\n@lenkiefer Source: Dallas Federal Reserve International House Price Database: http://www.dallasfed.org/institute/houseprice/"</span><span class="p">,</span>
+       <span class="n">subtitle</span><span class="o">=</span><span class="s2">"Seasonally adjusted index (2005=100, log scale)"</span><span class="p">)</span>
+
+
+<span class="c1">#compute 3 year (12-quarter) percent changes
+</span><span class="n">rhpi.dt</span><span class="p">[,</span><span class="n">rhpa3</span><span class="o">:=</span><span class="p">(</span><span class="n">rhpi</span><span class="o">-</span><span class="n">shift</span><span class="p">(</span><span class="n">rhpi</span><span class="p">,</span><span class="m">12</span><span class="p">))</span><span class="o">/</span><span class="n">shift</span><span class="p">(</span><span class="n">rhpi</span><span class="p">,</span><span class="m">12</span><span class="p">),</span><span class="n">by</span><span class="o">=</span><span class="n">country</span><span class="p">]</span>
+
+<span class="c1"># 4: real house price growth panel
+</span>
+<span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">rhpi.dt</span><span class="p">[</span><span class="n">year</span><span class="p">(</span><span class="n">date</span><span class="p">)</span><span class="o">&gt;</span><span class="m">2004</span> <span class="o">&amp;</span> 
+                      <span class="o">!</span><span class="p">(</span><span class="n">country</span> <span class="o">%</span><span class="k">in</span><span class="o">%</span> <span class="n">c</span><span class="p">(</span><span class="s2">"Aggregate2"</span><span class="p">))],</span>
+       <span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">rhpa3</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">country</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">country</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">geom_line</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">1.1</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">scale_x_date</span><span class="p">(</span><span class="n">breaks</span><span class="o">=</span><span class="n">seq</span><span class="p">(</span><span class="n">dlist</span><span class="p">[</span><span class="m">121</span><span class="p">],</span><span class="n">dlist</span><span class="p">[</span><span class="m">166</span><span class="p">]</span><span class="o">+</span><span class="n">years</span><span class="p">(</span><span class="m">1</span><span class="p">),</span><span class="s2">"2 year"</span><span class="p">),</span>
+               <span class="n">date_labels</span><span class="o">=</span><span class="s2">"%y"</span><span class="p">,</span><span class="n">limits</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="n">dlist</span><span class="p">[</span><span class="m">121</span><span class="p">],</span><span class="n">dlist</span><span class="p">[</span><span class="m">166</span><span class="p">]</span><span class="o">+</span><span class="n">years</span><span class="p">(</span><span class="m">1</span><span class="p">)))</span><span class="o">+</span>
+  <span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="n">country</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">geom_hline</span><span class="p">(</span><span class="n">yintercept</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">linetype</span><span class="o">=</span><span class="m">2</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="n">percent</span><span class="p">)</span><span class="o">+</span> 
+  <span class="n">theme_fivethirtyeight</span><span class="p">()</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="o">=</span><span class="s2">"none"</span><span class="p">,</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="m">7</span><span class="p">),</span><span class="n">plot.subtitle</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">face</span><span class="o">=</span><span class="s2">"italic"</span><span class="p">),</span>
+        <span class="n">axis.text</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">7.5</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">title</span><span class="o">=</span><span class="s2">"Real house price growth"</span><span class="p">,</span>
+       <span class="n">caption</span><span class="o">=</span><span class="s2">"\n@lenkiefer Source: Dallas Federal Reserve International House Price Database: http://www.dallasfed.org/institute/houseprice/"</span><span class="p">,</span>
+       <span class="n">subtitle</span><span class="o">=</span><span class="s2">"Percent change over 3 years in seasonally adjusted real index"</span><span class="p">)</span>
+
+<span class="c1"># 5: real hpa strip
+</span>
+<span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">rhpi.dt</span><span class="p">[</span><span class="n">year</span><span class="p">(</span><span class="n">date</span><span class="p">)</span><span class="o">&gt;</span><span class="m">2004</span> <span class="o">&amp;</span> 
+                      <span class="o">!</span><span class="p">(</span><span class="n">country</span> <span class="o">%</span><span class="k">in</span><span class="o">%</span> <span class="n">c</span><span class="p">(</span><span class="s2">"Aggregate2"</span><span class="p">))],</span>
+       <span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">rhpa3</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">country</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">country</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">geom_line</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">1.1</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">scale_x_date</span><span class="p">(</span><span class="n">breaks</span><span class="o">=</span><span class="n">seq</span><span class="p">(</span><span class="n">dlist</span><span class="p">[</span><span class="m">121</span><span class="p">],</span><span class="n">dlist</span><span class="p">[</span><span class="m">166</span><span class="p">]</span><span class="o">+</span><span class="n">years</span><span class="p">(</span><span class="m">1</span><span class="p">),</span><span class="s2">"2 year"</span><span class="p">),</span>
+               <span class="n">date_labels</span><span class="o">=</span><span class="s2">"%y"</span><span class="p">,</span><span class="n">limits</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="n">dlist</span><span class="p">[</span><span class="m">121</span><span class="p">],</span><span class="n">dlist</span><span class="p">[</span><span class="m">166</span><span class="p">]</span><span class="o">+</span><span class="n">years</span><span class="p">(</span><span class="m">1</span><span class="p">)))</span><span class="o">+</span>
+  <span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="n">country</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">geom_hline</span><span class="p">(</span><span class="n">yintercept</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">linetype</span><span class="o">=</span><span class="m">2</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="n">percent</span><span class="p">)</span><span class="o">+</span> 
+  <span class="n">theme_fivethirtyeight</span><span class="p">()</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="o">=</span><span class="s2">"none"</span><span class="p">,</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="m">7</span><span class="p">),</span><span class="n">plot.subtitle</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">face</span><span class="o">=</span><span class="s2">"italic"</span><span class="p">),</span>
+        <span class="n">axis.text</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">7.5</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">title</span><span class="o">=</span><span class="s2">"Real house price growth"</span><span class="p">,</span>
+       <span class="n">caption</span><span class="o">=</span><span class="s2">"\n@lenkiefer Source: Dallas Federal Reserve International House Price Database: http://www.dallasfed.org/institute/houseprice/"</span><span class="p">,</span>
+       <span class="n">subtitle</span><span class="o">=</span><span class="s2">"Percent change over 3 years in seasonally adjusted real index"</span><span class="p">)</span>
+
+<span class="c1"># 6:  Canada vs US real hpi and real income 1
+</span>
+<span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">rhpi.dt</span><span class="p">[</span><span class="n">year</span><span class="p">(</span><span class="n">date</span><span class="p">)</span><span class="o">&gt;</span><span class="m">2004</span> <span class="o">&amp;</span> 
+                      <span class="p">(</span><span class="n">country</span> <span class="o">%</span><span class="k">in</span><span class="o">%</span> <span class="n">c</span><span class="p">(</span><span class="s2">"US"</span><span class="p">,</span><span class="s2">"Canada"</span><span class="p">))],</span>
+       <span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">rhpi</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">country</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">country</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">geom_line</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">1.1</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">fivethirtyeight_pal</span><span class="p">()(</span><span class="m">2</span><span class="p">)[</span><span class="m">1</span><span class="p">])</span><span class="o">+</span>
+  <span class="n">scale_x_date</span><span class="p">(</span><span class="n">breaks</span><span class="o">=</span><span class="n">seq</span><span class="p">(</span><span class="n">dlist</span><span class="p">[</span><span class="m">121</span><span class="p">],</span><span class="n">dlist</span><span class="p">[</span><span class="m">166</span><span class="p">]</span><span class="o">+</span><span class="n">years</span><span class="p">(</span><span class="m">1</span><span class="p">),</span><span class="s2">"2 year"</span><span class="p">),</span>
+               <span class="n">date_labels</span><span class="o">=</span><span class="s2">"%y"</span><span class="p">,</span><span class="n">limits</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="n">dlist</span><span class="p">[</span><span class="m">121</span><span class="p">],</span><span class="n">dlist</span><span class="p">[</span><span class="m">166</span><span class="p">]</span><span class="o">+</span><span class="n">years</span><span class="p">(</span><span class="m">1</span><span class="p">)))</span><span class="o">+</span>
+  <span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="n">country</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">geom_line</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">1.1</span><span class="p">,</span><span class="n">linetype</span><span class="o">=</span><span class="m">2</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">fivethirtyeight_pal</span><span class="p">()(</span><span class="m">2</span><span class="p">)[</span><span class="m">2</span><span class="p">],</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">rpdi.dt</span><span class="p">[</span><span class="n">year</span><span class="p">(</span><span class="n">date</span><span class="p">)</span><span class="o">&gt;</span><span class="m">2004</span> <span class="o">&amp;</span>
+                                      <span class="p">(</span><span class="n">country</span> <span class="o">%</span><span class="k">in</span><span class="o">%</span> <span class="n">c</span><span class="p">(</span><span class="s2">"US"</span><span class="p">,</span><span class="s2">"Canada"</span><span class="p">))],</span><span class="n">aes</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">rpdi</span><span class="p">))</span>  <span class="o">+</span>
+  <span class="n">geom_text</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">rhpi.dt</span><span class="p">[</span><span class="n">date</span><span class="o">==</span><span class="n">max</span><span class="p">(</span><span class="n">rhpi.dt</span><span class="o">$</span><span class="n">date</span><span class="p">,</span><span class="n">na.rm</span><span class="o">=</span><span class="n">T</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">country</span> <span class="o">%</span><span class="k">in</span><span class="o">%</span> <span class="n">c</span><span class="p">(</span><span class="s2">"US"</span><span class="p">,</span><span class="s2">"Canada"</span><span class="p">)],</span>
+              <span class="n">hjust</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="n">nudge_x</span><span class="o">=</span><span class="m">-30</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">"House Price"</span><span class="p">,</span>
+              <span class="n">color</span><span class="o">=</span><span class="n">fivethirtyeight_pal</span><span class="p">()(</span><span class="m">2</span><span class="p">)[</span><span class="m">1</span><span class="p">],</span><span class="n">fontface</span><span class="o">=</span><span class="s2">"bold"</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">geom_text</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">rpdi.dt</span><span class="p">[</span><span class="n">date</span><span class="o">==</span><span class="n">max</span><span class="p">(</span><span class="n">rpdi.dt</span><span class="o">$</span><span class="n">date</span><span class="p">,</span><span class="n">na.rm</span><span class="o">=</span><span class="n">T</span><span class="p">)</span> <span class="o">&amp;</span>
+                           <span class="n">country</span> <span class="o">%</span><span class="k">in</span><span class="o">%</span> <span class="n">c</span><span class="p">(</span><span class="s2">"US"</span><span class="p">,</span><span class="s2">"Canada"</span><span class="p">)],</span>
+            <span class="n">hjust</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="n">nudge_x</span><span class="o">=</span><span class="m">-30</span><span class="p">,</span><span class="n">nudge_y</span><span class="o">=</span><span class="m">.01</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">"Income"</span><span class="p">,</span><span class="n">aes</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">rpdi</span><span class="p">),</span>
+            <span class="n">color</span><span class="o">=</span><span class="n">fivethirtyeight_pal</span><span class="p">()(</span><span class="m">2</span><span class="p">)[</span><span class="m">2</span><span class="p">],</span><span class="n">fontface</span><span class="o">=</span><span class="s2">"bold"</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">geom_hline</span><span class="p">(</span><span class="n">yintercept</span><span class="o">=</span><span class="m">100</span><span class="p">,</span><span class="n">linetype</span><span class="o">=</span><span class="m">2</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">scale_y_log10</span><span class="p">(</span><span class="n">breaks</span><span class="o">=</span><span class="n">seq</span><span class="p">(</span><span class="m">75</span><span class="p">,</span><span class="m">200</span><span class="p">,</span><span class="m">25</span><span class="p">),</span><span class="n">limits</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">60</span><span class="p">,</span><span class="m">225</span><span class="p">))</span><span class="o">+</span> <span class="n">theme_fivethirtyeight</span><span class="p">()</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="o">=</span><span class="s2">"none"</span><span class="p">,</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="m">7</span><span class="p">),</span><span class="n">plot.subtitle</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">face</span><span class="o">=</span><span class="s2">"italic"</span><span class="p">),</span>
+        <span class="n">axis.text</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">7.5</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">title</span><span class="o">=</span><span class="s2">"Real house prices and disposable incomes"</span><span class="p">,</span>
+       <span class="n">caption</span><span class="o">=</span><span class="s2">"\n@lenkiefer Source: Dallas Federal Reserve International House Price Database: http://www.dallasfed.org/institute/houseprice/"</span><span class="p">,</span>
+       <span class="n">subtitle</span><span class="o">=</span><span class="s2">"Seasonally adjusted index (2005=100, log scale)"</span><span class="p">)</span>
+
+<span class="c1"># 7:  Canada vs US real hpi and real income 2
+</span>
+<span class="c1"># re-index data so 1990Q1 = 1, first append 1990 values:
+</span><span class="n">rhpi.dt</span><span class="p">[,</span> <span class="n">rhpi.90</span><span class="o">:=</span><span class="n">sum</span><span class="p">(</span><span class="n">ifelse</span><span class="p">(</span><span class="n">date</span><span class="o">==</span><span class="n">as.Date</span><span class="p">(</span><span class="s2">"1990-03-01"</span><span class="p">),</span><span class="n">rhpi</span><span class="p">,</span><span class="m">0</span><span class="p">),</span><span class="n">na.rm</span><span class="o">=</span><span class="n">T</span><span class="p">),</span><span class="n">by</span><span class="o">=</span><span class="n">country</span><span class="p">]</span>
+<span class="n">rpdi.dt</span><span class="p">[,</span> <span class="n">rpdi.90</span><span class="o">:=</span><span class="n">sum</span><span class="p">(</span><span class="n">ifelse</span><span class="p">(</span><span class="n">date</span><span class="o">==</span><span class="n">as.Date</span><span class="p">(</span><span class="s2">"1990-03-01"</span><span class="p">),</span><span class="n">rpdi</span><span class="p">,</span><span class="m">0</span><span class="p">),</span><span class="n">na.rm</span><span class="o">=</span><span class="n">T</span><span class="p">),</span><span class="n">by</span><span class="o">=</span><span class="n">country</span><span class="p">]</span>
+
+<span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">rhpi.dt</span><span class="p">[</span><span class="n">year</span><span class="p">(</span><span class="n">date</span><span class="p">)</span><span class="o">&gt;</span><span class="m">1989</span> <span class="o">&amp;</span> 
+                      <span class="p">(</span><span class="n">country</span> <span class="o">%</span><span class="k">in</span><span class="o">%</span> <span class="n">c</span><span class="p">(</span><span class="s2">"US"</span><span class="p">,</span><span class="s2">"Canada"</span><span class="p">))],</span>
+       <span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="m">100</span><span class="o">*</span><span class="n">rhpi</span><span class="o">/</span><span class="n">rhpi.90</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">country</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">country</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">geom_line</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">1.1</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">fivethirtyeight_pal</span><span class="p">()(</span><span class="m">2</span><span class="p">)[</span><span class="m">1</span><span class="p">])</span><span class="o">+</span>
+  <span class="n">scale_x_date</span><span class="p">(</span><span class="n">date_breaks</span><span class="o">=</span><span class="s2">"5 year"</span><span class="p">,</span> <span class="n">date_labels</span><span class="o">=</span><span class="s2">"%y"</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="n">country</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">geom_line</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">1.1</span><span class="p">,</span><span class="n">linetype</span><span class="o">=</span><span class="m">2</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">fivethirtyeight_pal</span><span class="p">()(</span><span class="m">2</span><span class="p">)[</span><span class="m">2</span><span class="p">],</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">rpdi.dt</span><span class="p">[</span><span class="n">year</span><span class="p">(</span><span class="n">date</span><span class="p">)</span><span class="o">&gt;</span><span class="m">1989</span> <span class="o">&amp;</span>
+                                      <span class="p">(</span><span class="n">country</span> <span class="o">%</span><span class="k">in</span><span class="o">%</span> <span class="n">c</span><span class="p">(</span><span class="s2">"US"</span><span class="p">,</span><span class="s2">"Canada"</span><span class="p">))],</span><span class="n">aes</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="m">100</span><span class="o">*</span><span class="n">rpdi</span><span class="o">/</span><span class="n">rpdi.90</span><span class="p">))</span>  <span class="o">+</span>
+  <span class="n">geom_text</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">rhpi.dt</span><span class="p">[</span><span class="n">date</span><span class="o">==</span><span class="n">max</span><span class="p">(</span><span class="n">rhpi.dt</span><span class="o">$</span><span class="n">date</span><span class="p">,</span><span class="n">na.rm</span><span class="o">=</span><span class="n">T</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">country</span> <span class="o">%</span><span class="k">in</span><span class="o">%</span> <span class="n">c</span><span class="p">(</span><span class="s2">"Canada"</span><span class="p">)],</span>
+              <span class="n">hjust</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="n">nudge_x</span><span class="o">=</span><span class="m">-30</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">"House Price"</span><span class="p">,</span>
+              <span class="n">color</span><span class="o">=</span><span class="n">fivethirtyeight_pal</span><span class="p">()(</span><span class="m">2</span><span class="p">)[</span><span class="m">1</span><span class="p">],</span><span class="n">fontface</span><span class="o">=</span><span class="s2">"bold"</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">geom_text</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">rpdi.dt</span><span class="p">[</span><span class="n">date</span><span class="o">==</span><span class="n">max</span><span class="p">(</span><span class="n">rpdi.dt</span><span class="o">$</span><span class="n">date</span><span class="p">,</span><span class="n">na.rm</span><span class="o">=</span><span class="n">T</span><span class="p">)</span> <span class="o">&amp;</span>
+                           <span class="n">country</span> <span class="o">%</span><span class="k">in</span><span class="o">%</span> <span class="n">c</span><span class="p">(</span><span class="s2">"Canada"</span><span class="p">)],</span>
+            <span class="n">hjust</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="n">nudge_x</span><span class="o">=</span><span class="m">-30</span><span class="p">,</span><span class="n">nudge_y</span><span class="o">=</span><span class="m">-20</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">"Income"</span><span class="p">,</span><span class="n">aes</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">rpdi</span><span class="o">*</span><span class="m">100</span><span class="o">/</span><span class="n">rpdi.90</span><span class="p">),</span>
+            <span class="n">color</span><span class="o">=</span><span class="n">fivethirtyeight_pal</span><span class="p">()(</span><span class="m">2</span><span class="p">)[</span><span class="m">2</span><span class="p">],</span><span class="n">fontface</span><span class="o">=</span><span class="s2">"bold"</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">geom_hline</span><span class="p">(</span><span class="n">yintercept</span><span class="o">=</span><span class="m">100</span><span class="p">,</span><span class="n">linetype</span><span class="o">=</span><span class="m">2</span><span class="p">)</span><span class="o">+</span>
+  <span class="c1">#scale_y_log10(breaks=seq(75,200,25),limits=c(60,225))+ 
+</span>  <span class="n">theme_fivethirtyeight</span><span class="p">()</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="o">=</span><span class="s2">"none"</span><span class="p">,</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="m">7</span><span class="p">),</span><span class="n">plot.subtitle</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">face</span><span class="o">=</span><span class="s2">"italic"</span><span class="p">),</span>
+        <span class="n">axis.text</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">7.5</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">title</span><span class="o">=</span><span class="s2">"Real house prices and disposable incomes"</span><span class="p">,</span>
+       <span class="n">caption</span><span class="o">=</span><span class="s2">"\n@lenkiefer Source: Dallas Federal Reserve International House Price Database: http://www.dallasfed.org/institute/houseprice/"</span><span class="p">,</span>
+       <span class="n">subtitle</span><span class="o">=</span><span class="s2">"Seasonally adjusted index (1990Q1=100, log scale)"</span><span class="p">)</span>
+
+<span class="c1"># 8:  Panel real hpi and real income 2
+</span>
+<span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">rhpi.dt</span><span class="p">[</span><span class="n">year</span><span class="p">(</span><span class="n">date</span><span class="p">)</span><span class="o">&gt;</span><span class="m">1989</span> <span class="o">&amp;</span> <span class="n">country</span> <span class="o">!=</span><span class="s2">"Croatia"</span><span class="p">],</span> <span class="c1">#drop Croatia as it is extreme outlier
+</span>       <span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="m">100</span><span class="o">*</span><span class="n">rhpi</span><span class="o">/</span><span class="n">rhpi.90</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">country</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">country</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">geom_line</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">1.1</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">fivethirtyeight_pal</span><span class="p">()(</span><span class="m">2</span><span class="p">)[</span><span class="m">1</span><span class="p">])</span><span class="o">+</span>
+  <span class="n">scale_x_date</span><span class="p">(</span><span class="n">date_breaks</span><span class="o">=</span><span class="s2">"5 year"</span><span class="p">,</span> <span class="n">date_labels</span><span class="o">=</span><span class="s2">"%y"</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="n">country</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">geom_line</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">1.1</span><span class="p">,</span><span class="n">linetype</span><span class="o">=</span><span class="m">2</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">fivethirtyeight_pal</span><span class="p">()(</span><span class="m">2</span><span class="p">)[</span><span class="m">2</span><span class="p">],</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">rpdi.dt</span><span class="p">[</span><span class="n">year</span><span class="p">(</span><span class="n">date</span><span class="p">)</span><span class="o">&gt;</span><span class="m">1989</span><span class="o">&amp;</span> <span class="n">country</span> <span class="o">!=</span><span class="s2">"Croatia"</span> <span class="p">],</span><span class="n">aes</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="m">100</span><span class="o">*</span><span class="n">rpdi</span><span class="o">/</span><span class="n">rpdi.90</span><span class="p">))</span>  <span class="o">+</span>
+  <span class="n">geom_text</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">rhpi.dt</span><span class="p">[</span><span class="n">date</span><span class="o">==</span><span class="n">max</span><span class="p">(</span><span class="n">rhpi.dt</span><span class="o">$</span><span class="n">date</span><span class="p">,</span><span class="n">na.rm</span><span class="o">=</span><span class="n">T</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">country</span> <span class="o">%</span><span class="k">in</span><span class="o">%</span> <span class="n">c</span><span class="p">(</span><span class="s2">"Australia"</span><span class="p">)],</span>
+              <span class="n">hjust</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="n">nudge_x</span><span class="o">=</span><span class="m">-30</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">"House Price"</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="m">3</span><span class="p">,</span>
+              <span class="n">color</span><span class="o">=</span><span class="n">fivethirtyeight_pal</span><span class="p">()(</span><span class="m">2</span><span class="p">)[</span><span class="m">1</span><span class="p">],</span><span class="n">fontface</span><span class="o">=</span><span class="s2">"bold"</span><span class="p">,</span><span class="n">aes</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="m">300</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">geom_text</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">rpdi.dt</span><span class="p">[</span><span class="n">date</span><span class="o">==</span><span class="n">max</span><span class="p">(</span><span class="n">rpdi.dt</span><span class="o">$</span><span class="n">date</span><span class="p">,</span><span class="n">na.rm</span><span class="o">=</span><span class="n">T</span><span class="p">)</span> <span class="o">&amp;</span>
+                           <span class="n">country</span> <span class="o">%</span><span class="k">in</span><span class="o">%</span> <span class="n">c</span><span class="p">(</span><span class="s2">"Aggregate"</span><span class="p">)],</span><span class="n">size</span><span class="o">=</span><span class="m">3</span><span class="p">,</span>
+            <span class="n">hjust</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="n">nudge_x</span><span class="o">=</span><span class="m">-30</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">"Income"</span><span class="p">,</span><span class="n">aes</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="m">200</span><span class="p">),</span>
+            <span class="n">color</span><span class="o">=</span><span class="n">fivethirtyeight_pal</span><span class="p">()(</span><span class="m">2</span><span class="p">)[</span><span class="m">2</span><span class="p">],</span><span class="n">fontface</span><span class="o">=</span><span class="s2">"bold"</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">geom_hline</span><span class="p">(</span><span class="n">yintercept</span><span class="o">=</span><span class="m">100</span><span class="p">,</span><span class="n">linetype</span><span class="o">=</span><span class="m">2</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">scale_y_log10</span><span class="p">()</span><span class="o">+</span>
+  <span class="c1">#scale_y_log10(breaks=seq(75,200,25),limits=c(60,225))+ 
+</span>  <span class="n">theme_fivethirtyeight</span><span class="p">()</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="o">=</span><span class="s2">"none"</span><span class="p">,</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="m">7</span><span class="p">),</span><span class="n">plot.subtitle</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">face</span><span class="o">=</span><span class="s2">"italic"</span><span class="p">),</span>
+        <span class="n">axis.text</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">7.5</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">title</span><span class="o">=</span><span class="s2">"Real house prices and disposable incomes"</span><span class="p">,</span>
+       <span class="n">caption</span><span class="o">=</span><span class="s2">"\n@lenkiefer Source: Dallas Federal Reserve International House Price Database: http://www.dallasfed.org/institute/houseprice/"</span><span class="p">,</span>
+       <span class="n">subtitle</span><span class="o">=</span><span class="s2">"Seasonally adjusted index (1990Q1=100, log scale)"</span><span class="p">)</span>
+
+<span class="c1"># 9:  Panel of house price to income ratio
+</span>
+<span class="c1">#merge income and house price data data
+</span>
+<span class="n">dt</span><span class="o">&lt;-</span><span class="n">merge</span><span class="p">(</span><span class="n">rhpi.dt</span><span class="p">,</span><span class="n">rpdi.dt</span><span class="p">,</span><span class="n">by</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="s2">"date"</span><span class="p">,</span><span class="s2">"country"</span><span class="p">,</span><span class="s2">"cycle"</span><span class="p">))</span>
+<span class="n">dt</span><span class="p">[,</span><span class="n">ratio</span><span class="o">:=</span><span class="p">(</span><span class="n">rhpi</span><span class="o">/</span><span class="n">rhpi.90</span><span class="p">)</span><span class="o">/</span> <span class="p">(</span><span class="n">rpdi</span><span class="o">/</span><span class="n">rpdi.90</span><span class="p">)]</span> <span class="c1"># create ratio
+</span>
+<span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">dt</span><span class="p">[</span><span class="n">year</span><span class="p">(</span><span class="n">date</span><span class="p">)</span><span class="o">&gt;</span><span class="m">1989</span> <span class="o">&amp;</span> <span class="n">country</span> <span class="o">!=</span><span class="s2">"Croatia"</span><span class="p">],</span> <span class="c1">#drop Croatia as it is extreme outlier
+</span>       <span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">ratio</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">country</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">country</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">geom_line</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">1.1</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">fivethirtyeight_pal</span><span class="p">()(</span><span class="m">2</span><span class="p">)[</span><span class="m">1</span><span class="p">])</span><span class="o">+</span>
+  <span class="n">scale_x_date</span><span class="p">(</span><span class="n">date_breaks</span><span class="o">=</span><span class="s2">"5 year"</span><span class="p">,</span> <span class="n">date_labels</span><span class="o">=</span><span class="s2">"%y"</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="n">country</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">geom_hline</span><span class="p">(</span><span class="n">yintercept</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="n">linetype</span><span class="o">=</span><span class="m">2</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">theme_fivethirtyeight</span><span class="p">()</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="o">=</span><span class="s2">"none"</span><span class="p">,</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="m">7</span><span class="p">),</span><span class="n">plot.subtitle</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">face</span><span class="o">=</span><span class="s2">"italic"</span><span class="p">),</span>
+        <span class="n">axis.text</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">7.5</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">title</span><span class="o">=</span><span class="s2">"Ratio of real house prices to income"</span><span class="p">,</span>
+       <span class="n">caption</span><span class="o">=</span><span class="s2">"\n@lenkiefer Source: Dallas Federal Reserve International House Price Database: http://www.dallasfed.org/institute/houseprice/"</span><span class="p">,</span>
+       <span class="n">subtitle</span><span class="o">=</span><span class="s2">"Ratio: 1990Q1 = 100"</span><span class="p">)</span>
+
+<span class="c1"># 10: Another strip chart
+</span>
+
+<span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">dt</span><span class="p">[</span><span class="n">year</span><span class="p">(</span><span class="n">date</span><span class="p">)</span><span class="o">&gt;</span><span class="m">1989</span> <span class="o">&amp;</span> 
+                  <span class="n">country</span> <span class="o">%</span><span class="k">in</span><span class="o">%</span> <span class="n">c</span><span class="p">(</span><span class="s2">"US"</span><span class="p">,</span><span class="s2">"Japan"</span><span class="p">,</span><span class="s2">"UK"</span><span class="p">,</span><span class="s2">"France"</span><span class="p">,</span><span class="s2">"Germany"</span><span class="p">,</span><span class="s2">"New Zealand"</span><span class="p">,</span><span class="s2">"S. Korea"</span><span class="p">,</span><span class="s2">"Spain"</span><span class="p">,</span><span class="s2">"Ireland"</span><span class="p">,</span><span class="s2">"Italy"</span><span class="p">,</span><span class="s2">"Canada"</span><span class="p">,</span><span class="s2">"Australia"</span><span class="p">)],</span>
+       <span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">ratio</span><span class="p">,</span><span class="n">fill</span><span class="o">=</span><span class="n">ratio</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">country</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">geom_col</span><span class="p">()</span><span class="o">+</span>
+  <span class="n">scale_fill_viridis</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"Ratio"</span><span class="p">,</span><span class="n">discrete</span><span class="o">=</span><span class="n">F</span><span class="p">,</span><span class="n">option</span><span class="o">=</span><span class="s2">"A"</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">scale_color_viridis</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"Ratio"</span><span class="p">,</span><span class="n">discrete</span><span class="o">=</span><span class="n">F</span><span class="p">,</span><span class="n">option</span><span class="o">=</span><span class="s2">"A"</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">theme_fivethirtyeight</span><span class="p">()</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="o">=</span><span class="s2">"right"</span><span class="p">,</span><span class="n">legend.direction</span><span class="o">=</span><span class="s2">"vertical"</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="n">country</span><span class="p">,</span><span class="n">ncol</span><span class="o">=</span><span class="m">2</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">axis.ticks.y</span><span class="o">=</span><span class="n">element_blank</span><span class="p">(),</span>
+        <span class="n">axis.text.y</span><span class="o">=</span><span class="n">element_blank</span><span class="p">(),</span>
+        <span class="n">panel.grid.major</span><span class="o">=</span><span class="n">element_blank</span><span class="p">(),</span>
+        <span class="n">panel.grid.minor</span><span class="o">=</span><span class="n">element_blank</span><span class="p">(),</span>
+        <span class="n">axis.text.x</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">6</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">title</span><span class="o">=</span><span class="s2">"Ratio of real house prices to real incomes"</span><span class="p">,</span>
+             <span class="n">subtitle</span><span class="o">=</span><span class="s2">"ratio normalized so 1990Q1 = 100"</span><span class="p">,</span>
+       <span class="n">caption</span><span class="o">=</span><span class="s2">"\n@lenkiefer Source: Dallas Federal Reserve International House Price Database: http://www.dallasfed.org/institute/houseprice/"</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">scale_x_date</span><span class="p">(</span><span class="n">date_breaks</span><span class="o">=</span><span class="s2">"5 years"</span><span class="p">,</span><span class="n">date_labels</span><span class="o">=</span><span class="s2">"%Y"</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">plot.title</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">14</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">axis.text.x</span>  <span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">9</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">plot.subtitle</span>  <span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">face</span><span class="o">=</span><span class="s2">"italic"</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="m">11</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="m">7</span><span class="p">))</span>
+
+
+<span class="c1"># 11: animated gif
+</span>
+<span class="n">dlist</span><span class="o">&lt;-</span><span class="n">unique</span><span class="p">(</span><span class="n">hpi.dt</span><span class="o">$</span><span class="n">date</span><span class="p">)</span> <span class="c1">#get dates 2005 starts in 121
+</span>
+<span class="c1"># make function to plot time series for sected countries:
+</span><span class="n">hpi.plot</span><span class="o">&lt;-</span><span class="k">function</span><span class="p">(</span><span class="n">i</span><span class="p">){</span>
+  <span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">hpi.dt</span><span class="p">[</span><span class="n">year</span><span class="p">(</span><span class="n">date</span><span class="p">)</span><span class="o">&gt;</span><span class="m">2004</span> <span class="o">&amp;</span> 
+                       <span class="n">date</span><span class="o">&lt;=</span><span class="n">dlist</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&amp;</span>
+                       <span class="n">country</span> <span class="o">%</span><span class="k">in</span><span class="o">%</span> <span class="n">c</span><span class="p">(</span><span class="s2">"US"</span><span class="p">,</span><span class="s2">"Canada"</span><span class="p">,</span><span class="s2">"Australia"</span><span class="p">,</span><span class="s2">"New Zealand"</span><span class="p">,</span><span class="s2">"UK"</span><span class="p">)],</span>
+         <span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">hpi</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">country</span><span class="p">,</span><span class="n">linetype</span><span class="o">=</span><span class="n">country</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">country</span><span class="p">))</span><span class="o">+</span>
+    <span class="n">geom_line</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">1.1</span><span class="p">)</span><span class="o">+</span>
+    <span class="n">scale_x_date</span><span class="p">(</span><span class="n">breaks</span><span class="o">=</span><span class="n">seq</span><span class="p">(</span><span class="n">dlist</span><span class="p">[</span><span class="m">121</span><span class="p">],</span><span class="n">dlist</span><span class="p">[</span><span class="m">166</span><span class="p">]</span><span class="o">+</span><span class="n">years</span><span class="p">(</span><span class="m">1</span><span class="p">),</span><span class="s2">"1 year"</span><span class="p">),</span>
+                 <span class="n">date_labels</span><span class="o">=</span><span class="s2">"%Y"</span><span class="p">,</span><span class="n">limits</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="n">dlist</span><span class="p">[</span><span class="m">121</span><span class="p">],</span><span class="n">dlist</span><span class="p">[</span><span class="m">166</span><span class="p">]</span><span class="o">+</span><span class="n">years</span><span class="p">(</span><span class="m">1</span><span class="p">)))</span><span class="o">+</span>
+    <span class="n">geom_text</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">hpi.dt</span><span class="p">[</span><span class="n">date</span><span class="o">==</span><span class="n">dlist</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&amp;</span>
+                            <span class="n">country</span> <span class="o">%</span><span class="k">in</span><span class="o">%</span> <span class="n">c</span><span class="p">(</span><span class="s2">"US"</span><span class="p">,</span><span class="s2">"Canada"</span><span class="p">,</span><span class="s2">"Australia"</span><span class="p">,</span><span class="s2">"New Zealand"</span><span class="p">,</span><span class="s2">"UK"</span><span class="p">)],</span>
+              <span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">nudge_x</span><span class="o">=</span><span class="m">30</span><span class="p">)</span><span class="o">+</span>
+    <span class="n">theme_minimal</span><span class="p">()</span><span class="o">+</span> <span class="n">geom_hline</span><span class="p">(</span><span class="n">yintercept</span><span class="o">=</span><span class="m">100</span><span class="p">,</span><span class="n">linetype</span><span class="o">=</span><span class="m">2</span><span class="p">)</span><span class="o">+</span>
+    <span class="n">scale_y_log10</span><span class="p">(</span><span class="n">breaks</span><span class="o">=</span><span class="n">seq</span><span class="p">(</span><span class="m">75</span><span class="p">,</span><span class="m">200</span><span class="p">,</span><span class="m">25</span><span class="p">),</span><span class="n">limits</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">75</span><span class="p">,</span><span class="m">200</span><span class="p">))</span><span class="o">+</span> <span class="n">theme_fivethirtyeight</span><span class="p">()</span><span class="o">+</span>
+    <span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="o">=</span><span class="s2">"none"</span><span class="p">,</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">),</span><span class="n">plot.subtitle</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">face</span><span class="o">=</span><span class="s2">"italic"</span><span class="p">))</span><span class="o">+</span>
+    <span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">title</span><span class="o">=</span><span class="s2">"Comparing house prices"</span><span class="p">,</span>
+         <span class="n">caption</span><span class="o">=</span><span class="s2">"\n@lenkiefer Source: Dallas Federal Reserve International House Price Database: http://www.dallasfed.org/institute/houseprice/"</span><span class="p">,</span>
+         <span class="n">subtitle</span><span class="o">=</span><span class="s2">"Seasonally adjusted index (2005=100, log scale)"</span><span class="p">)</span>
+<span class="p">}</span>
+  
+<span class="n">library</span><span class="p">(</span><span class="n">animation</span><span class="p">)</span>
+<span class="n">oopt</span> <span class="o">=</span> <span class="n">ani.options</span><span class="p">(</span><span class="n">interval</span> <span class="o">=</span> <span class="m">0.15</span><span class="p">)</span>
+<span class="n">saveGIF</span><span class="p">({</span><span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="k">in</span> <span class="m">121</span><span class="o">:</span><span class="m">166</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">g</span><span class="o">&lt;-</span><span class="n">hpi.plot</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+   
+  <span class="n">print</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+ <span class="n">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+  <span class="n">ani.pause</span><span class="p">()</span>
+<span class="p">}</span>
+  
+  <span class="k">for</span> <span class="p">(</span><span class="n">i2</span> <span class="k">in</span> <span class="m">1</span><span class="o">:</span><span class="m">20</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">print</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+    <span class="n">ani.pause</span><span class="p">()</span>
+  <span class="p">}</span>
+<span class="p">},</span><span class="n">movie.name</span><span class="o">=</span><span class="s2">"hpi compare international.gif"</span><span class="p">,</span><span class="n">ani.width</span> <span class="o">=</span> <span class="m">750</span><span class="p">,</span> <span class="n">ani.height</span> <span class="o">=</span> <span class="m">400</span><span class="p">)</span></code></pre></figure>
+
+
+    </div>
+
+    
+
+    
+  
+    <hr>
+    <ul class="pagination">
+    
+      <li class="prev"><a href="/2016/12/08/10-ways-to-visualize-rates" title="10 ways to visualize mortgage rates ">&laquo; Previous</a></li>
+    
+      <li><a href="/archive.html">Archive</a></li>
+    
+      <li class="next"><a href="/2016/12/12/ribbon-rate-chart" title="Ribbon rate chart ">Next &raquo;</a></li>
+    
+    </ul>
+    <hr>
+    
+  </div>
+</div>
+
+
+
+      </div>
+
+    </div>
+
+    <div id="footer">
+      <div class="container">
+        <p>&copy; 2017 Len Kiefer
+          with help from <a href="http://jekyllbootstrap.com" target="_blank" title="The Definitive Jekyll Blogging Framework">Jekyll Bootstrap</a>
+          and <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>
+       
+    • <span vertical-align:bottom> <a href="https://twitter.com/lenkiefer" class="twitter-follow-button" data-show-count="false">•   Follow @lenkiefer</a>
+  
+ <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+</span>
+• <script src="//platform.linkedin.com/in.js" type="text/javascript"></script>
+<script type="IN/MemberProfile" data-id="https://www.linkedin.com/pub/leonard-kiefer/31/753/511" data-format="click" data-related="false" data-text="Leonard Kiefer"></script>
+  • lenkiefer@hotmail.com
+           </p>
+      </div>
+    </div>
+    
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+    <!-- Latest compiled and minified JavaScript, requires jQuery 1.x (2.x not supported in IE8) -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="/assets/themes/lentheme/bootstrap/js/bootstrap.min.js"></script>
+  </body>
+</html>
+
+
+
+
+

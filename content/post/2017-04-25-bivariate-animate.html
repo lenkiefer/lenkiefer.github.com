@@ -1,0 +1,429 @@
+---
+title: "Animate a bivariate choropleth"
+author: "Len Kiefer"
+date: "2017-04-25"
+summary: "R statistics rstats mortgage rates dataviz"
+tags: ["R","dataviz","maps","animation"]
+categories: "dataviz"
+slug: "bivariate-animate"
+
+---
+
+
+
+<p>IN THIS POST I WANT TO EXTEND ON <a href="../../../../2017/04/24/bivariate-map">yesterday’s</a> post and build an animated bivariate choropleth.</p>
+<p>We’ll use the same data as yesterday and create a combined scatterplot with bivariate choropleth map and animate it with <a href="https://www.r-project.org/">R</a>.</p>
+<p>Let’s get right to it.</p>
+<div id="load-data" class="section level1">
+<h1>Load data</h1>
+<p>We’ll follow from yesterday and load our data and do some manipulations.</p>
+<p>In order for this to work we’ll need data from three sources:</p>
+<ul>
+<li>House Price Index Data in a <em>.txt</em> file: <a href="../../../../img/charts_apr_25_2017/fmhpi2016q4.txt">fmhpi2016q4.txt</a></li>
+<li>Regional lookup table in a <em>.txt</em> file: <a href="../../../../img/charts_apr_25_2017/region.txt">region.txt</a></li>
+<li>Employment data from <a href="https://download.bls.gov/pub/time.series/sm/">BLS.gov</a></li>
+</ul>
+<pre class="r"><code>################################################################################
+### Load libraries
+################################################################################
+library(tidyverse)</code></pre>
+<pre><code>## Loading tidyverse: ggplot2
+## Loading tidyverse: tibble
+## Loading tidyverse: tidyr
+## Loading tidyverse: readr
+## Loading tidyverse: purrr
+## Loading tidyverse: dplyr</code></pre>
+<pre><code>## Conflicts with tidy packages ----------------------------------------------</code></pre>
+<pre><code>## filter(): dplyr, stats
+## lag():    dplyr, stats</code></pre>
+<pre class="r"><code>library(data.table)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;data.table&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:dplyr&#39;:
+## 
+##     between, first, last</code></pre>
+<pre><code>## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     transpose</code></pre>
+<pre class="r"><code>library(viridis)</code></pre>
+<pre><code>## Loading required package: viridisLite</code></pre>
+<pre class="r"><code>library(maps)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;maps&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     map</code></pre>
+<pre class="r"><code>library(tweenr)
+library(animation)
+library(ggalt)
+library(rgeos)</code></pre>
+<pre><code>## rgeos version: 0.3-23, (SVN revision 546)
+##  GEOS runtime version: 3.5.0-CAPI-1.9.0 r4084 
+##  Linking to sp version: 1.2-5 
+##  Polygon checking: TRUE</code></pre>
+<pre class="r"><code>library(maptools)</code></pre>
+<pre><code>## Loading required package: sp</code></pre>
+<pre><code>## Checking rgeos availability: TRUE</code></pre>
+<pre class="r"><code>library(albersusa)
+library(scales)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;scales&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     discard</code></pre>
+<pre><code>## The following object is masked from &#39;package:readr&#39;:
+## 
+##     col_factor</code></pre>
+<pre class="r"><code>library(ggthemes)
+
+# We&#39;ll need the multiplot function for multiple graphs on the same page
+# via: http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/
+source(&quot;code/multiplot.R&quot;)
+
+################################################################################
+### Load house price data
+################################################################################
+
+dm&lt;-fread(&quot;data/fmhpi2016q4.txt&quot;)
+dm$date&lt;-as.Date(dm$date, format=&quot;%m/%d/%Y&quot;)
+
+
+################################################################################
+### Go get data from BLS.gov
+################################################################################
+emp.data&lt;-fread(&quot;https://download.bls.gov/pub/time.series/sm/sm.data.54.TotalNonFarm.All&quot;)</code></pre>
+<pre><code>## Warning in fread(&quot;https://download.bls.gov/pub/time.series/sm/sm.data.
+## 54.TotalNonFarm.All&quot;): Bumped column 4 to type character on data row
+## 521667, field contains &#39;-&#39;. Coercing previously read values in this
+## column from logical, integer or numeric back to character which may not
+## be lossless; e.g., if &#39;00&#39; and &#39;000&#39; occurred before they will now be just
+## &#39;0&#39;, and there may be inconsistencies with treatment of &#39;,,&#39; and &#39;,NA,&#39; too
+## (if they occurred in this column before the bump). If this matters please
+## rerun and set &#39;colClasses&#39; to &#39;character&#39; for this column. Please note that
+## column type detection uses a sample of 1,000 rows (100 rows at 10 points)
+## so hopefully this message should be very rare. If reporting to datatable-
+## help, please rerun and include the output from verbose=TRUE.</code></pre>
+<pre class="r"><code>emp.series&lt;-fread(&quot;https://download.bls.gov/pub/time.series/sm/sm.series&quot;)
+
+emp.list&lt;-emp.series[industry_code==0 # get all employment
+                     &amp; data_type_code==1 # get employment in thousands
+                     &amp; seasonal==&quot;S&quot;,]  # get seasonally adjusted data]
+
+emp.area&lt;-fread(&quot;https://download.bls.gov/pub/time.series/sm/sm.area&quot;,
+                col.names=c(&quot;area_code&quot;,&quot;area_name&quot;,&quot;drop&quot;))[,c(&quot;area_code&quot;,&quot;area_name&quot;),with=F]</code></pre>
+<pre><code>## Warning in fread(&quot;https://download.bls.gov/pub/time.series/sm/sm.area&quot;, :
+## Starting data input on line 2 and discarding line 1 because it has too few
+## or too many items to be column names or data: area_code area_name</code></pre>
+<pre class="r"><code>emp.st&lt;-fread(&quot;https://download.bls.gov/pub/time.series/sm/sm.state&quot;,
+              col.names=c(&quot;state_code&quot;,&quot;state_name&quot;,&quot;drop&quot;))[,c(&quot;state_code&quot;,&quot;state_name&quot;),with=F]</code></pre>
+<pre><code>## Warning in fread(&quot;https://download.bls.gov/pub/time.series/sm/sm.state&quot;, :
+## Starting data input on line 2 and discarding line 1 because it has too few
+## or too many items to be column names or data: state_code state_name</code></pre>
+<pre class="r"><code># merge data
+emp.dt&lt;-merge(emp.data,emp.list,by=&quot;series_id&quot;,all.y=T)
+
+#create month variable
+emp.dt=emp.dt[,month:=as.numeric(substr(emp.dt$period,2,3))]
+# (this assignment is to get around knitr/data table printing error)
+# see e.g. http://stackoverflow.com/questions/15267018/knitr-gets-tricked-by-data-table-assignment
+
+# M13 = Annual average, drop it:
+emp.dt&lt;-emp.dt[month&lt;13,]
+
+#create date variable
+emp.dt$date&lt;- as.Date(ISOdate(emp.dt$year,emp.dt$month,1) ) 
+
+# merge on area and state codes
+emp.dt&lt;-merge(emp.dt,emp.area,by=&quot;area_code&quot;)
+emp.dt&lt;-merge(emp.dt,emp.st,by=&quot;state_code&quot;)
+emp.dt=emp.dt[,c(&quot;state_name&quot;,&quot;area_name&quot;,&quot;date&quot;,&quot;year&quot;,&quot;month&quot;,&quot;value&quot;),with=F]
+emp.dt=emp.dt[,emp:=as.numeric(value)] #convert value to numeric
+# Compute year-over-year change in employment and year-over-year percent change
+emp.dt=emp.dt[,emp.yoy:=emp-shift(emp,12,fill=NA),by=c(&quot;area_name&quot;,&quot;state_name&quot;)]
+
+# Percent change by year:
+emp.dt=emp.dt[,emp.pc:=(emp-shift(emp,12,fill=NA))/shift(emp,12,fill=NA),by=c(&quot;area_name&quot;,&quot;state_name&quot;)]
+
+emp.dt=emp.dt[,type:=ifelse(area_name==&quot;Statewide&quot;,&quot;State&quot;,&quot;Metro&quot;)]
+
+# drop states in c(&quot;Puerto Rico&quot;,&quot;Virgin Islands&quot;)
+emp.dt=emp.dt[!(state_name %in% c(&quot;Puerto Rico&quot;,&quot;Virgin Islands&quot;)),]
+
+# only keep state data
+emp.dt.state&lt;-emp.dt[area_name==&quot;Statewide&quot;]
+
+emp.dt.state&lt;-rename(emp.dt.state,statename=state_name)
+
+
+################################################################################
+# get a region lookup table and merge
+################################################################################
+
+region&lt;-fread(&quot;data/region.txt&quot;)
+
+emp.dt.state&lt;-left_join(emp.dt.state,
+                        region[,c(&quot;statecode&quot;,&quot;statename&quot;),with=F],
+                        by=&quot;statename&quot;)
+
+# rename some things
+emp.dt.state&lt;-rename(emp.dt.state,state=statecode)
+emp.dt.state$state&lt;-as.character(emp.dt.state$state)
+
+# Rename state_name as statename in emp.dt.state data
+emp.dt.state&lt;-rename(emp.dt.state,state_name=statename)
+
+
+################################################################################
+################ Merge these data! #############################################
+################################################################################
+
+
+dt&lt;-merge(dm,emp.dt.state[,c(&quot;date&quot;,&quot;state&quot;,&quot;state_name&quot;,&quot;emp&quot;,&quot;emp.yoy&quot;,&quot;emp.pc&quot;),],
+          by=c(&quot;date&quot;,&quot;state&quot;))
+
+# Compute annual percent change in house prices
+
+dt=dt[,hpa:=(hpi-shift(hpi,12,fill=NA))/shift(hpi,12,fill=NA),by=c(&quot;state_name&quot;)]
+
+# Construct color scheme assign hpa/emp to quantiles:
+
+dt&lt;- dt[, &quot;:=&quot;(hpa.t1=quantile(hpa,0.333,na.rm=T),
+               hpa.t2=quantile(hpa,0.667,na.rm=T),
+               emp.t1=quantile(emp.pc,0.333,na.rm=T),
+               emp.t2=quantile(emp.pc,0.667,na.rm=T))
+               ,by=&quot;date&quot;]
+
+dt&lt;-dt %&gt;% mutate(y= ifelse(hpa&lt;hpa.t1,1,ifelse(hpa&lt;hpa.t2,2,3)),
+              x= ifelse(emp.pc&lt;emp.t1,1,ifelse(emp.pc&lt;emp.t2,2,3)))%&gt;% data.table()
+
+dt&lt;-dt[,iso_3166_2:=state]  #rename state to match usa_composite (for mapping)
+
+dt&lt;-dt[, angle:=atan(y/x)]  #create a variable angle to fill the bivarite map
+
+dt&lt;-dt[, myalpha:=x+y]      # create a variable myalpha to vary transparency</code></pre>
+<p>To get this to work, we need to create three plots and combine them. First, we’ll need a legend, then we’ll need map and finally we’ll need a scatterplot. Let’s build them each up.</p>
+<div id="first-the-legend" class="section level3">
+<h3>First the legend</h3>
+<pre class="r"><code># Build legend 3 x 3 
+d&lt;-expand.grid(x=1:3,y=1:3)
+d&lt;-merge(d,data.frame(x=1:3,xlabel=c(&quot;Emp low&quot;, &quot;Emp middle&quot;,&quot;Emp high&quot;)),by=&quot;x&quot;)
+d&lt;-merge(d,data.frame(y=1:3,ylabel=c(&quot;HPA low&quot;, &quot;HPA middle&quot;,&quot;HPA high&quot;)),by=&quot;y&quot;)
+
+
+#make legend:
+g.legend&lt;-
+  ggplot(d, aes(x,y,fill=atan(y/x),alpha=x+y,label=paste0(xlabel,&quot;\n&quot;,ylabel)))+
+  geom_tile()+
+  scale_fill_viridis()+
+  theme_void()+
+  theme(legend.position=&quot;none&quot;,
+        panel.background=element_blank(),
+        plot.margin=margin(t=10,b=10,l=10))+
+  labs(title=&quot; &quot;,x=&quot;Emp&quot;,y=&quot;HPA&quot;,
+    subtitle=&quot;House Price Appreciation (HPA)\nand Employment Growth (Emp)&quot;)+
+    #subtitle=&quot;A bivariate color scheme (Viridis)&quot;,x=&quot;HPA&quot;,y=&quot;Emp Growth&quot;)+
+  theme(axis.title=element_text(color=&quot;black&quot;))+
+  # Draw some arrows:
+  geom_segment(aes(x=1, xend = 3 , y=0, yend = 0), size=1.5,
+               arrow = arrow(length = unit(0.6,&quot;cm&quot;))) +
+  geom_segment(aes(x=0, xend = 0 , y=1, yend = 3), size=1.5,
+               arrow = arrow(length = unit(0.6,&quot;cm&quot;))) 
+g.legend+  geom_text(alpha=1)</code></pre>
+<p><img src="/post/2017-04-25-bivariate-animate_files/figure-html/04-25-2017-setup-2-1.png" width="672" /></p>
+</div>
+<div id="second-the-map" class="section level3">
+<h3>Second the map</h3>
+<pre class="r"><code>#do map stuff
+states&lt;-usa_composite()
+smap&lt;-fortify(states,region=&quot;fips_state&quot;)
+
+# Combine data
+states@data &lt;- left_join(states@data, dt, by = &quot;iso_3166_2&quot;)
+
+# Make map
+gmap&lt;-
+ggplot() +
+    geom_map(data = smap, map = smap,
+             aes(x = long, y = lat, map_id = id),
+             color = &quot;#2b2b2b&quot;, size = 0.05, fill = NA) +
+    geom_map(data =filter(states@data,year(date)==2016 &amp; month(date)==12), 
+             map = smap,
+             aes(fill =atan(y/x),alpha=x+y, map_id =fips_state),
+             color = &quot;gray50&quot;)  +
+    theme_map(base_size = 12) +
+    theme(plot.title=element_text(size = 16, face=&quot;bold&quot;,margin=margin(b=10))) +
+    theme(plot.subtitle=element_text(size = 14, margin=margin(b=0))) +
+    theme(plot.caption=element_text(size = 9, margin=margin(t=-15),hjust=0)) +
+    # scale_fill_gradient(low=&quot;red&quot;,high=&quot;blue&quot;)
+    scale_fill_viridis()+guides(alpha=F,fill=F)+
+    labs(caption=&quot;@lenkiefer Source: Freddie Mac House Price Index and  U.S. Bureau of Labor Statistics&quot;,
+      subtitle=&quot;December 2016&quot;,
+      title=&quot;House prices and employment year-over-year growth&quot;)
+
+
+# We want to overlay the legend on the map, so use matrix layout with multiplot
+multiplot(gmap,g.legend,layout=matrix(c(1,1,1,1,1,1,
+                                        1,1,1,1,1,1,
+                                        1,1,1,2,1,1), nrow=3, byrow=TRUE))</code></pre>
+<p><img src="/post/2017-04-25-bivariate-animate_files/figure-html/04-25-2017-map-1-1.png" width="672" /></p>
+<p>Let’s make a small multiple of the map.</p>
+<pre class="r"><code># Make small multiple of map
+
+ggplot() +
+    geom_map(data = smap, map = smap,
+             aes(x = long, y = lat, map_id = id),
+             color = &quot;#2b2b2b&quot;, size = 0.05, fill = NA) +
+    geom_map(data =filter(states@data,year(date)&gt;=2005 &amp; month(date)==12), 
+             map = smap,
+             aes(fill =atan(y/x),alpha=x+y, map_id =fips_state),
+             color = &quot;gray50&quot;)  +
+    theme_map(base_size = 12) +
+    theme(plot.title=element_text(size = 16, face=&quot;bold&quot;,margin=margin(b=10))) +
+    theme(plot.subtitle=element_text(size = 14, margin=margin(b=0))) +
+    theme(plot.caption=element_text(size = 9, margin=margin(t=-15),hjust=0)) +
+  facet_wrap(~date)+
+
+    scale_fill_viridis()+guides(alpha=F,fill=F)+
+    labs(caption=&quot;@lenkiefer Source: Freddie Mac House Price Index and  U.S. Bureau of Labor Statistics&quot;,
+      title=&quot;House prices and employment year-over-year growth&quot;)</code></pre>
+<p><img src="/post/2017-04-25-bivariate-animate_files/figure-html/04-25-2017-map-2-1.png" width="672" /></p>
+</div>
+<div id="create-scatter" class="section level3">
+<h3>Create Scatter</h3>
+<p>Now let’s create a scatterplot to better see what’s going on with the map.</p>
+<pre class="r"><code>ggplot(data=dt[year(date)==2016 &amp; month(date)==12,],
+       aes(y=hpa,x=emp.pc,color=atan(y/x),alpha=x+y))+
+    geom_point(size=3)+  guides(alpha=F,color=F)+
+    geom_hline(yintercept=c(dt[year(date)==2016 &amp; 
+                                 month(date)==12,
+                              quantile(hpa,c(0.333,0.667))]),
+               color=&quot;gray20&quot;,linetype=2)+
+    geom_vline(xintercept=c(dt[year(date)==2016 &amp; 
+                               month(date)==12,
+                               quantile(emp.pc,c(0.333,0.667))]),
+               color=&quot;gray20&quot;,linetype=2)+
+    geom_hline(yintercept=0,linetype=1,color=&quot;black&quot;)+
+    geom_vline(xintercept=0,linetype=1,color=&quot;black&quot;)+
+    scale_color_viridis(name=&quot;Color scale&quot;)+theme_minimal()+
+    theme(plot.caption=element_text(size = 9, hjust=0),
+          panel.grid=element_blank()) +
+    
+    labs(title=&quot;Employment and house price growth by state&quot;,
+         subtitle=&quot;December 2016&quot;,
+         y=&quot;House price growth (y/y %)&quot;,
+         x=&quot;Employment growth (y/y %)&quot;,
+         caption=&quot;@lenkiefer Source: Freddie Mac House Price Index, U.S. Bureau of Labor Statistics\nEach dot one state, lines divide (univariate) terciles&quot;)+
+    # limit the rang e
+    scale_x_continuous(limits=c(-0.11,0.11), 
+                       breaks=c(0,dt[year(date)==2016 &amp;  month(date)==12,
+                                     quantile(emp.pc,c(0.333,0.667))]),
+                       labels=c(&quot;0%&quot;,percent(round(dt[year(date)==2016 &amp; 
+                                                        month(date)==12,                                                      quantile(emp.pc,c(0.333,0.667))],3)))) +
+    scale_y_continuous(limits=c(-0.25,0.25),
+                       breaks=c(0,dt[year(date)==2016 &amp;  month(date)==12,
+                                     quantile(hpa,c(0.333,0.667))]),
+                       labels=c(&quot;0%&quot;,percent(round(dt[year(date)==2016 &amp; 
+                                                        month(date)==12,                                                      quantile(hpa,c(0.333,0.667))],2))) )</code></pre>
+<p><img src="/post/2017-04-25-bivariate-animate_files/figure-html/04-25-2017-scatter-1-1.png" width="672" /></p>
+<p>Let’s construct a small multiple version of the scatter:</p>
+<pre class="r"><code>ggplot(data=dt[year(date)&gt;=2005 &amp; month(date)==12,],
+      aes(y=hpa,x=emp.pc,color=atan(y/x),alpha=x+y))+
+  geom_point(size=3)+  guides(alpha=F,color=F)+
+  geom_hline(yintercept=0,linetype=1,color=&quot;black&quot;)+
+  geom_vline(xintercept=0,linetype=1,color=&quot;black&quot;)+
+  scale_color_viridis(name=&quot;Color scale&quot;)+theme_minimal()+
+  theme(plot.caption=element_text(size = 9, hjust=0),
+        panel.grid=element_blank()) +
+  facet_wrap(~date)+
+  
+  labs(title=&quot;Employment and house price growth by state&quot;,
+      # subtitle=&quot;December 2016&quot;,
+       y=&quot;House price growth (y/y %)&quot;,
+       x=&quot;Employment growth (y/y %)&quot;,
+       caption=&quot;@lenkiefer Source: Freddie Mac House Price Index, U.S. Bureau of Labor Statistics\nEach dot one state, lines divide (univariate) terciles&quot;)+
+  # limit the rang e
+  scale_x_continuous(labels=percent)+
+  scale_y_continuous(labels=percent)</code></pre>
+<p><img src="/post/2017-04-25-bivariate-animate_files/figure-html/04-25-2017-scatter-2-1.png" width="672" /></p>
+</div>
+<div id="animate-it" class="section level3">
+<h3>Animate it</h3>
+<p>Finally, using tweenr and animation we can animate it!</p>
+<p>For smooth animations we’ll use <a href="https://cran.r-project.org/web/packages/tweenr/index.html">tweenr</a>. For a simple introduction to tweenr see <a href="../../../../2016/12/19/more-tweenr-housing">this post</a>.</p>
+<p>Also see my earlier <a href="../../../../2016/05/29/improving-R-animated-gifs-with-tweenr">post about tweenr</a> for an introduction to tweenr, and more examples <a href="../../../../2016/05/30/more-tweenr-animations">here</a> and <a href="../../../../2016/06/26/week-in-review">here</a>.</p>
+<pre class="r"><code># Function to filter data
+# Takes input year and filters to December (month=12) of that year
+myf&lt;-function(yy){
+  dt2&lt;-dt[year(date)==yy &amp; month(date)==12,]
+  dt2 %&gt;% map_if(is.character, as.factor) %&gt;% as.data.frame -&gt; dt.out
+  return(dt.out)
+}
+
+# select years
+my.list&lt;-lapply(c(2016,seq(2006,2016)),myf)
+
+tf &lt;- tween_states(my.list, tweenlength= 2, statelength=3, ease=rep(&#39;cubic-in-out&#39;,3),
+                   nframes=150)
+
+tf&lt;-data.table(tf)
+
+### Animate
+
+oopt = ani.options(interval = 0.15)
+saveGIF({for (i in 1:max(tf$.frame)) {
+  states&lt;-usa_composite()
+  states@data &lt;- left_join(states@data, tf[.frame==i], by = &quot;iso_3166_2&quot;)
+  gmap&lt;-
+    ggplot() +
+    geom_map(data = smap, map = smap,
+             aes(x = long, y = lat, map_id = id),
+             color = &quot;#2b2b2b&quot;, size = 0.05, fill = NA) +
+    geom_map(data =states@data, 
+             map = smap,
+             aes(fill =atan(y/x),alpha=x+y, map_id =fips_state),
+             color = &quot;gray50&quot;)  +
+    theme_map( base_size = 12) + 
+    #facet_wrap(~date)  +
+    theme_map(base_size = 12) +
+    theme(plot.title=element_text(size = 16, face=&quot;bold&quot;,margin=margin(b=10))) +
+    theme(plot.subtitle=element_text(size = 14, margin=margin(b=0))) +
+    theme(plot.caption=element_text(size = 9, margin=margin(t=-15),hjust=0)) +
+    # scale_fill_gradient(low=&quot;red&quot;,high=&quot;blue&quot;)
+    scale_fill_viridis()+guides(alpha=F,fill=F)+
+    labs(#caption=&quot;@lenkiefer Source: U.S. Census Bureau&quot;,
+      subtitle=paste(&quot;December&quot;,year(tf[.frame==i,]$date)),
+      title=&quot;House prices and employment year-over-year growth&quot;)
+  
+  g.scatter&lt;-
+    ggplot(data=tf[.frame==i,],aes(y=hpa,x=emp.pc,color=atan(y/x),alpha=x+y))+
+    geom_point(size=3)+  guides(alpha=F,color=F)+
+    geom_hline(yintercept=c(tf[.frame==i,quantile(hpa,c(0.333,0.667))]),color=&quot;gray20&quot;,linetype=2)+
+    geom_vline(xintercept=c(tf[.frame==i,quantile(emp.pc,c(0.333,0.667))]),color=&quot;gray20&quot;,linetype=2)+
+    geom_hline(yintercept=0,linetype=1,color=&quot;black&quot;)+
+    geom_vline(xintercept=0,linetype=1,color=&quot;black&quot;)+
+    scale_color_viridis(name=&quot;Color scale&quot;)+theme_minimal()+
+    theme(plot.caption=element_text(size = 9, hjust=0),
+          panel.grid=element_blank()) +
+    
+    labs(title=&quot;Employment and house price growth by state&quot;,
+         subtitle=as.character(max(tf[.frame==i,]$date),format=&quot;%b-%Y&quot;),
+         y=&quot;House price growth (y/y %)&quot;,
+         x=&quot;Employment growth (y/y %)&quot;,
+         caption=&quot;@lenkiefer Source: Freddie Mac House Price Index, U.S. Bureau of Labor Statistics\nEach dot one state, lines divide (univariate) terciles&quot;)+
+    # limit the rang e
+    scale_x_continuous(limits=c(-0.11,0.11), 
+                       breaks=c(0,tf[.frame==i,quantile(emp.pc,c(0.333,0.667))]),
+                       labels=c(&quot;0%&quot;,percent(round(tf[.frame==i,quantile(emp.pc,c(0.333,0.667))],3)))) +
+    scale_y_continuous(limits=c(-0.25,0.25),
+                       breaks=c(0,tf[.frame==i,quantile(hpa,c(0.333,0.667))]),
+                       labels=c(&quot;0%&quot;,percent(round(tf[.frame==i,quantile(hpa,c(0.333,0.667))],2))) )
+  g&lt;-multiplot(gmap,g.legend+  geom_text(alpha=1),
+               g.scatter,layout=matrix(c(1,2,3,3), nrow=2, byrow=TRUE))
+  print(g)
+  print(paste(i,&quot;out of&quot;,max(tf$.frame)))
+  ani.pause()}
+},movie.name=&quot;bivariate2.gif&quot;,ani.width = 650, ani.height = 600)</code></pre>
+<p>Running it gives:</p>
+<p><img src="../../../../img/charts_apr_25_2017/bivariate2.gif" ></p>
+</div>
+</div>

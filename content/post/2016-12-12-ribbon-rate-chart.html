@@ -1,0 +1,241 @@
+---
+title: "Ribbon rate chart "
+author: "Len Kiefer"
+date: "2016-12-12"
+summary: "R statistics forecasting house prices housing"
+---
+
+
+
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>LAST WEEK I <a href="../../../../2016/12/08/10-ways-to-visualize-rates">SHOWED YOU</a> 10 TASTY WAYS TO VISUALIZE MORTGAGE RATES, but I’ve got another delicious one for you. Y’all like ribbon candy?</p>
+<p>As before we’ll create this chart with <a href="https://www.r-project.org/">R</a>.</p>
+<div id="the-data" class="section level2">
+<h2>The data</h2>
+<p>The data I’m going to use are estimates of weekly U.S. average 30-year fixed mortgage rates from the <a href="http://www.freddiemac.com/pmms/index.html">Primary Mortgage Market Survey</a>. See my <a href="../../../../2016/12/08/10-ways-to-visualize-rates">earlier post</a> for some additional information on the data we’ll use.</p>
+<p>Here’s the first few rows of our data:</p>
+<table class='gmisc_table' style='border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;' >
+<thead>
+<tr><td colspan='8' style='text-align: left;'>
+30-year Fixed Mortgage Rate (%)</td></tr>
+<tr>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey;'> </th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>date</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>rate</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>drate</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>name</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>year</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>month</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>week</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style='text-align: left;'>1</td>
+<td style='text-align: center;'>Apr 02,1971</td>
+<td style='text-align: center;'>7.33</td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'>1971</td>
+<td style='text-align: center;'>4</td>
+<td style='text-align: center;'>14</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>2</td>
+<td style='background-color: #f7f7f7; text-align: center;'>Apr 09,1971</td>
+<td style='background-color: #f7f7f7; text-align: center;'>7.31</td>
+<td style='background-color: #f7f7f7; text-align: center;'>-0.02</td>
+<td style='background-color: #f7f7f7; text-align: center;'>down</td>
+<td style='background-color: #f7f7f7; text-align: center;'>1971</td>
+<td style='background-color: #f7f7f7; text-align: center;'>4</td>
+<td style='background-color: #f7f7f7; text-align: center;'>15</td>
+</tr>
+<tr>
+<td style='text-align: left;'>3</td>
+<td style='text-align: center;'>Apr 16,1971</td>
+<td style='text-align: center;'>7.31</td>
+<td style='text-align: center;'>0</td>
+<td style='text-align: center;'>no change</td>
+<td style='text-align: center;'>1971</td>
+<td style='text-align: center;'>4</td>
+<td style='text-align: center;'>16</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>4</td>
+<td style='background-color: #f7f7f7; text-align: center;'>Apr 23,1971</td>
+<td style='background-color: #f7f7f7; text-align: center;'>7.31</td>
+<td style='background-color: #f7f7f7; text-align: center;'>0</td>
+<td style='background-color: #f7f7f7; text-align: center;'>no change</td>
+<td style='background-color: #f7f7f7; text-align: center;'>1971</td>
+<td style='background-color: #f7f7f7; text-align: center;'>4</td>
+<td style='background-color: #f7f7f7; text-align: center;'>17</td>
+</tr>
+<tr>
+<td style='text-align: left;'>5</td>
+<td style='text-align: center;'>Apr 30,1971</td>
+<td style='text-align: center;'>7.29</td>
+<td style='text-align: center;'>-0.02</td>
+<td style='text-align: center;'>down</td>
+<td style='text-align: center;'>1971</td>
+<td style='text-align: center;'>4</td>
+<td style='text-align: center;'>18</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>6</td>
+<td style='background-color: #f7f7f7; text-align: center;'>May 07,1971</td>
+<td style='background-color: #f7f7f7; text-align: center;'>7.38</td>
+<td style='background-color: #f7f7f7; text-align: center;'>0.09</td>
+<td style='background-color: #f7f7f7; text-align: center;'>up</td>
+<td style='background-color: #f7f7f7; text-align: center;'>1971</td>
+<td style='background-color: #f7f7f7; text-align: center;'>5</td>
+<td style='background-color: #f7f7f7; text-align: center;'>19</td>
+</tr>
+<tr>
+<td style='text-align: left;'>7</td>
+<td style='text-align: center;'>May 14,1971</td>
+<td style='text-align: center;'>7.42</td>
+<td style='text-align: center;'>0.04</td>
+<td style='text-align: center;'>up</td>
+<td style='text-align: center;'>1971</td>
+<td style='text-align: center;'>5</td>
+<td style='text-align: center;'>20</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>8</td>
+<td style='background-color: #f7f7f7; text-align: center;'>May 21,1971</td>
+<td style='background-color: #f7f7f7; text-align: center;'>7.44</td>
+<td style='background-color: #f7f7f7; text-align: center;'>0.02</td>
+<td style='background-color: #f7f7f7; text-align: center;'>up</td>
+<td style='background-color: #f7f7f7; text-align: center;'>1971</td>
+<td style='background-color: #f7f7f7; text-align: center;'>5</td>
+<td style='background-color: #f7f7f7; text-align: center;'>21</td>
+</tr>
+<tr>
+<td style='text-align: left;'>9</td>
+<td style='text-align: center;'>May 28,1971</td>
+<td style='text-align: center;'>7.46</td>
+<td style='text-align: center;'>0.02</td>
+<td style='text-align: center;'>up</td>
+<td style='text-align: center;'>1971</td>
+<td style='text-align: center;'>5</td>
+<td style='text-align: center;'>22</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: left;'>10</td>
+<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>Jun 04,1971</td>
+<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>7.52</td>
+<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>0.06</td>
+<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>up</td>
+<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>1971</td>
+<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>6</td>
+<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>23</td>
+</tr>
+</tbody>
+<tfoot><tr><td colspan='8'>
+Source: Freddie Mac Primary Mortgage Market Survey</td></tr></tfoot>
+</table>
+<p>The data are weekly observations on mortgage rates running from April 2, 1971 through December 8, 2016. Now let’s take these data and make our visualization.</p>
+</div>
+<div id="data-prep" class="section level2">
+<h2>Data prep</h2>
+<p>We need to do a tiny bit of data preparation which is made quite easy by the data.table() structure.</p>
+<pre class="r"><code># making rolling 52 week min and max
+pmms30yr[, rmax.52:=rollapply(rate,52,max,na.rm=T,fill=NA,align=&quot;right&quot;)]
+pmms30yr[, rmin.52:=rollapply(rate,52,min,na.rm=T,fill=NA,align=&quot;right&quot;)]
+#compute 52-week max &amp; min and rate
+pmms30yr[,rup:=min(rate,rmin.52),by=date]
+pmms30yr[,rdown:=max(rate,rmax.52),by=date]</code></pre>
+<p>Now that we have the data ready, we can create our lovely ribbon plot:</p>
+<pre class="r"><code>#create plot:
+ggplot(data=pmms30yr,aes(x=date,y=rate))+
+  geom_ribbon(aes(ymin=rup,ymax=rate),fill=viridis(10)[2],alpha=0.6)+
+  geom_ribbon(aes(ymin=rdown,ymax=rate),fill=viridis(10)[8],alpha=0.6)+
+  geom_line(size=1.05)+
+  theme_minimal()+
+  geom_rug(sides=&quot;b&quot;,aes(color=(rate-rmin.52)/(rmax.52-rmin.52)))+
+  scale_color_viridis(name=&quot;Rate as %\nof min/max\n0% at min,\n50%=halfway,\n100% at max&quot;,
+                      direction=-1,label=percent,end=0.8)+
+    theme(legend.position=c(0.22,0.15),legend.direction=&quot;horizontal&quot;)+
+  labs(x=&quot;&quot;, y=&quot;&quot;,
+       title=&quot;30-year fixed mortgage rate (%)&quot;,
+       subtitle=&quot;Shaded area 52-week trailing min/max, purple from 52-week min to current, green from current to 52-week max.\nStrip at bottom shows weekly rate as percent of 52-week min/max (0% at min, 100% at max).&quot;,
+       caption=&quot;@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey&quot;)+
+  theme(plot.title=element_text(size=16),
+        plot.subtitle=element_text(face=&quot;italic&quot;,size=8))+
+  theme(plot.caption=element_text(hjust=0))+
+  theme(plot.margin=unit(c(0.25,0.25,0.25,0.25),&quot;cm&quot;))+
+  scale_x_date(limits=c(as.Date(&quot;1972-01-01&quot;),as.Date(&quot;2016-12-08&quot;)))+
+  coord_cartesian(ylim=c(02.5,20))</code></pre>
+<p><img src="/post/2016-12-12-ribbon-rate-chart_files/figure-html/rate-viz1-dec-12-2016,-1.png" width="672" /></p>
+</div>
+<div id="what-is-this" class="section level2">
+<h2>What is this?</h2>
+<p>This is a composite chart consisting of:</p>
+<ol style="list-style-type: decimal">
+<li>A line</li>
+<li>Two ribbons</li>
+<li>A marginal rugplot at the bottom</li>
+</ol>
+<div id="the-line" class="section level3">
+<h3>The line</h3>
+<p>The line is just a standard time series line created with <em>geom_line()</em> showing weekly average mortgage rates. There’s nothing particularly special about it, but it’s the anchor that lets us make sense of the rest of the plot.</p>
+</div>
+<div id="two-ribbons" class="section level3">
+<h3>Two ribbons</h3>
+<p>The ribbons, shaded purple and green, show a trailing 52-week min and max for the interest rate. Together they show the range for the interest rate in the past year. Let’s look at just the last row of our data set:</p>
+<table class='gmisc_table' style='border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;' >
+<thead>
+<tr><td colspan='12' style='text-align: left;'>
+30-year Fixed Mortgage Rate (%)</td></tr>
+<tr>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey;'> </th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>date</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>rate</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>drate</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>name</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>year</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>month</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>week</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>rmax.52</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>rmin.52</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>rup</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>rdown</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style='border-bottom: 2px solid grey; text-align: left;'>2392</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>Jan 26,2017</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>4.19</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>0.1</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>up</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>2017</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>1</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>4</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>4.32</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>3.41</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>3.41</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>4.32</td>
+</tr>
+</tbody>
+<tfoot><tr><td colspan='12'>
+Source: Freddie Mac Primary Mortgage Market Survey</td></tr></tfoot>
+</table>
+<p>Here we see that for the week of December 8, 2016 the average mortgage rate was 4.13 percent. The 52-week max was also 4.13 percent. The 52-week min was 3.41 percent. This means that over the 52-week window ending December 8, 2016 mortgage rates ranged as low as 3.41 percent and as high as 4.13 percent. Because the last observation is equal to the 52-week max there’s no green shaded area for this week, but it’s all purple in the plot, extending down from 4.13 percent to 3.41 percent.</p>
+<p>We can plot just the line and ribbons for the weeks in 2016:</p>
+<p><img src="/post/2016-12-12-ribbon-rate-chart_files/figure-html/rate-viz2-dec-12-2016,-1.png" width="672" /></p>
+<p>We see a lot of green for most of 2016, indicating that for much of the year mortgage rates were substantially below where they were 52-weeks ago.</p>
+</div>
+<div id="the-rug-really-ties-the-whole-plot-together." class="section level3">
+<h3>The rug really ties the whole plot together.</h3>
+<p>What’s the point of the rug? Well, it really ties the plot together.</p>
+<p>Consider the plot below which shows just rates for 2016, but adds in the rug plot:</p>
+<p><img src="/post/2016-12-12-ribbon-rate-chart_files/figure-html/rate-viz3-dec-12-2016,-1.png" width="672" /></p>
+<p>The rug is colored to correspond to the where the black line is in relation to the edges of the shaded areas. If the current rate (black line) is at the max so that there is no green area, then the tick will be dark purple. If the current rate is at the 52-week min so that there is no purple area then the tick will be yellow.</p>
+<p>Zooming out, we can see that the rug shows us at a glance how rates have been trending on a year-over-year basis.</p>
+<p><img src="/post/2016-12-12-ribbon-rate-chart_files/figure-html/rate-viz4-dec-12-2016,-1.png" width="672" /></p>
+<p>Now we’ve triple-encoded the range of rates in this chart. The line captures the trend, the purple ribbon indicates rates are rising relative to a year ago, while green shading indicates rates have been falling over the past year. Likewise the ribbon at the bottom, which is conveniently placed near the x axis, displays the current rate relative to 52-week min and max.</p>
+</div>
+</div>
+</div>

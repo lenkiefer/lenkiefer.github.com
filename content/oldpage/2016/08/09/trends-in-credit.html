@@ -1,0 +1,315 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Consumer Credit Trends</title>
+    
+    <meta name="author" content="Len Kiefer">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap styles -->
+    <link href="/assets/themes/lentheme/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Optional theme -->
+    <link href="/assets/themes/lentheme/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <!-- Sticky Footer -->
+    <link href="/assets/themes/lentheme/bootstrap/css/bs-sticky-footer.css" rel="stylesheet">
+    
+    <!-- Custom styles -->
+    <link href="/assets/themes/lentheme/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <!-- Update these with your own images
+      <link rel="shortcut icon" href="images/favicon.ico">
+      <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+      <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+      <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+  </head>
+
+  <body>
+    <div id="wrap">
+      <nav class="navbar navbar-default" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#jb-navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/"><span class="icon-home3" style="font-size:24px"> Len Kiefer</a></span>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="jb-navbar-collapse" style="font-size:24px">
+          <ul class="nav navbar-nav" >
+        <li><a href="/archive.html"><span class="icon-newspaper"> Posts</a></span></li>
+            <!-- li><a href="/chartbook/index.html"><span class="icon-display"> Chartbook</a></span></li-->
+         <li><a href="/resume.html"><span class="icon-profile"> Resume</span></a></li>
+        <li><a href="/about.html"><span class="icon-user-tie"> About</span></a></li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </nav>
+
+      <div class="container">
+        
+<div class="page-header">
+  <h1>Consumer Credit Trends </h1>
+</div>
+
+<div class="row post-full">
+  <div class="col-xs-12">
+    <div class="date">
+      <span>09 August 2016</span>
+    </div>
+    <div class="content">
+      <p>TODAY the NEW YORK FEDERAL RESERVE BANK <a href="https://www.newyorkfed.org/newsevents/news/research/2016/rp160809">released</a> its Quarterly Report on Household Debt and Credit. These data come from the <a href="https://www.newyorkfed.org/microeconomics/ccp.html">Center for Microeconomic Data</a> based on credit records from Equifax.</p>
+
+<p><strong>R code for the graphs are posted at bottom of page</strong></p>
+
+<h1 id="trends-in-household-debt-balances">Trends in household debt balances</h1>
+
+<p>One of the key statistics tracked in the report (full data can be found <a href="https://www.newyorkfed.org/microeconomics/data.html">here</a>) is household debt balances. They break debt balances out by loan type:</p>
+
+<ul>
+  <li>mortgage debt</li>
+  <li>student loans</li>
+  <li>auto loans</li>
+  <li>credit cards</li>
+  <li>home equity revolving debt</li>
+  <li>other debt</li>
+</ul>
+
+<p>Mortgage debt is by far the largest component of household debt. Out of the $12.3 trillion in debt in  2016Q2, mortgage debt comprises $8.4 trillion per the FRBNY Consumer Credit Panel. From 2003Q1 through 2016Q2 mortgage debt has ranged from 68% to 74% of total debt balances.</p>
+
+<p>If you take away mortgage debt you can more easily compare the trends in other forms of household debt.</p>
+
+<p><img src="/img/Rfig/debt-2016q2-levels-1.svg" alt="plot of chunk debt-2016q2-levels" /></p>
+
+<p>While most forms of debt rose, fell and recovered leading up to, during, and after the Great Recession, student debt has pretty much gone up in a straight line.</p>
+
+<p>If you use an index so that 2003Q1 = 100, you can include mortgage and total debt:</p>
+
+<p><img src="/img/Rfig/debt-2016q2-index-1.svg" alt="plot of chunk debt-2016q2-index" /></p>
+
+<p>The trend is striking, but I think it jumps out at you even more if you use an animated gif:</p>
+
+<p><img src="/img/charts_aug_9_2016/debt balances 2016Q2.gif" alt="credit gif" /></p>
+
+<h1 id="state-per-capita-debt-trends">State per capita debt trends</h1>
+
+<p>The panel also reports on per capita household debt by select states.  In general per capita debt levels have stabilized after falling during the Great Recession.  The debt trends are diven primarily by mortgage debt, so states with volatile house prices and high rates of foreclosure (<em>e.g.</em> AZ, FL, NV) have had the greatest volatility in per capita debt levels.</p>
+
+<p>But in recent quarters most states are trending modestly higher.</p>
+
+<p><img src="/img/Rfig/debt-2016q2-states-1.svg" alt="plot of chunk debt-2016q2-states" /></p>
+
+<h2 id="code-for-plots">Code for plots</h2>
+
+<p>If you’ve read some of my earlier posts <a href="/2016/05/08/visual-meditations-on-house-prices">here</a> and 
+<a href="/2016/06/26/week-in-review">here</a> then generating these plots is rather strightforward.</p>
+
+<p>I have been meaning to do more data wrangling in R, but I’m still falling back on Excel tricks.</p>
+
+<p>For the first three plots I’ve collected my data in a text file called <em>debt2016q2.txt</em>. The datafile has four columns and looks like:</p>
+
+<p><img src="/img/charts_aug_9_2016/datalayout.PNG" alt="data layout" /></p>
+
+<p>For the state level data I have another data file with a similar format called <em>pcdebt2016q2.txt</em>:</p>
+
+<p><img src="/img/charts_aug_9_2016/datalayout2.PNG" alt="data layout" /></p>
+
+<p>Using these data files we can generate the plots using the following code:</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1">#Set up libraries
+</span>  <span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span>
+  <span class="n">library</span><span class="p">(</span><span class="n">scales</span><span class="p">)</span>
+  <span class="n">library</span><span class="p">(</span><span class="n">animation</span><span class="p">)</span>
+  <span class="n">library</span><span class="p">(</span><span class="n">ggthemes</span><span class="p">)</span>
+  <span class="n">library</span><span class="p">(</span><span class="n">data.table</span><span class="p">)</span>
+  <span class="n">library</span><span class="p">(</span><span class="n">ggrepel</span><span class="p">)</span>
+
+<span class="c1">#Load data
+</span><span class="n">data</span> <span class="o">&lt;-</span> <span class="n">fread</span><span class="p">(</span><span class="s2">"data/debt2016q2.txt"</span><span class="p">)</span>
+<span class="n">data</span><span class="o">$</span><span class="n">date</span><span class="o">&lt;-</span><span class="n">as.Date</span><span class="p">(</span><span class="n">data</span><span class="o">$</span><span class="n">date</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s2">"%m/%d/%Y"</span><span class="p">)</span>
+
+<span class="n">dlist</span><span class="o">&lt;-</span><span class="n">unique</span><span class="p">(</span><span class="n">data</span><span class="o">$</span><span class="n">date</span><span class="p">)</span>  <span class="c1">#unique set of dates
+</span><span class="n">N</span><span class="o">&lt;-</span><span class="n">length</span><span class="p">(</span><span class="n">dlist</span><span class="p">)</span>  <span class="c1">#number of dates
+</span>
+
+<span class="c1">#Create static plots:  
+</span>
+<span class="c1"># In levels
+</span>
+<span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="n">type</span> <span class="o">!=</span><span class="s2">"Total"</span> <span class="o">&amp;</span> <span class="n">type</span> <span class="o">!=</span><span class="s2">"Mortgage"</span><span class="p">,],</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">debt</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">type</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">type</span><span class="p">))</span><span class="o">+</span>  <span class="c1">#exclude mortgage and total lines
+</span>  
+  <span class="n">geom_line</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">1.2</span><span class="p">)</span><span class="o">+</span> <span class="c1">#add lines
+</span>  <span class="n">geom_text_repel</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="n">date</span><span class="o">==</span><span class="n">dlist</span><span class="p">[</span><span class="n">N</span><span class="p">]</span> <span class="o">&amp;</span> <span class="n">type</span> <span class="o">!=</span> <span class="s2">"Total"</span><span class="o">&amp;</span> <span class="n">type</span> <span class="o">!=</span><span class="s2">"Mortgage"</span><span class="p">,],</span><span class="n">nudge_x</span><span class="o">=</span><span class="m">10</span><span class="p">,</span><span class="n">nudge_y</span><span class="o">=</span><span class="m">.025</span><span class="p">)</span><span class="o">+</span> <span class="c1">#add labels at end
+</span>  
+    <span class="c1">#style plot:
+</span>    <span class="n">theme_minimal</span><span class="p">()</span><span class="o">+</span> <span class="c1">#use minimal theme from ggthemes library
+</span>  
+    <span class="n">theme</span><span class="p">(</span><span class="n">plot.title</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">14</span><span class="p">))</span><span class="o">+</span><span class="n">theme</span><span class="p">(</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">vjust</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="n">margin</span><span class="o">=</span><span class="n">margin</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="m">10</span><span class="p">)))</span><span class="o">+</span>
+    <span class="n">theme</span><span class="p">(</span><span class="n">plot.margin</span><span class="o">=</span><span class="n">unit</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="m">0.25</span><span class="p">,</span><span class="m">0.25</span><span class="p">,</span><span class="m">0.25</span><span class="p">,</span><span class="m">0.25</span><span class="p">),</span><span class="s2">"cm"</span><span class="p">))</span><span class="o">+</span>
+      <span class="n">coord_cartesian</span><span class="p">(</span><span class="n">xlim</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="n">as.Date</span><span class="p">(</span><span class="s2">"2003-01-01"</span><span class="p">),</span><span class="n">as.Date</span><span class="p">(</span><span class="s2">"2017-03-30"</span><span class="p">)))</span><span class="o">+</span>
+    <span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="o">=</span><span class="s2">"none"</span><span class="p">)</span><span class="o">+</span>
+    <span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Household debt balances"</span><span class="p">,</span>
+         <span class="n">subtitle</span><span class="o">=</span><span class="s2">"Trillions of Dollars"</span><span class="p">,</span>
+         <span class="n">x</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">caption</span><span class="o">=</span><span class="s2">"@lenkiefer Source: FRBNY Consumer Credit Panel/Equifax"</span><span class="p">)</span>
+
+<span class="c1"># Using indexed data
+</span>
+<span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">rv</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">type</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">type</span><span class="p">))</span><span class="o">+</span><span class="n">geom_line</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">1.2</span><span class="p">)</span><span class="o">+</span>
+    <span class="n">geom_text_repel</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="n">date</span><span class="o">==</span><span class="n">dlist</span><span class="p">[</span><span class="n">N</span><span class="p">],],</span><span class="n">nudge_x</span><span class="o">=</span><span class="m">10</span><span class="p">,</span><span class="n">nudge_y</span><span class="o">=</span><span class="m">.025</span><span class="p">)</span><span class="o">+</span>  <span class="c1">#add labels at end
+</span>  
+    <span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">breaks</span><span class="o">=</span><span class="n">seq</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">550</span><span class="p">,</span><span class="m">50</span><span class="p">))</span><span class="o">+</span> <span class="c1">#set axis
+</span>  
+    <span class="n">coord_cartesian</span><span class="p">(</span><span class="n">xlim</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="n">as.Date</span><span class="p">(</span><span class="s2">"2003-01-01"</span><span class="p">),</span><span class="n">as.Date</span><span class="p">(</span><span class="s2">"2017-03-30"</span><span class="p">)),</span> <span class="n">y</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">550</span><span class="p">))</span><span class="o">+</span>
+  
+    <span class="c1">#style plot:
+</span>    <span class="n">theme_minimal</span><span class="p">()</span><span class="o">+</span>  <span class="c1">#use minimal theme from ggthemes library
+</span>    <span class="n">theme</span><span class="p">(</span><span class="n">plot.title</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">14</span><span class="p">))</span><span class="o">+</span><span class="n">theme</span><span class="p">(</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">vjust</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="n">margin</span><span class="o">=</span><span class="n">margin</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="m">10</span><span class="p">)))</span><span class="o">+</span>
+    <span class="n">theme</span><span class="p">(</span><span class="n">plot.margin</span><span class="o">=</span><span class="n">unit</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="m">0.25</span><span class="p">,</span><span class="m">0.25</span><span class="p">,</span><span class="m">0.25</span><span class="p">,</span><span class="m">0.25</span><span class="p">),</span><span class="s2">"cm"</span><span class="p">))</span><span class="o">+</span>
+    <span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="o">=</span><span class="s2">"none"</span><span class="p">)</span><span class="o">+</span>
+    <span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Household debt balances"</span><span class="p">,</span>
+         <span class="n">subtitle</span><span class="o">=</span><span class="s2">"Index (2003 Q1 = 100)"</span><span class="p">,</span>
+         <span class="n">x</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">caption</span><span class="o">=</span><span class="s2">"@lenkiefer Source: FRBNY Consumer Credit Panel/Equifax"</span><span class="p">)</span>
+
+
+<span class="c1">#Create animated gif
+</span>
+<span class="n">oopt</span> <span class="o">=</span> <span class="n">ani.options</span><span class="p">(</span><span class="n">interval</span> <span class="o">=</span> <span class="m">0.15</span><span class="p">)</span>
+<span class="n">saveGIF</span><span class="p">({</span><span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="k">in</span> <span class="m">5</span><span class="o">:</span><span class="n">N</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">g</span><span class="o">&lt;-</span>
+    <span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="n">date</span><span class="o">&lt;=</span><span class="n">dlist</span><span class="p">[</span><span class="n">i</span><span class="p">],],</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">rv</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">type</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">type</span><span class="p">))</span><span class="o">+</span><span class="n">geom_line</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">1.2</span><span class="p">)</span><span class="o">+</span><span class="n">theme_minimal</span><span class="p">()</span><span class="o">+</span>
+    <span class="n">geom_text_repel</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="n">date</span><span class="o">==</span><span class="n">dlist</span><span class="p">[</span><span class="n">i</span><span class="p">],],</span><span class="n">nudge_x</span><span class="o">=</span><span class="m">10</span><span class="p">,</span><span class="n">nudge_y</span><span class="o">=</span><span class="m">.025</span><span class="p">)</span><span class="o">+</span>
+    <span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">breaks</span><span class="o">=</span><span class="n">seq</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">550</span><span class="p">,</span><span class="m">50</span><span class="p">))</span><span class="o">+</span>
+    <span class="n">coord_cartesian</span><span class="p">(</span><span class="n">xlim</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="n">as.Date</span><span class="p">(</span><span class="s2">"2003-01-01"</span><span class="p">),</span><span class="n">as.Date</span><span class="p">(</span><span class="s2">"2017-03-30"</span><span class="p">)),</span> <span class="n">y</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">550</span><span class="p">))</span><span class="o">+</span>
+    <span class="n">theme</span><span class="p">(</span><span class="n">plot.title</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">14</span><span class="p">))</span><span class="o">+</span><span class="n">theme</span><span class="p">(</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">vjust</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="n">margin</span><span class="o">=</span><span class="n">margin</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="m">10</span><span class="p">)))</span><span class="o">+</span>
+    <span class="n">theme</span><span class="p">(</span><span class="n">plot.margin</span><span class="o">=</span><span class="n">unit</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="m">0.25</span><span class="p">,</span><span class="m">0.25</span><span class="p">,</span><span class="m">0.25</span><span class="p">,</span><span class="m">0.25</span><span class="p">),</span><span class="s2">"cm"</span><span class="p">))</span><span class="o">+</span>
+    <span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="o">=</span><span class="s2">"none"</span><span class="p">)</span><span class="o">+</span>
+    <span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Household debt balances"</span><span class="p">,</span>
+         <span class="n">subtitle</span><span class="o">=</span><span class="s2">"Index (2003 Q1 = 100)"</span><span class="p">,</span>
+         <span class="n">x</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">caption</span><span class="o">=</span><span class="s2">"@lenkiefer Source: FRBNY Consumer Credit Panel/Equifax"</span><span class="p">)</span>
+  
+    <span class="n">print</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+    <span class="n">ani.pause</span><span class="p">()</span>
+<span class="p">}</span>
+  <span class="c1">#pause at end
+</span>  <span class="k">for</span> <span class="p">(</span><span class="n">i2</span> <span class="k">in</span> <span class="m">1</span><span class="o">:</span><span class="m">10</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">print</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+    <span class="n">ani.pause</span><span class="p">()</span>
+  <span class="p">}</span>
+<span class="p">},</span><span class="n">movie.name</span><span class="o">=</span><span class="s2">"debt balances 2016Q2.gif"</span><span class="p">,</span><span class="n">ani.width</span> <span class="o">=</span> <span class="m">740</span><span class="p">,</span> <span class="n">ani.height</span> <span class="o">=</span> <span class="m">550</span><span class="p">)</span>
+
+
+<span class="c1"># Create state plot: 
+</span>
+<span class="c1"># load state data
+</span><span class="n">sdata</span> <span class="o">&lt;-</span> <span class="n">fread</span><span class="p">(</span><span class="s2">"data/pcdebt2016q2.txt"</span><span class="p">)</span>
+<span class="n">sdata</span><span class="o">$</span><span class="n">date</span><span class="o">&lt;-</span><span class="n">as.Date</span><span class="p">(</span><span class="n">sdata</span><span class="o">$</span><span class="n">date</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s2">"%m/%d/%Y"</span><span class="p">)</span>
+
+<span class="n">dslist</span><span class="o">&lt;-</span><span class="n">unique</span><span class="p">(</span><span class="n">sdata</span><span class="o">$</span><span class="n">date</span><span class="p">)</span>  <span class="c1">#unique set of dates
+</span><span class="n">Ns</span><span class="o">&lt;-</span><span class="n">length</span><span class="p">(</span><span class="n">dlist</span><span class="p">)</span>  <span class="c1">#number of dates
+</span>
+<span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">sdata</span><span class="p">,</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">pcdebt</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">state</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">round</span><span class="p">(</span><span class="n">pcdebt</span><span class="p">,</span><span class="m">0</span><span class="p">)))</span><span class="o">+</span><span class="n">geom_line</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">1.2</span><span class="p">)</span><span class="o">+</span><span class="n">theme_minimal</span><span class="p">()</span><span class="o">+</span>
+  <span class="n">geom_text_repel</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">sdata</span><span class="p">[</span><span class="n">date</span><span class="o">==</span><span class="n">dslist</span><span class="p">[</span><span class="n">N</span><span class="p">],],</span><span class="n">nudge_x</span><span class="o">=</span><span class="m">10</span><span class="p">,</span><span class="n">nudge_y</span><span class="o">=</span><span class="m">.025</span><span class="p">)</span><span class="o">+</span>
+    <span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="n">state</span><span class="p">,</span><span class="n">ncol</span><span class="o">=</span><span class="m">3</span><span class="p">)</span>  <span class="o">+</span> 
+  <span class="n">scale_y_log10</span><span class="p">(</span><span class="n">limits</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">20</span><span class="p">,</span><span class="m">90</span><span class="p">),</span><span class="n">breaks</span><span class="o">=</span><span class="n">seq</span><span class="p">(</span><span class="m">25</span><span class="p">,</span><span class="m">90</span><span class="p">,</span><span class="m">15</span><span class="p">))</span><span class="o">+</span>
+    <span class="n">theme</span><span class="p">(</span><span class="n">plot.title</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">14</span><span class="p">))</span><span class="o">+</span><span class="n">theme</span><span class="p">(</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">vjust</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="n">margin</span><span class="o">=</span><span class="n">margin</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="m">10</span><span class="p">)))</span><span class="o">+</span>
+    <span class="n">theme</span><span class="p">(</span><span class="n">plot.margin</span><span class="o">=</span><span class="n">unit</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="m">0.25</span><span class="p">,</span><span class="m">0.25</span><span class="p">,</span><span class="m">0.25</span><span class="p">,</span><span class="m">0.25</span><span class="p">),</span><span class="s2">"cm"</span><span class="p">))</span><span class="o">+</span>
+      <span class="n">coord_cartesian</span><span class="p">(</span><span class="n">xlim</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="n">as.Date</span><span class="p">(</span><span class="s2">"2003-01-01"</span><span class="p">),</span><span class="n">as.Date</span><span class="p">(</span><span class="s2">"2017-03-30"</span><span class="p">)))</span><span class="o">+</span>
+    <span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="o">=</span><span class="s2">"none"</span><span class="p">)</span><span class="o">+</span>
+    <span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Per capita household debt"</span><span class="p">,</span>
+         <span class="n">subtitle</span><span class="o">=</span><span class="s2">"Thousands of dollars, (Based on the population with a credit report) "</span><span class="p">,</span>
+         <span class="n">x</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="s2">"per capita debt (Ths $, log scale)"</span><span class="p">,</span><span class="n">caption</span><span class="o">=</span><span class="s2">"@lenkiefer Source: FRBNY Consumer Credit Panel/Equifax"</span><span class="p">)</span></code></pre></figure>
+
+
+    </div>
+
+    
+
+    
+  
+    <hr>
+    <ul class="pagination">
+    
+      <li class="prev"><a href="/2016/07/01/going-off-grid" title="Going off the grid">&laquo; Previous</a></li>
+    
+      <li><a href="/archive.html">Archive</a></li>
+    
+      <li class="next"><a href="/2016/08/13/visual-meditations-on-house-prices-part5" title="Visual meditations on house prices, Part 5: distributions">Next &raquo;</a></li>
+    
+    </ul>
+    <hr>
+    
+  </div>
+</div>
+
+
+
+      </div>
+
+    </div>
+
+    <div id="footer">
+      <div class="container">
+        <p>&copy; 2017 Len Kiefer
+          with help from <a href="http://jekyllbootstrap.com" target="_blank" title="The Definitive Jekyll Blogging Framework">Jekyll Bootstrap</a>
+          and <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>
+       
+    • <span vertical-align:bottom> <a href="https://twitter.com/lenkiefer" class="twitter-follow-button" data-show-count="false">•   Follow @lenkiefer</a>
+  
+ <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+</span>
+• <script src="//platform.linkedin.com/in.js" type="text/javascript"></script>
+<script type="IN/MemberProfile" data-id="https://www.linkedin.com/pub/leonard-kiefer/31/753/511" data-format="click" data-related="false" data-text="Leonard Kiefer"></script>
+  • lenkiefer@hotmail.com
+           </p>
+      </div>
+    </div>
+    
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+    <!-- Latest compiled and minified JavaScript, requires jQuery 1.x (2.x not supported in IE8) -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="/assets/themes/lentheme/bootstrap/js/bootstrap.min.js"></script>
+  </body>
+</html>
+
+
+
+
+

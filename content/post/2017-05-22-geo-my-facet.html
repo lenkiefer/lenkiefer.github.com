@@ -1,0 +1,125 @@
+---
+title: "Facet my geo!"
+author: "Len Kiefer"
+date: "2017-05-22"
+summary: "R statistics dataviz ggplot2 housing mortgage data"
+tags: ["R","dataviz","maps"]
+category: "dataviz"
+slug: "geo-my-facet"
+---
+
+
+
+<p>TIME TO TRY OUT ANOTHER HOUSE PRICE VISUALIZATION.</p>
+<p>In this post we’ll try out a new way to visualize recent house price trends with <a href="https://www.r-project.org/">R</a>.</p>
+<p>Just this wekeend I saw a new package <a href="https://github.com/hafen/geofacet">geofacet</a> for organizing ggplot2 facets along a geographic grid. It allows use to construct a small multiple graph that roughly looks like the United States. (Thanks to <span class="citation">[@yoniceedee]</span>(<a href="https://twitter.com/yoniceedee" class="uri">https://twitter.com/yoniceedee</a>) for recommending geofacet).</p>
+<p>Let’s try it out using the same house price data we <a href="../../../../2017/05/18/state-hpa">visualized recently</a>. Details about the data are in that post, but we’ll be using the <a href="http://www.freddiemac.com/finance/house_price_index.html">Freddie Mac House Price Index</a> to once again visualize state house price trends.</p>
+<p>Let’s get to it.</p>
+<div id="data" class="section level1">
+<h1>Data</h1>
+<p>We’ll start this post with our data in hand. Just follow along <a href="../../../../2017/05/18/state-hpa">here</a> to get the data. We’ll begin with a data frame called <code>df.state</code> that looks like so.</p>
+<table class='gmisc_table' style='border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;' >
+<thead>
+<tr><td colspan='13' style='text-align: left;'>
+Our data frame
+df.state</td></tr>
+<tr>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey;'> </th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>date</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>geo</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>hpi</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>type</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>hpa</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>hpilag12</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>hpimax12</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>hpimin12</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>us.hpa</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>us.hpi</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>up</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>down</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style='border-bottom: 2px solid grey; text-align: left;'>1</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>2017-03-01</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>WY</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>187.119</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>state</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>0.016</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>184.247</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>188.474</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>184.247</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>0.066</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>170.971</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>0.066</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>0.016</td>
+</tr>
+</tbody>
+<tfoot><tr><td colspan='13'>
+Source: Freddie Mac House Price Index</td></tr></tfoot>
+</table>
+<p>The key variable we’ll need is <code>hpa</code> which captures the 12-month percent change in the house price index. Conveniently, we already have a state identifier to use with <code>facet_geo</code> (though we’ll have to rename it state).</p>
+<div id="facet-my-geo" class="section level2">
+<h2>Facet my geo</h2>
+<p>With our data in hand, it’s pretty easy to create our plot. Our data goes from 1975 to March 2017, so we’ll subset it to focus on more recent trends. We’ll plot 12-month percent changes in house prices (variable <code>hpa</code> in our data) since 2000. We’ll also restrict our attention to March of each year (so we can end with the latest data in March 2017).</p>
+<pre class="r"><code>### Run this to get library: 
+# devtools::install_github(&quot;hafen/geofacet&quot;)
+library(ggplot2)
+library(viridis)</code></pre>
+<pre><code>## Loading required package: viridisLite</code></pre>
+<pre class="r"><code>library(scales)
+library(geofacet)
+
+## Subset data and drop US averages
+df.state2&lt;-filter(df.state, 
+                  year(date)&gt;1999 &amp; month(date)==3 &amp; 
+                    !(geo %in% c(&quot;United States not seasonally adjusted&quot;,
+                                        &quot;United States seasonally adjusted&quot; )))
+
+# set up date limits for plot
+xlim&lt;-c(min(df.state2$date),max(df.state2$date))
+
+# create state variable
+df.state2$state&lt;-df.state2$geo
+
+# create plot:
+ggplot(df.state2, aes(x=date, y=hpa,fill=hpa)) +
+  
+  # geom col for little bars
+  geom_col()+
+  
+  # use facet_geo
+  facet_geo(~ state, grid = &quot;us_state_grid2&quot;)+
+  
+  # my go to theme
+  theme_minimal()+
+
+  # the colors!
+  scale_fill_viridis(option=&quot;C&quot;,limits=c(-0.35,0.35),
+                     label=percent,name=&quot;12-month\n% change&quot;)+
+
+  # set up x (date) and y (HPA) axes
+  scale_x_date(limits=xlim,breaks=xlim,date_labels=&quot;%y&quot;)+
+    
+  scale_y_continuous(label=percent,limits=c(-0.35,0.35),
+                     breaks=seq(-0.3,.3,.3))+
+  
+  # labels, title, caption
+  labs(x=&quot;&quot;,y=&quot;&quot;,
+       title=&quot;House Price Appreciation&quot;,
+       subtitle=&quot;12-month percent change in March&quot;,
+       caption=&quot;@lenkiefer Source: Freddie Mac House Price Index&quot;)+
+  
+  # adjust theme
+  theme(plot.caption=element_text(hjust=0),
+        # need to shrink axis text
+        axis.text.x=element_text(size=7), 
+        plot.subtitle=element_text(face=&quot;italic&quot;),
+        legend.position=&quot;top&quot;)</code></pre>
+<p><img src="/post/2017-05-22-geo-my-facet_files/figure-html/05-22-2017-plot1-1.png" width="864" /></p>
+<p>Pretty neat. I think I’ll be trying this more in the future.</p>
+<p>It also works pretty great for an animation. Here’s an animated version of our plot:</p>
+<p><img src="../../../../img/charts_may_22_2017/geo facet hpa 05 22 2017.gif" ></p>
+</div>
+</div>

@@ -1,0 +1,264 @@
+---
+title: "Simple tweenr animations with ggplot2 "
+author: "Len Kiefer"
+date: "2016-12-19"
+summary: "R statistics housing animation ggplot2"
+slug: "more-tweenr-housing"
+category: "dataviz"
+tags: ["animation","R","dataviz"]
+---
+
+
+
+<div id="animations-with-tweenr" class="section level1">
+<h1>Animations with tweenr</h1>
+<p>IN THIS POST WE ARE GOING TO CREATE TWO SIMPLE animated data visualizations using <a href="https://www.r-project.org/">R</a> <em>ggplot2</em>, <em>animation</em>, and <em>tweenr</em> packages.</p>
+<p>See this <a href="../../../../2016/05/29/improving-R-animated-gifs-with-tweenr">post about tweenr</a> for an introduction to tweenr, and more examples <a href="../../../../2016/05/30/more-tweenr-animations">here</a> and <a href="../../../../2016/06/26/week-in-review">here</a>.</p>
+<p>Unlike those examples we are going to create visualizations using the data that ship with the <a href="https://blog.rstudio.org/2016/09/15/tidyverse-1-0-0/">tidyverse</a> packages (mainly ggplot2). This will allow for easier replication.</p>
+</div>
+<div id="a-simple-stripped-down-example." class="section level1">
+<h1>A simple stripped down example.</h1>
+<p>Let’s start with a stripped down example. I actually tweeted this out starting here:</p>
+<blockquote class="twitter-tweet" data-lang="en">
+<p lang="en" dir="ltr">
+.<a href="https://twitter.com/Heinonmatti"><span class="citation">@Heinonmatti</span></a> give me a second… I'll shoot you a reproducible <a href="https://twitter.com/hashtag/rstats?src=hash">#rstats</a> example. via tweetstorm!
+</p>
+— Leonard Kiefer (<span class="citation">@lenkiefer</span>) <a href="https://twitter.com/lenkiefer/status/810997043716038656">December 19, 2016</a>
+</blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p>But let’s put it all in a single place.</p>
+<pre class="r"><code>#load libraries
+library(tidyverse)
+library(animation)
+library(tweenr)
+library(ggplot2)
+
+myf&lt;-function(i){
+  df&lt;-mtcars
+  df$y&lt;-mtcars[,i]
+  df$yname&lt;-as.factor(names(df)[i])
+  return(df)
+}
+
+mylist&lt;-lapply(seq(11,1),myf)
+tween.df&lt;-tween_states(mylist,tweenlength=1,statelength=2, ease=rep(&#39;cubic-in-out&#39;,11), nframes=121)
+
+myplot&lt;-function(i){  
+g&lt;-ggplot(data=filter(tween.df,i==.frame),aes(x=mpg,y=y))+geom_point(size=3)+theme_bw()+
+  labs(y=filter(tween.df,i==.frame)$yname)
+return(g)
+}
+
+oopt = ani.options(interval = 0.1)
+saveGIF({for (i in 1:max(tween.df$.frame)) {
+  g&lt;-myplot(i)
+  print(g)
+  print(i)
+  ani.pause()
+}
+},movie.name=&quot;mtcars tween.gif&quot;,ani.width = 840, ani.height =450)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre><code>## [1] 2</code></pre>
+<pre><code>## [1] 3</code></pre>
+<pre><code>## [1] 4</code></pre>
+<pre><code>## [1] 5</code></pre>
+<pre><code>## [1] 6</code></pre>
+<pre><code>## [1] 7</code></pre>
+<pre><code>## [1] 8</code></pre>
+<pre><code>## [1] 9</code></pre>
+<pre><code>## [1] 10</code></pre>
+<pre><code>## [1] 11</code></pre>
+<pre><code>## [1] 12</code></pre>
+<pre><code>## [1] 13</code></pre>
+<pre><code>## [1] 14</code></pre>
+<pre><code>## [1] 15</code></pre>
+<pre><code>## [1] 16</code></pre>
+<pre><code>## [1] 17</code></pre>
+<pre><code>## [1] 18</code></pre>
+<pre><code>## [1] 19</code></pre>
+<pre><code>## [1] 20</code></pre>
+<pre><code>## [1] 21</code></pre>
+<pre><code>## [1] 22</code></pre>
+<pre><code>## [1] 23</code></pre>
+<pre><code>## [1] 24</code></pre>
+<pre><code>## [1] 25</code></pre>
+<pre><code>## [1] 26</code></pre>
+<pre><code>## [1] 27</code></pre>
+<pre><code>## [1] 28</code></pre>
+<pre><code>## [1] 29</code></pre>
+<pre><code>## [1] 30</code></pre>
+<pre><code>## [1] 31</code></pre>
+<pre><code>## [1] 32</code></pre>
+<pre><code>## [1] 33</code></pre>
+<pre><code>## [1] 34</code></pre>
+<pre><code>## [1] 35</code></pre>
+<pre><code>## [1] 36</code></pre>
+<pre><code>## [1] 37</code></pre>
+<pre><code>## [1] 38</code></pre>
+<pre><code>## [1] 39</code></pre>
+<pre><code>## [1] 40</code></pre>
+<pre><code>## [1] 41</code></pre>
+<pre><code>## [1] 42</code></pre>
+<pre><code>## [1] 43</code></pre>
+<pre><code>## [1] 44</code></pre>
+<pre><code>## [1] 45</code></pre>
+<pre><code>## [1] 46</code></pre>
+<pre><code>## [1] 47</code></pre>
+<pre><code>## [1] 48</code></pre>
+<pre><code>## [1] 49</code></pre>
+<pre><code>## [1] 50</code></pre>
+<pre><code>## [1] 51</code></pre>
+<pre><code>## [1] 52</code></pre>
+<pre><code>## [1] 53</code></pre>
+<pre><code>## [1] 54</code></pre>
+<pre><code>## [1] 55</code></pre>
+<pre><code>## [1] 56</code></pre>
+<pre><code>## [1] 57</code></pre>
+<pre><code>## [1] 58</code></pre>
+<pre><code>## [1] 59</code></pre>
+<pre><code>## [1] 60</code></pre>
+<pre><code>## [1] 61</code></pre>
+<pre><code>## [1] 62</code></pre>
+<pre><code>## [1] 63</code></pre>
+<pre><code>## [1] 64</code></pre>
+<pre><code>## [1] 65</code></pre>
+<pre><code>## [1] 66</code></pre>
+<pre><code>## [1] 67</code></pre>
+<pre><code>## [1] 68</code></pre>
+<pre><code>## [1] 69</code></pre>
+<pre><code>## [1] 70</code></pre>
+<pre><code>## [1] 71</code></pre>
+<pre><code>## [1] 72</code></pre>
+<pre><code>## [1] 73</code></pre>
+<pre><code>## [1] 74</code></pre>
+<pre><code>## [1] 75</code></pre>
+<pre><code>## [1] 76</code></pre>
+<pre><code>## [1] 77</code></pre>
+<pre><code>## [1] 78</code></pre>
+<pre><code>## [1] 79</code></pre>
+<pre><code>## [1] 80</code></pre>
+<pre><code>## [1] 81</code></pre>
+<pre><code>## [1] 82</code></pre>
+<pre><code>## [1] 83</code></pre>
+<pre><code>## [1] 84</code></pre>
+<pre><code>## [1] 85</code></pre>
+<pre><code>## [1] 86</code></pre>
+<pre><code>## [1] 87</code></pre>
+<pre><code>## [1] 88</code></pre>
+<pre><code>## [1] 89</code></pre>
+<pre><code>## [1] 90</code></pre>
+<pre><code>## [1] 91</code></pre>
+<pre><code>## [1] 92</code></pre>
+<pre><code>## [1] 93</code></pre>
+<pre><code>## [1] 94</code></pre>
+<pre><code>## [1] 95</code></pre>
+<pre><code>## [1] 96</code></pre>
+<pre><code>## [1] 97</code></pre>
+<pre><code>## [1] 98</code></pre>
+<pre><code>## [1] 99</code></pre>
+<pre><code>## [1] 100</code></pre>
+<pre><code>## [1] 101</code></pre>
+<pre><code>## [1] 102</code></pre>
+<pre><code>## [1] 103</code></pre>
+<pre><code>## [1] 104</code></pre>
+<pre><code>## [1] 105</code></pre>
+<pre><code>## [1] 106</code></pre>
+<pre><code>## [1] 107</code></pre>
+<pre><code>## [1] 108</code></pre>
+<pre><code>## [1] 109</code></pre>
+<pre><code>## [1] 110</code></pre>
+<pre><code>## [1] 111</code></pre>
+<pre><code>## [1] 112</code></pre>
+<pre><code>## [1] 113</code></pre>
+<pre><code>## [1] 114</code></pre>
+<pre><code>## [1] 115</code></pre>
+<pre><code>## [1] 116</code></pre>
+<pre><code>## [1] 117</code></pre>
+<pre><code>## [1] 118</code></pre>
+<pre><code>## [1] 119</code></pre>
+<pre><code>## [1] 120</code></pre>
+<pre><code>## [1] 121</code></pre>
+<pre><code>## [1] 122</code></pre>
+<pre><code>## [1] 123</code></pre>
+<pre><code>## [1] 124</code></pre>
+<pre><code>## [1] 125</code></pre>
+<pre><code>## [1] 126</code></pre>
+<pre><code>## [1] 127</code></pre>
+<pre><code>## [1] 128</code></pre>
+<pre><code>## Warning: running command &#39;C:\WINDOWS\system32\cmd.exe /c convert --version&#39;
+## had status 4</code></pre>
+<pre><code>## Warning in find_magic(): ImageMagick not installed yet!</code></pre>
+<pre><code>## Warning in im.convert(img.files, output = path.expand(movie.name), convert
+## = convert, : Please install ImageMagick first or put its bin path into the
+## system PATH variable</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<p>Running this creates:</p>
+<p><img src="{{ site.url }}/img/charts_dec_19_2016/mtcars tween.gif" alt="mtcars gif"/></p>
+<p>In this example, we loop through the mtcars data and plot successive scatterplots showing the relationship between <em>mpg</em> and other variables in the dataset.</p>
+<p>We first create a simple function to create a dataset for each frame in our animation. Then we use tweenr to interpolate between frames to create a smooth animation. I’ve also found it convenient to create a plot function and insert that in the loop.</p>
+</div>
+<div id="animated-map" class="section level1">
+<h1>Animated map</h1>
+<p>We can make another example using a map. I’m going to use the <a href="https://github.com/tidyverse/ggplot2/blob/master/data-raw/tx-housing.R">txhousing</a> dataset that comes with ggplot2.</p>
+<p>These data, from the <a href="https://www.recenter.tamu.edu/">Real Estate Center at Texas A&amp;M University</a> provide some basic stats on trends in Texas housing markets. Modifying <a href="http://jcyhong.github.io/ggplot_demo.html">example 4 in this post</a> we can create a simple map of median sales prices by city in June 2015:</p>
+<pre class="r"><code>library(maps)
+data(us.cities) # from the package maps
+data(txhousing) # from the package ggplot2
+
+# Preprocessing
+tx.cities &lt;- subset(us.cities, country.etc == &quot;TX&quot; &amp; pop &gt;= 100000)
+tx.cities$city &lt;- unlist(strsplit(tx.cities$name, &quot; TX&quot;))
+txhousing.2015 &lt;- subset(txhousing, year == 2015 &amp; month == 6 &amp;
+                             city %in% tx.cities$city)
+temp &lt;- tx.cities[tx.cities$city %in% txhousing.2015$city, c(&quot;pop&quot;, &quot;lat&quot;, &quot;long&quot;)]
+temp &lt;- temp[rep(seq_len(nrow(temp)), each = 6), ]
+txhousing.2015.geo &lt;- cbind(txhousing.2015, temp)
+
+ggplot(txhousing.2015.geo, aes(x = long, y = lat,  colour = median/1000)) +
+  borders(&quot;county&quot;, &quot;texas&quot;, colour = &quot;grey70&quot;) + 
+  geom_point(size=3,alpha=0.82) + 
+  ggtitle(&quot;Housing market for populous cities in Texas (Jun 2015)&quot;) +
+  scale_colour_continuous(name  = &quot;Median price ($, Ths)&quot;) +
+  labs(caption=&quot;test caption&quot;)</code></pre>
+<p><img src="/post/2016-12-19-more-tweenr-housing_files/figure-html/animation-2-dec19-2016-1.png" width="672" /></p>
+<p>Now we can use tweenr to interpolate between points.</p>
+<p>For the animation we’ll just plot an outline of the state of Texas and then have a dot for each city move around the map. In a future exercise we could combine the map with a time series line or bar chart to show trends in metro data. As that would be more complicated we’ll do that at a later time. Right now, let’s just make the map and animate following the same approach as above.</p>
+<pre class="r"><code>city.list&lt;-unique(txhousing.2015.geo$city)
+
+myf&lt;-function(c){
+  df&lt;-subset(merge(txhousing.2015,tx.cities),city==city.list[c])
+  df$city&lt;-factor(df$city)
+  df %&gt;% map_if(is.character, as.factor) %&gt;% as_data_frame -&gt; df
+  return(df)
+}
+
+myplot&lt;-function(indata){  
+  g&lt;-
+  ggplot(data=indata, aes(x = long, y = lat,  label=city)) +
+  borders(&quot;county&quot;, &quot;texas&quot;, colour = &quot;grey70&quot;) + 
+  geom_point(data=indata,size=3,alpha=0.82) + 
+  geom_text(data=indata,vjust=0,nudge_y=.5)+
+  ggtitle(&quot;Texas Metros&quot;) +
+  labs(caption=&quot;@lenkiefer&quot;,subtitle=&quot; These metros are moving!&quot;)+
+  theme(plot.caption=element_text(hjust=0))
+  return(g)
+}
+
+mylist&lt;-lapply(c(seq(1,18),1),myf)
+tween.df&lt;-tween_states(mylist,tweenlength=1,statelength=2, ease=rep(&#39;cubic-in-out&#39;,20), nframes=210)
+tween.df$country.etc&lt;-as.character(tween.df$country.etc)
+
+oopt = ani.options(interval = 0.1)
+saveGIF({for (i in 1:max(tween.df$.frame)) {
+  g&lt;-myplot(tween.df[i,])
+  print(g)
+  print(i)
+  ani.pause()
+}
+},movie.name=&quot;TX map tween.gif&quot;,ani.width = 600, ani.height =600)</code></pre>
+<p><img src="{{ site.url }}/img/charts_dec_19_2016/TX map tween.gif" alt="TX metros move!"/></p>
+<div id="extend-the-example" class="section level3">
+<h3>Extend the example</h3>
+<p>That’s enough for now, but perhaps in future we can extend these examples.</p>
+</div>
+</div>

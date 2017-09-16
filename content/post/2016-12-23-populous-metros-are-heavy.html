@@ -1,0 +1,92 @@
+---
+title: "Populous metros are heavy!"
+author: "Len Kiefer"
+date: "2016-12-23"
+summary: "R statistics map animation ggplot2"
+category: "dataviz"
+tags: ["fun","dataviz","maps"]
+slug: "populous-metros-are-heavy"
+---
+
+
+
+<p>I WANT TO SHARE WITH YOU a little bit of code to make this whimsical data visualization:</p>
+<p><img src="{{ site.url }}/img/charts_dec_23_2016/populous maps are heavy.gif" alt="Populous metros are heavy!"/></p>
+<div id="make-a-simple-map" class="section level1">
+<h1>Make a simple map</h1>
+<p>First we can construct a map of the lower 48 U.S. states and add a marker for each city. These data are available in the <em>us.cities</em> data that come with the <a href="https://cran.r-project.org/web/packages/maps/index.html">maps package</a>.</p>
+<pre class="r"><code>library(tidyverse)
+library(maps)
+
+data(us.cities) # get us city data from the package maps
+
+# drop AK and HI to get the lower 48 states:
+us.48&lt;-subset(us.cities,! country.etc %in% c(&quot;AK&quot;,&quot;HI&quot;))
+
+# draw a pop map
+ggplot(us.48, aes(x = long, y = lat, fill =log(pop),size=pop)) +
+  scale_fill_distiller(type = &#39;seq&#39;, palette = &quot;Reds&quot;,direction=1)+
+  borders(&quot;state&quot;,  colour = &quot;grey70&quot;,fill=&quot;lightgray&quot;,alpha=0.4)+
+  geom_point(alpha=0.82,color=&quot;grey70&quot;,shape=21)+
+  theme_void()+theme(legend.position=&quot;none&quot;)</code></pre>
+<p><img src="/post/2016-12-23-populous-metros-are-heavy_files/figure-html/animation-1-dec23-2016-1.png" width="384" /></p>
+</div>
+<div id="add-a-dunk-tank" class="section level1">
+<h1>Add a “dunk tank”</h1>
+<p>For this example, I was feeling whimsical, so I decided to add a dunk tank, represented by a blue rectangle under the US and have the cities fall into the tank. Then I would allow the metros to rise back up based on how populous the city. New York, the most populous city would remain at the bottom, while smaller cities would get close to the top.</p>
+<p>I did this by adding a blue rectangle below the US. Turns out the <a href="https://en.wikipedia.org/wiki/List_of_extreme_points_of_the_United_States#Southernmost_points">lowest latitude in the continental U.S.</a> is just above 24, so if we extend the plot down to 0 we can add space. Then we draw a blue rectangle and drop our points there.</p>
+<p>To do so, we need to create a couple of datasets where we overwrite latitude with new values. First we force latitude to zero, and then we allow it to vary from 0 to 24 depending on how close the population is to New York’s 8 million.</p>
+<pre class="r"><code># create data set where latitude goes to zero
+d.x0&lt;-us.48
+d.x0$lat&lt;-0
+
+# create a data set where variables float up, based on how far from largestest (NYC) pop they are
+d.xpop&lt;-us.48
+d.xpop$lat&lt;-24*(1-d.xpop$pop/8124427)</code></pre>
+</div>
+<div id="animations-with-tweenr" class="section level1">
+<h1>Animations with tweenr</h1>
+<p>Now we can animate.</p>
+<p>We’ll use tweenr to create the animation. See this <a href="../../../../2016/05/29/improving-R-animated-gifs-with-tweenr">post about tweenr</a> for an introduction to tweenr, and more examples <a href="../../../../2016/05/30/more-tweenr-animations">here</a> and <a href="../../../../2016/06/26/week-in-review">here</a>.</p>
+<p>I’ve also added a stripped down <a href="../../../../2016/12/19/more-tweenr-housing">example that uses pre-packaged data</a> that should be even easier to follow along with.</p>
+<pre class="r"><code># create function that takes input data and forces characters to factors (so tweenr doesn&#39;t try to interpolate them)
+myf&lt;-function(df){
+  df[,c(&quot;lat&quot;,&quot;long&quot;,&quot;state&quot;,&quot;pop&quot;)]
+  dt&lt;-df
+  dt %&gt;% map_if(is.character, as.factor) %&gt;% as.data.frame -&gt; dt.out
+  return(dt.out)
+}
+
+my.list&lt;-lapply(list(us.48,d.x0,d.xpop,us.48),myf)
+
+
+tf &lt;- tween_states(my.list, tweenlength= 7, statelength=1, ease=rep(&#39;cubic-in-out&#39;,3),
+                   nframes=60)
+
+# Create animation
+
+oopt = ani.options(interval = 0.05)
+saveGIF({for (i in 1:max(tf$.frame)) {
+  g&lt;-
+    ggplot(subset(tf,.frame==i), aes(x = long, y = lat, fill =log(pop),size=pop)) +
+    scale_fill_distiller(type = &#39;seq&#39;, palette = &quot;Reds&quot;,direction=1)+
+    borders(&quot;state&quot;,  colour = &quot;grey70&quot;,fill=&quot;lightgray&quot;,alpha=0.4)+
+    theme_void()+theme(legend.position=&quot;none&quot;)+
+    scale_y_continuous(limits=c(0,50))+
+    geom_rect(fill=&quot;lightblue&quot;,alpha=0.15,color=&quot;NA&quot;,
+              size=1,aes(xmin=min(tf$long),xmax=max(tf$long),ymin=0,ymax=24.5))+
+    geom_point(alpha=0.82,color=&quot;grey70&quot;,shape=21)+
+    labs(title=&quot;Populous metros are heavy!&quot;,
+         caption=&quot;@lenkiefer&quot;)+
+    theme(plot.caption=element_text(hjust=0))
+    print(g)
+  print(paste(i,&quot;out of&quot;,max(tf$.frame)))
+  ani.pause()}
+  },movie.name=&quot;populous maps are heavy.gif&quot;,ani.width = 450, ani.height = 450)</code></pre>
+</div>
+<div id="what-next" class="section level1">
+<h1>What next?</h1>
+<p>This was a pretty whimsical example. But we can build on it and do something more interesting, like this animated tour of housing market trends:</p>
+<p><img src="{{ site.url }}/img/charts_dec_23_2016/geo tween 12 22 2016 v4.gif" alt="Populous metros are heavy!"/></p>
+<p>We’ll construct this one in a later post.</p>
+</div>

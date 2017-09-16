@@ -1,0 +1,206 @@
+---
+title: "Mortgage rates after dark"
+author: "Len Kiefer"
+date: "2017-04-14"
+summary: "R statistics rstats mortgage rates dataviz"
+category: "dataviz"
+tags: ["mortgage","dataviz","fun"]
+slug: "after-dark"
+---
+
+
+
+<p>TONIGHT WE VISUALIZE MORTGAGE RATES AFTER DARK. Last year I shared <a href="../../../../2016/12/08/10-ways-to-visualize-rates">10 amazing ways to visualize mortgage rates</a> (and <a href="../../../../2016/12/15/more-amazing-mortgage-viz">more ways</a> and <a href="../../../../2016/12/18/more-ways-to-visualize-rates">even more ways</a>). In this post I have one more DATA VISUALIZATION (dataviz) for you.</p>
+<p>I was putting together a presentation using <a href="https://github.com/gnab/remark">remark.js</a> via the <a href="https://github.com/yihui/xaringan">xaringan</a> R package (see my discussion of how to do this <a href="../../../../2017/02/04/hello-ninja">in this post</a>) and decided to try a dark theme. The code below, modifies our mortgage rate code to make this graph:</p>
+<p><img src="{{ site.url }}/img/charts_apr_14_2017/rate_04_13_2017 dark2.gif" alt="pmms after dark"/></p>
+<div id="r-code" class="section level1">
+<h1>R Code</h1>
+<p>We’re using the weekly average 30-year fixed mortgage rate as before (you can get from St Louis Federal Reserve Economic Database <a href="https://fred.stlouisfed.org/series/MORTGAGE30US">here</a>).</p>
+<p>In order to make our graph, I need to create my own theme, called <em>theme_dark2</em> (ggplot2 has its own <a href="http://ggplot2.tidyverse.org/reference/ggtheme.html">theme_dark</a>, but I want a different one). I created my theme by modifying <a href="https://jonlefcheck.net/2013/03/11/black-theme-for-ggplot2-2/">this theme</a>.</p>
+<div id="the-data" class="section level2">
+<h2>The data</h2>
+<p>The data I’m going to use are estimates of weekly U.S. average 30-year fixed mortgage rates from the <a href="http://www.freddiemac.com/pmms/index.html">Primary Mortgage Market Survey</a> from Freddie Mac. These data can be easily downloaded from the St. Louis Fred database <a href="http://bit.ly/2hli7Sh">here</a>.</p>
+<p>I have the data saved in a simple text file with a column for data, the mortgage rate, and helper columns week, month, and year, where week is the week number starting with the first week of the year.</p>
+<p>Let’s load the data and create our theme function.</p>
+<pre class="r"><code>#load libraries
+library(data.table, warn.conflicts = FALSE, quietly=TRUE)
+library(tidyverse, warn.conflicts = FALSE, quietly=TRUE)
+library(ggthemes, warn.conflicts = FALSE, quietly=TRUE)
+library(scales, warn.conflicts = FALSE, quietly=TRUE)
+library(extrafont, warn.conflicts = FALSE, quietly=TRUE)
+library(gridExtra, warn.conflicts = FALSE, quietly=TRUE)
+library(animation, warn.conflicts = FALSE, quietly=TRUE)
+library(readxl,warn.conflicts = FALSE, quietly=TRUE)
+##### Make theme:  ######################################################
+# modifed based on: https://gist.github.com/jslefche/eff85ef06b4705e6efbc
+#########################################################################
+
+theme_dark2 = function(base_size = 12, base_family = &quot;Courier New&quot;) {
+  
+  theme_grey(base_size = base_size, base_family = base_family) %+replace%
+    
+    theme(
+      # Specify axis options
+      axis.line = element_blank(),  
+      axis.text.x = element_text(size = base_size*0.8, color = &quot;white&quot;, lineheight = 0.9),  
+      axis.text.y = element_text(size = base_size*0.8, color = &quot;white&quot;, lineheight = 0.9),  
+      axis.ticks = element_line(color = &quot;white&quot;, size  =  0.2),  
+      axis.title.x = element_text(size = base_size, color = &quot;white&quot;, margin = margin(0, 10, 0, 0)),  
+      axis.title.y = element_text(size = base_size, color = &quot;white&quot;, angle = 90, margin = margin(0, 10, 0, 0)),  
+      axis.ticks.length = unit(0.3, &quot;lines&quot;),   
+      # Specify legend options
+      legend.background = element_rect(color = NA, fill = &quot; gray10&quot;),  
+      legend.key = element_rect(color = &quot;white&quot;,  fill = &quot; gray10&quot;),  
+      legend.key.size = unit(1.2, &quot;lines&quot;),  
+      legend.key.height = NULL,  
+      legend.key.width = NULL,      
+      legend.text = element_text(size = base_size*0.8, color = &quot;white&quot;),  
+      legend.title = element_text(size = base_size*0.8, face = &quot;bold&quot;, hjust = 0, color = &quot;white&quot;),  
+      legend.position = &quot;right&quot;,  
+      legend.text.align = NULL,  
+      legend.title.align = NULL,  
+      legend.direction = &quot;vertical&quot;,  
+      legend.box = NULL, 
+      # Specify panel options
+      panel.background = element_rect(fill = &quot; gray10&quot;, color  =  NA),  
+      panel.border = element_rect(fill = NA, color = &quot;white&quot;),  
+      panel.grid.major = element_line(color = &quot;grey35&quot;),  
+      panel.grid.minor = element_line(color = &quot;grey20&quot;),  
+      panel.spacing = unit(0.5, &quot;lines&quot;),   
+      # Specify facetting options
+      strip.background = element_rect(fill = &quot;grey30&quot;, color = &quot;grey10&quot;),  
+      strip.text.x = element_text(size = base_size*0.8, color = &quot;white&quot;),  
+      strip.text.y = element_text(size = base_size*0.8, color = &quot;white&quot;,angle = -90),  
+      # Specify plot options
+      plot.background = element_rect(color = &quot; gray10&quot;, fill = &quot; gray10&quot;),  
+      plot.title = element_text(size = base_size*1.2, color = &quot;white&quot;,hjust=0,lineheight=1.25,
+                                margin=margin(2,2,2,2)),  
+      plot.subtitle = element_text(size = base_size*1, color = &quot;white&quot;,hjust=0,  margin=margin(2,2,2,2)),  
+      plot.caption = element_text(size = base_size*0.8, color = &quot;white&quot;,hjust=0),  
+      plot.margin = unit(rep(1, 4), &quot;lines&quot;)
+      
+    )
+  
+}
+
+########################################################################</code></pre>
+<p>Now armed with our theme, we can make our plot.</p>
+<p>Try first a static plot.</p>
+<pre class="r"><code>dt&lt;- read_excel(&#39;data/rates.xlsx&#39;,sheet= &#39;rates&#39;)
+dt$date&lt;-as.Date(dt$date, format=&quot;%m/%d/%Y&quot;)
+
+    ggplot(data=filter(dt,date&gt;=&quot;2016-03-10&quot;), 
+           aes(x=date,y=rate30,label=rate30))+
+    geom_line(size=1.05,color=&quot;#00B0F0&quot;)+theme_minimal()+
+    theme(legend.position=&quot;none&quot;)+
+    scale_x_date(date_breaks=&quot;2 month&quot;, date_labels=&quot;%b-%Y&quot;)+
+    scale_y_continuous(limits=c(3,4.4),breaks=seq(3,4.4,.1),sec.axis=dup_axis())+
+    geom_text(data=tail(dt,1),
+              nudge_x=3,nudge_y=0,hjust=-0.1,size=3,color=&quot;#00B0F0&quot;)+
+    geom_point(data=tail(dt,1),size=3,color=&quot;#00B0F0&quot;,alpha=0.75)+
+    labs(x=&quot;&quot;, y=&quot;&quot;,
+         title=&quot;30-year Fixed Mortgage Rate (%)&quot;,
+         subtitle=&quot;weekly average rates&quot;,
+         caption=&quot;@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey&quot;)+
+    theme_dark2()+
+
+    coord_cartesian(xlim=c(as.Date(&quot;2016-03-10&quot;),as.Date(&quot;2017-05-15&quot;)), y=c(3.4,4.4))</code></pre>
+<pre><code>## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database</code></pre>
+<p><img src="/post/2017-04-14-after-dark_files/figure-html/load-data-rates-apr-14-2017-plot1-1.png" width="672" /></p>
+<div id="animate-it" class="section level3">
+<h3>Animate it</h3>
+<p>We can complete the gif by running this code:</p>
+<pre class="r"><code># to make life easier (or at least more compatible with my earlier code!)
+# convert to data.table()
+dt&lt;-data.table(dt)
+
+# Get dates
+dlist&lt;-unique(dt[date&gt;=&quot;2016-03-10&quot;,]$date)
+N&lt;-length(dlist)
+
+# loop:
+oopt = ani.options(interval = 0.2)
+saveGIF({for (i in 1:N) {
+  g&lt;-
+    ggplot(data=dt[date&gt;=&quot;2016-03-10&quot; &amp; date&lt;=dlist[i]], 
+           aes(x=date,y=rate,label=rate))+
+    geom_line(size=1.05,color=&quot;#00B0F0&quot;)+theme_minimal()+
+    theme(legend.position=&quot;none&quot;)+
+    scale_x_date(date_breaks=&quot;2 month&quot;, date_labels=&quot;%b-%Y&quot;)+
+    scale_y_continuous(limits=c(3,4.4),breaks=seq(3,4.4,.1),sec.axis=dup_axis())+
+    geom_text(data=tail(dt[date==dlist[i]],1),
+              nudge_x=3,nudge_y=0,hjust=-0.1,size=3,color=&quot;#00B0F0&quot;)+
+    geom_point(data=tail(dt[date==dlist[i]],1),size=3,color=&quot;#00B0F0&quot;,alpha=0.75)+
+    labs(x=&quot;&quot;, y=&quot;&quot;,
+         title=&quot;30-year Fixed Mortgage Rate (%)&quot;,
+         subtitle=&quot;weekly average rates&quot;,
+         caption=&quot;@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey&quot;)+
+    theme_dark2()+
+
+    coord_cartesian(xlim=c(as.Date(&quot;2016-03-10&quot;),as.Date(&quot;2017-05-15&quot;)), y=c(3.4,4.4))
+  
+  print(g)
+  print(paste(i,&quot;out of&quot;,N))
+  ani.pause()
+}
+  
+  for (i2 in 1:8) {
+    print(g)
+    ani.pause()
+  }
+},movie.name=&quot;rate_04_13_2017 dark2.gif&quot;,ani.width = 650, ani.height = 400)</code></pre>
+</div>
+</div>
+</div>

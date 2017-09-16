@@ -1,0 +1,172 @@
+---
+title: "Plotting house price trends with FRED and R"
+author: "Len Kiefer"
+date: "2017-04-11"
+summary: "R statistics dataviz housing mortgage data"
+category: "economics"
+tags: ["R","data wrangling","house prices"]
+slug: "Fred-plot"
+---
+
+
+
+<p>IN THIS POST I AM going to share some useful code to create some custom plots using the <a href="https://fred.stlouisfed.org/">St Louis Federal Reserve Economic Database (FRED)</a>. While the FRED page has some nice chart customization options, I’m going to import the data into <a href="https://www.r-project.org/">R</a> with the <a href="https://cran.r-project.org/web/packages/quantmod/index.html">quantmod</a> package and draw the plots.</p>
+<p>I find myself doing these types of things often enough that I thought you might find these bits o’ code useful.</p>
+<p>The example I’m going to use is a comparison of house prices, rents, income and other prices. We talked more about these data in a post <a href="../../../../2016/11/30/hpi-gif">last year</a>.</p>
+<p>Here goes. Execute the code below and get the plot at bottom.</p>
+<pre class="r"><code>### Load libraries
+library(tidyverse)
+library(quantmod)</code></pre>
+<pre><code>## Loading required package: xts</code></pre>
+<pre><code>## Loading required package: zoo</code></pre>
+<pre><code>## 
+## Attaching package: &#39;zoo&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     as.Date, as.Date.numeric</code></pre>
+<pre><code>## 
+## Attaching package: &#39;xts&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:dplyr&#39;:
+## 
+##     first, last</code></pre>
+<pre><code>## The following objects are masked from &#39;package:data.table&#39;:
+## 
+##     first, last</code></pre>
+<pre><code>## Loading required package: TTR</code></pre>
+<pre><code>## Version 0.4-0 included new data defaults. See ?getSymbols.</code></pre>
+<pre class="r"><code>library(data.table)
+library(viridis)  # for the colors</code></pre>
+<pre><code>## Loading required package: viridisLite</code></pre>
+<pre class="r"><code>library(htmlTable)  # for the table
+
+#  Here are some variables and a brief description, for more see FRED
+
+my.names &lt;- data.table(var=c(&quot;A229RC0&quot;,&quot;CUSR0000SA0L2&quot;,&quot;CUUR0000SEHA&quot;,&quot;HPIPONM226S&quot;),
+                       name=c(&quot;income&quot;,&quot;cpi.less.shelter&quot;,&quot;cpi.rent&quot;,&quot;hpi&quot;),
+                       Description=c(&quot;Per capita disposable income&quot;,
+                                     &quot;CPI-U All items less shelter&quot;,
+                                     &quot;CPI-U Rent of primary residences&quot;,
+                                     &quot;FHFA Purchase-only house price index&quot;),
+                       Source=c(&quot;U.S. Bureau of Economic Analysis&quot;,
+                                &quot;U.S. Bureau of Labor Statistics&quot;,
+                                &quot;U.S. Bureau of Labor Statistics&quot;,
+                                &quot;Federal Housing Finance Agency (FHFA)&quot;))
+
+htmlTable(my.names, caption=&quot;Data description&quot;,tfoot=&quot;Accessed via: St Louis Federal Reserve Economic Database (FRED)&quot;)</code></pre>
+<table class='gmisc_table' style='border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;' >
+<thead>
+<tr><td colspan='5' style='text-align: left;'>
+Data description</td></tr>
+<tr>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey;'> </th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>var</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>name</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>Description</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style='text-align: left;'>1</td>
+<td style='text-align: center;'>A229RC0</td>
+<td style='text-align: center;'>income</td>
+<td style='text-align: center;'>Per capita disposable income</td>
+<td style='text-align: center;'>U.S. Bureau of Economic Analysis</td>
+</tr>
+<tr>
+<td style='text-align: left;'>2</td>
+<td style='text-align: center;'>CUSR0000SA0L2</td>
+<td style='text-align: center;'>cpi.less.shelter</td>
+<td style='text-align: center;'>CPI-U All items less shelter</td>
+<td style='text-align: center;'>U.S. Bureau of Labor Statistics</td>
+</tr>
+<tr>
+<td style='text-align: left;'>3</td>
+<td style='text-align: center;'>CUUR0000SEHA</td>
+<td style='text-align: center;'>cpi.rent</td>
+<td style='text-align: center;'>CPI-U Rent of primary residences</td>
+<td style='text-align: center;'>U.S. Bureau of Labor Statistics</td>
+</tr>
+<tr>
+<td style='border-bottom: 2px solid grey; text-align: left;'>4</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>HPIPONM226S</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>hpi</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>FHFA Purchase-only house price index</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>Federal Housing Finance Agency (FHFA)</td>
+</tr>
+</tbody>
+<tfoot><tr><td colspan='5'>
+Accessed via: St Louis Federal Reserve Economic Database (FRED)</td></tr></tfoot>
+</table>
+<div id="load-data" class="section level1">
+<h1>Load data</h1>
+<pre class="r"><code># Use Quantmod to load data
+# helpful reference https://jeffreybreen.wordpress.com/tag/quantmod/
+
+df= getSymbols(&#39;CUUR0000SEHA&#39;,src=&#39;FRED&#39;, auto.assign=F) </code></pre>
+<pre><code>## &#39;getSymbols&#39; currently uses auto.assign=TRUE by default, but will
+## use auto.assign=FALSE in 0.5-0. You will still be able to use
+## &#39;loadSymbols&#39; to automatically load data. getOption(&quot;getSymbols.env&quot;)
+## and getOption(&quot;getSymbols.auto.assign&quot;) will still be checked for
+## alternate defaults.
+## 
+## This message is shown once per session and may be disabled by setting 
+## options(&quot;getSymbols.warning4.0&quot;=FALSE). See ?getSymbols for details.</code></pre>
+<pre class="r"><code>df = data.frame(date=time(df), coredata(df) )
+
+df.hpi =getSymbols(&#39;HPIPONM226S&#39;,src=&#39;FRED&#39;, auto.assign=F) 
+df.hpi = data.frame(date=time(df.hpi), coredata(df.hpi) )
+
+df.inc=getSymbols(&#39;A229RC0&#39;,src=&#39;FRED&#39;, auto.assign=F) 
+df.inc = data.frame(date=time(df.inc), coredata(df.inc) )
+
+df2= getSymbols(&#39;CUSR0000SA0L2&#39;,src=&#39;FRED&#39;, auto.assign=F) 
+df2 = data.frame(date=time(df2), coredata(df2) )</code></pre>
+<p>Now we’ll want to merge all our data together</p>
+<pre class="r"><code># merge the data
+df3&lt;-merge(df,df.hpi,by=&quot;date&quot;)
+df3&lt;-merge(df3,df.inc,by=&quot;date&quot;)
+df3&lt;-merge(df3,df2,by=&quot;date&quot;)
+dt&lt;-data.table(df3)
+
+# Gather the data to make it tidy
+
+dt %&gt;% gather(var,value,-date) %&gt;% data.table() -&gt;dt2
+
+# Merge on variable names
+
+dt2&lt;-merge(dt2,my.names,by=&quot;var&quot;)
+
+# Create and index with January 1991 = 100
+# Count by var
+dt2=dt2[,id:=1:.N, by=var]  # Index running from 1:N by group (var)
+dt2=dt2[,var0:=100*value/sum(ifelse(id==1,value,0)),by=var] #create index</code></pre>
+<div id="make-the-plot" class="section level2">
+<h2>Make the plot</h2>
+<pre class="r"><code># Create caption
+mycaption&lt;- &quot;@lenkiefer Source: House Prices: FHFA purchase-only house price index. Rent: U.S. Bureau of Labor Statistics (BLS) consumer price index rent of primary residence. Other Prices: BLS consumer price index all items less shelter. Income: U.S. Bureau of Economic Analysis per capita disposable personal income (Table 2.6.). All are seasonally adjusted.&quot;
+
+# Wrap caption 120 characters:
+mycaption &lt;- paste0(strwrap(mycaption, 120), sep=&quot;&quot;, collapse=&quot;\n&quot;)
+
+
+# Create Plot
+ggplot(data=dt2,aes(x=date,y=var0,color=name,linetype=name))+
+  geom_line(size=1.1)+
+  scale_y_log10(breaks=c(100,125,150,175,200,250))+
+  theme_minimal()+theme(plot.caption=element_text(hjust=0),
+                        legend.position=&quot;top&quot;)+
+  guides(linetype=F)+
+  scale_color_viridis(name=&quot;Variable&quot;,discrete=T,end=0.8)+
+  labs(x=&quot;&quot;,y=&quot;Index, January 1991=100 (log scale)&quot;,
+       title=&quot;Comparing house prices to rent, income and other prices&quot;,
+       caption=mycaption       )</code></pre>
+<p><img src="/post/2017-04-11-Fred-plot_files/figure-html/fig-04-011-2017-4-1.png" width="672" /></p>
+<p>This plot shows that while house prices are growing faster that incomes and other prices in recent years, if we look at things over a 26 year period (1991-2016) house prices haven’t risen quite as fast as incomes. Though the story can vary a lot based on specific regions.</p>
+</div>
+</div>
+<div id="summary" class="section level1">
+<h1>Summary</h1>
+<p>This little bit of code demonstrates how to get data from FRED into R. It also shows how to use a mixture of <a href="http://tidyr.tidyverse.org/">tidyr</a> and <a href="https://cran.r-project.org/web/packages/data.table/index.html">data.table()</a> to manipulate data. And finally, we used some <a href="http://ggplot2.tidyverse.org/">ggplot2</a> to create some plots.</p>
+<p>I use parts of these steps on a regular basis to make graphs charting trends in the economy and housing markets. Maybe you can find it useful too.</p>
+</div>

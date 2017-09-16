@@ -1,0 +1,298 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Let's fix a dot plot</title>
+    
+    <meta name="author" content="Len Kiefer">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap styles -->
+    <link href="/assets/themes/lentheme/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Optional theme -->
+    <link href="/assets/themes/lentheme/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <!-- Sticky Footer -->
+    <link href="/assets/themes/lentheme/bootstrap/css/bs-sticky-footer.css" rel="stylesheet">
+    
+    <!-- Custom styles -->
+    <link href="/assets/themes/lentheme/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <!-- Update these with your own images
+      <link rel="shortcut icon" href="images/favicon.ico">
+      <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+      <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+      <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+  </head>
+
+  <body>
+    <div id="wrap">
+      <nav class="navbar navbar-default" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#jb-navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/"><span class="icon-home3" style="font-size:24px"> Len Kiefer</a></span>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="jb-navbar-collapse" style="font-size:24px">
+          <ul class="nav navbar-nav" >
+        <li><a href="/archive.html"><span class="icon-newspaper"> Posts</a></span></li>
+            <!-- li><a href="/chartbook/index.html"><span class="icon-display"> Chartbook</a></span></li-->
+         <li><a href="/resume.html"><span class="icon-profile"> Resume</span></a></li>
+        <li><a href="/about.html"><span class="icon-user-tie"> About</span></a></li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </nav>
+
+      <div class="container">
+        
+<div class="page-header">
+  <h1>Let's fix a dot plot </h1>
+</div>
+
+<div class="row post-full">
+  <div class="col-xs-12">
+    <div class="date">
+      <span>14 December 2016</span>
+    </div>
+    <div class="content">
+      <p>IN THIS POST WE’RE GOING TO REVISE the dotplot code I <a href="/2016/06/22/Make-a-dotplot">posted</a> that lets you take the Federal Open Market Commitee (FOMC) <a href="https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm">projections</a> and turn them into an animated dotplot.</p>
+
+<p>The problem is that the code I posted was for projections through June 2016 that only provided annual projections for 2016, 2017, and 2018, but the FOMC added 2019 in their September and December 2016 projections.</p>
+
+<p>My original code was hard coded to only handle projections for 3 years and longer-run and now a 4th year was added.  Of course, everything broke.</p>
+
+<h3 id="the-fix">The fix</h3>
+
+<p>In the original code I relied on the fact that the input data, projections from a quarter, would have  the same number of rows. But adding in 2019 results in additional rows for the extra year.  For an individual plot this wouldn’t be a problem, but it creates an issue for <a href="https://cran.r-project.org/web/packages/tweenr/index.html">tweenr</a> because it requires the same number of rows in each data set we’re interpolating.</p>
+
+<p>The simple fix I came up with is to pad the datasets for March and June 2016 to account for the missing 2019 projections.  I set it up so the dots fly “down” (as opposed to up which I reserved for the <a href="http://www.bloomberg.com/news/articles/2016-06-17/st-louis-fed-s-bullard-claims-the-dot-missing-from-fed-estimate">St Louis Fed president</a>).</p>
+
+<p>First, as before we’ll load the data which I’ve stored in individual text files described in my <a href="/2016/06/22/Make-a-dotplot">earlier post</a>.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1"># data are stored in text files see http://lenkiefer.com/2016/06/22/Make-a-dotplot for details
+# one file for each projection (March, June, September, and December)
+</span><span class="n">d3</span><span class="o">&lt;-</span><span class="n">fread</span><span class="p">(</span><span class="s2">"mar2016.txt"</span><span class="p">)</span>
+<span class="n">ylist</span><span class="o">&lt;-</span><span class="n">unique</span><span class="p">(</span><span class="n">d3</span><span class="o">$</span><span class="n">y</span><span class="p">)</span>
+<span class="n">df</span><span class="o">&lt;-</span><span class="n">data.frame</span><span class="p">(</span><span class="n">rate</span><span class="o">=</span><span class="n">numeric</span><span class="p">(),</span><span class="n">x</span><span class="o">=</span><span class="n">numeric</span><span class="p">())</span>
+<span class="k">for</span> <span class="p">(</span><span class="n">yy</span> <span class="k">in</span> <span class="m">1</span><span class="o">:</span><span class="n">length</span><span class="p">(</span><span class="n">ylist</span><span class="p">)){</span>
+  <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="k">in</span> <span class="m">1</span><span class="o">:</span><span class="n">length</span><span class="p">(</span><span class="n">d3</span><span class="p">[</span><span class="n">y</span><span class="o">==</span><span class="n">ylist</span><span class="p">[</span><span class="n">yy</span><span class="p">]]</span><span class="o">$</span><span class="n">x</span><span class="p">)</span> <span class="p">){</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">j</span> <span class="k">in</span> <span class="m">1</span><span class="o">:</span><span class="n">d3</span><span class="p">[</span><span class="n">y</span><span class="o">==</span><span class="n">ylist</span><span class="p">[</span><span class="n">yy</span><span class="p">]</span> <span class="p">]</span><span class="o">$</span><span class="n">count</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="p">{</span><span class="k">if</span> <span class="p">(</span><span class="n">d3</span><span class="p">[</span><span class="n">y</span><span class="o">==</span><span class="n">ylist</span><span class="p">[</span><span class="n">yy</span><span class="p">]]</span><span class="o">$</span><span class="n">count</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">&gt;</span><span class="m">0</span><span class="p">){</span>
+      <span class="n">myc</span><span class="o">&lt;-</span><span class="n">j</span>
+      <span class="n">df1</span><span class="o">&lt;-</span><span class="n">data.frame</span><span class="p">(</span><span class="n">rate</span><span class="o">=</span><span class="n">d3</span><span class="p">[</span><span class="n">y</span><span class="o">==</span><span class="n">ylist</span><span class="p">[</span><span class="n">yy</span><span class="p">]]</span><span class="o">$</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">x</span><span class="o">=</span><span class="n">ifelse</span><span class="p">(</span><span class="n">d3</span><span class="p">[</span><span class="n">y</span><span class="o">==</span><span class="n">ylist</span><span class="p">[</span><span class="n">yy</span><span class="p">]]</span><span class="o">$</span><span class="n">count</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">%%</span> <span class="m">2</span> <span class="o">==</span><span class="m">1</span><span class="p">,</span> 
+                                                          <span class="n">ifelse</span><span class="p">(</span><span class="n">myc</span> <span class="o">%%</span> <span class="m">2</span> <span class="o">==</span><span class="m">1</span><span class="p">,</span><span class="n">yy</span><span class="o">+</span><span class="p">(</span><span class="m">-1</span><span class="p">)</span><span class="o">^</span><span class="n">myc</span> <span class="o">*</span> <span class="p">(</span><span class="n">myc</span><span class="m">-1</span><span class="p">)</span><span class="o">*</span><span class="m">0.04</span><span class="p">,</span><span class="n">yy</span><span class="o">+</span><span class="p">(</span><span class="m">-1</span><span class="p">)</span><span class="o">^</span><span class="n">myc</span> <span class="o">*</span> <span class="p">(</span><span class="n">myc</span><span class="p">)</span><span class="o">*</span><span class="m">0.04</span><span class="p">),</span>
+                                                          <span class="n">yy</span><span class="m">-.02</span><span class="o">+</span><span class="p">(</span><span class="m">-1</span><span class="p">)</span><span class="o">^</span><span class="n">myc</span> <span class="o">*</span> <span class="p">(</span><span class="n">myc</span><span class="p">)</span><span class="o">*</span><span class="m">0.04</span><span class="p">)</span>   <span class="p">)</span>
+      <span class="n">df</span><span class="o">&lt;-</span><span class="n">rbind</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="n">df1</span><span class="p">)</span>
+    <span class="p">}}}}</span>
+
+<span class="n">df3</span><span class="o">&lt;-</span><span class="n">df</span>
+
+<span class="n">d6</span><span class="o">&lt;-</span><span class="n">fread</span><span class="p">(</span><span class="s2">"jun2016.txt"</span><span class="p">)</span>
+<span class="n">xlist</span><span class="o">&lt;-</span><span class="n">unique</span><span class="p">(</span><span class="n">d6</span><span class="o">$</span><span class="n">x</span><span class="p">)</span>
+<span class="n">df</span><span class="o">&lt;-</span><span class="n">data.frame</span><span class="p">(</span><span class="n">rate</span><span class="o">=</span><span class="n">numeric</span><span class="p">(),</span><span class="n">x</span><span class="o">=</span><span class="n">numeric</span><span class="p">())</span>
+<span class="k">for</span> <span class="p">(</span><span class="n">yy</span> <span class="k">in</span> <span class="m">1</span><span class="o">:</span><span class="n">length</span><span class="p">(</span><span class="n">xlist</span><span class="p">)){</span>
+  <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="k">in</span> <span class="m">1</span><span class="o">:</span><span class="n">length</span><span class="p">(</span><span class="n">d6</span><span class="p">[</span><span class="n">x</span><span class="o">==</span><span class="n">xlist</span><span class="p">[</span><span class="n">yy</span><span class="p">]]</span><span class="o">$</span><span class="n">rate</span><span class="p">)</span> <span class="p">){</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">j</span> <span class="k">in</span> <span class="m">1</span><span class="o">:</span><span class="n">d6</span><span class="p">[</span><span class="n">x</span><span class="o">==</span><span class="n">xlist</span><span class="p">[</span><span class="n">yy</span><span class="p">]</span> <span class="p">]</span><span class="o">$</span><span class="n">count</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="p">{</span><span class="k">if</span> <span class="p">(</span><span class="n">d6</span><span class="p">[</span><span class="n">x</span><span class="o">==</span><span class="n">xlist</span><span class="p">[</span><span class="n">yy</span><span class="p">]]</span><span class="o">$</span><span class="n">count</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">&gt;</span><span class="m">0</span><span class="p">){</span>
+      <span class="n">myc</span><span class="o">&lt;-</span><span class="n">j</span>
+      <span class="n">df1</span><span class="o">&lt;-</span><span class="n">data.frame</span><span class="p">(</span><span class="n">rate</span><span class="o">=</span><span class="n">d6</span><span class="p">[</span><span class="n">x</span><span class="o">==</span><span class="n">xlist</span><span class="p">[</span><span class="n">yy</span><span class="p">]]</span><span class="o">$</span><span class="n">rate</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">x</span><span class="o">=</span><span class="n">ifelse</span><span class="p">(</span><span class="n">d6</span><span class="p">[</span><span class="n">x</span><span class="o">==</span><span class="n">xlist</span><span class="p">[</span><span class="n">yy</span><span class="p">]]</span><span class="o">$</span><span class="n">count</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">%%</span> <span class="m">2</span> <span class="o">==</span><span class="m">1</span><span class="p">,</span> 
+                                                          <span class="n">ifelse</span><span class="p">(</span><span class="n">myc</span> <span class="o">%%</span> <span class="m">2</span> <span class="o">==</span><span class="m">1</span><span class="p">,</span><span class="n">yy</span><span class="o">+</span><span class="p">(</span><span class="m">-1</span><span class="p">)</span><span class="o">^</span><span class="n">myc</span> <span class="o">*</span> <span class="p">(</span><span class="n">myc</span><span class="m">-1</span><span class="p">)</span><span class="o">*</span><span class="m">0.04</span><span class="p">,</span><span class="n">yy</span><span class="o">+</span><span class="p">(</span><span class="m">-1</span><span class="p">)</span><span class="o">^</span><span class="n">myc</span> <span class="o">*</span> <span class="p">(</span><span class="n">myc</span><span class="p">)</span><span class="o">*</span><span class="m">0.04</span><span class="p">),</span>
+                                                          <span class="n">yy</span><span class="m">-.02</span><span class="o">+</span><span class="p">(</span><span class="m">-1</span><span class="p">)</span><span class="o">^</span><span class="n">myc</span> <span class="o">*</span> <span class="p">(</span><span class="n">myc</span><span class="p">)</span><span class="o">*</span><span class="m">0.04</span><span class="p">)</span>   <span class="p">)</span>
+      <span class="n">df</span><span class="o">&lt;-</span><span class="n">rbind</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="n">df1</span><span class="p">)</span>
+<span class="p">}}}}</span>
+
+<span class="n">df6</span><span class="o">&lt;-</span><span class="n">df</span>
+<span class="n">df6</span><span class="o">&lt;-</span><span class="n">rbind</span><span class="p">(</span><span class="n">df6</span><span class="p">,</span><span class="n">data.frame</span><span class="p">(</span><span class="n">rate</span><span class="o">=</span><span class="m">8</span><span class="p">,</span><span class="n">x</span><span class="o">=</span><span class="m">4</span><span class="p">))</span>  <span class="c1">#let missing dot fly away
+</span>
+<span class="n">d9</span><span class="o">&lt;-</span><span class="n">fread</span><span class="p">(</span><span class="s2">"sep2016.txt"</span><span class="p">)</span>
+<span class="n">ylist</span><span class="o">&lt;-</span><span class="n">unique</span><span class="p">(</span><span class="n">d9</span><span class="o">$</span><span class="n">y</span><span class="p">)</span>
+<span class="n">df</span><span class="o">&lt;-</span><span class="n">data.frame</span><span class="p">(</span><span class="n">rate</span><span class="o">=</span><span class="n">numeric</span><span class="p">(),</span><span class="n">x</span><span class="o">=</span><span class="n">numeric</span><span class="p">())</span>
+<span class="k">for</span> <span class="p">(</span><span class="n">yy</span> <span class="k">in</span> <span class="m">1</span><span class="o">:</span><span class="n">length</span><span class="p">(</span><span class="n">ylist</span><span class="p">)){</span>
+  <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="k">in</span> <span class="m">1</span><span class="o">:</span><span class="n">length</span><span class="p">(</span><span class="n">d9</span><span class="p">[</span><span class="n">y</span><span class="o">==</span><span class="n">ylist</span><span class="p">[</span><span class="n">yy</span><span class="p">]]</span><span class="o">$</span><span class="n">x</span><span class="p">)</span> <span class="p">){</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">j</span> <span class="k">in</span> <span class="m">1</span><span class="o">:</span><span class="n">d9</span><span class="p">[</span><span class="n">y</span><span class="o">==</span><span class="n">ylist</span><span class="p">[</span><span class="n">yy</span><span class="p">]</span> <span class="p">]</span><span class="o">$</span><span class="n">count</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="p">{</span><span class="k">if</span> <span class="p">(</span><span class="n">d9</span><span class="p">[</span><span class="n">y</span><span class="o">==</span><span class="n">ylist</span><span class="p">[</span><span class="n">yy</span><span class="p">]]</span><span class="o">$</span><span class="n">count</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">&gt;</span><span class="m">0</span><span class="p">){</span>
+      <span class="n">myc</span><span class="o">&lt;-</span><span class="n">j</span>
+      <span class="n">df1</span><span class="o">&lt;-</span><span class="n">data.frame</span><span class="p">(</span><span class="n">rate</span><span class="o">=</span><span class="n">d9</span><span class="p">[</span><span class="n">y</span><span class="o">==</span><span class="n">ylist</span><span class="p">[</span><span class="n">yy</span><span class="p">]]</span><span class="o">$</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">x</span><span class="o">=</span><span class="n">ifelse</span><span class="p">(</span><span class="n">d9</span><span class="p">[</span><span class="n">y</span><span class="o">==</span><span class="n">ylist</span><span class="p">[</span><span class="n">yy</span><span class="p">]]</span><span class="o">$</span><span class="n">count</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">%%</span> <span class="m">2</span> <span class="o">==</span><span class="m">1</span><span class="p">,</span> 
+                                                          <span class="n">ifelse</span><span class="p">(</span><span class="n">myc</span> <span class="o">%%</span> <span class="m">2</span> <span class="o">==</span><span class="m">1</span><span class="p">,</span><span class="n">yy</span><span class="o">+</span><span class="p">(</span><span class="m">-1</span><span class="p">)</span><span class="o">^</span><span class="n">myc</span> <span class="o">*</span> <span class="p">(</span><span class="n">myc</span><span class="m">-1</span><span class="p">)</span><span class="o">*</span><span class="m">0.04</span><span class="p">,</span><span class="n">yy</span><span class="o">+</span><span class="p">(</span><span class="m">-1</span><span class="p">)</span><span class="o">^</span><span class="n">myc</span> <span class="o">*</span> <span class="p">(</span><span class="n">myc</span><span class="p">)</span><span class="o">*</span><span class="m">0.04</span><span class="p">),</span>
+                                                          <span class="n">yy</span><span class="m">-.02</span><span class="o">+</span><span class="p">(</span><span class="m">-1</span><span class="p">)</span><span class="o">^</span><span class="n">myc</span> <span class="o">*</span> <span class="p">(</span><span class="n">myc</span><span class="p">)</span><span class="o">*</span><span class="m">0.04</span><span class="p">)</span>   <span class="p">)</span>
+      <span class="n">df</span><span class="o">&lt;-</span><span class="n">rbind</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="n">df1</span><span class="p">)</span>
+    <span class="p">}}}}</span>
+
+<span class="n">df9</span><span class="o">&lt;-</span><span class="n">df</span>
+<span class="n">df9</span><span class="o">&lt;-</span><span class="n">rbind</span><span class="p">(</span><span class="n">df9</span><span class="p">,</span><span class="n">data.frame</span><span class="p">(</span><span class="n">rate</span><span class="o">=</span><span class="m">8</span><span class="p">,</span><span class="n">x</span><span class="o">=</span><span class="m">4</span><span class="p">))</span>
+
+
+<span class="n">d12</span><span class="o">&lt;-</span><span class="n">fread</span><span class="p">(</span><span class="s2">"dec2016.txt"</span><span class="p">)</span>
+<span class="n">ylist</span><span class="o">&lt;-</span><span class="n">unique</span><span class="p">(</span><span class="n">d12</span><span class="o">$</span><span class="n">y</span><span class="p">)</span>
+<span class="n">df</span><span class="o">&lt;-</span><span class="n">data.frame</span><span class="p">(</span><span class="n">rate</span><span class="o">=</span><span class="n">numeric</span><span class="p">(),</span><span class="n">x</span><span class="o">=</span><span class="n">numeric</span><span class="p">())</span>
+<span class="k">for</span> <span class="p">(</span><span class="n">yy</span> <span class="k">in</span> <span class="m">1</span><span class="o">:</span><span class="n">length</span><span class="p">(</span><span class="n">ylist</span><span class="p">)){</span>
+  <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="k">in</span> <span class="m">1</span><span class="o">:</span><span class="n">length</span><span class="p">(</span><span class="n">d12</span><span class="p">[</span><span class="n">y</span><span class="o">==</span><span class="n">ylist</span><span class="p">[</span><span class="n">yy</span><span class="p">]]</span><span class="o">$</span><span class="n">x</span><span class="p">)</span> <span class="p">){</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">j</span> <span class="k">in</span> <span class="m">1</span><span class="o">:</span><span class="n">d12</span><span class="p">[</span><span class="n">y</span><span class="o">==</span><span class="n">ylist</span><span class="p">[</span><span class="n">yy</span><span class="p">]</span> <span class="p">]</span><span class="o">$</span><span class="n">count</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="p">{</span><span class="k">if</span> <span class="p">(</span><span class="n">d12</span><span class="p">[</span><span class="n">y</span><span class="o">==</span><span class="n">ylist</span><span class="p">[</span><span class="n">yy</span><span class="p">]]</span><span class="o">$</span><span class="n">count</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">&gt;</span><span class="m">0</span><span class="p">){</span>
+      <span class="n">myc</span><span class="o">&lt;-</span><span class="n">j</span>
+      <span class="n">df1</span><span class="o">&lt;-</span><span class="n">data.frame</span><span class="p">(</span><span class="n">rate</span><span class="o">=</span><span class="n">d12</span><span class="p">[</span><span class="n">y</span><span class="o">==</span><span class="n">ylist</span><span class="p">[</span><span class="n">yy</span><span class="p">]]</span><span class="o">$</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">x</span><span class="o">=</span><span class="n">ifelse</span><span class="p">(</span><span class="n">d12</span><span class="p">[</span><span class="n">y</span><span class="o">==</span><span class="n">ylist</span><span class="p">[</span><span class="n">yy</span><span class="p">]]</span><span class="o">$</span><span class="n">count</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">%%</span> <span class="m">2</span> <span class="o">==</span><span class="m">1</span><span class="p">,</span> 
+                                                          <span class="n">ifelse</span><span class="p">(</span><span class="n">myc</span> <span class="o">%%</span> <span class="m">2</span> <span class="o">==</span><span class="m">1</span><span class="p">,</span><span class="n">yy</span><span class="o">+</span><span class="p">(</span><span class="m">-1</span><span class="p">)</span><span class="o">^</span><span class="n">myc</span> <span class="o">*</span> <span class="p">(</span><span class="n">myc</span><span class="m">-1</span><span class="p">)</span><span class="o">*</span><span class="m">0.04</span><span class="p">,</span><span class="n">yy</span><span class="o">+</span><span class="p">(</span><span class="m">-1</span><span class="p">)</span><span class="o">^</span><span class="n">myc</span> <span class="o">*</span> <span class="p">(</span><span class="n">myc</span><span class="p">)</span><span class="o">*</span><span class="m">0.04</span><span class="p">),</span>
+                                                          <span class="n">yy</span><span class="m">-.02</span><span class="o">+</span><span class="p">(</span><span class="m">-1</span><span class="p">)</span><span class="o">^</span><span class="n">myc</span> <span class="o">*</span> <span class="p">(</span><span class="n">myc</span><span class="p">)</span><span class="o">*</span><span class="m">0.04</span><span class="p">)</span>   <span class="p">)</span>
+      <span class="n">df</span><span class="o">&lt;-</span><span class="n">rbind</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="n">df1</span><span class="p">)</span>
+    <span class="p">}}}}</span>
+
+<span class="n">df12</span><span class="o">&lt;-</span><span class="n">df</span>
+<span class="n">df12</span><span class="o">&lt;-</span><span class="n">rbind</span><span class="p">(</span><span class="n">df12</span><span class="p">,</span><span class="n">data.frame</span><span class="p">(</span><span class="n">rate</span><span class="o">=</span><span class="m">8</span><span class="p">,</span><span class="n">x</span><span class="o">=</span><span class="m">4</span><span class="p">))</span></code></pre></figure>
+
+<p>Now that we have the data we can pad the extra rows we need for March (df3) and June (df6).</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1"># number of rows to pad
+</span><span class="n">n.pad</span><span class="o">&lt;-</span><span class="n">nrow</span><span class="p">(</span><span class="n">df9</span><span class="p">)</span><span class="o">-</span><span class="n">nrow</span><span class="p">(</span><span class="n">df3</span><span class="p">)</span>
+
+<span class="c1"># pad the data 
+</span><span class="n">df.pad</span><span class="o">&lt;-</span><span class="n">data.frame</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">rep</span><span class="p">(</span><span class="m">3</span><span class="p">,</span><span class="n">n.pad</span><span class="p">),</span><span class="n">rate</span><span class="o">=</span><span class="n">rep</span><span class="p">(</span><span class="m">-5</span><span class="p">,</span><span class="n">n.pad</span><span class="p">))</span>
+<span class="n">df3</span><span class="o">&lt;-</span><span class="n">rbind</span><span class="p">(</span><span class="n">df3</span><span class="p">,</span><span class="n">df.pad</span><span class="p">)</span>
+<span class="n">df6</span><span class="o">&lt;-</span><span class="n">rbind</span><span class="p">(</span><span class="n">df6</span><span class="p">,</span><span class="n">df.pad</span><span class="p">)</span>
+
+<span class="c1"># add date labels
+</span><span class="n">df3</span><span class="o">$</span><span class="n">date</span><span class="o">&lt;-</span><span class="n">factor</span><span class="p">(</span><span class="s2">"March 2016"</span><span class="p">)</span> 
+<span class="n">df6</span><span class="o">$</span><span class="n">date</span><span class="o">&lt;-</span><span class="n">factor</span><span class="p">(</span><span class="s2">"June 2016"</span><span class="p">)</span>  
+<span class="n">df9</span><span class="o">$</span><span class="n">date</span><span class="o">&lt;-</span><span class="n">factor</span><span class="p">(</span><span class="s2">"September 2016"</span><span class="p">)</span>
+<span class="n">df12</span><span class="o">$</span><span class="n">date</span><span class="o">&lt;-</span><span class="n">factor</span><span class="p">(</span><span class="s2">"December 2016"</span><span class="p">)</span>
+
+<span class="c1"># overwrite values to move the "longer run" dots from March and June
+# over to where the longer run dots are in September and December
+</span>
+<span class="n">df3</span><span class="o">&lt;-</span><span class="n">data.table</span><span class="p">(</span><span class="n">df3</span><span class="p">)[</span><span class="n">x</span><span class="o">&gt;</span><span class="m">3.5</span><span class="p">,</span><span class="n">x</span><span class="o">:=</span><span class="n">x</span><span class="m">+1</span><span class="p">]</span>  
+<span class="n">df6</span><span class="o">&lt;-</span><span class="n">data.table</span><span class="p">(</span><span class="n">df6</span><span class="p">)[</span><span class="n">x</span><span class="o">&gt;</span><span class="m">3.5</span><span class="p">,</span><span class="n">x</span><span class="o">:=</span><span class="n">x</span><span class="m">+1</span><span class="p">]</span>
+
+<span class="c1">#convert to data frames
+</span><span class="n">df3</span><span class="o">&lt;-</span><span class="n">data.frame</span><span class="p">(</span><span class="n">df3</span><span class="p">)</span>
+<span class="n">df6</span><span class="o">&lt;-</span><span class="n">data.frame</span><span class="p">(</span><span class="n">df6</span><span class="p">)</span>
+
+<span class="c1">#now we can tween data
+</span><span class="n">tf</span> <span class="o">&lt;-</span> <span class="n">tween_states</span><span class="p">(</span><span class="n">list</span><span class="p">(</span><span class="n">df12</span><span class="p">,</span><span class="n">df3</span><span class="p">,</span><span class="n">df6</span><span class="p">,</span><span class="n">df9</span><span class="p">,</span><span class="n">df12</span><span class="p">),</span> <span class="n">tweenlength</span><span class="o">=</span> <span class="m">3</span><span class="p">,</span> <span class="n">statelength</span><span class="o">=</span><span class="m">1</span><span class="p">,</span> <span class="n">ease</span><span class="o">=</span><span class="n">rep</span><span class="p">(</span><span class="s1">'cubic-in-out'</span><span class="p">,</span><span class="m">2</span><span class="p">),</span><span class="n">nframes</span><span class="o">=</span><span class="m">60</span><span class="p">)</span>
+<span class="n">tf</span><span class="o">&lt;-</span><span class="n">data.table</span><span class="p">(</span><span class="n">tf</span><span class="p">)</span></code></pre></figure>
+
+<p>Now, equipped with this solution we can construct our plot:</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">saveGIF</span><span class="p">({</span><span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="k">in</span> <span class="m">1</span><span class="o">:</span><span class="n">max</span><span class="p">(</span><span class="n">tf</span><span class="o">$</span><span class="n">.frame</span><span class="p">))</span> <span class="p">{</span>
+  <span class="n">g</span><span class="o">&lt;-</span> 
+    <span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">tf</span><span class="p">[</span><span class="n">.frame</span><span class="o">==</span><span class="n">i</span><span class="p">],</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">rate</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="n">fill</span><span class="o">=</span><span class="n">date</span><span class="p">))</span><span class="o">+</span>
+    <span class="n">theme_minimal</span><span class="p">()</span><span class="o">+</span><span class="n">scale_x_continuous</span><span class="p">(</span><span class="n">breaks</span><span class="o">=</span><span class="n">seq</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">5</span><span class="p">,</span><span class="m">1</span><span class="p">),</span><span class="n">labels</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="s2">"2016"</span><span class="p">,</span><span class="s2">"2017"</span><span class="p">,</span><span class="s2">"2018"</span><span class="p">,</span><span class="s2">"2019"</span><span class="p">,</span><span class="s2">"Longer Run"</span><span class="p">))</span><span class="o">+</span>
+    <span class="n">geom_point</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="m">21</span><span class="p">,</span><span class="n">aes</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">date</span><span class="p">),</span><span class="n">alpha</span><span class="o">=</span><span class="m">0.82</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="m">3</span><span class="p">)</span><span class="o">+</span>
+    <span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">limits</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">4.5</span><span class="p">))</span><span class="o">+</span>
+    <span class="n">scale_color_manual</span><span class="p">(</span><span class="n">limits</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="s2">"March 2016"</span><span class="p">,</span><span class="s2">"June 2016"</span><span class="p">,</span><span class="s2">"September 2016"</span><span class="p">,</span><span class="s2">"December 2016"</span><span class="p">),</span><span class="n">values</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="n">viridis</span><span class="p">(</span><span class="m">10</span><span class="p">)[</span><span class="m">2</span><span class="p">],</span><span class="n">viridis</span><span class="p">(</span><span class="m">10</span><span class="p">)[</span><span class="m">4</span><span class="p">],</span><span class="n">viridis</span><span class="p">(</span><span class="m">10</span><span class="p">)[</span><span class="m">6</span><span class="p">],</span><span class="n">viridis</span><span class="p">(</span><span class="m">10</span><span class="p">)[</span><span class="m">8</span><span class="p">]))</span><span class="o">+</span>
+    <span class="n">scale_fill_manual</span><span class="p">(</span><span class="n">limits</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="s2">"March 2016"</span><span class="p">,</span><span class="s2">"June 2016"</span><span class="p">,</span><span class="s2">"September 2016"</span><span class="p">,</span><span class="s2">"December 2016"</span><span class="p">),</span><span class="n">values</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="n">viridis</span><span class="p">(</span><span class="m">10</span><span class="p">)[</span><span class="m">2</span><span class="p">],</span><span class="n">viridis</span><span class="p">(</span><span class="m">10</span><span class="p">)[</span><span class="m">4</span><span class="p">],</span><span class="n">viridis</span><span class="p">(</span><span class="m">10</span><span class="p">)[</span><span class="m">6</span><span class="p">],</span><span class="n">viridis</span><span class="p">(</span><span class="m">10</span><span class="p">)[</span><span class="m">8</span><span class="p">]))</span><span class="o">+</span>
+    
+     <span class="n">labs</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="s2">"Midpoint of target range or target level for the federal funds rate (%)"</span><span class="p">,</span><span class="n">x</span><span class="o">=</span><span class="s2">"Horizon"</span><span class="p">,</span>
+         <span class="n">subtitle</span><span class="o">=</span><span class="n">tf</span><span class="p">[</span><span class="n">.frame</span><span class="o">==</span><span class="n">i</span> <span class="o">&amp;</span> <span class="n">rate</span><span class="o">&gt;</span><span class="m">0</span><span class="p">]</span><span class="o">$</span><span class="n">date</span><span class="p">,</span>
+         <span class="n">title</span><span class="o">=</span><span class="s2">"FOMC participants' assessments of appropriate monetary policy:\nMidpoint of target range or target level for the federal funds rate"</span><span class="p">,</span>
+         <span class="n">caption</span><span class="o">=</span><span class="n">label_wrap_gen</span><span class="p">(</span><span class="m">100</span><span class="p">)(</span><span class="n">caption</span><span class="p">))</span><span class="o">+</span>
+    <span class="n">theme</span><span class="p">(</span><span class="n">plot.title</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">14</span><span class="p">))</span><span class="o">+</span><span class="n">theme</span><span class="p">(</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">vjust</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="n">margin</span><span class="o">=</span><span class="n">margin</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="m">10</span><span class="p">)))</span><span class="o">+</span>
+    <span class="n">theme</span><span class="p">(</span><span class="n">plot.margin</span><span class="o">=</span><span class="n">unit</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="m">0.25</span><span class="p">,</span><span class="m">0.25</span><span class="p">,</span><span class="m">0.25</span><span class="p">,</span><span class="m">0.25</span><span class="p">),</span><span class="s2">"cm"</span><span class="p">))</span><span class="o">+</span>  <span class="n">theme</span><span class="p">(</span><span class="n">legend.justification</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">),</span> <span class="n">legend.position</span><span class="o">=</span><span class="s2">"none"</span><span class="p">)</span>
+  <span class="n">print</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+  <span class="n">ani.pause</span><span class="p">()</span>
+  <span class="n">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="p">},</span><span class="n">movie.name</span><span class="o">=</span><span class="s2">"fed_dots_2016 dec 14 2016 v2.gif"</span><span class="p">,</span><span class="n">ani.width</span> <span class="o">=</span> <span class="m">575</span><span class="p">,</span> <span class="n">ani.height</span> <span class="o">=</span> <span class="m">450</span><span class="p">)</span></code></pre></figure>
+
+<p>Giving us:</p>
+
+<p><img src="/img/charts_dec_14_2016/fed_dots_2016 dec 14 2016 v2.gif" alt="dot v2" /></p>
+
+<p>Alternatively, we could have just dropped 2019 from the graph and things would have been easier:</p>
+
+<p><img src="/img/charts_dec_14_2016/fed_dots_2016 dec 14 2016.gif" alt="dot v2" /></p>
+
+    </div>
+
+    
+
+    
+  
+    <hr>
+    <ul class="pagination">
+    
+      <li class="prev"><a href="/2016/12/12/ribbon-rate-chart" title="Ribbon rate chart ">&laquo; Previous</a></li>
+    
+      <li><a href="/archive.html">Archive</a></li>
+    
+      <li class="next"><a href="/2016/12/15/more-amazing-mortgage-viz" title="More amazing ways to visualize mortgage rates">Next &raquo;</a></li>
+    
+    </ul>
+    <hr>
+    
+  </div>
+</div>
+
+
+
+      </div>
+
+    </div>
+
+    <div id="footer">
+      <div class="container">
+        <p>&copy; 2017 Len Kiefer
+          with help from <a href="http://jekyllbootstrap.com" target="_blank" title="The Definitive Jekyll Blogging Framework">Jekyll Bootstrap</a>
+          and <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>
+       
+    • <span vertical-align:bottom> <a href="https://twitter.com/lenkiefer" class="twitter-follow-button" data-show-count="false">•   Follow @lenkiefer</a>
+  
+ <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+</span>
+• <script src="//platform.linkedin.com/in.js" type="text/javascript"></script>
+<script type="IN/MemberProfile" data-id="https://www.linkedin.com/pub/leonard-kiefer/31/753/511" data-format="click" data-related="false" data-text="Leonard Kiefer"></script>
+  • lenkiefer@hotmail.com
+           </p>
+      </div>
+    </div>
+    
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+    <!-- Latest compiled and minified JavaScript, requires jQuery 1.x (2.x not supported in IE8) -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="/assets/themes/lentheme/bootstrap/js/bootstrap.min.js"></script>
+  </body>
+</html>
+
+
+
+
+

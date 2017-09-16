@@ -1,0 +1,152 @@
+---
+title: "House prices are highest in coastal metros"
+author: "Len Kiefer"
+date: "2017-02-09"
+summary: "R statistics dataviz housing mortgage data"
+slug: "coastal-metros"
+category: "dataviz"
+tags: ["dataviz","fun","maps","R"]
+---
+  
+```{r setup, include=FALSE}
+
+library(readxl)
+library(tidyverse)
+library(data.table)
+library(viridis)
+library(maps)
+library(tweenr)
+library(animation)
+data(us.cities) # from the package maps
+
+#dt<-data.table( read_excel('data/afford metro 2016Q4.xlsx',sheet= 'data2'))
+
+
+######################
+### Load Data      ###
+######################
+data(us.cities) # from the package maps
+
+# From NAR webpage
+df<-read_excel('data/afford metro 2016Q4.xlsx',sheet= 'Release',skip=9,col_names=F)
+
+# Rename some variables
+df<-rename(df,cbsa=X__1)
+df<-rename(df,metro=X__2)
+df<-rename(df,Value=X__4)
+
+
+### Only keep the columns we need:
+dt<-data.table(df[,c("cbsa","metro","Value")])
+
+cbsa.data <-fread("data/cbsa.city.txt")
+cbsa.metro<-cbsa.data[metro.micro=="Metropolitan Statistical Area"]
+
+d<-merge(cbsa.metro,us.cities,by="name")
+#get rid of duplicates
+# see: http://stackoverflow.com/questions/15776064/r-first-observation-by-group-using-data-table-self-join
+d<-d[order(-pop)]
+d<-d[d[,list(row1 = .I[1]), by = list(cbsa)][,row1]]
+
+setkey(d,cbsa.name)
+setkey(dt,metro)
+
+cbsa.list<-unique(d$cbsa.name)
+dt$cbsa<-as.integer(dt$cbsa) #coerce types for merge
+dm<-merge(dt,d,by.y="cbsa",by.x="cbsa",all.x=T)
+dm$Value<-as.numeric(dm$Value)
+dm[,val2:=9+9*(log(Value)-5.275)]
+
+### Functions for better axis
+
+base_breaks_y <- function(x){
+  b <- pretty(x)
+  d <- data.frame(x=-Inf, xend=-Inf, y=min(b), yend=max(b))
+  list(geom_segment(data=d, aes(x=x, y=y, xend=xend, yend=yend), inherit.aes=FALSE),
+       scale_y_continuous(breaks=b))
+}
+
+base_breaks_y0 <- function(x){
+  b <- c(0,pretty(x))
+  d <- data.frame(x=-Inf, xend=-Inf, y=min(b), yend=max(b))
+  list(geom_segment(data=d, aes(x=x, y=y, xend=xend, yend=yend), inherit.aes=FALSE),
+       scale_y_continuous(breaks=b))
+}
+source("code/base-axis-functions.R")
+```  
+
+
+TODAY THE NATIONAL ASSOCIATION OF REALTORS (NAR) released ([press release](https://www.nar.realtor/news-releases/2017/02/swift-gains-in-fourth-quarter-push-home-prices-to-peak-levels-in-majority-of-metro-areas)) data on metro area median sales prices of existing single-family homes (the U.S. Census and HUD report data on new home sales prices in a joint release).  NAR makes the data available ([Excel file](https://www.nar.realtor/sites/default/files/reports/2016/embargoes/2016-q4-metro-home-prices/metro-home-prices-q4-2016-single-family-2017-02-09.xls)).
+
+Let's take a look at the data:
+
+```{r feb-9-2017-graph1,echo=F,message=F}
+
+ggplot(data=dm[metro.pop>2387138],aes(y=Value,
+label=paste0("$",round(Value,0),"k"),                                       x=reorder(cbsa.name,Value),fill=Value))+geom_col()+
+  theme_bw()+
+  coord_flip()+scale_fill_viridis()+geom_text(hjust=1,color="white")+  base_breaks_y0(dm[metro.pop>2387138]$Value)+
+    theme(panel.border = element_blank(),
+          legend.position="none",
+          text=element_text(family="Palatino Linotype"),
+          plot.caption=element_text(hjust=0),
+          plot.subtitle=element_text(size=9,face="italic"),
+          panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(),
+          axis.ticks.length=unit(0.25,"cm"))+
+    labs(x="",y="Median Sales Price ($1000s)",
+       title="House prices in large metro areas",
+       subtitle="Median Sales Price of Existing Single-Family Homes for Metropolitan Areas in 2016",
+       caption="@lenkiefer Source: National Association of Realtors")
+
+```
+
+We can see a lot of variation in median sales prices of existing single-family homes.  The median price in San Francisco was over \$800,000 while in Atlanta it was only \$184,000.  
+
+# Compare house prices to longitude.
+
+The map below plots median sales prices by metro area (color coded by housing value).  Immediately below the map is a scatterplot comparing longitude on the x axis to median house prices on the y axis.  Basically, each metro is being "dropped" down from the map to the plot preserving its latitude.
+
+```{r feb-9-2017-map1, echo=F,message=F,warning=F,fig.height=8,fig.width=7.5}
+ggplot(data=dm, 
+       aes(x = long, y = lat,  colour =val2)) +
+  borders("state",  colour = "grey70")+geom_point(alpha=0.82,size=3)+
+  #theme_void()+
+  scale_y_continuous(limits=c(0,50),breaks=c( 1.445107,8.576054, 23.6948),
+                     labels=c("$84k","$186k","$1M"))+
+  scale_x_continuous(limits=c(-125,-65))+
+  scale_color_viridis(name="Median Sales Price (lot scale)",breaks=c( 1.445107,8.576054, 23.69),
+                     labels=c("$84k","$186k","$1M"))+
+  geom_point(aes(y=val2),size=3)+
+  geom_segment(x=-Inf,xend=-Inf,y=23.6948,yend=1.445107)+
+  theme_bw()+  theme(legend.position="bottom")+
+  labs(x="",y="Median Sales Price (log scale)",
+       title="House prices highest in coastal markets",
+       subtitle="Median Sales Price of Existing Single-Family Homes for Metropolitan Areas in 2016",
+       caption="@lenkiefer Source: National Association of Realtors")+
+  #geom_text_repl()
+  theme(panel.border = element_blank(),
+        panel.grid.major = element_blank(),
+        text=element_text(family="Palatino Linotype"),
+        panel.grid.minor = element_blank(),
+        axis.ticks.x=element_blank(),
+        plot.caption=element_text(hjust=0),
+        plot.subtitle=element_text(size=9,face="italic"),
+        axis.ticks.length=unit(-0.15,"cm"),
+        axis.title.y=element_text(size=10,hjust=0.15),
+        #margin=unit(c(0.5,0,0.0,0.0), "cm")),
+        axis.text.y = element_text(size=7,margin=unit(c(0,0.250,0.0,0.0), "cm")),
+        axis.text.x =element_blank()  )
+
+```
+
+This figure shows that house prices are highest in the west, but also high on the east coast as well.  Most of the metro areas in the central United States, with Denver as a notable exception, tend to have low house prices.
+
+## Animated chart:
+
+The plot might make more sense if we animate it:
+
+<img src="../../../../img/charts_feb_9_2017/nar2016q4.gif">
+
+Creating this plot took a little bit of data wrangling.  I started to write it up, but am running out of gas today.  Perhaps I'll write the data wrangling and plot creation later.  Basically I am extending the code from [this post: *populous metros are heavy!*](../../../../2016/12/23/populous-metros-are-heavy ).
+

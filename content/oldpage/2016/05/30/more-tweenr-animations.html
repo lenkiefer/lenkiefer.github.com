@@ -1,0 +1,273 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>More tweenr animation examples</title>
+    
+    <meta name="author" content="Len Kiefer">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap styles -->
+    <link href="/assets/themes/lentheme/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Optional theme -->
+    <link href="/assets/themes/lentheme/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <!-- Sticky Footer -->
+    <link href="/assets/themes/lentheme/bootstrap/css/bs-sticky-footer.css" rel="stylesheet">
+    
+    <!-- Custom styles -->
+    <link href="/assets/themes/lentheme/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <!-- Update these with your own images
+      <link rel="shortcut icon" href="images/favicon.ico">
+      <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+      <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+      <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+  </head>
+
+  <body>
+    <div id="wrap">
+      <nav class="navbar navbar-default" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#jb-navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/"><span class="icon-home3" style="font-size:24px"> Len Kiefer</a></span>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="jb-navbar-collapse" style="font-size:24px">
+          <ul class="nav navbar-nav" >
+        <li><a href="/archive.html"><span class="icon-newspaper"> Posts</a></span></li>
+            <!-- li><a href="/chartbook/index.html"><span class="icon-display"> Chartbook</a></span></li-->
+         <li><a href="/resume.html"><span class="icon-profile"> Resume</span></a></li>
+        <li><a href="/about.html"><span class="icon-user-tie"> About</span></a></li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </nav>
+
+      <div class="container">
+        
+<div class="page-header">
+  <h1>More tweenr animation examples </h1>
+</div>
+
+<div class="row post-full">
+  <div class="col-xs-12">
+    <div class="date">
+      <span>30 May 2016</span>
+    </div>
+    <div class="content">
+      <p>IN THIS POST I WANT TO PROVIDE some additional examples of using tweenr and gganimate to create nice smooth transitions in an animated GIF. In this post we’ll look at an animated waterfall chart.</p>
+
+<p>For this data I’m going to use the National Income and Products Accounts from the <a href="http://www.bea.gov/">U.S. Bureau of Economic Analysis (BEA)</a>.  Specifically we’ll be looking at the contributions to growth in Real Gross Domstic  Product, which you can find <a href="http://www.bea.gov/iTable/iTableHtml.cfm?reqid=9&amp;step=3&amp;isuri=1&amp;904=1947&amp;903=2&amp;906=q&amp;905=2016&amp;910=x&amp;911=1">here</a>.</p>
+
+<p>Ultimately, we will end up with this:</p>
+
+<p><img src="/img/charts_may_30_2016/gdp1.gif" alt="GDP waterfall" /></p>
+
+<h2 id="how-to-construct-the-chart">How to construct the chart</h2>
+
+<p>I found a nice <a href="https://learnr.wordpress.com/2010/05/10/ggplot2-waterfall-charts/">example</a> of how to make a waterfall chart in R that I used.  The basic idea is to draw a rectangle shifted over to the right (or left) depending on the data. The basic idea is to show how individual contributions contribute positivley or negatively to a whole. In this case, we’re going to look at how various components of the economy affect total economic growth in a given quarter.</p>
+
+<h3 id="setup">Setup</h3>
+
+<p>If you follow the link above, you can download a spreadsheet from BEA.  I had to do a bit of wrangling, which I happened to do in <span class="icon-file-excel" style="color:green;"></span> Excel. I’m not writing up the data wrangling bits here, but you can check out my <a href="/2016/05/08/visual-meditations-on-house-prices-part1">earlier post on house prices</a> to get some ideas.</p>
+
+<p>After some wrangling, I ended up with data that looked like this:</p>
+
+<p><img src="/img/charts_may_30_2016/data1.PNG" alt="data screenshot" style="width: 550px;" /></p>
+
+<p>Next I imported these data into R as a text file name <em>gdpc.txt</em>. We’ll pick up the R code from there:</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">gdata</span> <span class="o">&lt;-</span> <span class="n">fread</span><span class="p">(</span><span class="s2">"gdpc.txt"</span><span class="p">)</span>
+<span class="n">gdata</span><span class="o">$</span><span class="n">date</span><span class="o">&lt;-</span><span class="n">as.Date</span><span class="p">(</span><span class="n">gdata</span><span class="o">$</span><span class="n">date</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s2">"%m/%d/%Y"</span><span class="p">)</span>
+<span class="n">gdata</span><span class="p">[,</span> <span class="n">avgc</span><span class="o">:=</span><span class="n">mean</span><span class="p">(</span><span class="n">value</span><span class="p">),</span> <span class="n">by</span><span class="o">=</span><span class="n">var</span><span class="p">]</span>  <span class="c1">#I'll want to order some factors, so i'm computed average contribution
+</span><span class="n">gdata</span><span class="o">&lt;-</span><span class="n">gdata</span><span class="p">[</span><span class="n">order</span><span class="p">(</span><span class="n">date</span><span class="p">,</span><span class="n">avgc</span><span class="p">),]</span>
+
+<span class="c1">#  This follows from the waterfall example, I'm setting up a start and end point for the rectangle
+# I'm taking advantage of data.table to compute the data
+</span><span class="n">gdata</span><span class="p">[</span><span class="n">Total</span> <span class="o">!=</span><span class="s2">"total"</span><span class="p">,</span> <span class="n">end</span><span class="o">:=</span><span class="n">cumsum</span><span class="p">(</span><span class="n">value</span><span class="p">),</span> <span class="n">by</span><span class="o">=</span><span class="n">date</span><span class="p">]</span>
+<span class="n">gdata</span><span class="p">[</span><span class="n">Total</span><span class="o">==</span><span class="s2">"total"</span><span class="p">,</span> <span class="n">end</span><span class="o">:=</span><span class="m">0</span><span class="p">,</span> <span class="n">by</span><span class="o">=</span><span class="n">date</span><span class="p">]</span>
+<span class="n">gdata</span><span class="p">[,</span><span class="n">start</span><span class="o">:=</span><span class="n">shift</span><span class="p">(</span><span class="n">end</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="n">fill</span><span class="o">=</span><span class="m">0</span><span class="p">),</span> <span class="n">by</span><span class="o">=</span><span class="n">date</span><span class="p">]</span>
+<span class="n">gdata</span><span class="p">[,</span><span class="n">id</span><span class="o">:=</span><span class="m">1</span><span class="o">:</span><span class="n">.N</span><span class="p">,,</span><span class="n">by</span><span class="o">=</span><span class="n">date</span><span class="p">]</span>
+
+<span class="c1"># I include the variable mjust to control where the label shows up in the chart
+</span><span class="n">gdata</span><span class="p">[,</span> <span class="n">myjust</span><span class="o">:=</span><span class="n">ifelse</span><span class="p">(</span><span class="n">value</span><span class="o">&lt;</span><span class="m">0</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">0</span><span class="p">)]</span>
+<span class="c1"># I'm creating a label, which for the total column needs to start at "start", not "end"
+</span><span class="n">gdata</span><span class="p">[,</span> <span class="n">lp</span><span class="o">:=</span><span class="n">ifelse</span><span class="p">(</span><span class="n">Total</span><span class="o">==</span><span class="s2">"total"</span><span class="p">,</span><span class="n">start</span><span class="p">,</span><span class="n">end</span><span class="p">)]</span>
+<span class="c1"># A date label for the total bar
+</span><span class="n">gdata</span><span class="p">[,</span><span class="n">dlabel</span><span class="o">:=</span><span class="n">factor</span><span class="p">(</span><span class="n">paste</span><span class="p">(</span><span class="n">year</span><span class="p">,</span><span class="s2">"Q"</span><span class="p">,</span><span class="n">quarter</span><span class="p">,</span><span class="n">sep</span><span class="o">=</span><span class="s2">""</span><span class="p">))]</span>
+<span class="c1"># I need to convert the character variables to factors to use tweenr
+</span><span class="n">gdata</span><span class="p">[,</span><span class="n">cont</span><span class="o">:=</span><span class="n">factor</span><span class="p">(</span><span class="n">cont</span><span class="p">)]</span>  <span class="c1"># cont is used to color the bars
+# We need to adjust the factor ordering for the chart, 
+# I want to go from greatest total to least total (on average)
+# Given the way these data are structured that ensures the total will be on top
+# If the data were different we'd have to choose a different path to reoder the factors
+</span><span class="n">gdata</span><span class="o">$</span><span class="n">var</span><span class="o">&lt;-</span><span class="n">factor</span><span class="p">(</span><span class="n">gdata</span><span class="o">$</span><span class="n">var</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="n">gdata</span><span class="o">$</span><span class="n">var</span><span class="p">[</span><span class="n">order</span><span class="p">(</span><span class="n">gdata</span><span class="o">$</span><span class="n">avgc</span><span class="p">)])</span></code></pre></figure>
+
+<p>These data are now ready to draw the waterfall chart.  Let’s make one:</p>
+
+<h3 id="draw-a-static-chart">Draw a static chart</h3>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1">#create a plot for 2016Q1 
+</span><span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">gdata</span><span class="p">[</span><span class="n">year</span><span class="o">==</span><span class="m">2016</span> <span class="o">&amp;</span> <span class="n">quarter</span><span class="o">==</span><span class="m">1</span><span class="p">],</span> <span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">var</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">lp</span><span class="p">,</span><span class="n">fill</span> <span class="o">=</span> <span class="n">cont</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">value</span><span class="p">))</span> <span class="o">+</span> 
+  <span class="n">geom_rect</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">var</span><span class="p">,</span> <span class="n">xmin</span> <span class="o">=</span> <span class="n">id</span> <span class="o">-</span> <span class="m">0.45</span><span class="p">,</span> <span class="n">xmax</span> <span class="o">=</span> <span class="n">id</span> <span class="o">+</span> <span class="m">0.45</span><span class="p">,</span> <span class="n">ymin</span> <span class="o">=</span> <span class="n">end</span><span class="p">,</span><span class="n">ymax</span> <span class="o">=</span> <span class="n">start</span><span class="p">))</span>  <span class="o">+</span>
+  <span class="n">theme_minimal</span><span class="p">()</span><span class="o">+</span>
+  <span class="n">coord_flip</span><span class="p">()</span><span class="o">+</span>   <span class="c1">#flip bars to go horizontal to allow more room for labels
+</span>  <span class="n">geom_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="n">gdata</span><span class="p">[</span><span class="n">year</span><span class="o">==</span><span class="m">2016</span> <span class="o">&amp;</span> <span class="n">quarter</span><span class="o">==</span><span class="m">1</span><span class="p">]</span><span class="o">$</span><span class="n">myjust</span><span class="p">)</span><span class="o">+</span>
+  <span class="c1"># add date labels for only the total
+</span>  <span class="n">geom_text</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">gdata</span><span class="p">[</span><span class="n">cont</span><span class="o">==</span><span class="s2">"total"</span><span class="o">&amp;</span><span class="n">year</span><span class="o">==</span><span class="m">2016</span> <span class="o">&amp;</span> <span class="n">quarter</span><span class="o">==</span><span class="m">1</span> <span class="p">,</span>  <span class="p">]</span> <span class="p">,</span><span class="n">aes</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">x</span><span class="o">=</span><span class="m">7.25</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">dlabel</span><span class="p">),</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="m">4</span><span class="p">,</span><span class="n">fontface</span><span class="o">=</span><span class="s2">"bold"</span><span class="p">)</span>  <span class="o">+</span>
+    <span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">limits</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">-3</span><span class="p">,</span><span class="m">3</span><span class="p">),</span><span class="n">breaks</span><span class="o">=</span><span class="n">seq</span><span class="p">(</span><span class="m">-3</span><span class="p">,</span><span class="m">3</span><span class="p">,</span><span class="m">1</span><span class="p">))</span><span class="o">+</span>
+ <span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Contributions to Percent Change in Real Gross Domestic Product"</span><span class="p">,</span><span class="n">x</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="s2">"Contribution to growth (ppt)"</span><span class="p">,</span>
+       <span class="n">subtitle</span><span class="o">=</span><span class="s2">"Seasonally adjusted at annual rates"</span><span class="p">,</span>
+       <span class="n">caption</span><span class="o">=</span><span class="s2">"@lenkiefer Source: U.S. Bureau of Economic Analysis,\nTable 1.1.2, accessed 5/30/2016."</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">scale_fill_manual</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">values</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="s2">"red"</span><span class="p">,</span><span class="s2">"lightblue"</span><span class="p">,</span><span class="s2">"gray"</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">plot.title</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">12</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">vjust</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="n">margin</span><span class="o">=</span><span class="n">margin</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="m">10</span><span class="p">),</span><span class="n">size</span><span class="o">=</span><span class="m">10</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">legend.justification</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">),</span> <span class="n">legend.position</span><span class="o">=</span><span class="s2">"none"</span><span class="p">)</span></code></pre></figure>
+
+<p><img src="/img/Rfig/fig-waterfall-1.svg" alt="plot of chunk fig-waterfall" /></p>
+
+<h3 id="ready-for-animation">Ready for animation</h3>
+
+<p>Now we’re ready to animate.  For more explicit discussion, see my <a href="/2016/05/29/improving-R-animated-gifs-with-tweenr">earlier post</a>. The code below takes the static plot and animates it with nice smooth transitions using <a href="https://cran.r-project.org/web/packages/tweenr/index.html">tweenr</a>.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">myd</span><span class="o">&lt;-</span><span class="n">unique</span><span class="p">(</span><span class="n">gdata</span><span class="p">[</span><span class="n">year</span><span class="o">&gt;=</span><span class="m">2008</span><span class="p">]</span><span class="o">$</span><span class="n">date</span><span class="p">)</span>  <span class="c1">#we'll truncate the data which goes back to the 1940s
+</span>
+<span class="c1"># create a function to make a list of data frames 
+</span><span class="n">myf</span><span class="o">&lt;-</span><span class="k">function</span><span class="p">(</span><span class="n">d</span><span class="p">){</span><span class="n">as.data.frame</span><span class="p">(</span><span class="n">gdata</span><span class="p">[</span><span class="n">date</span><span class="o">==</span><span class="n">d</span><span class="p">,</span> <span class="n">list</span><span class="p">(</span><span class="n">date</span><span class="p">,</span><span class="n">end</span><span class="p">,</span><span class="n">start</span><span class="p">,</span><span class="n">id</span><span class="p">,</span><span class="n">myjust</span><span class="p">,</span><span class="n">lp</span><span class="p">,</span><span class="n">var</span><span class="p">,</span><span class="n">cont</span><span class="p">,</span><span class="n">value</span><span class="p">,</span><span class="n">dlabel</span><span class="p">,</span><span class="n">year</span><span class="p">,</span><span class="n">avgc</span><span class="p">)])}</span>
+
+<span class="c1"># use lapply to generate the list of data sets:
+</span><span class="n">my.list</span><span class="o">&lt;-</span><span class="n">lapply</span><span class="p">(</span><span class="n">myd</span><span class="p">,</span><span class="n">myf</span><span class="p">)</span>
+
+<span class="c1"># apply tweenr
+</span><span class="n">tf</span> <span class="o">&lt;-</span> <span class="n">tween_states</span><span class="p">(</span><span class="n">my.list</span><span class="p">,</span> <span class="n">tweenlength</span><span class="o">=</span> <span class="m">2</span><span class="p">,</span> <span class="n">statelength</span><span class="o">=</span><span class="m">1</span><span class="p">,</span> <span class="n">ease</span><span class="o">=</span><span class="n">rep</span><span class="p">(</span><span class="s1">'cubic-in-out'</span><span class="p">,</span><span class="m">64</span><span class="p">),</span><span class="n">nframes</span><span class="o">=</span><span class="m">250</span><span class="p">)</span>
+
+<span class="c1"># convert variable lables to factor, and order by average contribution so they go from big to small
+</span><span class="n">tf</span><span class="o">$</span><span class="n">var</span><span class="o">&lt;-</span><span class="n">factor</span><span class="p">(</span><span class="n">tf</span><span class="o">$</span><span class="n">var</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="n">tf</span><span class="o">$</span><span class="n">var</span><span class="p">[</span><span class="n">order</span><span class="p">(</span><span class="n">tf</span><span class="o">$</span><span class="n">avgc</span><span class="p">)])</span>
+<span class="c1">#conver to data table
+</span><span class="n">tf</span><span class="o">&lt;-</span><span class="n">data.table</span><span class="p">(</span><span class="n">tf</span><span class="p">)</span>
+
+<span class="c1"># Make animation using gganimate:
+</span><span class="n">p</span><span class="o">&lt;-</span>
+  <span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">tf</span><span class="p">,</span> <span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">var</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">lp</span><span class="p">,</span><span class="n">fill</span> <span class="o">=</span> <span class="n">cont</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">value</span><span class="p">,</span><span class="n">frame</span><span class="o">=</span><span class="n">.frame</span><span class="p">))</span> <span class="o">+</span> 
+  <span class="n">geom_rect</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">var</span><span class="p">,</span> <span class="n">xmin</span> <span class="o">=</span> <span class="n">id</span> <span class="o">-</span> <span class="m">0.45</span><span class="p">,</span> <span class="n">xmax</span> <span class="o">=</span> <span class="n">id</span> <span class="o">+</span> <span class="m">0.45</span><span class="p">,</span> <span class="n">ymin</span> <span class="o">=</span> <span class="n">end</span><span class="p">,</span><span class="n">ymax</span> <span class="o">=</span> <span class="n">start</span><span class="p">))</span>  <span class="o">+</span>
+  <span class="n">theme_minimal</span><span class="p">()</span><span class="o">+</span>
+  <span class="n">coord_flip</span><span class="p">()</span><span class="o">+</span>   <span class="c1">#flip bars to go horizontal to allow more room for labels
+</span>  <span class="n">geom_text</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">tf</span><span class="p">[</span><span class="n">date</span> <span class="o">%</span><span class="k">in</span><span class="o">%</span> <span class="n">myd</span> <span class="p">,</span> <span class="p">]</span> <span class="p">,</span><span class="n">hjust</span><span class="o">=</span><span class="n">tf</span><span class="p">[</span><span class="n">date</span> <span class="o">%</span><span class="k">in</span><span class="o">%</span> <span class="n">myd</span> <span class="p">,</span> <span class="p">]</span><span class="o">$</span><span class="n">myjust</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Contributions to Percent Change in Real Gross Domestic Product"</span><span class="p">,</span><span class="n">x</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span>
+       <span class="n">subtitle</span><span class="o">=</span><span class="s2">"Seasonally adjusted at annual rates"</span><span class="p">,</span>
+       <span class="n">caption</span><span class="o">=</span><span class="s2">"@lenkiefer Source: U.S. Bureau of Economic Analysis, Table 1.1.2, accessed 5/30/2016."</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">scale_fill_manual</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">values</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="s2">"red"</span><span class="p">,</span><span class="s2">"lightblue"</span><span class="p">,</span><span class="s2">"gray"</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">plot.title</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">12</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">geom_text</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">tf</span><span class="p">[</span><span class="n">cont</span><span class="o">==</span><span class="s2">"total"</span> <span class="p">,</span>  <span class="p">]</span> <span class="p">,</span><span class="n">aes</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">x</span><span class="o">=</span><span class="m">7.25</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">dlabel</span><span class="p">),</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="m">4</span><span class="p">,</span><span class="n">fontface</span><span class="o">=</span><span class="s2">"bold"</span><span class="p">)</span>  <span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">vjust</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="n">margin</span><span class="o">=</span><span class="n">margin</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="m">10</span><span class="p">),</span><span class="n">size</span><span class="o">=</span><span class="m">10</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">legend.justification</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">),</span> <span class="n">legend.position</span><span class="o">=</span><span class="s2">"none"</span><span class="p">)</span>
+
+<span class="c1"># Now animate!
+</span><span class="n">gg_animate</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="s2">"gif1.gif"</span><span class="p">,</span> <span class="n">title_frame</span> <span class="o">=</span> <span class="n">F</span><span class="p">,</span> <span class="n">ani.width</span> <span class="o">=</span> <span class="m">600</span><span class="p">,</span> 
+           <span class="n">ani.height</span> <span class="o">=</span> <span class="m">450</span><span class="p">,</span> <span class="n">interval</span><span class="o">=</span><span class="m">.01</span><span class="p">)</span></code></pre></figure>
+
+<p>You can adjust the dates to look at different periods:</p>
+
+<h3 id="around-the-early-1990s-recession">Around the early 1990s recession</h3>
+<p><img src="/img/charts_may_30_2016/gdp1990.gif" alt="GDP waterfall" /></p>
+
+<h3 id="around-the-early-2000s-recession">Around the early 2000s recession</h3>
+<p><img src="/img/charts_may_30_2016/gdp2000.gif" alt="GDP waterfall" /></p>
+
+
+    </div>
+
+    
+
+    
+  
+    <hr>
+    <ul class="pagination">
+    
+      <li class="prev"><a href="/2016/05/29/improving-R-animated-gifs-with-tweenr" title="Improving R animated GIFs with tweenr">&laquo; Previous</a></li>
+    
+      <li><a href="/archive.html">Archive</a></li>
+    
+      <li class="next"><a href="/2016/06/06/visualizing-the-us-housing-stock" title="Visualizing the U.S. housing stock">Next &raquo;</a></li>
+    
+    </ul>
+    <hr>
+    
+  </div>
+</div>
+
+
+
+      </div>
+
+    </div>
+
+    <div id="footer">
+      <div class="container">
+        <p>&copy; 2017 Len Kiefer
+          with help from <a href="http://jekyllbootstrap.com" target="_blank" title="The Definitive Jekyll Blogging Framework">Jekyll Bootstrap</a>
+          and <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>
+       
+    • <span vertical-align:bottom> <a href="https://twitter.com/lenkiefer" class="twitter-follow-button" data-show-count="false">•   Follow @lenkiefer</a>
+  
+ <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+</span>
+• <script src="//platform.linkedin.com/in.js" type="text/javascript"></script>
+<script type="IN/MemberProfile" data-id="https://www.linkedin.com/pub/leonard-kiefer/31/753/511" data-format="click" data-related="false" data-text="Leonard Kiefer"></script>
+  • lenkiefer@hotmail.com
+           </p>
+      </div>
+    </div>
+    
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+    <!-- Latest compiled and minified JavaScript, requires jQuery 1.x (2.x not supported in IE8) -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="/assets/themes/lentheme/bootstrap/js/bootstrap.min.js"></script>
+  </body>
+</html>
+
+
+
+
+

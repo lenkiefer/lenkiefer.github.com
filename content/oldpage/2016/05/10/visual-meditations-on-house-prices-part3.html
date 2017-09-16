@@ -1,0 +1,318 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Visual meditations on house prices, Part 3: bubbles and bounce</title>
+    
+    <meta name="author" content="Len Kiefer">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap styles -->
+    <link href="/assets/themes/lentheme/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Optional theme -->
+    <link href="/assets/themes/lentheme/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <!-- Sticky Footer -->
+    <link href="/assets/themes/lentheme/bootstrap/css/bs-sticky-footer.css" rel="stylesheet">
+    
+    <!-- Custom styles -->
+    <link href="/assets/themes/lentheme/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <!-- Update these with your own images
+      <link rel="shortcut icon" href="images/favicon.ico">
+      <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+      <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+      <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+  </head>
+
+  <body>
+    <div id="wrap">
+      <nav class="navbar navbar-default" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#jb-navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/"><span class="icon-home3" style="font-size:24px"> Len Kiefer</a></span>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="jb-navbar-collapse" style="font-size:24px">
+          <ul class="nav navbar-nav" >
+        <li><a href="/archive.html"><span class="icon-newspaper"> Posts</a></span></li>
+            <!-- li><a href="/chartbook/index.html"><span class="icon-display"> Chartbook</a></span></li-->
+         <li><a href="/resume.html"><span class="icon-profile"> Resume</span></a></li>
+        <li><a href="/about.html"><span class="icon-user-tie"> About</span></a></li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </nav>
+
+      <div class="container">
+        
+<div class="page-header">
+  <h1>Visual meditations on house prices, Part 3: bubbles and bounce </h1>
+</div>
+
+<div class="row post-full">
+  <div class="col-xs-12">
+    <div class="date">
+      <span>10 May 2016</span>
+    </div>
+    <div class="content">
+      <p>IN THIS POST I’m going to describe how to make some additional data visualizations of house prices and discuss a bit about what they mean.  For reference, the prior posts are available at:</p>
+
+<ul>
+  <li><a href="/2016/05/08/visual-meditations-on-house-prices-part1">Part 1: data wrangling </a></li>
+  <li><a href="/2016/05/08/visual-meditations-on-house-prices-part2">Part 2: sparklines and dots (animated) </a></li>
+</ul>
+
+<h1 id="meditation-1-bubbles">Meditation 1: Bubbles</h1>
+
+<p>Let’s start by recreating this visualization:</p>
+
+<p><img src="/img/charts_may_8_2016/hpi_dots2.gif" alt="hpi dots 2" /></p>
+
+<p>This visualization plots each state (plus the District of Columbia) as a blue dot in a scatterplot.</p>
+
+<p>The X axis displays how far the house price index in the state is from its pre-2008 peak.  A vertical line at 100% indicates that the price index for that state is exactly at the pre-2008 peak for that state.  If the value is to the right (left) of the vertical line, then the index is above(below) that peak.</p>
+
+<p>The Y axis displays how far the index is from the post-2007 minimum for that state. The horizontal line at 100% indicates that the state is exactly at that minimum. As states recover from the post-recession bottom, they move further up on the chart.</p>
+
+<p>A value at (75%, 125%) would indicate that the state is only 75% of the pre-2008 maximum, and 125% of the post-2007 minimum.</p>
+
+<p>You can see that North Dakota (ND) does not fall much during the Great Recession and recovers quickly. California (CA) and Florida (FL) fall a lot, but have a strong recovery.</p>
+
+<h2 id="making-the-chart">Making the chart</h2>
+
+<p>The data for the charts can be found at the following links:</p>
+
+<ol>
+  <li><a href="/img/charts_may_8_2016/fmhpi.txt"><em>state and national called fmhpi.txt</em></a></li>
+  <li><a href="/img/charts_may_8_2016/fmhpi2.txt"><em>metro called fmhpi2.txt</em></a></li>
+</ol>
+
+<p>Constructing this chart is fairly straightforward. We simply have to calculate the pre-2008 peak and post-2007 minimum for each state.  As I mentioned in <a href="/2016/05/08/visual-meditations-on-house-prices-part1">Part 1: data wrangling </a>, I already computed the pre-2008 peak value and post-2007 minimum value for each state and added it as an additional variable. Elegant and efficient? No, but it will get this job done.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">mydata</span> <span class="o">&lt;-</span> <span class="n">fread</span><span class="p">(</span><span class="s2">"fmhpi.txt"</span><span class="p">)</span>
+<span class="c1">#compute some additional values
+</span><span class="n">mydata</span><span class="p">[,</span><span class="n">gmax</span><span class="o">:=</span><span class="p">(</span><span class="n">hpi</span><span class="o">/</span><span class="n">pmax</span><span class="p">)]</span>  <span class="c1">#for the x axis
+</span><span class="n">mydata</span><span class="p">[,</span><span class="n">gmin</span><span class="o">:=</span><span class="p">(</span><span class="n">hpi</span><span class="o">/</span><span class="n">pmin</span><span class="p">)]</span>  <span class="err">#</span><span class="k">for</span> <span class="n">the</span> <span class="n">y</span> <span class="n">axis</span></code></pre></figure>
+
+<p>Now to make this animation, I set up a function to contain my ggplot code. Because this code is so simple, it’s not really necessary. But it could be helpful to have a function down the line.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1">#load required libraries
+</span><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">animation</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">ggthmes</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">ggrepel</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">scales</span><span class="p">)</span>
+
+<span class="n">mydots2</span><span class="o">&lt;-</span><span class="k">function</span> <span class="p">(</span><span class="n">yy</span><span class="p">,</span><span class="n">mm</span><span class="p">){</span>
+<span class="n">g</span><span class="o">&lt;-</span>
+  <span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">mydata</span><span class="p">[</span><span class="n">year</span><span class="o">==</span><span class="n">yy</span><span class="o">&amp;</span> <span class="n">month</span><span class="o">==</span><span class="n">mm</span> <span class="o">&amp;</span> <span class="n">state</span> <span class="o">!=</span> <span class="s2">"US"</span><span class="p">],</span> <span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">gmax</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">gmin</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">state</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">geom_point</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">4</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="m">0.75</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">"#00B0F0"</span><span class="p">)</span><span class="o">+</span>
+  <span class="c1">#Use geom_text_repel from the ggrepel package discussed below
+</span>  <span class="n">geom_text_repel</span><span class="p">()</span><span class="o">+</span>
+  <span class="n">theme_minimal</span><span class="p">()</span>  <span class="o">+</span>
+  <span class="c1">#format axis
+</span>  <span class="n">scale_x_continuous</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">percent</span><span class="p">,</span><span class="n">limits</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">.5</span><span class="p">,</span><span class="m">1.5</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">percent</span><span class="p">,</span><span class="n">limits</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">.9</span><span class="p">,</span><span class="m">2</span><span class="p">),</span> <span class="n">breaks</span><span class="o">=</span><span class="n">seq</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">.25</span><span class="p">))</span><span class="o">+</span>
+  
+  <span class="c1">#add verticle and horizontal lines
+</span>  <span class="n">geom_abline</span><span class="p">(</span><span class="n">intercept</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="n">slope</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="m">0.7</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="o">=</span><span class="m">1</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="m">0.7</span><span class="p">)</span>  <span class="o">+</span>
+  <span class="c1">#title and captions
+</span>  <span class="n">labs</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="s2">"House price relative to post-2007 min (%)"</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">"House price relative to pre-2008 max (%)"</span><span class="p">,</span>
+       <span class="n">title</span><span class="o">=</span><span class="s2">"State house price dynamics"</span><span class="p">,</span>
+       <span class="n">subtitle</span><span class="o">=</span><span class="n">paste</span><span class="p">(</span><span class="n">as.character</span><span class="p">(</span><span class="n">mydata</span><span class="p">[</span><span class="n">year</span><span class="o">==</span><span class="n">yy</span> <span class="o">&amp;</span> <span class="n">month</span><span class="o">==</span><span class="n">mm</span> <span class="o">&amp;</span> <span class="n">state</span><span class="o">==</span><span class="s2">"US"</span><span class="p">]</span><span class="o">$</span><span class="n">date</span><span class="p">,</span><span class="n">format</span><span class="o">=</span><span class="s2">"%b-%Y"</span><span class="p">)),</span>
+       <span class="n">caption</span><span class="o">=</span><span class="s2">"@lenkiefer Source: Freddie Mac house price index, each dot a state"</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">plot.title</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">18</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">vjust</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="n">margin</span><span class="o">=</span><span class="n">margin</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="m">10</span><span class="p">)))</span><span class="o">+</span>
+  <span class="n">theme</span><span class="p">(</span><span class="n">plot.margin</span><span class="o">=</span><span class="n">unit</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="m">0.5</span><span class="p">,</span><span class="m">0.5</span><span class="p">,</span><span class="m">0.5</span><span class="p">,</span><span class="m">0.75</span><span class="p">),</span><span class="s2">"cm"</span><span class="p">))</span><span class="o">+</span>
+  <span class="c1">#add some labels to the graphic
+</span>  <span class="n">annotate</span><span class="p">(</span><span class="s2">"text"</span><span class="p">,</span><span class="n">x</span><span class="o">=</span><span class="m">1.01</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="m">1.95</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">"House prices above pre-recession peak"</span><span class="p">,</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">annotate</span><span class="p">(</span><span class="s2">"text"</span><span class="p">,</span><span class="n">x</span><span class="o">=</span><span class="m">0.99</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="m">1.95</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">"House prices below pre-recession peak"</span><span class="p">,</span><span class="n">hjust</span><span class="o">=</span><span class="m">1</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">annotate</span><span class="p">(</span><span class="s2">"text"</span><span class="p">,</span><span class="n">x</span><span class="o">=</span><span class="m">1.49</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="m">1.01</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">"Y % up from bottom"</span><span class="p">,</span><span class="n">hjust</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="n">angle</span><span class="o">=</span><span class="m">270</span><span class="p">,</span><span class="n">vjust</span><span class="o">=</span><span class="m">1</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">annotate</span><span class="p">(</span><span class="s2">"text"</span><span class="p">,</span><span class="n">x</span><span class="o">=</span><span class="m">0.6</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="m">0.975</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">"At bottom"</span><span class="p">,</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">)</span>
+  <span class="k">return</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>The function takes a year value <strong>yy</strong> and a month value <strong>mm</strong> and creates the bubble plot for that year and month combination.</p>
+
+<h3 id="labels-for-scatterplot">Labels for scatterplot</h3>
+
+<p>My favorite part of this plot was using the <a href="https://cran.r-project.org/web/packages/ggrepel/index.html"><em>ggrepel</em></a> package to create the labels for the scatterplot. If you’ve ever tried to label a scatterplot or bubble chart with lots of points you should really appreciate this package, which handles labels automatically. It’s an incredible time saver preventing you from having to manually adjust the point labels. And in an animation, it’s would consume enormous time to try to move all the labels for each image. Unless you have an intern or RA, then this package is a must-use.</p>
+
+<h3 id="add-animation">Add animation</h3>
+
+<p>Adding animation should be familiar <a href="/2016/05/08/visual-meditations-on-house-prices-part2"><em>from my previous posts</em></a>, but I include it here for completeness.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">oopt</span> <span class="o">=</span> <span class="n">ani.options</span><span class="p">(</span><span class="n">interval</span> <span class="o">=</span> <span class="m">0.3</span><span class="p">)</span>
+<span class="n">saveGIF</span><span class="p">({</span><span class="k">for</span> <span class="p">(</span><span class="n">yy</span> <span class="k">in</span> <span class="m">2008</span><span class="o">:</span><span class="m">2016</span><span class="p">)</span> <span class="k">for</span><span class="p">(</span><span class="n">mm</span> <span class="k">in</span> <span class="n">seq</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">12</span><span class="p">,</span><span class="m">1</span><span class="p">))</span> <span class="p">{</span>   <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">yy</span><span class="o">==</span><span class="m">2016</span><span class="p">)</span> <span class="p">{</span><span class="n">mm</span><span class="o">&lt;</span><span class="m">-3</span><span class="p">}</span>
+  <span class="n">g</span><span class="o">&lt;-</span>
+    <span class="n">mydots2</span><span class="p">(</span><span class="n">yy</span><span class="o">=</span><span class="n">yy</span><span class="p">,</span> <span class="n">mm</span><span class="o">=</span><span class="n">mm</span><span class="p">)</span> <span class="c1">#if you want to do more elaborate things with the animation, the function could be useful
+</span>  <span class="n">print</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+  <span class="n">ani.pause</span><span class="p">()</span>
+<span class="p">}</span>
+<span class="p">}</span>
+  <span class="c1">#This is included at the end of the loop to pause at the final image.
+</span>  <span class="k">for</span> <span class="p">(</span><span class="n">i2</span> <span class="k">in</span> <span class="m">1</span><span class="o">:</span><span class="m">2</span><span class="p">)</span> <span class="p">{</span>
+  
+    <span class="n">print</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+    <span class="n">ani.pause</span><span class="p">()</span>
+  <span class="p">}</span>
+<span class="p">},</span><span class="n">movie.name</span><span class="o">=</span><span class="s2">"hpi_dots2.gif"</span><span class="p">,</span><span class="n">ani.width</span> <span class="o">=</span> <span class="m">950</span><span class="p">,</span> <span class="n">ani.height</span> <span class="o">=</span> <span class="m">650</span><span class="p">)</span></code></pre></figure>
+
+<h1 id="meditation-2-bounce">Meditation 2: Bounce</h1>
+
+<p>Now we’re going to use the metro data to analyze seasonality in house prices:</p>
+
+<p><img src="/img/charts_may_10_2016/metro_season.gif" alt="redblue dots" /></p>
+
+<h2 id="explaining-the-plot">Explaining the plot</h2>
+
+<p>I think this animation does a good job of displaying seasonality in house prices. I’ve color coded the dots so that they fade from blue in January to red in June back to blue in December.  As housing markets heat up and prices rise, the colors shift redder and fade bluer as prices rise.  The dots bounce up and down in fairly close unison, but like popcorn in a popper, some jump up more than others.</p>
+
+<h2 id="the-code">The code</h2>
+
+<p>The code for this one is pretty straightforward if you’ve been following along:</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">metrodata</span> <span class="o">&lt;-</span> <span class="n">fread</span><span class="p">(</span><span class="s2">"fmhpi2.txt"</span><span class="p">)</span>
+<span class="n">metrodata</span><span class="o">$</span><span class="n">date</span><span class="o">&lt;-</span><span class="n">as.Date</span><span class="p">(</span><span class="n">metrodata</span><span class="o">$</span><span class="n">date</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s2">"%m/%d/%Y"</span><span class="p">)</span>
+<span class="c1">#Compute monthly house price appreciation
+</span><span class="n">metrodata</span><span class="o">&lt;-</span><span class="n">metrodata</span><span class="p">[,</span><span class="n">hpa1</span><span class="o">:=</span><span class="n">c</span><span class="p">(</span><span class="n">NA</span><span class="p">,((</span><span class="m">1</span><span class="o">+</span><span class="n">diff</span><span class="p">(</span><span class="n">hpi</span><span class="p">)</span><span class="o">/</span><span class="n">hpi</span><span class="p">)))</span><span class="m">-1</span><span class="p">,</span><span class="n">by</span><span class="o">=</span><span class="n">metro</span><span class="p">]</span>  
+
+
+<span class="n">oopt</span> <span class="o">=</span> <span class="n">ani.options</span><span class="p">(</span><span class="n">interval</span> <span class="o">=</span> <span class="m">0.1</span><span class="p">)</span>
+<span class="n">saveGIF</span><span class="p">({</span><span class="k">for</span> <span class="p">(</span><span class="n">yy</span> <span class="k">in</span> <span class="m">2000</span><span class="o">:</span><span class="m">2016</span><span class="p">)</span> <span class="k">for</span><span class="p">(</span><span class="n">mm</span> <span class="k">in</span> <span class="n">seq</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">12</span><span class="p">,</span><span class="m">1</span><span class="p">))</span> <span class="p">{</span>  <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">yy</span><span class="o">&gt;=</span><span class="m">2016</span> <span class="o">&amp;</span> <span class="n">mm</span><span class="o">&gt;</span><span class="m">3</span><span class="p">)</span> <span class="p">{</span><span class="n">mm</span><span class="o">&lt;</span><span class="m">-3</span><span class="p">}</span>
+  <span class="n">g</span><span class="o">&lt;-</span>
+    <span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">metrodata</span><span class="p">[(</span><span class="n">year</span><span class="o">==</span><span class="n">yy</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">month</span><span class="o">==</span><span class="n">mm</span> <span class="p">],</span> <span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">metro</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">hpa1</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">month</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="n">group</span><span class="o">=</span><span class="n">metro</span><span class="p">))</span><span class="o">+</span>
+    <span class="n">geom_point</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="m">0.6</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="m">2</span><span class="p">)</span>   <span class="o">+</span>
+    <span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">limits</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">-.052</span><span class="p">,</span><span class="m">.052</span><span class="p">),</span> <span class="n">labels</span><span class="o">=</span><span class="n">percent</span><span class="p">,</span> <span class="n">breaks</span><span class="o">=</span><span class="n">seq</span><span class="p">(</span><span class="m">-.05</span><span class="p">,</span><span class="m">.05</span><span class="p">,</span><span class="m">.01</span><span class="p">))</span><span class="o">+</span>
+    <span class="n">theme_minimal</span><span class="p">()</span>  <span class="o">+</span>
+    <span class="n">geom_abline</span><span class="p">(</span><span class="n">intercept</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">slope</span><span class="o">=</span><span class="m">0</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="m">0.5</span><span class="p">)</span><span class="o">+</span>
+    <span class="n">scale_colour_gradient2</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="s2">"blue"</span><span class="p">,</span><span class="n">mid</span><span class="o">=</span><span class="s2">"red"</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="s2">"blue"</span><span class="p">,</span> <span class="n">limits</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">12</span><span class="p">))</span> <span class="o">+</span>
+    <span class="n">labs</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="s2">"House price index (Dec 2000 =100, NSA), Monthly % Change"</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span>
+         <span class="n">title</span><span class="o">=</span><span class="s2">"Metro house price dynamics"</span><span class="p">,</span>
+         <span class="n">subtitle</span><span class="o">=</span><span class="n">paste</span><span class="p">(</span><span class="n">as.character</span><span class="p">(</span><span class="n">metrodata</span><span class="p">[</span><span class="n">year</span><span class="o">==</span><span class="n">yy</span> <span class="o">&amp;</span> <span class="n">month</span><span class="o">==</span><span class="n">mm</span><span class="p">]</span><span class="o">$</span><span class="n">date</span><span class="p">,</span><span class="n">format</span><span class="o">=</span><span class="s2">"%b-%Y"</span><span class="p">)),</span>
+         <span class="n">caption</span><span class="o">=</span><span class="s2">"@lenkiefer Source: Freddie Mac house price index, each dot a metro, colored by month"</span><span class="p">)</span><span class="o">+</span>
+    <span class="n">theme</span><span class="p">(</span><span class="n">plot.title</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">14</span><span class="p">))</span><span class="o">+</span>
+    <span class="n">theme</span><span class="p">(</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">vjust</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="n">margin</span><span class="o">=</span><span class="n">margin</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="m">10</span><span class="p">),</span><span class="n">size</span><span class="o">=</span><span class="m">9</span><span class="p">))</span><span class="o">+</span>
+    <span class="n">theme</span><span class="p">(</span><span class="n">plot.margin</span><span class="o">=</span><span class="n">unit</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="m">0.25</span><span class="p">,</span><span class="m">0.25</span><span class="p">,</span><span class="m">0.25</span><span class="p">,</span><span class="m">0.25</span><span class="p">),</span><span class="s2">"cm"</span><span class="p">))</span><span class="o">+</span> 
+    <span class="n">theme</span><span class="p">(</span><span class="n">legend.justification</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">),</span>
+          <span class="n">legend.position</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">.7</span><span class="p">,</span><span class="m">.2</span><span class="p">),</span>
+          <span class="n">text</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">10</span><span class="p">))</span><span class="o">+</span>
+    <span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="o">=</span><span class="s2">"none"</span><span class="p">)</span><span class="o">+</span>
+    <span class="n">theme</span><span class="p">(</span> <span class="n">axis.text.x</span><span class="o">=</span><span class="n">element_blank</span><span class="p">(),</span><span class="n">axis.ticks</span><span class="o">=</span><span class="n">element_blank</span><span class="p">())</span><span class="o">+</span>
+    <span class="n">theme</span><span class="p">(</span><span class="n">panel.grid.major.x</span><span class="o">=</span><span class="n">element_blank</span><span class="p">())</span><span class="o">+</span>
+    <span class="n">theme</span><span class="p">(</span><span class="n">axis.text</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">6</span><span class="p">))</span>
+  
+  <span class="n">print</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+  <span class="n">ani.pause</span><span class="p">()</span>
+<span class="p">}</span>
+<span class="p">}</span>
+  <span class="k">for</span> <span class="p">(</span><span class="n">i2</span> <span class="k">in</span> <span class="m">1</span><span class="o">:</span><span class="m">2</span><span class="p">)</span> <span class="p">{</span><span class="n">print</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+    <span class="n">ani.pause</span><span class="p">()</span>  <span class="p">}</span>
+<span class="p">},</span><span class="n">movie.name</span><span class="o">=</span><span class="s2">"metro_seasons.gif"</span><span class="p">,</span><span class="n">ani.width</span> <span class="o">=</span> <span class="m">650</span><span class="p">,</span> <span class="n">ani.height</span> <span class="o">=</span> <span class="m">650</span><span class="p">)</span></code></pre></figure>
+
+<h3 id="wrapping-up">Wrapping up</h3>
+
+<p>That’s it for today’s meditations, but we’ll have more in the future.  Up next:  <strong>SWOOOSH!!!</strong></p>
+
+<p><img src="/img/charts_may_10_2016/rbswirl2.gif" alt="Swoosh" /></p>
+
+
+    </div>
+
+    
+
+    
+  
+    <hr>
+    <ul class="pagination">
+    
+      <li class="prev"><a href="/2016/05/08/visual-meditations-on-house-prices" title="Visual meditations on house prices">&laquo; Previous</a></li>
+    
+      <li><a href="/archive.html">Archive</a></li>
+    
+      <li class="next"><a href="/2016/05/14/visual-meditations-on-house-prices-part4" title="Visual meditations on house prices, Part 4: graph gallery">Next &raquo;</a></li>
+    
+    </ul>
+    <hr>
+    
+  </div>
+</div>
+
+
+
+      </div>
+
+    </div>
+
+    <div id="footer">
+      <div class="container">
+        <p>&copy; 2017 Len Kiefer
+          with help from <a href="http://jekyllbootstrap.com" target="_blank" title="The Definitive Jekyll Blogging Framework">Jekyll Bootstrap</a>
+          and <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>
+       
+    • <span vertical-align:bottom> <a href="https://twitter.com/lenkiefer" class="twitter-follow-button" data-show-count="false">•   Follow @lenkiefer</a>
+  
+ <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+</span>
+• <script src="//platform.linkedin.com/in.js" type="text/javascript"></script>
+<script type="IN/MemberProfile" data-id="https://www.linkedin.com/pub/leonard-kiefer/31/753/511" data-format="click" data-related="false" data-text="Leonard Kiefer"></script>
+  • lenkiefer@hotmail.com
+           </p>
+      </div>
+    </div>
+    
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+    <!-- Latest compiled and minified JavaScript, requires jQuery 1.x (2.x not supported in IE8) -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="/assets/themes/lentheme/bootstrap/js/bootstrap.min.js"></script>
+  </body>
+</html>
+
+
+
+
+

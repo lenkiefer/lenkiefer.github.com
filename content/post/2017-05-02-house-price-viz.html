@@ -1,0 +1,118 @@
+---
+layout: post
+title: "House price visualizations"
+author: "Len Kiefer"
+date: "2017-05-02"
+summary: "R statistics dataviz plotly housing mortgage data"
+group: navigation
+theme :
+  name : lentheme
+---
+
+
+
+<p>I AM JUST GOING TO DROP OFF A COUPLE OF housing data animated gifs here. <em>And add a little bit of code for data wrangling.</em></p>
+<p>In earlier posts I described how to make these using <a href="https://www.r-project.org/">R</a> in greater detail. We’re going to be visualizing the <a href="http://www.freddiemac.com/finance/house_price_index.html">Freddie Mac House Price Index</a>.</p>
+<div id="updated-geo-tour" class="section level2">
+<h2>Updated geo tour</h2>
+<p>We talked about how to build something like this in our <a href="../../../../2017/02/20/house-price-tour">Grand Tour of House Prices post</a></p>
+<p><img src="../../../../img/charts_may_02_2017/geo tween 05 02 2017.gif" ></p>
+</div>
+<div id="dot-chart" class="section level2">
+<h2>Dot chart</h2>
+<p>And for this one, you have to go way back to my <a href="../../../../2016/05/08/visual-meditations-on-house-prices-part2">Visual Meditation on House Prices Part 2</a>. <em>But I’ve updated the code for this below.</em></p>
+<p><img src="../../../../img/charts_may_02_2017/geo tween 05 02 2017 dotrace.gif" ></p>
+<div id="a-little-bit-of-data-manipulation" class="section level3">
+<h3>A little bit of data manipulation</h3>
+<p>Oh all right, I’ll post a little bit of code. Last month we <a href="../../../../2017/04/20/global-hpi-readxl">talked about</a> using <a href="http://readxl.tidyverse.org/index.html">readxl</a> to wrangle some data in Excel spreadsheets.</p>
+<p>Last year <a href="../../../../2016/05/08/visual-meditations-on-house-prices-part1">we saw</a> how to manipulate data in Excel. Below, we’ll use readxl to get our data read for plotting.</p>
+<p>You can download the Excel spreadsheet with state house price index values <a href="http://www.freddiemac.com/finance/fmhpi/current/excel/states.xls">here</a>. Note that this code is based on the release with data through March, 2017, future releases may shift the exact location of the cells. Using the <code>range</code> argument of readxl we can reach into the spreadsheet and get our data ready. Let’s try it:</p>
+<pre class="r"><code>library(zoo,quietly=T,warn.conflicts = F)      # used for rolling window operations
+library(readxl,quietly=T,warn.conflicts=F)
+library(ggplot2,quietly=T,warn.conflicts=F)
+library(tidyr,quietly=T,warn.conflicts=F)
+library(dplyr,quietly=T,warn.conflicts=F)
+library(lubridate,quietly=T,warn.conflicts=F)
+library(data.table,quietly=T,warn.conflicts=F) # for the shift function
+library(viridis,quietly=T,warn.conflicts=F)    # for the colors
+library(scales,quietly=T,warn.conflicts=F)    # for labels
+###############################################################################
+#### Read in HPI data  
+###############################################################################
+
+df&lt;-read_excel(&quot;data/states.xls&quot;, 
+               sheet = &quot;State Indices&quot;,  # name of sheet
+               range=&quot;B6:BB513&quot; )        # range where data lives
+
+###############################################################################
+#### Set up dates from January 1975 to March 2017
+###############################################################################
+
+df$date&lt;-seq.Date(as.Date(&quot;1975-01-01&quot;),as.Date(&quot;2017-03-01&quot;),by=&quot;1 month&quot;)
+df.state&lt;-df %&gt;% gather(geo,hpi,-date) %&gt;% mutate(type=&quot;state&quot;)</code></pre>
+<p>Now that our data is loaded we can do some manipulations</p>
+<pre class="r"><code>###############################################################################
+#### Transform data
+#### Needs library zoo for the rolling window operations
+###############################################################################
+df.state&lt;-
+  df.state %&gt;% group_by(geo) %&gt;% 
+  mutate(hpa=hpi/shift(hpi,12)-1,
+         hpilag12=shift(hpi,12,fill=NA),
+         hpimax12=zoo::rollmax(hpi,13,align=&quot;right&quot;,fill=NA),
+         hpimin12=-zoo::rollmax(-hpi,13,align=&quot;right&quot;,fill=NA)) %&gt;% ungroup()
+
+# Get a list of dates
+dlist&lt;-unique(filter(df.state,year(date)&gt;1999)$date)
+
+###############################################################################
+#### Plotting function
+###############################################################################
+myplot1 &lt;- function (i) {
+  g&lt;-
+    ggplot(data=filter(df.state,date==dlist[i] &amp; 
+                         !(geo %in% 
+                         c(&quot;United States not seasonally adjusted&quot;,
+                            &quot;United States seasonally adjusted&quot; ))),
+         aes(x=hpi, y=geo, label=paste(&quot; &quot;,geo,&quot;&quot;),
+             color=hpa,hjust=ifelse(hpa&gt;0,0,1)))+
+    geom_text() +
+    geom_point()+
+    scale_x_log10(limits=c(70,352), breaks=c(75,100,125,150,200,250,350))+
+    geom_segment(aes(xend=hpimin12,x=hpimax12,y=geo,yend=geo),alpha=0.7)+
+    theme_minimal()  +
+    theme(legend.position=&quot;bottom&quot;,
+          axis.text.y=element_blank(),
+          legend.key.width=unit(4,&quot;line&quot;),
+          panel.grid.major.y=element_blank(),
+          plot.caption=element_text(hjust=0),
+          plot.title=element_text(face=&quot;bold&quot;,size=18))+
+    scale_color_viridis(end=0.85,option=&quot;C&quot;,limits=c(-.4,.4),
+                        name=&quot;12-month % change     \nin house price index     \n&quot;,
+                        label=percent)+
+    labs(y=&quot;&quot;, x=&quot;House price index (log scale, Dec 2000 =100, NSA)&quot;,
+       title=&quot;State house price dynamics&quot;,
+       subtitle=as.character(dlist[i],format=&quot;%B, %Y&quot;),
+       caption=&quot;@lenkiefer Source: Freddie Mac house price index, each dot a state, lines trailing 12-month min-max&quot;)
+  return(g)
+  }
+
+N&lt;-length(dlist)  #get number of observations in filtered data
+myplot1(N)</code></pre>
+<p><img src="/post/2017-05-02-house-price-viz_files/figure-html/05-02-2017-readxl-plot1-1.png" width="672" /></p>
+</div>
+<div id="add-animation" class="section level3">
+<h3>Add animation</h3>
+<p>With our function, we can easily add some animation and create gif.</p>
+<pre class="r"><code>oopt = ani.options(interval = 0.15)
+saveGIF({for (i in seq(3,N,1)) {
+  g&lt;-myplot1(i)
+  print(g)
+  print(paste(i,&quot;out of&quot;,N))
+  ani.pause()}
+  for (i in 1:5)
+  {print(g)
+    print(i)}
+},movie.name=&quot;geo tween 05 02 2017 dotrace.gif&quot;,ani.width = 550, ani.height = 550)</code></pre>
+</div>
+</div>

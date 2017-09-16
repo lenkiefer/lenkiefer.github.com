@@ -1,0 +1,215 @@
+---
+title: "Working on a Workout"
+author: "Len Kiefer"
+date: "2017-01-18"
+summary: "R statistics dataviz remix"
+---
+
+
+
+<p>SO APPARENTLY IT IS WORKOUT WEDNESDAY, a day when data visualization fans try to <a href="http://www.vizwiz.com/2017/01/workout-wednesday-state-of-us-jobs.html">build data visualization skills</a>. I heard about it via <span class="citation">[this post by @hrbrmstr]</span>(<a href="https://rud.is/b/2017/01/18/workout-wednesday-redux-2017-week-3/" class="uri">https://rud.is/b/2017/01/18/workout-wednesday-redux-2017-week-3/</a>) that reconsiders a visualization of state level unemployment rates. (Original post <a href="http://thedailyviz.com/2016/12/14/four-decades-of-state-unemployment-rates-in-small-multiples-part-2/">here</a>).</p>
+<p>When I study data visualization, I do so <em>earnestly</em>. That is, I approach it with an open mind and enthusiasm. In truth I like all of the visualizations mentioned above and you should check them out. But that doesn’t mean I can’t chime in with my own remix.</p>
+<p>So in this post I’m going to offer up my own spin on this data visualization, and provide you <a href="https://www.r-project.org/">R</a> code that will enable you to remix mine if you like. If you do, be sure to <a href="https://twitter.com/lenkiefer">tell me about it</a>.</p>
+<div id="anatomy-of-my-viz" class="section level2">
+<h2>Anatomy of my viz</h2>
+<p>My remix is going to be slightly more complicated. This might be due to the fact I am <a href="https://en.wikipedia.org/wiki/Curse_of_knowledge">cursed with knowledge</a>, having studied unemployment trends quite closely. I feel like we can densify and add layers to the viz to convey even more information, even in a compact space.</p>
+<p>Because I’m gunning for a more complex viz and small multiples, let’s first break down the visualization piece by piece. Take a look:</p>
+<p><img src="/post/2017-01-18-workin-workout_files/figure-html/jan182017-ohio-viz-1-1.png" width="672" /></p>
+<p>This chart is a composite chart consisting of two lines, two shaded ribbons shading the area between the lines and a rug chart at the bottom. The chart compares the unemployment rate in Ohio (depicted by a solid line) relative to the national average unemployment rate for the United States (depicted by a dotted line. I’ve also colored the area between the two lines, using red to signify periods when Ohio had a higher unemployment rate than the U.S. in red and when Ohio had a lower unemployment rate than the U.S. in blue. I’ve further encoded these periods with the rug plot at the bottom.</p>
+<p>Examining the chart, we can see that throughout the 1980s and most of the 2000s, Ohio fared worse than the national average in terms of unemployment, while the Buckeye State did better in the 1990s and much of the past ten years.</p>
+</div>
+<div id="small-multiples" class="section level2">
+<h2>Small multiples</h2>
+<p>Now that we’ve broken the simple chart down, we can build a small multiple showing the same chart for each of the 50 states.</p>
+<p><img src="/post/2017-01-18-workin-workout_files/figure-html/jan182017-muliple-viz-1-1.png" width="672" /></p>
+<div id="animated-gif" class="section level3">
+<h3>Animated gif</h3>
+<p>Instead of the small multiple, we could use a gif to animate the chart.</p>
+<p>For smoothanimations we’ll use tweenr. See my earlier <a href="../../../../2016/05/29/improving-R-animated-gifs-with-tweenr">post about tweenr</a> for an introduction to tweenr, and more examples <a href="../../../../2016/05/30/more-tweenr-animations">here</a> and <a href="../../../../2016/06/26/week-in-review">here</a>.</p>
+<p><img src="../../../../img/charts_jan_18_2017/Workout UR jan 18 2017 v2.gif" ></p>
+</div>
+</div>
+<div id="how-i-build-these-charts" class="section level1">
+<h1>How I build these charts</h1>
+<p>Building these charts is quite easy with R. In the code below, I’m going to grab the data, do some manipulations and create the charts.</p>
+<div id="data" class="section level2">
+<h2>Data</h2>
+<p>Unemployment statistics are produced the <a href="https://www.bls.gov/">U.S. Bureau of Labor Statistics</a> and we can get state level data from <a href="https://download.bls.gov/pub/time.series/la/">their webpage.</a>.</p>
+</div>
+<div id="charts" class="section level2">
+<h2>Charts</h2>
+<p>Charts are created with ggplot2.</p>
+</div>
+<div id="code" class="section level2">
+<h2>Code</h2>
+<p>The code below will create these charts and the animation:</p>
+<pre class="r"><code>######################
+## Load Libraries ##
+######################
+library(data.table)
+library(quantmod)
+library(tidyverse)
+library(tweenr)
+library(animation)
+
+
+# Download data big file
+ur.data&lt;-fread(&quot;https://download.bls.gov/pub/time.series/la/la.data.1.CurrentS&quot;)
+
+# Download series ids
+
+ur.series&lt;-fread(&quot;https://download.bls.gov/pub/time.series/la/la.series&quot;)
+
+# We&#39;ll subset data
+ur.list&lt;-ur.series[area_type_code ==&quot;A&quot; &amp;   #get states
+                   measure_code == &quot;3&quot;  &amp;   #get unemployment rate
+                   seasonal == &quot;S&quot;,         #get seasonally adjusted data
+                   c(&quot;series_id&quot;,&quot;area_code&quot;,&quot;series_title&quot;),
+                   with=F]
+
+## Get state names and area crosswalk
+ur.area&lt;-fread(&quot;https://download.bls.gov/pub/time.series/la/la.area&quot;,
+               col.names=
+                 c(&quot;area_type_code&quot;,&quot;area_code&quot;,&quot;area_text&quot;,&quot;display_level&quot;,
+                   &quot;selectable&quot;,&quot;sort_sequence&quot;,&quot;blank&quot;))                   
+
+# merge data
+ur.dt&lt;-merge(ur.data,ur.list,by=&quot;series_id&quot;,all.y=T)
+
+#create data variable
+ur.dt[,month:=as.numeric(substr(ur.dt$period,2,3))]
+ur.dt$date&lt;- as.Date(ISOdate(ur.dt$year,ur.dt$month,1) ) #set up date variable
+ur.dt&lt;-merge(ur.dt,ur.area[,c(&quot;area_text&quot;,&quot;area_code&quot;),with=F],by=&quot;area_code&quot;)
+
+
+# Load national unemployment rate using quantmod and FRED database
+
+# helpful reference https://jeffreybreen.wordpress.com/tag/quantmod/
+unrate = getSymbols(&#39;UNRATE&#39;,src=&#39;FRED&#39;, auto.assign=F) 
+unrate.df = data.frame(date=time(unrate), coredata(unrate) )
+
+# Drop some columns
+ur.dt2&lt;-ur.dt[,c(&quot;date&quot;,&quot;area_text&quot;,&quot;value&quot;),with=F]
+
+## rename variables
+ur.dt2&lt;-dplyr::rename(ur.dt2, state=area_text)
+ur.dt2&lt;-dplyr::rename(ur.dt2, ur=value)
+
+# merge national unemploymnent 
+ur.dt2&lt;-merge(ur.dt2,unrate.df,by=&quot;date&quot;)
+ur.dt2&lt;-dplyr::rename(ur.dt2, ur.us=UNRATE)  #rename UNRATE to ur.us
+
+# create variables for use in ribbon chart
+ur.dt2[,up:=ifelse(ur&gt;ur.us,ur,ur.us)]
+ur.dt2[,down:=ifelse(ur&lt;ur.us,ur,ur.us)]
+
+# drop D.C. and Puerto Rico (so we can have 50 plots in small multiple)
+ur.plot&lt;-ur.dt2[! state %in% c(&quot;Puerto Rico&quot;,&quot;District of Columbia&quot;)]
+
+
+# Get list of states:
+st.list&lt;-unique(ur.plot$state)
+
+#Add U.S. as it&#39;s own state (for use in animation)
+ur.plot.us&lt;-copy(ur.plot)[state==&quot;Alabama&quot;]
+ur.plot.us[,state:=&quot;United States&quot;]
+ur.plot.us[,ur:=ur.us]
+ur.plot.us[,up:=ur.us]
+ur.plot.us[,down:=ur.us]
+ur.plot2&lt;-rbind(ur.plot,ur.plot.us)
+
+#######################################################################################################
+
+
+#######################################################################################################
+# Some functions
+
+# Create plotting function
+myplotf&lt;-function(df){
+  g&lt;-
+    ggplot(data=df,aes(x=date,y=ur))+
+    geom_line(color=&quot;black&quot;)+
+    geom_line(linetype=2,aes(y=ur.us))+
+    geom_ribbon(aes(ymin=ur,ymax=down),fill=&quot;#d73027&quot;,alpha=0.5)+
+    geom_ribbon(aes(ymin=ur,ymax=up),fill=&quot;#4575b4&quot;,alpha=0.5)+
+    facet_wrap(~state,ncol=10,scales=&quot;free_x&quot;)+
+    scale_y_continuous(limits=c(0,20))+
+    theme_minimal()+
+    theme(legend.position=&quot;top&quot;,
+          plot.caption=element_text(hjust=0),
+          plot.subtitle=element_text(face=&quot;italic&quot;),
+          plot.title=element_text(size=16,face=&quot;bold&quot;))+
+    labs(x=&quot;&quot;,y=&quot;&quot;,
+         title=&quot;The state of U.S. jobs - Working out @hrbmstr&#39;s workout of @stiles&#39; Viz&quot;,
+         subtitle=&quot;Solid line is state unemployment rate, dotted line is U.S. average unemployment rate\nRed (blue) indicates the state level is higher (lower) than the national average&quot;,
+         caption=&quot;@lenkiefer Data Source: U.S. Bureau of Labor Statistics\nViz based on https://rud.is/b/2017/01/18/workout-wednesday-redux-2017-week-3/,\nitself based on http://thedailyviz.com/2016/12/14/four-decades-of-state-unemployment-rates-in-small-multiples-part-2/&quot;)+
+    geom_rug(aes(color=ifelse(ur&gt;ur.us,&quot;Worse&quot;,&quot;Same or Better&quot;)),sides=&quot;b&quot;)+
+    scale_color_manual(values=c(&quot;#4575b4&quot;,&quot;#d73027&quot;),name=&quot;Better or worse than U.S.&quot;)
+  return(g)
+}
+
+
+# Data subsetting function
+
+myf&lt;-function(s){
+  df&lt;- ur.plot2[state==s]
+  df %&gt;% map_if(is.character, as.factor) %&gt;% as_data_frame -&gt; df
+  return(df)
+}
+
+#######################################################################################################
+
+
+#### Make Ohio Plot ###################################################################################
+
+myplotf(myf(&quot;Ohio&quot;))
+
+#######################################################################################################
+
+
+#### Make Small Multiple ##############################################################################
+
+# Create Small Multiple
+
+ggplot(data=ur.plot,aes(x=date,y=ur))+
+  geom_line(color=&quot;black&quot;)+
+  geom_line(linetype=2,aes(y=ur.us))+
+  geom_ribbon(aes(ymin=ur,ymax=down),fill=&quot;#d73027&quot;,alpha=0.5)+
+  geom_ribbon(aes(ymin=ur,ymax=up),fill=&quot;#4575b4&quot;,alpha=0.5)+
+  facet_wrap(~state,ncol=10,scales=&quot;free_x&quot;)+
+  theme_minimal()+
+  theme(legend.position=&quot;top&quot;,
+        plot.caption=element_text(hjust=0),
+        plot.subtitle=element_text(face=&quot;italic&quot;),
+        plot.title=element_text(size=16,face=&quot;bold&quot;))+
+  labs(x=&quot;&quot;,y=&quot;&quot;,
+       title=&quot;The state of U.S. jobs - Working out @hrbmstr&#39;s workout of @stiles&#39; Viz&quot;,
+       subtitle=&quot;Solid line is state unemployment rate, dotted line is U.S. average unemployment rate\nRed (blue) indicates the state level is higher (lower) than the national average&quot;,
+       caption=&quot;@lenkiefer Data Source: U.S. Bureau of Labor Statistics\nViz based on https://rud.is/b/2017/01/18/workout-wednesday-redux-2017-week-3/, itself based on http://thedailyviz.com/2016/12/14/four-decades-of-state-unemployment-rates-in-small-multiples-part-2/&quot;)+
+  geom_rug(aes(color=ifelse(ur&gt;ur.us,&quot;Worse&quot;,&quot;Better&quot;)),sides=&quot;b&quot;)+
+  scale_color_manual(values=c(&quot;#4575b4&quot;,&quot;#d73027&quot;),name=&quot;Better or worse than U.S.&quot;)
+
+
+#####################################################################################################
+
+
+#### Create Animation ##############################################################################
+
+mylist&lt;-lapply(c(&quot;United States&quot;,st.list,&quot;United States&quot;),myf)
+tween.df&lt;-tween_states(mylist,tweenlength=1,statelength=2, ease=rep(&#39;cubic-in-out&#39;,53), nframes=250)
+tween.df&lt;-data.table(tween.df)
+
+
+oopt = ani.options(interval = 0.2)
+saveGIF({for (i in 1:max(tween.df$.frame)) {
+  g&lt;-myplotf(tween.df[.frame==i,])
+  print(g)
+  print(i)
+  ani.pause()
+}
+},movie.name=&quot;Workout UR jan 18 2017 v2.gif&quot;,ani.width = 600, ani.height =400)
+
+
+##################################################################################################</code></pre>
+</div>
+</div>

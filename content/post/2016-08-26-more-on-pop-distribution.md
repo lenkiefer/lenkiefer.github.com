@@ -1,0 +1,207 @@
+---
+title: Density squared
+author: Len Kiefer
+date: '2016-08-26'
+slug: more-on-pop-distribution
+tags: ["dataviz","demographics","R"]
+---
+
+
+
+
+WE ARE GOING TO EXAMINE THE DISTRIBUTION OF US POPULATION and make an animated gif combining a map and a kernel density estimate of the distribution of county population densities. Density of densities, or density squared.
+
+We are going to use the same [US County Population Estimates 1790-2010](http://conservancy.umn.edu/handle/11299/181605) we used in [my previous post](../../../../2016/08/23/US-pop-map-1790-2010 ).
+
+We'll end up with this:
+
+<img src="../../../../img/charts_aug_26_2016/pop density gif.gif" alt="population with distro"/>
+
+How do we do it?
+
+# Code
+
+First, we'll load the data and do some manipulations.  Then we'll construct a composite plot combining the map of the United States with a distribution plot.  I'm going to focus on estimated population density (population per square mile) for counties in the United States.  
+
+
+
+
+
+{% highlight r 
+# function for combining graphs see: http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/
+source('code/multiplot.R')
+
+#load density data and 
+densityDF<-read_excel("data/county2010_hist_pops.xlsx",sheet="densities")
+densityDF<-densityDF %>% gather(year.of,"density",6:28) 
+densityDF<-mutate(densityDF,year=substr(year.of,5,9))
+densityDF<-data.table(densityDF)
+densityDF$fips<-densityDF$GEOID10
+
+# Map stuff
+
+states<-usa_composite()
+smap<-fortify(states,region="fips_state")
+smap.all<-smap
+counties <- counties_composite()
+#get data:
+counties@data <- left_join(counties@data, densityDF, by = "fips")
+cmap <- fortify(counties_composite(), region="fips")
+cmap$state<-substr(cmap$id,1,2)
+cmap$county<-substr(cmap$id,3,5)
+cmap$fips<-paste0(cmap$state,cmap$county)
+cmap.all<-cmap
+
+
+mycaption<-"@lenkiefer Source: Schroeder, Jonathan P. (2016). Historical Population Estimates for 2010 U.S. States, Counties and Metro/Micro Areas, 1790-2010. Retrieved from the Data Repository for the University of Minnesota, http://doi.org/10.13020/D6XW2H."
+mycaption <- paste0(strwrap(mycaption, 130), sep="", collapse="\n")
+
+# create a function to wrap our graphs:
+
+myplotf<-function(indata){
+  indata$fips<-as.character(indata$fips)
+  indata$year<-as.character(indata$year)
+  counties <- counties_composite()
+  #merge indata to countyies@data:
+  counties@data <- left_join(counties@data, indata, by = "fips")
+  
+
+map1<-
+  ggplot() +
+  geom_map(data = cmap.all, map = cmap.all,
+           aes(x = long, y = lat, map_id = id),
+           color = "lightgray", size = 0.05, fill = NA) +
+ 
+    geom_map(data = counties@data, map = cmap.all,
+           aes(fill =log(density), map_id = fips),
+           color = NA) +
+     geom_map(data = smap.all, map = smap.all,
+           aes(x = long, y = lat, map_id = id),
+           color = "white", size = .5, fill = NA) +
+
+  theme_map( base_size = 12) +
+  theme(plot.title=element_text( size = 16, margin=margin(b=10))) +
+  theme(plot.subtitle=element_text(size = 10, margin=margin(b=-20))) +
+  theme(plot.caption=element_text(size = 9, margin=margin(t=-15))) +
+  coord_proj(us_laea_proj) +   labs(title="",subtitle="" ) +
+  scale_fill_viridis(name="Population Density\nlog scale\npersons / sq. mile, land area\n",
+                      discrete=F,option="D",end=0.95,direction=-1,limits=c(log(.079),log(2e5)),
+                      breaks=c(log(1),log(10),log(100),log(1000),log(10000),log(1e5)),
+                      labels=c("1","10","100","1,000","10,000","100,000")) +
+  theme(legend.position = "right") +theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+  labs(x="Denisty(log scale)",y="",
+       subtitle="persons / sq. mile, land area",
+       caption=mycaption ,
+       title=paste0("County Population Density in ",head(indata,1)$year))
+
+#compute some states for chart
+indata<-data.table(indata)
+indata[,med.dens:=median(density),by=STATE]  #mean density across counties (unweighted)
+indata[,us.med:=median(density)]           #median density for the U.S.
+graph1<-
+  ggplot(indata, aes(x=log(density))) + 
+  #the fill will depend on a value we'll feed to the data my.alpha, defined below
+  geom_density(alpha=head(indata,1)$my.alpha,aes(group=STATE,fill=log(med.dens)),color=NA)+
+  geom_density(size=.75,aes(fill=log(us.med)),alpha=1,color="darkgray")+
+  theme_minimal()+
+  scale_fill_viridis(discrete=F,option="D",end=0.95,direction=-1,limits=c(log(.079),log(1.2e5)),name="Median County Density")+
+   scale_color_viridis(name = "Population Density", discrete=T,option="D",end=0.95)+
+    theme(legend.justification=c(1,0), legend.position="none")+
+  facet_wrap(~year)+
+  labs(x="Population density (log scale)",y="",title="Kernel density curve fit to county population density",subtitle="distribution over population density for each county in the U.S.",caption="Line distribution for U.S.\nEach colored area shows distribution across counties for an individual state")+
+  scale_x_continuous(limits=c(log(.079),log(1.2e5)),
+                      breaks=c(log(1),log(10),log(100),log(1000),log(10000),log(1e5)),
+                      labels=c("1","10","100","1,000","10,000","100,000"))+
+  theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+  theme(axis.title.y=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks.y=element_blank())
+m<-multiplot(map1,graph1,layout=matrix(c(1,1,2,2), nrow=2, byrow=TRUE))
+#return(m)  
+}
+
+#This function will plot each state individually (my.alpha>0)
+#we need the alpha because when we use tween for the animation we'll want to fade in and out
+myf <- function(yy,my.a=0.5){
+  my.out<-densityDF[year==yy,]
+  my.out$my.alpha<-my.a
+  my.out %>% map_if(is.character, as.factor) %>% as.data.frame() ->my.out 
+  return(data.frame(my.out))   }
+
+myplotf(myf("2010"))
+{% endhighlight 
+
+![plot of chunk fig-density-plot-1](/img/Rfig/fig-density-plot-1-1.svg)
+
+## Discussion
+
+This is a complex plot, even without the animation.  The map shows population density for each county in the U.S. in 2010. The darker the color (or purpler), the higher the density. You can pretty easily make out major population centers (New York, Los Angeles, Chicago) on the map.
+
+The plot below shows a density curve of county level population density. The gray line is for the entire United States.  Each overlaid hump is a density fie for each state. It might be easier if we break it down with facets for each state:
+
+
+{% highlight r 
+indata<-myf("2010")  #use our function to make a plot
+indata<-data.table(indata)[STATE != "District Of Columbia"] #exclude DC so we have 50 states
+indata[,med.dens:=median(density),by=STATE]  #mean density across counties (unweighted)
+indata[,us.med:=median(density)]           #median density for the U.S.
+
+ggplot(indata, aes(x=log(density))) + 
+  #the fill will depend on a value we'll feed to the data my.alpha, defined below
+  geom_density(alpha=.9,aes(group=STATE,fill=log(med.dens)),color=NA)+
+ # geom_density(size=.75,aes(fill=log(us.med)),alpha=1,color="darkgray")+
+  theme_minimal()+
+  scale_fill_viridis(discrete=F,option="D",end=0.95,direction=-1,limits=c(log(.079),log(1.2e5)),name="Median County Density")+
+   scale_color_viridis(name = "Population Density", discrete=T,option="D",end=0.95)+
+    theme(legend.justification=c(1,0), legend.position="none")+
+  facet_wrap(~year)+
+  labs(x="Population density (log scale)",y="",title="Kernel density curve fit to county population density",subtitle="distribution over population density for each county in the U.S. (2010)",caption=paste0("Each colored area shows distribution across counties for an individual state\n",mycaption))+
+  scale_x_continuous(limits=c(log(.079),log(1.2e5)),
+                      breaks=c(log(1),log(1e5)),
+                      labels=c("1","100,000"))+
+      theme(axis.text.x = element_text(size=6))+  #shrink axis text size
+  theme(strip.text.x = element_text(size = 7))+
+  theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+  theme(axis.title.y=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks.y=element_blank())+facet_wrap(~STATE,ncol=10,scales="free_y")
+{% endhighlight 
+
+![plot of chunk fig-density-plot-2](/img/Rfig/fig-density-plot-2-1.svg)
+
+This plot lets you compare the distribution of county population density by state in 2010. Some states, like New Jersey, are very urban and have concentrated density at the high end of the scale (purpler). Other states, like Alaska have low levels of population density.  
+
+## Animation
+
+We can now animate this using tweenr to get the plot above (code below).  *See my earlier [post about tweenr](../../../../2016/05/29/improving-R-animated-gifs-with-tweenr ) for an introduction to tweenr, and more examples [here](../../../../2016/05/30/more-tweenr-animations ) and [here](../../../../2016/06/26/week-in-review ).*
+
+*For more on mapping, see my earlier posts: [Maps Mortgages and Me](../../../../2016/08/21/maps-mortgages-and-me ), [U.S. county population: 1790-2010](../../../../2016/08/23/US-pop-map-1790-2010 ) and [More map visualizations](../../../../2016/08/24/more-maps).*
+
+
+{% highlight r 
+y.list<-unique(densityDF$year)  #get list of years
+
+tf <- tween_states(list(
+                        myf("1830",0),myf("1830",0.5),
+                        myf("1860",0),myf("1860",0.5),
+                        myf("1890",0),myf("1890",0.5),
+                        myf("1920",0),myf("1920",0.5),
+                        myf("1950",0),myf("1950",0.5),
+                        myf("1980",0),myf("1980",0.5),
+                        myf("2010",0),myf("2010",0.5),
+                        myf("1830")),  #close the animation loop
+                   tweenlength= 2, statelength=1, ease=rep('cubic-in-out',2),nframes=170)
+tf<-data.table(tf)
+N<-max(tf$.frame)
+#N<-5
+
+oopt = ani.options(interval = 0.15)
+saveGIF({for (i in 1:N) {
+  g<-myplotf(tf[.frame==i])
+  print(g)
+  ani.pause()
+  print(i)
+}  },movie.name="pop density gif.gif",ani.width = 700, ani.height = 600)
+{% endhighlight 
+
+

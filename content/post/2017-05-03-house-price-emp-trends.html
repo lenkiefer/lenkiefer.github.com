@@ -1,0 +1,153 @@
+---
+title: "House price growth and employment trends"
+author: "Len Kiefer"
+date: "2017-05-03"
+summary: "R statistics dataviz housing mortgage data"
+tags: ["R","dataviz","economy","house prices"]
+category: "economics"
+slug: "house-price-emp-trends"
+---
+
+
+
+<p>IN THIS POST I WANT TO REVIEW RECENT EMPLOYMENT AND HOUSE PRICE TRENDS at the metropolitan statistical area. No <a href="https://www.r-project.org/">R</a> code here, but you can recreate the graphs we’ll explore today by following the code <a href="../../../../2017/02/20/house-price-tour">in this post</a>.</p>
+<p>This week the U.S. Bureau of Labor Statistics (BLS) released updated metro employment data (<a href="https://www.bls.gov/news.release/metro.nr0.htm">LINK</a>) and Freddie Mac released its <a href="http://www.freddiemac.com/finance/house_price_index.html">Freddie Mac House Price Index</a> for over 300 metro areas as well as the 50 states, the District of Columbia and the United States. Let’s see how employment and house price growth relate.</p>
+<pre><code>## 
+## Attaching package: &#39;dplyr&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:data.table&#39;:
+## 
+##     between, first, last</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     filter, lag</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     intersect, setdiff, setequal, union</code></pre>
+<pre><code>## Registering fonts with R</code></pre>
+<pre><code>## Loading required package: viridisLite</code></pre>
+<p>First, let’s consider annual house price growth in the Washington, D.C. metro area.</p>
+<pre><code>## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database</code></pre>
+<p><img src="/post/2017-05-03-house-price-emp-trends_files/figure-html/05-03-2017-dc-plot1-1.png" width="672" /></p>
+<p>Let’s consider employment growth for the Washington D.C. area:</p>
+<pre><code>## Warning: Removed 12 rows containing missing values (position_stack).</code></pre>
+<pre><code>## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database</code></pre>
+<p><img src="/post/2017-05-03-house-price-emp-trends_files/figure-html/05-03-2017-dc-plot2-1.png" width="672" /></p>
+<p>Let’s compare employment and house price growth in the Washington D.C. metro area:</p>
+<pre><code>## Warning: Removed 12 rows containing missing values (geom_point).
+
+## Warning: Removed 12 rows containing missing values (geom_point).</code></pre>
+<p><img src="/post/2017-05-03-house-price-emp-trends_files/figure-html/05-03-2017-dc-plot3-1.png" width="672" /></p>
+<p>Periods of high (low) employment growth correspond to periods of high (low) house price growth.</p>
+<p>How do these trends vary across metro areas?</p>
+<p>Let’s look at 12 large metro areas:</p>
+<pre><code>## Warning: Removed 144 rows containing missing values (geom_point).</code></pre>
+<p><img src="/post/2017-05-03-house-price-emp-trends_files/figure-html/05-03-2017-all-plot4-1.png" width="672" /></p>
+<p>While in general the scatterplots follow an upward trend, there’s quite a bit of variation across markets.</p>
+<p>Let’s take a tour:</p>
+<p><img src="../../../../img/charts_may_03_2017/geo tour emp hpi tween 05 03 2017.gif" ></p>
+<p><strong>BONUS: Let’s add an animated scatterplot</strong></p>
+<p><img src="../../../../img/charts_may_03_2017/emp hpa scatter 05 03 2017.gif" ></p>

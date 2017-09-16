@@ -1,0 +1,388 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Distribution of mortgage loan amounts in 2015</title>
+    
+    <meta name="author" content="Len Kiefer">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap styles -->
+    <link href="/assets/themes/lentheme/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Optional theme -->
+    <link href="/assets/themes/lentheme/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <!-- Sticky Footer -->
+    <link href="/assets/themes/lentheme/bootstrap/css/bs-sticky-footer.css" rel="stylesheet">
+    
+    <!-- Custom styles -->
+    <link href="/assets/themes/lentheme/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <!-- Update these with your own images
+      <link rel="shortcut icon" href="images/favicon.ico">
+      <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+      <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+      <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+  </head>
+
+  <body>
+    <div id="wrap">
+      <nav class="navbar navbar-default" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#jb-navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/"><span class="icon-home3" style="font-size:24px"> Len Kiefer</a></span>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="jb-navbar-collapse" style="font-size:24px">
+          <ul class="nav navbar-nav" >
+        <li><a href="/archive.html"><span class="icon-newspaper"> Posts</a></span></li>
+            <!-- li><a href="/chartbook/index.html"><span class="icon-display"> Chartbook</a></span></li-->
+         <li><a href="/resume.html"><span class="icon-profile"> Resume</span></a></li>
+        <li><a href="/about.html"><span class="icon-user-tie"> About</span></a></li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </nav>
+
+      <div class="container">
+        
+<div class="page-header">
+  <h1>Distribution of mortgage loan amounts in 2015 </h1>
+</div>
+
+<div class="row post-full">
+  <div class="col-xs-12">
+    <div class="date">
+      <span>11 October 2016</span>
+    </div>
+    <div class="content">
+      <p>IN THIS POST I WANT TO CREATE some data visualizations with <a href="https://www.r-project.org/">R</a> using the <a href="https://www.ffiec.gov/press/pr092916.htm">recently released</a> Home Mortgage Disclosure Act (HMDA) data.</p>
+
+<p>For this post I’m going to return to the 2015 HMDA that you can get from the Consumer Financial Protection Bureau (CFPB) <a href="http://www.consumerfinance.gov/data-research/hmda/explore">webpage</a> and I <a href="/2016/08/18/data-swarm">discussed earlier</a>.</p>
+
+<p>Check out my <a href="/2016/08/21/maps-mortgages-and-me">prior post</a> for more discussion of how we build these data visualizations.</p>
+
+<p><em>R code for graphs posted below</em></p>
+
+<h2 id="mortgage-loan-sizes-in-california">Mortgage loan sizes in California</h2>
+
+<p>First, we’ll update my graph from the <a href="/2016/08/21/maps-mortgages-and-me">earlier post</a> to show the distribution of loan sizes in California in 2015.</p>
+
+<p><img src="/img/Rfig/fig-hmda-2015-viz1-1.svg" alt="plot of chunk fig-hmda-2015-viz1" /></p>
+
+<p>Many loans in California are over $1 million due to high home values, particularly on the coast.  The graph below looks at the share of loans with a loan amount greater than $1 million.</p>
+
+<p><img src="/img/Rfig/fig-hmda-2015-viz2-1.svg" alt="plot of chunk fig-hmda-2015-viz2" /></p>
+
+<p>We can contrast the high loan balances in California with the lower loans sizes typical in Texas.  Less than 1% of the mortgage loans originated in Texas in 2015 were with loan amounts over $1 million.</p>
+
+<p><img src="/img/Rfig/fig-hmda-2015-viz3-1.svg" alt="plot of chunk fig-hmda-2015-viz3" /></p>
+
+<h1 id="r-code-for-graphs">R code for graphs</h1>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1">#load libraries
+</span><span class="n">library</span><span class="p">(</span><span class="s1">'ggbeeswarm'</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">viridis</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">data.table</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">scales</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">ggthemes</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">tweenr</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">purrr</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">animation</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">acs</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">reshape2</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">stringr</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">ggthemes</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">ggalt</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">scales</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">rgeos</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">maptools</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">albersusa</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">broom</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">zoo</span><span class="p">)</span>
+<span class="c1"># function for combining graphs see: http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/
+</span><span class="n">source</span><span class="p">(</span><span class="s1">'code/multiplot.R'</span><span class="p">)</span>
+
+<span class="n">mydata</span> <span class="o">&lt;-</span> <span class="n">fread</span><span class="p">(</span><span class="s2">"data/hmda_lar.csv"</span><span class="p">)</span> <span class="c1">#load data  
+#can get from: http://www.consumerfinance.gov/data-research/hmda/explore#!/as_of_year=2015&amp;action_taken=1&amp;section=filters
+</span>
+
+<span class="n">mydata</span><span class="o">&lt;-</span><span class="n">mydata</span><span class="p">[,</span><span class="n">list</span><span class="p">(</span><span class="n">state_name</span><span class="p">,</span><span class="n">state_abbr</span><span class="p">,</span><span class="n">county_name</span><span class="p">,</span><span class="n">loan_amount_000s</span><span class="p">,</span><span class="n">loan_purpose_name</span><span class="p">,</span><span class="n">loan_type_name</span><span class="p">,</span>
+                     <span class="n">agency_abbr</span><span class="p">,</span><span class="n">respondent_id</span><span class="p">,</span><span class="n">population</span><span class="p">,</span><span class="n">property_type_name</span><span class="p">,</span>
+                     <span class="n">applicant_income_000s</span><span class="p">,</span><span class="n">lien_status_name</span><span class="p">,</span><span class="n">msamd_name</span><span class="p">)]</span>
+
+<span class="c1">#only keep loans on 1-4 family properties
+</span><span class="n">mydata</span><span class="o">&lt;-</span><span class="n">mydata</span><span class="p">[</span><span class="n">property_type_name</span><span class="o">==</span><span class="s2">"One-to-four family dwelling (other than manufactured housing)"</span><span class="p">,]</span>
+
+<span class="c1">#create merged state + county variable
+</span><span class="n">mydata</span><span class="o">&lt;-</span><span class="n">mydata</span><span class="p">[,</span> <span class="n">c.name</span><span class="o">:=</span><span class="n">str_c</span><span class="p">(</span><span class="n">state_abbr</span><span class="p">,</span><span class="s2">":"</span><span class="p">,</span><span class="n">county_name</span><span class="p">)]</span>
+
+<span class="c1">#get fips lookup: from census
+</span>
+<span class="n">fips.look</span><span class="o">&lt;-</span><span class="n">fread</span><span class="p">(</span><span class="s2">"http://www2.census.gov/geo/docs/reference/codes/files/national_county.txt"</span><span class="p">,</span>
+                 <span class="n">col.names</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="s2">"state_abbr"</span><span class="p">,</span><span class="s2">"st.fips"</span><span class="p">,</span><span class="s2">"county.fips"</span><span class="p">,</span><span class="s2">"county_name"</span><span class="p">,</span><span class="s2">"CLASSFP"</span><span class="p">),</span><span class="n">head</span><span class="o">=</span><span class="n">F</span><span class="p">)</span>
+
+<span class="n">fips.look</span><span class="o">&lt;-</span><span class="n">fips.look</span><span class="p">[,</span><span class="n">fips</span> <span class="o">:=</span> <span class="n">str_c</span><span class="p">(</span><span class="n">str_pad</span><span class="p">(</span><span class="n">st.fips</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="s2">"left"</span><span class="p">,</span> <span class="s2">"0"</span><span class="p">),</span><span class="n">str_pad</span><span class="p">(</span><span class="n">county.fips</span><span class="p">,</span> <span class="m">3</span><span class="p">,</span> <span class="s2">"left"</span><span class="p">,</span> <span class="s2">"0"</span><span class="p">))]</span>
+<span class="c1">#create merged state + county variable
+</span><span class="n">fips.look</span><span class="o">&lt;-</span><span class="n">fips.look</span><span class="p">[,</span><span class="n">c.name</span><span class="o">:=</span><span class="n">str_c</span><span class="p">(</span><span class="n">state_abbr</span><span class="p">,</span><span class="s2">":"</span><span class="p">,</span><span class="n">county_name</span><span class="p">)]</span>
+<span class="c1">#get rid of extra columns for merge
+</span><span class="n">fips.look2</span><span class="o">&lt;-</span><span class="n">fips.look</span><span class="p">[,</span><span class="n">list</span><span class="p">(</span><span class="n">fips</span><span class="p">,</span><span class="n">c.name</span><span class="p">)]</span>
+
+<span class="c1">#merge fips numbers back onto data
+</span><span class="n">mydata</span><span class="o">&lt;-</span><span class="n">merge</span><span class="p">(</span><span class="n">mydata</span><span class="p">,</span><span class="n">fips.look2</span><span class="p">,</span><span class="n">by</span><span class="o">=</span><span class="s2">"c.name"</span><span class="p">)</span>
+
+<span class="c1">#add state code, will be useful for labeling
+</span><span class="n">mydata</span><span class="o">&lt;-</span><span class="n">mydata</span><span class="p">[,</span><span class="n">st.fips</span><span class="o">:=</span><span class="n">substr</span><span class="p">(</span><span class="n">fips</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">)]</span>
+<span class="n">mydata</span><span class="o">&lt;-</span><span class="n">mydata</span><span class="p">[,</span><span class="n">county.fips</span><span class="o">:=</span><span class="n">substr</span><span class="p">(</span><span class="n">fips</span><span class="p">,</span><span class="m">3</span><span class="p">,</span><span class="m">5</span><span class="p">)]</span>
+
+<span class="c1"># loan amounts read as character variable, scaled in $1000s, create upb variable in $s and numeric
+</span><span class="n">mydata</span><span class="o">$</span><span class="n">upb</span><span class="o">&lt;-</span><span class="n">as.numeric</span><span class="p">(</span><span class="n">mydata</span><span class="o">$</span><span class="n">loan_amount_000s</span><span class="p">)</span><span class="o">*</span><span class="m">1000</span>
+
+<span class="c1"># Create a summary file that has total UPB (upb), median loan amount (upb.med), and count of loans (count)
+</span><span class="n">county.sum</span><span class="o">&lt;-</span><span class="n">mydata</span><span class="p">[,</span><span class="n">list</span><span class="p">(</span><span class="n">upb</span><span class="o">=</span><span class="n">sum</span><span class="p">(</span><span class="n">upb</span><span class="p">),</span><span class="n">upb.med</span><span class="o">=</span><span class="n">median</span><span class="p">(</span><span class="n">upb</span><span class="p">),</span><span class="n">count</span><span class="o">=</span><span class="n">.N</span><span class="p">),</span> <span class="n">by</span><span class="o">=</span><span class="n">list</span><span class="p">(</span><span class="n">fips</span><span class="p">,</span><span class="n">state_abbr</span><span class="p">,</span><span class="n">state_name</span><span class="p">,</span><span class="n">county_name</span><span class="p">,</span><span class="n">msamd_name</span><span class="p">)]</span>
+
+
+<span class="c1"># Let's load some maps:
+</span>
+<span class="n">states</span><span class="o">&lt;-</span><span class="n">usa_composite</span><span class="p">()</span>  <span class="c1">#create a state map thing
+</span><span class="n">smap</span><span class="o">&lt;-</span><span class="n">fortify</span><span class="p">(</span><span class="n">states</span><span class="p">,</span><span class="n">region</span><span class="o">=</span><span class="s2">"fips_state"</span><span class="p">)</span>
+<span class="n">smap.all</span><span class="o">&lt;-</span><span class="n">smap</span>           <span class="c1">#we're going to subset smap later, so copy full map
+</span>
+<span class="n">counties</span> <span class="o">&lt;-</span> <span class="n">counties_composite</span><span class="p">()</span>   <span class="c1">#create a county map thing
+</span>
+<span class="c1">#add on summary stats by county using FIPS code
+</span><span class="n">counties</span><span class="o">@</span><span class="n">data</span> <span class="o">&lt;-</span> <span class="n">left_join</span><span class="p">(</span><span class="n">counties</span><span class="o">@</span><span class="n">data</span><span class="p">,</span> <span class="n">county.sum</span><span class="p">,</span> <span class="n">by</span> <span class="o">=</span> <span class="s2">"fips"</span><span class="p">)</span>   
+<span class="n">cmap</span> <span class="o">&lt;-</span> <span class="n">fortify</span><span class="p">(</span><span class="n">counties_composite</span><span class="p">(),</span> <span class="n">region</span><span class="o">=</span><span class="s2">"fips"</span><span class="p">)</span>
+<span class="c1">#create state and county FIPS codes 
+</span><span class="n">cmap</span><span class="o">$</span><span class="n">state</span><span class="o">&lt;-</span><span class="n">substr</span><span class="p">(</span><span class="n">cmap</span><span class="o">$</span><span class="n">id</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">)</span>  
+<span class="n">cmap</span><span class="o">$</span><span class="n">county</span><span class="o">&lt;-</span><span class="n">substr</span><span class="p">(</span><span class="n">cmap</span><span class="o">$</span><span class="n">id</span><span class="p">,</span><span class="m">3</span><span class="p">,</span><span class="m">5</span><span class="p">)</span>
+<span class="n">cmap</span><span class="o">$</span><span class="n">fips</span><span class="o">&lt;-</span><span class="n">paste0</span><span class="p">(</span><span class="n">cmap</span><span class="o">$</span><span class="n">state</span><span class="p">,</span><span class="n">cmap</span><span class="o">$</span><span class="n">county</span><span class="p">)</span>
+<span class="n">cmap.all</span><span class="o">&lt;-</span><span class="n">cmap</span>    <span class="c1">#we're going to subset cmap later, so copy full map
+</span>
+
+<span class="c1"># First step is to get a list of states (we'll exclude FIPS code 72: Puerto Rico)
+</span>
+<span class="n">st.list</span><span class="o">&lt;-</span><span class="n">unique</span><span class="p">(</span><span class="n">mydata</span><span class="p">[</span><span class="n">st.fips</span> <span class="o">!=</span><span class="s2">"72"</span><span class="p">,]</span><span class="o">$</span><span class="n">st.fips</span><span class="p">)</span>
+
+<span class="c1"># The next step is to make a function that generates the composite plot based on a state FIPS number:
+</span>
+<span class="n">myplot</span><span class="o">&lt;-</span><span class="k">function</span><span class="p">(</span><span class="n">i</span><span class="p">){</span>
+  
+  <span class="n">c.list</span><span class="o">&lt;-</span><span class="n">unique</span><span class="p">(</span><span class="n">mydata</span><span class="p">[</span><span class="n">st.fips</span> <span class="o">==</span><span class="n">st.list</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span><span class="o">$</span><span class="n">fips</span><span class="p">)</span>  <span class="c1"># all counties within selected state [i]
+</span>  <span class="n">smap</span><span class="o">&lt;-</span><span class="n">subset</span><span class="p">(</span><span class="n">smap.all</span><span class="p">,</span> <span class="n">id</span> <span class="o">%</span><span class="k">in</span><span class="o">%</span> <span class="n">st.list</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>         <span class="c1"># subset state map
+</span>  <span class="n">cmap</span><span class="o">&lt;-</span><span class="n">subset</span><span class="p">(</span><span class="n">cmap.all</span><span class="p">,</span> <span class="n">fips</span> <span class="o">%</span><span class="k">in</span><span class="o">%</span> <span class="n">c.list</span><span class="p">)</span>           <span class="c1"># subset county map
+</span>  
+  <span class="c1">#state label
+</span>  <span class="n">st.label</span><span class="o">&lt;-</span><span class="n">unique</span><span class="p">(</span><span class="n">fips.look</span><span class="p">[</span><span class="n">st.fips</span><span class="o">==</span><span class="n">as.numeric</span><span class="p">(</span><span class="n">st.list</span><span class="p">[</span><span class="n">i</span><span class="p">])]</span><span class="o">$</span><span class="n">state_abbr</span><span class="p">)</span>
+  
+  <span class="c1"># graph 1: map (as above, but only including subset)
+</span>  <span class="n">g1</span><span class="o">&lt;-</span>
+    <span class="n">ggplot</span><span class="p">()</span> <span class="o">+</span>
+    <span class="n">geom_map</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">cmap</span><span class="p">,</span> <span class="n">map</span> <span class="o">=</span> <span class="n">cmap</span><span class="p">,</span>
+             <span class="n">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">long</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">lat</span><span class="p">,</span> <span class="n">map_id</span> <span class="o">=</span> <span class="n">id</span><span class="p">),</span>
+             <span class="n">color</span> <span class="o">=</span> <span class="s2">"#2b2b2b"</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="m">0.05</span><span class="p">,</span> <span class="n">fill</span> <span class="o">=</span> <span class="n">NA</span><span class="p">)</span> <span class="o">+</span>
+    <span class="n">geom_map</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">counties</span><span class="o">@</span><span class="n">data</span><span class="p">,</span> <span class="n">map</span> <span class="o">=</span> <span class="n">cmap</span><span class="p">,</span>
+             <span class="n">aes</span><span class="p">(</span><span class="n">fill</span> <span class="o">=</span><span class="n">log</span><span class="p">(</span><span class="n">upb.med</span><span class="p">),</span> <span class="n">map_id</span> <span class="o">=</span> <span class="n">fips</span><span class="p">),</span>
+             <span class="n">color</span> <span class="o">=</span> <span class="n">NA</span><span class="p">)</span> <span class="o">+</span>
+    <span class="n">geom_map</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">smap</span><span class="p">,</span> <span class="n">map</span> <span class="o">=</span> <span class="n">smap</span><span class="p">,</span>
+             <span class="n">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">long</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">lat</span><span class="p">,</span> <span class="n">map_id</span> <span class="o">=</span> <span class="n">id</span><span class="p">),</span>
+             <span class="n">color</span> <span class="o">=</span> <span class="s2">"black"</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="m">1.05</span><span class="p">,</span> <span class="n">fill</span> <span class="o">=</span> <span class="n">NA</span><span class="p">)</span> <span class="o">+</span>
+    <span class="n">theme_map</span><span class="p">(</span> <span class="n">base_size</span> <span class="o">=</span> <span class="m">12</span><span class="p">)</span> <span class="o">+</span>
+    <span class="n">theme</span><span class="p">(</span><span class="n">plot.title</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span> <span class="n">size</span> <span class="o">=</span> <span class="m">16</span><span class="p">,</span> <span class="n">margin</span><span class="o">=</span><span class="n">margin</span><span class="p">(</span><span class="n">b</span><span class="o">=</span><span class="m">10</span><span class="p">)))</span> <span class="o">+</span>
+    <span class="n">theme</span><span class="p">(</span><span class="n">plot.subtitle</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span> <span class="o">=</span> <span class="m">14</span><span class="p">,</span> <span class="n">margin</span><span class="o">=</span><span class="n">margin</span><span class="p">(</span><span class="n">b</span><span class="o">=</span><span class="m">-20</span><span class="p">)))</span> <span class="o">+</span>
+    <span class="n">theme</span><span class="p">(</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span> <span class="o">=</span> <span class="m">9</span><span class="p">,</span> <span class="n">margin</span><span class="o">=</span><span class="n">margin</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="m">-15</span><span class="p">),</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">))</span> <span class="o">+</span>
+    <span class="n">coord_proj</span><span class="p">(</span><span class="n">us_laea_proj</span><span class="p">)</span> <span class="o">+</span>
+    <span class="n">labs</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="s2">"Loan Amount, $"</span><span class="p">,</span><span class="n">x</span><span class="o">=</span><span class="s2">"Loan Purpose"</span><span class="p">,</span>
+         <span class="n">title</span><span class="o">=</span><span class="n">paste</span><span class="p">(</span><span class="s2">"Median loan amount by county in"</span><span class="p">,</span>
+                     <span class="n">unique</span><span class="p">(</span><span class="n">fips.look</span><span class="p">[</span><span class="n">st.fips</span><span class="o">==</span><span class="n">as.numeric</span><span class="p">(</span><span class="n">st.list</span><span class="p">[</span><span class="n">i</span><span class="p">])]</span><span class="o">$</span><span class="n">state_abbr</span><span class="p">)))</span><span class="o">+</span>
+    <span class="n">scale_fill_viridis</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"Median Loan Amount\n$, log scale\n"</span><span class="p">,</span>
+                       <span class="n">discrete</span><span class="o">=</span><span class="n">F</span><span class="p">,</span><span class="n">option</span><span class="o">=</span><span class="s2">"D"</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="m">0.95</span><span class="p">,</span><span class="n">direction</span><span class="o">=</span><span class="m">-1</span><span class="p">,</span><span class="n">limits</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="n">log</span><span class="p">(</span><span class="m">10000</span><span class="p">),</span><span class="n">log</span><span class="p">(</span><span class="m">1.4e6</span><span class="p">)),</span>
+                       <span class="n">breaks</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="n">log</span><span class="p">(</span><span class="m">10000</span><span class="p">),</span><span class="n">log</span><span class="p">(</span><span class="m">100000</span><span class="p">),</span><span class="n">log</span><span class="p">(</span><span class="m">1e6</span><span class="p">)),</span>
+                       <span class="n">labels</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="s2">"$10,000"</span><span class="p">,</span><span class="s2">"$100,000"</span><span class="p">,</span><span class="s2">"$1,000,000"</span><span class="p">)</span>  <span class="p">)</span><span class="o">+</span>  <span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span> <span class="o">=</span> <span class="s2">"right"</span><span class="p">)</span>
+  
+  
+  <span class="c1">#plot data:
+</span>  
+  <span class="c1"># Prepare data: select only data in the state (derived from c.list)
+</span>  <span class="n">pdata</span><span class="o">&lt;-</span><span class="n">county.sum</span><span class="p">[</span><span class="n">fips</span> <span class="o">%</span><span class="k">in</span><span class="o">%</span> <span class="n">c.list</span><span class="p">]</span> 
+  
+  <span class="n">pdata2</span><span class="o">&lt;-</span><span class="n">mydata</span><span class="p">[</span><span class="n">fips</span> <span class="o">%</span><span class="k">in</span><span class="o">%</span> <span class="n">c.list</span><span class="p">,</span><span class="n">.SD</span><span class="p">[</span><span class="n">sample</span><span class="p">(</span><span class="n">.N</span><span class="p">,</span><span class="n">min</span><span class="p">(</span><span class="n">.N</span><span class="p">,</span><span class="m">1000</span><span class="p">))],</span><span class="n">by</span> <span class="o">=</span> <span class="n">msamd_name</span> <span class="p">]</span>  <span class="c1">#subsample metro data
+</span>  
+  <span class="c1"># See note: sample by groups
+</span>  <span class="c1"># http://stackoverflow.com/questions/27325656/how-do-you-sample-groups-in-a-data-table-with-a-caveat
+</span>  
+  <span class="n">pdata2</span><span class="p">[</span><span class="n">msamd_name</span><span class="o">==</span><span class="s2">""</span><span class="p">,</span><span class="n">msamd_name</span><span class="o">:=</span><span class="s2">"Non-metro"</span><span class="p">]</span>  <span class="c1">#rename missing metros to "Non-Metro"
+</span>  
+  <span class="c1"># pdata2[,.N,by=msamd_name]    # Can run this to check how many obs we have per metro
+</span>  
+  <span class="n">pdata3</span><span class="o">&lt;-</span><span class="n">mydata</span><span class="p">[</span><span class="n">fips</span> <span class="o">%</span><span class="k">in</span><span class="o">%</span> <span class="n">c.list</span><span class="p">][</span><span class="n">sample</span><span class="p">(</span><span class="n">.N</span><span class="p">,</span><span class="m">1000</span><span class="p">)]</span>  <span class="c1">#subsample state data
+</span>  
+  
+  <span class="c1"># graph 2: upb distribution for entire state
+</span>  <span class="n">g2</span><span class="o">&lt;-</span>
+    <span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">pdata2</span><span class="p">,</span><span class="n">aes</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">x</span><span class="o">=</span><span class="n">upb</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">log</span><span class="p">(</span><span class="n">upb</span><span class="p">)))</span><span class="o">+</span>
+    <span class="n">geom_quasirandom</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="m">0.5</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="m">0.35</span><span class="p">)</span><span class="o">+</span>
+    <span class="n">theme_minimal</span><span class="p">()</span><span class="o">+</span>
+    <span class="n">scale_color_viridis</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"Loan Amount\n$,log scale\n"</span><span class="p">,</span><span class="n">discrete</span><span class="o">=</span><span class="n">F</span><span class="p">,</span><span class="n">option</span><span class="o">=</span><span class="s2">"D"</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="m">0.95</span><span class="p">,</span><span class="n">direction</span><span class="o">=</span><span class="m">-1</span><span class="p">,</span>
+                        <span class="n">limits</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="n">log</span><span class="p">(</span><span class="m">10000</span><span class="p">),</span><span class="n">log</span><span class="p">(</span><span class="m">1.4e6</span><span class="p">)),</span>
+                        <span class="n">breaks</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="n">log</span><span class="p">(</span><span class="m">10000</span><span class="p">),</span><span class="n">log</span><span class="p">(</span><span class="m">100000</span><span class="p">),</span><span class="n">log</span><span class="p">(</span><span class="m">1e6</span><span class="p">)),</span>
+                        <span class="n">labels</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="s2">"$10k"</span><span class="p">,</span><span class="s2">"$100k"</span><span class="p">,</span><span class="s2">"$1,000k"</span><span class="p">)</span> <span class="p">)</span> <span class="o">+</span>
+    <span class="n">scale_x_log10</span><span class="p">(</span><span class="n">limits</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">10000</span><span class="p">,</span><span class="m">1.4e6</span><span class="p">),</span><span class="n">breaks</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">10000</span><span class="p">,</span><span class="m">100000</span><span class="p">,</span><span class="m">1000000</span><span class="p">),</span>
+                  <span class="n">labels</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="s2">"$10k"</span><span class="p">,</span><span class="s2">"$100k"</span><span class="p">,</span><span class="s2">"$1,000k"</span><span class="p">)</span> <span class="p">)</span><span class="o">+</span>
+    <span class="n">theme</span><span class="p">(</span><span class="n">plot.title</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">14</span><span class="p">))</span><span class="o">+</span>
+    <span class="n">theme</span><span class="p">(</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">vjust</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="n">margin</span><span class="o">=</span><span class="n">margin</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="m">10</span><span class="p">)))</span><span class="o">+</span>
+    <span class="n">theme</span><span class="p">(</span><span class="n">plot.margin</span><span class="o">=</span><span class="n">unit</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="m">0.25</span><span class="p">,</span><span class="m">0.25</span><span class="p">,</span><span class="m">0.25</span><span class="p">,</span><span class="m">0.25</span><span class="p">),</span><span class="s2">"cm"</span><span class="p">))</span><span class="o">+</span>
+    <span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span> <span class="o">=</span> <span class="s2">"none"</span><span class="p">)</span><span class="o">+</span>
+    <span class="n">labs</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">x</span><span class="o">=</span><span class="s2">"Loan Amount ($, log scale)"</span><span class="p">,</span>
+         <span class="n">caption</span><span class="o">=</span><span class="s2">"\n@lenkiefer Source: CFPB, FFIEC, Home Mortgage Disclosure Act (HMDA) data\nIncludes all home purchase, home improvement, and refinance loans for 1-4 family dwellings originated in 2015."</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="n">paste</span><span class="p">(</span><span class="s2">"Loan size distribution by Metro in"</span><span class="p">,</span>
+                     <span class="n">unique</span><span class="p">(</span><span class="n">fips.look</span><span class="p">[</span><span class="n">st.fips</span><span class="o">==</span><span class="n">as.numeric</span><span class="p">(</span><span class="n">st.list</span><span class="p">[</span><span class="n">i</span><span class="p">])]</span><span class="o">$</span><span class="n">state_abbr</span><span class="p">)))</span><span class="o">+</span>
+    <span class="n">theme</span><span class="p">(</span><span class="n">axis.text.x</span> <span class="o">=</span> <span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">6</span><span class="p">))</span><span class="o">+</span>
+    <span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="n">msamd_name</span><span class="p">)</span><span class="o">+</span><span class="n">theme</span><span class="p">(</span><span class="n">strip.text.x</span> <span class="o">=</span> <span class="n">element_text</span><span class="p">(</span><span class="n">size</span> <span class="o">=</span> <span class="m">6</span><span class="p">))</span>
+  
+  
+  <span class="c1"># graph 3: upb distribution by county (using a subsample of 1000 obs)
+</span>  <span class="n">g3</span><span class="o">&lt;-</span>
+    <span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">pdata3</span><span class="p">,</span><span class="n">aes</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">x</span><span class="o">=</span><span class="n">upb</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">log</span><span class="p">(</span><span class="n">upb</span><span class="p">)))</span><span class="o">+</span><span class="n">geom_quasirandom</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="m">0.5</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="m">0.75</span><span class="p">)</span><span class="o">+</span>
+    <span class="n">theme_minimal</span><span class="p">()</span><span class="o">+</span>
+    <span class="n">scale_color_viridis</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"Loan Amount\n$,log scale\n"</span><span class="p">,</span><span class="n">discrete</span><span class="o">=</span><span class="n">F</span><span class="p">,</span><span class="n">option</span><span class="o">=</span><span class="s2">"D"</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="m">0.95</span><span class="p">,</span><span class="n">direction</span><span class="o">=</span><span class="m">-1</span><span class="p">,</span>
+                        <span class="n">limits</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="n">log</span><span class="p">(</span><span class="m">10000</span><span class="p">),</span><span class="n">log</span><span class="p">(</span><span class="m">1.4e6</span><span class="p">)),</span>
+                        <span class="n">breaks</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="n">log</span><span class="p">(</span><span class="m">10000</span><span class="p">),</span><span class="n">log</span><span class="p">(</span><span class="m">100000</span><span class="p">),</span><span class="n">log</span><span class="p">(</span><span class="m">1e6</span><span class="p">)),</span>
+                        <span class="n">labels</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="s2">"$10k"</span><span class="p">,</span><span class="s2">"$100k"</span><span class="p">,</span><span class="s2">"$1,000k"</span><span class="p">)</span>                      <span class="p">)</span> <span class="o">+</span>
+    <span class="n">scale_x_log10</span><span class="p">(</span><span class="n">limits</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">10000</span><span class="p">,</span><span class="m">1.4e6</span><span class="p">),</span><span class="n">breaks</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="m">10000</span><span class="p">,</span><span class="m">100000</span><span class="p">,</span><span class="m">1000000</span><span class="p">),</span>
+                  <span class="n">labels</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="s2">"$10k"</span><span class="p">,</span><span class="s2">"$100k"</span><span class="p">,</span><span class="s2">"$1,000k"</span><span class="p">)</span> <span class="p">)</span><span class="o">+</span>
+    <span class="n">theme</span><span class="p">(</span><span class="n">plot.title</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">14</span><span class="p">))</span><span class="o">+</span><span class="n">theme</span><span class="p">(</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="n">vjust</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="n">margin</span><span class="o">=</span><span class="n">margin</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="m">10</span><span class="p">)))</span><span class="o">+</span>
+    <span class="n">theme</span><span class="p">(</span><span class="n">plot.margin</span><span class="o">=</span><span class="n">unit</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="m">0.25</span><span class="p">,</span><span class="m">0.25</span><span class="p">,</span><span class="m">0.25</span><span class="p">,</span><span class="m">0.25</span><span class="p">),</span><span class="s2">"cm"</span><span class="p">))</span><span class="o">+</span>  <span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span> <span class="o">=</span> <span class="s2">"none"</span><span class="p">)</span><span class="o">+</span>
+    <span class="n">labs</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="n">x</span><span class="o">=</span><span class="s2">"Loan Amount ($, log scale)"</span><span class="p">,</span>
+         <span class="n">title</span><span class="o">=</span><span class="n">paste</span><span class="p">(</span><span class="s2">"Mortgage loan size distribution in"</span><span class="p">,</span>
+                     <span class="n">unique</span><span class="p">(</span><span class="n">fips.look</span><span class="p">[</span><span class="n">st.fips</span><span class="o">==</span><span class="n">as.numeric</span><span class="p">(</span><span class="n">st.list</span><span class="p">[</span><span class="n">i</span><span class="p">])]</span><span class="o">$</span><span class="n">state_abbr</span><span class="p">)))</span><span class="o">+</span>
+    <span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="n">state_name</span><span class="p">)</span>
+  
+  <span class="n">m</span><span class="o">&lt;-</span><span class="n">multiplot</span><span class="p">(</span><span class="n">g1</span><span class="p">,</span><span class="n">g2</span><span class="p">,</span><span class="n">g3</span><span class="p">,</span><span class="n">layout</span><span class="o">=</span><span class="n">matrix</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">3</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">2</span><span class="p">),</span> <span class="n">nrow</span><span class="o">=</span><span class="m">3</span><span class="p">,</span> <span class="n">byrow</span><span class="o">=</span><span class="n">TRUE</span><span class="p">))</span>
+  <span class="c1"># I've source the multiplot function above, and you can find it at:
+</span>  <span class="c1"># http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/  
+</span><span class="p">}</span>
+
+<span class="c1"># Try it out for California:
+</span><span class="n">myplot</span><span class="p">(</span><span class="m">5</span><span class="p">)</span>
+
+<span class="c1"># compute the number of loans with loan amount greater than $1 Million
+</span><span class="n">mydata</span><span class="p">[,</span><span class="n">upb.gt1m</span><span class="o">:=</span><span class="n">ifelse</span><span class="p">(</span><span class="n">upb</span><span class="o">&gt;</span><span class="m">1000000</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">0</span><span class="p">)]</span>
+<span class="n">ca.sums</span><span class="o">&lt;-</span><span class="n">mydata</span><span class="p">[</span><span class="n">state_abbr</span><span class="o">==</span><span class="s2">"CA"</span><span class="p">,</span><span class="n">list</span><span class="p">(</span><span class="n">.N</span><span class="p">,</span><span class="n">gt1m</span><span class="o">=</span><span class="n">sum</span><span class="p">(</span><span class="n">upb.gt1m</span><span class="p">)),</span><span class="n">by</span><span class="o">=</span><span class="n">msamd_name</span><span class="p">]</span>
+
+<span class="c1"># make bar chart:
+</span><span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">ca.sums</span><span class="p">,</span><span class="n">aes</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">gt1m</span><span class="o">/</span><span class="n">N</span><span class="p">,</span><span class="n">x</span><span class="o">=</span><span class="n">reorder</span><span class="p">(</span><span class="n">msamd_name</span><span class="p">,</span><span class="n">gt1m</span><span class="o">/</span><span class="n">N</span><span class="p">)))</span><span class="o">+</span>
+  <span class="n">theme_minimal</span><span class="p">()</span><span class="o">+</span><span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="o">=</span><span class="s2">"none"</span><span class="p">)</span><span class="o">+</span>
+  <span class="n">geom_bar</span><span class="p">(</span><span class="n">stat</span><span class="o">=</span><span class="s2">"identity"</span><span class="p">,</span><span class="n">aes</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="n">gt1m</span><span class="o">/</span><span class="n">N</span><span class="p">))</span><span class="o">+</span>    <span class="n">theme</span><span class="p">(</span><span class="n">axis.text.y</span> <span class="o">=</span> <span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">7</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">percent</span><span class="p">)</span><span class="o">+</span><span class="n">theme</span><span class="p">(</span><span class="n">plot.caption</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">))</span><span class="o">+</span>
+  <span class="n">scale_fill_viridis</span><span class="p">(</span><span class="n">direction</span><span class="o">=</span><span class="m">-1</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="m">0.95</span><span class="p">)</span><span class="o">+</span><span class="n">coord_flip</span><span class="p">()</span><span class="o">+</span>
+  <span class="n">labs</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="s2">"Share of loans"</span><span class="p">,</span><span class="n">x</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span>
+       <span class="n">title</span><span class="o">=</span><span class="s2">"Share of mortgage loans with loan amount greater than $1 Million"</span><span class="p">,</span>
+       <span class="n">subtitle</span><span class="o">=</span><span class="s2">"Home purchase, home improvement and refinance loans on 1-4 family dwellings"</span><span class="p">,</span>
+       <span class="n">caption</span><span class="o">=</span><span class="s2">"@lenkiefer Source: CFPB, FFIEC, Home Mortgage Disclosure Act (HMDA) data\nIncludes all home purchase, home improvement, and refinance loans for\n1-4 family dwellings originated in 2015."</span><span class="p">)</span>
+       
+
+<span class="c1"># Try out composite plot for Texas:
+</span>
+<span class="n">myplot</span><span class="p">(</span><span class="m">48</span><span class="p">)</span></code></pre></figure>
+
+
+    </div>
+
+    
+
+    
+  
+    <hr>
+    <ul class="pagination">
+    
+      <li class="prev"><a href="/2016/09/22/week-in-gif" title="Data visualizations for the week of September 22, 2016">&laquo; Previous</a></li>
+    
+      <li><a href="/archive.html">Archive</a></li>
+    
+      <li class="next"><a href="/2016/10/14/gifs-10-14-2016" title="Some animated gifs: Week of Oct 14, 2016">Next &raquo;</a></li>
+    
+    </ul>
+    <hr>
+    
+  </div>
+</div>
+
+
+
+      </div>
+
+    </div>
+
+    <div id="footer">
+      <div class="container">
+        <p>&copy; 2017 Len Kiefer
+          with help from <a href="http://jekyllbootstrap.com" target="_blank" title="The Definitive Jekyll Blogging Framework">Jekyll Bootstrap</a>
+          and <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>
+       
+    • <span vertical-align:bottom> <a href="https://twitter.com/lenkiefer" class="twitter-follow-button" data-show-count="false">•   Follow @lenkiefer</a>
+  
+ <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+</span>
+• <script src="//platform.linkedin.com/in.js" type="text/javascript"></script>
+<script type="IN/MemberProfile" data-id="https://www.linkedin.com/pub/leonard-kiefer/31/753/511" data-format="click" data-related="false" data-text="Leonard Kiefer"></script>
+  • lenkiefer@hotmail.com
+           </p>
+      </div>
+    </div>
+    
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+    <!-- Latest compiled and minified JavaScript, requires jQuery 1.x (2.x not supported in IE8) -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="/assets/themes/lentheme/bootstrap/js/bootstrap.min.js"></script>
+  </body>
+</html>
+
+
+
+
+

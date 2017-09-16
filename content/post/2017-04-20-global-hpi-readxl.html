@@ -1,0 +1,650 @@
+---
+title: "Gather round and spread the word: Wrangling global house price data"
+author: "Len Kiefer"
+date: "2017-04-20"
+summary: "R statistics rstats mortgage rates dataviz"
+categories: "economics"
+tags: ["data wrangling","R","house prices","housing","economy"]
+slug: "global-hpi-readxl"
+---
+
+
+
+<p>IN THIS POST I WANT TO SHARE SOME <a href="https://www.r-project.org/">R</a> data wrangling strategy and use it to prepare an update to some global house price plots I shared <a href="../../../../2016/12/10/global-house-price-trends">last year</a>.</p>
+<p>In last year’s post I did some data manipulation by hand and mouse in Excel before getting into R. In this post I’m going to use the newly updated <a href="http://readxl.tidyverse.org/index.html">readxl</a> library to do the data manipulations entirely in R. If you follow along, then you should be able to use this code to recreate my graphs.</p>
+<p>This should prove to be a major improvement over my previous workflows. Because of the realities of my <a href="https://www.linkedin.com/in/leonard-kiefer-51175331/">professional life</a> I cannot escape Excel. Actually, I probably wouldn’t want to escape it even if I could. Despite its limitations and frequent misuse it is still my favorite application.</p>
+<p>However, while I’ve gotten pretty fast at doing some fairly complex manipulations in Excel (see <a href="../../../../2016/05/08/visual-meditations-on-house-prices-part1">this post</a> from last year for an example) it isn’t exactly reproducible. Using a scripting language in R should help with making the workflow more reproducible. Also, by using a scripting language you can automate tasks and easily scale to larger problems. I often encounter situations where I would need to work with hundreds of workbooks/worksheets.</p>
+<p>I’m going to lean heavily on the ideas in <a href="http://readxl.tidyverse.org/articles/articles/readxl-workflows.html">this post</a> on the readxl workflow to prepare our data.</p>
+<div id="some-data" class="section level1">
+<h1>Some data</h1>
+<p>Let’s update our global house price charts and make a couple new ones.</p>
+<p>First we’re going to need to gather some data on house prices. Fortunately, the <a href="http://www.dallasfed.org/index.cfm">Dallas Federal Reserve Bank</a> has compiled statistics on <a href="http://www.dallasfed.org/institute/houseprice/">international house price trends</a>. Fed researchers have gone through the hard work of collecting data for many countries and harmonizing the series so they are more easily comparable. Read about their hard work and the details <a href="http://www.dallasfed.org/assets/documents/institute/wpapers/2011/0099.pdf">here.</a></p>
+<p>The data are available in a convenient spreadsheet (<a href="http://www.dallasfed.org/assets/documents/institute/houseprice/hp1604.xlsx">2016Q4 data</a>). We’re going to proceed assuming that the <a href="http://www.dallasfed.org/assets/documents/institute/houseprice/hp1604.xlsx"><em>hp1604.xlsx</em></a> spreadsheet is saved in a <em>data</em> folder.</p>
+<div id="using-readxl" class="section level2">
+<h2>Using readxl</h2>
+<p>I began this update attempting to read the data in the following manner (which works). In this example, which we will improve upon, I first read in each separate sheet and then do some data manipulations.</p>
+<p>First load our libraries:</p>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## Loading tidyverse: ggplot2
+## Loading tidyverse: tibble
+## Loading tidyverse: tidyr
+## Loading tidyverse: readr
+## Loading tidyverse: purrr
+## Loading tidyverse: dplyr</code></pre>
+<pre><code>## Conflicts with tidy packages ----------------------------------------------</code></pre>
+<pre><code>## filter(): dplyr, stats
+## lag():    dplyr, stats</code></pre>
+<pre class="r"><code>library(data.table)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;data.table&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:dplyr&#39;:
+## 
+##     between, first, last</code></pre>
+<pre><code>## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     transpose</code></pre>
+<pre class="r"><code>library(ggthemes,quietly=T,warn.conflicts=F)
+library(readxl)
+library(stringr)</code></pre>
+<p>Now we could do things this way:</p>
+<pre class="r"><code>###############################################################################
+#### Read in HPI data  ##########################################
+df&lt;-read_excel(&quot;data/hp1604.xlsx&quot;, sheet = &quot;HPI&quot;)
+colnames(df)[1]&lt;-&quot;cycle&quot;  # rename first column
+df$year&lt;-substr(df$cycle,1,4) #create a year
+df$month&lt;-substr(df$cycle,7,7) #create a
+df$date&lt;-as.Date(ISOdate(df$year,df$month,1))
+df %&gt;% select(-X__2,-cycle,-year,-month) %&gt;% 
+  gather(country,hpi,-date) -&gt;hpi.df
+###############################################################################
+
+###############################################################################
+#### Read in Real HPI data  ##########################################
+df&lt;-read_excel(&quot;data/hp1604.xlsx&quot;, sheet = &quot;RHPI&quot;)
+colnames(df)[1]&lt;-&quot;cycle&quot;
+df$year&lt;-substr(df$cycle,1,4)
+df$month&lt;-substr(df$cycle,7,7)
+df$date&lt;-as.Date(ISOdate(df$year,df$month,1))
+df %&gt;% select(-X__2,-cycle,-year,-month) %&gt;% 
+  gather(country,rhpi,-date) -&gt;rhpi.df
+###############################################################################
+
+###############################################################################
+#### Read in Disposable Income data  ############################
+df&lt;-read_excel(&quot;data/hp1604.xlsx&quot;, sheet = &quot;PDI&quot;)
+colnames(df)[1]&lt;-&quot;cycle&quot;
+df$year&lt;-substr(df$cycle,1,4)
+df$month&lt;-substr(df$cycle,7,7)
+df$date&lt;-as.Date(ISOdate(df$year,df$month,1))
+df %&gt;% select(-X__2,-cycle,-year,-month) %&gt;% 
+  gather(country,pdi,-date) -&gt;pdi.df
+###############################################################################
+
+###############################################################################
+#### Read in Rea Disposable Income data  ############################
+df&lt;-read_excel(&quot;data/hp1604.xlsx&quot;, sheet = &quot;RPDI&quot;)
+colnames(df)[1]&lt;-&quot;cycle&quot;
+df$year&lt;-substr(df$cycle,1,4)
+df$month&lt;-substr(df$cycle,7,7)
+df$date&lt;-as.Date(ISOdate(df$year,df$month,1))
+df %&gt;% select(-X__2,-cycle,-year,-month) %&gt;% 
+  gather(country,rpdi,-date) -&gt;rpdi.df
+###############################################################################
+
+###############################################################################
+#### Merge data together data  ############################
+###  Requires data.table() package ************************
+dt&lt;-merge(hpi.df,rhpi.df,by=c(&quot;date&quot;,&quot;country&quot;))
+dt&lt;-merge(dt,pdi.df,by=c(&quot;date&quot;,&quot;country&quot;))
+dt&lt;-merge(dt,rpdi.df,by=c(&quot;date&quot;,&quot;country&quot;))
+dt&lt;-data.table(dt)[year(date)&gt;0,]
+###############################################################################</code></pre>
+<p>While this works, and isn’t too bad, it could get really old if we had 10s or hundreds of worksheets to chew through. Fortunately, we have a better alternatively using the readxl workflow combined with <strong>map_df</strong> from the <a href="http://purrr.tidyverse.org/">purrr</a> library (available in the <a href="http://tidyverse.org/">tidyverse</a>).</p>
+<pre class="r"><code># path to data
+path &lt;-&quot;data/hp1604.xlsx&quot;
+
+###########################################################################
+#  We&#39;ll omit this step, hard coding instead
+
+#  xl.list&lt;-path %&gt;% excel_sheets()   #get a list of sheet names
+###########################################################################
+
+df &lt;- c(&quot;HPI&quot;,&quot;RHPI&quot;,&quot;PDI&quot;,&quot;RPDI&quot;) %&gt;%   #iterate over four sheets
+      set_names() %&gt;% 
+  
+      # Now for something magical!
+  
+      map_df(~ read_excel(path = path, sheet = .x), .id = &quot;sheet&quot;)
+
+# print a table using the htmlTable library, round numeric to 0 digits for readability 
+# Note we won&#39;t round in analysis)
+
+htmlTable::htmlTable(rbind(head(df %&gt;% 
+                                  map_if(is_numeric,round,0) %&gt;% 
+                                  data.frame() %&gt;% as.tbl())))</code></pre>
+<table class='gmisc_table' style='border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;' >
+<thead>
+<tr>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey;'> </th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>sheet</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>X__1</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>Australia</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>Belgium</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>Canada</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>Switzerland</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>Germany</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>Denmark</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>Spain</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>Finland</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>France</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>UK</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>Ireland</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>Italy</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>Japan</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>S..Korea</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>Luxembourg</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>Netherlands</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>Norway</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>New.Zealand</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>Sweden</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>US</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>S..Africa</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>Croatia</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>Israel</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>X__2</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>Aggregate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style='text-align: left;'>1</td>
+<td style='text-align: center;'>HPI</td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'></td>
+</tr>
+<tr>
+<td style='text-align: left;'>2</td>
+<td style='text-align: center;'>HPI</td>
+<td style='text-align: center;'>1975:Q1</td>
+<td style='text-align: center;'>8</td>
+<td style='text-align: center;'>15</td>
+<td style='text-align: center;'>16</td>
+<td style='text-align: center;'>49</td>
+<td style='text-align: center;'>52</td>
+<td style='text-align: center;'>16</td>
+<td style='text-align: center;'>9</td>
+<td style='text-align: center;'>13</td>
+<td style='text-align: center;'>11</td>
+<td style='text-align: center;'>6</td>
+<td style='text-align: center;'>3</td>
+<td style='text-align: center;'>8</td>
+<td style='text-align: center;'>60</td>
+<td style='text-align: center;'>9</td>
+<td style='text-align: center;'>7</td>
+<td style='text-align: center;'>15</td>
+<td style='text-align: center;'>13</td>
+<td style='text-align: center;'>7</td>
+<td style='text-align: center;'>15</td>
+<td style='text-align: center;'>17</td>
+<td style='text-align: center;'>3</td>
+<td style='text-align: center;'>0</td>
+<td style='text-align: center;'>0</td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'>22</td>
+</tr>
+<tr>
+<td style='text-align: left;'>3</td>
+<td style='text-align: center;'>HPI</td>
+<td style='text-align: center;'>1975:Q2</td>
+<td style='text-align: center;'>8</td>
+<td style='text-align: center;'>16</td>
+<td style='text-align: center;'>16</td>
+<td style='text-align: center;'>48</td>
+<td style='text-align: center;'>53</td>
+<td style='text-align: center;'>16</td>
+<td style='text-align: center;'>10</td>
+<td style='text-align: center;'>14</td>
+<td style='text-align: center;'>12</td>
+<td style='text-align: center;'>6</td>
+<td style='text-align: center;'>4</td>
+<td style='text-align: center;'>8</td>
+<td style='text-align: center;'>60</td>
+<td style='text-align: center;'>9</td>
+<td style='text-align: center;'>8</td>
+<td style='text-align: center;'>16</td>
+<td style='text-align: center;'>13</td>
+<td style='text-align: center;'>7</td>
+<td style='text-align: center;'>15</td>
+<td style='text-align: center;'>18</td>
+<td style='text-align: center;'>3</td>
+<td style='text-align: center;'>0</td>
+<td style='text-align: center;'>0</td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'>23</td>
+</tr>
+<tr>
+<td style='text-align: left;'>4</td>
+<td style='text-align: center;'>HPI</td>
+<td style='text-align: center;'>1975:Q3</td>
+<td style='text-align: center;'>8</td>
+<td style='text-align: center;'>17</td>
+<td style='text-align: center;'>17</td>
+<td style='text-align: center;'>48</td>
+<td style='text-align: center;'>53</td>
+<td style='text-align: center;'>17</td>
+<td style='text-align: center;'>10</td>
+<td style='text-align: center;'>14</td>
+<td style='text-align: center;'>12</td>
+<td style='text-align: center;'>6</td>
+<td style='text-align: center;'>4</td>
+<td style='text-align: center;'>8</td>
+<td style='text-align: center;'>61</td>
+<td style='text-align: center;'>10</td>
+<td style='text-align: center;'>9</td>
+<td style='text-align: center;'>17</td>
+<td style='text-align: center;'>14</td>
+<td style='text-align: center;'>8</td>
+<td style='text-align: center;'>16</td>
+<td style='text-align: center;'>18</td>
+<td style='text-align: center;'>3</td>
+<td style='text-align: center;'>0</td>
+<td style='text-align: center;'>0</td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'>23</td>
+</tr>
+<tr>
+<td style='text-align: left;'>5</td>
+<td style='text-align: center;'>HPI</td>
+<td style='text-align: center;'>1975:Q4</td>
+<td style='text-align: center;'>8</td>
+<td style='text-align: center;'>18</td>
+<td style='text-align: center;'>17</td>
+<td style='text-align: center;'>47</td>
+<td style='text-align: center;'>54</td>
+<td style='text-align: center;'>17</td>
+<td style='text-align: center;'>11</td>
+<td style='text-align: center;'>14</td>
+<td style='text-align: center;'>12</td>
+<td style='text-align: center;'>6</td>
+<td style='text-align: center;'>4</td>
+<td style='text-align: center;'>8</td>
+<td style='text-align: center;'>61</td>
+<td style='text-align: center;'>10</td>
+<td style='text-align: center;'>10</td>
+<td style='text-align: center;'>18</td>
+<td style='text-align: center;'>14</td>
+<td style='text-align: center;'>8</td>
+<td style='text-align: center;'>16</td>
+<td style='text-align: center;'>18</td>
+<td style='text-align: center;'>3</td>
+<td style='text-align: center;'>0</td>
+<td style='text-align: center;'>0</td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'>23</td>
+</tr>
+<tr>
+<td style='border-bottom: 2px solid grey; text-align: left;'>6</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>HPI</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>1976:Q1</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>9</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>19</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>18</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>46</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>55</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>18</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>11</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>14</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>13</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>6</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>4</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>8</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>61</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>11</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>10</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>19</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>14</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>8</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>17</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>18</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>3</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>0</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>0</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'></td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>24</td>
+</tr>
+</tbody>
+</table>
+<p>Now we have data. The first column <em>sheet</em> has values of <code>c(&quot;HPI&quot;,&quot;RHPI&quot;,&quot;PDI&quot;,&quot;RPDI&quot;)</code> corresponding to the four sheets we read in. We also have the date variable stored in the <code>X__1</code> column. It’s not a date, so let’s correct that.</p>
+<pre class="r"><code>df$year&lt;-substr(df$X__1,1,4)
+df$month&lt;-substr(df$X__1,7,7)
+
+#quarterly data so multiply month by 3
+df$date&lt;-as.Date(ISOdate(df$year,as.numeric(df$month)*3,1)) 
+
+# Now we don&#39;t need year, month or X__1 any more, let&#39;s drop them
+# we also don&#39;t need X__2 which corresponds to a blank column so let&#39;s drop it
+df&lt;-select(df,-year,-month,-X__1,-X__2)
+str(df)</code></pre>
+<pre><code>## Classes &#39;tbl_df&#39;, &#39;tbl&#39; and &#39;data.frame&#39;:    676 obs. of  26 variables:
+##  $ sheet      : chr  &quot;HPI&quot; &quot;HPI&quot; &quot;HPI&quot; &quot;HPI&quot; ...
+##  $ Australia  : num  NA 7.6 7.74 8.04 8.29 ...
+##  $ Belgium    : num  NA 15.2 15.9 16.7 17.7 ...
+##  $ Canada     : num  NA 16.2 16.4 17.1 17.3 ...
+##  $ Switzerland: num  NA 48.8 48.2 47.7 47.1 ...
+##  $ Germany    : num  NA 52 52.7 53.3 54.1 ...
+##  $ Denmark    : num  NA 15.8 16.2 17 17.1 ...
+##  $ Spain      : num  NA 8.71 9.75 9.96 10.7 ...
+##  $ Finland    : num  NA 13.5 13.6 13.8 14.2 ...
+##  $ France     : num  NA 11.1 11.5 11.9 12.4 ...
+##  $ UK         : num  NA 5.92 6.03 6.15 6.25 ...
+##  $ Ireland    : num  NA 3.42 3.65 3.87 4.08 ...
+##  $ Italy      : num  NA 8.19 8.06 7.97 7.91 ...
+##  $ Japan      : num  NA 60.1 60.3 60.5 60.7 ...
+##  $ S. Korea   : num  NA 8.7 9.23 9.82 10.43 ...
+##  $ Luxembourg : num  NA 7.49 8.19 8.87 9.53 ...
+##  $ Netherlands: num  NA 14.9 15.8 16.8 18 ...
+##  $ Norway     : num  NA 13.4 13.5 13.7 14.1 ...
+##  $ New Zealand: num  NA 7.42 7.43 7.54 7.71 ...
+##  $ Sweden     : num  NA 14.6 15.1 15.6 16.2 ...
+##  $ US         : num  NA 17.3 17.6 17.6 18 ...
+##  $ S. Africa  : num  NA 3.23 3.28 3.29 3.37 ...
+##  $ Croatia    : num  NA 6.88e-05 7.22e-05 7.57e-05 7.97e-05 ...
+##  $ Israel     : num  NA 0.00342 0.00344 0.00357 0.00387 ...
+##  $ Aggregate  : num  NA 22.5 22.8 23.1 23.4 ...
+##  $ date       : Date, format: NA &quot;1975-03-01&quot; ...</code></pre>
+<p>Now we have a data.frame() (or tbl) that has 26 columns. The first column correspons to the sheet in the original <em>.xlsx</em> file and the last column is our date variable.</p>
+</div>
+<div id="gather-the-data" class="section level2">
+<h2>Gather the data</h2>
+<p>Now let’s tidy the data by gathering the country columns:</p>
+<pre class="r"><code>df2&lt;-df %&gt;% gather(country, value, 2:25) # I happen to know data is in colums 2:25
+
+# same business for printing
+htmlTable::htmlTable(head(df2 %&gt;% map_if(is_numeric,round,0) %&gt;% data.frame() %&gt;% as.tbl()))</code></pre>
+<table class='gmisc_table' style='border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;' >
+<thead>
+<tr>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey;'> </th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>sheet</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>date</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>country</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style='text-align: left;'>1</td>
+<td style='text-align: center;'>HPI</td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'>Australia</td>
+<td style='text-align: center;'></td>
+</tr>
+<tr>
+<td style='text-align: left;'>2</td>
+<td style='text-align: center;'>HPI</td>
+<td style='text-align: center;'>1975-03-01</td>
+<td style='text-align: center;'>Australia</td>
+<td style='text-align: center;'>8</td>
+</tr>
+<tr>
+<td style='text-align: left;'>3</td>
+<td style='text-align: center;'>HPI</td>
+<td style='text-align: center;'>1975-06-01</td>
+<td style='text-align: center;'>Australia</td>
+<td style='text-align: center;'>8</td>
+</tr>
+<tr>
+<td style='text-align: left;'>4</td>
+<td style='text-align: center;'>HPI</td>
+<td style='text-align: center;'>1975-09-01</td>
+<td style='text-align: center;'>Australia</td>
+<td style='text-align: center;'>8</td>
+</tr>
+<tr>
+<td style='text-align: left;'>5</td>
+<td style='text-align: center;'>HPI</td>
+<td style='text-align: center;'>1975-12-01</td>
+<td style='text-align: center;'>Australia</td>
+<td style='text-align: center;'>8</td>
+</tr>
+<tr>
+<td style='border-bottom: 2px solid grey; text-align: left;'>6</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>HPI</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>1976-03-01</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>Australia</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>9</td>
+</tr>
+</tbody>
+</table>
+<p>This dataset is pretty tidy, but for the analysis we want to do not the easiest to work with.</p>
+</div>
+<div id="spread-the-data" class="section level2">
+<h2>Spread the data</h2>
+<p>We have the variable names stored in the <em>sheet</em> column, but we’d like to spread those variables out. Let’s spread it out:</p>
+<pre class="r"><code>df3&lt;-df2 %&gt;% spread(sheet,value)
+
+# same business for printing
+htmlTable::htmlTable(head(df3 %&gt;% map_if(is_numeric,round,0) %&gt;% data.frame() %&gt;% as.tbl()))</code></pre>
+<table class='gmisc_table' style='border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;' >
+<thead>
+<tr>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey;'> </th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>date</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>country</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>HPI</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>PDI</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>RHPI</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>RPDI</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style='text-align: left;'>1</td>
+<td style='text-align: center;'>1975-03-01</td>
+<td style='text-align: center;'>Aggregate</td>
+<td style='text-align: center;'>22</td>
+<td style='text-align: center;'>19</td>
+<td style='text-align: center;'>66</td>
+<td style='text-align: center;'>60</td>
+</tr>
+<tr>
+<td style='text-align: left;'>2</td>
+<td style='text-align: center;'>1975-03-01</td>
+<td style='text-align: center;'>Australia</td>
+<td style='text-align: center;'>8</td>
+<td style='text-align: center;'>14</td>
+<td style='text-align: center;'>39</td>
+<td style='text-align: center;'>73</td>
+</tr>
+<tr>
+<td style='text-align: left;'>3</td>
+<td style='text-align: center;'>1975-03-01</td>
+<td style='text-align: center;'>Belgium</td>
+<td style='text-align: center;'>15</td>
+<td style='text-align: center;'>23</td>
+<td style='text-align: center;'>45</td>
+<td style='text-align: center;'>66</td>
+</tr>
+<tr>
+<td style='text-align: left;'>4</td>
+<td style='text-align: center;'>1975-03-01</td>
+<td style='text-align: center;'>Canada</td>
+<td style='text-align: center;'>16</td>
+<td style='text-align: center;'>19</td>
+<td style='text-align: center;'>59</td>
+<td style='text-align: center;'>71</td>
+</tr>
+<tr>
+<td style='text-align: left;'>5</td>
+<td style='text-align: center;'>1975-03-01</td>
+<td style='text-align: center;'>Croatia</td>
+<td style='text-align: center;'>0</td>
+<td style='text-align: center;'>0</td>
+<td style='text-align: center;'>73</td>
+<td style='text-align: center;'>8</td>
+</tr>
+<tr>
+<td style='border-bottom: 2px solid grey; text-align: left;'>6</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>1975-03-01</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>Denmark</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>16</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>19</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>57</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>70</td>
+</tr>
+</tbody>
+</table>
+<p>Now we have a dataset that will be easy to work with in near future. We’ve got a date variable and a country indicator. We also have four columns corresponding to the four spreadsheets:</p>
+<ul>
+<li>HPI : nominal house price index (not adjusted for inflation)</li>
+<li>RHPI : real house price index</li>
+<li>PDI : nominal personal disposable income (not adjusted for inflation)</li>
+<li>RPDI : real personal disposable income</li>
+</ul>
+<p>Now we can create some plots!</p>
+</div>
+</div>
+<div id="global-house-price-trends" class="section level1">
+<h1>Global house price trends</h1>
+<p>Let’s construct a small multiple showing how nominal and real house prices look across countries since 2005.</p>
+<pre class="r"><code>#create a caption for attribution to source
+
+mycaption&lt;-&quot;Mack, A., and E. Martinez-Garcia. 2011. &#39;A Cross-Country Quarterly Database of Real House Prices: A Methodological Note.&#39; Globalization and Monetary Policy Institute Working Paper No. 99, Federal Reserve Bank of Dallas.&quot;
+mycaption&lt;-str_wrap(mycaption,width=90) #wrap the caption
+mycap1&lt;-&quot;@lenkiefer Source: Dallas Federal Reserve International House Price Database  http://www.dallasfed.org/institute/houseprice/&quot;  #caption part 2
+#######################################################################
+### Plot nominal house prices ###
+#######################################################################
+ggplot(data=filter(df3,year(date)&gt;2004),
+       aes(x=date,y=HPI,color=country,label=country))+
+  geom_line(size=1.1)+
+  scale_x_date(date_breaks=&quot;2 year&quot;,date_labels=&quot;%y&quot;)+
+  facet_wrap(~country)+
+  theme_minimal()+ geom_hline(yintercept=100,linetype=2)+
+  scale_y_log10(breaks=seq(50,200,25),limits=c(50,225))+ 
+  theme_fivethirtyeight()+
+  theme(legend.position=&quot;none&quot;,plot.caption=element_text(hjust=0,size=7),
+        plot.subtitle=element_text(face=&quot;italic&quot;),
+        axis.text=element_text(size=7.5))+
+  labs(x=&quot;&quot;,y=&quot;&quot;,title=&quot;Comparing house prices&quot;,
+       caption=paste0(mycap1,&quot;\n&quot;,mycaption),
+       subtitle=&quot;Seasonally adjusted index (2005=100, log scale)&quot;)</code></pre>
+<p><img src="/post/2017-04-20-global-hpi-readxl_files/figure-html/04-20-2017-readxl-6-1.png" width="720" /></p>
+<p>Compare to real house prices.</p>
+<pre class="r"><code>#######################################################################
+### Plot real house prices ###
+#######################################################################
+ggplot(data=filter(df3,year(date)&gt;2004),
+       aes(x=date,y=RHPI,color=country,label=country))+
+  geom_line(size=1.1)+
+  scale_x_date(date_breaks=&quot;2 year&quot;,date_labels=&quot;%y&quot;)+
+  facet_wrap(~country)+
+  theme_minimal()+ geom_hline(yintercept=100,linetype=2)+
+  scale_y_log10(breaks=seq(50,200,25),limits=c(50,225))+ 
+  theme_fivethirtyeight()+
+  theme(legend.position=&quot;none&quot;,plot.caption=element_text(hjust=0,size=7),plot.subtitle=element_text(face=&quot;italic&quot;),
+        axis.text=element_text(size=7.5))+
+  labs(x=&quot;&quot;,y=&quot;&quot;,title=&quot;Comparing real (inflation-adjusted) house prices&quot;,
+       caption=paste0(mycap1,&quot;\n&quot;,mycaption),
+       subtitle=&quot;Seasonally adjusted index (2005=100, log scale)&quot;)</code></pre>
+<p><img src="/post/2017-04-20-global-hpi-readxl_files/figure-html/04-20-2017-readxl-7-1.png" width="720" /></p>
+<p>We also might want to compare nominal/real house prices to estimates of nominal/real house prices. Let’s just do it for nominal house prices:</p>
+<pre class="r"><code>ggplot(data=filter(df3,year(date)&gt;2004),
+       aes(x=date,y=HPI,color=country,label=country))+
+  geom_line(size=1.1,aes(color=&quot;House Prices&quot;))+
+  geom_line(size=1.1,aes(y=PDI,color=&quot;Disposable Income&quot;),linetype=2)+
+  scale_color_fivethirtyeight(&quot;Nominal index (2005=100)&quot;)+
+  scale_x_date(date_breaks=&quot;2 year&quot;,date_labels=&quot;%y&quot;)+
+  facet_wrap(~country)+
+  theme_minimal()+ geom_hline(yintercept=100,linetype=2)+
+  scale_y_log10(breaks=seq(50,200,25),limits=c(50,225))+ 
+  theme_fivethirtyeight()+
+  theme(legend.position=&quot;top&quot;,plot.caption=element_text(hjust=0,size=7),plot.subtitle=element_text(face=&quot;italic&quot;),
+        axis.text=element_text(size=7.5))+
+  labs(x=&quot;&quot;,y=&quot;&quot;,title=&quot;Comparing nominal house prices to disposable income&quot;,
+       caption=paste0(mycap1,&quot;\n&quot;,mycaption),
+       subtitle=&quot;Seasonally adjusted index (2005=100, log scale)&quot;)</code></pre>
+<p><img src="/post/2017-04-20-global-hpi-readxl_files/figure-html/04-20-2017-readxl-8-1.png" width="720" /></p>
+<p>While the small multiples are useful, let’s restrict our attention to comparing just Canada and the United States which allows us to zoom in more:</p>
+<pre class="r"><code>ggplot(data=filter(df3,year(date)&gt;2004 &amp; country %in% c(&quot;Canada&quot;,&quot;US&quot;)),
+       aes(x=date,y=HPI,color=country,label=country))+
+  geom_line(size=1.1,aes(color=&quot;House Prices&quot;))+
+  geom_line(size=1.1,aes(y=PDI,color=&quot;Disposable Income&quot;),linetype=2)+
+  scale_color_fivethirtyeight(name=&quot;Nominal index (2005=100)&quot;)+
+  scale_x_date(date_breaks=&quot;2 year&quot;,date_labels=&quot;%y&quot;)+
+  facet_wrap(~country)+
+  theme_minimal()+ geom_hline(yintercept=100,linetype=2)+
+  scale_y_log10(breaks=seq(50,200,25),limits=c(50,225))+ 
+  theme_fivethirtyeight()+
+  theme(legend.position=&quot;top&quot;,plot.caption=element_text(hjust=0,size=7),plot.subtitle=element_text(face=&quot;italic&quot;),
+        axis.text=element_text(size=7.5))+
+  labs(x=&quot;&quot;,y=&quot;&quot;,title=&quot;Comparing nominal house prices to disposable income&quot;,
+       caption=paste0(mycap1,&quot;\n&quot;,mycaption),
+       subtitle=&quot;Seasonally adjusted index (2005=100, log scale)&quot;)</code></pre>
+<p><img src="/post/2017-04-20-global-hpi-readxl_files/figure-html/04-20-2017-readxl-9-1.png" width="720" /></p>
+<p>Since 2005, house prices in Canada have outpaced incomes, while the United States the opposite is true. Of course, we should use caution when interpreting these lines, as the U.S. housing market peaked in 2006 so 2005 might distort the comparison. Also, differences in inflation could drive some of the differences.</p>
+<p>Let’s instead compute the rate of real house price growth and real income growth and compare.</p>
+<pre class="r"><code>pct &lt;- function(x) {(x/lag(x,4))-1}
+
+# usually do this with data.table(), but can with dplyr
+# Thanks Stackoverflow!  http://stackoverflow.com/questions/31352685/how-can-i-calculate-the-percentage-change-within-a-group-for-multiple-columns-in
+df3 %&gt;% group_by(country) %&gt;% 
+  mutate_each(funs(pct), c(HPI, PDI, RHPI,RPDI)) -&gt;df4
+
+ggplot(data=filter(df4,year(date)&gt;1989 &amp; country %in% c(&quot;Canada&quot;,&quot;US&quot;)),
+       aes(x=date,y=RHPI,color=country,label=country))+
+  geom_line(size=1.1,aes(color=&quot;House Prices&quot;))+
+  geom_line(size=1.1,aes(y=RPDI,color=&quot;Disposable Income&quot;),linetype=2)+
+  scale_color_fivethirtyeight(name=&quot;4-qtr % change in real &quot;)+
+  scale_x_date(date_breaks=&quot;2 year&quot;,date_labels=&quot;%y&quot;)+
+  facet_wrap(~country)+
+  theme_minimal()+ 
+  scale_y_continuous(label=scales::percent,  #need scales library for % formatting
+                     breaks=seq(-.1,.15,.05))+  
+  theme_fivethirtyeight()+
+  theme(legend.position=&quot;top&quot;,plot.caption=element_text(hjust=0,size=7),
+        plot.subtitle=element_text(face=&quot;italic&quot;),
+        axis.text=element_text(size=7.5))+
+  labs(x=&quot;&quot;,y=&quot;&quot;,title=&quot;Real house price and real disposable income growth&quot;,
+       caption=paste0(mycap1,&quot;\n&quot;,mycaption),
+       subtitle=&quot;Four quarter percent change in seasonally adjusted index (2005=100, log scale)&quot;)</code></pre>
+<p><img src="/post/2017-04-20-global-hpi-readxl_files/figure-html/04-20-2017-readxl-10-1.png" width="720" /></p>
+<p>Here we see that real house prices have been outpacing incomes by a fairly wide margin in Canada over the past couple years.</p>
+</div>
+<div id="data-wrangling" class="section level1">
+<h1>Data Wrangling</h1>
+<p>Using readxl and the tidyverse I was able to do some nifty data wrangling. In the past I have been able to do these things in Excel or through brute force with some repetitive code. The functions of the tidyverse, particularly from readxl and purrr enable us to get these data into shape in a compact, easily readable, reproducible, and elegant fashion.</p>
+<p>Next time I face a thorny Excel problem I can modify this approach and apply it. How could it work for you?</p>
+</div>
+<div id="bonus-some-gifs" class="section level1">
+<h1>Bonus: Some gifs</h1>
+<p>Below, without additional commentary, I leave a few animated gifs.</p>
+<p><img src="{{ site.url }}/img/charts_apr_20_2017/hpi compare international 04 19 2017.gif" alt="global hpi gif"/></p>
+<p><img src="{{ site.url }}/img/charts_apr_20_2017/hpi compare international 04 19 2017 v2.gif" alt="global hpi gif"/></p>
+<p><img src="{{ site.url }}/img/charts_apr_20_2017/hpi bars 04 19 2017 dark2.gif" alt="global hpi gif"/></p>
+<p><img src="{{ site.url }}/img/charts_apr_20_2017/hpi bars 04 19 2017 dark3.gif" alt="global hpi gif"/></p>
+</div>
