@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>PURRRty PowerPoint with R &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="PURRRty PowerPoint with R">
+    <meta property="og:description" content="IN THIS POST I WANT TO GO THROUGH SOME EXAMPLES of using the purrr package for R.
+Now there are already some great examples of how to use purrr. If you’re brand new to purrr (like I was not long ago) probably start with Jenny Bryan’s Purrr tutorial then see R for Data Science and also this presentation from rstudioconf (pdf). You can also check out this curated collection via Mara Averick (on Twitter: dataandme ) for a bunch of examples.">
+
+<div class="header">
+  <h1>PURRRty PowerPoint with R</h1>
+  <h2></h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2017/09/27</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/data-wrangling">data wrangling</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/slides">slides</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/office">Office</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <p>IN THIS POST I WANT TO GO THROUGH SOME EXAMPLES of using the <a href="http://purrr.tidyverse.org/">purrr</a> package for <a href="https://www.r-project.org/">R</a>.</p>
+<p>Now there are already some great examples of how to use purrr. If you’re brand new to purrr (like I was not long ago) probably start with <a href="https://jennybc.github.io/purrr-tutorial/">Jenny Bryan’s Purrr tutorial</a> then see <a href="http://r4ds.had.co.nz/iteration.html#for-loops-vs.functionals">R for Data Science</a> and also <a href="https://www.dropbox.com/sh/062xjv35izc2a92/AAAnC-nzToR1rPekDZipRJSLa?dl=0&amp;preview=slides.pdf">this presentation from rstudioconf (pdf)</a>. You can also check out this <a href="https://maraaverick.rbind.io/2017/09/purrr-ty-posts">curated collection</a> via Mara Averick (on <a href="https://twitter.com/dataandme">Twitter: dataandme</a> ) for a bunch of examples. I especially liked <a href="https://rsangole.netlify.com/post/pur-r-ify-your-carets/">this post</a> on how to use Purrr to fit a bunch of models and compare them. And you could also check out <a href="../../../../2016/12/04/nested-recursion-loops-within-loops-within-data-frames/">my post</a> from last year where I looked at collecting time series forecasts.</p>
+<p>Those are all great resources, though some are a bit abstract. I found it helpful to review the tutorials and then try to do some things. Then if you go back to the resources they’ll make even more sense.</p>
+<p>After I jumped in and did a few things I felt like I was getting the hang of using PURRR. But then I saw <a href="https://github.com/rstudio/cheatsheets/raw/master/purrr.pdf">this excellent purrr cheatsheet</a> and I realized there were a bunch of functions I hadn’t been using. Let’s try to use them.</p>
+<div id="the-task" class="section level1">
+<h1>The task</h1>
+<p>I have the <em>purrrfect</em> (sorry first and last pun) task. We’re going to build another PowerPoint! Bet you didn’t see that coming (unless you got spoiled on social media), but yes indeed. If you missed my <a href="../../../../2017/09/23/crafting-a-powerpoint-presentation-with-r/">earlier post</a> we used <a href="https://CRAN.R-project.org/package=officer">officer</a> to build a PowerPoint presentation out of an old blog post.</p>
+<p>In that example, we already had a bunch of images handy but now we’re going to have to make them. Enter purrr.</p>
+<div id="lets-build-a-chartbook" class="section level2">
+<h2>Let’s build a chartbook</h2>
+<p>Let’s imagine that our task is to make a PowerPoint chartbook with a bunch of slides summarizing U.S. macroeconomic conditions. In particular, we want to summarize how the labor market is doing, what’s going on with housing markets and what’s been happening with mortgage rates (pretend you don’t already <a href="https://twitter.com/lenkiefer">follow me</a> on Twitter).</p>
+<p>How are we going to do this? In the bad old days-maybe just a few minutes ago-we would fire up good old Excel and maybe start gathering the data. Then we’d make a bunch of charts and stick them into our PowerPoint. Yuck! Who wants to live that way? Not you my friends.</p>
+<p>Obviously, we can use <a href="http://ggplot2.tidyverse.org/">ggplot2</a> to make awesome charts in R. And if we’re talking U.S. macroeconomic data we can probably get it from the Saint Louis Federal Reserve Economic Database <a href="https://fred.stlouisfed.org/">(FRED)</a>. And if we’ve been <a href="2017/04/11/fred-plot/">reading here we’d know</a> how to build a simple plot with FRED and R.</p>
+<p>And if we <a href="../../../../2017/09/23/crafting-a-powerpoint-presentation-with-r/">read last week’s post</a> we’d know how to build and edit a PowerPoint with R. But how to put it all together? That’s what this post is all about.</p>
+</div>
+</div>
+<div id="getting-your-powerpoint-to-purrr" class="section level1">
+<h1>Getting your PowerPoint to purrr</h1>
+<p>In order to do this we’ll need to break it into three stages. In the first stage, we’ll go get a bunch of macroeconomic data. FRED will make our lives easy (for demonstration purposes only, actual results may vary) by putting all the data we want in one place. But in general we could extend this step to include all the awful spreadsheets where you’ve stuck important data.</p>
+<p>In the second step we’ll build our awesome graphs. That will proceed as usual.</p>
+<p>In the third step we’ll actually build the PowerPoint deck.</p>
+<div id="get-data" class="section level2">
+<h2>Get data</h2>
+<p>In the real world, this is by far the most painful step. But here we’ll use the steps I outline <a href="../../../../2017/09/18/a-tidyquant-um-of-solace/">in my tidyquant post</a> to get a bunch of data.</p>
+<p>A note on FRED codes. I initially had a hard time finding the FRED mnemonics (how FRED labels the variables). Fortunately, I found an awesome resource to help us. This resource is so awesome I’m going to say very little about it today and just link to it. I’ll have more to say about it-perhaps much more-later.</p>
+<p>But for now, let me just say that I got my list by modifying the list provided by Michael McCracken and Serena Ng in the <a href="https://research.stlouisfed.org/wp/more/2015-012">FRED-MD: A Monthly Database for Macroeconomic Research</a>. Note that I didn’t actually use their database here, I just used the appendix to get my list jumpstarted. Then I augmented it here and there with a few extra series.</p>
+<p>What I would normally do is keep my list of mnemonics in a separate file and load them in. But here I’ll just type them in so you can see exactly what I’m doing without loading a text file. In the code below we’ll set up our FRED tickers.</p>
+<pre class="r"><code>#####################################################################################
+## Step 0: Load Libraries ##
+#####################################################################################
+library(tidyverse)
+library(tidyquant)
+
+#####################################################################################
+## Step 1: Prepare for data  ##
+#####################################################################################
+
+# Get a list of mnemoics
+# This could be a text file if we wanted a long list
+# Note, these data are all monthly frequency
+tickers &lt;- c(&#39;UNRATE&#39;,
+             &#39;PAYEMS&#39;,
+             &#39;HOUST&#39;,
+             &#39;TB3MS&#39;,
+             &#39;TB6MS&#39;,
+             &#39;GS1&#39;,
+             &#39;GS2&#39;,
+             &#39;GS5&#39;,
+             &#39;GS10&#39;,
+             &#39;CPIAUCSL&#39;,
+             &#39;CIVPART&#39;,
+             &#39;LNS11300060&#39;,
+             &#39;LNS11300001&#39;,
+             &#39;LNS11300002&#39;,
+             &#39;MORTGAGE30US&#39;,
+             &#39;HPIPONM226S&#39;,
+             &#39;HSN1F&#39;)
+
+# Next, list human readable variable names
+myvars &lt;- c(&#39;Civilian Unemployment Rate&#39;,
+            &#39;All Employees: Total nonfarm&#39;,
+            &#39;Housing Starts: Total New Privately Owned&#39;,
+            &#39;3-Month Treasury Bill:&#39;,
+            &#39;6-Month Treasury Bill:&#39;,
+            &#39;1-Year Treasury Rate&#39;,
+            &#39;2-Year Treasury Rate&#39;,
+            &#39;5-Year Treasury Rate&#39;,
+            &#39;10-Year Treasury Rate&#39;,
+            &#39;CPI : All Items&#39;,
+            &#39;Civilian Labor Force Participation Rate&#39;,
+            &#39;Civilian Labor Force Participation Rate: 25 to 54 years&#39;,
+            &#39;Civilian Labor Force Participation Rate: Men&#39;,
+            &#39;Civilian Labor Force Participation Rate: Women&#39;,
+            &#39;30-Year Fixed Rate Mortgage Average in the United States&#39;,
+            &#39;Purchase Only House Price Index for the United States&#39;,
+            &#39;New Home Sales&#39;)
+
+mytransform&lt;-c(&#39;none&#39;,
+             &#39;diff&#39;,    # difference
+             &#39;none&#39;,
+             &#39;none&#39;,
+             &#39;none&#39;,
+             &#39;none&#39;,
+             &#39;none&#39;,
+             &#39;none&#39;,
+             &#39;none&#39;,
+             &#39;pdiff12&#39;,  # 12-month percent difference
+             &#39;none&#39;,
+             &#39;none&#39;,
+             &#39;none&#39;,
+             &#39;none&#39;,
+             &#39;none&#39;,
+             &#39;pdiff12&#39;,  # 12-month percent difference
+             &#39;none&#39;)
+
+# Units variables (after transform) are measured in
+myunit &lt;- c(&#39;%&#39;,
+            &#39;Monthly Change in Thousands&#39;,
+            &#39;Thousands, SAAR&#39;,
+            &#39;%&#39;,
+            &#39;%&#39;,
+            &#39;%&#39;,
+            &#39;%&#39;,
+            &#39;%&#39;,
+            &#39;%&#39;,
+            &#39;12-month % change&#39;,
+            &#39;%&#39;,
+            &#39;%&#39;,
+            &#39;%&#39;,
+            &#39;%&#39;,
+            &#39;%&#39;,
+            &#39;12-month % change&#39;,
+            &#39;Thousands, SAAR&#39;
+)
+
+
+# Create a lookup dataset
+mylookup&lt;-data.frame(symbol=tickers,var=myvars,trans=mytransform,unit=myunit)
+# Take a look:
+knitr::kable(mylookup)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">symbol</th>
+<th align="left">var</th>
+<th align="left">trans</th>
+<th align="left">unit</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">UNRATE</td>
+<td align="left">Civilian Unemployment Rate</td>
+<td align="left">none</td>
+<td align="left">%</td>
+</tr>
+<tr class="even">
+<td align="left">PAYEMS</td>
+<td align="left">All Employees: Total nonfarm</td>
+<td align="left">diff</td>
+<td align="left">Monthly Change in Thousands</td>
+</tr>
+<tr class="odd">
+<td align="left">HOUST</td>
+<td align="left">Housing Starts: Total New Privately Owned</td>
+<td align="left">none</td>
+<td align="left">Thousands, SAAR</td>
+</tr>
+<tr class="even">
+<td align="left">TB3MS</td>
+<td align="left">3-Month Treasury Bill:</td>
+<td align="left">none</td>
+<td align="left">%</td>
+</tr>
+<tr class="odd">
+<td align="left">TB6MS</td>
+<td align="left">6-Month Treasury Bill:</td>
+<td align="left">none</td>
+<td align="left">%</td>
+</tr>
+<tr class="even">
+<td align="left">GS1</td>
+<td align="left">1-Year Treasury Rate</td>
+<td align="left">none</td>
+<td align="left">%</td>
+</tr>
+<tr class="odd">
+<td align="left">GS2</td>
+<td align="left">2-Year Treasury Rate</td>
+<td align="left">none</td>
+<td align="left">%</td>
+</tr>
+<tr class="even">
+<td align="left">GS5</td>
+<td align="left">5-Year Treasury Rate</td>
+<td align="left">none</td>
+<td align="left">%</td>
+</tr>
+<tr class="odd">
+<td align="left">GS10</td>
+<td align="left">10-Year Treasury Rate</td>
+<td align="left">none</td>
+<td align="left">%</td>
+</tr>
+<tr class="even">
+<td align="left">CPIAUCSL</td>
+<td align="left">CPI : All Items</td>
+<td align="left">pdiff12</td>
+<td align="left">12-month % change</td>
+</tr>
+<tr class="odd">
+<td align="left">CIVPART</td>
+<td align="left">Civilian Labor Force Participation Rate</td>
+<td align="left">none</td>
+<td align="left">%</td>
+</tr>
+<tr class="even">
+<td align="left">LNS11300060</td>
+<td align="left">Civilian Labor Force Participation Rate: 25 to 54 years</td>
+<td align="left">none</td>
+<td align="left">%</td>
+</tr>
+<tr class="odd">
+<td align="left">LNS11300001</td>
+<td align="left">Civilian Labor Force Participation Rate: Men</td>
+<td align="left">none</td>
+<td align="left">%</td>
+</tr>
+<tr class="even">
+<td align="left">LNS11300002</td>
+<td align="left">Civilian Labor Force Participation Rate: Women</td>
+<td align="left">none</td>
+<td align="left">%</td>
+</tr>
+<tr class="odd">
+<td align="left">MORTGAGE30US</td>
+<td align="left">30-Year Fixed Rate Mortgage Average in the United States</td>
+<td align="left">none</td>
+<td align="left">%</td>
+</tr>
+<tr class="even">
+<td align="left">HPIPONM226S</td>
+<td align="left">Purchase Only House Price Index for the United States</td>
+<td align="left">pdiff12</td>
+<td align="left">12-month % change</td>
+</tr>
+<tr class="odd">
+<td align="left">HSN1F</td>
+<td align="left">New Home Sales</td>
+<td align="left">none</td>
+<td align="left">Thousands, SAAR</td>
+</tr>
+</tbody>
+</table>
+<p>We can see that we have 18 variables. I have also included a variable <code>mytransform</code> that indicates the type of transformation (if any) we want to impost on our data. For example, we want to look at the monthly change in nonfarm payroll employment (<code>PAYEMS</code>) so we want to set <code>mytransform=diff</code>.</p>
+<pre class="r"><code>#####################################################################################
+## Step 2: Pull data  ##
+#####################################################################################
+
+tickers %&gt;% tq_get(get=&quot;economic.data&quot;, 
+                   from=&quot;2000-01-01&quot;   # we start from January 2000
+                   ) -&gt; df
+
+df&lt;-merge(df,mylookup,by=&quot;symbol&quot;) %&gt;% 
+  rename(value=price) %&gt;%
+  map_if(is.factor, as.character) %&gt;%  #convert factors to character!
+  as.tibble()</code></pre>
+<p>Now that we have collected our data let’s go plot it.</p>
+</div>
+<div id="plot-data" class="section level2">
+<h2>Plot data</h2>
+<p>What we are going to do is create a simple line plot for each series in our data and save it as it’s own individual image file (<em>.png</em> here). Then in step 3 we’ll paste those images into our PowerPoint.</p>
+<div id="plot-function" class="section level3">
+<h3>Plot function</h3>
+<p>We’ll make a function that takes a variable mnemonic, filters our data to just that variable and makes a line plot.</p>
+<pre class="r"><code># Make a function to handle transformations
+mytransf&lt;- function(x,trans=&quot;none&quot;){
+  switch(trans,
+         none=x,
+         diff=c(NA,diff(x)),
+         pdiff12= 100*quantmod::Delt(x,k=12) # use Quantmod Delt() function 
+  )
+}
+
+# make a function to save images (here in ~/img directory)
+myplot &lt;- function(in.var=&quot;UNRATE&quot;, in.trans=&quot;none&quot;, save=&quot;N&quot;){
+ dfp&lt;-filter(df,symbol==in.var)
+ g&lt;-
+   ggplot(data=dfp, aes(x=date,y=mytransf(value,in.trans)))+
+   geom_line(color=&quot;royalblue&quot;)+
+   labs(title=paste0(head(dfp,1)$var,&quot; (&quot;,head(dfp,1)$unit,&quot;)&quot;),
+        caption=&quot;@lenkiefer Source: St. Louis Federal Reserve Economic Database (FRED)\nTHIS IS A TEST ONLY&quot;,
+        x=&quot;&quot;,y=&quot;&quot;)+
+   theme_minimal()+
+   theme(plot.caption=element_text(hjust=0))
+  if (save==&quot;N&quot;) {print(g)} # plot image}
+ if (save==&quot;Y&quot;) {ggsave(filename=paste0(&quot;img/&quot;,in.var,&quot;.png&quot;),
+                        width=8,height=6)}
+}
+myplot()</code></pre>
+<p><img src="/post/2017-09-27-use-purrr_files/figure-html/09-27-2017-plot-1-1.png" width="672" /></p>
+</div>
+<div id="save-images" class="section level3">
+<h3>Save images</h3>
+<p>Here we can use a new purrr function I hadn’t heard about: <code>walk()</code>. Walk is just like <code>map()</code> except we use it for the side effects, like saving an image. The <code>myplot()</code> function we just wrote allows us to save images. To use it we simply run:</p>
+<pre class="r"><code>mylookup %&gt;% mutate(test=walk2(symbol,trans,myplot,save=&quot;Y&quot;))</code></pre>
+<p>Then, for each row in mylookup we’ll save an image taking our input variable <code>symbol</code> transformed according to our <code>trans</code> variable.</p>
+</div>
+</div>
+<div id="make-our-awesome-chartbook" class="section level2">
+<h2>Make our awesome chartbook</h2>
+<p>Now we can apply purrr along with officer and create our awesome PowerPoint deck. We’ll need another function, this one to write slides.</p>
+<p>First <a href="">as last time</a> we’ll load in our template and get started.</p>
+<pre class="r"><code>library(officer)
+library(magrittr)
+# Set a footer
+myftr&lt;-&quot;@lenkiefer Purrrty PowerPoint&quot;
+my_pres&lt;-read_pptx(&quot;data/blank.pptx&quot;) %&gt;% 
+  # Load template
+  # Add a slide
+  add_slide(layout=&quot;Title Slide&quot;, master=&quot;Office Theme&quot;) %&gt;%
+  # Add some text to the title (ctrTitle)
+  ph_with_text(type = &quot;ctrTitle&quot;, str = &quot;Our totally awesome chartbook&quot;) %&gt;% 
+  # Add some text to the subtitle (subTitle)
+  ph_with_text(type = &quot;subTitle&quot;, str = &quot;A purrrfect example&quot;) %&gt;% 
+  ph_with_text(type = &quot;ftr&quot;, str = myftr )</code></pre>
+<p>Then we’ll need to add a function to write slides.</p>
+<pre class="r"><code>slidef&lt;- function(var, preso=my_pres){
+  my_pres %&gt;%
+    add_slide(layout = &quot;Title and Content&quot;, master = &quot;Office Theme&quot;) %&gt;%
+    ph_with_text(type = &quot;ftr&quot;, str = myftr ) %&gt;%
+    ph_with_img(type = &quot;body&quot;, index = 1, 
+                src =paste0(&quot;img/&quot;,var,&quot;.png&quot; # got get our images
+                            )) -&gt; my_pres
+}</code></pre>
+<p>Now that we have our slide addition function we can use <code>walk()</code> to call this function and append our slides:</p>
+<pre class="r"><code>walk(mylookup$symbol,slidef)  
+
+# This will add to my_pres variable as side effect</code></pre>
+<p>Finally</p>
+<pre class="r"><code>my_pres %&gt;% print( target = &quot;Purrrty.pptx&quot;) %&gt;% 
+  invisible()</code></pre>
+<p>You can download the deck <a href="../../../../img/charts_sep_27_2017/Purrrty.pptx">here</a>. Below I’ve embedded a pdf version of the slidedeck.</p>
+<iframe src="../../../../img/charts_sep_27_2017/Purrrty.pdf" height="500" width="775">
+</iframe>
+</div>
+</div>
+<div id="next-steps" class="section level1">
+<h1>Next steps</h1>
+<p>There’s a lot more to do here. Obviously on the PowerPoint front we can do a lot more. We could add more metadata about our charts to create different kinds of charts for example. There’s more we could do with the purrr functions.</p>
+<p>But I think we can all agree that this type of application is exactly what the creators of purrr, including <a href="http://hadley.nz/">Hadley Wickham</a>, had in mind when they created this awesome library.</p>
+<p>Also, there’s still quite a bit to do about how things look. We haven’t made things pretty yet. And we still haven’t talked about strategy for how to actually use these tools. Now that we have a base we can look to those topics in future posts.</p>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2017/09/26/new-home-sales-fall-maybe/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2017/09/26/new-home-sales-fall-maybe/">New home sales fall (maybe)</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="/2017/09/29/mortgage-origination-trends/">Mortgage origination trends</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="/2017/09/29/mortgage-origination-trends/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/r/">R</a>, 
+            
+                <a href="/tags/data-wrangling/">data wrangling</a>, 
+            
+                <a href="/tags/slides/">slides</a>, 
+            
+                <a href="/tags/office/">Office</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2017%2f09%2f27%2fuse-purrr%2f&text=PURRRty%20PowerPoint%20with%20R via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2017%2f09%2f27%2fuse-purrr%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+

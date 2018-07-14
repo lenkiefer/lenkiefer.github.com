@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>Kalman Filter for a dynamic linear model in R &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Kalman Filter for a dynamic linear model in R">
+    <meta property="og:description" content="As an economist with a background in econometrics and forecasting I recognize that predictions are often (usually?) an exercise in futility. Forecasting, after all, is hard. While non-economists have great fun pointing this futility out, many critics miss out on why it’s so hard.
+There are at least two reasons why forecasting is hard. The first, the unknown future, is pretty well understood. Empirical regularities with much forecasting power in the social sciences are hard to come by and are rarely stable.">
+
+<div class="header">
+  <h1>Kalman Filter for a dynamic linear model in R</h1>
+  <h2></h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/06/10</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/forecasting">forecasting</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <p>As an economist with a background in econometrics and forecasting I recognize that predictions are often (usually?) an exercise in futility. Forecasting, after all, <a href="../../../../2017/08/27/forecast/">is hard</a>. While non-economists have great fun pointing this futility out, many critics miss out on why it’s so hard.</p>
+<p>There are at least two reasons why forecasting is hard. The first, the unknown future, is pretty well understood. Empirical regularities with much forecasting power in the social sciences are hard to come by and are rarely stable. Until we develop prehistory or precognition, there is an irreducible uncertainty about the future.</p>
+<p>But there’s a second sort of uncertainty. Uncertainty about the present. This uncertainty is in principle reducible. We could go out and learn more about the world, measure more, see more. Statistics and metrics we cover are <a href="../../../../2017/04/26/housing-data-uncertainty/">usually subject to sampling uncertainty and error</a>. I spend a lot of time trying to stitch together bits of information into a composite whole.</p>
+<p>One way to do that is the subject of this post. I have been studying a particular kind of problem, and I’m going to share some notes related to that problem. At this point, I’m still puzzling through a few things, so forgive me I appear to wander.</p>
+<div id="the-filter" class="section level1">
+<h1>The Filter</h1>
+<p>About every 18 months or so I have occasion to build or modify a model using the <a href="https://en.wikipedia.org/wiki/Kalman_filter">Kalman Filter</a>.The Kalman Filter a useful tool for representing times series data. And each time I come back to it, it seems I’m using different software or different packages. This time, we’re going to use <a href="https://www.r-project.org/">R</a>.</p>
+<p>For a full treatment you need a good textbook or a class. I’ve posted some references at the bottom. <a href="https://magesblog.com/post/2015-01-06-kalman-filter-example-visualised-with-r/">This post</a> covers usage in R at an introductory level and has some useful links.</p>
+<div id="a-problem" class="section level2">
+<h2>A problem</h2>
+<p>I’m going to focus on a particular example of a statespace model where the filter applies. I’m not going to justify this particular model here, but let’s see how it works. Imagine we wanted to track a time series (say an index of economic activity or a price index), call it <span class="math inline">\(z_t\)</span>. Imagine that <span class="math inline">\(z_t\)</span> follows an ARIMA(1,1,0) process. Every period (say a month) we observe a noisy signal of the current level of the index <span class="math inline">\(y_{1,t} = z_{t} + noise\)</span>. We also observe a less noisy signal of the level of the index in the prior period <span class="math inline">\(y_{2,t} = z_{t-1} + noise\)</span> As a good Bayesian we might form a prior expectation of <span class="math inline">\(z_t\)</span> and then weight the two signals.</p>
+<p>How much weight should we put on the two series? If everything is nice and linear and Gaussian (or we were willing to accept that as an approximation), then the Kalman filter will give us the answer. Let’s consider some examples.</p>
+<p>As I mentioned, I recode the Kalman Filter about every 18 months or so. The Kalman Filter has a nice recursive representation, so it’s fairly easy to write down. Most packages have a form of built in Kalman Filter (as does R’s <code>stats</code>), but often it isn’t quite flexible for what I need so I just start over. For today I found the <a href="https://CRAN.R-project.org/package=dlm">dlm</a> package to be useful, but we’ll have to extend it for what I want to do with it. In this post we’ll work through a simple example and see how we can adapt the <code>dlm</code> package along the way.</p>
+<div id="state-process" class="section level3">
+<h3>State process</h3>
+<p>We need to specify the process. For this example, imagine that our fundamental variable of interest <span class="math inline">\(z_t\)</span> follows an ARIMA(1,1,0) process with drift. That is:</p>
+<p><span class="math display">\[ z_t-z_{t-1} = \mu_z + \rho (z_{t-1}-z_{t-2}) + e_t, e_t \sim N(0,\sigma^{2}_z)\]</span></p>
+</div>
+<div id="signal-process" class="section level3">
+<h3>Signal process</h3>
+<p>We also have two signals, one for <span class="math inline">\(z_t\)</span> and one for <span class="math inline">\(z_{t-1}\)</span> that we recieve concurrently. Imagine that the signal <span class="math inline">\(y_{2,t}\)</span> for <span class="math inline">\(z_{t-1}\)</span> is much more precise but is only available with a lag. The concurrent signal <span class="math inline">\(y_{1t}\)</span> is noisier and possibly subject to some bias <span class="math inline">\(\mu_{y1}\)</span>.</p>
+<p><span class="math display">\[ y_{1,t}  = \mu_{y1} + z_{t} + u_{1,t},  u_{1,t} \sim N(0,\sigma^{2}_{u1})\]</span> <span class="math display">\[ y_{2,t}  = z_{t-1} + u_{2,t},  u_{2,t} \sim N(0,\sigma^{2}_{u2})\]</span> And <span class="math inline">\(\sigma^{2}_{u1} &gt; \sigma^{2}_{u2}\)</span>, perhaps much more so.</p>
+</div>
+<div id="combining-into-state-space" class="section level3">
+<h3>Combining into State Space</h3>
+<p>Part of the fun of working with the Kalman Filter is that it’s ubiquitous and has spread across multiple disciplines so the notation is often slightly different. As we’re going to use the <code>dlm</code> package, we’ll adapt the notation as used in it’s <a href="https://cran.r-project.org/web/packages/dlm/vignettes/dlm.pdf">vignette</a>. As I was testing this post I kept getting weird results and only finally realized that the use of <span class="math inline">\(F\)</span> and <span class="math inline">\(G\)</span> in the matrix notation was switched between the <code>dlm</code> package and one of my references (Lütkepohl 2005). <em>I also had to go back and edit this post a couple times.</em></p>
+<p>Check one of the references for a general treatment but for our specific problem this will do:</p>
+<p><span class="math display">\[ \begin{cases} Z_t = G Z_{t-1} + v_t,   v_t \sim N(0,W_t) \\ Y_t = F Z_t + w_t,    w_t \sim N(0,V_t)\end{cases}\]</span> Where <span class="math inline">\(Z_t = \begin{bmatrix} z_t, &amp; z_{t-1},&amp; 1\end{bmatrix}^T\)</span> and</p>
+<p><span class="math display">\[ G = \begin{bmatrix} 1+\rho &amp; -\rho &amp; \mu_z\\
+1 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 1\end{bmatrix} \]</span></p>
+<p>And</p>
+<p><span class="math display">\[ W_t = \begin{bmatrix} 
+\sigma^{2}_z &amp; 0 &amp; 0\\
+0 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 0\end{bmatrix} \]</span></p>
+<p>Note that the only source of variance in the state vector is in the first row. The lag and constant are carried around in the state vector.</p>
+<p>Also,</p>
+<p><span class="math display">\[ F = \begin{bmatrix} 
+1 &amp; 0 &amp;  \mu_{y1}\\
+0 &amp; 1 &amp; 0 \\
+0 &amp; 0 &amp; 1\end{bmatrix} \]</span></p>
+<p>And</p>
+<p><span class="math display">\[ V_t = \begin{bmatrix} 
+\sigma^{2}_{u1} &amp; 0 &amp; 0\\
+0 &amp; \sigma^{2}_{u2} &amp; 0 \\
+0 &amp; 0 &amp; 0\end{bmatrix} \]</span></p>
+<p>Note that the constant is observed without error.</p>
+</div>
+</div>
+</div>
+<div id="simulate-the-series-with-r" class="section level1">
+<h1>Simulate the series with R</h1>
+<p>We can simulate this model using R and the <code>dlm</code> package.</p>
+<pre class="r"><code># Load Libraries ---- 
+library(dlm)
+library(tidyverse) # for plotting
+
+
+# set parameters
+mu_z &lt;- 0.1
+mu_y &lt;- 0.5 # spread between observation and data
+rho1 &lt;- 0.9 
+sig_z &lt;- 1
+sig_u1 &lt;- 10
+sig_u2 &lt;- 0.1
+
+GG &lt;- matrix(c(1+rho1,-rho1,mu_z,1,0,0,0,0,1),nrow=3,byrow=TRUE)
+FF &lt;- matrix(c(1,0,mu_y,0,1,0,0,0,1),nrow=3,byrow=TRUE)
+m0 &lt;- matrix(c(0,0,0), nrow=3)
+C0 &lt;- matrix(rep(0,9),nrow=3)
+W &lt;- matrix(c(sig_z,0,0,
+              0,0,0,
+              0,0,0),nrow=3,byrow=TRUE)
+V &lt;- matrix(c(sig_u1,0,0,
+              0,sig_u2,0,
+              0,0,0),nrow=3,byrow=TRUE)
+my_dlm &lt;- dlm(FF=FF,V=V,GG=GG,W=W,V=V,m0=c(0,0,1),C0=C0)</code></pre>
+<p>After setting it up we can simulate from the process using <code>dlm::dlmForecast</code>.</p>
+<pre class="r"><code>set.seed(20180610)  #set seed for reproducible results
+y1 &lt;- dlmForecast(my_dlm, nAhead=120,sampleNew=1)
+df &lt;- data.frame(y=y1$newObs, z=y1$newStates)
+df$id &lt;- seq.int(nrow(df))
+ggplot(data=df, aes(x=id,y=y.1))+
+  geom_line()+
+  geom_line(linetype=2,aes(y=z.1),color=&quot;red&quot;)+
+  labs(x=&quot;time&quot;,y=&quot;Z&quot;, title=&quot;Simulated dynamic linear model&quot;, subtitle=&quot;black solid line observation y1\nred dotted line fundamental z&quot;)</code></pre>
+<p><img src="/post/2018-06-10-kalman-filter-for-a-dynamic-linear-model-in-r_files/figure-html/06-10-2018-sim2-1.png" width="672" /></p>
+</div>
+<div id="estimating-dlm" class="section level1">
+<h1>Estimating DLM</h1>
+<p>The <code>dlm</code> package allows you to estimate a dlm model using Maximum Likelihood. Let’s check using the simulated series. If we simulate our series and then estimate the process using only the simulated signals, do we get back something reasonable close to the original process?</p>
+<pre class="r"><code>my_dlmfc &lt;- function(par=c(rho1,sig_z,sig_u1,sig_u2,mu_z,mu_y)){
+  rho1 = par[1]
+  sig_z = par[2]  
+  sig_u1 = par[3] 
+  sig_u2 = par[4]
+  mu_z = par[5]
+  mu_y = par[6]
+  GG &lt;- matrix(c(1+rho1,-rho1,mu_z,1,0,0,0,0,1),nrow=3,byrow=TRUE)
+  FF &lt;- matrix(c(1,0,mu_y,0,1,0,0,0,1),nrow=3,byrow=TRUE)
+  m0 &lt;- matrix(c(0,0,0), nrow=3)
+  C0 &lt;- matrix(rep(0,9),nrow=3)
+  W &lt;- matrix(c(sig_z,0,0,
+                0,0,0,
+                0,0,0),nrow=3,byrow=TRUE)
+  V &lt;- matrix(c(sig_u1,0,0,
+                0,sig_u2,0,
+                0,0,0),nrow=3,byrow=TRUE)
+  my_dlm3 &lt;- dlm(FF=FF,V=V,GG=GG,W=W,V=V,m0=c(0,0,1),C0=C0)
+  return(my_dlm3)
+}
+
+my_mle &lt;- dlmMLE(matrix(unlist(y1$newObs),ncol=2), 
+                 rep(0.5,6),  #set initial values
+                 my_dlmfc, lower=c(-1,0,0,0,-Inf,-Inf) # as dlmMLE uses optim L-BFGS-B method by default we can set lower/upper bounds to parameters to keep us out of trouble
+                 )
+my_comp &lt;- data.frame(row.names=c(&quot;rho1&quot;,&quot;sig_z&quot;,&quot;sig_u1&quot;,&quot;sig_u2&quot;,&quot;mu_z&quot;,&quot;mu_y&quot;),real=c(rho1,sig_z,sig_u1,sig_u2,mu_z,mu_y), mle=my_mle$par) 
+knitr::kable(my_comp,digits=3, caption = &quot;Checking MLE against simulated data&quot;)</code></pre>
+<table>
+<caption><span id="tab:06-10-2018-sim3">Table 1: </span>Checking MLE against simulated data</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="right">real</th>
+<th align="right">mle</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>rho1</td>
+<td align="right">0.9</td>
+<td align="right">0.919</td>
+</tr>
+<tr class="even">
+<td>sig_z</td>
+<td align="right">1.0</td>
+<td align="right">1.156</td>
+</tr>
+<tr class="odd">
+<td>sig_u1</td>
+<td align="right">10.0</td>
+<td align="right">13.994</td>
+</tr>
+<tr class="even">
+<td>sig_u2</td>
+<td align="right">0.1</td>
+<td align="right">0.196</td>
+</tr>
+<tr class="odd">
+<td>mu_z</td>
+<td align="right">0.1</td>
+<td align="right">0.085</td>
+</tr>
+<tr class="even">
+<td>mu_y</td>
+<td align="right">0.5</td>
+<td align="right">0.461</td>
+</tr>
+</tbody>
+</table>
+<p>Okay, looks pretty close to the true process.</p>
+<p>I was interested in seeing how variations in the parameters of this model might affect the relative value of the signals. If the concurrent estimate is very noisy, then we might not put much weight on it. In the context of the Kalman Filter the Kalman Gain serves as a useful summary statistic. Unfortunately, the <code>dlm</code> library doesn’t give you back the gain, but it does give you the information you need to construct it. We can write a little function to extract the gain given a <code>dlm</code> model.</p>
+<pre class="r"><code>my_kgain &lt;- function(i=1, # signal input ( 1 or 2 in our example)
+                     j=1, # gain location (should be 1 or 2 in our exmample)
+                     j2=1, # should be same as j
+                     myk.in=myk,   # input results, the output of a dlmFilter call (see below)
+                     my_dlm.in = my_dlm2 # input dlm object, result of dlm call (see below)
+                     ){
+  vmt &lt;- myk.in$U.C[[i]] %*% diag(myk.in$D.C[i,] ^ 2) %*% t(myk.in$U.C[[i]])
+  vat &lt;- myk.in$U.R[[i]] %*% diag(myk.in$D.R[i,] ^ 2) %*% t(myk.in$U.R[[i]])
+  K_gain &lt;-vat* t(FF(my_dlm.in)) * solve(FF(my_dlm.in)* vat * t(FF(my_dlm.in)) + V(my_dlm.in))
+  return(K_gain[[j,j2]])
+}
+
+# estimated gain:
+myf &lt;- function(par=c(rho1,sig_z,sig_u1,sig_u2,mu_z,mu_y)){
+  rho1 = par[1]
+  sig_z = par[2]  
+  sig_u1 = par[3] 
+  sig_u2 = par[4]
+  mu_z = par[5]
+  mu_y = par[6]
+  GG &lt;- matrix(c(1+rho1,-rho1,1,0),nrow=2,byrow=TRUE)
+  FF &lt;- matrix(c(1,0,0,1),nrow=2,byrow=TRUE)
+  m0 &lt;- matrix(c(0,0), nrow=2)
+  C0 &lt;- matrix(rep(0,4),nrow=2)
+  W &lt;- matrix(c(sig_z,0,0,0),nrow=2,byrow=TRUE)
+  V &lt;- matrix(c(sig_u1,0,0,sig_u2),nrow=2,byrow=TRUE)
+  my_dlm3 &lt;- dlm(FF=FF,V=V,GG=GG,W=W,V=V,m0=c(0,0),C0=C0)
+  y1 &lt;- dlmForecast(my_dlm3, nAhead=20,sampleNew=1)
+  df &lt;- data.frame(y=y1$newObs, z=y1$newStates)
+  df$id &lt;- seq.int(nrow(df))
+  myk &lt;- dlmFilter(as.matrix(df[,1:2]), my_dlm3)
+  dfk &lt;- data.frame(id=1:nrow(myk$a)) %&gt;% mutate(k11=map(id,my_kgain,1,1,myk,my_dlm3),
+                                                 k12=map(id,my_kgain,1,2,myk,my_dlm3),
+                                                 k21=map(id,my_kgain,2,1,myk,my_dlm3),
+                                                 k22=map(id,my_kgain,2,2,myk,my_dlm3) )
+  return(tail(dfk,1) %&gt;% select(k11,k22))
+}
+knitr::kable(myf(my_comp$mle)  %&gt;%  unlist %&gt;% t %&gt;% data.frame,
+             digits=3, 
+             row.names=F,
+             col.names=c(&quot;Gain for y_1&quot;,&quot;Gain for y_2&quot;),
+             caption=&quot;Kalman Gain After 20 Periods&quot;)</code></pre>
+<table>
+<caption><span id="tab:06-10-2018-sim4">Table 2: </span>Kalman Gain After 20 Periods</caption>
+<thead>
+<tr class="header">
+<th align="right">Gain for y_1</th>
+<th align="right">Gain for y_2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">0.308</td>
+<td align="right">0.891</td>
+</tr>
+</tbody>
+</table>
+<p>Now we can see how the gain varies for different parameterizations. We will fix the innovation variance for the unobserved series so that <span class="math inline">\(\sigma_z^2=1\)</span> and we’ll set the intercepts <span class="math inline">\(mu_z\)</span> and <span class="math inline">\(mu_y\)</span> equal to 0. Setting the intercepts equal to zero allows us to drop one of the state variables. <em>I originally wrote the code without an intercept, and only later added it. I’ve updated the code to carry the intercept around in case you want to add it back.</em></p>
+<pre class="r"><code># estimated gain:
+myf2 &lt;- function(rho1 = 0.9 ,
+                   sig_z = 1,
+                   sig_u1 = 10,
+                   sig_u2 = 0.001,
+                   mu_z=0,
+                   mu_y=0){
+
+ GG &lt;- matrix(c(1+rho1,-rho1,1,0),nrow=2,byrow=TRUE)
+  FF &lt;- matrix(c(1,0,0,1),nrow=2,byrow=TRUE)
+  m0 &lt;- matrix(c(0,0), nrow=2)
+  C0 &lt;- matrix(rep(0,4),nrow=2)
+  W &lt;- matrix(c(sig_z,0,0,0),nrow=2,byrow=TRUE)
+  V &lt;- matrix(c(sig_u1,0,0,sig_u2),nrow=2,byrow=TRUE)
+  my_dlm3 &lt;- dlm(FF=FF,V=V,GG=GG,W=W,V=V,m0=c(0,0),C0=C0)
+  y1 &lt;- dlmForecast(my_dlm3, nAhead=20,sampleNew=1)
+  df &lt;- data.frame(y=y1$newObs, z=y1$newStates)
+  df$id &lt;- seq.int(nrow(df))
+  myk &lt;- dlmFilter(as.matrix(df[,1:2]), my_dlm3)
+  dfk &lt;- data.frame(id=1:nrow(myk$a)) %&gt;% mutate(k11=map(id,my_kgain,1,1,myk,my_dlm3),
+                                                 k12=map(id,my_kgain,1,2,myk,my_dlm3),
+                                                 k21=map(id,my_kgain,2,1,myk,my_dlm3),
+                                                 k22=map(id,my_kgain,2,2,myk,my_dlm3) )
+  return(tail(dfk,1) %&gt;% select(k11,k22))
+}
+
+
+df_test &lt;- expand.grid(r=seq(0,.9,.1), sm=c(0.01,1,10), sp=c(0.01,1,10), mu_z=0,mu_y=0) %&gt;% 
+ 
+  mutate(kgain=as.vector(pmap(list(rho1=r,sig_z=1,sig_u1=sm,sig_u2=sp,mu_z=0,mu_y=0),myf2))) %&gt;% 
+  unnest(kgain) %&gt;% mutate(k11=unlist(k11,use.names=FALSE),
+                           k22=unlist(k22,use.names=FALSE)
+                           )</code></pre>
+<pre class="r"><code>ggplot(data=df_test, aes(x=r, y=k11))+geom_line(size=1.1)+
+  facet_grid(paste0(&quot;Sigma_y1 = &quot;,format(sm,scientific=F))~paste0(&quot;Sigma_y2= &quot;,format(sp, scientific=F)))+
+  labs(x=&quot;rho1&quot;, y=&quot;Kalman Gain For Y1 (T=20)&quot;,
+       title=&quot;Gain for Y1&quot;,
+       subtitle=&quot;Kalman gain increases with rho (Sigma_z fixed at 1)&quot;)</code></pre>
+<p><img src="/post/2018-06-10-kalman-filter-for-a-dynamic-linear-model-in-r_files/figure-html/06-10-2018-sim6-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(data=df_test, aes(x=r, y=k22))+geom_line(size=1.1)+
+  facet_grid(paste0(&quot;Sigma_y1 = &quot;,format(sm,scientific=F))~paste0(&quot;Sigma_y2= &quot;,format(sp, scientific=F)))+
+  labs(x=&quot;rho1&quot;, y=&quot;Kalman Gain For Y2(T=20)&quot;,
+       title=&quot;Gain for Y2&quot;,
+       subtitle=&quot;Kalman gain increases with rho (Sigma_z fixed at 1)&quot;)</code></pre>
+<p><img src="/post/2018-06-10-kalman-filter-for-a-dynamic-linear-model-in-r_files/figure-html/06-10-2018-sim7-1.png" width="672" /> The facets help I think, but we could try to put them all on one plot:</p>
+<pre class="r"><code>ggplot(data=df_test, aes(x=r, y=k11, color=paste0(&quot;Sigma_y2= &quot;,format(sp, scientific=F)), linetype=paste0(&quot;Sigma_y1 = &quot;,format(sm,scientific=F))))+geom_path(size=1.1)+
+  theme(legend.position=&quot;top&quot;)+
+  scale_linetype(name=&quot;sig_u1&quot;)+
+  scale_color_discrete(name=&quot;sig_u2&quot;)+
+    labs(x=&quot;rho1&quot;, y=&quot;Kalman Gain For Y2(T=20)&quot;,
+       title=&quot;Gain for Y1&quot;,
+       subtitle=&quot;Kalman gain increases with rho (Sigma_z fixed at 1)&quot;)</code></pre>
+<p><img src="/post/2018-06-10-kalman-filter-for-a-dynamic-linear-model-in-r_files/figure-html/06-10-2018-sim8-1.png" width="672" /></p>
+<div id="a-little-discussion" class="section level3">
+<h3>A little discussion</h3>
+<p>This little analysis shows that as the persistence in the latent time series <span class="math inline">\(z_t\)</span> increases (<span class="math inline">\(\rho\)</span> becomes bigger), the value of informaiton as summarized by the Kalman gain increases.</p>
+<p>An interesting emprical question then is what are the relative variances of the signals. What sort of time series might follow this kind of process. For that, we’ll need a follow up post.</p>
+</div>
+</div>
+<div id="references" class="section level1">
+<h1>References</h1>
+<p>Some useful time series references with details on the Kalman Filter</p>
+<p>Giovanni Petris (2010). An R Package for Dynamic Linear Models. Journal of Statistical Software, 36(12), 1-16. URL <a href="http://www.jstatsoft.org/v36/i12/" class="uri">http://www.jstatsoft.org/v36/i12/</a>.</p>
+<p>Hamilton, J. D. (1994). Time series analysis (Vol. 2). Princeton: Princeton university press.</p>
+<p>Lütkepohl, H. (2005). New introduction to multiple time series analysis. Springer Science &amp; Business Media.</p>
+<p>Petris, Petrone, and Campagnoli. Dynamic Linear Models with R. Springer (2009).</p>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2018/05/21/pomological-plots/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2018/05/21/pomological-plots/">Pomological Plots</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="/2018/06/24/plotting-house-price-and-income-trends/">Plotting house price and income trends</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="/2018/06/24/plotting-house-price-and-income-trends/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/r/">R</a>, 
+            
+                <a href="/tags/forecasting/">forecasting</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2018%2f06%2f10%2fkalman-filter-for-a-dynamic-linear-model-in-r%2f&text=Kalman%20Filter%20for%20a%20dynamic%20linear%20model%20in%20R via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2018%2f06%2f10%2fkalman-filter-for-a-dynamic-linear-model-in-r%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+

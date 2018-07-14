@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Let&#39;s examine house price and employment trends. And yes, le&#39;ts try out that crazy bivariate tilegrid map.">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>Employment growth and house price trends &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com//img/charts_feb_26_2018/bivariate_tilegridmap.jpg" >
+     
+    <meta property="og:title" content="Employment growth and house price trends">
+    <meta property="og:description" content="Let&#39;s examine house price and employment trends. And yes, le&#39;ts try out that crazy bivariate tilegrid map.">
+
+<div class="header">
+  <h1>Employment growth and house price trends</h1>
+  <h2>Let&#39;s examine house price and employment trends. And yes, le&#39;ts try out that crazy bivariate tilegrid map.</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/02/26</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/house-prices">house prices</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/economy">economy</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <p>LET US TAKE A LOOK AT HOUSE PRICE AND EMPLOYMENT TRENDS.</p>
+<p>House prices in the Unitest States have been increasing at a rapid pace, about 7 percent on an annual basis. How does that relate to employment growth? And how do those trends vary by geography. Let’s take a look.</p>
+<p>Per usual, I will post <a href="https://www.r-project.org/">R</a> code and you can follow along.</p>
+<div id="data" class="section level2">
+<h2>Data</h2>
+<p>Following recent posts (see <a href="../../../../2018/02/18/recent-house-price-trends-update-through-december-2017/">here</a> and <a href="../../../../2018/02/19/more-house-price-plots/">here</a> for example), we will use the <a href="http://www.freddiemac.com/finance/fmhpi/about.html">Freddie Mac House Price Index</a> an Excel spreadsheet can be downloaded <a href="http://www.freddiemac.com/research/docs/states.xls">here</a>.</p>
+<p>We’ll get employment data from the U.S. Bureau of Labor Statistics via <a href="https://fred.stlouisfed.org/">FRED</a>. See <a href="../../../../2017/12/11/plotting-u-s-macroeconomic-trends-with-fred-and-r/">here</a> for more on using the <a href="https://CRAN.R-project.org/package=quantmod">quantmod</a> and <a href="https://CRAN.R-project.org/package=tidyquant">tidyquant</a> packages to work with FRED data.</p>
+<p>The following code will wrangle our data (out of the spreadsheet and out of FRED).</p>
+<pre class="r"><code>###############################################################################
+#### Load libraries
+###############################################################################
+library(tidyverse)
+library(data.table)
+library(tibbletime)
+library(tidyquant)
+library(magrittr)
+library(viridis)
+library(scales)
+library(readxl)
+library(geofacet)
+library(cowplot)
+
+###############################################################################
+#### Load state data (download spreadsheet in a data directory)
+###############################################################################
+df&lt;-read_excel(&quot;data/states.xls&quot;, 
+               sheet = &quot;State Indices&quot;,
+               range=&quot;B6:BB522&quot; )
+
+# make dates
+df$date&lt;-seq.Date(as.Date(&quot;1975-01-01&quot;),as.Date(&quot;2017-12-01&quot;),by=&quot;1 month&quot;)
+df.state&lt;-df %&gt;% gather(geo,hpi,-date) %&gt;% mutate(type=&quot;state&quot;,state=geo)
+
+df.state&lt;-
+  df.state %&gt;% group_by(geo) %&gt;% mutate(hpa=hpi/shift(hpi,12)-1,
+                                        hpa1=hpi/shift(hpi,1)-1,
+                                        hpilag12=shift(hpi,12,fill=NA),
+                                        hpimax12=rollmax(hpi,13,align=&quot;right&quot;,fill=NA),
+                                        hpimin12=-rollmax(-hpi,13,align=&quot;right&quot;,fill=NA)) %&gt;% ungroup()
+
+df.state&lt;-df.state %&gt;% group_by(date) %&gt;% 
+  mutate(us.hpa=hpa[geo==&quot;United States not seasonally adjusted&quot;],
+         us.hpi=hpi[geo==&quot;United States not seasonally adjusted&quot;]) %&gt;%
+  mutate(up=ifelse(hpa&gt;us.hpa,hpa,us.hpa),
+         down=ifelse(hpa&lt;=us.hpa,hpa,us.hpa),
+         dlabel=paste(as.character(date,format=&quot;%B-%Y&quot;),&quot; \n &quot;)
+  ) %&gt;% 
+  ungroup()
+
+df.state &lt;- filter(df.state,
+                   !( state %in% c(&quot;United States not seasonally adjusted&quot;,&quot;United States seasonally adjusted&quot;)))
+dlist&lt;-unique(filter(df.state,year(date)&gt;1999)$date)
+df.state&lt;- df.state %&gt;% group_by(state) %&gt;% mutate(id = row_number()) %&gt;% ungroup()
+
+# get hpa by state and year (December only)
+df.state %&gt;% mutate(year=year(date)) %&gt;% filter(month(date)==12 &amp; year&gt;1989) %&gt;% select(year,state,hpa) -&gt; df.state2
+
+#####################################################################################
+## Step 2: go get data from FRED ##
+#####################################################################################
+
+tickers&lt;-c(paste0(us_state_grid2$code,&quot;NA&quot;),      # nonfarm employment is NA (monthly, SA)
+           paste0(us_state_grid2$code,&quot;POP&quot;),     # resident population (annual)
+           paste0(us_state_grid2$code,&quot;BPPRIV&quot;)  # private building permits (monthly, NSA)
+           )   
+
+df&lt;-tq_get(tickers,get=&quot;economic.data&quot;,from=&quot;1990-01-01&quot;)
+
+#####################################################################################
+## Organize the data ##
+#####################################################################################
+df&lt;-mutate(df,
+           state = substr(symbol,1,2), 
+           var   = substr(symbol,3,10)) 
+# get population by year
+
+df %&gt;% filter(var==&quot;POP&quot;) %&gt;% mutate(year=year(date)) %&gt;% group_by(state,year) %&gt;% summarize(POP=sum(price)) -&gt; df.pop
+df %&gt;% filter(var==&quot;BPPRIV&quot;) %&gt;% mutate(year=year(date)) %&gt;% group_by(state,year) %&gt;% summarize(PERMITS=sum(price)) -&gt; df.permits
+df %&gt;% filter(var==&quot;NA&quot; &amp; month(date)==12) %&gt;% mutate(year=year(date)) %&gt;% group_by(state,year) %&gt;% summarize(EMP=sum(price)) -&gt; df.emp
+df3 &lt;- merge(df.emp,
+             df.pop, 
+             by=c(&quot;state&quot;,&quot;year&quot;)) %&gt;% merge(df.permits, by=c(&quot;state&quot;,&quot;year&quot;))
+df3 %&lt;&gt;% group_by(state) %&gt;% mutate(perm2pop=PERMITS/POP, EMPg=Delt(EMP,k=1), POPg=Delt(POP,k=1), PERMg=Delt(PERMITS,k=1), eg2permg=EMPg/PERMg) %&gt;% ungroup()
+df4&lt;-left_join(df.state2,df3,by=c(&quot;state&quot;,&quot;year&quot;))
+
+# Get national data
+# employment via FRED
+df.us&lt;-tq_get(&quot;PAYEMS&quot;,get=&quot;economic.data&quot;,from=&quot;1975-01-01&quot;) %&gt;% mutate(eg=Delt(price,k=12))
+
+# Get US house prices
+df.hpius &lt;- filter(df.state,state==&quot;AK&quot;) %&gt;% select(date,us.hpa,us.hpi)
+
+df.us&lt;-left_join(df.us,df.hpius,by=&quot;date&quot;)</code></pre>
+</div>
+<div id="national-trends" class="section level1">
+<h1>National trends</h1>
+<p>Let’s plot national trends. First with two line plots and then with a scatterplot.</p>
+<pre class="r"><code>g.emp&lt;-
+  ggplot(data=df.us,aes(x=date,y=eg))+geom_line()+
+  geom_rect(data=recessions.df, inherit.aes=F, aes(xmin=Peak, xmax=Trough, ymin=-Inf, ymax=+Inf), fill=&#39;darkgray&#39;, alpha=0.5) +
+  geom_point(data=filter(df.us,date==&quot;2018-01-01&quot;),color=&quot;red&quot;)+
+  theme_minimal()+
+  geom_hline(yintercept=0,color=&quot;black&quot;)+
+  scale_y_continuous(labels=percent,sec.axis=dup_axis())+
+  theme(legend.position=&quot;top&quot;,
+        plot.caption=element_text(hjust=0),
+        plot.subtitle=element_text(face=&quot;italic&quot;),
+        plot.title=element_text(size=16,face=&quot;bold&quot;))+
+  labs(x=&quot;&quot;,y=&quot;Percent&quot;,
+       title=&quot;U.S. Nonfarm Employment Growth&quot;,
+       subtitle=&quot;12-month percent change&quot;,
+       caption=&quot;@lenkiefer Data Source: U.S. Bureau of Labor Statistics, shaded bars NBER Recessions.\nretrieved from FRED, Federal Reserve Bank of St. Louis; https://fred.stlouisfed.org/series/PAYEMS, February 26, 2018&quot;)
+
+g.hpa&lt;-
+  ggplot(data=df.us,aes(x=date,y=us.hpa))+geom_line()+
+  geom_rect(data=recessions.df, inherit.aes=F, aes(xmin=Peak, xmax=Trough, ymin=-Inf, ymax=+Inf), fill=&#39;darkgray&#39;, alpha=0.5) +
+  geom_point(data=filter(df.us,date==&quot;2017-12-01&quot;),color=&quot;red&quot;)+
+  theme_minimal()+
+  geom_hline(yintercept=0,color=&quot;black&quot;)+
+  scale_y_continuous(labels=percent,sec.axis=dup_axis())+
+  theme(legend.position=&quot;top&quot;,
+        plot.caption=element_text(hjust=0),
+        plot.subtitle=element_text(face=&quot;italic&quot;),
+        plot.title=element_text(size=16,face=&quot;bold&quot;))+
+  labs(x=&quot;&quot;,y=&quot;Percent&quot;,
+       title=&quot;U.S. House Price Growth&quot;,
+       subtitle=&quot;12-month percent change&quot;,
+       caption=&quot;@lenkiefer Data Source: Freddie Mac House Price Index for the United States&quot;)
+
+g.panel&lt;-plot_grid(g.emp,g.hpa,ncol=1)
+g.panel</code></pre>
+<p><img src="/post/2018-02-26-employment-growth-and-house-price-trends_files/figure-html/plot-1-02-26-2018-1.png" width="960" /></p>
+<pre class="r"><code>g.scatter&lt;-
+  ggplot(data=df.us, aes(x=eg,y=us.hpa))+geom_path(color=&quot;lightgray&quot;,alpha=0.75)+geom_point()+stat_smooth(method=&quot;lm&quot;,fill=NA,linetype=2)+
+  theme_minimal()+
+  geom_hline(yintercept=0,color=&quot;black&quot;)+
+  geom_vline(xintercept=0,color=&quot;black&quot;)+
+  scale_y_continuous(labels=percent,sec.axis=dup_axis())+
+  scale_x_continuous(labels=percent,sec.axis=dup_axis())+
+  theme(legend.position=&quot;top&quot;,
+        plot.caption=element_text(hjust=0),
+        plot.subtitle=element_text(face=&quot;italic&quot;),
+        plot.title=element_text(size=16,face=&quot;bold&quot;))+
+  labs(x=&quot;Employment growth (12-month % change)&quot;,y=&quot;House Price growth (12-month % change)&quot;,
+       title=&quot;U.S. Nonfarm Employment and House Price Growth&quot;,
+       subtitle=&quot;12-month percent change&quot;,
+       caption=&quot;@lenkiefer Data Source: Freddie Mac House Price Index, U.S. Bureau of Labor Statistics.\nemployment data retrieved from FRED, Federal Reserve Bank of St. Louis; https://fred.stlouisfed.org/series/PAYEMS, February 26, 2018&quot;)
+g.scatter</code></pre>
+<p><img src="/post/2018-02-26-employment-growth-and-house-price-trends_files/figure-html/plot-1-02-26-2018-2.png" width="960" /></p>
+<p>The national plot shows a reasonably strong correlation between employment growth and house prices. When employment growth is weaker, house prices tend to rise less rapidly or even fall.</p>
+</div>
+<div id="state-trends" class="section level1">
+<h1>State trends</h1>
+<p>Let’s look at what’s going on at the state level. First, let’s plot house price and employment trens separately using <a href="https://CRAN.R-project.org/package=geofacet">geofacets</a>.</p>
+<pre class="r"><code>yy&lt;-2017
+dfq&lt;-filter(dfq.all,year==yy)
+dfb2&lt;-filter(dfb,year==yy)
+
+ggplot(data = dfb, aes(x=year,y=hpa,fill=hpa))+geom_col()+facet_geo(~state)+
+  scale_fill_viridis(option=&quot;B&quot;,label=percent,name=&quot;12-month percent change&quot;)+
+  scale_y_continuous(labels=percent)+scale_x_continuous(labels=c(&quot;&#39;90&quot;,&quot;&#39;00&quot;,&quot;&#39;10&quot;,&quot;&#39;17&quot;), breaks=c(1990,2000,2010,2017))+
+  theme(axis.text.x=element_text(size=8),legend.key.width=unit(2,&quot;cm&quot;),
+        axis.text.y=element_text(size=8),
+        legend.position=&quot;top&quot;,
+        plot.caption=element_text(hjust=0),
+        plot.subtitle=element_text(face=&quot;italic&quot;,hjust=0,size=14),
+        plot.title=element_text(size=18,face=&quot;bold&quot;,hjust=0))+
+  labs(x=&quot;&quot;,y=&quot;12-month percent change&quot;,title=&quot;House price trends by state&quot;,subtitle=&quot;y/y % change in December&quot;,caption=&quot;@lenkiefer Source: Freddie Mac House Price Index&quot;)</code></pre>
+<p><img src="/post/2018-02-26-employment-growth-and-house-price-trends_files/figure-html/plot-2-02-26-2018-1.png" width="960" /></p>
+<pre class="r"><code>ggplot(data = dfb, aes(x=year,y=EMPg,fill=EMPg))+geom_col()+facet_geo(~state)+
+  scale_fill_viridis(option=&quot;B&quot;,label=percent,name=&quot;12-month percent change&quot;)+
+  scale_y_continuous(labels=percent)+scale_x_continuous(labels=c(&quot;&#39;90&quot;,&quot;&#39;00&quot;,&quot;&#39;10&quot;,&quot;&#39;17&quot;), breaks=c(1990,2000,2010,2017))+
+  theme(axis.text.x=element_text(size=8),legend.key.width=unit(2,&quot;cm&quot;),
+        axis.text.y=element_text(size=8),
+        legend.position=&quot;top&quot;,
+        plot.caption=element_text(hjust=0),
+        plot.subtitle=element_text(face=&quot;italic&quot;,hjust=0,size=14),
+        plot.title=element_text(size=18,face=&quot;bold&quot;,hjust=0))+
+  labs(x=&quot;&quot;,y=&quot;12-month percent change&quot;,title=&quot;Employment trends by state&quot;,subtitle=&quot;y/y % change in December&quot;,caption=&quot;@lenkiefer Source: U.S. Bureau of Labor Statistics Nonfarm Payroll Emmployment (SA)&quot;)</code></pre>
+<p><img src="/post/2018-02-26-employment-growth-and-house-price-trends_files/figure-html/plot-2-02-26-2018-2.png" width="960" /> Now we can combine the employment and house price trends into a single plot. This is a bivariate tilegrid map we <a href="../../../../2017/10/11/bivariate-tilegridmaps-with-r/">made last year</a>.</p>
+<p>First let’s make a scatter plot, and then add the tilegrid map. We will focus first on the latest available data, with year-over-year percent changes in December of 2017.</p>
+<pre class="r"><code>g.xy&lt;-
+  ggplot(data=dfb2,
+         aes(x=EMPg,y=hpa,label=state,
+             # see http://lenkiefer.com/2017/04/24/bivariate-map/
+             # for explanation on the color/fill/alpha
+             color=atan(y/x),
+             fill=atan(y/x),
+             alpha=x+y ))+
+  
+  # Shade areas based on the terciles
+  geom_rect(data=dfq,aes(xmin=-Inf,xmax=x1,ymin=hpa1,ymax=hpa2,fill=atan(2/1),alpha=3/2))+
+  geom_rect(data=dfq,aes(xmin=x1,xmax=x2,ymin=hpa1,ymax=hpa2,fill=atan(2/2),alpha=4/2))+
+  geom_rect(data=dfq,aes(xmin=x2,xmax=Inf,ymin=hpa1,ymax=hpa2,fill=atan(2/3),alpha=5/2))+
+  
+  geom_rect(data=dfq,aes(xmin=-Inf,xmax=x1,ymin=-Inf,ymax=hpa1,fill=atan(1/1),alpha=2/2))+
+  geom_rect(data=dfq,aes(xmin=x1,xmax=x2,ymin=-Inf,ymax=hpa1,fill=atan(1/2),alpha=3/2))+
+  geom_rect(data=dfq,aes(xmin=x2,xmax=Inf,ymin=-Inf,ymax=hpa1,fill=atan(1/3),alpha=4/2))+
+  
+  geom_rect(data=dfq,aes(xmin=-Inf,xmax=x1,ymin=hpa2,ymax=Inf,fill=atan(3/1),alpha=4/2))+
+  geom_rect(data=dfq,aes(xmin=x1,xmax=x2,ymin=hpa2,ymax=Inf, fill=atan(3/2),alpha=5/2))+
+  geom_rect(data=dfq,aes(xmin=x2,xmax=Inf,ymin=hpa2,ymax=Inf, fill=atan(3/3),alpha=6/2))  +
+  geom_point(size=3,shape=21)+
+  #geom_point(size=3)+
+  scale_color_viridis(option=&quot;B&quot;)+
+  scale_fill_viridis(option=&quot;B&quot;)+
+  # add labels
+  ggrepel::geom_text_repel(aes(label=state),color=&quot;black&quot;,alpha=1,fontface=&quot;bold&quot;)+
+  theme(legend.position=&quot;none&quot;,plot.title=element_text(hjust=0,face=&quot;bold&quot;,size=18),
+        plot.subtitle=element_text(hjust=0,face=&quot;italic&quot;,size=14),
+        plot.caption=element_text(hjust=0,size=8,face=&quot;italic&quot;))+
+  labs(x=&quot;employment growth (lines at terciles)&quot;, 
+       y=&quot;house price growth (lines at terciles)&quot;,
+       title=&quot;Employment growth and house prices&quot;,
+       subtitle=&quot;y/y % change in December&quot;,
+       caption=&quot;Sources: Employment, U.S. Bureau of Labor Statistics 12-month percentage point change in nonfarm employment,\nHouse prices 12-month percent change in Freddie Mac House Price Index (NSA)&quot;)+
+  scale_y_continuous(labels=percent, breaks=c(dfq$hpa0,dfq$hpa1,dfq$hpa2,dfq$hpa3,0))+
+  scale_x_continuous(labels=percent, breaks=c(dfq$x0,dfq$x1,dfq$x2,dfq$x3,0))+
+  facet_wrap(~year)
+# plot scatter:
+g.xy</code></pre>
+<p><img src="/post/2018-02-26-employment-growth-and-house-price-trends_files/figure-html/plot-3-02-26-2018-1.png" width="1056" /></p>
+<pre class="r"><code>g.tile&lt;-
+  ggplot(data=dfb2,
+         aes(x=EMPg,y=hpa,label=state,
+             # see http://lenkiefer.com/2017/04/24/bivariate-map/
+             # for explanation on the color/fill/alpha
+             color=atan(y/x),
+             fill=atan(y/x),
+             alpha=x+y ))+
+  geom_rect(aes(xmin=-Inf,xmax=Inf,ymin=-Inf,ymax=Inf,
+                alpha=ifelse(state!=&quot;Legend&quot;,x+y,0)),color=NA)+
+  # Draw gridlines to demarcate the terciles on the scatterplot
+  geom_segment(aes(x=x0,xend=x3,y=hpa0,yend=hpa0),color=&quot;black&quot;)+
+  geom_segment(aes(x=x0,xend=x3,y=hpa1,yend=hpa1),color=&quot;black&quot;)+
+  geom_segment(aes(x=x0,xend=x3,y=hpa2,yend=hpa2),color=&quot;black&quot;)+
+  geom_segment(aes(x=x0,xend=x3,y=hpa3,yend=hpa3),color=&quot;black&quot;)+
+  geom_segment(aes(x=x0,xend=x0,y=hpa0,yend=hpa3),color=&quot;black&quot;)+  
+  geom_segment(aes(x=x1,xend=x1,y=hpa0,yend=hpa3),color=&quot;black&quot;)+
+  geom_segment(aes(x=x2,xend=x2,y=hpa0,yend=hpa3),color=&quot;black&quot;)+
+  geom_segment(aes(x=x3,xend=x3,y=hpa0,yend=hpa3),color=&quot;black&quot;)+
+  
+  # add a point to indicate where this state lies
+  geom_point(alpha=1,color=&quot;black&quot;)+
+  guides(fill=F,color=F,alpha=F)+
+  scale_color_viridis(name=&quot;Color scale&quot;,option=&quot;B&quot;)+
+  scale_fill_viridis(name=&quot;Color scale&quot;,option=&quot;B&quot;)+
+  # Use geofacet::facet_geo to arrange the tiles
+  facet_geo(~state, grid=&quot;us_state_grid1&quot;,label=&quot;code&quot;)  +
+  theme(axis.text=element_blank(),
+        plot.title=element_text(hjust=0,face=&quot;bold&quot;,size=18),
+        plot.subtitle=element_text(hjust=0,face=&quot;italic&quot;,size=14),
+        axis.ticks=element_blank(),
+        axis.line=element_blank(),
+        strip.background=element_blank(),
+        panel.background=element_blank(),
+        plot.background=element_rect(fill=&quot;white&quot;),
+        panel.grid.major = element_line(colour = NA),
+        panel.grid.minor = element_line(colour = NA))+
+  labs(x=&quot;&quot;,y=&quot;&quot;,title=&quot;Bivariate Tilegrid Map!&quot;,subtitle=&quot;@lenkiefer&quot;)
+
+plot_grid(g.xy,g.tile,ncol=2)</code></pre>
+<p><img src="/post/2018-02-26-employment-growth-and-house-price-trends_files/figure-html/plot-3-02-26-2018-2.png" width="1056" /></p>
+<div id="discussion" class="section level2">
+<h2>Discussion</h2>
+<p>I like this crazy plot. The scatterplot shows the relationship of house prices and employment, with those variables mapped to a bivariate color scale. The tilegrid map shows where the states are in the scatterplot with a stylized tile. Take Nevada (NV) for example. That state has the highest employment growth rate and the highest house price growth. In the tileplot, the dot for NV is in the top right corner. Alaska (AK) and West Virginia (WV) have the lowest employment and house price rates respectively and are thus on the left and bottom edges but not the corner.</p>
+<p>Finally, let’s consider how the scatterplot has evolved over time:</p>
+<pre class="r"><code>ggplot(data=dfb,
+       aes(x=EMPg,y=hpa,label=state,
+           # see http://lenkiefer.com/2017/04/24/bivariate-map/
+           # for explanation on the color/fill/alpha
+           color=atan(y/x),
+           fill=atan(y/x),
+           alpha=x+y ))+
+  
+  # Shade areas based on the terciles
+  geom_rect(data=dfq.all,aes(xmin=-Inf,xmax=x1,ymin=hpa1,ymax=hpa2,fill=atan(2/1),alpha=3/2))+
+  geom_rect(data=dfq.all,aes(xmin=x1,xmax=x2,ymin=hpa1,ymax=hpa2,fill=atan(2/2),alpha=4/2))+
+  geom_rect(data=dfq.all,aes(xmin=x2,xmax=Inf,ymin=hpa1,ymax=hpa2,fill=atan(2/3),alpha=5/2))+
+  
+  geom_rect(data=dfq.all,aes(xmin=-Inf,xmax=x1,ymin=-Inf,ymax=hpa1,fill=atan(1/1),alpha=2/2))+
+  geom_rect(data=dfq.all,aes(xmin=x1,xmax=x2,ymin=-Inf,ymax=hpa1,fill=atan(1/2),alpha=3/2))+
+  geom_rect(data=dfq.all,aes(xmin=x2,xmax=Inf,ymin=-Inf,ymax=hpa1,fill=atan(1/3),alpha=4/2))+
+  
+  geom_rect(data=dfq.all,aes(xmin=-Inf,xmax=x1,ymin=hpa2,ymax=Inf,fill=atan(3/1),alpha=4/2))+
+  geom_rect(data=dfq.all,aes(xmin=x1,xmax=x2,ymin=hpa2,ymax=Inf, fill=atan(3/2),alpha=5/2))+
+  geom_rect(data=dfq.all,aes(xmin=x2,xmax=Inf,ymin=hpa2,ymax=Inf, fill=atan(3/3),alpha=6/2))  +
+  geom_point(size=3,shape=21)+
+  scale_color_viridis(option=&quot;B&quot;)+
+  scale_fill_viridis(option=&quot;B&quot;)+
+  theme(legend.position=&quot;none&quot;,plot.title=element_text(hjust=0,face=&quot;bold&quot;,size=18),
+        plot.subtitle=element_text(hjust=0,face=&quot;italic&quot;,size=14),
+        plot.caption=element_text(hjust=0,size=8,face=&quot;italic&quot;))+
+  labs(x=&quot;employment growth&quot;, 
+       y=&quot;house price growth&quot;,
+       title=&quot;Employment growth and house prices&quot;,
+       subtitle=&quot;y/y % change in December&quot;,
+       caption=&quot;Sources: Employment, U.S. Bureau of Labor Statistics 12-month percentage point change in nonfarm employment,\nHouse prices 12-month percent change in Freddie Mac House Price Index (NSA)&quot;)+
+  scale_y_continuous(labels=percent)+
+  scale_x_continuous(labels=percent)+
+  facet_wrap(~year)</code></pre>
+<p><img src="/post/2018-02-26-employment-growth-and-house-price-trends_files/figure-html/plot-4-02-26-2018-1.png" width="960" /></p>
+<p>Here we see that while the relationship is generally positive, the slope tends to change. In the real world, there’s a lot more than employment growth going on in housing markets. However, in recent years employment growth serves as a reasonable proxy for demand growth. Thus we see a fairly strong and stable correlation between employment and house price trends over the past few years.</p>
+</div>
+<div id="colors" class="section level2">
+<h2>colors</h2>
+<p>I’m no expert on colors, but I’ve been playing around with different bivariate color schemes. Here are several I tried:</p>
+<pre class="r"><code>d&lt;-expand.grid(x=1:100,y=1:100)
+
+g.1&lt;-
+ggplot(d, aes(x,y,fill=atan(y/x),alpha=x+y))+
+  geom_tile()+
+  scale_fill_viridis()+
+  theme(legend.position=&quot;none&quot;,
+        panel.background=element_blank())+
+  labs(title=&quot;Viridis&quot;,subtitle=&quot;A bivariate color scheme&quot;)
+
+g.2&lt;-
+  ggplot(d, aes(x,y,fill=atan(y/x),alpha=x+y))+
+  geom_tile()+
+  scale_fill_distiller(palette = &quot;RdYlGn&quot;,direction=1)  +
+  theme(legend.position=&quot;none&quot;,
+        panel.background=element_blank())+
+  labs(title=&quot;Red Yellow Green: RdYlGn&quot;,subtitle=&quot;A bivariate color scheme&quot;)
+
+g.3&lt;-
+  ggplot(d, aes(x,y,fill=atan(y/x),alpha=x+y))+
+  geom_tile()+
+  scale_fill_distiller(palette = &quot;Spectral&quot;,direction=1)  +
+  theme(legend.position=&quot;none&quot;,
+        panel.background=element_blank())+
+  labs(title=&quot;Spectral&quot;,subtitle=&quot;A bivariate color scheme&quot;)
+
+g.4&lt;-
+  ggplot(d, aes(x,y,fill=atan(y/x),alpha=x+y))+
+  geom_tile()+
+  scale_fill_distiller(palette = &quot;PuOr&quot;,direction=1)  +
+  theme(legend.position=&quot;none&quot;,
+        panel.background=element_blank())+
+  labs(title=&quot;PuOr&quot;,subtitle=&quot;A bivariate color scheme&quot;)
+
+g.5&lt;-
+  ggplot(d, aes(x,y,fill=atan(y/x),alpha=x+y))+
+  geom_tile()+
+  scale_fill_viridis(option=&quot;B&quot;)+
+  theme(legend.position=&quot;none&quot;,
+        panel.background=element_blank())+
+  labs(title=&quot;viridis::Inferno&quot;,subtitle=&quot;A bivariate color scheme&quot;)
+
+g.6&lt;-
+  ggplot(d, aes(x,y,fill=atan(y/x),alpha=x+y))+
+  geom_tile()+
+  scale_fill_viridis(option=&quot;B&quot;)+
+  theme(legend.position=&quot;none&quot;,
+        panel.background=element_blank())+
+  labs(title=&quot;viridis::Magma&quot;,subtitle=&quot;A bivariate color scheme&quot;)
+
+g.7&lt;-
+  ggplot(d, aes(x,y,fill=atan(y/x),alpha=x+y))+
+  geom_tile()+
+  scale_fill_viridis(option=&quot;C&quot;)+
+  theme(legend.position=&quot;none&quot;,
+        panel.background=element_blank())+
+  labs(title=&quot;viridis::Plasma&quot;,subtitle=&quot;A bivariate color scheme&quot;)
+
+g.8&lt;-
+  ggplot(d, aes(x,y,fill=atan(y/x),alpha=x+y))+
+  geom_tile()+
+  scale_fill_viridis(option=&quot;E&quot;)+
+  theme(legend.position=&quot;none&quot;,
+        panel.background=element_blank())+
+  labs(title=&quot;viridis::Cividis&quot;,subtitle=&quot;A bivariate color scheme&quot;)
+
+g.9&lt;-
+  ggplot(d, aes(x,y,fill=atan(y/x),alpha=x+y))+
+  geom_tile()+
+  scale_fill_distiller(palette = &quot;RdGy&quot;)+
+  theme(legend.position=&quot;none&quot;,
+        panel.background=element_blank())+
+  labs(title=&quot;RdGy&quot;,subtitle=&quot;A bivariate color scheme&quot;)
+
+plot_grid(g.1,g.2,g.3,g.4,g.5,g.6,g.7,g.8,g.9+labs(caption=&quot;@lenkiefer&quot;),align=&quot;hv&quot;)</code></pre>
+<p><img src="/post/2018-02-26-employment-growth-and-house-price-trends_files/figure-html/plot-5-02-26-2018-1.png" width="960" /></p>
+<p>Which do you like?</p>
+</div>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2018/02/19/more-house-price-plots/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2018/02/19/more-house-price-plots/">More house price plots</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="/2018/03/03/rock-that-dadbod-plot/">Rock that dadbod plot!</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="/2018/03/03/rock-that-dadbod-plot/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/house-prices/">house prices</a>, 
+            
+                <a href="/tags/economy/">economy</a>, 
+            
+                <a href="/tags/r/">R</a>, 
+            
+                <a href="/tags/dataviz/">dataviz</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2018%2f02%2f26%2femployment-growth-and-house-price-trends%2f&text=Employment%20growth%20and%20house%20price%20trends via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2018%2f02%2f26%2femployment-growth-and-house-price-trends%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+

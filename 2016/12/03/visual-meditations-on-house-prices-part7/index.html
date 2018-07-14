@@ -1,0 +1,2421 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>Visual meditations on house prices, Part 7: Don&#39;t cross the streams! &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Visual meditations on house prices, Part 7: Don&#39;t cross the streams!">
+    <meta property="og:description" content="IntroductionON FRIDAY I MADE SOME ACCIDENTAL data art. I ended up with something pretty much useless, but kind of pretty. I shared it on Twitter:
+made an unintentional sorta streamgraph #graphfail pic.twitter.com/uW4IOnbrcL— Leonard Kiefer (@lenkiefer) December 1, 2016We’ll see if we can redeem this graphfail in another Visual Meditation on house prices.
+Visual MeditationsI’ve been collecting various graphical thoughts about house prices in my Visual Meditations series.">
+
+<div class="header">
+  <h1>Visual meditations on house prices, Part 7: Don&#39;t cross the streams!</h1>
+  <h2></h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2016/12/03</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/house-prices">house prices</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/housing">housing</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>ON FRIDAY I MADE SOME ACCIDENTAL data art. I ended up with something pretty much useless, but kind of pretty. I shared it on Twitter:</p>
+<blockquote class="twitter-tweet" data-lang="en">
+<p lang="en" dir="ltr">
+made an unintentional sorta streamgraph <a href="https://twitter.com/hashtag/graphfail?src=hash">#graphfail</a> <a href="https://t.co/uW4IOnbrcL">pic.twitter.com/uW4IOnbrcL</a>
+</p>
+— Leonard Kiefer (<span class="citation">@lenkiefer</span>) <a href="https://twitter.com/lenkiefer/status/804448317891457024">December 1, 2016</a>
+</blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p>We’ll see if we can redeem this graphfail in another Visual Meditation on house prices.</p>
+<div id="visual-meditations" class="section level2">
+<h2>Visual Meditations</h2>
+<p>I’ve been collecting various graphical thoughts about house prices in my Visual Meditations series. For reference, the prior meditations are listed below, and I’ll keep an updated list of all of them <a href="~/2016/05/../../../../2016/05/08/visual-meditations-on-house-prices">here</a>.</p>
+<ul>
+<li><a href="../../../../2016/05/08/visual-meditations-on-house-prices-part1">Part 1: data wrangling</a></li>
+<li><a href="../../../../2016/05/08/visual-meditations-on-house-prices-part2">Part 2: sparklines and dots (animated)</a></li>
+<li><a href="../../../../../../2016/05/10/visual-meditations-on-house-prices-part3">Part 3: bubbles and bounce</a></li>
+<li><a href="../../../../../../2016/05/14/visual-meditations-on-house-prices-part4">Part 4: graph gallery</a></li>
+<li><a href="../../../08/../../../../2016/08/13/visual-meditations-on-house-prices-part5">Part 5: distributions</a></li>
+<li><a href="../../../11/../../../../2016/11/03/visual-meditations-on-house-prices-part6">Part 6: state recovery</a></li>
+</ul>
+<p>These visualizations will be made in <a href="https://www.r-project.org/">R</a>, and I’ll post code for some of the graphs at the bottom.</p>
+</div>
+<div id="the-data" class="section level2">
+<h2>The data</h2>
+<p>Once <a href="../../../../2016/05/08/visual-meditations-on-house-prices-part1">again</a> we’ll use the <a href="http://www.freddiemac.com/finance/house_price_index.html">Freddie Mac House Price Index</a> for many of these visualizations. We’re going to need a text file organized as described in that post. Just follow those examples to set up the data. Or you can download the two text files below:</p>
+<ol style="list-style-type: decimal">
+<li><a href="%7B%7B%20site.url%20%7D%7D/img/charts_nov_3_2016/fmhpi2016q3.txt"><em>state and national called fmhpi2016q3.txt</em></a></li>
+<li><a href="%7B%7B%20site.url%20%7D%7D/img/charts_nov_3_2016/fmhpi2016q3metro.txt"><em>metro called fmhpi2016q3metro.txt</em></a></li>
+</ol>
+<p>The code below will load the data and do some manipulations to generate the required variables. I also use this helper file with region names associated with each state.</p>
+<ol start="3" style="list-style-type: decimal">
+<li><a href="%7B%7B%20site.url%20%7D%7D/img/charts_nov_3_2016/fmhpi2016q3metro.txt"><em>region lookup called region.txt</em></a></li>
+</ol>
+<pre class="r"><code>#Load some packages
+library(data.table, warn.conflicts = FALSE, quietly=TRUE)
+library(ggplot2, warn.conflicts = FALSE, quietly=TRUE)
+library(dplyr, warn.conflicts = FALSE, quietly=TRUE)
+library(zoo, warn.conflicts = FALSE, quietly=TRUE)
+library(ggthemes, warn.conflicts = FALSE, quietly=TRUE)
+library(scales, warn.conflicts = FALSE, quietly=TRUE)
+
+d.metro &lt;- fread(&quot;data/fmhpi2016q3metro.txt&quot;)
+d.metro$date&lt;-as.Date(d.metro$date, format=&quot;%m/%d/%Y&quot;)
+
+#Now uses some data table caclulations to compute percent changes in house prices by state/metro
+d.metro[,hpa12:=c(rep(NA,12),((1+diff(hpi,12)/hpi))^1)-1,by=metro]  </code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 1).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 2).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 3).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 4).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 5).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 6).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 7).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 8).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 9).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 10).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 11).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 12).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 13).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 14).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 15).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 16).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 17).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 18).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 19).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 20).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 21).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 22).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 23).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 24).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 25).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 26).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 27).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 28).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 29).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 30).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 31).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 32).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 33).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 34).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 35).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 36).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 37).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 38).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 39).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 40).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 41).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 42).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 43).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 44).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 45).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 46).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 47).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 48).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 49).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 50).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 51).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 52).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 53).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 54).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 55).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 56).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 57).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 58).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 59).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 60).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 61).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 62).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 63).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 64).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 65).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 66).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 67).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 68).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 69).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 70).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 71).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 72).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 73).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 74).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 75).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 76).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 77).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 78).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 79).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 80).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 81).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 82).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 83).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 84).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 85).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 86).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 87).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 88).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 89).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 90).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 91).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 92).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 93).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 94).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 95).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 96).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 97).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 98).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 99).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 100).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 101).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 102).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 103).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 104).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 105).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 106).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 107).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 108).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 109).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 110).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 111).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 112).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 113).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 114).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 115).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 116).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 117).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 118).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 119).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 120).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 121).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 122).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 123).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 124).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 125).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 126).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 127).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 128).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 129).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 130).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 131).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 132).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 133).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 134).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 135).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 136).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 137).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 138).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 139).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 140).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 141).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 142).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 143).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 144).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 145).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 146).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 147).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 148).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 149).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 150).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 151).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 152).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 153).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 154).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 155).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 156).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 157).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 158).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 159).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 160).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 161).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 162).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 163).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 164).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 165).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 166).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 167).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 168).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 169).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 170).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 171).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 172).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 173).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 174).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 175).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 176).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 177).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 178).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 179).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 180).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 181).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 182).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 183).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 184).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 185).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 186).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 187).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 188).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 189).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 190).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 191).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 192).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 193).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 194).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 195).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 196).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 197).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 198).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 199).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 200).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 201).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 202).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 203).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 204).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 205).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 206).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 207).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 208).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 209).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 210).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 211).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 212).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 213).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 214).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 215).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 216).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 217).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 218).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 219).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 220).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 221).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 222).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 223).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 224).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 225).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 226).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 227).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 228).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 229).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 230).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 231).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 232).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 233).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 234).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 235).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 236).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 237).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 238).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 239).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 240).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 241).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 242).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 243).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 244).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 245).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 246).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 247).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 248).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 249).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 250).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 251).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 252).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 253).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 254).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 255).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 256).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 257).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 258).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 259).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 260).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 261).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 262).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 263).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 264).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 265).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 266).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 267).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 268).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 269).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 270).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 271).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 272).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 273).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 274).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 275).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 276).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 277).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 278).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 279).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 280).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 281).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 282).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 283).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 284).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 285).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 286).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 287).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 288).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 289).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 290).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 291).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 292).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 293).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 294).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 295).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 296).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 297).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 298).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 299).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 300).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 301).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 302).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 303).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 304).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 305).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 306).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 307).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 308).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 309).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 310).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 311).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 312).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 313).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 314).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 315).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 316).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 317).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 318).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 319).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 320).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 321).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 322).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 323).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 324).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 325).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 326).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 327).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 328).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 329).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 330).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 331).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 332).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 333).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 334).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 335).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 336).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 337).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 338).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 339).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 340).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 341).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 342).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 343).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 344).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 345).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 346).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 347).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 348).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 349).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 350).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 351).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 352).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 353).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 354).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 355).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 356).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 357).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 358).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 359).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 360).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 361).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 362).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 363).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 364).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 365).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 366).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 367).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 368).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 369).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 370).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 371).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 372).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 373).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 374).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 375).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 376).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 377).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 378).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 379).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 380).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.metro, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 381).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre class="r"><code># set up statecode for primary state, first 2 digits after column in metro name
+d.metro[,statecode:=substr(regmatches(metro,regexec(&quot;, +[A-Z][A-Z]&quot;,metro)),3,4)]
+
+#load file with regions 
+region&lt;-fread(&quot;data/region.txt&quot;)
+reg.list&lt;-unique(region[order(region),]$region) #list of regions
+d.metro&lt;-merge(d.metro,region,by=&quot;statecode&quot;)
+
+# create quantiles across regions and dates:
+d.metro&lt;-d.metro[, hpa12.rmin:=quantile(hpa12,0,na.rm=T),by=c(&quot;region&quot;,&quot;date&quot;)]
+d.metro&lt;-d.metro[, hpa12.r5:=quantile(hpa12,.05,na.rm=T),by=c(&quot;region&quot;,&quot;date&quot;)]
+d.metro&lt;-d.metro[, hpa12.r25:=quantile(hpa12,.25,na.rm=T),by=c(&quot;region&quot;,&quot;date&quot;)]
+d.metro&lt;-d.metro[, hpa12.r50:=quantile(hpa12,.5,na.rm=T),by=c(&quot;region&quot;,&quot;date&quot;)]
+d.metro&lt;-d.metro[, hpa12.r75:=quantile(hpa12,.75,na.rm=T),by=c(&quot;region&quot;,&quot;date&quot;)]
+d.metro&lt;-d.metro[, hpa12.r95:=quantile(hpa12,.95,na.rm=T),by=c(&quot;region&quot;,&quot;date&quot;)]
+d.metro&lt;-d.metro[, hpa12.rmax:=quantile(hpa12,1,na.rm=T),by=c(&quot;region&quot;,&quot;date&quot;)]</code></pre>
+<p>Now we’re ready to create the plot I tweeted out. Even with the labels you don’t really get a lot out of it, but it’s kind of pretty.</p>
+<pre class="r"><code>ggplot(data=d.metro,aes(x=date,fill=region,color=region))+
+  geom_ribbon(aes(ymin=hpa12.rmin,ymax=hpa12.r5),alpha=0.1)+
+  geom_ribbon(aes(ymin=hpa12.r5,ymax=hpa12.r25),alpha=0.5)+
+  geom_ribbon(aes(ymin=hpa12.r25,ymax=hpa12.r75),alpha=0.75)+
+  geom_ribbon(aes(ymin=hpa12.r75,ymax=hpa12.r95),alpha=0.5)+
+  geom_ribbon(aes(ymin=hpa12.r95,ymax=hpa12.rmax),alpha=0.1)+
+  geom_line(aes(y=hpa12.r50))+ theme_minimal()+
+  theme(legend.position=&quot;none&quot;,plot.caption=element_text(hjust=0),
+        plot.subtitle=element_text(face=&quot;italic&quot;))+
+  scale_y_continuous(label=percent)+
+      coord_cartesian(xlim=c(as.Date(&quot;1990-01-01&quot;),as.Date(&quot;2016-12-31&quot;)))+
+  labs(x=&quot;&quot;,y=&quot;Annual House Price Percent Change&quot;,title=&quot;Distribution of year-over-year house price growth across metros&quot;, subtitle=&quot;Black line median metro, central region 25th to 75th percentiles,\nlighter regions are 5th to 25th (75th to 95th) and min to 5th (95th to max)&quot;,
+       caption=&quot;@lenkiefer Source: Freddie Mac House Price Index (NSA), metros assigned to region based on primary state.&quot;)</code></pre>
+<p><img src="/post/2016-12-03-visual-meditations-on-house-prices-part7_files/figure-html/fig-hpimed6-viz1-1.png" width="672" /></p>
+<p>What I wanted to do with this graph was compare the dispersion across metro areas of house price growth. By adding a simple facet_wrap() statement we can get something a little more useful:</p>
+<pre class="r"><code>ggplot(data=d.metro,aes(x=date,fill=region,color=region))+
+  geom_ribbon(aes(ymin=hpa12.rmin,ymax=hpa12.r5),alpha=0.1)+
+  geom_ribbon(aes(ymin=hpa12.r5,ymax=hpa12.r25),alpha=0.5)+
+  geom_ribbon(aes(ymin=hpa12.r25,ymax=hpa12.r75),alpha=0.75)+
+  geom_ribbon(aes(ymin=hpa12.r75,ymax=hpa12.r95),alpha=0.5)+
+  geom_ribbon(aes(ymin=hpa12.r95,ymax=hpa12.rmax),alpha=0.1)+
+  geom_line(aes(y=hpa12.r50))+ theme_minimal()+
+  facet_wrap(~region)+
+  theme(legend.position=&quot;none&quot;,plot.caption=element_text(hjust=0),
+        plot.subtitle=element_text(face=&quot;italic&quot;))+
+  scale_y_continuous(label=percent)+
+      coord_cartesian(xlim=c(as.Date(&quot;1990-01-01&quot;),as.Date(&quot;2016-12-31&quot;)))+
+  labs(x=&quot;&quot;,y=&quot;Annual House Price Percent Change&quot;,title=&quot;Distribution of year-over-year house price growth across metros&quot;, subtitle=&quot;Black line median metro, central region 25th to 75th percentiles,\nlighter regions are 5th to 25th (75th to 95th) and min to 5th (95th to max)&quot;,
+       caption=&quot;@lenkiefer Source: Freddie Mac House Price Index (NSA), metros assigned to region based on primary state.&quot;)</code></pre>
+<p><img src="/post/2016-12-03-visual-meditations-on-house-prices-part7_files/figure-html/fig-hpimed6-viz2-1.png" width="672" /></p>
+<p>Now we kind of have something. What this plot shows is the distribution across metro areas in terms of annual house price appreciation. I’ve also broken out the metros by <a href="http://www.census.gov/econ/census/help/geography/regions_and_divisions.html">Census Region</a>. We can see that dispersion is greater in the South and West relative to the Midwest and Northeast Regions.</p>
+<p>We can also animated a version using tweenr.See my earlier <a href="../../../../2016/05/29/improving-R-animated-gifs-with-tweenr">post about tweenr</a> for an introduction to tweenr, and more examples <a href="../../../../2016/05/30/more-tweenr-animations">here</a> and <a href="../../../../2016/06/26/week-in-review">here</a>.</p>
+<pre class="r"><code>#create a function for animation
+# if r = all, plot all regions, otherwise only plot region r
+myf&lt;-function(r){
+  if (r != &quot;All&quot;){
+  d.metro2&lt;-copy(d.metro)
+  #if region == r keep hpa12
+  d.metro2[,yhpa12:=ifelse(region==r,hpa12,0)]
+  d.metro3&lt;-d.metro2[,list(yhpa12.min=quantile(yhpa12,0,na.rm=T),
+                 yhpa12.5=quantile(yhpa12,.05,na.rm=T),
+                 yhpa12.25=quantile(yhpa12,.25,na.rm=T),
+                 yhpa12.50=quantile(yhpa12,.5,na.rm=T),
+                 yhpa12.75=quantile(yhpa12,.75,na.rm=T),
+                 yhpa12.95=quantile(yhpa12,.95,na.rm=T),
+                 yhpa12.max=quantile(yhpa12,1,na.rm=T)),by=c(&quot;date&quot;,&quot;region&quot;)]
+  d.metro3 %&gt;% map_if(is.character, as.factor) %&gt;% as_data_frame -&gt; d.metro3
+  return(d.metro3)
+}
+ else {
+  d.metro2&lt;-copy(d.metro)
+  d.metro2&lt;-d.metro2[,yhpa12:=hpa12]
+  d.metro3&lt;-d.metro2[,list(yhpa12.min=quantile(yhpa12,0,na.rm=T),
+                           yhpa12.5=quantile(yhpa12,.05,na.rm=T),
+                           yhpa12.25=quantile(yhpa12,.25,na.rm=T),
+                           yhpa12.50=quantile(yhpa12,.5,na.rm=T),
+                           yhpa12.75=quantile(yhpa12,.75,na.rm=T),
+                           yhpa12.95=quantile(yhpa12,.95,na.rm=T),
+                           yhpa12.max=quantile(yhpa12,1,na.rm=T)),by=c(&quot;date&quot;,&quot;region&quot;)]
+  
+  d.metro3 %&gt;% map_if(is.character, as.factor) %&gt;% as_data_frame -&gt; d.metro3
+  #as.data.frame()
+  return(d.metro3)
+}
+}
+
+
+my.list&lt;-lapply(reg.list,myf)
+my.list2&lt;-lapply(c(&quot;All&quot;,reg.list,&quot;All&quot;),myf)
+
+library(animation)
+library(tweenr)
+#use tweenr
+tf &lt;- tween_states(my.list2, tweenlength= 2, statelength=3, ease=rep(&#39;cubic-in-out&#39;,50), nframes=60)
+tf&lt;-data.table(tf)
+
+#loop through data and animate:
+oopt = ani.options(interval = 0.1)
+saveGIF({for (i in 1:max(tf$.frame)) {
+  g&lt;-
+    ggplot(data=tf[.frame==i],aes(x=date,fill=region))+
+    geom_ribbon(aes(ymin=yhpa12.min,ymax=yhpa12.5),alpha=0.1)+
+    geom_ribbon(aes(ymin=yhpa12.5,ymax=yhpa12.25),alpha=0.5)+
+    geom_ribbon(aes(ymin=yhpa12.25,ymax=yhpa12.75),alpha=0.75)+
+    geom_ribbon(aes(ymin=yhpa12.75,ymax=yhpa12.95),alpha=0.5)+
+    geom_ribbon(aes(ymin=yhpa12.95,ymax=yhpa12.max),alpha=0.1)+
+    geom_line(aes(y=yhpa12.50),color=&quot;black&quot;,size=1.05)+ theme_minimal()+
+    scale_fill_discrete(name=&quot;&quot;)+guides(color=&quot;none&quot;)+
+    coord_cartesian(xlim=c(as.Date(&quot;1990-01-01&quot;),as.Date(&quot;2016-12-31&quot;)))+
+    #facet_wrap(~region)+
+    theme(legend.position=&quot;bottom&quot;,plot.caption=element_text(hjust=0),
+          plot.subtitle=element_text(face=&quot;italic&quot;))+
+    scale_y_continuous(label=percent,limits=c(-.5,.5))+
+    labs(x=&quot;&quot;,y=&quot;Annual House Price Percent Change&quot;,title=&quot;Distribution of year-over-year house price growth across metros&quot;,
+         subtitle=&quot;Black line median metro, central region 25th to 75th percentiles,\nlighter regions are 5th to 25th (75th to 95th) and min to 5th (95th to max)&quot;,
+         caption=&quot;@lenkiefer Source: Freddie Mac House Price Index (NSA), metros assigned to region based on primary state.&quot;)
+  
+  print(g)
+  ani.pause()
+  print(paste(i,&quot;out of&quot;,max(tf$.frame)))
+}
+},movie.name=&quot;fmhpi2016Q3 metro fan 1990.gif&quot;,ani.width = 650, ani.height = 450)</code></pre>
+<p><img src="{{ site.url }}/img/charts_dec_3_2016/fmhpi2016Q3 metro fan 1990.gif" alt="fan gifs"/></p>
+</div>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2016/11/30/comparing-house-prices-rents-other-prices-and-incomes/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2016/11/30/comparing-house-prices-rents-other-prices-and-incomes/">Comparing house prices, rents, other prices and incomes</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="/2016/12/04/nested-recursion-loops-within-loops-within-data-frames/">Nested recursion: Loops within loops within data frames </a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="/2016/12/04/nested-recursion-loops-within-loops-within-data-frames/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/r/">R</a>, 
+            
+                <a href="/tags/house-prices/">house prices</a>, 
+            
+                <a href="/tags/housing/">housing</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2016%2f12%2f03%2fvisual-meditations-on-house-prices-part7%2f&text=Visual%20meditations%20on%20house%20prices%2c%20Part%207%3a%20Don%27t%20cross%20the%20streams%21 via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2016%2f12%2f03%2fvisual-meditations-on-house-prices-part7%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+

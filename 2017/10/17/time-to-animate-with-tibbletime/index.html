@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>Time to animate with tibbletime &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Time to animate with tibbletime">
+    <meta property="og:description" content="IN THIS POST I WANT TO SHARE SOME CODE TO CREATE AN ANIMATED CHART of housing starts.
+Per usual we’ll use R and we’ll also use the tibbletime package.
+Running the code below will generate:
+(see this post for more on animations with the R package tweenr)
+####################################################################################### Load libraries #######################################################################################library(tidyquant)library(tibbletime)library(tweenr)####################################################################################### Get housing starts data #######################################################################################df &lt;- tq_get(&quot;HOUST1F&quot;,get=&quot;economic.data&quot;,from=&quot;1959-01-01&quot;)####################################################################################### function for rolling windows #######################################################################################mys &lt;- function(win=12){rolling_mean &lt;- rollify(mean, window = win) #function creates rolling average based on windf %&gt;%mutate(dy=rolling_mean(price),w=as.">
+
+<div class="header">
+  <h1>Time to animate with tibbletime</h1>
+  <h2></h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2017/10/17</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/housing">housing</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/animation">animation</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <p>IN THIS POST I WANT TO SHARE SOME CODE TO CREATE AN ANIMATED CHART of housing starts.</p>
+<p>Per usual we’ll use <a href="https://www.r-project.org/">R</a> and we’ll also use the <a href="https://CRAN.R-project.org/package=tibbletime">tibbletime</a> package.</p>
+<p>Running the code below will generate:</p>
+<p><img src="../../../../img/charts_oct_17_2017/starts_oct_17_2017.gif"></p>
+<p>(see <a href="../../../../2016/12/19/more-tweenr-housing/">this post</a> for more on animations with the R package <a href="https://CRAN.R-project.org/package=tweenr">tweenr</a>)</p>
+<pre class="r"><code>#####################################################################################
+## Load libraries ##
+#####################################################################################
+library(tidyquant)
+library(tibbletime)
+library(tweenr)
+
+#####################################################################################
+## Get housing starts data ##
+#####################################################################################
+df &lt;- tq_get(&quot;HOUST1F&quot;,get=&quot;economic.data&quot;,from=&quot;1959-01-01&quot;)
+
+#####################################################################################
+## function for rolling windows ##
+#####################################################################################
+mys &lt;- function(win=12){
+  rolling_mean &lt;- rollify(mean, window = win)  #function creates rolling average based on win
+  df %&gt;%mutate(dy=rolling_mean(price),
+                w=as.character(win)) %&gt;% map_if(is.character,as.factor) %&gt;% 
+    as.data.frame  -&gt; df
+  return(df)
+}
+
+
+#####################################################################################
+## animate ##
+#####################################################################################
+my.list&lt;-purrr::map(c(1,seq(12,240,12),1),mys)
+
+
+tf &lt;- tween_states(my.list, tweenlength= 2, statelength=3, 
+                   ease=rep(&#39;cubic-in-out&#39;,3),
+                   nframes=120)
+
+# Max frames 
+N&lt;-max(tf$.frame)
+
+mydir&lt;- &quot;YOURDIRECTORY&quot; # change to your directory number
+
+myf &lt;- function(i)
+{
+  file_path = paste0(mydir, &quot;/plot-&quot;,5000+i ,&quot;.png&quot;)
+  g&lt;-
+    ggplot(data=filter(tf,.frame==i),aes(x=date,y=price))+
+    geom_point(size=0.5,alpha=0.5)+
+    geom_line(color=&quot;royalblue&quot;,aes(y=dy))+
+    theme_minimal()+
+    labs(x=&quot;&quot;,y=&quot;&quot;,
+         title=&quot;U.S. single-family housing starts low relative to history&quot;,
+         subtitle=paste0(&quot;Starts (1000s seasonally adjusted annual rate) on 1-unit structures&quot;,
+                         &quot;\ndots monthly estimates (1000s SAAR) and line &quot;,
+                         head(filter(tf,.frame==i),1)$w,
+                         &quot;-month moving average.&quot;),
+         caption=&quot;@lenkiefer Source: Source: U.S. Census Bureau and Department of Housing and Urban Development&quot;)+
+    theme(legend.position=&quot;none&quot;,
+          plot.title=element_text(face=&quot;bold&quot;,size=18),
+          plot.subtitle=element_text(face=&quot;italic&quot;,size=14),
+          plot.caption=element_text(hjust=0))+
+    scale_y_continuous(labels=scales::comma,sec.axis=dup_axis())+
+    scale_x_date(date_breaks=&quot;5 years&quot;,date_labels=&quot;%Y&quot;)
+
+  # Save to image directory  
+  ggsave(filename=paste0(mydir, &quot;/plot-&quot;,5000+i ,&quot;.png&quot;),
+         plot=g  ,
+         width=6,height=4,scale=1.5)
+}
+
+# Save images with purrr
+purrr::map(1:N,myf)</code></pre>
+<p>Finally, I create my plots via the terminal (now available in <a href="https://blog.rstudio.com/2017/08/11/rstudio-v1-1-preview-terminal/">Rstudio</a>) with the following:</p>
+<ul>
+<li>Change to your directory where you saved the images: <code>cd YOURDIRECTORY</code></li>
+<li>Create a gif with <a href="http://imagemagick.org/script/index.php">Imagemagick</a> <code>magick convert -delay 10 loop -0 *.png test.gif</code></li>
+</ul>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2017/10/15/unemployment-flexdashboard/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2017/10/15/unemployment-flexdashboard/">Unemployment Flexdashboard</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="/2017/10/19/mortgage-rates-are-low/">Mortgage rates are low!</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="/2017/10/19/mortgage-rates-are-low/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/housing/">housing</a>, 
+            
+                <a href="/tags/animation/">animation</a>, 
+            
+                <a href="/tags/dataviz/">dataviz</a>, 
+            
+                <a href="/tags/r/">R</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2017%2f10%2f17%2ftime-to-animate-with-tibbletime%2f&text=Time%20to%20animate%20with%20tibbletime via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2017%2f10%2f17%2ftime-to-animate-with-tibbletime%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+

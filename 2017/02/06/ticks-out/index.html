@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>Ticks out! &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Ticks out!">
+    <meta property="og:description" content="YOU HAVE SPOKEN and we will go with ticks out, at least 54% of the time.
+In a graph, should axis ticks face in or out?
+&mdash; Leonard Kiefer (@lenkiefer) February 5, 2017To celebrate, let’s make an animated gif where the axis expands over time. We’ll use data we used in our mortgage rate post.
+Let’s start by loading the data and plotting a static graph (with ticks out of course).">
+
+<div class="header">
+  <h1>Ticks out!</h1>
+  <h2></h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2017/02/06</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <p>YOU HAVE SPOKEN and we will go with ticks out, at least 54% of the time.</p>
+<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">In a graph, should axis ticks face in or out?</p>&mdash; Leonard Kiefer (@lenkiefer) <a href="https://twitter.com/lenkiefer/status/828283309193035780">February 5, 2017</a></blockquote>
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p>To celebrate, let’s make an animated gif where the axis expands over time. We’ll use data we used in our <a href="../../../../2016/12/08/10-ways-to-visualize-mortgage-rates/">mortgage rate post</a>.</p>
+<p>Let’s start by loading the data and plotting a static graph (with ticks out of course).</p>
+<pre class="r"><code>####################
+####  Load Data ####
+####################
+library(readxl)
+library(tidyverse) </code></pre>
+<pre><code>## -- Attaching packages -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- tidyverse 1.2.1 --</code></pre>
+<pre><code>## v ggplot2 2.2.1     v purrr   0.2.4
+## v tibble  1.4.2     v dplyr   0.7.4
+## v tidyr   0.8.0     v stringr 1.3.0
+## v readr   1.1.1     v forcats 0.3.0</code></pre>
+<pre><code>## -- Conflicts ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- tidyverse_conflicts() --
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>library(data.table)</code></pre>
+<pre><code>## Warning: package &#39;data.table&#39; was built under R version 3.6.0</code></pre>
+<pre><code>## 
+## Attaching package: &#39;data.table&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:dplyr&#39;:
+## 
+##     between, first, last</code></pre>
+<pre><code>## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     transpose</code></pre>
+<pre class="r"><code>library(extrafont)</code></pre>
+<pre><code>## Registering fonts with R</code></pre>
+<pre class="r"><code>#for mor on these data see http://lenkiefer.com/2016/12/08/10-ways-to-visualize-rates
+
+dt&lt;- read_excel(&#39;data/rates.xlsx&#39;,sheet= &#39;rates&#39;)
+dt$date&lt;-as.Date(dt$date, format=&quot;%m/%d/%Y&quot;)
+dt&lt;-data.table(dt) 
+dt$year&lt;-year(dt$date) # create year variable
+
+###########################################
+#######  Functions for better axis ########
+###########################################
+
+################################
+# for use with continuous axis
+################################
+base_breaks_x &lt;- function(x){
+  b &lt;- pretty(x)
+  d &lt;- data.frame(y=-Inf, yend=-Inf, x=min(b), xend=max(b))
+  list(geom_segment(data=d, aes(x=x, y=y, xend=xend, yend=yend), inherit.aes=FALSE),
+       scale_x_continuous(breaks=b))
+}
+
+################################
+# for use with date axis
+################################
+
+base_breaks_x_date &lt;- function(x,dd,dd.format=&quot;default&quot;){
+  #b &lt;- pretty(x)
+  b&lt;- c(min(x),max(x))
+  b2&lt;- c(min(dd),max(dd))
+  if (dd.format != &quot;default&quot;) {b2&lt;-as.character(b2,format=dd.format)}
+  d &lt;- data.frame(y=-Inf, yend=-Inf, x=min(x), xend=max(x))
+  list(geom_segment(data=d, aes(x=x, y=y, xend=xend, yend=yend), 
+                    inherit.aes=FALSE),
+       scale_x_continuous(breaks=b,labels=b2))
+}
+
+################################
+# for use on y axis
+################################
+base_breaks_y &lt;- function(x){
+  b &lt;- pretty(x)
+  d &lt;- data.frame(x=-Inf, xend=-Inf, y=min(b), yend=max(b))
+  list(geom_segment(data=d, aes(x=x, y=y, xend=xend, yend=yend), inherit.aes=FALSE),
+       scale_y_continuous(breaks=b))
+}
+
+
+#####################
+####  Make Graph ####
+#####################
+
+
+ggplot(data=dt, aes(x=as.numeric(date),y=rate30,label=rate30))+
+  geom_line()+theme_bw()+
+  #scale_x_date(date_breaks=&quot;1 month&quot;, date_labels=&quot;%b-%y&quot;)+
+  #scale_y_continuous(limits=c(3,4.4),breaks=seq(3,4.4,.1))+
+   labs(x=&quot;&quot;, y=&quot;&quot;,
+       title=&quot;30-year Fixed Mortgage Rate (%)&quot;,
+       subtitle=&quot;weekly average rates&quot;,
+       caption=&quot;@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey&quot;)+
+  theme(plot.title=element_text(size=18),
+        plot.caption=element_text(hjust=0))+
+  theme(panel.border = element_blank(),
+        panel.grid.major = element_blank(),
+                text=element_text(family=&quot;Palatino Linotype&quot;),
+        panel.grid.minor = element_blank(),
+                axis.ticks.length=unit(0.25,&quot;cm&quot;)        ) + 
+  ### Use our sweet axis functions:
+  base_breaks_x_date(as.numeric(dt$date),dt$date) +
+  base_breaks_y(dt$rate30)</code></pre>
+<p><img src="/post/2017-02-06-ticks-out_files/figure-html/ticks-out-1-1.png" width="672" /></p>
+<div id="make-an-animation" class="section level1">
+<h1>Make an animation</h1>
+<p>Let’s have some fun and make an animated version.</p>
+<p>For smooth animations we’ll use <a href="https://cran.r-project.org/web/packages/tweenr/index.html">tweenr</a>. See my earlier <a href="../../../../2016-05-29-improving-R-animated-gifs-with-tweenr">post about tweenr</a> for an introduction to tweenr, and more examples <a href="../../../../2016-05-30-more-tweenr-animations">here</a> and <a href="../../../../2016-06-26-week-in-review">here</a>.</p>
+<p>We’ll have the axes expand as the data evolve.</p>
+<pre class="r"><code>library(tweenr)
+
+myf&lt;-function(dd,dmin=as.Date(&quot;2014-12-31&quot;),
+              #Variable subt contains annotations in the subtitle frame
+              subt=&quot;Nothing&quot;,
+              keepdots=&quot;No&quot;){
+  DT2&lt;-copy(dt)
+  #set max to last value
+  DT2[date&gt;dd,rate30:=dt[date==dd]$rate30]
+  DT2[date&gt;dd,date:=dd]
+  #set min to first value
+  DT2[date&lt;=dmin,rate30:=dt[date==dmin]$rate30]
+  DT2[date&lt;=dmin,date:=dmin]
+  DT2[,subt:=label_wrap_gen(100)(subt)]
+  DT2$subt&lt;-factor(DT2$subt)
+  DT2$keepdots&lt;-factor(keepdots)
+  as.data.frame(DT2[, list(date,rate30,subt,keepdots)])}
+
+
+tf &lt;- tween_states(
+  list(myf(as.Date(&quot;2016-11-03&quot;),as.Date(&quot;2015-12-31&quot;),subt=&quot;rates fell throughout most of 2016 up to the U.S. general election...&quot;),
+       myf(as.Date(&quot;2017-02-02&quot;),as.Date(&quot;2015-12-31&quot;),subt=&quot;...rising rapidly after the election....&quot;),
+       myf(as.Date(&quot;2017-02-02&quot;),as.Date(&quot;2012-12-27&quot;),subt=&quot;...having declined after the Taper Talk in 2013....&quot;),
+       myf(as.Date(&quot;2017-02-02&quot;),as.Date(&quot;1971-04-02&quot;),subt=&quot;...and after over 30 years of general decline.&quot;),
+       myf(as.Date(&quot;2015-12-31&quot;),as.Date(&quot;2012-12-27&quot;),subt=&quot;...rates entered 2016 above 4%, but...&quot;),myf(as.Date(&quot;2016-11-03&quot;),as.Date(&quot;2015-12-31&quot;),subt=&quot;rates fell throughout most of 2016 up to the U.S. general election...&quot;)
+         ),tweenlength= 3, statelength=1, ease=rep(&#39;cubic-in-out&#39;,2),nframes=110)
+tf&lt;-data.table(tf)
+
+oopt = ani.options(interval = 0.15)
+saveGIF({for (i in 1:max(tf$.frame)) {
+  dt3&lt;-tf[.frame==i]
+    g&lt;-
+      ggplot(data=dt3, aes(x=as.numeric(date),y=rate30,label=rate30))+
+      geom_line()+theme_bw()+
+  #scale_x_date(date_breaks=&quot;1 month&quot;, date_labels=&quot;%b-%y&quot;)+
+  #scale_y_continuous(limits=c(3,4.4),breaks=seq(3,4.4,.1))+
+   labs(x=&quot;&quot;, y=&quot;&quot;,
+       title=&quot;30-year Fixed Mortgage Rate (%)&quot;,
+        subtitle=tf[.frame==i,]$subt,
+       caption=&quot;@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey&quot;)+
+  theme(plot.title=element_text(size=18),
+        plot.caption=element_text(hjust=0))+
+  theme(panel.border = element_blank(),
+        panel.grid.major = element_blank(),
+                text=element_text(family=&quot;Palatino Linotype&quot;),
+        panel.grid.minor = element_blank(),
+        axis.ticks.length=unit(0.25,&quot;cm&quot;)        ) + 
+  ### Use our sweet axis functions:
+  base_breaks_x_date(as.numeric(dt3$date),dt3$date) +
+  base_breaks_y(dt3$rate30)
+    
+    print(g)
+    ani.pause()
+    print(i)
+  }
+},movie.name=&quot;rate_02_06_annotate.gif&quot;,ani.width = 500, ani.height = 350)</code></pre>
+<p><img src="{{ site.url}}/img/charts_feb_6_2017/rate_02_06_annotate.gif"></p>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2017/02/04/hello-ninja/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2017/02/04/hello-ninja/">Hello Ninja! Crafting a browser-based presentation and how I got (re)started with R</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="/2017/02/07/describe-present/">Description and presentation, exploration and analysis</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="/2017/02/07/describe-present/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/dataviz/">dataviz</a>, 
+            
+                <a href="/tags/r/">R</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2017%2f02%2f06%2fticks-out%2f&text=Ticks%20out%21 via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2017%2f02%2f06%2fticks-out%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+

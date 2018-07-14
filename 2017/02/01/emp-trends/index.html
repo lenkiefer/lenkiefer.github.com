@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>Wrangling employment data, plotting trends &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Wrangling employment data, plotting trends">
+    <meta property="og:description" content="We will get back to house prices soon.
+IN THIS POST I WANT TO EXPLORE EMPLOYMENT TRENDS at the state and metro area. Today the U.S. Bureau of Labor Statistics (BLS) released data on state and metro area employment trends. Last month we looked at unemployment trends. Today we’ll look at trends in nonfarm employment.
+Wrangling the dataWe will be importing, preparing, and plotting our data with R. We can get the data pretty easily using the files BLS prepares, though we have to do a little bit of work to organize the data.">
+
+<div class="header">
+  <h1>Wrangling employment data, plotting trends</h1>
+  <h2></h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2017/02/01</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/remix">remix</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/economy">economy</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <p>We will <a href="../../../../2017/01/31/house-value-distribution">get back to house prices</a> soon.</p>
+<p>IN THIS POST I WANT TO EXPLORE EMPLOYMENT TRENDS at the state and metro area. Today the U.S. Bureau of Labor Statistics (BLS) <a href="https://www.bls.gov/news.release/metro.toc.htm">released</a> data on state and metro area employment trends. <a href="../../../../2017/01/18/workin-workout">Last month</a> we looked at unemployment trends. Today we’ll look at trends in nonfarm employment.</p>
+<div id="wrangling-the-data" class="section level1">
+<h1>Wrangling the data</h1>
+<p>We will be importing, preparing, and plotting our data with <a href="https://www.r-project.org/">R</a>. We can get the data pretty easily using the files BLS prepares, though we have to do a little bit of work to organize the data. Fortunately, the data wrangling isn’t too bad, and made easier by the <a href="https://cran.r-project.org/web/packages/data.table/index.html">data table</a> package.</p>
+<p>For details about the data files we are using check out <a href="https://download.bls.gov/pub/time.series/sm/sm.txt">this file</a>.</p>
+<p>Let’s load the data and merge on area names:</p>
+<pre class="r"><code>######################
+## Load Libraries ##
+######################
+library(data.table,quietly=T)
+library(tidyverse,quietly=T)
+library(plotly,quietly=T)
+library(scales,quietly=T)
+
+# download big data file
+
+emp.data&lt;-fread(&quot;https://download.bls.gov/pub/time.series/sm/sm.data.54.TotalNonFarm.All&quot;)</code></pre>
+<pre><code>## Warning in fread(&quot;https://download.bls.gov/pub/time.series/sm/sm.data.
+## 54.TotalNonFarm.All&quot;): Bumped column 4 to type character on data row
+## 521667, field contains &#39;-&#39;. Coercing previously read values in this
+## column from logical, integer or numeric back to character which may not
+## be lossless; e.g., if &#39;00&#39; and &#39;000&#39; occurred before they will now be just
+## &#39;0&#39;, and there may be inconsistencies with treatment of &#39;,,&#39; and &#39;,NA,&#39; too
+## (if they occurred in this column before the bump). If this matters please
+## rerun and set &#39;colClasses&#39; to &#39;character&#39; for this column. Please note that
+## column type detection uses a sample of 1,000 rows (100 rows at 10 points)
+## so hopefully this message should be very rare. If reporting to datatable-
+## help, please rerun and include the output from verbose=TRUE.</code></pre>
+<pre class="r"><code># download series info
+
+emp.series&lt;-fread(&quot;https://download.bls.gov/pub/time.series/sm/sm.series&quot;)
+
+emp.list&lt;-emp.series[industry_code==0 # get all employment
+           &amp; data_type_code==1 # get employment in thousands
+           &amp; seasonal==&quot;U&quot;,]  # get seasonally adjusted data]
+
+emp.area&lt;-fread(&quot;https://download.bls.gov/pub/time.series/sm/sm.area&quot;,
+                col.names=c(&quot;area_code&quot;,&quot;area_name&quot;,&quot;drop&quot;))[,c(&quot;area_code&quot;,&quot;area_name&quot;),with=F]</code></pre>
+<pre><code>## Warning in fread(&quot;https://download.bls.gov/pub/time.series/sm/sm.area&quot;, :
+## Starting data input on line 2 and discarding line 1 because it has too few
+## or too many items to be column names or data: area_code area_name</code></pre>
+<pre class="r"><code>emp.st&lt;-fread(&quot;https://download.bls.gov/pub/time.series/sm/sm.state&quot;,
+              col.names=c(&quot;state_code&quot;,&quot;state_name&quot;,&quot;drop&quot;))[,c(&quot;state_code&quot;,&quot;state_name&quot;),with=F]</code></pre>
+<pre><code>## Warning in fread(&quot;https://download.bls.gov/pub/time.series/sm/sm.state&quot;, :
+## Starting data input on line 2 and discarding line 1 because it has too few
+## or too many items to be column names or data: state_code state_name</code></pre>
+<pre class="r"><code># merge data
+emp.dt&lt;-merge(emp.data,emp.list,by=&quot;series_id&quot;,all.y=T)
+
+#create month variable
+emp.dt=emp.dt[,month:=as.numeric(substr(emp.dt$period,2,3))]
+# (this assignment is to get around knitr/data table printing error)
+# see e.g. http://stackoverflow.com/questions/15267018/knitr-gets-tricked-by-data-table-assignment
+
+# M13 = Annual average, drop it:
+emp.dt&lt;-emp.dt[month&lt;13,]
+
+#create date variable
+emp.dt$date&lt;- as.Date(ISOdate(emp.dt$year,emp.dt$month,1) ) 
+
+# merge on area and state codes
+emp.dt&lt;-merge(emp.dt,emp.area,by=&quot;area_code&quot;)
+emp.dt&lt;-merge(emp.dt,emp.st,by=&quot;state_code&quot;)</code></pre>
+<p>Now that we have these data, let’s take a quick look at the structure of our data with <code>str()</code>:</p>
+<pre class="r"><code>str(emp.dt)</code></pre>
+<pre><code>## Classes &#39;data.table&#39; and &#39;data.frame&#39;:   216868 obs. of  21 variables:
+##  $ state_code      : int  1 1 1 1 1 1 1 1 1 1 ...
+##  $ area_code       : int  0 0 0 0 0 0 0 0 0 0 ...
+##  $ series_id       : chr  &quot;SMU01000000000000001&quot; &quot;SMU01000000000000001&quot; &quot;SMU01000000000000001&quot; &quot;SMU01000000000000001&quot; ...
+##  $ year            : int  1939 1939 1939 1939 1939 1939 1939 1939 1939 1939 ...
+##  $ period          : chr  &quot;M01&quot; &quot;M02&quot; &quot;M03&quot; &quot;M04&quot; ...
+##  $ value           : chr  &quot;394.10&quot; &quot;396.90&quot; &quot;404.20&quot; &quot;388.50&quot; ...
+##  $ footnote_codes.x: chr  &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; ...
+##  $ supersector_code: int  0 0 0 0 0 0 0 0 0 0 ...
+##  $ industry_code   : int  0 0 0 0 0 0 0 0 0 0 ...
+##  $ data_type_code  : int  1 1 1 1 1 1 1 1 1 1 ...
+##  $ seasonal        : chr  &quot;U&quot; &quot;U&quot; &quot;U&quot; &quot;U&quot; ...
+##  $ benchmark_year  : int  2016 2016 2016 2016 2016 2016 2016 2016 2016 2016 ...
+##  $ footnote_codes.y: logi  NA NA NA NA NA NA ...
+##  $ begin_year      : int  1939 1939 1939 1939 1939 1939 1939 1939 1939 1939 ...
+##  $ begin_period    : chr  &quot;M01&quot; &quot;M01&quot; &quot;M01&quot; &quot;M01&quot; ...
+##  $ end_year        : int  2017 2017 2017 2017 2017 2017 2017 2017 2017 2017 ...
+##  $ end_period      : chr  &quot;M08&quot; &quot;M08&quot; &quot;M08&quot; &quot;M08&quot; ...
+##  $ month           : num  1 2 3 4 5 6 7 8 9 10 ...
+##  $ date            : Date, format: &quot;1939-01-01&quot; &quot;1939-02-01&quot; ...
+##  $ area_name       : chr  &quot;Statewide&quot; &quot;Statewide&quot; &quot;Statewide&quot; &quot;Statewide&quot; ...
+##  $ state_name      : chr  &quot;Alabama&quot; &quot;Alabama&quot; &quot;Alabama&quot; &quot;Alabama&quot; ...
+##  - attr(*, &quot;.internal.selfref&quot;)=&lt;externalptr&gt; 
+##  - attr(*, &quot;sorted&quot;)= chr &quot;state_code&quot;</code></pre>
+<p>At the moment we have a bunch of irrelevant variables for our purposes. The key variables we want to keep are <em>value</em> that has the area employment (in thousands), the date variables and the location variables. Let’s drop unneeded variables and add some transformations.</p>
+<pre class="r"><code>emp.dt=emp.dt[,c(&quot;state_name&quot;,&quot;area_name&quot;,&quot;date&quot;,&quot;year&quot;,&quot;month&quot;,&quot;value&quot;),with=F]
+
+
+emp.dt=emp.dt[,emp:=as.numeric(value)] #convert value to numeric</code></pre>
+<pre><code>## Warning in eval(jsub, SDenv, parent.frame()): NAs introduced by coercion</code></pre>
+<pre class="r"><code># Compute year-over-year change in employment and year-over-year percent change
+emp.dt=emp.dt[,emp.yoy:=emp-shift(emp,12,fill=NA),by=c(&quot;area_name&quot;,&quot;state_name&quot;)]
+emp.dt=emp.dt[,emp.pc:=(emp-shift(emp,12,fill=NA))/shift(emp,12,fill=NA),by=c(&quot;area_name&quot;,&quot;state_name&quot;)]
+emp.dt=emp.dt[,max.emp.st:=max(emp),by=c(&quot;state_name&quot;)]
+emp.dt=emp.dt[,type:=ifelse(area_name==&quot;Statewide&quot;,&quot;State&quot;,&quot;Metro&quot;)]
+
+# drop states in c(&quot;Puerto Rico&quot;,&quot;Virgin Islands&quot;)
+
+emp.dt=emp.dt[year&gt;1989  &amp;!(state_name %in% c(&quot;Puerto Rico&quot;,&quot;Virgin Islands&quot;)),]
+
+# compute max and min percent change by year
+emp.dt=emp.dt[,pc.max:=max(emp.pc),by=c(&quot;date&quot;,&quot;type&quot;)]
+emp.dt=emp.dt[,pc.min:=min(emp.pc),by=c(&quot;date&quot;,&quot;type&quot;)]</code></pre>
+<p>Now that we’ve added these transformations, let’s plot the data. We have 487 areas that we’re tracking (436 metro/micro areas and 50 states plus the District of Columbia). All these series are too much, so let’s restrict our attention to Ohio.</p>
+<p>We’ll start with a time series plot of year-over-year percent changes in employment. We’ll <a href="https://www.r-bloggers.com/use-geom_rect-to-add-recession-bars-to-your-time-series-plots-rstats-ggplot/">also add recession shading</a> using <code>geom_rect()</code> based on <a href="http://www.nber.org/cycles.html">NBER Recession Dates</a>.</p>
+<pre class="r"><code>#set up recessions:
+recessions.df = read.table(textConnection(
+  &quot;Peak, Trough
+  1857-06-01, 1858-12-01
+  1860-10-01, 1861-06-01
+  1865-04-01, 1867-12-01
+  1869-06-01, 1870-12-01
+  1873-10-01, 1879-03-01
+  1882-03-01, 1885-05-01
+  1887-03-01, 1888-04-01
+  1890-07-01, 1891-05-01
+  1893-01-01, 1894-06-01
+  1895-12-01, 1897-06-01
+  1899-06-01, 1900-12-01
+  1902-09-01, 1904-08-01
+  1907-05-01, 1908-06-01
+  1910-01-01, 1912-01-01
+  1913-01-01, 1914-12-01
+  1918-08-01, 1919-03-01
+  1920-01-01, 1921-07-01
+  1923-05-01, 1924-07-01
+  1926-10-01, 1927-11-01
+  1929-08-01, 1933-03-01
+  1937-05-01, 1938-06-01
+  1945-02-01, 1945-10-01
+  1948-11-01, 1949-10-01
+  1953-07-01, 1954-05-01
+  1957-08-01, 1958-04-01
+  1960-04-01, 1961-02-01
+  1969-12-01, 1970-11-01
+  1973-11-01, 1975-03-01
+  1980-01-01, 1980-07-01
+  1981-07-01, 1982-11-01
+  1990-07-01, 1991-03-01
+  2001-03-01, 2001-11-01
+  2007-12-01, 2009-06-01&quot;), sep=&#39;,&#39;,
+colClasses=c(&#39;Date&#39;, &#39;Date&#39;), header=TRUE)
+
+recessions.trim = subset(recessions.df, Peak &gt;= min(emp.dt$date) )
+
+
+# Plot employment series for Ohio:
+g1&lt;-
+  ggplot(data=emp.dt[state_name==&quot;Ohio&quot; &amp; type==&quot;Metro&quot;])+
+  geom_rect(data=recessions.trim, aes(xmin=Peak, xmax=Trough, ymin=-Inf, ymax=+Inf), fill=&#39;gray&#39;, alpha=0.5)+
+  geom_line(aes(x=date,y=emp.pc,group=area_name))+theme_minimal()+
+  facet_wrap(~area_name,ncol=3)+scale_y_continuous(labels=percent)+
+  geom_hline(color=&quot;black&quot;,yintercept=0)+
+  labs(x=&quot;&quot;,y=&quot;&quot;,title=&quot;Annual percent change in total nonfarm employment&quot;,
+       subtitle=&quot;Ohio Metro Areas (NSA)&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Bureau of Labor Statistics&quot;)+
+  theme(plot.caption=element_text(hjust=0),
+        plot.subtitle=element_text(face=&quot;italic&quot;))
+
+g1</code></pre>
+<pre><code>## Warning: Removed 120 rows containing missing values (geom_path).</code></pre>
+<p><img src="/post/2017-02-01-emp-trends_files/figure-html/feb-01-2017-ohio-plot-1-1.png" width="672" /></p>
+<p>These data show that across most metro areas employment growth is picking up since the end of the Great Recession. Let’s zoom in and just look at the most recent month’s data:</p>
+<pre class="r"><code>g2&lt;-
+  ggplot(data=emp.dt[state_name==&quot;Ohio&quot; &amp; date==&quot;2016-12-01&quot;])+
+  geom_point(aes(y=reorder(area_name,emp.pc),x=emp.pc,group=area_name,color=type),size=3,alpha=0.82)+
+  theme_minimal()+scale_color_manual(name=&quot;&quot;,values=c(&quot;black&quot;,&quot;red&quot;))+
+  #facet_wrap(~area_name,ncol=3)+
+  scale_x_continuous(labels=percent)+
+  geom_vline(color=&quot;black&quot;,xintercept=0)+
+  labs(x=&quot;&quot;,y=&quot;&quot;,title=&quot;Annual percent change in total nonfarm employment&quot;,
+       subtitle=&quot;Ohio Metro Areas: December 2016 (NSA)&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Bureau of Labor Statistics&quot;)+
+  theme(plot.caption=element_text(hjust=0),legend.position=&quot;top&quot;,
+        plot.subtitle=element_text(face=&quot;italic&quot;))
+
+g2</code></pre>
+<p><img src="/post/2017-02-01-emp-trends_files/figure-html/feb-01-2017-ohio-plot-2-1.png" width="672" /></p>
+<p>These data match those in <a href="https://www.bls.gov/news.release/metro.t03.htm">Table 3</a> of the BLS press release. They show that while employment is growing in the Buckeye state, some metros are still facing shrinking employment.</p>
+<div id="add-interactions-with-plotly" class="section level2">
+<h2>Add interactions with plotly</h2>
+<p>We can add some interactions and animations with <a href="https://plot.ly/r/">plotly</a>. See <a href="../../../../2017/01/29/fun-with-plotly">this post</a> for more on using plotly.</p>
+<p>Let’s plot how state employment growth has varied in December of each year since 1990. We’ll use <code>geom_jitter</code> to plot each state overlaid in a strip plot. I’d like to use a <a href="https://github.com/eclarke/ggbeeswarm">beeswarm</a> plot, but <a href="https://plot.ly/ggplot2/">ggplotly</a> doesn’t support it.</p>
+<pre class="r"><code>g3&lt;-
+  
+  ggplot(data=emp.dt[area_name==&quot;Statewide&quot;&amp;month==12],
+         aes(x=date,y=emp.pc,color=emp.pc,frame=year,label=state_name))+
+  geom_jitter(alpha=0.82,size=3)+
+  scale_color_viridis(name=&quot;% Change&quot;,label=scales::percent)+
+  theme_minimal()+
+  scale_y_continuous(label=scales::percent)+labs(y=&quot;&quot;,x=&quot;&quot;,
+                                                 title=&quot;Annual % Change in Nonfarm Employment (Dec/Dec) by State&lt;br&gt;@lenkiefer Source: BLS&quot;)
+
+p&lt;-ggplotly(g3) %&gt;% animation_opts(frame=2000,transition=600,redraw=T) 
+htmlwidgets::saveWidget(as.widget(p), &quot;plotly-1.html&quot;)</code></pre>
+<iframe src="../../../../img/charts_feb_1_2017/plotly-1.html" height="600" width="800">
+</iframe>
+<p>You can see a fullscreen interactive version <a href="../../../../img/charts_feb_1_2017/plotly-1.html">here</a>.</p>
+<div id="compare-state-line-plots" class="section level3">
+<h3>Compare state line plots</h3>
+<p>Let’s try another animation, showing how employment growth varies by state and over time.</p>
+<pre class="r"><code>g4&lt;-
+  ggplot(data=emp.dt[area_name==&quot;Statewide&quot;], aes(x=date,y=emp.pc,group=area_name,frame=state_name))+
+  geom_line()+
+  theme_minimal()+
+  scale_y_continuous(label=scales::percent)+labs(y=&quot;&quot;,x=&quot;&quot;,
+                                                 title=&quot;Annual % Change in Nonfarm Employment (Dec/Dec) by State&lt;br&gt;@lenkiefer Source: BLS&quot;)
+
+p&lt;-ggplotly(g4) %&gt;% animation_opts(frame=2000,transition=600,redraw=T) 
+htmlwidgets::saveWidget(as.widget(p), &quot;plotly-2.html&quot;)</code></pre>
+<iframe src="../../../../img/charts_feb_1_2017/plotly-2.html" height="600" width="800">
+</iframe>
+<p>You can see a fullscreen interactive version <a href="../../../../img/charts_feb_1_2017/plotly-2.html">here</a>.</p>
+</div>
+</div>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2017/01/31/visualizing-housing-value-distributions-by-metro/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2017/01/31/visualizing-housing-value-distributions-by-metro/">Visualizing housing value distributions by metro</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="/2017/02/04/hello-ninja/">Hello Ninja! Crafting a browser-based presentation and how I got (re)started with R</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="/2017/02/04/hello-ninja/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/dataviz/">dataviz</a>, 
+            
+                <a href="/tags/remix/">remix</a>, 
+            
+                <a href="/tags/economy/">economy</a>, 
+            
+                <a href="/tags/r/">R</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2017%2f02%2f01%2femp-trends%2f&text=Wrangling%20employment%20data%2c%20plotting%20trends via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2017%2f02%2f01%2femp-trends%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+

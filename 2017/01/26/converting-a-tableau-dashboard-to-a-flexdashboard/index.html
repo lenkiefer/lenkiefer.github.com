@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>Converting a Tableau dashboard to a Flexdashboard &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Converting a Tableau dashboard to a Flexdashboard">
+    <meta property="og:description" content="Edited on 2017-01-27 to correct typos and fix tootip in dashboard
+IN THIS POST WE WILL CONVERT a data visualization dashboard I made some time ago using Tableau into a flexdashboard using R.
+On Monday, the Census posted a blog summarizing recent mobility trends. According to the CPS ASEC, 11.2 percent of the U.S. population age 1 and over moved between 2015 and 2016, the lowest since the CPS ASEC began in 1948.">
+
+<div class="header">
+  <h1>Converting a Tableau dashboard to a Flexdashboard</h1>
+  <h2></h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2017/01/26</time>
+  </div>
+
+  
+
+  
+
+  
+
+</div>
+
+  <p><strong>Edited on 2017-01-27 to correct typos and fix tootip in dashboard</strong></p>
+<p>IN THIS POST WE WILL CONVERT a data visualization dashboard I made some time ago using <a href="https://www.tableau.com">Tableau</a> into a <a href="http://rmarkdown.rstudio.com/flexdashboard/index.html">flexdashboard</a> using <a href="https://www.r-project.org/">R.</a></p>
+<p>On Monday, the Census <a href="http://www.census.gov/newsroom/blogs/random-samplings/2017/01/mover-rate.html">posted</a> a blog summarizing recent mobility trends. According to the CPS ASEC, 11.2 percent of the U.S. population age 1 and over moved between 2015 and 2016, the lowest since the CPS ASEC began in 1948. This post reminded me a visualization <a href="https://public.tableau.com/profile/leonard.kiefer#!/vizhome/State-to-statemigrationin2014/Mobilitygraphic">I made</a> some time ago showing state-to-state migration using Census data.</p>
+<p>As I have been on a kick making R flexdashboards (see <a href="../../../../../../2017/01/08/mortgage-rate-viewer">this</a>, <a href="../../../../../../2017/01/14/year-in-review-remix">this</a>, <a href="../../../../../../2017/01/16/cross-talk-dashboard">this</a> and <a href="../../../../../../2017/01/20/flexin-friday">this</a> for examples and <a href="../../../../../../2017/01/22/build-flex">this post for a guide on building a flexdashboard</a>). I figured it would be fun to convert this viz into a flexdashboard.</p>
+<p>This would also give me a chance to explore maps with <a href="https://plot.ly/r/">plotly</a>.</p>
+<div id="the-orginal" class="section level3">
+<h3>The orginal</h3>
+<p>First take a look at the <a href="https://public.tableau.com/views/State-to-statemigrationin2014/Mobilitygraphic?:embed=y&amp;:display_count=yes">original viz</a>:</p>
+<iframe src="https://public.tableau.com/views/State-to-statemigrationin2014/Mobilitygraphic?:embed=y&amp;:display_count=yes" height="800" width="1200">
+</iframe>
+<p>This dashboard is relatively simple. It’s a single page with two linked maps and two linked tables.</p>
+<p>The maps depict state-to-state migration in 2014. For any selected state the top map shows outmigration, the number of people (over age 1) who migrated out of the selected state to another state in 20114. The bottom map shows in migration, or the number of people who migrated into each state from another state. There’s also two tables showing stats for the top 10 states in terms of in migration and out migration respectively.</p>
+<p>There’s a filter box to select states. Go ahead and give it a try if you haven’t.</p>
+</div>
+<div id="a-flexdashboard-version" class="section level1">
+<h1>A Flexdashboard version</h1>
+<p>We can recreate many of these features in a flexdashboard.</p>
+<div id="the-data" class="section level2">
+<h2>The data</h2>
+<p>The data for this dashboard come from the U.S. Census Bureau, available <a href="http://www.census.gov/data/tables/time-series/demo/geographic-mobility/state-to-state-migration.html">here</a>. The data show state-to-state migration. I’ve saved the data in a text file called <em>mig2015.txt</em> <a href="../../../../chartbooks/jan2017/data/mig2015.txt">(click here to download)</a>.</p>
+<p>I organized these data (mainly deleting irrelevant columns and unmerging cells) in Excel. Let’s take a look:</p>
+<pre class="r"><code>library(data.table)
+library(htmlTable)
+library(tidyverse)</code></pre>
+<pre><code>## Loading tidyverse: ggplot2
+## Loading tidyverse: tibble
+## Loading tidyverse: tidyr
+## Loading tidyverse: readr
+## Loading tidyverse: purrr
+## Loading tidyverse: dplyr</code></pre>
+<pre><code>## Conflicts with tidy packages ----------------------------------------------</code></pre>
+<pre><code>## between():   dplyr, data.table
+## filter():    dplyr, stats
+## first():     dplyr, data.table
+## lag():       dplyr, stats
+## last():      dplyr, data.table
+## transpose(): purrr, data.table</code></pre>
+<pre class="r"><code>library(lubridate)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;lubridate&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:data.table&#39;:
+## 
+##     hour, isoweek, mday, minute, month, quarter, second, wday,
+##     week, yday, year</code></pre>
+<pre><code>## The following object is masked from &#39;package:base&#39;:
+## 
+##     date</code></pre>
+<pre class="r"><code>df&lt;-fread(&quot;data/mig2015.txt&quot;)
+
+htmlTable(head(df %&gt;% map_if(is.Date, as.character,format=&quot;%b %d,%Y&quot;) %&gt;% map_if(is.numeric, round,2) %&gt;% as.data.frame() ,5), col.rgroup = c(&quot;none&quot;, &quot;#F7F7F7&quot;),caption=&quot;2015 State to State Migration Data&quot;,
+          tfoot=&quot;Source: U.S. Census Bureau&quot;)</code></pre>
+<table class='gmisc_table' style='border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;' >
+<thead>
+<tr><td colspan='6' style='text-align: left;'>
+2015 State to State Migration Data</td></tr>
+<tr>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey;'> </th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>state.to</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>state.from</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>total</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>statecode.to</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>statecode.from</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style='text-align: left;'>1</td>
+<td style='text-align: center;'>Alabama</td>
+<td style='text-align: center;'>Alabama</td>
+<td style='text-align: center;'>0</td>
+<td style='text-align: center;'>AL</td>
+<td style='text-align: center;'>AL</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>2</td>
+<td style='background-color: #f7f7f7; text-align: center;'>Alabama</td>
+<td style='background-color: #f7f7f7; text-align: center;'>Alaska</td>
+<td style='background-color: #f7f7f7; text-align: center;'>767</td>
+<td style='background-color: #f7f7f7; text-align: center;'>AL</td>
+<td style='background-color: #f7f7f7; text-align: center;'>AK</td>
+</tr>
+<tr>
+<td style='text-align: left;'>3</td>
+<td style='text-align: center;'>Alabama</td>
+<td style='text-align: center;'>Arizona</td>
+<td style='text-align: center;'>1865</td>
+<td style='text-align: center;'>AL</td>
+<td style='text-align: center;'>AZ</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>4</td>
+<td style='background-color: #f7f7f7; text-align: center;'>Alabama</td>
+<td style='background-color: #f7f7f7; text-align: center;'>Arkansas</td>
+<td style='background-color: #f7f7f7; text-align: center;'>2329</td>
+<td style='background-color: #f7f7f7; text-align: center;'>AL</td>
+<td style='background-color: #f7f7f7; text-align: center;'>AR</td>
+</tr>
+<tr>
+<td style='border-bottom: 2px solid grey; text-align: left;'>5</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>Alabama</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>California</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>3397</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>AL</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>CA</td>
+</tr>
+</tbody>
+<tfoot><tr><td colspan='6'>
+Source: U.S. Census Bureau</td></tr></tfoot>
+</table>
+<p>These data show migration across states based on the Census tables. The variable <em>state.to</em> is the destination state while <em>state.from</em> is the state of residence one year prior. I’ve excluded migration from outside the U.S. and from Puerto Rico and U.S. island territories. Also, migration within the same state is set equal to zero for this exercise (e.g. from Alabama to Alabama set equal to zero).</p>
+</div>
+<div id="getting-the-data-to-talk" class="section level2">
+<h2>Getting the data to talk</h2>
+<p>Like in my <a href="../../../../2017/01/22/build-flex">guide on building a flexdashboard</a> we are going to use <a href="https://github.com/rstudio/crosstalk">crosstalk</a> to get the graphs to respond to a filter select box. And like before, we’ll use <a href="https://plot.ly/r/">plotly</a> to make the graphs. We’ll also use <a href="https://rstudio.github.io/DT/">DT</a> to add an interactive data table.</p>
+<p>Our plan is to be able to use a single filter box to filter two maps and a data table. The tricky part is that in one map we want to filter on <em>state.to</em> to show all the in migration by state, while on another map we want to filter on <em>state.from</em> to show out migration. We can do this by setting using <em>ShareData</em> with groups:</p>
+<pre class="r"><code>sd.from &lt;- SharedData$new(df.from, ~state.from,group=&quot;state&quot;)
+sd.to &lt;- SharedData$new(df, ~state.to,group=&quot;state&quot;)</code></pre>
+<p>We use <code>SharedData$new</code> to create both <em>sd.from</em> and <em>sd.new</em> and use <code>group=&quot;state&quot;</code> to indicate that these are part of a common group. Then, when we filter on state using the <em>state</em> group, we’ll filter both <em>sd.from</em> and <em>sd.to</em>.</p>
+<p>Then we us the <em>bs_cols</em> function from crosstalk to set up a filter:</p>
+<pre class="r"><code>bscols(
+  filter_select(&quot;state&quot;, &quot;Select State&quot;, sd.to, ~state.to,multiple=F)
+)</code></pre>
+<p>We only want to filter on one state at a time so we set <code>multiple=FALSE</code>.</p>
+<p>Then, it’s just a matter of laying out the flexdashboard and setting up our widgets. For comparison, we embedded the original Tableau dashboard in our flexdashboard. <em>How meta!</em></p>
+<p>You can see a fullscreen version <a href="../../../../chartbooks/jan2017/migration_flex2.html">here</a>.</p>
+<p>You can get the code by clicking on the source button on the top right.</p>
+<iframe src="../../../../chartbooks/jan2017/migration_flex2.html" height="800" width="1200">
+</iframe>
+</div>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2017/01/22/a-guide-to-building-an-interactive-flexdashboard/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2017/01/22/a-guide-to-building-an-interactive-flexdashboard/">A guide to building an interactive flexdashboard</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="/2017/01/28/gdp-growth-chart-animated/">GDP Growth Chart (animated)</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="/2017/01/28/gdp-growth-chart-animated/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2017%2f01%2f26%2fconverting-a-tableau-dashboard-to-a-flexdashboard%2f&text=Converting%20a%20Tableau%20dashboard%20to%20a%20Flexdashboard via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2017%2f01%2f26%2fconverting-a-tableau-dashboard-to-a-flexdashboard%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+

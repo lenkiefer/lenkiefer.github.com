@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Pomological Plots with R">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>Pomological Plots &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com//img/charts_may_21_2018/mtg_combo_pomo_year.png" >
+     
+    <meta property="og:title" content="Pomological Plots">
+    <meta property="og:description" content="Pomological Plots with R">
+
+<div class="header">
+  <h1>Pomological Plots</h1>
+  <h2>Pomological Plots with R</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/05/21</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/fun">fun</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <p>In the real world, when I give talks and use slides I am typically constrained in my aesthetic. Often I’m speaking at a work-related thing and we have a corporate template and color scheme. They serve us well and I’ve found restraint helps focus on the message. Usually I’m setting out to inform, so direct, repeatable and easy to follow are key.</p>
+<p>But I also like to explore new ideas and different themes on the side. See for example <a href="https://twitter.com/lenkiefer">my Twitter feed</a> or this blog. One recent theme I’ve used that has generated a lot of engagement is the pomological theme <a href="https://github.com/gadenbuie/ggpomological">ggpomological</a> from Garrick Aden-Buie, inspired by the <a href="">USDA Pomological Watercolors collection</a>. (The orginal link Garrick referenced doesn’t seem to work). There is however, a <a href="https://twitter.com/pomological">Twitter handle [at]pomological</a> that posts old fruit pictures.</p>
+<p>In this post we’ll use the theme and make a few new plots.</p>
+<p>Per usual, let’s make a graph with <a href="https://www.r-project.org/">R</a>.</p>
+<div id="get-the-theme" class="section level1">
+<h1>Get the theme</h1>
+<p>The ggpomological theme is not yet available on CRAN, so you’ll have to download via github:</p>
+<p><code>devtools::install_github(&quot;gadenbuie/ggpomological&quot;)</code></p>
+<p>If you want the fancy theme options, you’ll also need to download the <a href="https://fonts.google.com/specimen/Homemade+Apple/">Homemade Apple</a> font as described in the ggpomological page. Once you have the font installed we’re ready to go.</p>
+<div id="get-data" class="section level2">
+<h2>Get data</h2>
+<p>We’ll start out by recreating two plots I recently shared on twitter.</p>
+<p>This one of housing starts</p>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">U.S. <a href="https://twitter.com/hashtag/housing?src=hash&amp;ref_src=twsrc%5Etfw">#housing</a> starts have been grinding higher over most of this decade, but remain very low relative to historical averages <a href="https://t.co/wOHX7sfBm1">pic.twitter.com/wOHX7sfBm1</a></p>&mdash; Leonard Kiefer (@lenkiefer) <a href="https://twitter.com/lenkiefer/status/996763994831630336?ref_src=twsrc%5Etfw">May 16, 2018</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+ 
+<p>And this one of mortgage rates</p>
+<blockquote class="twitter-tweet"><p lang="und" dir="ltr"><a href="https://twitter.com/hashtag/dataviz?src=hash&amp;ref_src=twsrc%5Etfw">#dataviz</a> <a href="https://t.co/MrcZFSGbSm">pic.twitter.com/MrcZFSGbSm</a></p>&mdash; Leonard Kiefer (@lenkiefer) <a href="https://twitter.com/lenkiefer/status/997589236462358528?ref_src=twsrc%5Etfw">May 18, 2018</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+ 
+<p>We can easily get the data via the Saint Louis Federal Reserve’s <a href="https://fred.stlouisfed.org/">FRED</a> database. If you followed <a href="../../../../2017/04/11/fred-plot">my post</a> from back in April of last year you know what we can do if we combine FRED with the <a href="https://cran.r-project.org/web/packages/quantmod/index.html">quantmod</a> package. It gets even easier if we use <a href="https://CRAN.R-project.org/package=tidyquant">tidyquant</a> like we did <a href="../../../../2017/09/18/a-tidyquant-um-of-solace/">here</a>.</p>
+<p>The following code grabs the two series we need from FRED and gets them ready for plotting. We’ll eventually want to color the plots by decade, so we’ll create a decade variable.</p>
+<p>First load required libraries.</p>
+<pre class="r"><code>library(tidyquant)
+library(ggpomological)
+library(extrafont)  # for the special fonts
+library(cowplot)</code></pre>
+<p>Then get the data.</p>
+<pre class="r"><code>df&lt;- tq_get(c(&quot;MORTGAGE30US&quot;,&quot;HOUST&quot;),get=&quot;economic.data&quot;,from=&quot;1959-01-01&quot;)
+df$year&lt;-year(df$date)
+df &lt;- mutate(df, decade=paste0(10*floor(year/10),&quot;&#39;s&quot;))
+df &lt;- df %&gt;% group_by(year,symbol) %&gt;% mutate(week=row_number()) %&gt;% ungroup() %&gt;%
+  group_by(decade) %&gt;% mutate(weekd=row_number()) %&gt;% ungroup() %&gt;%
+  mutate(yearf=factor(year))
+
+df.mtg    &lt;- filter(df, symbol==&quot;MORTGAGE30US&quot;)
+df.starts &lt;- filter(df, symbol==&quot;HOUST&quot;)
+df &lt;- df.mtg</code></pre>
+<p>In both tweets I combined a shaded area plot and a density plot. First, let’s make the shaded area plot without our fancy theme. It’s pretty straightforward with <a href="https://github.com/tidyverse/ggplot2">ggplot2</a>.</p>
+<pre class="r"><code>g.line.plain &lt;- 
+  ggplot(data= filter(df, year&gt;2010),
+         aes(x=date,y=price, fill=yearf,color=yearf))+
+  geom_ribbon(alpha=0.35,color=NA, aes(ymin=3,ymax=price))+
+  geom_line()+
+
+  theme(legend.position=&quot;none&quot;)+
+  geom_text( data= filter(df, year&gt; 2010 &amp; week==26 | (year==2018 &amp; week==10)), aes(y=3.25,label=yearf),
+             size=6, color=&quot;white&quot;)+
+  scale_y_continuous(limits=c(3,5.1),breaks=seq(0,6,1),sec.axis=dup_axis(),expand=c(0,0))+
+  scale_x_date(limits=as.Date(c(&quot;2011-01-01&quot;,&quot;2018-06-30&quot;)),date_breaks=&quot;1 year&quot;,date_labels=&quot;%Y&quot;,expand=c(0,0))+
+  labs(x=&quot;&quot;,y=&quot;30-year fixed mortgage rate (%)\n&quot;,
+       subtitle=&quot;U.S. weekly average mortgage rates&quot;,
+       title=&quot;Mortgage rate trends&quot;,
+       caption=&quot;@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey&quot;)+
+  theme(plot.caption=element_text(hjust=0),
+        plot.title=element_text(face=&quot;bold&quot;,hjust=0))
+
+g.line.plain</code></pre>
+<p><img src="/post/2018-05-21-pomological-plots_files/figure-html/05-21-2018-plot-1-1.png" width="672" /></p>
+<p>It’s interesting to compare the range of values by year. Let’s add a density plot. For the density plots, I find direct labeling easier than a legend. In order to do that, I need to create a function that fits the density to the data points and then apply that funciton by year with <code>purrr::map()</code>.</p>
+<pre class="r"><code># function to get density estimates
+myxy2&lt;- function(yy, in.df=df){
+  x&lt;-filter(in.df,year==yy)$price
+  outdf&lt;- data.frame(
+    x=density(x)$x[which.max(density(x)$y)],  #find maximum density (in y dimension)
+    y=max(density(x)$y,na.rm=T)
+  )
+}
+
+df.text &lt;- data.frame(year=seq(2011,2018)) %&gt;% mutate(xy=map(year,myxy2)) %&gt;% unnest(xy) %&gt;% mutate(yearf=factor(year))
+g.dens.plain &lt;- 
+  ggplot(data= filter(df, year&gt;2010),
+         aes(x=price, fill=yearf,color=yearf))+
+  geom_density(alpha=0.35)+
+  scale_x_continuous(limits=c(3,5.1),breaks=seq(0,6,.25))+
+  scale_y_continuous(breaks=NULL,sec.axis=dup_axis())+
+  theme(legend.position=&quot;none&quot;,
+        plot.title=element_text(face=&quot;bold&quot;,hjust=0),
+        plot.caption=element_text(hjust=0))+
+  geom_text(data=df.text,aes(label=yearf, x=x,y=y),size=8)+
+  labs(x=&quot;30-year fixed mortgage rate (%)&quot;, y= &quot;estimated density\n&quot;,
+       title=&quot;Mortgage rates: Distribution over weekly values by year&quot;,
+       caption=&quot;@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey&quot;)
+g.dens.plain</code></pre>
+<p><img src="/post/2018-05-21-pomological-plots_files/figure-html/05-21-2018-plot-2-1.png" width="672" /></p>
+<p>Combining:</p>
+<pre class="r"><code>plot_grid(g.line.plain, g.dens.plain,ncol=1)</code></pre>
+<p><img src="/post/2018-05-21-pomological-plots_files/figure-html/05-21-2018-plot-3-1.png" width="672" /></p>
+<p>Now we can apply the pomological theme to the plots.</p>
+<pre class="r"><code>g.dens &lt;-
+  ggplot(data= filter(df, year&gt;2010),
+         aes(x=price, fill=yearf,color=yearf))+
+  geom_density(alpha=0.5)+
+  scale_color_pomological()+
+  scale_fill_pomological()+
+  theme_pomological_fancy(base_size=24)+
+  theme(legend.position=&quot;none&quot;)+
+  scale_x_continuous(limits=c(3,5.1),breaks=seq(0,6,.25))+
+  scale_y_continuous(breaks=NULL,sec.axis=dup_axis())+
+  geom_text(data=df.text,aes(label=yearf, x=x,y=y),family=&quot;Homemade Apple&quot; ,size=12)+
+  labs(x=&quot;30-year fixed mortgage rate (%)&quot;, y= &quot;estimated density\n&quot;)
+
+
+g.line2&lt;-
+ggplot(data= filter(df, year&gt;2010),
+       aes(x=date,y=price, fill=yearf,color=yearf))+
+  geom_ribbon(alpha=0.75,color=NA, aes(ymin=3,ymax=price))+
+  geom_line(size=1.05)+
+  scale_color_pomological()+
+  scale_fill_pomological()+
+  theme_pomological_fancy(base_size=24)+
+  theme(legend.position=&quot;none&quot;)+
+  geom_text( data= filter(df, year&gt; 2010 &amp; week==26 | (year==2018 &amp; week==10)), aes(y=3.25,label=yearf),
+             size=8, color=&quot;white&quot;,family=&quot;Homemade Apple&quot;)+
+  scale_y_continuous(limits=c(3,5.1),breaks=seq(0,6,.25),sec.axis=dup_axis(),expand=c(0,0))+
+  scale_x_date(limits=as.Date(c(&quot;2011-01-01&quot;,&quot;2018-06-01&quot;)),date_breaks=&quot;1 year&quot;,date_labels=&quot;%Y&quot;,expand=c(0,0))+
+  labs(x=&quot;&quot;,y=&quot;30-year fixed mortgage rate (%)\n&quot;,
+       subtitle=&quot;U.S. weekly average mortgage rates&quot;,
+       title=&quot;Mortgage rate trends&quot;,
+       caption=&quot;@lenkiefer   Source: Freddie Mac Primary Mortgage Market Survey&quot;)+
+  theme(plot.caption=element_text(hjust=0),
+        plot.title=element_text(face=&quot;bold&quot;),
+        axis.text=element_text(size=16))
+
+g2&lt;-cowplot::plot_grid(g.line2,g.dens,ncol=1)
+
+paint_pomological(g.line2,width=1300,height=800 )</code></pre>
+<p><img src="/post/2018-05-21-pomological-plots_files/figure-html/05-21-2018-plot-4-1.png" width="650" /></p>
+<p><img src="../../../../img/charts_may_21_2018/mtg_combo_pomo_year.png"></p>
+<p>We can also group the observations by decade:</p>
+<pre class="r"><code># group by decade, computing monthly averages of rates
+df.m &lt;- df  %&gt;% mutate(month=month(date)) %&gt;% group_by(decade, year,month) %&gt;% summarize(price=mean(price,na.rm=T))  %&gt;% ungroup() %&gt;% 
+  group_by(decade) %&gt;% mutate(id=row_number()) %&gt;% ungroup() %&gt;% mutate(date=as.Date(ISOdate(year,month,1)))
+
+
+# modify our function for grouping by decades.
+myxy3&lt;- function(dd, df=df){
+  x&lt;-filter(df,decade==dd)$price
+  outdf&lt;- data.frame(
+    x=density(x)$x[which.max(density(x)$y)],
+    y=max(density(x)$y,na.rm=T)
+  )
+}
+
+df.textd &lt;- data.frame(decade=unique(filter(df.m)$decade)) %&gt;% mutate(xy=map(decade,myxy3, df=filter(df.m))) %&gt;% unnest(xy) 
+
+
+g.densd &lt;-
+  ggplot(data= df.m,
+         aes(x=price, fill=decade,color=decade))+
+  geom_density(alpha=0.5)+
+  scale_color_pomological()+
+  scale_fill_pomological()+
+  theme_pomological_fancy(base_size=24)+
+  theme(legend.position=&quot;none&quot;)+
+  scale_x_continuous(limits=c(0,20),breaks=seq(0,20,2))+
+  scale_y_continuous(breaks=NULL,sec.axis=dup_axis())+
+  geom_text(data=df.textd,aes(label=decade, x=x,y=y),family=&quot;Homemade Apple&quot; ,size=12)+
+  labs(x=&quot;30-year fixed mortgage rate (%)&quot;, y= &quot;estimated density\n&quot;)+
+  theme(plot.caption=element_text(hjust=0),
+        plot.title=element_text(face=&quot;bold&quot;),
+        axis.text=element_text(size=18))
+
+g.lined&lt;-
+  ggplot(data= df.m,
+         aes(x=date,y=price, fill=decade,color=decade))+
+  geom_ribbon(alpha=0.75,color=NA, aes(ymin=0,ymax=price))+
+  geom_line(size=1.05)+
+  scale_color_pomological()+
+  scale_fill_pomological()+
+  theme_pomological_fancy(base_size=24)+
+  theme(legend.position=&quot;none&quot;)+
+  geom_text( data= filter(df.m, (year-floor(year/10)*10)==5 &amp; month==6), aes(y=3.25,label=decade),
+             size=8, color=&quot;white&quot;,family=&quot;Homemade Apple&quot;)+
+  scale_y_continuous(limits=c(0,20),breaks=seq(0,20,5),sec.axis=dup_axis(),expand=c(0,0))+
+  scale_x_date(limits=as.Date(c(&quot;1971-04-01&quot;,&quot;2018-06-01&quot;)),date_breaks=&quot;5 year&quot;,date_labels=&quot;%Y&quot;,expand=c(0,0))+
+  labs(x=&quot;&quot;,y=&quot;30-year fixed mortgage rate (%)\n&quot;,
+       subtitle=&quot;U.S. monthly average mortgage rates&quot;,
+       title=&quot;Mortgage rate trends&quot;,
+       caption=&quot;@lenkiefer   Source: Freddie Mac Primary Mortgage Market Survey\n&quot;)+
+  theme(plot.caption=element_text(hjust=0),
+        plot.title=element_text(face=&quot;bold&quot;),
+        axis.text=element_text(size=18))
+
+g2d&lt;-cowplot::plot_grid(g.lined,g.densd,ncol=1)
+
+paint_pomological(g2d,width=1300,height=1600 )</code></pre>
+<p><img src="/post/2018-05-21-pomological-plots_files/figure-html/05-21-2018-plot-5-1.png" width="650" /></p>
+<p><img src="../../../../img/charts_may_21_2018/mtg_combo_pomo_decade.png"></p>
+<p>Bored with mortgage rates? How about the same witn housing starts?</p>
+<pre class="r"><code>df.ms &lt;- df.starts  %&gt;% filter(year(date)&gt;1959) %&gt;% mutate(month=month(date)) %&gt;% group_by(decade, year,month) %&gt;% summarize(price=mean(price,na.rm=T))  %&gt;% ungroup() %&gt;% 
+  group_by(decade) %&gt;% mutate(id=row_number()) %&gt;% ungroup() %&gt;% mutate(date=as.Date(ISOdate(year,month,1)))
+
+
+df.textd &lt;- data.frame(decade=unique(filter(df.starts, year(date)&gt;1959)$decade)) %&gt;% mutate(xy=map(decade,myxy3, df=df.starts)) %&gt;% unnest(xy) 
+
+g.dens.starts.plain &lt;-
+  ggplot(data= df.ms,
+         aes(x=price, fill=decade,color=decade))+
+  geom_density(alpha=0.35)+
+  theme(legend.position=&quot;none&quot;)+
+  scale_x_continuous(limits=c(0,2500),breaks=seq(0,2500,500))+
+  scale_y_continuous(breaks=NULL,sec.axis=dup_axis())+
+  geom_text(data=df.textd,aes(label=decade, x=x,y=y),size=12)+
+  labs(x=&quot;Housing Starts (1000s, SAAR)&quot;, y= &quot;estimated density\n&quot;)+
+  theme(plot.caption=element_text(hjust=0),
+        plot.title=element_text(face=&quot;bold&quot;),
+        axis.text=element_text(size=12))
+
+
+
+g.line.starts.plain&lt;-
+  ggplot(data= df.ms,
+         aes(x=date,y=price, fill=decade,color=decade))+
+  geom_ribbon(alpha=0.35,color=NA, aes(ymin=0,ymax=price))+
+  geom_line(size=1.05)+
+  theme(legend.position=&quot;none&quot;)+
+  geom_text( data= filter(df.ms, (year-floor(year/10)*10)==5 &amp; month==6), aes(y=500,label=decade),
+             size=6, color=&quot;white&quot;)+
+  scale_y_continuous(limits=c(0,2600),breaks=seq(0,2500,500),sec.axis=dup_axis(),expand=c(0,0))+
+  scale_x_date(date_breaks=&quot;5 year&quot;,date_labels=&quot;%Y&quot;,expand=c(0,0))+
+  labs(x=&quot;&quot;,y=&quot;Housing Starts (1000s SAAR)\n&quot;,
+       subtitle=&quot;Total Housing Starts&quot;,
+       title=&quot;U.S. Housing Starts Grinding Higher&quot;,
+       caption=&quot;@lenkiefer   Source: U.S. Census Bureau and Department of Housing and Urban Development\n&quot;)+
+  theme(plot.caption=element_text(hjust=0),
+        plot.title=element_text(face=&quot;bold&quot;),
+        axis.text=element_text(size=12))
+
+cowplot::plot_grid(g.line.starts.plain,g.dens.starts.plain,ncol=1)</code></pre>
+<p><img src="/post/2018-05-21-pomological-plots_files/figure-html/05-21-2018-plot-6-1.png" width="864" /></p>
+<p>And make it fancy:</p>
+<pre class="r"><code>g.densd2 &lt;-
+  ggplot(data= df.ms,
+         aes(x=price, fill=decade,color=decade))+
+  geom_density(alpha=0.5)+
+  scale_color_pomological()+
+  scale_fill_pomological()+
+  theme_pomological_fancy(base_size=24)+
+  theme(legend.position=&quot;none&quot;)+
+  scale_x_continuous(limits=c(0,2500),breaks=seq(0,2500,500))+
+  scale_y_continuous(breaks=NULL,sec.axis=dup_axis())+
+  geom_text(data=df.textd,aes(label=decade, x=x,y=y),family=&quot;Homemade Apple&quot; ,size=12)+
+  labs(x=&quot;Housing Starts (1000s, SAAR)&quot;, y= &quot;estimated density\n&quot;)+
+  theme(plot.caption=element_text(hjust=0),
+        plot.title=element_text(face=&quot;bold&quot;),
+        axis.text=element_text(size=18))
+
+
+
+g.lined2&lt;-
+  ggplot(data= df.ms,
+         aes(x=date,y=price, fill=decade,color=decade))+
+  geom_ribbon(alpha=0.75,color=NA, aes(ymin=0,ymax=price))+
+  geom_line(size=1.05)+
+  scale_color_pomological()+
+  scale_fill_pomological()+
+  theme_pomological_fancy(base_size=24)+
+  theme(legend.position=&quot;none&quot;)+
+  geom_text( data= filter(df.ms, (year-floor(year/10)*10)==5 &amp; month==6), aes(y=500,label=decade),
+             size=8, color=&quot;white&quot;,family=&quot;Homemade Apple&quot;)+
+  scale_y_continuous(limits=c(0,2600),breaks=seq(0,2500,500),sec.axis=dup_axis(),expand=c(0,0))+
+  scale_x_date(date_breaks=&quot;5 year&quot;,date_labels=&quot;%Y&quot;,expand=c(0,0))+
+  labs(x=&quot;&quot;,y=&quot;Housing Starts (1000s SAAR)\n&quot;,
+       subtitle=&quot;Total Housing Starts&quot;,
+       title=&quot;U.S. Housing Starts Grinding Higher&quot;,
+       caption=&quot;@lenkiefer   Source: U.S. Census Bureau and Department of Housing and Urban Development\n&quot;)+
+  theme(plot.caption=element_text(hjust=0),
+        plot.title=element_text(face=&quot;bold&quot;),
+        axis.text=element_text(size=18))
+
+g2d2&lt;-cowplot::plot_grid(g.lined2,g.densd2,ncol=1)
+
+paint_pomological(g2d2,width=1300,height=1600 )</code></pre>
+<p><img src="/post/2018-05-21-pomological-plots_files/figure-html/05-21-2018-plot-7-1.png" width="650" /></p>
+<p><img src="../../../../img/charts_may_21_2018/starts_pomo.png"></p>
+</div>
+</div>
+<div id="animation" class="section level1">
+<h1>Animation</h1>
+<p>Of course, this wouldn’t be a fun post without some animations. See <a href="../../../../2018/01/17/simple-animated-line-plot/">here</a> for the basics of making an animated plot.</p>
+<p><img src="../../../../img/charts_may_21_2018/rate_pomological_2.gif"></p>
+<p><img src="../../../../img/charts_may_21_2018/rate_pomological_5.gif"></p>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2018/05/08/spotlight-on-housing-affordability/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2018/05/08/spotlight-on-housing-affordability/">Spotlight on housing affordability</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="/2018/06/10/kalman-filter-for-a-dynamic-linear-model-in-r/">Kalman Filter for a dynamic linear model in R</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="/2018/06/10/kalman-filter-for-a-dynamic-linear-model-in-r/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/r/">R</a>, 
+            
+                <a href="/tags/dataviz/">dataviz</a>, 
+            
+                <a href="/tags/fun/">fun</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2018%2f05%2f21%2fpomological-plots%2f&text=Pomological%20Plots via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2018%2f05%2f21%2fpomological-plots%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+

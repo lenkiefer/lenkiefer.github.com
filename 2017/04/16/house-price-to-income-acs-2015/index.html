@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>Of kernels and beeswarms: Comparing the distribution of house values to household income &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Of kernels and beeswarms: Comparing the distribution of house values to household income">
+    <meta property="og:description" content="BACK IN JANUARY WE LOOKED AT HOUSING microdata from the American Community Survey Public Microdata that we collected from IPUMS. Let’s pick back up and look at these data some more. Glad you could join us.
+Be sure to check out my earlier post for more discussion of the underlying data. Here we’ll pick up where we left off and make some more graphs using R.
+Just a quick reminder (read the earlier post for all the details), we have a dataset that includes household level observations for the 20 largest metro areas in the United States for 2010 and 2015 (latest data available).">
+
+<div class="header">
+  <h1>Of kernels and beeswarms: Comparing the distribution of house values to household income</h1>
+  <h2></h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2017/04/16</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/mortgage">mortgage</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/statistics">statistics</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/microdata">microdata</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <p>BACK IN <a href="../../../../2017/01/31/house-value-distribution">JANUARY</a> WE LOOKED AT HOUSING microdata from the <a href="https://www.census.gov/programs-surveys/acs/data/pums.html">American Community Survey Public Microdata</a> that we collected from <a href="https://usa.ipums.org/usa/">IPUMS</a>. Let’s pick back up and look at these data some more. Glad you could join us.</p>
+<p>Be sure to check out my <a href="../../../../2017/01/31/house-value-distribution">earlier post</a> for more discussion of the underlying data. Here we’ll pick up where we left off and make some more graphs using <a href="https://www.r-project.org/">R</a>.</p>
+<p>Just a quick reminder (read the earlier post for all the details), we have a dataset that includes household level observations for the 20 largest metro areas in the United States for 2010 and 2015 (latest data available).</p>
+<p>Below we load the data and check out its structure:</p>
+<div id="load-data" class="section level3">
+<h3>Load data</h3>
+<pre class="r"><code>library(data.table)
+library(tidyverse)</code></pre>
+<pre><code>## Loading tidyverse: ggplot2
+## Loading tidyverse: tibble
+## Loading tidyverse: tidyr
+## Loading tidyverse: readr
+## Loading tidyverse: purrr
+## Loading tidyverse: dplyr</code></pre>
+<pre><code>## Conflicts with tidy packages ----------------------------------------------</code></pre>
+<pre><code>## between():   dplyr, data.table
+## filter():    dplyr, stats
+## first():     dplyr, data.table
+## lag():       dplyr, stats
+## last():      dplyr, data.table
+## transpose(): purrr, data.table</code></pre>
+<pre class="r"><code>library(ggbeeswarm)
+library(viridis)</code></pre>
+<pre><code>## Loading required package: viridisLite</code></pre>
+<pre class="r"><code>load(&quot;data/acs.RData&quot;)
+str(dt.x)</code></pre>
+<pre><code>## Classes &#39;data.table&#39; and &#39;data.frame&#39;:   540325 obs. of  6 variables:
+##  $ year     :Class &#39;labelled&#39;  atomic [1:540325] 2010 2010 2010 2010 2010 2010 2010 2010 2010 2010 ...
+##   .. ..- attr(*, &quot;label&quot;)= chr &quot;census year&quot;
+##   .. ..- attr(*, &quot;format.stata&quot;)= chr &quot;%8.0g&quot;
+##   .. ..- attr(*, &quot;labels&quot;)= Named num [1:30] 1850 1860 1870 1880 1900 1910 1920 1930 1940 1950 ...
+##   .. .. ..- attr(*, &quot;names&quot;)= chr [1:30] &quot;1850&quot; &quot;1860&quot; &quot;1870&quot; &quot;1880&quot; ...
+##  $ cbsa.name: chr  &quot;Atlanta-Sandy Springs-Roswell, GA Metro Area&quot; &quot;Atlanta-Sandy Springs-Roswell, GA Metro Area&quot; &quot;Atlanta-Sandy Springs-Roswell, GA Metro Area&quot; &quot;Atlanta-Sandy Springs-Roswell, GA Metro Area&quot; ...
+##  $ met2013  :Class &#39;labelled&#39;  atomic [1:540325] 12060 12060 12060 12060 12060 ...
+##   .. ..- attr(*, &quot;label&quot;)= chr &quot;metropolitan area, 2013 omb delineations&quot;
+##   .. ..- attr(*, &quot;format.stata&quot;)= chr &quot;%12.0g&quot;
+##   .. ..- attr(*, &quot;labels&quot;)= Named num [1:295] 0 10420 10580 10740 10780 ...
+##   .. .. ..- attr(*, &quot;names&quot;)= chr [1:295] &quot;not in identifiable area&quot; &quot;akron, oh&quot; &quot;albany-schenectady-troy, ny&quot; &quot;albuquerque, nm&quot; ...
+##  $ hhincome : atomic  17910 128000 110700 31000 70750 ...
+##   ..- attr(*, &quot;label&quot;)= chr &quot;total household income&quot;
+##   ..- attr(*, &quot;format.stata&quot;)= chr &quot;%12.0g&quot;
+##  $ valueh   : atomic  85000 150000 230000 78000 120000 300000 100000 70000 135000 150000 ...
+##   ..- attr(*, &quot;label&quot;)= chr &quot;house value&quot;
+##   ..- attr(*, &quot;format.stata&quot;)= chr &quot;%12.0g&quot;
+##  $ hhwt     : atomic  74 82 87 58 73 279 83 103 113 80 ...
+##   ..- attr(*, &quot;label&quot;)= chr &quot;household weight&quot;
+##   ..- attr(*, &quot;format.stata&quot;)= chr &quot;%8.0g&quot;
+##  - attr(*, &quot;sorted&quot;)= chr &quot;met2013&quot;
+##  - attr(*, &quot;.internal.selfref&quot;)=&lt;externalptr&gt;</code></pre>
+<p>I’ve cleaned the data up a bit to only include household level observations for owner households for the largest 20 metro areas. I’ve saved a <a href="https://cran.r-project.org/web/packages/data.table/index.html">data.table()</a> called <code>dt.x</code> using the data described in the earlier post.</p>
+<p>In the prior post we filtered to only the top 12 metro areas. But I’ve prepared data that filters to the top 20. If you are following along from the earlier post, just replace <code>dt.x&lt;-dt2[cbsa.name %in% pop.list[order(-pop)]$cbsa.name[1:12] &amp; pernum==1]</code> with <code>dt.x&lt;-dt2[cbsa.name %in% pop.list[order(-pop)]$cbsa.name[1:20] &amp; pernum==1]</code> and everything else should follow.</p>
+<p>As before, let’s randomly sample 2,000 observations from these 20 large metro areas using the household weights.</p>
+<pre class="r"><code># First draw a random sample of 2,000 observations from each year/metro combination
+dt.samp&lt;-dt.x[,.SD[sample(.N,min(.N,2000),prob=hhwt)],by = c(&quot;year&quot;,&quot;cbsa.name&quot;) ]
+
+#Get our list:
+metro.list&lt;-dt.samp[,list(obs=.N),by=c(&quot;year&quot;,&quot;met2013&quot;,&quot;cbsa.name&quot;)]
+
+# check observations:
+# obs is number of observations
+htmlTable::htmlTable(metro.list,col.rgroup = c(&quot;none&quot;, &quot;#F7F7F7&quot;))</code></pre>
+<table class='gmisc_table' style='border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;' >
+<thead>
+<tr>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey;'> </th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>year</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>met2013</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>cbsa.name</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>obs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style='text-align: left;'>1</td>
+<td style='text-align: center;'>2010</td>
+<td style='text-align: center;'>12060</td>
+<td style='text-align: center;'>Atlanta-Sandy Springs-Roswell, GA Metro Area</td>
+<td style='text-align: center;'>2000</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>2</td>
+<td style='background-color: #f7f7f7; text-align: center;'>2015</td>
+<td style='background-color: #f7f7f7; text-align: center;'>12060</td>
+<td style='background-color: #f7f7f7; text-align: center;'>Atlanta-Sandy Springs-Roswell, GA Metro Area</td>
+<td style='background-color: #f7f7f7; text-align: center;'>2000</td>
+</tr>
+<tr>
+<td style='text-align: left;'>3</td>
+<td style='text-align: center;'>2010</td>
+<td style='text-align: center;'>14460</td>
+<td style='text-align: center;'>Boston-Cambridge-Newton, MA-NH Metro Area</td>
+<td style='text-align: center;'>2000</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>4</td>
+<td style='background-color: #f7f7f7; text-align: center;'>2015</td>
+<td style='background-color: #f7f7f7; text-align: center;'>14460</td>
+<td style='background-color: #f7f7f7; text-align: center;'>Boston-Cambridge-Newton, MA-NH Metro Area</td>
+<td style='background-color: #f7f7f7; text-align: center;'>2000</td>
+</tr>
+<tr>
+<td style='text-align: left;'>5</td>
+<td style='text-align: center;'>2010</td>
+<td style='text-align: center;'>16980</td>
+<td style='text-align: center;'>Chicago-Naperville-Elgin, IL-IN-WI Metro Area</td>
+<td style='text-align: center;'>2000</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>6</td>
+<td style='background-color: #f7f7f7; text-align: center;'>2015</td>
+<td style='background-color: #f7f7f7; text-align: center;'>16980</td>
+<td style='background-color: #f7f7f7; text-align: center;'>Chicago-Naperville-Elgin, IL-IN-WI Metro Area</td>
+<td style='background-color: #f7f7f7; text-align: center;'>2000</td>
+</tr>
+<tr>
+<td style='text-align: left;'>7</td>
+<td style='text-align: center;'>2010</td>
+<td style='text-align: center;'>19100</td>
+<td style='text-align: center;'>Dallas-Fort Worth-Arlington, TX Metro Area</td>
+<td style='text-align: center;'>2000</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>8</td>
+<td style='background-color: #f7f7f7; text-align: center;'>2015</td>
+<td style='background-color: #f7f7f7; text-align: center;'>19100</td>
+<td style='background-color: #f7f7f7; text-align: center;'>Dallas-Fort Worth-Arlington, TX Metro Area</td>
+<td style='background-color: #f7f7f7; text-align: center;'>2000</td>
+</tr>
+<tr>
+<td style='text-align: left;'>9</td>
+<td style='text-align: center;'>2010</td>
+<td style='text-align: center;'>19740</td>
+<td style='text-align: center;'>Denver-Aurora-Lakewood, CO Metro Area</td>
+<td style='text-align: center;'>2000</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>10</td>
+<td style='background-color: #f7f7f7; text-align: center;'>2015</td>
+<td style='background-color: #f7f7f7; text-align: center;'>19740</td>
+<td style='background-color: #f7f7f7; text-align: center;'>Denver-Aurora-Lakewood, CO Metro Area</td>
+<td style='background-color: #f7f7f7; text-align: center;'>2000</td>
+</tr>
+<tr>
+<td style='text-align: left;'>11</td>
+<td style='text-align: center;'>2010</td>
+<td style='text-align: center;'>19820</td>
+<td style='text-align: center;'>Detroit-Warren-Dearborn, MI Metro Area</td>
+<td style='text-align: center;'>2000</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>12</td>
+<td style='background-color: #f7f7f7; text-align: center;'>2015</td>
+<td style='background-color: #f7f7f7; text-align: center;'>19820</td>
+<td style='background-color: #f7f7f7; text-align: center;'>Detroit-Warren-Dearborn, MI Metro Area</td>
+<td style='background-color: #f7f7f7; text-align: center;'>2000</td>
+</tr>
+<tr>
+<td style='text-align: left;'>13</td>
+<td style='text-align: center;'>2010</td>
+<td style='text-align: center;'>26420</td>
+<td style='text-align: center;'>Houston-The Woodlands-Sugar Land, TX Metro Area</td>
+<td style='text-align: center;'>2000</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>14</td>
+<td style='background-color: #f7f7f7; text-align: center;'>2015</td>
+<td style='background-color: #f7f7f7; text-align: center;'>26420</td>
+<td style='background-color: #f7f7f7; text-align: center;'>Houston-The Woodlands-Sugar Land, TX Metro Area</td>
+<td style='background-color: #f7f7f7; text-align: center;'>2000</td>
+</tr>
+<tr>
+<td style='text-align: left;'>15</td>
+<td style='text-align: center;'>2010</td>
+<td style='text-align: center;'>31080</td>
+<td style='text-align: center;'>Los Angeles-Long Beach-Anaheim, CA Metro Area</td>
+<td style='text-align: center;'>2000</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>16</td>
+<td style='background-color: #f7f7f7; text-align: center;'>2015</td>
+<td style='background-color: #f7f7f7; text-align: center;'>31080</td>
+<td style='background-color: #f7f7f7; text-align: center;'>Los Angeles-Long Beach-Anaheim, CA Metro Area</td>
+<td style='background-color: #f7f7f7; text-align: center;'>2000</td>
+</tr>
+<tr>
+<td style='text-align: left;'>17</td>
+<td style='text-align: center;'>2010</td>
+<td style='text-align: center;'>33100</td>
+<td style='text-align: center;'>Miami-Fort Lauderdale-West Palm Beach, FL Metro Area</td>
+<td style='text-align: center;'>2000</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>18</td>
+<td style='background-color: #f7f7f7; text-align: center;'>2015</td>
+<td style='background-color: #f7f7f7; text-align: center;'>33100</td>
+<td style='background-color: #f7f7f7; text-align: center;'>Miami-Fort Lauderdale-West Palm Beach, FL Metro Area</td>
+<td style='background-color: #f7f7f7; text-align: center;'>2000</td>
+</tr>
+<tr>
+<td style='text-align: left;'>19</td>
+<td style='text-align: center;'>2010</td>
+<td style='text-align: center;'>33460</td>
+<td style='text-align: center;'>Minneapolis-St. Paul-Bloomington, MN-WI Metro Area</td>
+<td style='text-align: center;'>2000</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>20</td>
+<td style='background-color: #f7f7f7; text-align: center;'>2015</td>
+<td style='background-color: #f7f7f7; text-align: center;'>33460</td>
+<td style='background-color: #f7f7f7; text-align: center;'>Minneapolis-St. Paul-Bloomington, MN-WI Metro Area</td>
+<td style='background-color: #f7f7f7; text-align: center;'>2000</td>
+</tr>
+<tr>
+<td style='text-align: left;'>21</td>
+<td style='text-align: center;'>2010</td>
+<td style='text-align: center;'>35620</td>
+<td style='text-align: center;'>New York-Newark-Jersey City, NY-NJ-PA Metro Area</td>
+<td style='text-align: center;'>2000</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>22</td>
+<td style='background-color: #f7f7f7; text-align: center;'>2015</td>
+<td style='background-color: #f7f7f7; text-align: center;'>35620</td>
+<td style='background-color: #f7f7f7; text-align: center;'>New York-Newark-Jersey City, NY-NJ-PA Metro Area</td>
+<td style='background-color: #f7f7f7; text-align: center;'>2000</td>
+</tr>
+<tr>
+<td style='text-align: left;'>23</td>
+<td style='text-align: center;'>2010</td>
+<td style='text-align: center;'>37980</td>
+<td style='text-align: center;'>Philadelphia-Camden-Wilmington, PA-NJ-DE-MD Metro Area</td>
+<td style='text-align: center;'>2000</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>24</td>
+<td style='background-color: #f7f7f7; text-align: center;'>2015</td>
+<td style='background-color: #f7f7f7; text-align: center;'>37980</td>
+<td style='background-color: #f7f7f7; text-align: center;'>Philadelphia-Camden-Wilmington, PA-NJ-DE-MD Metro Area</td>
+<td style='background-color: #f7f7f7; text-align: center;'>2000</td>
+</tr>
+<tr>
+<td style='text-align: left;'>25</td>
+<td style='text-align: center;'>2010</td>
+<td style='text-align: center;'>38060</td>
+<td style='text-align: center;'>Phoenix-Mesa-Scottsdale, AZ Metro Area</td>
+<td style='text-align: center;'>2000</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>26</td>
+<td style='background-color: #f7f7f7; text-align: center;'>2015</td>
+<td style='background-color: #f7f7f7; text-align: center;'>38060</td>
+<td style='background-color: #f7f7f7; text-align: center;'>Phoenix-Mesa-Scottsdale, AZ Metro Area</td>
+<td style='background-color: #f7f7f7; text-align: center;'>2000</td>
+</tr>
+<tr>
+<td style='text-align: left;'>27</td>
+<td style='text-align: center;'>2010</td>
+<td style='text-align: center;'>40140</td>
+<td style='text-align: center;'>Riverside-San Bernardino-Ontario, CA Metro Area</td>
+<td style='text-align: center;'>2000</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>28</td>
+<td style='background-color: #f7f7f7; text-align: center;'>2015</td>
+<td style='background-color: #f7f7f7; text-align: center;'>40140</td>
+<td style='background-color: #f7f7f7; text-align: center;'>Riverside-San Bernardino-Ontario, CA Metro Area</td>
+<td style='background-color: #f7f7f7; text-align: center;'>2000</td>
+</tr>
+<tr>
+<td style='text-align: left;'>29</td>
+<td style='text-align: center;'>2010</td>
+<td style='text-align: center;'>41180</td>
+<td style='text-align: center;'>St. Louis, MO-IL Metro Area</td>
+<td style='text-align: center;'>2000</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>30</td>
+<td style='background-color: #f7f7f7; text-align: center;'>2015</td>
+<td style='background-color: #f7f7f7; text-align: center;'>41180</td>
+<td style='background-color: #f7f7f7; text-align: center;'>St. Louis, MO-IL Metro Area</td>
+<td style='background-color: #f7f7f7; text-align: center;'>2000</td>
+</tr>
+<tr>
+<td style='text-align: left;'>31</td>
+<td style='text-align: center;'>2010</td>
+<td style='text-align: center;'>41740</td>
+<td style='text-align: center;'>San Diego-Carlsbad, CA Metro Area</td>
+<td style='text-align: center;'>2000</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>32</td>
+<td style='background-color: #f7f7f7; text-align: center;'>2015</td>
+<td style='background-color: #f7f7f7; text-align: center;'>41740</td>
+<td style='background-color: #f7f7f7; text-align: center;'>San Diego-Carlsbad, CA Metro Area</td>
+<td style='background-color: #f7f7f7; text-align: center;'>2000</td>
+</tr>
+<tr>
+<td style='text-align: left;'>33</td>
+<td style='text-align: center;'>2010</td>
+<td style='text-align: center;'>41860</td>
+<td style='text-align: center;'>San Francisco-Oakland-Hayward, CA Metro Area</td>
+<td style='text-align: center;'>2000</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>34</td>
+<td style='background-color: #f7f7f7; text-align: center;'>2015</td>
+<td style='background-color: #f7f7f7; text-align: center;'>41860</td>
+<td style='background-color: #f7f7f7; text-align: center;'>San Francisco-Oakland-Hayward, CA Metro Area</td>
+<td style='background-color: #f7f7f7; text-align: center;'>2000</td>
+</tr>
+<tr>
+<td style='text-align: left;'>35</td>
+<td style='text-align: center;'>2010</td>
+<td style='text-align: center;'>42660</td>
+<td style='text-align: center;'>Seattle-Tacoma-Bellevue, WA Metro Area</td>
+<td style='text-align: center;'>2000</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>36</td>
+<td style='background-color: #f7f7f7; text-align: center;'>2015</td>
+<td style='background-color: #f7f7f7; text-align: center;'>42660</td>
+<td style='background-color: #f7f7f7; text-align: center;'>Seattle-Tacoma-Bellevue, WA Metro Area</td>
+<td style='background-color: #f7f7f7; text-align: center;'>2000</td>
+</tr>
+<tr>
+<td style='text-align: left;'>37</td>
+<td style='text-align: center;'>2010</td>
+<td style='text-align: center;'>45300</td>
+<td style='text-align: center;'>Tampa-St. Petersburg-Clearwater, FL Metro Area</td>
+<td style='text-align: center;'>2000</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>38</td>
+<td style='background-color: #f7f7f7; text-align: center;'>2015</td>
+<td style='background-color: #f7f7f7; text-align: center;'>45300</td>
+<td style='background-color: #f7f7f7; text-align: center;'>Tampa-St. Petersburg-Clearwater, FL Metro Area</td>
+<td style='background-color: #f7f7f7; text-align: center;'>2000</td>
+</tr>
+<tr>
+<td style='text-align: left;'>39</td>
+<td style='text-align: center;'>2010</td>
+<td style='text-align: center;'>47900</td>
+<td style='text-align: center;'>Washington-Arlington-Alexandria, DC-VA-MD-WV Metro Area</td>
+<td style='text-align: center;'>2000</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: left;'>40</td>
+<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>2015</td>
+<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>47900</td>
+<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>Washington-Arlington-Alexandria, DC-VA-MD-WV Metro Area</td>
+<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>2000</td>
+</tr>
+</tbody>
+</table>
+<p>As before, we can use a <a href="https://cran.r-project.org/web/packages/ggbeeswarm/index.html">beeswarm</a> plot to plot the distribution of house values by metro area.</p>
+<pre class="r"><code>#make a beewarm plot:
+ggplot(data=dt.samp,
+         aes(y=factor(year),
+             x=valueh,color=log(valueh)))+
+  geom_quasirandom(alpha=0.5,size=0.5)+
+  theme_minimal()+
+  scale_color_viridis(name=&quot;House Value\n$,log scale\n&quot;,discrete=F,option=&quot;D&quot;,end=0.95,direction=-1,
+                      limits=c(log(10000),log(1.4e6)),
+                      breaks=c(log(10000),log(100000),log(1e6)),
+                      labels=c(&quot;$10k&quot;,&quot;$100k&quot;,&quot;$1,000k&quot;) ) +
+  scale_x_log10(limits=c(10000,1.4e6),breaks=c(10000,100000,1000000),
+                labels=c(&quot;$10k&quot;,&quot;$100k&quot;,&quot;$1,000k&quot;) )+
+  labs(y=&quot;&quot;,x=&quot;House Value ($, log scale)&quot;,
+       caption=&quot;@lenkiefer Source: Census 1-year American Community Survey (2010 &amp; 2015),\nIPUMS-USA, University of Minnesota, www.ipums.org.&quot;,
+       title=&quot;House value distribution by Metro&quot;)+
+  theme(axis.text.x = element_text(size=6),
+        strip.text.x = element_text(size = 5),
+        plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)),
+        plot.title=element_text(size=14),
+        legend.position = &quot;top&quot;   )+
+  facet_wrap(~cbsa.name,ncol=4)+theme()</code></pre>
+<pre><code>## Warning: Transformation introduced infinite values in continuous x-axis</code></pre>
+<pre><code>## Warning: Removed 76 rows containing missing values (position_quasirandom).</code></pre>
+<pre><code>## Warning: Removed 98 rows containing missing values (position_quasirandom).</code></pre>
+<pre><code>## Warning: Removed 69 rows containing missing values (position_quasirandom).</code></pre>
+<pre><code>## Warning: Removed 100 rows containing missing values (position_quasirandom).</code></pre>
+<pre><code>## Warning: Removed 53 rows containing missing values (position_quasirandom).</code></pre>
+<pre><code>## Warning: Removed 93 rows containing missing values (position_quasirandom).</code></pre>
+<pre><code>## Warning: Removed 112 rows containing missing values (position_quasirandom).</code></pre>
+<pre><code>## Warning: Removed 224 rows containing missing values (position_quasirandom).</code></pre>
+<pre><code>## Warning: Removed 109 rows containing missing values (position_quasirandom).</code></pre>
+<pre><code>## Warning: Removed 77 rows containing missing values (position_quasirandom).</code></pre>
+<pre><code>## Warning: Removed 150 rows containing missing values (position_quasirandom).</code></pre>
+<pre><code>## Warning: Removed 75 rows containing missing values (position_quasirandom).</code></pre>
+<pre><code>## Warning: Removed 98 rows containing missing values (position_quasirandom).</code></pre>
+<pre><code>## Warning: Removed 80 rows containing missing values (position_quasirandom).</code></pre>
+<pre><code>## Warning: Removed 165 rows containing missing values (position_quasirandom).</code></pre>
+<pre><code>## Warning: Removed 359 rows containing missing values (position_quasirandom).</code></pre>
+<pre><code>## Warning: Removed 93 rows containing missing values (position_quasirandom).</code></pre>
+<pre><code>## Warning: Removed 69 rows containing missing values (position_quasirandom).</code></pre>
+<pre><code>## Warning: Removed 97 rows containing missing values (position_quasirandom).</code></pre>
+<pre><code>## Warning: Removed 94 rows containing missing values (position_quasirandom).</code></pre>
+<pre><code>## Warning: Removed 7 rows containing missing values (geom_point).</code></pre>
+<p><img src="/post/2017-04-16-house-price-to-income-acs-2015_files/figure-html/04-16-2017-swarm-1-1.png" width="864" /></p>
+<p>We see quite a bit of variation across metro areas. But how does the distribution of house values compare to the distribution of incomes? Let’s look at Washington D.C. and plot estimates of homeowner household income versus the value of those homeowner’s homes. <strong>Note, we’ve already subsetted on homeowner households, so this metric is different from a more commonly house value to income ratio that uses all households. We are excluding renters from this analysis</strong></p>
+<pre class="r"><code>  ggplot(data=dt.x[year==2015 &amp; met2013==47900,], aes(valueh,weight=hhwt))+
+  geom_density(alpha=0.5,aes(fill=&quot;House Value&quot;))+
+  geom_density(aes(hhincome,fill=&quot;Household Income&quot;),alpha=0.5)+
+  scale_color_manual(name=&quot;&quot;,values=c(&quot;black&quot;,&quot;black&quot;))+
+  scale_fill_viridis(discrete=T,end=0.85,name=&quot;&quot;)+
+  scale_x_log10(label=scales::dollar,limits=c(10000,2e6))+
+  theme_minimal()+labs(x=&quot;Income and Home Values&quot;,y=&quot;&quot;,
+                        title=&quot;House value and homeowner income distribution in Washington D.C. in 2015&quot;,
+                       subtitle=&quot;kernel density estimates using household weights&quot;,
+                       caption=&quot;@lenkiefer Source: Census 1-year American Community Survey (2015),\nIPUMS-USA, University of Minnesota, www.ipums.org.&quot;)+
+    theme(plot.title=element_text(size=14),legend.position=&quot;top&quot;,
+          axis.text.y=element_blank(),
+          plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+  facet_wrap(~cbsa.name,scales=&quot;free_y&quot;)</code></pre>
+<pre><code>## Warning in self$trans$transform(x): NaNs produced</code></pre>
+<pre><code>## Warning: Transformation introduced infinite values in continuous x-axis</code></pre>
+<pre><code>## Warning: Removed 393 rows containing non-finite values (stat_density).</code></pre>
+<pre><code>## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density</code></pre>
+<pre><code>## Warning: Removed 261 rows containing non-finite values (stat_density).</code></pre>
+<pre><code>## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density</code></pre>
+<p><img src="/post/2017-04-16-house-price-to-income-acs-2015_files/figure-html/04-16-2017-dens-1-1.png" width="672" /></p>
+<p>And we can construct a small multiple:</p>
+<pre class="r"><code>  ggplot(data=dt.x[year==2015 &amp; met2013&gt;=4900,], aes(valueh,weight=hhwt))+
+  geom_density(alpha=0.5,aes(fill=&quot;House Value&quot;))+
+  geom_density(aes(hhincome,fill=&quot;Household Income&quot;),alpha=0.5)+
+  scale_color_manual(name=&quot;&quot;,values=c(&quot;black&quot;,&quot;black&quot;))+
+  scale_fill_viridis(discrete=T,end=0.85,name=&quot;&quot;)+
+  scale_x_log10(label=scales::dollar,limits=c(10000,3e6))+
+  theme_minimal()+labs(x=&quot;Income and Home Values&quot;,y=&quot;&quot;,
+                        title=&quot;House value and homeowner income distribution by Metro in 2015&quot;,
+                       subtitle=&quot;kernel density estimates using household weights&quot;,
+                       caption=&quot;@lenkiefer Source: Census 1-year American Community Survey (2015),\nIPUMS-USA, University of Minnesota, www.ipums.org.&quot;)+
+    theme(plot.title=element_text(size=14),legend.position=&quot;top&quot;,
+          axis.text.y=element_blank(),
+          strip.text.x = element_text(size = 5),
+          plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+  facet_wrap(~cbsa.name,scales=&quot;free_y&quot;,ncol=4)</code></pre>
+<pre><code>## Warning in self$trans$transform(x): NaNs produced</code></pre>
+<pre><code>## Warning: Transformation introduced infinite values in continuous x-axis</code></pre>
+<pre><code>## Warning: Removed 4313 rows containing non-finite values (stat_density).</code></pre>
+<pre><code>## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density
+
+## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density
+
+## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density
+
+## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density
+
+## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density
+
+## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density
+
+## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density
+
+## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density
+
+## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density
+
+## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density
+
+## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density
+
+## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density
+
+## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density
+
+## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density
+
+## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density
+
+## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density
+
+## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density
+
+## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density
+
+## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density
+
+## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density</code></pre>
+<pre><code>## Warning: Removed 7994 rows containing non-finite values (stat_density).</code></pre>
+<pre><code>## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density
+
+## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density
+
+## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density
+
+## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density
+
+## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density
+
+## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density
+
+## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density
+
+## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density
+
+## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density
+
+## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density
+
+## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density
+
+## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density
+
+## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density
+
+## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density
+
+## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density
+
+## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density
+
+## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density
+
+## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density
+
+## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density
+
+## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density</code></pre>
+<p><img src="/post/2017-04-16-house-price-to-income-acs-2015_files/figure-html/04-16-2017-dens-2-1.png" width="864" /></p>
+<p>But how does the income of each homeowner compare to the value of their home? Let’s take each homeowner in our sample and construct the ratio of their house value to their income.</p>
+<pre class="r"><code>dt.x&lt;-dt.x[,pti:=valueh/hhincome]  #price to income ratio</code></pre>
+<p>Now we can plot the distribution of this ratio for Washington D.C.:</p>
+<pre class="r"><code>  ggplot(data=dt.x[year==2015 &amp; met2013==47900,], aes(pti,weight=hhwt))+
+  geom_density(alpha=0.5,aes(fill=&quot;House value to income ratio&quot;))+
+  #geom_density(aes(hhincome,fill=&quot;Household Income&quot;),alpha=0.5)+
+  scale_color_manual(name=&quot;&quot;,values=c(&quot;black&quot;,&quot;black&quot;))+
+  scale_fill_viridis(discrete=T,end=0.85,name=&quot;&quot;)+
+  scale_x_continuous(limits=c(0,20),breaks=seq(0,20,2))+
+  theme_minimal()+labs(x=&quot;House vaue to income ratio&quot;,y=&quot;&quot;,
+                        title=&quot;Ratio of house value to homeowner income distribution in Washington D.C. in 2015&quot;,
+                       subtitle=&quot;kernel density estimates using household weights&quot;,
+                       caption=&quot;@lenkiefer Source: Census 1-year American Community Survey (2015),\nIPUMS-USA, University of Minnesota, www.ipums.org.&quot;)+
+    theme(plot.title=element_text(size=14),legend.position=&quot;none&quot;,
+          axis.text.y=element_blank(),
+          plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+  facet_wrap(~cbsa.name,scales=&quot;free_y&quot;)</code></pre>
+<pre><code>## Warning: Removed 600 rows containing non-finite values (stat_density).</code></pre>
+<pre><code>## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density</code></pre>
+<p><img src="/post/2017-04-16-house-price-to-income-acs-2015_files/figure-html/04-16-2017-dens-3-1.png" width="672" /></p>
+<p>The average ratio is about 4 in Washington D.C., but it varies a lot by metro area. Let’s create another small multiple.</p>
+<pre class="r"><code>  ggplot(data=dt.x[year==2015 &amp; met2013&gt;=4900,], aes(pti,weight=hhwt))+
+  geom_density(alpha=0.5,aes(fill=&quot;House value to income ratio&quot;))+
+  #geom_density(aes(hhincome,fill=&quot;Household Income&quot;),alpha=0.5)+
+  scale_color_manual(name=&quot;&quot;,values=c(&quot;black&quot;,&quot;black&quot;))+
+  scale_fill_viridis(discrete=T,end=0.85,name=&quot;&quot;)+
+  scale_x_continuous(limits=c(0,20),breaks=seq(0,20,2))+
+  theme_minimal()+labs(x=&quot;House vaue to income ratio&quot;,y=&quot;&quot;,
+                        title=&quot;Ratio of house value to homeowner income distribution by metro in 2015&quot;,
+                       subtitle=&quot;kernel density estimates using household weights&quot;,
+                       caption=&quot;@lenkiefer Source: Census 1-year American Community Survey (2015),\nIPUMS-USA, University of Minnesota, www.ipums.org.&quot;)+
+    theme(plot.title=element_text(size=14),legend.position=&quot;none&quot;,
+          axis.text.y=element_blank(),
+          strip.text.x = element_text(size = 5),
+          plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+  facet_wrap(~cbsa.name,scales=&quot;free_y&quot;,ncol=4)</code></pre>
+<pre><code>## Warning: Removed 14571 rows containing non-finite values (stat_density).</code></pre>
+<pre><code>## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density
+
+## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density
+
+## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density
+
+## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density
+
+## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density
+
+## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density
+
+## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density
+
+## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density
+
+## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density
+
+## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density
+
+## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density
+
+## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density
+
+## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density
+
+## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density
+
+## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density
+
+## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density
+
+## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density
+
+## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density
+
+## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density
+
+## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
+## = kernel, : sum(weights) != 1 -- will not get true density</code></pre>
+<p><img src="/post/2017-04-16-house-price-to-income-acs-2015_files/figure-html/04-16-2017-dens-4-1.png" width="672" /></p>
+<p>Let’s compute the weighted average ratio (excluding any values less than 0 or greater than 20) by metro area in 2010 and 2015:</p>
+<pre class="r"><code>dt.wsum&lt;-dt.x[pti&gt;0 &amp; pti&lt;20,list(pti.wm=weighted.mean(pti,hhwt,na.rm=T)),by=c(&quot;year&quot;,&quot;cbsa.name&quot;)]
+
+ggplot(data=dt.wsum[year==2015,], 
+       aes(x=pti.wm,y=reorder(cbsa.name,-pti.wm),
+           label=paste(&quot;  &quot;,round(pti.wm,1),cbsa.name),
+           color=factor(year)))+
+  geom_point(size=3)+theme_minimal()+
+  geom_text(hjust=0)+
+  scale_x_continuous(limits=c(2.5,9),breaks=seq(2,8,1))+
+  scale_color_viridis(name=&quot;Year&quot;,discrete=T,end=0.85)+
+  theme(plot.title=element_text(size=14),legend.position=&quot;none&quot;,
+        axis.text.y=element_blank(),
+        plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+  labs(x=&quot;Weighted average homeowner value to household income ratio&quot;,
+       y=&quot;Metro&quot;,
+       title=&quot;Ratio of house value to homeowner income distribution by metro in 2015&quot;,
+       caption=&quot;@lenkiefer Source: Census 1-year American Community Survey (2015),\nIPUMS-USA, University of Minnesota, www.ipums.org.&quot;)</code></pre>
+<p><img src="/post/2017-04-16-house-price-to-income-acs-2015_files/figure-html/04-16-2017-ratio-1.png" width="672" /></p>
+<p>This plot makes clear that there is a pretty wide variation in the average house value to household income ratio. We can look at the full distributions through an animated gif (using our usual <a href="../../../../2016/12/19/more-tweenr-housing">tweenr</a> approach).</p>
+<pre class="r"><code>library(tweenr)
+library(animation)
+library(tidyverse)
+library(tidyr)
+
+
+
+#  Function for use with tweenr
+myf&lt;-function (m, yy=2015){
+  d.out&lt;-copy(dt.samp)[met2013==m]
+  d.out %&gt;% map_if(is.character, as.factor) %&gt;% as.data.frame -&gt; d.out
+  return(d.out)
+}
+
+# get list of metros from our summay data: metro.list
+
+# Circle back to Atlanta (met2013==12060)
+my.list2&lt;-lapply(c(unique(metro.list$met2013),12060),myf)  
+
+
+#use tweenr to interploate
+tf &lt;- tween_states(my.list2,tweenlength= 3,
+                   statelength=2, ease=rep(&#39;cubic-in-out&#39;,2),nframes=200)
+tf&lt;-data.table(tf) #convert output into data table
+
+#Animate plot
+oopt = ani.options(interval = 0.2)
+saveGIF({for (i in 1:max(tf$.frame)) { #loop over frames
+  g&lt;-
+    ggplot(data=tf[.frame==i &amp; pti&lt;= 20 &amp; hhincome&gt;10000 &amp; valueh &gt; 5000 ],
+           aes(y=factor(year),
+               x=pti,color=pti))+
+    geom_quasirandom(alpha=0.5,size=0.75)+
+    theme_minimal()+
+    scale_color_viridis(name=&quot;House value to\nhousehold income\nratio&quot;,
+                        discrete=F,option=&quot;D&quot;,
+                        limits=c(0,20),
+                        end=0.95,direction=-1  #,
+                        ) +
+    #scale_x_log10(limits=c(10000,1.4e6),breaks=c(10000,100000,1000000),   
+    #  labels=c(&quot;$10k&quot;,&quot;$100k&quot;,&quot;$1,000k&quot;) )+
+    scale_x_continuous(limits=c(0,20),breaks=seq(0,20,2.5))+
+    theme(plot.title=element_text(size=14))+
+    theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+    theme(plot.margin=unit(c(0.25,0.25,0.25,0.25),&quot;cm&quot;))+
+    theme(legend.position = &quot;top&quot;)+
+    labs(y=&quot;&quot;,x=&quot;House value to household income ratio&quot;,
+         caption=&quot;@lenkiefer Source: Census 1-year American Community Survey (2010 &amp; 2015),\nIPUMS-USA, University of Minnesota, www.ipums.org.\nTo avoid extreme overplotting, 2000 observations sampled at random (using weights),\nonly includes homeowner households with &gt; $10,000 income and an estimated house value &gt; $5,000 &amp; cases where ratio &lt;= 20&quot;,
+         title=&quot;House value to income ratio distribution by Metro&quot;,
+         subtitle=head(tf[.frame==i,],1)$cbsa.name)+
+    theme(axis.text.x = element_text(size=8))+  #coord_flip()+
+    #facet_wrap(~year)+
+    theme(strip.text.x = element_text(size = 6))
+  print(g)
+  ani.pause()
+  print(i)}
+},movie.name=&quot;tween acs value 04 16 2017 v2.gif&quot;,ani.width = 750, ani.height = 400)</code></pre>
+<p>Run it and you get:</p>
+<p><img src="{{ site.url }}/img/charts_apr_16_2017/tween acs value 04 16 2017 v2.gif" alt="metro pti ratios"/></p>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2017/04/14/after-dark/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2017/04/14/after-dark/">Mortgage rates after dark</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="/2017/04/17/pixel-map/">Let&#39;s Pixelate America</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="/2017/04/17/pixel-map/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/mortgage/">mortgage</a>, 
+            
+                <a href="/tags/dataviz/">dataviz</a>, 
+            
+                <a href="/tags/statistics/">statistics</a>, 
+            
+                <a href="/tags/microdata/">microdata</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2017%2f04%2f16%2fhouse-price-to-income-acs-2015%2f&text=Of%20kernels%20and%20beeswarms%3a%20Comparing%20the%20distribution%20of%20house%20values%20to%20household%20income via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2017%2f04%2f16%2fhouse-price-to-income-acs-2015%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+

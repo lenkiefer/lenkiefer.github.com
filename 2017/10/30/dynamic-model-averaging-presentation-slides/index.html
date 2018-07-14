@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Slides summarizing recent investigations into dynamic model averaging and dynamic logistic regression for binary outcomes. Also, code for making slides.">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>Dynamic Model Averaging Presentation Slides &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com//img/charts_oct_27_2017/preso.PNG" >
+     
+    <meta property="og:title" content="Dynamic Model Averaging Presentation Slides">
+    <meta property="og:description" content="Slides summarizing recent investigations into dynamic model averaging and dynamic logistic regression for binary outcomes. Also, code for making slides.">
+
+<div class="header">
+  <h1>Dynamic Model Averaging Presentation Slides</h1>
+  <h2>Slides summarizing recent investigations into dynamic model averaging and dynamic logistic regression for binary outcomes. Also, code for making slides.</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2017/10/30</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/presentation">presentation</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/slides">slides</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/statistics">statistics</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <p>I PUT TOGETHER SOME SLIDES SUMMARIZING our recent work on dynamic model averaging.</p>
+<p>See <a href="../../../../2017/10/26/predicting-recessions-with-dynamic-model-averaging/">here</a> and <a href="../../../../2017/10/28/dma-part-2/">here</a> for more blah blah blah.</p>
+<p>See below for some slides.</p>
+<iframe src="../../../../img/charts_oct_27_2017/dma_preso.html" height="500" width="775">
+</iframe>
+<p>Click here for a fullscreen version <a href="../../../../img/charts_oct_27_2017/dma_preso.html">here</a>.</p>
+<div id="making-the-preso" class="section level1">
+<h1>Making the Preso</h1>
+<p>Let me also share with you the R code I used to generate these slides. The code below is the <a href="http://rmarkdown.rstudio.com/">Rmarkdown</a> I used to generate the slides (saved as .txt). The slides were put together using the <a href="https://CRAN.R-project.org/package=xaringan">xaringan</a> package.</p>
+<p>I loaded some data in the Rmarkdown file. You can get the data using the steps outlined in the posts above, but I also included that code below the Rmarkdown.</p>
+<div id="r-markdown-for-presentation-slides" class="section level2">
+<h2>R markdown for Presentation slides</h2>
+<iframe src="../../../../img/charts_oct_27_2017/dma_preso.txt" height="500" width="500">
+</iframe>
+</div>
+<div id="data-wrangling" class="section level2">
+<h2>Data wrangling</h2>
+<pre class="r"><code>library(tidyquant)
+library(dma)
+library(tibbletime)
+library(boot)
+library(viridis)
+library(cowplot)
+
+# Get data via St Louis Federal Reserve&#39;s FRED database
+tickers&lt;- c(&quot;USREC&quot;,  # NBER Recession indicator
+            &quot;GS10&quot;,   # 10-year constant maturity Treasury yield
+            &quot;TB3MS&quot;,  # 3-month Tbill rate
+            &quot;PAYEMS&quot; # nonfarm payroll employment
+            )
+
+df &lt;- tq_get(tickers,get=&quot;economic.data&quot;,from=&quot;1945-01-01&quot;)
+
+#variables that need transformation
+my_trans &lt;- function(in.data,transform=&quot;pctdiff3&quot;){
+  switch(transform,
+         logdiff  = c(NA,diff(log(in.data))),
+         pctdiff3 = 100*Delt(in.data,k=3),     # only use pctdiff3 here, but could try others
+         logdiff3 = c(rep(NA,3),diff(log(in.data),3))
+         )}
+
+# variables transformed to 3  month diff:
+vlist&lt;- c(&quot;PAYEMS&quot;)
+
+df2&lt;- df %&gt;% group_by(symbol) %&gt;%
+  mutate(x=ifelse(symbol %in% vlist, my_trans(price),price))
+
+df2 %&gt;% select(-price)  %&gt;% spread(symbol,x) %&gt;%
+  mutate(SLOPE=GS10-TB3MS,
+         CURVE=2*GS2-TB3MS-GS10,
+         REC12=lead(USREC,12)) -&gt; df3
+df4 &lt;- filter(df3, year(date)&gt;1955 &amp; year(date)&lt;2016)
+
+# recession df (for plotting)
+recessions.df = read.table(textConnection(
+  &quot;Peak, Trough
+  1957-08-01, 1958-04-01
+  1960-04-01, 1961-02-01
+  1969-12-01, 1970-11-01
+  1973-11-01, 1975-03-01
+  1980-01-01, 1980-07-01
+  1981-07-01, 1982-11-01
+  1990-07-01, 1991-03-01
+  2001-03-01, 2001-11-01
+  2007-12-01, 2009-06-01&quot;), sep=&#39;,&#39;,
+colClasses=c(&#39;Date&#39;, &#39;Date&#39;), header=TRUE)
+}
+
+ggplot(data=df4, aes(x=date,y=PAYEMS))+
+geom_rect(data=recessions.df, inherit.aes=FALSE,
+          aes(xmin=Peak, xmax=Trough, ymin=-Inf, ymax=+Inf), 
+          fill=&#39;lightblue&#39;, alpha=0.25)+theme_tq()+geom_line(color=&quot;royalblue&quot;)
+
+# fit binary model (contemporaneous)
+df5 &lt;- filter(df3, year(date)&gt;1955 &amp; !is.na(USREC))
+
+xvar &lt;- as.matrix(df5 %&gt;% select(SLOPE,PAYEMS))
+yvar &lt;- as.matrix(df5$USREC)
+
+mmat&lt;- matrix(c(1,0,
+                0,1,
+                1,1),3,2,byrow=TRUE)
+
+dma.fit0&lt;- logistic.dma(unname(xvar), yvar, mmat, lambda=0.99, alpha=0.99,
+                       autotune=TRUE, initialsamp=120)
+# append model results 
+df50 &lt;- df5 %&gt;% mutate(yhat0=dma.fit0$yhatdma)
+
+# function to get coefficients out
+myf&lt;-function(j=1,                                     # model we extract
+              indf=dma.fit0,                           # dma output list
+              in.date=df5$date,                        # dates 
+              varnames=c(&quot;INTERCEPT&quot;,&quot;SLOPE&quot;,&quot;PAYEMS&quot;) # list of variable names
+){
+  out=data.frame(indf$theta[j,,]) # convert array to data frame
+  colnames(out)&lt;-varnames         # rename columns
+  out$date&lt;-in.date              # dates 
+  out$model&lt;-paste0(&quot;Model:&quot;,j)   # add model label
+  return(out)       
+  }
+# function to get cofficient variances
+myfv&lt;-function(j=1,                                     # model we extract
+               indf=dma.fit0,                           # dma output list
+               varnames=c(&quot;INTERCEPTv&quot;,&quot;SLOPEv&quot;,&quot;PAYEMSv&quot;) # list of variable names (v inciates variance)
+               
+){
+  out=data.frame(indf$vartheta[j,,]) # convert array to data frame
+  colnames(out)&lt;-varnames            # rename columns
+  out$model&lt;-paste0(&quot;Model:&quot;,j)     # add model label
+  return(out)
+}
+
+#use purrr::map to stack up results
+data.frame(modeln=1:nrow(mmat)) %&gt;% 
+  mutate(theta  = map(modeln,myf),
+         thetav = map(modeln,myfv)) %&gt;%
+  unnest(theta,thetav) %&gt;% 
+  select(model,date,c(&quot;INTERCEPT&quot;,&quot;SLOPE&quot;,&quot;PAYEMS&quot;),
+         c(&quot;INTERCEPTv&quot;,&quot;SLOPEv&quot;,&quot;PAYEMSv&quot;)) -&gt; df.cv
+
+# get coefficients
+
+df.cv %&gt;% select(model,date,c(&quot;INTERCEPT&quot;,&quot;SLOPE&quot;,&quot;PAYEMS&quot;)) %&gt;%
+  gather(var,est,-date,-model) -&gt; df.coef
+
+# get variances
+df.cv %&gt;% select(model,date,c(&quot;INTERCEPTv&quot;,&quot;SLOPEv&quot;,&quot;PAYEMSv&quot;)) %&gt;%
+  gather(var,v,-date,-model) %&gt;%
+  mutate(var=substr(var,1,nchar(var)-1)) -&gt; df.var
+
+# merge back together
+df.plot&lt;-merge(df.coef,df.var,by=c(&quot;model&quot;,&quot;date&quot;,&quot;var&quot;))
+
+df5 &lt;- filter(df3, year(date)&gt;1955 &amp; !is.na(REC12))
+
+xvar &lt;- as.matrix(df5 %&gt;% select(SLOPE,PAYEMS))
+yvar &lt;- as.matrix(df5$REC12)
+
+mmat&lt;- matrix(c(1,0,
+                0,1,
+                1,1),3,2,byrow=TRUE)
+
+dma.fit12&lt;- logistic.dma(unname(xvar), yvar, mmat, lambda=0.99, alpha=0.99,
+                         autotune=TRUE, initialsamp=120)
+
+# append model forecasts
+df5 &lt;- df5 %&gt;% mutate(yhat12=dma.fit12$yhatdma)
+df6&lt;-full_join(df5,df50 %&gt;% select(date,yhat0), by=&quot;date&quot;)
+df12 &lt;- filter(df3, year(date)&gt;1955 &amp; !is.na(REC12))
+data.frame(modeln=1:nrow(mmat)) %&gt;% 
+  mutate(theta  = map(modeln,myf,indf=dma.fit12,in.date=df12$date),
+         thetav = map(modeln,myfv,indf=dma.fit12)) %&gt;%
+  unnest(theta,thetav) %&gt;% 
+  select(model,date,c(&quot;INTERCEPT&quot;,&quot;SLOPE&quot;,&quot;PAYEMS&quot;),
+         c(&quot;INTERCEPTv&quot;,&quot;SLOPEv&quot;,&quot;PAYEMSv&quot;)) -&gt; df.cv12
+
+# get coefficients
+df.cv12 %&gt;% select(model,date,c(&quot;INTERCEPT&quot;,&quot;SLOPE&quot;,&quot;PAYEMS&quot;)) %&gt;%
+  gather(var,est,-date,-model) -&gt; df.coef12
+
+# get variances
+df.cv12 %&gt;% select(model,date,c(&quot;INTERCEPTv&quot;,&quot;SLOPEv&quot;,&quot;PAYEMSv&quot;)) %&gt;%
+  gather(var,v,-date,-model) %&gt;%
+  mutate(var=substr(var,1,nchar(var)-1)) -&gt; df.var12
+
+# merge back together
+df.plot12&lt;-merge(df.coef12,df.var12,by=c(&quot;model&quot;,&quot;date&quot;,&quot;var&quot;))
+
+
+# save data, called later in the .Rmd file
+save(df.plot,df.plot12,dma.fit0,dma.fit12,df6,df5,df4,df3,df12,recessions.df,file=&quot;data/dma_oct2017.Rdata&quot;)</code></pre>
+</div>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2017/10/28/dma-part-2/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2017/10/28/dma-part-2/">A closer look at forecasting recessions with dynamic model averaging</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="/2017/11/05/recent-trends-in-u-s-housing-markets-2017q3-update/">Recent trends in U.S. housing markets: 2017Q3 update</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="/2017/11/05/recent-trends-in-u-s-housing-markets-2017q3-update/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/presentation/">presentation</a>, 
+            
+                <a href="/tags/slides/">slides</a>, 
+            
+                <a href="/tags/statistics/">statistics</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2017%2f10%2f30%2fdynamic-model-averaging-presentation-slides%2f&text=Dynamic%20Model%20Averaging%20Presentation%20Slides via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2017%2f10%2f30%2fdynamic-model-averaging-presentation-slides%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+

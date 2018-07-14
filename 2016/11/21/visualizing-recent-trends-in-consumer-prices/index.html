@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>Visualizing recent trends in consumer prices &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Visualizing recent trends in consumer prices">
+    <meta property="og:description" content="Growth in consumer pricesRECENT DATA INDICATE THAT CONSUMER PRICES INFLATION is ticking up, though the overall pace of inflation remains below historical averages. In this post I’m going to create a few plots analyzing trends in the Consumer Price Index (CPI) published by the U.S. Bureau of Labor Statistics (BLS).
+These visualizations will be made in R, and I’ll post code for some of the graphs as we go.">
+
+<div class="header">
+  <h1>Visualizing recent trends in consumer prices</h1>
+  <h2></h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2016/11/21</time>
+  </div>
+
+  
+
+  
+
+  
+
+</div>
+
+  <div id="growth-in-consumer-prices" class="section level1">
+<h1>Growth in consumer prices</h1>
+<p>RECENT DATA INDICATE THAT CONSUMER PRICES INFLATION is ticking up, though the overall pace of inflation remains below historical averages. In this post I’m going to create a few plots analyzing trends in the <a href="http://www.bls.gov/cpi/">Consumer Price Index (CPI)</a> published by the <a href="http://www.bls.gov">U.S. Bureau of Labor Statistics (BLS)</a>.</p>
+<p>These visualizations will be made in <a href="https://www.r-project.org/">R</a>, and I’ll post code for some of the graphs as we go.</p>
+<div id="the-data" class="section level2">
+<h2>The data</h2>
+<p>The BLS has made getting the data quite convenient by providing well organized flat text files that are easy to read. The code below loads some libraries and grab data from the BLS page:</p>
+</div>
+<div id="load-some-libraries" class="section level2">
+<h2>Load some libraries:</h2>
+<pre class="r"><code>#Load some packages
+library(data.table, warn.conflicts = FALSE, quietly=TRUE)
+library(ggplot2, warn.conflicts = FALSE, quietly=TRUE)
+library(dplyr, warn.conflicts = FALSE, quietly=TRUE)
+library(zoo, warn.conflicts = FALSE, quietly=TRUE)
+library(ggrepel, warn.conflicts = FALSE, quietly=TRUE)
+library(ggthemes, warn.conflicts = FALSE, quietly=TRUE)
+library(scales, warn.conflicts = FALSE, quietly=TRUE)
+library(animation, warn.conflicts = FALSE, quietly=TRUE)
+library(grid, warn.conflicts = FALSE, quietly=TRUE)
+library(tidyr, warn.conflicts = FALSE, quietly=TRUE)
+library(viridis, warn.conflicts = FALSE, quietly=TRUE)
+library(ggrepel, warn.conflicts = FALSE, quietly=TRUE)</code></pre>
+</div>
+<div id="load-some-data" class="section level2">
+<h2>Load some data</h2>
+<p>The code below goes to the BLS website and downloads the text files. This <a href="http://download.bls.gov/pub/time.series/cu/cu.txt">file</a> contains summary information about the flat files.</p>
+<pre class="r"><code>#read files from BLS.gov
+cpi1&lt;-fread(&#39;http://download.bls.gov/pub/time.series/cu/cu.data.2.Summaries&#39;)
+cpi.item&lt;-fread(&quot;http://download.bls.gov/pub/time.series/cu/cu.item&quot;,
+                header=FALSE,col.names=c(&quot;item.code&quot;,&quot;item.name&quot;,&quot;display.level&quot;,
+                                         &quot;selectable&quot;,&quot;sort.sequence&quot;,&quot;blank&quot;))</code></pre>
+<pre><code>## Warning in fread(&quot;http://download.bls.gov/pub/time.series/cu/cu.item&quot;,
+## header = FALSE, : Starting data input on line 2 and discarding line 1
+## because it has too few or too many items to be column names or data:
+## item_code item_name display_level selectable sort_sequence</code></pre>
+<pre class="r"><code>cpi.series&lt;-fread(&quot;http://download.bls.gov/pub/time.series/cu/cu.series&quot;)
+cpi2&lt;-merge(cpi.item,cpi.series,by.x=&quot;item.code&quot;,by.y=&quot;item_code&quot;)
+
+
+#merge on series_id variable:
+setkeyv(cpi1,&quot;series_id&quot;)          
+setkeyv(cpi2,&quot;series_id&quot;)
+
+
+cpi3&lt;-cpi2[cpi1]
+unique(cpi3$item.code)  #Get list of item codes</code></pre>
+<pre><code>##  [1] &quot;SA0&quot;  &quot;SAA&quot;  &quot;SAA1&quot; &quot;SAA2&quot; &quot;SAC&quot;  &quot;SAE&quot;  &quot;SAF&quot;  &quot;SAG&quot;  &quot;SAH&quot;  &quot;SAM&quot; 
+## [11] &quot;SAR&quot;  &quot;SAS&quot;  &quot;SAT&quot;</code></pre>
+<pre class="r"><code>cpi3[,month:=as.numeric(substr(cpi3$period,2,3))]
+cpi3$date&lt;- as.Date(ISOdate(cpi3$year,cpi3$month,1) ) #set up date variable
+
+cpi4&lt;-cpi3[area_code==&quot;0000&quot; &amp; seasonal==&quot;S&quot; &amp; item.code!= &quot;SAA1&quot; &amp; item.code !=&quot;SAA2&quot;]
+
+# Create a variable with the index normalized to 100 in January 2000:
+bdata&lt;-cpi4[year==2000 &amp; month==1,]
+bdata&lt;-dplyr::rename(bdata, value00=value)
+bdata&lt;-bdata[, c(&#39;value00&#39;,&#39;series_id&#39;), with = FALSE]
+cpi5&lt;-merge(cpi4,bdata,by=&quot;series_id&quot;)  #merge back to original data
+cpi5[,cpi00:=100*value/value00] 
+
+
+#get unadjusted index:
+cpi4n&lt;-cpi3[area_code==&quot;0000&quot; &amp; seasonal==&quot;U&quot; &amp; item.code!= &quot;SAA1&quot; &amp; item.code !=&quot;SAA2&quot; &amp;
+              !(period %in% c(&quot;S01&quot;, &quot;S02&quot;, &quot;S03&quot;))]
+bdata&lt;-cpi4n[year==2000 &amp; month==1,]
+bdata&lt;-dplyr::rename(bdata, value00=value)
+bdata&lt;-bdata[, c(&#39;value00&#39;,&#39;series_id&#39;), with = FALSE]
+cpi5n&lt;-merge(cpi4n,bdata,by=&quot;series_id&quot;)
+
+cpi5n[,cpi00:=100*value/value00]
+cpi6n&lt;-cpi5n[year&gt;1999]
+cpi6n&lt;-cpi6n[,cpilag12:=shift(value,13),by=series_id]
+cpi6n&lt;-cpi6n[,datelag12:=shift(date,13),by=series_id]
+cpi6n&lt;-cpi6n[,cpi12:=c(rep(NA,13),((1+diff(value,13)/value))^1)-1,by=series_id]  </code></pre>
+<pre><code>## Warning in diff(value, 13)/value: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(cpi6n, , `:=`(cpi12, c(rep(NA, 13), ((1 +
+## diff(value, : RHS 1 is length 242 (greater than the size (229) of group 1).
+## The last 13 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(value, 13)/value: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(cpi6n, , `:=`(cpi12, c(rep(NA, 13), ((1 +
+## diff(value, : RHS 1 is length 242 (greater than the size (229) of group 2).
+## The last 13 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(value, 13)/value: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(cpi6n, , `:=`(cpi12, c(rep(NA, 13), ((1 +
+## diff(value, : RHS 1 is length 242 (greater than the size (229) of group 3).
+## The last 13 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(value, 13)/value: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(cpi6n, , `:=`(cpi12, c(rep(NA, 13), ((1 +
+## diff(value, : RHS 1 is length 242 (greater than the size (229) of group 4).
+## The last 13 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(value, 13)/value: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(cpi6n, , `:=`(cpi12, c(rep(NA, 13), ((1 +
+## diff(value, : RHS 1 is length 242 (greater than the size (229) of group 5).
+## The last 13 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(value, 13)/value: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(cpi6n, , `:=`(cpi12, c(rep(NA, 13), ((1 +
+## diff(value, : RHS 1 is length 242 (greater than the size (229) of group 6).
+## The last 13 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(value, 13)/value: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(cpi6n, , `:=`(cpi12, c(rep(NA, 13), ((1 +
+## diff(value, : RHS 1 is length 242 (greater than the size (229) of group 7).
+## The last 13 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(value, 13)/value: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(cpi6n, , `:=`(cpi12, c(rep(NA, 13), ((1 +
+## diff(value, : RHS 1 is length 242 (greater than the size (229) of group 8).
+## The last 13 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(value, 13)/value: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(cpi6n, , `:=`(cpi12, c(rep(NA, 13), ((1 +
+## diff(value, : RHS 1 is length 242 (greater than the size (229) of group 9).
+## The last 13 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(value, 13)/value: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(cpi6n, , `:=`(cpi12, c(rep(NA, 13), ((1 +
+## diff(value, : RHS 1 is length 242 (greater than the size (229) of group
+## 10). The last 13 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(value, 13)/value: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(cpi6n, , `:=`(cpi12, c(rep(NA, 13), ((1 +
+## diff(value, : RHS 1 is length 242 (greater than the size (229) of group
+## 11). The last 13 element(s) will be discarded.</code></pre>
+<pre class="r"><code>cpi6n&lt;-cpi6n[,cpi1:=c(rep(NA,12),((1+diff(value,1)/value))^1)-1,by=series_id]  </code></pre>
+<pre><code>## Warning in diff(value, 1)/value: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(cpi6n, , `:=`(cpi1, c(rep(NA, 12), ((1 +
+## diff(value, : RHS 1 is length 241 (greater than the size (229) of group 1).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(value, 1)/value: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(cpi6n, , `:=`(cpi1, c(rep(NA, 12), ((1 +
+## diff(value, : RHS 1 is length 241 (greater than the size (229) of group 2).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(value, 1)/value: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(cpi6n, , `:=`(cpi1, c(rep(NA, 12), ((1 +
+## diff(value, : RHS 1 is length 241 (greater than the size (229) of group 3).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(value, 1)/value: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(cpi6n, , `:=`(cpi1, c(rep(NA, 12), ((1 +
+## diff(value, : RHS 1 is length 241 (greater than the size (229) of group 4).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(value, 1)/value: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(cpi6n, , `:=`(cpi1, c(rep(NA, 12), ((1 +
+## diff(value, : RHS 1 is length 241 (greater than the size (229) of group 5).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(value, 1)/value: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(cpi6n, , `:=`(cpi1, c(rep(NA, 12), ((1 +
+## diff(value, : RHS 1 is length 241 (greater than the size (229) of group 6).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(value, 1)/value: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(cpi6n, , `:=`(cpi1, c(rep(NA, 12), ((1 +
+## diff(value, : RHS 1 is length 241 (greater than the size (229) of group 7).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(value, 1)/value: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(cpi6n, , `:=`(cpi1, c(rep(NA, 12), ((1 +
+## diff(value, : RHS 1 is length 241 (greater than the size (229) of group 8).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(value, 1)/value: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(cpi6n, , `:=`(cpi1, c(rep(NA, 12), ((1 +
+## diff(value, : RHS 1 is length 241 (greater than the size (229) of group 9).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(value, 1)/value: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(cpi6n, , `:=`(cpi1, c(rep(NA, 12), ((1 +
+## diff(value, : RHS 1 is length 241 (greater than the size (229) of group
+## 10). The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(value, 1)/value: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(cpi6n, , `:=`(cpi1, c(rep(NA, 12), ((1 +
+## diff(value, : RHS 1 is length 241 (greater than the size (229) of group
+## 11). The last 12 element(s) will be discarded.</code></pre>
+<pre class="r"><code>cpi6&lt;-cpi5[year&gt;1999]
+xlim&lt;-c(min(cpi6$date),max(cpi6$date))
+dd&lt;-unique(cpi6$date)  #list of dates since January 2000</code></pre>
+</div>
+<div id="make-some-charts" class="section level2">
+<h2>Make some charts</h2>
+<p>First let’s look at the level of consumer prices for major aggregates relative to the year 2000.</p>
+<pre class="r"><code>i&lt;-length(dd)
+ ggplot(data=cpi6,aes(x=date,y=cpi00,color=item.name))+geom_line()+
+  theme_minimal()+   theme(legend.justification=c(0,0), legend.position=&quot;none&quot;)+scale_y_log10(limits=c(90,200),breaks=c(90,100,120,140,160,180,200))+
+  #scale_x_date(limits =xlim)+
+    scale_x_date(labels= date_format(&quot;%b-%Y&quot;),
+                 limits = as.Date(c(&#39;2000-01-01&#39;,&#39;2018-12-31&#39;)))+
+  geom_text_repel(
+    data = cpi6[date==dd[i]],
+    aes(label = item.name),
+    size = 3.5,
+    nudge_x = 1) +
+    labs(x=&quot;&quot;, y=&quot;Consumer Price Index (log scale, Jan 2000=100, SA)&quot;,
+         title=&quot;Consumer Prices&quot;,
+         subtitle=&quot;by major category&quot;,
+         caption=&quot;@lenkiefer Source: U.S. Bureau of Labor Statistics&quot;)+
+    theme(plot.title=element_text(size=18))+
+    theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+    theme(plot.margin=unit(c(0.25,0.25,0.25,0.25),&quot;cm&quot;))</code></pre>
+<p><img src="/post/2016-11-21-consumer-price-viz_files/figure-html/fig-cpi-viz-nov16-1-1.png" width="672" /></p>
+<p>We can also animate this chart:</p>
+<p><img src="{{ site.url }}/img/charts_nov_21_2016/cpi_11_21_all_2016.gif" alt="cpi gif 2"/></p>
+<p>Code for animation:</p>
+<pre class="r"><code>library(animate)
+oopt = ani.options(interval = 0.075)
+saveGIF({for (i in 1:length(dd)) {
+  g&lt;-
+    ggplot(data=cpi6[date&lt;=dd[i]],aes(x=date,y=cpi00,color=item.name))+geom_line()+
+  theme_minimal()+   theme(legend.justification=c(0,0), legend.position=&quot;none&quot;)+scale_y_log10(limits=c(90,200),breaks=c(90,100,120,140,160,180,200))+
+    scale_x_date(labels= date_format(&quot;%b-%Y&quot;),
+                 limits = as.Date(c(&#39;2000-01-01&#39;,&#39;2018-12-31&#39;)))+
+  geom_text(
+    data = cpi6[date==dd[i]],
+    aes(label = item.name),
+    size = 3.5,
+    nudge_x = 1) +
+    labs(x=&quot;&quot;, y=&quot;Consumer Price Index (log scale, Jan 2000=100, SA)&quot;,
+         title=&quot;Consumer Prices&quot;,
+         subtitle=&quot;by major category&quot;,
+         caption=&quot;@lenkiefer Source: U.S. Bureau of Labor Statistics&quot;)+
+    theme(plot.title=element_text(size=18))+
+    theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+    theme(plot.margin=unit(c(0.25,0.25,0.25,0.25),&quot;cm&quot;))
+  print(g)
+  ani.pause()
+  print(i)
+}
+for (i2 in 1:30) {
+  print(g)
+  ani.pause()
+}
+},movie.name=&quot;cpi_11_21_all_2016.gif&quot;,ani.width = 575, ani.height = 450)</code></pre>
+</div>
+<div id="comparing-year-over-year-inflation" class="section level2">
+<h2>Comparing year-over-year inflation</h2>
+<p>The chart above shows the longer-run inflation for major categories since the year 2000, what about more recent inflation trends? Let’s examine year-over-year changes by major category:</p>
+<pre class="r"><code>i&lt;-length(dd)  #set index to last date
+ggplot(data=cpi6n[date&lt;=dd[i] &amp; !(item.name %in% c(&quot;Transportation&quot;,&quot;Services&quot;,&quot;Other goods and services&quot;))],aes(x=date,y=cpi12,color=item.name))+
+  geom_area(aes(fill=item.name),alpha=0.5)+
+  theme_minimal()+   theme(legend.justification=c(0,0), legend.position=&quot;none&quot;)+
+  scale_y_continuous(label=percent)+
+  geom_hline(yintercept=0,linetype=2,color=&quot;black&quot;)+
+  #scale_y_log10(limits=c(90,200),breaks=c(90,100,120,140,160,180,200))+
+  scale_x_date(limits =xlim)+
+  #geom_text_repel(    data = subset(cpi6[date&lt;=dd[90]], date == max(date)),    aes(label = item.name, y=180),    size = 5,    nudge_x = 45,    segment.color = NA) +
+  labs(x=&quot;&quot;, y=&quot;Consumer Price Index (y/y % change NSA)&quot;,
+       title=&quot;Consumer Price Inflation (y/y %)&quot;,
+       subtitle=&quot;by major category&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Bureau of Labor Statistics&quot;)+
+  theme(plot.title=element_text(size=18))+
+  theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+  theme(plot.margin=unit(c(0.25,0.25,0.25,0.25),&quot;cm&quot;))+facet_wrap(~item.name,ncol=2)</code></pre>
+<pre><code>## Warning: Removed 96 rows containing missing values (position_stack).</code></pre>
+<p><img src="/post/2016-11-21-consumer-price-viz_files/figure-html/fig-cpi-viz-nov16-2-1.png" width="720" /></p>
+<div id="animated-version-using-tweenr" class="section level3">
+<h3>Animated version using tweenr</h3>
+<p>We can also use tweenr to generate a smooth animation for the plot.</p>
+<p>See my earlier <a href="../../../../2016/05/29/improving-R-animated-gifs-with-tweenr">post about tweenr</a> for an introduction to tweenr, and more examples <a href="../../../../2016/05/30/more-tweenr-animations">here</a> and <a href="../../../../2016/06/26/week-in-review">here</a>.</p>
+<p>Here’s the code:</p>
+<pre class="r"><code>cpi6n$item&lt;-factor(cpi6n$item.name)
+mycat2&lt;-  unique(cpi6n[date&lt;=dd[i] &amp; !(item.name %in% c(&quot;Transportation&quot;,&quot;Services&quot;,&quot;Other goods and services&quot;))]$item.name)  #exclude a couple categories that have very large % changes 
+
+myf2&lt;-function(ic){as.data.frame(cpi6n[item.name==ic, list(date,cpi12,item)])}
+
+# use lapply to generate the list of data sets:
+my.list&lt;-lapply(c(mycat2,mycat2[1]),myf2)
+library(tweenr)
+
+tf2 &lt;- tween_states(my.list, tweenlength= 2, statelength=3, ease=rep(&#39;cubic-in-out&#39;,24),nframes=150)
+
+tf2&lt;-data.table(tf2)
+
+oopt = ani.options(interval = 0.1)
+saveGIF({for (i in 1:max(tf2$.frame)) {
+  g&lt;-
+    ggplot(data=tf2,aes(x=date,y=cpi12,color=&quot;#00B0F0&quot;,fill=&quot;#00B0F0&quot;))+
+    geom_line(data=tf2[.frame==i],color=&quot;#00B0F0&quot;)+
+    theme_minimal()+   theme(legend.justification=c(0,0), legend.position=&quot;none&quot;)+
+    scale_y_continuous(limits=c(-.08,.08),breaks=seq(-.15,.15,.01),labels=percent)+
+    geom_ribbon(data=tf2[.frame==i],aes(ymin=0,ymax=cpi12),alpha=0.2,color=NA,fill=&quot;#00B0F0&quot;)+
+    geom_hline(yintercept=0,linetype=2)+
+    scale_x_date(limits =c(min(tf2[cpi12&gt;0,]$date,na.rm=T),max(cpi6n$date,na.rm=T)+120))+
+    geom_point(data=tf2[.frame==i &amp; date==max(tf2$date,na.rm=T)],alpha=0.82,size=3,color=&quot;#00B0F0&quot;)+
+    geom_text(data=tf2[.frame==i &amp; date==max(tf2$date,na.rm=T)],alpha=0.82,size=4,color=&quot;#00B0F0&quot;,
+              aes(label=paste(&quot; &quot;,percent(round(cpi12,3)))),hjust=0)+
+    #geom_text(data=tf2[.frame==i],              aes(x=min(tf2$date),y=.1,label=item),              size = 5,hjust=0,color=&quot;#00B0F0&quot;) +
+    labs(x=&quot;&quot;, y=&quot;Consumer Price Index (y/y % change, NSA)&quot;,
+         title=&quot;Consumer Price Inflation (y/y %)&quot;,
+         subtitle=paste(unique(tf2[.frame==i]$item)) ,
+         caption=&quot;@lenkiefer Source: U.S. Bureau of Labor Statistics&quot;)+
+    theme(plot.title=element_text(size=18))+
+    theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+    theme(plot.margin=unit(c(0.25,0.25,0.25,0.25),&quot;cm&quot;))+
+    theme(plot.subtitle=element_text(size=14,color=&quot;#00B0F0&quot;))
+  print(g)
+  ani.pause()
+  print(i)
+}
+},movie.name=&quot;cpi_inflation_11_21_2016.gif&quot;,ani.width = 650, ani.height = 450)</code></pre>
+<p>Which gives us:</p>
+<p><img src="{{ site.url }}/img/charts_nov_21_2016/cpi_inflation_11_21_2016.gif" alt="cpi gif"/></p>
+</div>
+</div>
+<div id="lollipop-charts" class="section level2">
+<h2>Lollipop charts</h2>
+<pre class="r"><code>i&lt;-length(dd)  #set index to last date
+ggplot(data=cpi6n[date==dd[i] &amp; !(item.name %in% c(&quot;Transportation&quot;,&quot;Services&quot;,&quot;Other goods and services&quot;))],aes(x=item.name,y=cpi12,color=cpi12))+
+  scale_color_viridis(option=&quot;D&quot;,name=&quot;Annual Inflation\nRate (%) &quot;,discrete=F,direction=-1,end=0.85,
+                      label=percent)+
+  geom_segment(aes(xend=item.name,yend=0),size=1.2)+coord_flip()+
+  geom_text(aes(label=paste(&quot; &quot;,percent(round(cpi12,3)),&quot; &quot;),
+                hjust=ifelse(cpi12&gt;0,0,1)))+  #flip justification if point postiive or negative
+    geom_point(size=3)+
+    theme_minimal()+   
+  theme(legend.position=&quot;top&quot;,legend.text=element_text(size=7))+
+  theme(legend.key.width=unit(3,&quot;cm&quot;))+
+  scale_y_continuous(label=percent,limits=c(-0.02,.05),breaks=seq(-0.2,.08,.01))  +
+  labs(x=&quot;&quot;, y=&quot;Consumer Price Index (y/y % change NSA)&quot;,
+       title=&quot;Consumer Price Inflation (y/y %)&quot;,
+       subtitle=&quot;by major category&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Bureau of Labor Statistics&quot;)+
+  theme(plot.title=element_text(size=18))+
+  theme(plot.caption=element_text(hjust=0))</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_text).</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_point).</code></pre>
+<p><img src="/post/2016-11-21-consumer-price-viz_files/figure-html/fig-cpi-viz-nov16-3-1.png" width="720" /></p>
+<p>And of course, we can make the lollipop dance:</p>
+<pre class="r"><code>cpi7n&lt;-cpi6n[ !(item.name %in% c(&quot;Transportation&quot;,&quot;Services&quot;,&quot;Other goods and services&quot;))]
+cpi7n$item.namef&lt;-as.factor(cpi7n$item.name)
+cpi7n$datef&lt;-as.factor(cpi7n$date)
+myf3&lt;-function(d){as.data.frame(cpi7n[date==d, list(datef,cpi12,item.namef)])}
+d.list3&lt;-unique(cpi6n[month==10 &amp; year&gt;2000]$date)
+my.list3&lt;-lapply(c(d.list3,d.list3[1]),myf3)
+
+tf3 &lt;- tween_states(my.list3, tweenlength= 2, statelength=3, ease=rep(&#39;cubic-in-out&#39;,24),nframes=150)
+tf3&lt;-data.table(tf3)
+
+oopt = ani.options(interval = 0.1)
+saveGIF({for (i in 1:max(tf3$.frame)) {
+  g&lt;-
+    ggplot(data=tf3[.frame==i],aes(x=item.namef,y=cpi12,color=cpi12))+
+  scale_color_viridis(option=&quot;D&quot;,name=&quot;Annual Inflation\nRate (%) &quot;,discrete=F,direction=-1,end=0.85,
+                      label=percent,limits=c(-0.04,.08))+
+  geom_segment(aes(xend=item.namef,yend=0),size=1.2)+coord_flip()+
+  geom_text(aes(label=paste(&quot; &quot;,percent(round(cpi12,3)),&quot; &quot;),
+                hjust=ifelse(cpi12&gt;0,0,1)))+  #flip justification if point postiive or negative
+    geom_point(size=3)+
+    theme_minimal()+   
+  theme(legend.position=&quot;top&quot;,legend.text=element_text(size=7))+
+  theme(legend.key.width=unit(2,&quot;cm&quot;))+
+  scale_y_continuous(label=percent,limits=c(-0.04,.08),breaks=seq(-0.2,.08,.01))  +
+  labs(x=&quot;&quot;, y=&quot;Consumer Price Index (y/y % change NSA)&quot;,
+       title=&quot;Consumer Price Inflation (y/y %)&quot;,
+       subtitle=paste(&quot;by major category:&quot;,as.character(as.Date(tf3[.frame==i]$datef),format=&quot;%b-%Y&quot;)),
+       caption=&quot;@lenkiefer Source: U.S. Bureau of Labor Statistics&quot;)+
+  theme(plot.title=element_text(size=18))+
+  theme(plot.caption=element_text(hjust=0))
+
+  print(g)
+  ani.pause()
+  print(i)  #counter 
+}
+},movie.name=&quot;cpi_dance_lolly_11_21_2016.gif&quot;,ani.width = 650, ani.height = 450)</code></pre>
+<p><img src="{{ site.url }}/img/charts_nov_21_2016/cpi_dance_lolly_11_21_2016.gif" alt="cpi gif 3"/></p>
+</div>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2016/11/03/2016-11-03-visual-meditations-on-house-prices-part6/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2016/11/03/2016-11-03-visual-meditations-on-house-prices-part6/">Visual meditations on house prices, Part 6: state recovery</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="/2016/11/30/comparing-house-prices-rents-other-prices-and-incomes/">Comparing house prices, rents, other prices and incomes</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="/2016/11/30/comparing-house-prices-rents-other-prices-and-incomes/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2016%2f11%2f21%2fvisualizing-recent-trends-in-consumer-prices%2f&text=Visualizing%20recent%20trends%20in%20consumer%20prices via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2016%2f11%2f21%2fvisualizing-recent-trends-in-consumer-prices%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+

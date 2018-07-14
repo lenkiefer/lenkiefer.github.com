@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>Charting housing starts with R &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Charting housing starts with R">
+    <meta property="og:description" content="IN THIS POST I WANT TO SHARE SOME R CODE to create charts of U.S. housing starts we studied last week.
+Get dataWe’ll use tidyquant (see e.g. this post for more) to go get our data from the St. Louis Federal Reserve Economic Database (FRED). We’ll also use cowplot to arrange multiple ggplot2 graphs on one page.
+Let’s load libraries and grab the data.
+####################################################################################### Step 0: Load Libraries #######################################################################################library(tidyquant)library(tidyverse)library(cowplot)library(lubridate)library(scales)library(ggridges) # replaces ggjoy####################################################################################### Step 1: Prepare for data #######################################################################################tickers=data.">
+
+<div class="header">
+  <h1>Charting housing starts with R</h1>
+  <h2></h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2017/09/25</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/housing">housing</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/animation">animation</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <p>IN THIS POST I WANT TO SHARE SOME <a href="https://www.r-project.org/">R</a> CODE to create charts of U.S. housing starts we studied <a href="../../../../2017/09/19/housing-starts-grinding-higher-or-to-a-halt/">last week</a>.</p>
+<div id="get-data" class="section level2">
+<h2>Get data</h2>
+<p>We’ll use <a href="">tidyquant</a> (see e.g. <a href="https://CRAN.R-project.org/package=tidyquant">this post</a> for more) to go get our data from the <a href="https://fred.stlouisfed.org/">St. Louis Federal Reserve Economic Database (FRED)</a>. We’ll also use <a href="https://CRAN.R-project.org/package=cowplot">cowplot</a> to arrange multiple <a href="http://ggplot2.tidyverse.org/">ggplot2</a> graphs on one page.</p>
+<p>Let’s load libraries and grab the data.</p>
+<pre class="r"><code>#####################################################################################
+## Step 0: Load Libraries ##
+#####################################################################################
+library(tidyquant)
+library(tidyverse)
+library(cowplot)
+library(lubridate)
+library(scales)
+library(ggridges)  # replaces ggjoy
+
+#####################################################################################
+## Step 1: Prepare for data  ##
+#####################################################################################
+
+tickers=data.frame(# variable symbols/mnemonics
+                   symbol = c(&quot;HOUST&quot;,
+                              &quot;HOUST1F&quot;,
+                              &quot;HOUST5F&quot;,
+                              &quot;CNP16OV&quot;,
+                              &quot;HOUSTNSA&quot;,
+                              &quot;HOUST1FNSA&quot;, 
+                              &quot;HOUST5FNSA&quot;),
+                   # variable names
+                   varname = c(&quot;Total housing starts&quot;,
+                               &quot;1 unit housing starts&quot;,
+                               &quot;5+ unit housing starts&quot;,
+                               &quot;population&quot;,
+                               &quot;Total housing starts (NSA)&quot;,
+                               &quot;1 unit housing starts (NSA)&quot;,
+                               &quot;5+ unit housing starts (NSA)&quot;)) %&gt;%
+  map_if(is.factor,as.character) %&gt;% # strings as characters
+  as.tibble()                        # make a tibble
+
+knitr::kable(tickers)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">symbol</th>
+<th align="left">varname</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">HOUST</td>
+<td align="left">Total housing starts</td>
+</tr>
+<tr class="even">
+<td align="left">HOUST1F</td>
+<td align="left">1 unit housing starts</td>
+</tr>
+<tr class="odd">
+<td align="left">HOUST5F</td>
+<td align="left">5+ unit housing starts</td>
+</tr>
+<tr class="even">
+<td align="left">CNP16OV</td>
+<td align="left">population</td>
+</tr>
+<tr class="odd">
+<td align="left">HOUSTNSA</td>
+<td align="left">Total housing starts (NSA)</td>
+</tr>
+<tr class="even">
+<td align="left">HOUST1FNSA</td>
+<td align="left">1 unit housing starts (NSA)</td>
+</tr>
+<tr class="odd">
+<td align="left">HOUST5FNSA</td>
+<td align="left">5+ unit housing starts (NSA)</td>
+</tr>
+</tbody>
+</table>
+<p>Now we can make some plots.</p>
+<pre class="r"><code>#####################################################################################
+## Step 2: Pull data  ##
+#####################################################################################
+
+tickers$symbol %&gt;% tq_get(get=&quot;economic.data&quot;, from=&quot;1960-01-01&quot;) -&gt; df
+
+#####################################################################################
+## Step 3: Organize data  ##
+#####################################################################################
+
+df&lt;-merge(df,tickers,by=&quot;symbol&quot;)
+df %&gt;% mutate( year=year(date),
+               month=month(date),
+               mname=forcats::fct_reorder(as.character(date, format=&quot;%b&quot;),month)) %&gt;%
+  group_by(year,symbol) %&gt;% arrange(date,symbol) %&gt;% 
+  mutate(cs = cumsum(price)) -&gt; df</code></pre>
+<div id="make-a-plot" class="section level3">
+<h3>Make a plot</h3>
+<p>First, we can recreate our simple line plot for U.S. total housing starts.</p>
+<pre class="r"><code>#####################################################################################
+## Step 4: Make plots  ##
+#####################################################################################
+
+ggplot(data=filter(df,symbol==&quot;HOUST&quot;), aes(x=date,y=price))+theme_minimal()+geom_line(color=&quot;royalblue&quot;)+
+  labs(x=&quot;&quot;,y=&quot;&quot;,
+       title=&quot;U.S. housing starts low relative to history&quot;,
+       subtitle=&quot;Monthly U.S. housing starts (1000s seasonally adjusted annual rate)&quot;,
+       caption=&quot;@lenkiefer Source: Source: U.S. Census Bureau and Department of Housing and Urban Development&quot;)+
+  theme(legend.position=&quot;none&quot;,plot.caption=element_text(hjust=0))+
+  scale_y_continuous(labels=scales::comma,sec.axis=dup_axis())+
+  scale_x_date(date_breaks=&quot;5 years&quot;,date_labels=&quot;%Y&quot;)</code></pre>
+<p><img src="/post/2017-09-25-charting-housing-starts_files/figure-html/09-25-2017-plot-1-1.png" width="672" /></p>
+<p>We can also try out the <code>tidyquant::theme_tq()</code> for our plot. I am going to modify the theme slightly so that the panel background color is royal blue to match the theme here.</p>
+</div>
+<div id="facet-line-plot" class="section level3">
+<h3>Facet line plot</h3>
+<p>First we’ll make a simple faceted plot comparing single family (1-unit structures) starts to multifamily (5+ unit structures) starts at a seasonally adjusted annual rate.</p>
+<pre class="r"><code> ggplot(data=dplyr::filter(df, symbol %in%
+                      c(&quot;HOUST1F&quot;,&quot;HOUST5F&quot;)),
+           aes(x=date,y=price,group=varname))+
+  geom_line(color=&quot;royalblue&quot;)+
+  facet_wrap(~varname,scales=&quot;free&quot;,ncol=1)+
+  scale_x_date(date_breaks=&quot;5 years&quot;,date_labels=&quot;%Y&quot;)+
+  scale_y_continuous(sec.axis=dup_axis())+
+  theme_tq()+
+  theme(strip.background=element_rect(fill=&quot;royalblue&quot;))+
+  labs(y=&quot;&quot;,x=&quot;&quot;,
+       title=&quot;Housing starts: multifamily leads, single family lags &quot;,
+       subtitle=&quot;U.S. Housing Starts (1000s, SAAR)&quot;,
+       caption=&quot;@lenkiefer Source: Source: U.S. Census Bureau and Department of Housing and Urban Development&quot;)+
+  theme(plot.caption=element_text(hjust=0))</code></pre>
+<p><img src="/post/2017-09-25-charting-housing-starts_files/figure-html/09-25-2017-plot-2-1.png" width="672" /></p>
+</div>
+<div id="lollipop-chart" class="section level3">
+<h3>Lollipop chart</h3>
+<p>And a plot comparing cumulative starts on a year-to-date basis (not seasonally adjusted) with a lollipop chart.</p>
+<pre class="r"><code>ggplot(data=filter(df,symbol %in% c(&quot;HOUSTNSA&quot;,&quot;HOUST1FNSA&quot;,&quot;HOUST5FNSA&quot;) &amp;
+                         month==8 &amp; year &gt;1999),
+           aes(x=cs,y=factor(year,levels=seq(2017,2000,-1)),
+               group=varname, label=paste(&quot;  &quot;,comma(round(cs,0)))))+
+  geom_point()+
+  facet_wrap(~varname,scales=&quot;free_y&quot;)+
+  geom_segment(aes(xend=0,yend=factor(year)))+
+  theme_tq()+geom_text(hjust=0)+
+  theme(strip.background=element_rect(fill=&quot;royalblue&quot;))+
+  labs(y=&quot;&quot;,x=&quot;Starts in 1000s (NSA)&quot;,
+         title=&quot;Year-to-date housing starts on track for best year since 2007&quot;,
+         subtitle=&quot;Year-to-date through August U.S. Housing Starts (1000s, NSA)&quot;,
+         caption=&quot;@lenkiefer Source: U.S. Census Bureau/ Department of Housing and Urban Development&quot;)+
+  theme(plot.caption=element_text(hjust=0))+
+  scale_x_continuous(labels=scales::comma, limits=c(0,2000))</code></pre>
+<p><img src="/post/2017-09-25-charting-housing-starts_files/figure-html/09-25-2017-plot-3-1.png" width="672" /></p>
+</div>
+</div>
+<div id="combining-line-and-tile" class="section level2">
+<h2>Combining line and tile</h2>
+<p>Finally, let’s recreate the combined line and tile chart <a href="http://lenkiefer.com/img/charts_sep_19_2017/starts_sep_19_2017_v2.gif">gif here</a>. That version used the <a href="https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html">viridis</a> color scheme, but we’ll remake it here using our cool blue colors.</p>
+<p>First as a static plot.</p>
+<pre class="r"><code># Data for plots
+sdata &lt;- filter(df, symbol %in% c(&quot;HOUST&quot;)) %&gt;% mutate(yearf=factor(year(date),levels=seq(2017,1959,-1)))
+
+# make line plot with gradient shading
+g.line2&lt;-  
+  ggplot(data=sdata,aes(x=date,y=price,fill=price-1500))+  
+  geom_ridgeline_gradient(data=sdata,aes(y=0,height=price))+
+  geom_line(alpha=0)+
+  scale_fill_gradient(low=&quot;aliceblue&quot;,high=&quot;royalblue&quot;)  +
+  scale_y_continuous(breaks=seq(0,2500,500),limits=c(0,3000))+
+  theme_minimal()+
+  labs(x=&quot;&quot;,y=&quot;&quot;,title=&quot;Total U.S. Housing Starts (Ths. SAAR)&quot;,
+       subtitle=&quot;Color mapped to total starts&quot;)+
+  theme(legend.position=&quot;none&quot;,plot.subtitle=element_text(face=&quot;italic&quot;))+
+  scale_x_date(date_breaks=&quot;5 years&quot;,date_labels=&quot;%Y&quot;)
+
+# tile plot
+
+g.tile&lt;-
+  ggplot(data=sdata,aes(x=reorder(as.character(date,format=&quot;%b&quot;),month),
+                        y=factor(yearf),fill=price))+
+  geom_tile(color=&quot;gray&quot;)+
+  scale_fill_gradient(low=&quot;aliceblue&quot;,high=&quot;royalblue&quot;)  +
+  theme_minimal()+
+  labs(x=&quot;&quot;,y=&quot;&quot;,
+       caption=&quot;@lenkiefer Source: Census/HUD&quot;)+
+  theme(legend.position=&quot;none&quot;,plot.caption=element_text(hjust=0))+
+  theme(axis.text.y=element_text(size=6),
+        axis.text.x=element_text(size=6))
+
+g&lt;-plot_grid(g.line2,g.tile, rel_heights=c(2,5),ncol=1)
+g</code></pre>
+<p><img src="/post/2017-09-25-charting-housing-starts_files/figure-html/09-25-2017-plot-4-1.png" width="672" /></p>
+</div>
+<div id="animated-combo-plot" class="section level1">
+<h1>Animated combo plot</h1>
+<p>Then, if we wanted to make an animation we could do the following:</p>
+<pre class="r"><code>mydir&lt;-&#39;YOURDIRECTOR&#39;  # Set to your directory where you store images
+
+# get list of dates
+dlist&lt;- unique(sdata$date)
+N &lt;- length(dlist) # number of periods
+# Function to make plots:
+
+myf&lt;- function(i=N,
+               imax=N  # cap imax at N, but allow i to run beyond 
+                       # by letting i &gt; N you can pause animation at end
+               ){
+  file_path = paste0(mydir, &quot;/plot-&quot;,5000+i ,&quot;.png&quot;)
+  i&lt;-min(i,imax)
+  g.line2&lt;-
+    ggplot(data=sdata,aes(x=date,y=price,fill=price-1500))+  
+    geom_ridgeline_gradient(data=sdata[date&lt;=dlist[i]],aes(y=0,height=price))+
+    geom_line(alpha=0)+
+    scale_fill_gradient(low=&quot;aliceblue&quot;,high=&quot;royalblue&quot;)  +
+    scale_y_continuous(breaks=seq(0,2500,500),limits=c(0,3000))+
+    theme_minimal()+
+    labs(x=&quot;&quot;,y=&quot;&quot;,title=&quot;Total U.S. Housing Starts (Ths. SAAR)&quot;,
+         subtitle=&quot;Color mapped to total starts&quot;)+
+    theme(legend.position=&quot;none&quot;,plot.subtitle=element_text(face=&quot;italic&quot;))+
+    scale_x_date(date_breaks=&quot;5 years&quot;,date_labels=&quot;%Y&quot;)
+  
+  g.tile&lt;-
+    ggplot(data=sdata,
+           aes(x=reorder(as.character(date,format=&quot;%b&quot;),month),
+               y=factor(yearf),fill=price))+
+    geom_tile(alpha=0,color=&quot;white&quot;)+
+    geom_tile(data=sdata[date&lt;=dlist[i]],color=&quot;gray&quot;)+
+    scale_fill_gradient(low=&quot;aliceblue&quot;,high=&quot;royalblue&quot;)  +
+    theme_minimal()+labs(x=&quot;&quot;,y=&quot;&quot;,
+                         caption=&quot;@lenkiefer Source: Census/HUD&quot;)+
+    theme(legend.position=&quot;none&quot;,plot.caption=element_text(hjust=0))+
+    theme(axis.text.y=element_text(size=6),
+          axis.text.x=element_text(size=6))
+  
+  g&lt;-plot_grid(g.line2,g.tile, rel_heights=c(2,5),ncol=1)
+  ggsave(file_path, g, width = 8, height = 12 , units = &quot;cm&quot;,scale=2) 
+  return(g)
+}
+
+# Get a nice list of dates (N %% 12 gives remainder after dividing by 12)
+#  c(seq(1,N,12),seq(N- (N %% 12), N,1))
+purrr::map(c(seq(12,N,12),seq(N- (N %% 12)+1, N+5,1)), myf)</code></pre>
+<p>Finally, after saving your images in <code>YOURDIRECTORY</code> you can navigate there and run this from the command line (assuming you have <a href="https://www.imagemagick.org/script/index.php">imagemagick</a> installed):</p>
+<p><code>magick convert -delay 10 loop -0 *.png awesomeplot.gif</code></p>
+</div>
+<div id="lollipop-gif" class="section level1">
+<h1>Lollipop gif</h1>
+<p>Finally, we can animate the lollipop chart above (see <a href="../../../../img/charts_sep_19_2017/starts_sep_19_2017_v3.gif">here</a>).</p>
+<p>This gif uses a little animation progress bar like we <a href="../../../../2017/08/10/animation-progress">discussed here</a>.</p>
+<pre class="r"><code>myf3 &lt;- function(mm=8){
+  file_path = paste0(mydir, &quot;/plot-&quot;,5000+mm ,&quot;.png&quot;)
+  mm&lt;-min(mm,8)  # like above we use min to pause at end (8 months/Aug here)
+  gs&lt;-
+    ggplot(data=filter(df,symbol %in% c(&quot;HOUSTNSA&quot;,&quot;HOUST1FNSA&quot;,&quot;HOUST5FNSA&quot;) &amp;
+                         month==mm &amp; year &gt;1999),
+           aes(x=cs,y=factor(year,levels=seq(2017,2000,-1)),
+               group=varname, label=paste(&quot;  &quot;,comma(round(cs,0)))))+
+    geom_point()+facet_wrap(~varname)+
+    geom_segment(aes(xend=0,yend=factor(year)))+
+    geom_vline(xintercept=0,linetype=2,color=&quot;gray&quot;)+
+    theme_tq()+geom_text(hjust=0)+
+    theme(strip.background=element_rect(fill=&quot;royalblue&quot;))+
+    labs(y=&quot;&quot;,x=&quot;Starts in 1000s (NSA)&quot;,title=&quot;U.S. Housing Starts (NSA)&quot;)+
+    scale_x_continuous(labels=scales::comma, limits=c(0,2000))
+  
+  # Create an animation progress bar
+  gc&lt;-
+    ggplot(data=dc, aes(x=month,y=&quot;A&quot;,label=mname))+
+    geom_tile(data=filter(dc,month&lt;=mm), fill=&quot;royalblue&quot;)+
+    geom_tile(alpha=0,color=&quot;darkgray&quot;)+
+    theme_void()+
+    geom_text()+guides(fill=F)+
+    labs(title=&quot;Year to date total through:&quot;,
+         caption=&quot;@lenkiefer Source: U.S. Census Bureau/ Department of Housing and Urban Development&quot;)+
+    theme(plot.caption=element_text(hjust=0))
+  
+  g&lt;-plot_grid(gs,gc, rel_heights=c(5,1),ncol=1)
+  print(g)
+  ggsave(file_path, g, width = 8, height = 12 , units = &quot;cm&quot;,scale=2) 
+  }
+purrr::map(seq(1,14),myf3)</code></pre>
+<p>Follow the pattern above and you can create a gif from these images. Be sure you run each animation loop in a directory clear of other images of the type you are trying to convert to a gif (e.g. .png files).</p>
+<p>Could you use this?</p>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2017/09/23/crafting-a-powerpoint-presentation-with-r/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2017/09/23/crafting-a-powerpoint-presentation-with-r/">Crafting a PowerPoint Presentation with R</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="/2017/09/26/new-home-sales-fall-maybe/">New home sales fall (maybe)</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="/2017/09/26/new-home-sales-fall-maybe/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/dataviz/">dataviz</a>, 
+            
+                <a href="/tags/r/">R</a>, 
+            
+                <a href="/tags/housing/">housing</a>, 
+            
+                <a href="/tags/animation/">animation</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2017%2f09%2f25%2fcharting-housing-starts%2f&text=Charting%20housing%20starts%20with%20R via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2017%2f09%2f25%2fcharting-housing-starts%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+

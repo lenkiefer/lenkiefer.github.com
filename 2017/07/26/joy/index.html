@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>Joyful dataviz &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Joyful dataviz">
+    <meta property="og:description" content="I TOOK SOME TIME OFF OVER THE SUMMER, away from data visualizations. It’s good to get away from time to time, but oh boy did I miss out.
+I wasn’t gone long, but in the short time I was gone people came up with some wonderful things.
+Let me dive back into it with some joyful dataviz.
+Joy plotsClaus Wilke (Twitter) authored a new R package for creating joy plots ( LINK for ggjoy vignette).">
+
+<div class="header">
+  <h1>Joyful dataviz</h1>
+  <h2></h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2017/07/26</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <p>I TOOK SOME TIME OFF OVER THE SUMMER, away from data visualizations. It’s good to get away from time to time, but oh boy did I miss out.</p>
+<p>I wasn’t gone long, but in the short time I was gone people came up with some wonderful things.</p>
+<p>Let me dive back into it with some joyful dataviz.</p>
+<div id="joy-plots" class="section level2">
+<h2>Joy plots</h2>
+<p>Claus Wilke (<a href="https://twitter.com/ClausWilke">Twitter</a>) authored a new <a href="https://www.r-project.org/">R</a> package for creating joy plots ( <a href="https://cran.r-project.org/web/packages/ggjoy/vignettes/introduction.html">LINK for ggjoy vignette</a>). See also <a href="http://blog.revolutionanalytics.com/2017/07/joyplots.html">this post from Revolution Analytics</a> with some other joyplot examples and some more background. Let’s try them out.</p>
+<pre><code>## Loading tidyverse: ggplot2
+## Loading tidyverse: tibble
+## Loading tidyverse: tidyr
+## Loading tidyverse: readr
+## Loading tidyverse: purrr
+## Loading tidyverse: dplyr</code></pre>
+<pre><code>## Conflicts with tidy packages ----------------------------------------------</code></pre>
+<pre><code>## filter(): dplyr, stats
+## lag():    dplyr, stats</code></pre>
+<pre><code>## Loading required package: viridisLite</code></pre>
+<pre><code>## 
+## Attaching package: &#39;scales&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     discard</code></pre>
+<pre><code>## The following object is masked from &#39;package:readr&#39;:
+## 
+##     col_factor</code></pre>
+<pre><code>## 
+## Attaching package: &#39;lubridate&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:base&#39;:
+## 
+##     date</code></pre>
+<pre><code>## 
+## Attaching package: &#39;data.table&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:lubridate&#39;:
+## 
+##     hour, isoweek, mday, minute, month, quarter, second, wday,
+##     week, yday, year</code></pre>
+<pre><code>## The following objects are masked from &#39;package:dplyr&#39;:
+## 
+##     between, first, last</code></pre>
+<pre><code>## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     transpose</code></pre>
+<pre><code>## Picking joint bandwidth of 0.0138</code></pre>
+<pre><code>## Warning: Removed 38 rows containing non-finite values (stat_joy).</code></pre>
+<p><img src="/post/2017-07-26-joy_files/figure-html/07-26-2017-load-1-1.png" width="672" /></p>
+<p>As David Smith over at Revolution Analytics points out, the plots can obscure some data. Nevertheless I find them evocative enough that some data obfuscation might be worth the interest they create. I dunno, let’s try it out.</p>
+<div id="data" class="section level3">
+<h3>Data</h3>
+<p>Let’s revisit the house price data <a href="../../../../2017/05/02/house-price-viz">we used before here</a>. The data will have monthly observations over more than 300 metro areas tracked in the <a href="http://www.freddiemac.com/finance/house_price_index.html">Freddie Mac House Price Index</a>.</p>
+<p>We’ll pick up with a data frame called <code>df.metro</code> that looks like so:</p>
+<pre class="r"><code>htmlTable::htmlTable(rbind(tail(df.metro %&gt;% 
+                                  map_if(is_numeric,round,0) %&gt;% 
+                                  data.frame() %&gt;% as.tbl())))</code></pre>
+<pre><code>## Warning: Deprecated
+
+## Warning: Deprecated
+
+## Warning: Deprecated
+
+## Warning: Deprecated
+
+## Warning: Deprecated
+
+## Warning: Deprecated
+
+## Warning: Deprecated
+
+## Warning: Deprecated
+
+## Warning: Deprecated
+
+## Warning: Deprecated
+
+## Warning: Deprecated</code></pre>
+<table class='gmisc_table' style='border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;' >
+<thead>
+<tr>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey;'> </th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>date</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>geo</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>hpi</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>type</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>state</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>hpa12</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>hpa</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>id</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>year</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>month</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>mname</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style='text-align: left;'>1</td>
+<td style='text-align: center;'>2016-10-01</td>
+<td style='text-align: center;'>Yuma, AZ</td>
+<td style='text-align: center;'>144</td>
+<td style='text-align: center;'>metro</td>
+<td style='text-align: center;'>AZ</td>
+<td style='text-align: center;'>0</td>
+<td style='text-align: center;'>0</td>
+<td style='text-align: center;'>7</td>
+<td style='text-align: center;'>2016</td>
+<td style='text-align: center;'>10</td>
+<td style='text-align: center;'>Oct</td>
+</tr>
+<tr>
+<td style='text-align: left;'>2</td>
+<td style='text-align: center;'>2016-11-01</td>
+<td style='text-align: center;'>Yuma, AZ</td>
+<td style='text-align: center;'>145</td>
+<td style='text-align: center;'>metro</td>
+<td style='text-align: center;'>AZ</td>
+<td style='text-align: center;'>0</td>
+<td style='text-align: center;'>0</td>
+<td style='text-align: center;'>7</td>
+<td style='text-align: center;'>2016</td>
+<td style='text-align: center;'>11</td>
+<td style='text-align: center;'>Nov</td>
+</tr>
+<tr>
+<td style='text-align: left;'>3</td>
+<td style='text-align: center;'>2016-12-01</td>
+<td style='text-align: center;'>Yuma, AZ</td>
+<td style='text-align: center;'>145</td>
+<td style='text-align: center;'>metro</td>
+<td style='text-align: center;'>AZ</td>
+<td style='text-align: center;'>0</td>
+<td style='text-align: center;'>0</td>
+<td style='text-align: center;'>7</td>
+<td style='text-align: center;'>2016</td>
+<td style='text-align: center;'>12</td>
+<td style='text-align: center;'>Dec</td>
+</tr>
+<tr>
+<td style='text-align: left;'>4</td>
+<td style='text-align: center;'>2017-01-01</td>
+<td style='text-align: center;'>Yuma, AZ</td>
+<td style='text-align: center;'>146</td>
+<td style='text-align: center;'>metro</td>
+<td style='text-align: center;'>AZ</td>
+<td style='text-align: center;'>0</td>
+<td style='text-align: center;'>0</td>
+<td style='text-align: center;'>7</td>
+<td style='text-align: center;'>2017</td>
+<td style='text-align: center;'>1</td>
+<td style='text-align: center;'>Jan</td>
+</tr>
+<tr>
+<td style='text-align: left;'>5</td>
+<td style='text-align: center;'>2017-02-01</td>
+<td style='text-align: center;'>Yuma, AZ</td>
+<td style='text-align: center;'>146</td>
+<td style='text-align: center;'>metro</td>
+<td style='text-align: center;'>AZ</td>
+<td style='text-align: center;'>0</td>
+<td style='text-align: center;'>0</td>
+<td style='text-align: center;'>7</td>
+<td style='text-align: center;'>2017</td>
+<td style='text-align: center;'>2</td>
+<td style='text-align: center;'>Feb</td>
+</tr>
+<tr>
+<td style='border-bottom: 2px solid grey; text-align: left;'>6</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>2017-03-01</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>Yuma, AZ</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>146</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>metro</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>AZ</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>0</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>0</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>7</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>2017</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>3</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>Mar</td>
+</tr>
+</tbody>
+</table>
+<p>The variable hpi is the house price index (normalized so that January 2000 = 100). The variables <code>hpa</code> and <code>hpa12</code> are the one-month and 12-month percent changes in the house price index. The other variables tell us the date, the metro name (<code>geo</code>), the primary state for the metro area, the year and the month.</p>
+</div>
+<div id="distributions" class="section level3">
+<h3>Distributions</h3>
+<p>Let’s construct a joyplot showing how the 12-month appreciation in house prices varies across metro areas by year.</p>
+<pre class="r"><code>ggplot(data=filter(df.metro,year(date)&gt;1979 &amp; month==3 ),
+       aes(x=hpa12,y=reorder(factor(year),-year), fill= ..x.. )) +
+  geom_joy_gradient(rel_min_height = 0.01,scale=3)+
+  scale_fill_viridis(discrete=F)+
+  labs(x=&quot;12-month percent change in house prices&quot;,y=&quot;year&quot;,
+       title=&quot;Distribution of metro house price growth&quot;,
+       subtitle=&quot;March of each year&quot;,
+       caption=&quot;@lenkiefer Source: Freddie Mac House Price Index in March of each year, distribution across metro areas&quot;)+
+  theme_minimal()+theme(legend.position=&quot;none&quot;)+
+  scale_x_continuous(label=percent)</code></pre>
+<pre><code>## Picking joint bandwidth of 0.0102</code></pre>
+<p><img src="/post/2017-07-26-joy_files/figure-html/07-26-2017-joy-2-1.png" width="672" /></p>
+<p>This plot shows the time series history of metro house price appreciation. We can see the wide dispersion during the housing bust, when some metros saw house prices decline by more than 20 percent annually.</p>
+<p>Let’s look compare the distributions across two large states, metros in California and metros in Texas.</p>
+<pre class="r"><code>ggplot(data=filter(df.metro,year(date)&gt;1979 &amp; month(date)==3 &amp; 
+                     state %in% c(&quot;TX&quot;,&quot;CA&quot;)),
+       aes(x=hpa12,y=reorder(factor(year),-year))) +
+  geom_joy(rel_min_height = 0.01,alpha=0.75,aes(fill=state))+
+  scale_fill_viridis(discrete=T)+
+  labs(x=&quot;12-month percent change in house prices&quot;,y=&quot;year&quot;,
+       title=&quot;Distribution of metro house price growth: CA and TX&quot;,
+       subtitle=&quot;March of each year&quot;,
+       caption=&quot;@lenkiefer Source: Freddie Mac House Price Index in March of each year, distribution across metro areas&quot;)+
+  theme_minimal()+theme(legend.position=&quot;none&quot;)+
+  scale_x_continuous(label=percent)+  theme(legend.position=&quot;top&quot;)</code></pre>
+<pre><code>## Picking joint bandwidth of 0.0153</code></pre>
+<p><img src="/post/2017-07-26-joy_files/figure-html/07-26-2017-joy-3-1.png" width="672" /></p>
+<p>We can see that while Texas house prices held up pretty well during the Great Recession, many California markets saw big declines. Since then, California has rebounded and in recent years California metros have had faster house price growth than Texas metros.</p>
+</div>
+<div id="how-about-that-crazy-plot" class="section level3">
+<h3>How about that crazy plot?</h3>
+<p>In my first plot, I intentionally left off the labels. But it’s just the CA vs TX plot above with all 50 states + D.C. included. Let’s recreate it with a few labels.</p>
+<pre class="r"><code>ggplot(data=filter(df.metro,year(date)&gt;1979 &amp; month(date)==3 ),
+       aes(x=hpa12,y=factor(year(date))))+
+  geom_joy(rel_min_height = 0.01,alpha=0.75,aes(fill=state))+
+  theme_minimal()+theme(legend.position=&quot;none&quot;)+
+  labs(x=&quot;Annual % change in house prices&quot;,y=&quot;Year&quot;,
+       title=&quot;Distribution of metro house price growth by states&quot;,
+       subtitle=&quot;Each curve estimated distribution across metros in each state&quot;,
+       caption=&quot;@lenkiefer Source: Freddie Mac House Price Index in March&quot;)+
+  scale_x_continuous(labels=percent)</code></pre>
+<pre><code>## Picking joint bandwidth of 0.0138</code></pre>
+<pre><code>## Warning: Removed 38 rows containing non-finite values (stat_joy).</code></pre>
+<p><img src="/post/2017-07-26-joy_files/figure-html/07-26-2017-joy-4-1.png" width="672" /></p>
+</div>
+<div id="home-sales" class="section level3">
+<h3>Home sales</h3>
+<p>I think joyplots work well if there are some important differences across groups. For example, I think they work to highlight seasonal patterns. The graph below shows monthly existing home sales, not seasonally adjusted.</p>
+<pre><code>## Picking joint bandwidth of 29.9</code></pre>
+<p><img src="/post/2017-07-26-joy_files/figure-html/07-26-2017-ehs-joy-1.png" width="672" /></p>
+</div>
+<div id="is-it-useful" class="section level3">
+<h3>Is it useful?</h3>
+<p>Joyplots certainly are useful insofar as they make an impression. Other chart types are probably better for many applications. For example, if you really want to compare distributions good old boxplots are hard to beat unless you have a very odd distribution.</p>
+<p>But without a doubt, making joyplots is a joyful exercise. And when is joy not useful?</p>
+<p>Don’t discount the importance of being able to resonate with your intended audience. It might well be worth it to sacrifice some clarity if it buys us joy.</p>
+</div>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2017/06/20/more-afford/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2017/06/20/more-afford/">More on housing affordability</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="/2017/07/27/kandinsky/">Mortgage Rate Kandinsky</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="/2017/07/27/kandinsky/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/dataviz/">dataviz</a>, 
+            
+                <a href="/tags/r/">R</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2017%2f07%2f26%2fjoy%2f&text=Joyful%20dataviz via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2017%2f07%2f26%2fjoy%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+

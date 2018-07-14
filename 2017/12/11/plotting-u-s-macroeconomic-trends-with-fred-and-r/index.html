@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Let&#39;s plot recent U.S. macroeconomic trends with R.">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>Plotting U.S. Macroeconomic Trends with FRED and R &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com//img/charts_dec_11_2017/ur_plot.png" >
+     
+    <meta property="og:title" content="Plotting U.S. Macroeconomic Trends with FRED and R">
+    <meta property="og:description" content="Let&#39;s plot recent U.S. macroeconomic trends with R.">
+
+<div class="header">
+  <h1>Plotting U.S. Macroeconomic Trends with FRED and R</h1>
+  <h2>Let&#39;s plot recent U.S. macroeconomic trends with R.</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2017/12/11</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/economy">economy</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <p>LET’S TAKE A LOOK AT RECENT U.S. macroeconomic trends by making a couple plots with <a href="https://www.r-project.org/">R</a> code.</p>
+<p>Since we’re going to be looking at U.S. macroeconomic data, the data we’ll need is available in the St. Louis Federal Reserve Bank Economic Database <a href="https://fred.stlouisfed.org/">FRED</a>. Below I’ll walk you through creating the plots.</p>
+<div id="where-are-we-in-the-business-cycle" class="section level1">
+<h1>Where are we in the business cycle</h1>
+<p>After the BLS released their <a href="https://www.bls.gov/news.release/empsit.nr0.htm">employment situation</a> report (the Jobs report) last week I tweeted out:</p>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">After adding 228k jobs in November (report: <a href="https://t.co/IBKu8hMrWr">https://t.co/IBKu8hMrWr</a>) that&#39;s 86 consecutive months of job gains. <a href="https://t.co/Nek0FOiRAi">pic.twitter.com/Nek0FOiRAi</a></p>&mdash; Leonard Kiefer (@lenkiefer) <a href="https://twitter.com/lenkiefer/status/939146981338943490?ref_src=twsrc%5Etfw">December 8, 2017</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+ 
+<p>At 86 months we are currently in the longest streak of positive monthly employment gains in U.S. postwar history. The recession is getting long in the tooth. It doesn’t seem like a recession is imminent, but economists have not done a great job of forecasting recessions. Forecasting is, after all, <a href="../../../../2017/08/27/forecast/">hard work</a>.</p>
+<p>We talked <a href="../../../../2017/10/26/predicting-recessions-with-dynamic-model-averaging/">earlier</a> about some possible ways to model recessions. We won’t do that here. Instead we will just look at two common recession indicators: the unemployment rate relative to estimates of its natural rate and the slope of the yield curve.</p>
+<div id="unemployment-plot" class="section level2">
+<h2>Unemployment Plot</h2>
+<p><img src="../../../../img/charts_dec_11_2017/ur_plot.png"></p>
+<p>Estimates of the <a href="https://en.wikipedia.org/wiki/Natural_rate_of_unemployment">natural rate of unemployment</a> come from the Congressional Budget Office. Details can be found <a href="https://www.cbo.gov/publication/52801">here</a>. The unemployment rate is estimated by the Bureau of Labor Statistics. The difference between the unemployment rate and the natural rate of unemployment is the <em>unemployment gap</em>. In many economic models this gap, or an <a href="https://en.wikipedia.org/wiki/Output_gap">output gap</a> measures how far the economy is from potential.</p>
+<p>A positive unemployment gap is neither necessary nor sufficient for a recession (see a large percentage of modern macroeconomic theory for perspectives) but a positive gap has preceded the past three recessions.</p>
+</div>
+<div id="slope-of-yield-curve-plot" class="section level2">
+<h2>Slope of Yield Curve Plot</h2>
+<p>The slope of the yield curve, or the difference between short- and long-term interest rates is another indicator of <em>interest</em>. Consider this plot.</p>
+<p><img src="../../../../img/charts_dec_11_2017/yc_plot.png"></p>
+<p>A negative or inverted yield curve is another indicator analysts use for forecasting a recession. The plot above shows monthly values, though you can easily get daily values via FRED or the U.S. Treasury <a href="https://www.treasury.gov/resource-center/data-chart-center/interest-rates/Pages/TextView.aspx?data=yield">see here</a>. Note only two of the past three recessions had a negative yield curve slope as measured by the difference between monthly average 10-year and 3-month Treasurys. Still, a flattening and especially and inversion of the yield curve is widely seen as a strong recession indicator. Note that while the yield curve slope is flattening it is far from inverted. Financial markets can move fast though.</p>
+<div id="useful-charts" class="section level3">
+<h3>Useful charts?</h3>
+<p>I think these are interesting charts to look at and ponder. You need more analysis, but trends in these variables are one thing you might want to look at. Let’s talk about how you can build these charts.</p>
+</div>
+</div>
+</div>
+<div id="r-code" class="section level1">
+<h1>R code</h1>
+<p>The code below will get our data ready for plotting. See for example <a href="../../../../2017/09/18/a-tidyquant-um-of-solace/">this post</a> for more on using FRED and R with the very handy <a href="https://CRAN.R-project.org/package=tidyquant">tidyquant</a> package.</p>
+<pre class="r"><code>#####################################################################################
+## Step 1: Load Libraries ###
+#####################################################################################
+library(tidyverse)
+library(tidyquant)
+library(scales)
+library(tibbletime)
+
+
+#####################################################################################
+## Step 2: go get data ###
+#####################################################################################
+
+# Set up tickers
+tickers&lt;- c(&quot;GS10&quot;,   # 10-year constant maturity Treasury yield
+            &quot;TB3MS&quot;,  # 3-month Tbill rate
+            &quot;UNRATE&quot;, # unemployment rate
+            &quot;NROU&quot;  ) # estimate of natural rate of unemployment from U.S. Congressional Budget Office
+
+# download data via FRED 
+df2&lt;-tq_get(tickers,                         # get selected symbols
+            get=&quot;economic.data&quot;,             # use FRED
+            from=&quot;1954-01-01&quot;)               # go from 1954 forward
+
+
+#####################################################################################
+## Step 3: get data ready for analysis ###
+#####################################################################################
+
+df2 %&gt;% 
+  spread(symbol,price) -&gt; df3
+
+
+# Convert quarterly naturla rate (NROU) data to monthly data by &quot;filling down&quot; using na.locf
+
+df3 %&gt;% 
+  mutate(NROU2=na.locf(NROU,na.rm=F)) %&gt;% 
+  mutate(UGAP2=UNRATE-NROU2)-&gt; df3
+
+# Create some indicators for shaded plot
+
+df3 &lt;- mutate( df3, 
+               up=ifelse(UNRATE&gt;NROU2,UNRATE,NROU2),
+               down=ifelse(UNRATE&lt;NROU2,UNRATE,NROU2),
+               up2=ifelse(GS10&gt;TB3MS,GS10-TB3MS,0),
+               down2=ifelse(GS10&lt;TB3MS,GS10-TB3MS,0)
+               )
+
+# Set up recession indicators
+
+recessions.df = read.table(textConnection(
+  &quot;Peak, Trough
+  1948-11-01, 1949-10-01
+  1953-07-01, 1954-05-01
+  1957-08-01, 1958-04-01
+  1960-04-01, 1961-02-01
+  1969-12-01, 1970-11-01
+  1973-11-01, 1975-03-01
+  1980-01-01, 1980-07-01
+  1981-07-01, 1982-11-01
+  1990-07-01, 1991-03-01
+  2001-03-01, 2001-11-01
+  2007-12-01, 2009-06-01&quot;), sep=&#39;,&#39;,
+  colClasses=c(&#39;Date&#39;, &#39;Date&#39;), header=TRUE)</code></pre>
+<p>Note that the estimates of the natural rate of unemployment for the U.S. Congressional Budget Office are quarterly but the rest of our data is monthly. We can “fill down” the unemployment rate between quarters with the <code>zoo::na.locf()</code> function <a href="https://www.rdocumentation.org/packages/zoo/versions/1.8-0/topics/na.locf">see here</a>.</p>
+<p>Now with our data ready, we can create our plots:</p>
+<pre class="r"><code>#####################################################################################
+## Step 4: make plots ###
+#####################################################################################
+
+
+# Unemployment rate plot
+g&lt;-
+ggplot(data=filter(df3,!is.na(NROU2)),aes(x=date,y=UNRATE))+
+  geom_rect(data=recessions.df, inherit.aes=F, aes(xmin=Peak, xmax=Trough, ymin=-Inf, ymax=+Inf), fill=&#39;darkgray&#39;, alpha=0.5) +
+  geom_line(color=&quot;black&quot;)+
+  geom_line(linetype=2,aes(y=NROU2))+
+  geom_ribbon(aes(ymin=UNRATE,ymax=down),fill=&quot;#d73027&quot;,alpha=0.5)+
+  geom_ribbon(aes(ymin=UNRATE,ymax=up),fill=&quot;#4575b4&quot;,alpha=0.5)  +
+  scale_x_date(date_breaks=&quot;5 years&quot;,date_labels=&quot;%Y&quot;)+
+  scale_y_continuous(sec.axis=dup_axis())+
+  theme_minimal(base_size=8)+
+  theme(legend.position=&quot;top&quot;,
+        plot.caption=element_text(hjust=0),
+        plot.subtitle=element_text(face=&quot;italic&quot;),
+        plot.title=element_text(size=16,face=&quot;bold&quot;))+
+  labs(x=&quot;&quot;,y=&quot;Percent&quot;,
+       title=&quot;U.S. Unemployment Rate vs Natural Rate of Unemployment&quot;,
+       subtitle=&quot;Solid line Unemployment Rate, dotted line Long-term Natural Rate of Unemployment&quot;,
+       caption=&quot;@lenkiefer Data Source: U.S. Bureau of Labor Statistics, U.S. Congressional Budget Office,shaded bars NBER Recessions\nNatural Rate of Unemployment (Long-Term) retrieved from FRED, Federal Reserve Bank of St. Louis; https://fred.stlouisfed.org/series/NROU, December 11, 2017&quot;)+
+  geom_rug(aes(color=ifelse(UNRATE&lt;=NROU2,&quot;Below or Equal&quot;,&quot;Above&quot;)),sides=&quot;b&quot;)+
+  scale_color_manual(values=c(&quot;#d73027&quot;,&quot;#4575b4&quot;),name=&quot;Unemployment Rate Above/Below Natural Rate &quot;)
+
+# Slope of yield curve plot
+
+g2&lt;-
+ggplot(data=filter(df3,!is.na(TB3MS) &amp; !is.na(GS10)),aes(x=date,y=GS10-TB3MS))+
+  geom_rect(data=filter(recessions.df,year(Peak)&gt;1952), inherit.aes=F, aes(xmin=Peak, xmax=Trough, ymin=-Inf, ymax=+Inf), fill=&#39;darkgray&#39;, alpha=0.5) +
+  geom_line(color=&quot;black&quot;)+
+  theme_minimal()+
+  geom_ribbon(aes(ymin=0,ymax=down2),fill=&quot;#d73027&quot;,alpha=0.5)+
+  geom_ribbon(aes(ymin=up2,ymax=0),fill=&quot;#4575b4&quot;,alpha=0.5)  +
+  geom_rug(aes(color=ifelse(GS10&gt;=TB3MS,&quot;&gt;=0&quot;,&quot;&lt;0&quot;)),sides=&quot;b&quot;)+
+  scale_color_manual(values=c(&quot;#d73027&quot;,&quot;#4575b4&quot;),name=&quot;Yield Curve Slope &quot;)+
+  scale_x_date(date_breaks=&quot;5 years&quot;,date_labels=&quot;%Y&quot;)+
+  scale_y_continuous(sec.axis=dup_axis())+
+  labs(x=&quot;&quot;,y=&quot;Difference in percentage points&quot;,title=&quot;Slope of Yield Curve: 10-year minus 3-month U.S. Treasury rates&quot;,
+       subtitle=&quot;Difference in percentage points, monthly averages&quot;,
+       caption=&quot;@lenkiefer Source: Federal Reserve (H.15), shaded area NBER recessions.\nretrieved from FRED, Federal Reserve Bank of St. Louis, December 11, 2017.&quot;)+
+  geom_hline(yintercept=0,color=&quot;black&quot;)+
+    theme(legend.position=&quot;top&quot;,
+          plot.caption=element_text(hjust=0),
+          plot.subtitle=element_text(face=&quot;italic&quot;,size=9),
+          plot.title=element_text(face=&quot;bold&quot;,size=14))</code></pre>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2017/11/28/housing-construction-and-employment/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2017/11/28/housing-construction-and-employment/">Housing construction and employment trends</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="/2017/12/20/state-population-growth-and-house-prices/">State population growth and house prices</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="/2017/12/20/state-population-growth-and-house-prices/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/dataviz/">dataviz</a>, 
+            
+                <a href="/tags/economy/">economy</a>, 
+            
+                <a href="/tags/r/">R</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2017%2f12%2f11%2fplotting-u-s-macroeconomic-trends-with-fred-and-r%2f&text=Plotting%20U.S.%20Macroeconomic%20Trends%20with%20FRED%20and%20R via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2017%2f12%2f11%2fplotting-u-s-macroeconomic-trends-with-fred-and-r%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+

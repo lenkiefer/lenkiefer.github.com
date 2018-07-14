@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>Facet my geo! &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Facet my geo!">
+    <meta property="og:description" content="TIME TO TRY OUT ANOTHER HOUSE PRICE VISUALIZATION.
+In this post we’ll try out a new way to visualize recent house price trends with R.
+Just this wekeend I saw a new package geofacet for organizing ggplot2 facets along a geographic grid. It allows use to construct a small multiple graph that roughly looks like the United States. (Thanks to [@yoniceedee](https://twitter.com/yoniceedee) for recommending geofacet).
+Let’s try it out using the same house price data we visualized recently.">
+
+<div class="header">
+  <h1>Facet my geo!</h1>
+  <h2></h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2017/05/22</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/maps">maps</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <p>TIME TO TRY OUT ANOTHER HOUSE PRICE VISUALIZATION.</p>
+<p>In this post we’ll try out a new way to visualize recent house price trends with <a href="https://www.r-project.org/">R</a>.</p>
+<p>Just this wekeend I saw a new package <a href="https://github.com/hafen/geofacet">geofacet</a> for organizing ggplot2 facets along a geographic grid. It allows use to construct a small multiple graph that roughly looks like the United States. (Thanks to <span class="citation">[@yoniceedee]</span>(<a href="https://twitter.com/yoniceedee" class="uri">https://twitter.com/yoniceedee</a>) for recommending geofacet).</p>
+<p>Let’s try it out using the same house price data we <a href="../../../../2017/05/18/state-hpa">visualized recently</a>. Details about the data are in that post, but we’ll be using the <a href="http://www.freddiemac.com/finance/house_price_index.html">Freddie Mac House Price Index</a> to once again visualize state house price trends.</p>
+<p>Let’s get to it.</p>
+<div id="data" class="section level1">
+<h1>Data</h1>
+<p>We’ll start this post with our data in hand. Just follow along <a href="../../../../2017/05/18/state-hpa">here</a> to get the data. We’ll begin with a data frame called <code>df.state</code> that looks like so.</p>
+<table class='gmisc_table' style='border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;' >
+<thead>
+<tr><td colspan='13' style='text-align: left;'>
+Our data frame
+df.state</td></tr>
+<tr>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey;'> </th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>date</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>geo</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>hpi</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>type</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>hpa</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>hpilag12</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>hpimax12</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>hpimin12</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>us.hpa</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>us.hpi</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>up</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>down</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style='border-bottom: 2px solid grey; text-align: left;'>1</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>2017-03-01</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>WY</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>187.119</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>state</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>0.016</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>184.247</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>188.474</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>184.247</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>0.066</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>170.971</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>0.066</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>0.016</td>
+</tr>
+</tbody>
+<tfoot><tr><td colspan='13'>
+Source: Freddie Mac House Price Index</td></tr></tfoot>
+</table>
+<p>The key variable we’ll need is <code>hpa</code> which captures the 12-month percent change in the house price index. Conveniently, we already have a state identifier to use with <code>facet_geo</code> (though we’ll have to rename it state).</p>
+<div id="facet-my-geo" class="section level2">
+<h2>Facet my geo</h2>
+<p>With our data in hand, it’s pretty easy to create our plot. Our data goes from 1975 to March 2017, so we’ll subset it to focus on more recent trends. We’ll plot 12-month percent changes in house prices (variable <code>hpa</code> in our data) since 2000. We’ll also restrict our attention to March of each year (so we can end with the latest data in March 2017).</p>
+<pre class="r"><code>### Run this to get library: 
+# devtools::install_github(&quot;hafen/geofacet&quot;)
+library(ggplot2)
+library(viridis)</code></pre>
+<pre><code>## Loading required package: viridisLite</code></pre>
+<pre class="r"><code>library(scales)
+library(geofacet)
+
+## Subset data and drop US averages
+df.state2&lt;-filter(df.state, 
+                  year(date)&gt;1999 &amp; month(date)==3 &amp; 
+                    !(geo %in% c(&quot;United States not seasonally adjusted&quot;,
+                                        &quot;United States seasonally adjusted&quot; )))
+
+# set up date limits for plot
+xlim&lt;-c(min(df.state2$date),max(df.state2$date))
+
+# create state variable
+df.state2$state&lt;-df.state2$geo
+
+# create plot:
+ggplot(df.state2, aes(x=date, y=hpa,fill=hpa)) +
+  
+  # geom col for little bars
+  geom_col()+
+  
+  # use facet_geo
+  facet_geo(~ state, grid = &quot;us_state_grid2&quot;)+
+  
+  # my go to theme
+  theme_minimal()+
+
+  # the colors!
+  scale_fill_viridis(option=&quot;C&quot;,limits=c(-0.35,0.35),
+                     label=percent,name=&quot;12-month\n% change&quot;)+
+
+  # set up x (date) and y (HPA) axes
+  scale_x_date(limits=xlim,breaks=xlim,date_labels=&quot;%y&quot;)+
+    
+  scale_y_continuous(label=percent,limits=c(-0.35,0.35),
+                     breaks=seq(-0.3,.3,.3))+
+  
+  # labels, title, caption
+  labs(x=&quot;&quot;,y=&quot;&quot;,
+       title=&quot;House Price Appreciation&quot;,
+       subtitle=&quot;12-month percent change in March&quot;,
+       caption=&quot;@lenkiefer Source: Freddie Mac House Price Index&quot;)+
+  
+  # adjust theme
+  theme(plot.caption=element_text(hjust=0),
+        # need to shrink axis text
+        axis.text.x=element_text(size=7), 
+        plot.subtitle=element_text(face=&quot;italic&quot;),
+        legend.position=&quot;top&quot;)</code></pre>
+<p><img src="/post/2017-05-22-geo-my-facet_files/figure-html/05-22-2017-plot1-1.png" width="864" /></p>
+<p>Pretty neat. I think I’ll be trying this more in the future.</p>
+<p>It also works pretty great for an animation. Here’s an animated version of our plot:</p>
+<p><img src="../../../../img/charts_may_22_2017/geo facet hpa 05 22 2017.gif" ></p>
+</div>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2017/05/21/consumer-prices-household-debt/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2017/05/21/consumer-prices-household-debt/">Consumer prices, household debt</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="/2017/05/23/index-start/">Index starting points and dataviz</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="/2017/05/23/index-start/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/r/">R</a>, 
+            
+                <a href="/tags/dataviz/">dataviz</a>, 
+            
+                <a href="/tags/maps/">maps</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2017%2f05%2f22%2fgeo-my-facet%2f&text=Facet%20my%20geo%21 via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2017%2f05%2f22%2fgeo-my-facet%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+

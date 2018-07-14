@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Explore housing trends in the US, practice some data wrangling and *tri* out a new data visualization technique.">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>Exploring housing data with R and IPUMS USA &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com//img/charts_jul_1_2018/tricolore3.png" >
+     
+    <meta property="og:title" content="Exploring housing data with R and IPUMS USA">
+    <meta property="og:description" content="Explore housing trends in the US, practice some data wrangling and *tri* out a new data visualization technique.">
+
+<div class="header">
+  <h1>Exploring housing data with R and IPUMS USA</h1>
+  <h2>Explore housing trends in the US, practice some data wrangling and *tri* out a new data visualization technique.</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/07/01</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/housing">housing</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/data-wrangling">data wrangling</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/microdata">microdata</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <p>In this post I want to share some observations on housing in the United States from 1980 to 2016, share some <a href="https://www.r-project.org/">R</a> code for data wrangling, and tri <strong>(no that’s not a typo, just a pun)</strong> out a visualization techniques.</p>
+<p>Let’s get to it.</p>
+<p>I’ve been carrying a running conversation with folks on Twitter regarding the U.S. housing market and its future. Much of that depends on the evolution of demographic forces. There is a large group of young adults who will drive the U.S. housing market in years to come, but the U.S. also has the aging Baby Boomer generation.</p>
+<p>Earlier today I shared this from a presentation by the Federal Reserve Bank of Kansas City’s economist <a href="https://www.kansascityfed.org/people/jordanrappaport">Jordan Rappaport</a>. See <a href="https://www.kansascityfed.org/~/media/files/publicat/speeches/2018/2018-rappaport-americanescrow-05-17.pdf">here pdf</a> for slides from a recent talk Jordan gave.</p>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">What&#39;s going to happen as Boomers age? Typically as they age people move out of single family (SF) homes. But longer healthier lives might change the timing.<br><br>Chart from &quot;The large unmet demand for <a href="https://twitter.com/hashtag/housing?src=hash&amp;ref_src=twsrc%5Etfw">#housing</a>&quot; via <a href="https://twitter.com/KansasCityFed?ref_src=twsrc%5Etfw">@KansasCityFed</a> (pdf)<a href="https://t.co/8tyVBdaSed">https://t.co/8tyVBdaSed</a> <a href="https://t.co/UGg8HoMk2i">pic.twitter.com/UGg8HoMk2i</a></p>&mdash; Leonard Kiefer (@lenkiefer) <a href="https://twitter.com/lenkiefer/status/1013419363876114432?ref_src=twsrc%5Etfw">July 1, 2018</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+ 
+<p>The slide I shared shows a U shaped pattern in the share of household who live in apartment based on age. I thought it would be interesting to recreate this chart and then see how this relationship has changed over time. I’ve seen Jordan present a version of this in other presentation, though it’s not in the link above.</p>
+<div id="get-data" class="section level1">
+<h1>Get data</h1>
+<div id="ipums-you-ipums-we-all-pums-for-ipums" class="section level2">
+<h2>IPUMS, you (I)PUMS, we all PUMS for IPUMS</h2>
+<p>In order to explore these trends, we’re going to need to get some data. As we want custom tabulations, we cannot rely on the <a href="https://cran.r-project.org/package=acs">ACS</a> package like we did <a href="../../../../2018/05/02/what-s-up-vsup-that-s-what-s-up/">here</a>. Instead we’ll use <a href="https://usa.ipums.org/usa/index.shtml">IPUMS-USA</a> to download data from the U.S. Census Bureau’s <a href="https://www.census.gov/programs-surveys/acs/data/pums.html">Public Use Microdata Samples</a>.</p>
+<p>If you want to follow along you’ll need to sign into IPUMS and download your own data. I’ll share the details of the sample I’m using, but the file is too large to post here. I want to see how things may have shifted since 1980, so I’ll collect samples from the 1980, 1990, and 2000 Decennial Census. I’ll also grab the latest available microdata from the 2016 American Community Survey (and 2010 ACS as well). IPUMS has various options you can choose from when selecting your sample, but here are the variables I chose.</p>
+<p><img src="../../../../img/charts_jul_1_2018/ipums2.png"></p>
+<p>IPUMS allows you to select only certain variables for analysis. I chose the following variables along with the defaults that include year, group quarters status (GQ) and household (HHWT) and person (PERWT) weights.</p>
+<ul>
+<li>AGE</li>
+<li>Birth Year</li>
+<li>OWNERSHP</li>
+<li>MORTGAGE</li>
+</ul>
+<p>I also collected a few other variables that I won’t use here, but we might use at a later date.</p>
+<p><img src="../../../../img/charts_jul_1_2018/ipums3.png"></p>
+<p>After you selected your variables you can select the format for your data. They don’t have a R option right now, but that’s okay. We can select a Stata data format and use <a href="https://CRAN.R-project.org/package=haven">haven</a> to import into R. <em>Note:, you’ll want to selected a Stata formatted data. Select the data format on the data extract request page. See <a href="https://usa.ipums.org/usa-action/faq#ques35">this FAQ</a>.</em></p>
+<p>You could also use a fixed width format, but I find the Stata format easier to work with thanks to haven. <em>We could also use <a href="https://CRAN.R-project.org/package=ipumsr">ipumsr</a>, but I haven’t worked with that package yet.</em></p>
+<p><img src="../../../../img/charts_jul_1_2018/ipums1.png"></p>
+<p>Now that we have our data, we’re ready to rock.</p>
+</div>
+<div id="wrangle" class="section level2">
+<h2>Wrangle</h2>
+<p>Normally, when I work with large(ish) data like Census microdata, I would use the <a href="https://CRAN.R-project.org/package=data.table">data.table</a> package. But for today’s analysis, we’ll restrict ourself to the <a href="https://cran.r-project.org/web/packages/tidyverse/index.html">tidyverse</a>. It turns out for most of what we’re doing the gains from data.table in terms of speed of computation are relatively minor, a few seconds at most for most operations we’ll do here.</p>
+<p>Thanks to the fabulous work of IPUMS, our data wrangling is pretty limited. The dataset we got from IPUMS is nice and rectangular. There are a few categorical variables with numeric codes (like ownership, mortgage status and structure type).</p>
+<p>First, we’ll load our data into R with haven and then we’ll create three useful variables.</p>
+<pre class="r"><code># Load libraries ----
+library(tidyverse)
+library(haven)
+library(data.table)
+library(scales)
+
+# load data ----
+df &lt;- read_dta(&quot;data/usa_00008.dta&quot;)
+
+# create variables
+df &lt;- mutate(df,
+             own  = ifelse(ownershp==1,1,0),
+             agec = cut(age,seq(0,100,5),right=FALSE),
+             mtg  = case_when(
+               mortgage == 0 ~ NA_real_,  # special NA for integers
+               # https://stackoverflow.com/questions/44893933/avoiding-type-conflicts-with-dplyrcase-when
+               mortgage == 1 ~ 0,
+               TRUE ~ 1 )
+             )</code></pre>
+<p>Now, we’ll create two summary datasets. One will be based on households, the other persons. For all analysis we’ll use individuals living outside of group quarters. We’ll use households under the 1970s definition (<code>GQ==1</code>) so we can have consistency from 1980 forward. Though the additional counts you’d get from using the 1990s and 2000s household definitions are relatively minor.</p>
+<pre class="r"><code># household level dataframe ----
+
+df.hha &lt;-
+  df %&gt;% 
+  filter(pernum==1 &amp; gq %in% c(1)) %&gt;%
+  group_by(year, agec) %&gt;%
+  summarize(
+            hh      = sum(hhwt), 
+            renters = sum(ifelse(own==0,hhwt,0)),
+            owners  = sum(ifelse(own==1,hhwt,0)),
+            ho=weighted.mean(own,hhwt,na.rm=T),
+            mtg= weighted.mean( 
+              case_when(
+                mortgage == 0 ~ NA_real_,
+                mortgage == 1 ~ 0,
+                TRUE ~ 1 ), 
+              hhwt, na.rm=T),
+            
+            agemin = min(age,na.rm=T),
+            agem = weighted.mean(age, hhwt,na.rm=T),
+            agemax = max(age,na.rm=T),
+            byrmin = min(birthyr, na.rm=T),
+            byrmax = max(birthyr, nar.rm=T),
+            mf= weighted.mean(ifelse(unitsstr %in% c(7,8,9,10),1,0),hhwt,na.rm=T),
+            sf=weighted.mean(ifelse(unitsstr %in% c(3,4),1,0),hhwt,na.rm=T)
+            ) %&gt;%
+  mutate( own.mtg = mtg*owners,
+          own.clr = (1-mtg)*owners) %&gt;%
+  arrange(year, agec)
+
+# person level dataframe ----
+# won&#39;t use this one today, but could be useful if we wanted to do some person-level tabulations
+
+df.pera &lt;-
+  df %&gt;% 
+  filter( gq %in% c(1)) %&gt;%
+  group_by(year, agec) %&gt;%
+  summarize(
+            pop      = sum(perwt), 
+            renters = sum(ifelse(own==0,perwt,0)),
+            owners  = sum(ifelse(own==1,perwt,0)),
+            ho=weighted.mean(own,perwt,na.rm=T),
+            mtg= weighted.mean( 
+              case_when(
+                mortgage == 0 ~ NA_real_,
+                mortgage == 1 ~ 0,
+                TRUE ~ 1 ), 
+              perwt, na.rm=T),
+            agemin = min(age,na.rm=T),
+            agem = weighted.mean(age, perwt,na.rm=T),
+            agemax = max(age,na.rm=T),
+            byrmin = min(birthyr, na.rm=T),
+            byrmax = max(birthyr, nar.rm=T),
+            mf= weighted.mean(ifelse(unitsstr %in% c(7,8,9,10),1,0),perwt,na.rm=T),
+            sf=weighted.mean(ifelse(unitsstr %in% c(3,4),1,0),perwt,na.rm=T)
+          ) %&gt;%
+  mutate( own.mtg = mtg*owners,
+          own.clr = (1-mtg)*owners) %&gt;%
+  arrange(year, agec)</code></pre>
+<p>That’s it in terms of data wrangling. Let’s make some plots.</p>
+<div id="colors-for-plots" class="section level3">
+<h3>Colors for plots</h3>
+<p>For most of the plots below, we’ll use a custom scale. We’ll follow this <a href="https://drsimonj.svbtle.com/creating-corporate-colour-palettes-for-ggplot2">post</a> by Simon Jackson that describes how to create custom color palettes for ggplot2.</p>
+<pre class="r"><code>  # Function for colors ----
+  #####################################################################################
+  ## Make Color Scale ----  ##
+  #####################################################################################
+  my_colors &lt;- c(
+    &quot;green&quot;      = rgb(103,180,75, maxColorValue = 256),
+    &quot;green2&quot;      = rgb(147,198,44, maxColorValue = 256),
+    &quot;lightblue&quot;  =  rgb(9, 177,240, maxColorValue = 256),
+    &quot;lightblue2&quot; = rgb(173,216,230, maxColorValue = 256),
+    &#39;blue&#39;       = &quot;#00aedb&quot;,
+    &#39;red&#39;        = &quot;#d11141&quot;,
+    &#39;orange&#39;     = &quot;#f37735&quot;,
+    &#39;yellow&#39;     = &quot;#ffc425&quot;,
+    &#39;gold&#39;       = &quot;#FFD700&quot;,
+    &#39;light grey&#39; = &quot;#cccccc&quot;,
+    &#39;purple&#39;     = &quot;#551A8B&quot;,
+    &#39;dark grey&#39;  = &quot;#8c8c8c&quot;)
+  
+  
+  my_cols &lt;- function(...) {
+    cols &lt;- c(...)
+    if (is.null(cols))
+      return (my_colors)
+    my_colors[cols]
+  }
+  
+  
+  my_palettes &lt;- list(
+    `main`  = my_cols(&quot;blue&quot;, &quot;green&quot;, &quot;yellow&quot;),
+    `cool`  = my_cols(&quot;blue&quot;, &quot;green&quot;),
+    `hot`   = my_cols(&quot;yellow&quot;, &quot;orange&quot;, &quot;red&quot;),
+    `mixed` = my_cols(&quot;lightblue&quot;, &quot;green&quot;, &quot;yellow&quot;, &quot;orange&quot;, &quot;red&quot;),
+    `mixed2` = my_cols(&quot;lightblue2&quot;,&quot;lightblue&quot;, &quot;green&quot;, &quot;green2&quot;,&quot;yellow&quot;,&quot;gold&quot;, &quot;orange&quot;, &quot;red&quot;),
+    `mixed3` = my_cols(&quot;lightblue2&quot;,&quot;lightblue&quot;, &quot;green&quot;, &quot;yellow&quot;,&quot;gold&quot;, &quot;orange&quot;, &quot;red&quot;),
+    `mixed4` = my_cols(&quot;lightblue2&quot;,&quot;lightblue&quot;, &quot;green&quot;, &quot;green2&quot;,&quot;yellow&quot;,&quot;gold&quot;, &quot;orange&quot;, &quot;red&quot;,&quot;purple&quot;),
+    `mixed5` = my_cols(&quot;lightblue&quot;,&quot;green&quot;, &quot;green2&quot;,&quot;yellow&quot;,&quot;gold&quot;, &quot;orange&quot;, &quot;red&quot;,&quot;purple&quot;,&quot;blue&quot;),
+    `mixed6` = my_cols(&quot;green&quot;, &quot;gold&quot;, &quot;orange&quot;, &quot;red&quot;,&quot;purple&quot;,&quot;blue&quot;),
+    `grey`  = my_cols(&quot;light grey&quot;, &quot;dark grey&quot;)
+  )
+  
+  
+  my_pal &lt;- function(palette = &quot;main&quot;, reverse = FALSE, ...) {
+    pal &lt;- my_palettes[[palette]]
+    
+    if (reverse) pal &lt;- rev(pal)
+    
+    colorRampPalette(pal, ...)
+  }
+  
+  
+  scale_color_mycol &lt;- function(palette = &quot;main&quot;, discrete = TRUE, reverse = FALSE, ...) {
+    pal &lt;- my_pal(palette = palette, reverse = reverse)
+    
+    if (discrete) {
+      discrete_scale(&quot;colour&quot;, paste0(&quot;my_&quot;, palette), palette = pal, ...)
+    } else {
+      scale_color_gradientn(colours = pal(256), ...)
+    }
+  }
+  
+  
+  
+  scale_fill_mycol &lt;- function(palette = &quot;main&quot;, discrete = TRUE, reverse = FALSE, ...) {
+    pal &lt;- my_pal(palette = palette, reverse = reverse)
+    
+    if (discrete) {
+      discrete_scale(&quot;fill&quot;, paste0(&quot;my_&quot;, palette), palette = pal, ...)
+    } else {
+      scale_fill_gradientn(colours = pal(256), ...)
+    }
+  }</code></pre>
+</div>
+</div>
+</div>
+<div id="housing-trends" class="section level1">
+<h1>Housing Trends</h1>
+<p>Let’s compare trends in homeownership and households from 1980 to 2016 using our data.</p>
+<pre class="r"><code>mycaption &lt;- &quot;@lenkiefer Source: Decennial Census (1980,1990,2000) and 2010 and 2016 American Community Survey\nAuthor&#39;s tabulation of public use microdata via IPUMS-USA, University of Minnesota, www.ipums.org.\nRestricted to persons and households based on the 1970s household definition&quot;
+
+
+ggplot(summarize(df.hha, ho = weighted.mean(ho,hh)), aes(x=year,y=ho))+
+  geom_path() + 
+  geom_point(size=3)+
+  scale_x_continuous(breaks= unique(df.hha$year))+
+  scale_y_continuous(labels=percent, breaks=seq(0,1,.01), limits=c(.63,.67))+
+  theme_minimal(base_size=18)+
+  theme(legend.position=&quot;none&quot;,
+        plot.caption=element_text(hjust=0, size=8))+
+  labs(x=&quot;Census Year&quot;, y=&quot;Homeownership Rate(%)&quot;, 
+       title=&quot;U.S. Homeownership Rate&quot;,
+       caption=mycaption)</code></pre>
+<p><img src="/post/2018-07-01-exploring-housing-data-with-r-and-ipums-usa_files/figure-html/07-01-2018-plot-1-1.png" width="672" /></p>
+<p>We see that the homeownership rate in the United States is down a little in 2016. How does that compare by age group? Let’s use our 5-year age buckets.</p>
+<pre class="r"><code>ggplot(data=filter(df.hha,agemax&lt;85,agemax&gt;19), aes(x=year,y=ho, fill=agec))+geom_path() + geom_point()+
+  scale_x_continuous(breaks= unique(df.hha$year))+
+  scale_y_continuous(labels=percent, breaks=seq(0,1,.1))+
+  geom_area(alpha=0.25, position=&quot;identity&quot;)+
+  theme_minimal(base_size=14)+
+  scale_color_mycol(&quot;mixed6&quot;)+
+  scale_fill_mycol(&quot;mixed6&quot;)+
+  theme(legend.position=&quot;none&quot;,
+        axis.text=element_text(size=7),
+        plot.caption=element_text(hjust=0, size=8),
+        panel.spacing = unit(1, &quot;lines&quot;))+
+  facet_wrap(~agec, ncol=5)+
+  labs(x=&quot;Census Year&quot;, y=&quot;Homeownership Rate(%)&quot;, 
+       title=&quot;U.S. Homeownership Rate by Householder Age&quot;,
+       caption=mycaption)</code></pre>
+<p><img src="/post/2018-07-01-exploring-housing-data-with-r-and-ipums-usa_files/figure-html/07-01-2018-plot-2-1.png" width="864" /></p>
+<p>Here we see an interesting pattern. The homeownership rate for the younger age groups have declined while they have generally risen for older cohorts. How about mortgage utilization? What’s the percent of homeowner households that have a mortgage?</p>
+<pre class="r"><code>ggplot(data=filter(df.hha,agemax&lt;85,agemax&gt;19), aes(x=year,y=mtg, fill=agec, color=agec))+
+  geom_path(color=&quot;black&quot;) + 
+  geom_point()+
+  scale_x_continuous(breaks= unique(df.hha$year))+
+  scale_y_continuous(labels=percent, breaks=seq(0,1,.1))+
+  geom_area(alpha=0.25, position=&quot;identity&quot;, color=&quot;NA&quot;)+
+  theme_minimal(base_size=14)+
+  scale_color_mycol(&quot;mixed6&quot;)+
+  scale_fill_mycol(&quot;mixed6&quot;)+
+  theme(legend.position=&quot;none&quot;,
+        axis.text=element_text(size=7),
+        plot.caption=element_text(hjust=0, size=8),
+        panel.spacing = unit(1, &quot;lines&quot;))+
+  facet_wrap(~agec, ncol=5)+
+  labs(x=&quot;Census Year&quot;, y=&quot;Percent of homeowners with mortgage(%)&quot;, 
+       title=&quot;U.S. Mortgage utilization by householder age&quot;,
+       subtitle=&quot;Percent of homeowner households with a mortgage&quot;,
+       caption=mycaption)</code></pre>
+<p><img src="/post/2018-07-01-exploring-housing-data-with-r-and-ipums-usa_files/figure-html/07-01-2018-plot-3-1.png" width="864" /></p>
+<p>Here we see that over age, the share of households with a mortgage tends to decline, though the share of older households with a mortgage has increased. Let’s combine rentership with two types of owners, those with a mortgage and those who own free and clear in 2016. We’ll need to do a tiny bit of data manipulation.</p>
+<pre class="r"><code># roll up by year with group_by and summarize
+df.bar &lt;- 
+  df.hha %&gt;% 
+  filter( agem&lt; 85) %&gt;%
+  group_by(year,agec) %&gt;%
+  summarize(
+    renter=sum(renters, na.rm=T),
+    own.with.mtg = sum(hh*ho*mtg, na.rm=T),
+    own.clear = sum(hh*ho*(1-mtg), na.rm=T)
+  ) %&gt;% 
+  gather(tenure,hh,-year,-agec)
+
+
+
+ggplot(data=filter(df.bar,year==2016), aes(x=agec, y=hh,fill=tenure)) + 
+  geom_col(position=&quot;stack&quot;, alpha=0.82)+
+  scale_color_mycol(&quot;mixed6&quot;)+
+  scale_fill_mycol(&quot;mixed6&quot;)+
+  theme_minimal(base_size=14)+
+  scale_y_continuous(labels=comma,expand=c(0,0))+
+  theme(legend.position=&quot;top&quot;,
+        axis.text=element_text(size=7),
+        plot.caption=element_text(hjust=0, size=8),
+        panel.spacing = unit(1, &quot;lines&quot;))+
+  labs(x=&quot;Householder Age&quot;, y=&quot;Number of households&quot;, 
+       title=&quot;U.S. households in 2016&quot;,
+       subtitle=&quot;Tenure and mortgage status of households by age&quot;,
+       caption=mycaption)</code></pre>
+<p><img src="/post/2018-07-01-exploring-housing-data-with-r-and-ipums-usa_files/figure-html/07-01-2018-plot-4-1.png" width="672" /></p>
+<p>If we were feeling mischievous we could use a polar coordinate/radial chart. First with the bars (now wedges) summing up to 1 (share of total):</p>
+<pre class="r"><code>ggplot(data=df.bar, aes(x=agec, y=hh,fill=tenure)) + 
+  geom_col(position=&quot;fill&quot;, alpha=0.82)+
+  scale_color_mycol(&quot;mixed6&quot;)+
+  scale_fill_mycol(&quot;mixed6&quot;)+
+  theme_minimal(base_size=14)+
+  coord_polar()+
+  facet_wrap(~year)+
+  theme(legend.position=&quot;top&quot;,
+        axis.text=element_text(size=7),
+        plot.caption=element_text(hjust=0, size=8),
+        panel.spacing = unit(1, &quot;lines&quot;))+
+  labs(x=&quot;Householder Age&quot;, y=&quot;Share of households&quot;, 
+       title=&quot;U.S. households: renters and owners with and without a mortgage&quot;,
+       subtitle=&quot;Tenure and mortgage status of households by age&quot;,
+       caption=mycaption)</code></pre>
+<p><img src="/post/2018-07-01-exploring-housing-data-with-r-and-ipums-usa_files/figure-html/07-01-2018-plot-5-1.png" width="864" /></p>
+<p>Or in absolute counts, wrapping the stacked bar up above around a circle.</p>
+<pre class="r"><code>ggplot(data=df.bar, aes(x=agec, y=hh,fill=tenure)) + 
+  geom_col(position=&quot;stack&quot;, alpha=0.82)+
+  scale_color_mycol(&quot;mixed6&quot;)+
+  scale_fill_mycol(&quot;mixed6&quot;)+
+  theme_minimal(base_size=14)+
+  coord_polar()+
+  facet_wrap(~year)+
+  theme(legend.position=&quot;top&quot;,
+        axis.text=element_text(size=7),
+        plot.caption=element_text(hjust=0, size=8),
+        panel.spacing = unit(1, &quot;lines&quot;))+
+  labs(x=&quot;Householder Age&quot;, y=&quot;Number of households&quot;, 
+       title=&quot;U.S. households: renters and owners with and without a mortgage&quot;,
+       subtitle=&quot;Tenure and mortgage status of households by age&quot;,
+       caption=mycaption)</code></pre>
+<p><img src="/post/2018-07-01-exploring-housing-data-with-r-and-ipums-usa_files/figure-html/07-01-2018-plot-6-1.png" width="864" /></p>
+<p>Okay, <a href="https://twitter.com/graykimbrough/status/1013482713804886017">enough</a> of that, lest His Airness come back for me.</p>
+<p>How about the chart above from Jordan Rappaport’s presentation? Can we trace out the share of households living in apartments over time? Yes indeed.</p>
+<pre class="r"><code>ggplot(data=filter(df.hha, agemax&gt;19 , agemax&lt;85 ) %&gt;% arrange(year,agemax), aes(x=agec,y=mf,color=factor(year),linetype=factor(year), group=year))+  geom_path(size=1.05)+
+  scale_color_mycol(&quot;mixed6&quot;)+
+  scale_fill_mycol(&quot;mixed6&quot;)+
+  theme_minimal(base_size=14)+
+  geom_text(data=. %&gt;% filter(agemax==84), aes(label=year), hjust=0,nudge_x=0.1,size=4)+
+  theme(legend.position=&quot;none&quot;,
+        axis.text=element_text(size=7),
+        plot.caption=element_text(hjust=0, size=8),
+        panel.spacing = unit(1, &quot;lines&quot;))+
+  scale_y_continuous(labels=percent)+
+  labs(title=&quot;Percent of U.S. households living in multifamily housing \n(structures with 5+ housing units)&quot;, x=&quot;Householder Age&quot;,y=&quot;Percent of households&quot;,
+       caption=mycaption)</code></pre>
+<p><img src="/post/2018-07-01-exploring-housing-data-with-r-and-ipums-usa_files/figure-html/07-01-2018-plot-7-1.png" width="864" /></p>
+<p>This chart reveals that the U shaped pattern we saw above is consistent over time. However, the curve has shifted. Interesintly it has shifted up for ages less than 60, but down for those over 60. Could it shift down further in future? It might as Boomers age and live longer healthier lives than earlier generations.</p>
+<p>We can unpack the plot and use facets to examine how age groups have evolved over time.</p>
+<pre class="r"><code>ggplot(data=filter(df.hha,agemax&lt;85,agemax&gt;19), aes(x=year,y=mf, fill=agec, color=agec))+
+  geom_path(color=&quot;black&quot;) + 
+  geom_point()+
+  scale_x_continuous(breaks= unique(df.hha$year))+
+  scale_y_continuous(labels=percent, breaks=seq(0,1,.1))+
+  geom_area(alpha=0.25, position=&quot;identity&quot;, color=&quot;NA&quot;)+
+  theme_minimal(base_size=14)+
+  scale_color_mycol(&quot;mixed6&quot;)+
+  scale_fill_mycol(&quot;mixed6&quot;)+
+  theme(legend.position=&quot;none&quot;,
+        axis.text=element_text(size=7),
+        plot.caption=element_text(hjust=0, size=8),
+        panel.spacing = unit(1, &quot;lines&quot;))+
+  facet_wrap(~agec, ncol=5)+
+  labs(x=&quot;Census Year&quot;, y=&quot;Percent of Households (%)&quot;, 
+       title=&quot;Percent of U.S. Households living in multifamily (5+ unit)\nstructures by householder age&quot;,
+       # subtitle=&quot;Percent of homeowner households with a mortgage&quot;,
+       caption=mycaption)</code></pre>
+<p><img src="/post/2018-07-01-exploring-housing-data-with-r-and-ipums-usa_files/figure-html/07-01-2018-plot-8-1.png" width="864" /></p>
+</div>
+<div id="tricolore" class="section level1">
+<h1>Tricolore</h1>
+<p>This is worth exploring in more detail in a future post, but I just learned about the very interesting <a href="https://github.com/jschoeley/tricolore">Tricolore</a> package. This allows you to make charts with a flexible color scale for the visualization of three-part/ternary compositions. It’s like taking <a href="../../../../2017/04/24/bivariate-map/">bivariate color scales</a> to a whole new dimension.</p>
+<p>We happen to have a nice example, with the three types of households we reviewed above (renters, owners with a mortgage, and owners who own free and clear). If we install the package via <code>devtools::install_github('jschoeley/tricolore</code>, we can run the following and get:</p>
+<pre class="r"><code># load extra libraries ----
+library(ggtern)
+library(tricolore)
+library(cowplot) 
+
+# Might need to run this to avoid breaking ggtern with cowplot
+# see https://github.com/wilkelab/cowplot/issues/88 
+theme_set(theme_gray())
+
+# create complex plot
+
+hha.test &lt;- filter(df.hha,agemin&lt; 85, agemin&gt;19) %&gt;% mutate(r=(1-ho), m=(1-ho)*mtg, f=(1-ho)*(1-mtg))
+
+#df.tri &lt;- Tricolore(hha.test, &quot;r&quot;,&quot;m&quot;,&quot;f&quot;)
+
+df.tri &lt;- Tricolore(hha.test, &quot;renters&quot;,&quot;own.mtg&quot;,&quot;own.clr&quot;)
+hha.test$srgb &lt;- df.tri$hexsrgb  # merge colors back on data
+
+df.tri &lt;- Tricolore(hha.test, &quot;renters&quot;,&quot;own.mtg&quot;,&quot;own.clr&quot;)
+hha.test$srgb &lt;- df.tri$hexsrgb  # merge colors back on data
+
+g.tri &lt;- 
+  df.tri$legend +
+  theme(plot.background = element_rect(fill = NA, color = NA))#+
+ # labs(x=&quot;&quot;,y=&quot;&quot;)
+
+g.tile &lt;- 
+  ggplot(data=hha.test, 
+         aes(x=agec,
+             y=factor(year), 
+             fill=srgb))+
+  geom_tile(color=&quot;white&quot;)+ 
+  labs(x=&quot;Householder Age&quot;, y=&quot;Year&quot;)+
+  scale_fill_identity()+
+  coord_flip()
+
+# put triangle legend with tile plot
+g3 &lt;- plot_grid(g.tri,g.tile,rel_widths=c(1,2))
+
+df.bar3 &lt;- left_join(df.bar, select(hha.test, year,agec,srgb), by=c(&quot;year&quot;,&quot;agec&quot;))
+
+mycaption &lt;- &quot;@lenkiefer Source: Decennial Census (1980,1990,2000) and 2010 and 2016 American Community Survey\nAuthor&#39;s tabulation of public use microdata via IPUMS-USA, University of Minnesota, www.ipums.org.\nRestricted to persons and households based on the 1970s definition&quot;
+
+g.bar &lt;- 
+  ggplot(data=filter(df.bar3,!is.na(srgb)), aes(x=agec, y=hh/1000,fill=srgb, group=tenure)) + 
+  geom_col(position=&quot;stack&quot;, alpha=0.82)+
+  scale_fill_identity()+
+  theme_minimal(base_size=14)+
+  facet_grid(year~tenure)+
+  scale_y_continuous(labels=comma)+
+  theme(legend.position=&quot;top&quot;,
+        axis.text=element_text(size=8),
+        plot.caption=element_text(hjust=0, size=8),
+        panel.spacing = unit(1, &quot;lines&quot;))+
+  labs(x=&quot;Householder Age&quot;, y=&quot;Number of households (1000s)&quot;, 
+       title=&quot;U.S. households that rent, own with a mortgage and own free and clear&quot;,
+       subtitle=&quot;Tenure and mortgage status of households by age&quot;,
+       caption=paste0(mycaption,&quot;\nTricolore color based on https://github.com/jschoeley/tricolore&quot;))
+
+# create combined plot
+cowplot::plot_grid(g3,g.bar, ncol=1, rel_heights=c(1,2))</code></pre>
+<p><img src="../../../../img/charts_jul_1_2018/tricolore3.png"></p>
+<p>I like this! But my trial needs refinement. We’ll have to explore this more in future.</p>
+<p><em>Note: Various typos corrected (and legends added back to plots where they were needed!) on July 3, 2018</em></p>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2018/06/24/plotting-house-price-and-income-trends/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2018/06/24/plotting-house-price-and-income-trends/">Plotting house price and income trends</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="/2018/07/07/mortgage-rates-in-the-21st-century/">Mortgage rates in the 21st century</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="/2018/07/07/mortgage-rates-in-the-21st-century/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/dataviz/">dataviz</a>, 
+            
+                <a href="/tags/r/">R</a>, 
+            
+                <a href="/tags/housing/">housing</a>, 
+            
+                <a href="/tags/data-wrangling/">data wrangling</a>, 
+            
+                <a href="/tags/microdata/">microdata</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2018%2f07%2f01%2fexploring-housing-data-with-r-and-ipums-usa%2f&text=Exploring%20housing%20data%20with%20R%20and%20IPUMS%20USA via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2018%2f07%2f01%2fexploring-housing-data-with-r-and-ipums-usa%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+

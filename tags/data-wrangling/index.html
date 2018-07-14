@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>Data Wrangling &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+  <link rel="alternate" type="application/rss+xml" title="Len Kiefer" href="/tags/data-wrangling/index.xml" />
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="/tags/data-wrangling/index.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+    </li>
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Data Wrangling">
+    <meta property="og:description" content="">
+
+<div class="header">
+  <h1>Data Wrangling</h1>
+</div>
+
+<div class="content">
+  
+    <article>
+  <header>
+    <h2><a href="/2018/07/01/exploring-housing-data-with-r-and-ipums-usa/">Exploring housing data with R and IPUMS USA</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/07/01</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/housing">housing</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/data-wrangling">data wrangling</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/microdata">microdata</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  In this post I want to share some observations on housing in the United States from 1980 to 2016, share some R code for data wrangling, and tri (no that’s not a typo, just a pun) out a visualization techniques.
+Let’s get to it.
+I’ve been carrying a running conversation with folks on Twitter regarding the U.S. housing market and its future. Much of that depends on the evolution of demographic forces.
+  </p>
+
+  
+  <footer>
+    <a href="/2018/07/01/exploring-housing-data-with-r-and-ipums-usa/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="/2018/06/24/plotting-house-price-and-income-trends/">Plotting house price and income trends</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/06/24</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/house-prices">house prices</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/data-wrangling">data wrangling</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  In this post we will create some plots of house prices and incomes for the United States and individual states. We will also try out the bea.R package to get data from the U.S. Bureau of Economic Analysis.
+We’ll end up with something like this:
+Per usual we’ll do it with R and I’ll include code so you can follow along.
+DataWe’re going to use two sources of data. First, we’ll get the FHFA house price index and then we’ll get per capita income estimates from the United States Bureau of Economic Analysis (BEA).
+  </p>
+
+  
+  <footer>
+    <a href="/2018/06/24/plotting-house-price-and-income-trends/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="/2018/05/02/what-s-up-vsup-that-s-what-s-up/">What&#39;s up? VSUP, that&#39;s what&#39;s up.</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/05/02</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/maps">maps</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/data-wrangling">data wrangling</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  IN THIS POST WE SHALL EXPLORE VALUE-SUPRESSING UNCERTAINTY PALETTES.
+One of my favorite new sites is xenographics that gives examples of and links to “weird, but (sometimes) useful charts”. The examples xenographics gives are undoubtedly interesting and might help inspire you if you’re looking for something new.
+One new (to me) graphic was something called Value-Suppressing Uncertainty Palettes (VSUP). See this research paper (pdf). VSUPs “allocate larger ranges of a visual channel when uncertainty is low, and smaller ranges when uncertainty is high”.
+  </p>
+
+  
+  <footer>
+    <a href="/2018/05/02/what-s-up-vsup-that-s-what-s-up/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="/2018/04/26/expanding-expansions-contracting-recessions/">Expanding Expansions, Contracting Recessions</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/04/26</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/economy">economy</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/data-wrangling">data wrangling</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  IN THIS POST I WANT TO SHARE A GRAPH looking at the length of economic expansions and recessions in the United State over time. Earlier today, Andrew Chamberlain (on Twitter), observed that at the end of this month the current economic expansion in the U.S. would be the second longest in history. Let’s explore.
+In the United States, the National Bureau of Economic Research (NBER) dates expansions and recessions. See for example http://www.
+  </p>
+
+  
+  <footer>
+    <a href="/2018/04/26/expanding-expansions-contracting-recessions/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="/2017/10/10/quick-geofacet-plots/">quick geofacet plots</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2017/10/10</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/data-wrangling">data wrangling</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  WHILE I WAS TRYING TO MAKE TIME FOR TIBBLETIME yesterday I got distracted and made this plot:
+hey! here&#39;s a #dataviz: tile plot of U.S. state unemployment pic.twitter.com/vH8fSu63ve
+&mdash; Leonard Kiefer (@lenkiefer) October 10, 2017  In this post, let’s go over how to make this plot with R. And we’re going to make it quick.
+SetupIn order to create a plot like this we’ll need several packages, including the tidyverse, geofacet and the tidyquant package.
+  </p>
+
+  
+  <footer>
+    <a href="/2017/10/10/quick-geofacet-plots/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="/2017/10/09/what-time-is-it-time-for-tibbletime/">What time is it? Time for tibbletime!</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2017/10/09</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/data-wrangling">data wrangling</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/mortgage">mortgage</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/housing">housing</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  WHAT TIME IS IT? TIME FOR TIBBLETIME! In this post, I’m going to take the tibbletime package out for a spin. Turns out this package is quite useful for things I tend to do.
+We’ll use the tibbletime package to write some R code to extend our ongoing analysis of trends in the U.S. mortgage market (see here for example).
+Davis Vaughan (on Twitter) one of the authors of the tibbletime package suggested I take a look:
+  </p>
+
+  
+  <footer>
+    <a href="/2017/10/09/what-time-is-it-time-for-tibbletime/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="/2017/10/08/analyzing-mortgage-data-with-r/">Analyzing mortgage data with R</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2017/10/08</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/mortgage">mortgage</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/housing">housing</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/data-wrangling">data wrangling</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  TIME FOR ANOTHER DATA WRANGLING AND VISUALIZATION EXTRAVAGANZA. This time we are going to work hard to turn some big data into little data. That is, we’re going to work hard to aggregate several million loan level records into useful summary graphics to tell us about the U.S. mortgage market in 2016.
+I’ve been working on a lot of different ways to visualize trends in the mortgage market (see here and here for examples).
+  </p>
+
+  
+  <footer>
+    <a href="/2017/10/08/analyzing-mortgage-data-with-r/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="/2017/09/27/use-purrr/">PURRRty PowerPoint with R</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2017/09/27</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/data-wrangling">data wrangling</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/slides">slides</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/office">Office</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  IN THIS POST I WANT TO GO THROUGH SOME EXAMPLES of using the purrr package for R.
+Now there are already some great examples of how to use purrr. If you’re brand new to purrr (like I was not long ago) probably start with Jenny Bryan’s Purrr tutorial then see R for Data Science and also this presentation from rstudioconf (pdf). You can also check out this curated collection via Mara Averick (on Twitter: dataandme ) for a bunch of examples.
+  </p>
+
+  
+  <footer>
+    <a href="/2017/09/27/use-purrr/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="/2017/09/18/a-tidyquant-um-of-solace/">A (Tidyquant)um of solace</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2017/09/18</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/data-wrangling">data wrangling</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/housing">housing</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  LET’S WRANGLE SOME HOUSING DATA.
+We’ll try something different with how posts are organized. In the past I have generally mixed data wrangling, R code and graphs all in one post. Now I’m going to break it up. Posts like yesterday will just show some data and discuss it. Then, if the data wrangling or code is complicated enough I’ll follow up with another post with details.
+You’ll be able to find all my posts on data wrangling, under the data wrangling tag and R code under the R tag.
+  </p>
+
+  
+  <footer>
+    <a href="/2017/09/18/a-tidyquant-um-of-solace/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="/2017/08/07/house-price-trends/">Plotting recent house price trends with R</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2017/08/07</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/data-wrangling">data wrangling</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/house-prices">house prices</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  IT IS TIME FOR AN UPDATE ON HOUSE PRICE TRENDS AROUND THE UNITED STATES.
+I have been experimenting with some new visualizations and updating some old favorites. Let’s collect them here.
+This post will be an extension of my Visual Meditations on House Prices series from last year. Check out those posts for additional visualizations.
+DataWe’ll use the recently updated Freddie Mac House Price Index (link to source) data and use R to create some plots.
+  </p>
+
+  
+  <footer>
+    <a href="/2017/08/07/house-price-trends/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="/2017/04/20/global-hpi-readxl/">Gather round and spread the word: Wrangling global house price data</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2017/04/20</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/data-wrangling">data wrangling</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/house-prices">house prices</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/housing">housing</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/economy">economy</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  IN THIS POST I WANT TO SHARE SOME R data wrangling strategy and use it to prepare an update to some global house price plots I shared last year.
+In last year’s post I did some data manipulation by hand and mouse in Excel before getting into R. In this post I’m going to use the newly updated readxl library to do the data manipulations entirely in R. If you follow along, then you should be able to use this code to recreate my graphs.
+  </p>
+
+  
+  <footer>
+    <a href="/2017/04/20/global-hpi-readxl/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="/2017/04/11/fred-plot/">Plotting house price trends with FRED and R</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2017/04/11</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/data-wrangling">data wrangling</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/house-prices">house prices</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  IN THIS POST I AM going to share some useful code to create some custom plots using the St Louis Federal Reserve Economic Database (FRED). While the FRED page has some nice chart customization options, I’m going to import the data into R with the quantmod package and draw the plots.
+I find myself doing these types of things often enough that I thought you might find these bits o’ code useful.
+  </p>
+
+  
+  <footer>
+    <a href="/2017/04/11/fred-plot/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="/2016/10/11/hmda-viz1/">Distribution of mortgage loan amounts in 2015</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2016/10/11</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/mortgage">mortgage</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/data-wrangling">data wrangling</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  IN THIS POST I WANT TO CREATE some data visualizations with R using the recently released Home Mortgage Disclosure Act (HMDA) data.
+For this post I&rsquo;m going to return to the 2015 HMDA that you can get from the Consumer Financial Protection Bureau (CFPB) webpage and I discussed earlier.
+Check out my prior post for more discussion of how we build these data visualizations.
+R code for graphs posted below
+  </p>
+
+  
+  <footer>
+    <a href="/2016/10/11/hmda-viz1/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="/2016/09/14/bev-curves/">Industry-specific Beveridge Curves</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2016/09/14</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/economy">economy</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/animation">animation</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/data-wrangling">data wrangling</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  IN MY PREVIOUS POST we looked at the Job Openings and Labor Turnover Survey (JOLTS) data and plotted a Beveridge Curve. In this post I want to add some more code that allows us to plot Beveridge Curves by industry.
+For more on the analysis of industry-specific Beveridge Curves, see this paper published in the June 2012 Monthly Labor Review that decomposes shifts in the Beveridge Curve and looks at it by industry.
+  </p>
+
+  
+  <footer>
+    <a href="/2016/09/14/bev-curves/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="/2016/09/10/job-openings-and-hires/">JOLTS! Job openings and labor turnover trends</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2016/09/10</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/economy">economy</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/animation">animation</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/data-wrangling">data wrangling</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  IN THIS POST WE&rsquo;LL LOOK AT recent job openings and hires data from the Bureau of Labor Statistics Job Openings and Labor Turnover Survey (JOLTS).
+R code for selected graphs posted below
+Job openings and labor turnover Total nonfarm trends Let&rsquo;s start by looking at aggregate national trends for total nonfarm sector. The plot below compares hires, job openings and separations (the sum of quits, layoffs and discharges, and other separations) over time.
+  </p>
+
+  
+  <footer>
+    <a href="/2016/09/10/job-openings-and-hires/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="/2016/09/02/consumer-spend/">What we spend: Consumer Expenditures in 2015</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2016/09/02</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/economy">economy</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/animation">animation</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/data-wrangling">data wrangling</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  .showopt { background-color: #004c93; color: #FFFFFF; width: 100px; height: 20px; text-align: center; vertical-align: middle !important; float: right; font-family: sans-serif; border-radius: 8px; } .showopt:hover { background-color: #dfe4f2; color: #004c93; } pre.plot { background-color: white !important; }   EARLIER THIS WEEK THE U.S. BUREAU OF LABOR STATISTICS released data on consumer expenditures in 2015. In this post I want to examine these data and make a few visualizations. R code for graphs posted below
+  </p>
+
+  
+  <footer>
+    <a href="/2016/09/02/consumer-spend/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="/2016/08/18/data-swarm/">Data swarms: Your firearms are useless against them!</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2016/08/18</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/economy">economy</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/data-wrangling">data wrangling</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  AUGUST IS ALMOST OVER, and it&rsquo;s nearly back to school season. And that means one thing. No, not that we&rsquo;re about to get a chance to watch the #1 NCAA football program of all time dominate the gridiron (though that&rsquo;s awesome too). No, it&rsquo;s data release season! A data swarm is on its way.
+From American Community Survey to the American Housing Survey to the annual Home Mortgage Disclosure Act Data many statistical data releases come out in September and October.
+  </p>
+
+  
+  <footer>
+    <a href="/2016/08/18/data-swarm/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="/2016/08/09/trends-in-credit/">Consumer Credit Trends</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2016/08/09</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/economy">economy</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/animation">animation</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/data-wrangling">data wrangling</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  TODAY the NEW YORK FEDERAL RESERVE BANK released its Quarterly Report on Household Debt and Credit. These data come from the Center for Microeconomic Data based on credit records from Equifax.
+R code for the graphs are posted at bottom of page
+Trends in household debt balances One of the key statistics tracked in the report (full data can be found here) is household debt balances. They break debt balances out by loan type:
+  </p>
+
+  
+  <footer>
+    <a href="/2016/08/09/trends-in-credit/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+</div>
+
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>

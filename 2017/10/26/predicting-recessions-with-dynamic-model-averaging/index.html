@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="We go into the vasty deep, dipping our toes ever so slightly into the dark waters of macroeconometric forecasting. Here we use dynamic model averaging to forecast recessions with R.">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>Forecasting recessions with dynamic model averaging &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com//img/charts_oct_26_2017/dma.png" >
+     
+    <meta property="og:title" content="Forecasting recessions with dynamic model averaging">
+    <meta property="og:description" content="We go into the vasty deep, dipping our toes ever so slightly into the dark waters of macroeconometric forecasting. Here we use dynamic model averaging to forecast recessions with R.">
+
+<div class="header">
+  <h1>Forecasting recessions with dynamic model averaging</h1>
+  <h2>We go into the vasty deep, dipping our toes ever so slightly into the dark waters of macroeconometric forecasting. Here we use dynamic model averaging to forecast recessions with R.</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2017/10/26</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/economy">economy</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/forecasting">forecasting</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/statistics">statistics</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <p>HERE THE LITERATURE IS VASTY DEEP. In this post we’ll dip our toes, every so slightly, into the dark waters of macroeconometric forecasting. I’ve been studying some techniques and want to try them out. I’m still at the learning and exploring stage, but <em>let’s do it together</em>.</p>
+<p>In this post we’ll conduct an exercise in forecasting U.S. recessions using several approaches. Per usual we’ll do it with <a href="https://www.r-project.org/">R</a> and I’ll include code so you can follow along.</p>
+<div id="longer-than-usual-disclaimer" class="section level3">
+<h3>Longer than usual disclaimer</h3>
+<p><em>I’m not recommending any of these techniques and don’t guarantee any results if you try them. The exercises here are merely for learning and don’t represent my views (or the views of my employer) about the likelihood of recessions. The results have not gone through peer review, I haven’t fully reviewed the techniques, code and these results aren’t necessarily suitable for any purposes.</em></p>
+</div>
+<div id="background" class="section level1">
+<h1>Background</h1>
+<div id="literature" class="section level2">
+<h2>Literature</h2>
+<p>We’re not going to review the literature in any detail. A large portion of modern macroeconomics studies business cycles, and there’s a huge literature on forecasting techniques. But if you’re interested in background I’ll provide three important links directly related to today’s investigation. Later if things go great, I’ll have time to write up some more thoughts on these papers.</p>
+<ol style="list-style-type: decimal">
+<li>See this <a href="https://www.federalreserve.gov/econresdata/notes/feds-notes/2016/which-market-indicators-best-forecast-recessions-20160802.html">FEDS Notes</a> on “Which market indicators best forecast recessions”</li>
+<li>See <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2895940/">this paper</a> <em>Online Prediction Under Model Uncertainty via Dynamic Model Averaging: Application to Cold Rolling Mill</em></li>
+<li>See <a href="https://www.ncbi.nlm.nih.gov/pubmed/21838812">this paper</a> <em>Dynamic Logistic Regression and Dynamic Model Averaging for Binary Classification</em></li>
+</ol>
+</div>
+<div id="data" class="section level2">
+<h2>Data</h2>
+<p>All the data we’ll need will be available through the Saint Louis Federal Reserve’s <a href="https://fred.stlouisfed.org/">FRED</a> database. See <a href="../../../../2017/09/18/a-tidyquant-um-of-solace/">here</a> for more discussion of using FRED with R.</p>
+</div>
+<div id="r-packages" class="section level2">
+<h2>R packages</h2>
+<p>We’ll rely on <a href="https://CRAN.R-project.org/package=tidyquant">tidyquant</a> and <a href="https://CRAN.R-project.org/package=tibbletime">tibbletime</a> packages for data munging and the <a href="https://CRAN.R-project.org/package=dma">dma</a> package for estimation using the dynamic model averaging technique discussed below.</p>
+<p>Let’s get to it!</p>
+</div>
+</div>
+<div id="a-very-simple-model" class="section level1">
+<h1>A very simple model</h1>
+<p>Let’s follow the basic setup outline in <a href="https://www.federalreserve.gov/econresdata/notes/feds-notes/2016/which-market-indicators-best-forecast-recessions-20160802.html">this FEDS note</a>. We want to forecast whether or not the National Bureau of Economic Research (NBER) has declared that a month <code>t</code> falls in a recession. See <a href="http://www.nber.org/cycles.html">here for NBER business cycle dates</a>.</p>
+<p>We follow their framework (with a slight modification swapping a Logit for a Probit). Let <span class="math inline">\(Y_t=1\)</span> indicate that month <span class="math inline">\(t\)</span> falls in a recession.</p>
+<p><span class="math display">\[ \text Logit({Pr}\ (Y_t=1\ | \ x_{t-h})) = x^{(k)&#39;}_{t-h}\theta^{(k)}_{t-h} \ \ \ \ \ (1)\]</span></p>
+<p>where <span class="math inline">\(\theta^{(k)}_{t-h}\)</span> is a (possibly) time varying parameter vector and <span class="math inline">\(x^{(k)&#39;}_{t-h}\)</span> is a vector of input variables. Forecasts are made <span class="math inline">\(h\)</span> periods ahead and the dimension of <span class="math inline">\(x\)</span> may vary across <span class="math inline">\(k\)</span>.</p>
+<p>We could (and will in a future post) consider several indicators to help predict a recession and also consider several different forecast horizons <span class="math inline">\(h\)</span>. In this post we’ll focus on just 2 indicators and a 2 horizons.</p>
+<div id="indicators" class="section level2">
+<h2>Indicators</h2>
+<p>We’ll focus on two indicators and see how well they individually or in combination might predict recessions. We’ll use monthly observations on the 3-month percent change in nonfarm payroll employment <code>PAYEMS</code> (adopting the FRED mnemonic) and the slope of the U.S. Treasury Yield Curve <code>SLOPE</code> measured by the the percentage difference in the 10-year constant maturity Treasury yield and the 3-mont Treasury bill rate.</p>
+<p>Within the vasty deep of macroeconometric forecasting literature, employment growth has been a reliable concurrent indicator for recessions while the yield curve is one of the few variables that seems to have some predictive power for recessions, as we shall see.</p>
+</div>
+<div id="getting-data-plotting-trends" class="section level2">
+<h2>Getting data, plotting trends</h2>
+<p>The variables we’ll need for today are conveniently available in FRED with the following Mnemonics:</p>
+<ul>
+<li>USREC gives us a monthly indicator for NBER recessions (1= month is a recession, 0 not a recession)</li>
+<li>PAYEMS measures U.S. nonfarm employment</li>
+<li>GS10 gives monthly 10-year Treasury Yields</li>
+<li>TB3MS gives us monthly 3-month Treasury Tbill rates</li>
+</ul>
+<p>We’ll have to get the data and do some transformations, but it’s easy with R and tidyquant.</p>
+<pre class="r"><code>#####################################################################################
+## Step 0: Load Libraries ##
+#####################################################################################
+library(tidyquant)
+library(dma)
+library(tibbletime)
+library(boot)
+library(viridis)
+library(cowplot)
+
+#####################################################################################
+## Step 1: Get data  ##
+#####################################################################################
+tickers&lt;- c(&quot;USREC&quot;,  # NBER Recession indicator
+            &quot;GS10&quot;,   # 10-year constant maturity Treasury yield
+            &quot;TB3MS&quot;,  # 3-month Tbill rate
+            &quot;PAYEMS&quot;  # nonfarm payroll employment
+
+            )
+df &lt;- tq_get(tickers,get=&quot;economic.data&quot;,from=&quot;1945-01-01&quot;)
+# recession df (for plotting) 
+# see: https://www.r-bloggers.com/use-geom_rect-to-add-recession-bars-to-your-time-series-plots-rstats-ggplot/
+
+recessions.df = read.table(textConnection(
+  &quot;Peak, Trough
+  1957-08-01, 1958-04-01
+  1960-04-01, 1961-02-01
+  1969-12-01, 1970-11-01
+  1973-11-01, 1975-03-01
+  1980-01-01, 1980-07-01
+  1981-07-01, 1982-11-01
+  1990-07-01, 1991-03-01
+  2001-03-01, 2001-11-01
+  2007-12-01, 2009-06-01&quot;), sep=&#39;,&#39;,
+colClasses=c(&#39;Date&#39;, &#39;Date&#39;), header=TRUE)
+
+
+#####################################################################################
+## Step 2: Prep ##
+#####################################################################################
+
+#transformation
+
+my_trans &lt;- function(in.data,transform=&quot;pctdiff3&quot;){
+  switch(transform,
+         logdiff  = c(NA,diff(log(in.data))),          # not used here
+         pctdiff3 = 100*Delt(in.data,k=3),
+         logdiff3 = c(rep(NA,3),diff(log(in.data),3))) # not used here
+}
+
+vlist&lt;- c(&quot;PAYEMS&quot;)
+
+df2&lt;- df %&gt;% group_by(symbol) %&gt;%
+  mutate(x=ifelse(symbol %in% vlist, my_trans(price),price))
+
+df2 %&gt;% select(-price)  %&gt;% spread(symbol,x) %&gt;%
+  mutate(
+    # SLOPE variable
+    SLOPE=GS10-TB3MS,
+    # 12-month Lead for recessions
+         REC12=lead(USREC,12)) -&gt; df3              
+# Trim the data
+df4 &lt;- filter(df3, year(date)&gt;1955 &amp; year(date)&lt;2016)</code></pre>
+<p>Now that we have our data, let’s take a look at our two indicators.</p>
+<pre class="r"><code># employment plot
+g.emp&lt;-
+ggplot(data=df4, aes(x=date,y=PAYEMS))+
+  geom_rect(data=recessions.df, inherit.aes=FALSE,
+            aes(xmin=Peak, xmax=Trough, ymin=-Inf, ymax=+Inf), 
+            fill=&#39;lightblue&#39;, alpha=0.5)+theme_minimal()+geom_line(color=&quot;royalblue&quot;)+
+  labs(x=&quot;&quot;,y=&quot;&quot;,title=&quot;Employment growth&quot;,
+       subtitle=&quot;3-month % change&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Bureau of Labor Statistics, Federal Reserve (H.15), shaded area NBER recessions.\nretrieved from FRED, Federal Reserve Bank of St. Louis, October 26, 2017.&quot;)+
+  geom_hline(yintercept=0,color=&quot;black&quot;)+
+  theme(plot.caption=element_text(hjust=0),
+        plot.subtitle=element_text(face=&quot;italic&quot;,size=9),
+        plot.title=element_text(face=&quot;bold&quot;,size=14))
+# yield curve plot
+g.slope&lt;-
+  ggplot(data=df4, aes(x=date,y=SLOPE))+
+  geom_rect(data=recessions.df, inherit.aes=FALSE,
+            aes(xmin=Peak, xmax=Trough, ymin=-Inf, ymax=+Inf), 
+            fill=&#39;lightblue&#39;, alpha=0.5)+theme_minimal()+geom_line(color=&quot;royalblue&quot;)+
+  labs(x=&quot;&quot;,y=&quot;&quot;,title=&quot;Yield curve slope&quot;,
+       subtitle=&quot;10-year minus 3-month U.S. Treasury rates&quot;,
+       caption=&quot;&quot;)+
+  geom_hline(yintercept=0,color=&quot;black&quot;)+
+  theme(plot.caption=element_text(hjust=0),
+        plot.subtitle=element_text(face=&quot;italic&quot;,size=9),
+        plot.title=element_text(face=&quot;bold&quot;,size=14))
+# combined plot (uses cowplot::plot_grid)
+plot_grid(g.slope,g.emp,ncol=1)</code></pre>
+<p><img src="/post/2017-10-26-predicting-recessions-with-dynamic-model-averaging_files/figure-html/10-26-2017-plot-1-1.png" width="672" /></p>
+<p>These two plots contain the entirety of our problem. We want to use the lines to predict whether or not we are presently in a recession <code>h=0</code> or if in 12 months we will be in one <code>h=12</code>.</p>
+</div>
+<div id="simple-logistic-regression" class="section level2">
+<h2>Simple logistic regression</h2>
+<p>Let’s assume the parameter <span class="math inline">\(\theta\)</span> remains constant and there their is a single composite model that consists of both <code>PAYEMS</code> and <code>SLOPE</code>. We an estimate it with a logistic regression (we’ll use <a href="https://CRAN.R-project.org/package=stargazer">stargazer</a> to format our output).</p>
+<pre class="r"><code># forecast contemporaneously (h=0)
+glm.h0&lt;- glm(USREC ~ SLOPE + PAYEMS,family=binomial(link=&#39;logit&#39;), data=df4)
+# forecast 12 months ahead (h=12)
+glm.h1&lt;- glm(REC12 ~ SLOPE + PAYEMS,family=binomial(link=&#39;logit&#39;), data=df4)
+
+stargazer::stargazer(glm.h0,glm.h1, title=&quot;Forecasting Recessions&quot;, type=&quot;html&quot;,
+                     dep.var.caption  = &quot;Recession probability&quot;,
+                     dep.var.labels   = &quot;Forecast horizon&quot;,
+                     column.labels = c(&quot;contemporaneous (h=0)&quot;, &quot;forecast (h=12)&quot;))</code></pre>
+<table style="text-align:center">
+<caption>
+<strong>Forecasting Recessions</strong>
+</caption>
+<tr>
+<td colspan="3" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td colspan="2">
+Recession probability
+</td>
+</tr>
+<tr>
+<td>
+</td>
+<td colspan="2" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+Forecast horizon
+</td>
+<td>
+REC12
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+contemporaneous (h=0)
+</td>
+<td>
+forecast (h=12)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(1)
+</td>
+<td>
+(2)
+</td>
+</tr>
+<tr>
+<td colspan="3" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+SLOPE
+</td>
+<td>
+-0.964<sup>***</sup>
+</td>
+<td>
+-1.350<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.155)
+</td>
+<td>
+(0.143)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+PAYEMS
+</td>
+<td>
+-5.370<sup>***</sup>
+</td>
+<td>
+-0.046
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.529)
+</td>
+<td>
+(0.231)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Constant
+</td>
+<td>
+-0.072
+</td>
+<td>
+-0.528<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.230)
+</td>
+<td>
+(0.196)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td colspan="3" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Observations
+</td>
+<td>
+720
+</td>
+<td>
+720
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Log Likelihood
+</td>
+<td>
+-127.587
+</td>
+<td>
+-217.054
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Akaike Inf. Crit.
+</td>
+<td>
+261.173
+</td>
+<td>
+440.108
+</td>
+</tr>
+<tr>
+<td colspan="3" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+<em>Note:</em>
+</td>
+<td colspan="2" style="text-align:right">
+<sup><em></sup>p&lt;0.1; <sup><strong></sup>p&lt;0.05; <sup></strong></em></sup>p&lt;0.01
+</td>
+</tr>
+</table>
+<div id="tibbltime-for-rolling-regressions" class="section level3">
+<h3>tibbltime for rolling regressions</h3>
+<p>This regression assumes that the parameters are constant over time. But they might change due to regime changes or other sources of parameter instatiblity. One way to deal with instability is to run rolling window regressions. Those are super easy thanks to <a href="https://CRAN.R-project.org/package=tibbletime">tibbletime</a>.</p>
+<p>Let’s estimate 20-year rolling windows and plot the coefficients over time. Here we’ll look at the models for 12-months ahead. See <a href="https://cran.r-project.org/web/packages/tibbletime/vignettes/TT-03-rollify-for-rolling-analysis.html">this tibbletime vignette</a> for details on these steps.</p>
+<pre class="r"><code># compute a rolling regression
+
+# rolling regressgion with rollify
+rolling_lm &lt;- rollify(.f = function(REC12 , SLOPE , PAYEMS) {
+  glm(REC12 ~ SLOPE + PAYEMS,family=binomial(link=&#39;logit&#39;))
+}, 
+window = 240, 
+unlist = FALSE)
+
+
+df4.tt &lt;- as_tbl_time(df4,index=date) #covert to tibbletime
+
+df4.tt %&gt;% mutate(roll_lm=rolling_lm(REC12 , SLOPE , PAYEMS)) %&gt;%
+  filter(!is.na(roll_lm)) %&gt;%
+  mutate(tidied = purrr::map(roll_lm, broom::tidy)) %&gt;%
+  unnest(tidied) %&gt;%
+  select(date, term, estimate, std.error, statistic, p.value) -&gt; df4.reg
+
+# plot coefficients
+ggplot(data=df4.reg, aes(x=date,y=estimate,color=term))+
+  geom_line(size=1.05,color=&quot;royalblue&quot;)+
+  theme_minimal()+
+  facet_wrap(~term)+
+labs(y=&quot;Coefficient&quot;,x=&quot;&quot;, 
+       title=&quot;Model for U.S. recession probabilities\n240-month rolling regressions&quot;,
+       subtitle=&quot;12 months ahead&quot;,
+       caption=&quot;@lenkiefer Recession probabilities based on a rolling regression.\nSLOPE: Yield curve slope (10-year minus 3-month U.S. Treasury yield)\nPAYEMS Employment change (3 month %)\nModel: logistic regression for USREC12 = PAYEMS + SLOPE \nModel fit with glm &amp; tibbletime:   Davis Vaughan and Matt Dancho (2017).\ntibbletime: Time Aware Tibbles. R package version 0.0.2.
+  https://CRAN.R-project.org/package=tibbletime&quot;)+
+  geom_hline(yintercept=0,color=&quot;black&quot;)+
+  theme(plot.caption=element_text(hjust=0),
+        plot.subtitle=element_text(face=&quot;italic&quot;,size=9),
+        plot.title=element_text(face=&quot;bold&quot;,size=14))</code></pre>
+<p><img src="/post/2017-10-26-predicting-recessions-with-dynamic-model-averaging_files/figure-html/10-26-2017-reg-glm-rolling-2-1.png" width="672" /> These estimates show quite a large amount of apparent parameter instability. Coefficient signs even switch. And the probabilities jump. Can we do better?</p>
+</div>
+</div>
+</div>
+<div id="dynamic-model-averaging" class="section level1">
+<h1>Dynamic model averaging</h1>
+<p>Oh yes we can.</p>
+<p>We’d like to have a model that would allow parameters to vary over time. We’d like to discount the past, but not as abruptly as the rolling regressions do.</p>
+<p>Turns out the Dynamic Modeling Average approach of McCormick, Raftery and Madigan <a href="https://cran.r-project.org/web/packages/dma/index.html">(dma)</a> is perfect for this exercise.</p>
+<p>I hope to explore this in more detail in future, but let’s load it up and try it out. The package is good, but I don’t like the default plotting, so I’ll do some manipulations to get our results tidy and ready for <a href="https://CRAN.R-project.org/package=ggplot2">ggplot2</a>.</p>
+<pre class="r"><code># fit binary model (contemporaneous)
+df5 &lt;- filter(df3, year(date)&gt;1955 &amp; !is.na(USREC))
+
+# convert data to matrix
+xvar &lt;- as.matrix(df5 %&gt;% select(SLOPE,PAYEMS))
+yvar &lt;- as.matrix(df5$USREC)
+
+# design for models
+mmat&lt;- matrix(c(1,0,
+                0,1,
+                1,1),3,2,byrow=TRUE)
+
+# fit model h= 0
+dma.fit0&lt;- logistic.dma(unname(xvar), yvar, mmat, lambda=0.99, alpha=0.99,
+                       autotune=TRUE, initialsamp=120)
+
+# repeat for h=12
+
+
+df50 &lt;- df5 %&gt;% mutate(yhat0=dma.fit0$yhatdma)
+df5 &lt;- filter(df3, year(date)&gt;1955 &amp; !is.na(REC12))
+
+xvar &lt;- as.matrix(df5 %&gt;% select(SLOPE,PAYEMS))
+yvar &lt;- as.matrix(df5$REC12)
+
+mmat&lt;- matrix(c(1,0,
+                0,1,
+                1,1),3,2,byrow=TRUE)
+
+dma.fit12&lt;- logistic.dma(unname(xvar), yvar, mmat, lambda=0.99, alpha=0.99,
+                       autotune=TRUE, initialsamp=120)
+
+df5 &lt;- df5 %&gt;% mutate(yhat12=dma.fit12$yhatdma)
+
+# combine results
+df6&lt;-full_join(df5,df50 %&gt;% select(date,yhat0), by=&quot;date&quot;)</code></pre>
+<p>Then we can plot results:</p>
+<pre class="r"><code>g.12&lt;-
+ggplot(data=df6, aes(x=date+months(12),y=yhat12))+
+  geom_rect(data=recessions.df, inherit.aes=FALSE,
+            aes(xmin=Peak, xmax=Trough, ymin=-Inf, ymax=+Inf), 
+            fill=&#39;lightblue&#39;, alpha=0.5)+theme_minimal()+
+  geom_line(color=&quot;royalblue&quot;,size=1.05)+
+  scale_y_continuous(labels=scales::percent)+
+  labs(x=&quot;&quot;,y=&quot;recession probability&quot;,
+       title=&quot;Estimated U.S. recession probabilities given by dynamic model averaging&quot;,
+       subtitle=&quot;12 months ahead&quot;,
+       caption=&quot;@lenkiefer Recession probabilities based on dynamic model averaging of three models\nforecasting recession 0 and 12-months ahead.\nModel 1: Yield curve slope (10-year minus 3-month U.S. Treasury yield)\nModel 2: Employment change (3 month %)\nModel 3: Yield curve slope and employment change\nModel fit with dma: Tyler H. McCormick, Adrian Raftery and David Madigan (2017).\ndma: Dynamic Model Averaging. R package version 1.3-0. https://CRAN.R-project.org/package=dma&quot;)+
+  geom_hline(yintercept=0,color=&quot;black&quot;)+
+  theme(plot.caption=element_text(hjust=0),
+        plot.subtitle=element_text(face=&quot;italic&quot;,size=9),
+        plot.title=element_text(face=&quot;bold&quot;,size=14))
+g.0&lt;-
+  ggplot(data=df6, aes(x=date,y=yhat0))+
+  geom_rect(data=recessions.df, inherit.aes=FALSE,
+            aes(xmin=Peak, xmax=Trough, ymin=-Inf, ymax=+Inf), 
+            fill=&#39;lightblue&#39;, alpha=0.5)+theme_minimal()+
+  geom_line(color=&quot;red&quot;,size=1.05)+
+  scale_y_continuous(labels=scales::percent)+
+  labs(x=&quot;&quot;,y=&quot;recession probability&quot;,
+       title=&quot;Estimated U.S. recession probabilities given by dynamic model averaging&quot;,
+       subtitle=&quot;0 months ahead&quot;,
+       caption=&quot;@lenkiefer Recession probabilities based on dynamic model averaging of three models\nforecasting recession 0 and 12-months ahead.\nModel 1: Yield curve slope (10-year minus 3-month U.S. Treasury yield)\nModel 2: Employment change (3 month %)\nModel 3: Yield curve slope and employment change\nModel fit with dma: Tyler H. McCormick, Adrian Raftery and David Madigan (2017).\ndma: Dynamic Model Averaging. R package version 1.3-0. https://CRAN.R-project.org/package=dma&quot;)+
+  geom_hline(yintercept=0,color=&quot;black&quot;)+
+  theme(plot.caption=element_text(hjust=0),
+        plot.subtitle=element_text(face=&quot;italic&quot;,size=9),
+        plot.title=element_text(face=&quot;bold&quot;,size=14))
+
+g.rec&lt;-
+plot_grid(g.0+labs(caption=&quot;&quot;),g.12+labs(title=&quot;&quot;),
+          ncol=1)
+g.rec</code></pre>
+<p><img src="/post/2017-10-26-predicting-recessions-with-dynamic-model-averaging_files/figure-html/10-26-2017-dma-plot-2-run-1.png" width="672" /></p>
+<p>The plot above shows how well the model predicts recessions contemporaneously (pretty good) and ahead of time (not so well). We might want to add more variables to the model and see how they look. We’ll leave that for a later time.</p>
+<div id="discussion" class="section level3">
+<h3>Discussion</h3>
+<p>There’s a lot more to discuss about this approach. I’m still chewing on it, but as I discover more I’ll post more here. In a follow-up post, we’ll dig into the internals of the <code>dma</code> package and try to see exactly what’s going on. See you next time.</p>
+</div>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2017/10/25/home-sales-in-expansions-and-recessions/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2017/10/25/home-sales-in-expansions-and-recessions/">Home sales in expansions and recessions</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="/2017/10/28/dma-part-2/">A closer look at forecasting recessions with dynamic model averaging</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="/2017/10/28/dma-part-2/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/economy/">economy</a>, 
+            
+                <a href="/tags/forecasting/">forecasting</a>, 
+            
+                <a href="/tags/r/">R</a>, 
+            
+                <a href="/tags/statistics/">statistics</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2017%2f10%2f26%2fpredicting-recessions-with-dynamic-model-averaging%2f&text=Forecasting%20recessions%20with%20dynamic%20model%20averaging via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2017%2f10%2f26%2fpredicting-recessions-with-dynamic-model-averaging%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+

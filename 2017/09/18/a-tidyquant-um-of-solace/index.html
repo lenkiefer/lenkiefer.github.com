@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>A (Tidyquant)um of solace &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="A (Tidyquant)um of solace">
+    <meta property="og:description" content="LET’S WRANGLE SOME HOUSING DATA.
+We’ll try something different with how posts are organized. In the past I have generally mixed data wrangling, R code and graphs all in one post. Now I’m going to break it up. Posts like yesterday will just show some data and discuss it. Then, if the data wrangling or code is complicated enough I’ll follow up with another post with details.
+You’ll be able to find all my posts on data wrangling, under the data wrangling tag and R code under the R tag.">
+
+<div class="header">
+  <h1>A (Tidyquant)um of solace</h1>
+  <h2></h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2017/09/18</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/data-wrangling">data wrangling</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/housing">housing</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <p>LET’S WRANGLE SOME HOUSING DATA.</p>
+<p>We’ll try something different with how posts are organized. In the past I have generally mixed data wrangling, <a href="https://www.r-project.org/">R</a> code and graphs all in one post. Now I’m going to break it up. Posts like <a href="../../../../2017/09/17/housing-vacancy-trends">yesterday</a> will just show some data and discuss it. Then, if the data wrangling or code is complicated enough I’ll follow up with another post with details.</p>
+<p>You’ll be able to find all my posts on data wrangling, under the <a href="../../../../tags/data-wrangling">data wrangling</a> tag and R code under the <a href="../../../../tags/r">R tag</a>. If you are interested in economic trends or housing, just search for the topic on my <a href="../../../../tag">topics</a> page. Sometimes, especially for the older posts, things will be mixed up. But I’ll try to keep it better organized going forward.</p>
+<div id="a-tidyquantum-of-solace" class="section level1">
+<h1>A (Tidyquant)um of solace</h1>
+<p>In <a href="../../../../2017/09/17/housing-vacancy-trends">yesterday’s post</a> we reviewed some trends in housing vacancies. In this post I want to write about the data wrangling for that post. Turns out some cool tools make this a bit shorter than it was originally going to be. That’s a good thing. Let me tell you about it.</p>
+<p>Yesterday we were looking at U.S. housing inventory using data from the U.S. Census Bureau’s <a href="https://www.census.gov/housing/hvs/index.html">Housing Vacancy Survey (HVS)</a>. You can get the HVS data from the Census webpage, but it’s kind of a mess.</p>
+<p>It sure is nice when there’s a cool new tool that helps you get the job done.</p>
+<p>Turns out the <a href="https://CRAN.R-project.org/package=tidyquant">tidyquant</a> package was super-helpful here. Description of the package straight from CRAN:</p>
+<blockquote>
+<p>Bringing financial analysis to the ‘tidyverse’. The ‘tidyquant’ package provides a convenient wrapper to various ‘xts’, ‘zoo’, ‘quantmod’, ‘TTR’ and ‘PerformanceAnalytics’ package functions and returns the objects in the tidy ‘tibble’ format. The main advantage is being able to use quantitative functions with the ‘tidyverse’ functions including ‘purrr’, ‘dplyr’, ‘tidyr’, ‘ggplot2’, ‘lubridate’, etc. See the ‘tidyquant’ website for more information, documentation and examples.</p>
+</blockquote>
+<p>Well I like <a href="https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html">tidy data</a> and I like several of the package functions listed, so this sounded like a winner to me. Indeed it was, but let’s back up a second.</p>
+<div id="some-very-untidy-data" class="section level2">
+<h2>Some very untidy data</h2>
+<p>If you just go to the Census HVS main page you can find a <a href="https://www.census.gov/housing/hvs/data/histtabs.html">list of historical tables</a> that are stored in .xlsx spreadsheets.</p>
+<p>We were interested in several of those tables yesterday, but the main one was Table 8: Table 8. Quarterly Estimates of the Housing Inventory: 1965 to Present <a href="https://www.census.gov/housing/hvs/data/histtab8.xlsx">.xlsx</a>. If you open that spreadsheet up you’d see something like this:</p>
+<p><img src="../../../../img/charts_sep_18_2017/hvstab8.PNG"></p>
+<p>This is set up just like spreadsheets tend to be. It’s got merged cells, data skips rows and all the usual things that make our lives more challenging.</p>
+<div id="fred-to-the-rescue" class="section level3">
+<h3>FRED to the rescue</h3>
+<p>Fortunately, the HVS data is available via the Saint Louis Federal Reserve’s <a href="https://fred.stlouisfed.org/">FRED</a> database. And if you followed <a href="../../../../2017/04/11/fred-plot">my post</a> from back in April you know what we can do if we combine FRED with the <a href="https://cran.r-project.org/web/packages/quantmod/index.html">quantmod</a> package.</p>
+<p>In the example from April we only grabbed a couple of series. But what if we want a bunch of data? We could of course, copy and paste, or loop, or even better use a vector maybe <code>purrr::map</code>. But wouldn’t it be nice if there was some tool to easily tidy a bunch of data?</p>
+<p>Yes, and there totally is such a tool. The tidyquant package does exactly what we need.</p>
+</div>
+</div>
+</div>
+<div id="using-tidyquant" class="section level1">
+<h1>Using tidyquant</h1>
+<p>After we install the tidyquant package <code>install.packages(&quot;tidyquant&quot;)</code> we are almost ready to go. The next thing we’ll need is a list of the FRED mnemonics for the variables of interest.</p>
+<p>After loading the libraries we have 3 steps:</p>
+<ol style="list-style-type: decimal">
+<li>Prepare for data</li>
+<li>Pull data</li>
+<li>Organize data</li>
+</ol>
+<div id="prepare-for-data" class="section level3">
+<h3>Prepare for data</h3>
+<p>In the first step, we create a variable <code>tickers</code> that stores a list of FRED mnemonics for the variables we want. Then we prepare a list of variable names. Finally we create a lookup table matching mnemonics with variable names.</p>
+<pre class="r"><code>#####################################################################################
+## Step 0: Load Libraries ##
+#####################################################################################
+library(tidyverse)
+library(tidyquant)
+
+#####################################################################################
+## Step 1: Prepare for data  ##
+#####################################################################################
+
+# Get HVS data
+# First, list the Mnemonics from FRED
+tickers &lt;- c(&#39;ETOTALUSQ176N&#39;,    # All housing units
+             &#39;EVACANTUSQ176N&#39;,   # Vacant
+             &#39;EYRVACUSQ176N&#39;,    # Year-round vacant
+             &#39;ERENTUSQ176N&#39;,     # Vacant for rent
+             &#39;ESALEUSQ176N&#39;,     # Vacant for sale
+             &#39;ERNTSLDUSQ176N&#39;,   # Vacant rented or sold
+             &#39;EOFFMARUSQ176N&#39;,   # Vacant held off market
+             &#39;EOCCUSEUSQ176N&#39;,   # Vacant occasional use
+             &#39;EUREUSQ176N&#39;,      # Vacant usual residence elsewhere
+             &#39;EOTHUSQ176N&#39;,      # Vacant other
+             &#39;ESEASONUSQ176N&#39;,   # Vacant seasonal
+             &#39;EOCCUSQ176N&#39;,      # Occupied
+             &#39;EOWNOCCUSQ176N&#39;,   # Owner occupied
+             &#39;ERNTOCCUSQ176N&#39;,   # Renter occupied
+             &#39;RRVRUSQ156N&#39;,      # Rental vacancy rate
+             &#39;RHVRUSQ156N&#39;       # Homeowner vacancy rate
+)
+
+# Next, list human readable variable names
+myvars &lt;- c(&#39;All housing units&#39;,
+            &#39;Vacant&#39;,
+            &#39;Year-round vacant&#39;,
+            &#39;Vacant for rent&#39;,
+            &#39;Vacant for sale&#39;,
+            &#39;Vacant rented or sold&#39;,
+            &#39;Vacant held off market&#39;,
+            &#39;Vacant occasional use&#39;,
+            &#39;Vacant usual residence elsewhere&#39;,
+            &#39;Vacant other&#39;,
+            &#39;Vacant seasonal&#39;,
+            &#39;Occupied&#39;,
+            &#39;Owner occupied&#39;,
+            &#39;Renter occupied&#39;,
+            &#39;Rental vacancy rate&#39;,
+            &#39;Homeowner vacancy rate&#39;
+)
+
+# Create a lookup dataset
+mylookup&lt;-data.frame(symbol=tickers,var=myvars)
+knitr::kable(mylookup)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">symbol</th>
+<th align="left">var</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">ETOTALUSQ176N</td>
+<td align="left">All housing units</td>
+</tr>
+<tr class="even">
+<td align="left">EVACANTUSQ176N</td>
+<td align="left">Vacant</td>
+</tr>
+<tr class="odd">
+<td align="left">EYRVACUSQ176N</td>
+<td align="left">Year-round vacant</td>
+</tr>
+<tr class="even">
+<td align="left">ERENTUSQ176N</td>
+<td align="left">Vacant for rent</td>
+</tr>
+<tr class="odd">
+<td align="left">ESALEUSQ176N</td>
+<td align="left">Vacant for sale</td>
+</tr>
+<tr class="even">
+<td align="left">ERNTSLDUSQ176N</td>
+<td align="left">Vacant rented or sold</td>
+</tr>
+<tr class="odd">
+<td align="left">EOFFMARUSQ176N</td>
+<td align="left">Vacant held off market</td>
+</tr>
+<tr class="even">
+<td align="left">EOCCUSEUSQ176N</td>
+<td align="left">Vacant occasional use</td>
+</tr>
+<tr class="odd">
+<td align="left">EUREUSQ176N</td>
+<td align="left">Vacant usual residence elsewhere</td>
+</tr>
+<tr class="even">
+<td align="left">EOTHUSQ176N</td>
+<td align="left">Vacant other</td>
+</tr>
+<tr class="odd">
+<td align="left">ESEASONUSQ176N</td>
+<td align="left">Vacant seasonal</td>
+</tr>
+<tr class="even">
+<td align="left">EOCCUSQ176N</td>
+<td align="left">Occupied</td>
+</tr>
+<tr class="odd">
+<td align="left">EOWNOCCUSQ176N</td>
+<td align="left">Owner occupied</td>
+</tr>
+<tr class="even">
+<td align="left">ERNTOCCUSQ176N</td>
+<td align="left">Renter occupied</td>
+</tr>
+<tr class="odd">
+<td align="left">RRVRUSQ156N</td>
+<td align="left">Rental vacancy rate</td>
+</tr>
+<tr class="even">
+<td align="left">RHVRUSQ156N</td>
+<td align="left">Homeowner vacancy rate</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="pull-data" class="section level3">
+<h3>Pull data</h3>
+<p>This is super simple thanks to tidyquant. We simple have to feed the <code>tq_get()</code> function our list of mnemonics and tell it to read from FRED. We do this by setting <code>get='economic data'</code> in the function call.</p>
+<pre class="r"><code>#####################################################################################
+## Step 2: Pull data  ##
+#####################################################################################
+
+tickers %&gt;% tq_get(get=&quot;economic.data&quot;, 
+                   from=&quot;2001-04-01&quot;   # we start from April 2001 due to break in HVS
+                   ) -&gt; df
+# Take a look:
+knitr::kable(head(df))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">symbol</th>
+<th align="left">date</th>
+<th align="right">price</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">ETOTALUSQ176N</td>
+<td align="left">2001-04-01</td>
+<td align="right">117786</td>
+</tr>
+<tr class="even">
+<td align="left">ETOTALUSQ176N</td>
+<td align="left">2001-07-01</td>
+<td align="right">118216</td>
+</tr>
+<tr class="odd">
+<td align="left">ETOTALUSQ176N</td>
+<td align="left">2001-10-01</td>
+<td align="right">118635</td>
+</tr>
+<tr class="even">
+<td align="left">ETOTALUSQ176N</td>
+<td align="left">2002-01-01</td>
+<td align="right">119061</td>
+</tr>
+<tr class="odd">
+<td align="left">ETOTALUSQ176N</td>
+<td align="left">2002-04-01</td>
+<td align="right">119483</td>
+</tr>
+<tr class="even">
+<td align="left">ETOTALUSQ176N</td>
+<td align="left">2002-07-01</td>
+<td align="right">119909</td>
+</tr>
+</tbody>
+</table>
+<p>Nice.</p>
+</div>
+<div id="organize-the-data" class="section level3">
+<h3>Organize the data</h3>
+<p>Finally, we do a little bit of additional processing. Because tidyquant focuses on financial data, the default variable name is price. We’ll change the name to a more generic one <code>value</code> and create a variable called <code>share</code> that is the ratio of each variable to total housing units.</p>
+<pre class="r"><code>#####################################################################################
+## Step 3: Organize data  ##
+#####################################################################################
+
+df&lt;-merge(df,mylookup,by=&quot;symbol&quot;) %&gt;% rename(value=price)
+df %&gt;% group_by(date) %&gt;% 
+  # create a share variable that is the ratio of units to All housing units
+  mutate(share=value/value[var==&quot;All housing units&quot;])  %&gt;% 
+  ungroup() %&gt;% arrange(date,-value) -&gt; df
+knitr::kable(tail(df,16))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">symbol</th>
+<th align="left">date</th>
+<th align="right">value</th>
+<th align="left">var</th>
+<th align="right">share</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">ETOTALUSQ176N</td>
+<td align="left">2017-04-01</td>
+<td align="right">136456.0</td>
+<td align="left">All housing units</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="even">
+<td align="left">EOCCUSQ176N</td>
+<td align="left">2017-04-01</td>
+<td align="right">118899.0</td>
+<td align="left">Occupied</td>
+<td align="right">0.8713358</td>
+</tr>
+<tr class="odd">
+<td align="left">EOWNOCCUSQ176N</td>
+<td align="left">2017-04-01</td>
+<td align="right">75716.0</td>
+<td align="left">Owner occupied</td>
+<td align="right">0.5548748</td>
+</tr>
+<tr class="even">
+<td align="left">ERNTOCCUSQ176N</td>
+<td align="left">2017-04-01</td>
+<td align="right">43183.0</td>
+<td align="left">Renter occupied</td>
+<td align="right">0.3164610</td>
+</tr>
+<tr class="odd">
+<td align="left">EVACANTUSQ176N</td>
+<td align="left">2017-04-01</td>
+<td align="right">17557.0</td>
+<td align="left">Vacant</td>
+<td align="right">0.1286642</td>
+</tr>
+<tr class="even">
+<td align="left">EYRVACUSQ176N</td>
+<td align="left">2017-04-01</td>
+<td align="right">13383.0</td>
+<td align="left">Year-round vacant</td>
+<td align="right">0.0980756</td>
+</tr>
+<tr class="odd">
+<td align="left">EOFFMARUSQ176N</td>
+<td align="left">2017-04-01</td>
+<td align="right">7450.0</td>
+<td align="left">Vacant held off market</td>
+<td align="right">0.0545964</td>
+</tr>
+<tr class="even">
+<td align="left">ESEASONUSQ176N</td>
+<td align="left">2017-04-01</td>
+<td align="right">4175.0</td>
+<td align="left">Vacant seasonal</td>
+<td align="right">0.0305959</td>
+</tr>
+<tr class="odd">
+<td align="left">EOTHUSQ176N</td>
+<td align="left">2017-04-01</td>
+<td align="right">3847.0</td>
+<td align="left">Vacant other</td>
+<td align="right">0.0281922</td>
+</tr>
+<tr class="even">
+<td align="left">ERENTUSQ176N</td>
+<td align="left">2017-04-01</td>
+<td align="right">3470.0</td>
+<td align="left">Vacant for rent</td>
+<td align="right">0.0254294</td>
+</tr>
+<tr class="odd">
+<td align="left">EOCCUSEUSQ176N</td>
+<td align="left">2017-04-01</td>
+<td align="right">2214.0</td>
+<td align="left">Vacant occasional use</td>
+<td align="right">0.0162250</td>
+</tr>
+<tr class="even">
+<td align="left">EUREUSQ176N</td>
+<td align="left">2017-04-01</td>
+<td align="right">1388.0</td>
+<td align="left">Vacant usual residence elsewhere</td>
+<td align="right">0.0101718</td>
+</tr>
+<tr class="odd">
+<td align="left">ERNTSLDUSQ176N</td>
+<td align="left">2017-04-01</td>
+<td align="right">1262.0</td>
+<td align="left">Vacant rented or sold</td>
+<td align="right">0.0092484</td>
+</tr>
+<tr class="even">
+<td align="left">ESALEUSQ176N</td>
+<td align="left">2017-04-01</td>
+<td align="right">1201.0</td>
+<td align="left">Vacant for sale</td>
+<td align="right">0.0088014</td>
+</tr>
+<tr class="odd">
+<td align="left">RRVRUSQ156N</td>
+<td align="left">2017-04-01</td>
+<td align="right">7.3</td>
+<td align="left">Rental vacancy rate</td>
+<td align="right">0.0000535</td>
+</tr>
+<tr class="even">
+<td align="left">RHVRUSQ156N</td>
+<td align="left">2017-04-01</td>
+<td align="right">1.5</td>
+<td align="left">Homeowner vacancy rate</td>
+<td align="right">0.0000110</td>
+</tr>
+</tbody>
+</table>
+<p>Now that we have our variables it’s easy to make plots or proceed with other analysis. Below, I’m going to share the code I used for my small multiple plots.</p>
+<p>Recently, I’ve liked to plot small multiples of a time series. But I also like to include all the time series on each plot, with the other series as a faint gray line. I think this kind of graph helps make comparisons easier, particularly if a panel plot goes over several rows/columns.</p>
+<p>Here’s how I made it:</p>
+<pre class="r"><code># Make a caption:
+mycaption&lt;- &quot;@lenkiefer Source: U.S. Bureau of the Census, Housing Inventory Estimate, retrieved from FRED, Federal Reserve Bank of St. Louis; https://fred.stlouisfed.org/series/EOFFMARUSQ176N, September 18, 2017.&quot;
+# Wrap caption 90 characters:
+mycaption &lt;- paste0(strwrap(mycaption, 90), sep=&quot;&quot;, collapse=&quot;\n&quot;)
+
+# Make plot
+ggplot(data=
+         # We&#39;re only going to plot 3 series
+         filter(df,var %in% c(&#39;Vacant for rent&#39;,
+                              &quot;Vacant rented or sold&quot;,
+                              &#39;Vacant for sale&#39;,
+                              &#39;Vacant held off market&#39;)),
+       aes(x=date,y=share,label=var))+
+  
+  # Plot the gray lines
+  geom_path(data=filter(df,var %in% c(&#39;Vacant for rent&#39;,
+                                      &quot;Vacant rented or sold&quot;,
+                                      &#39;Vacant for sale&#39;,
+                                      &#39;Vacant held off market&#39;)) %&gt;%
+  #overwrite the var variable with NULL so each line shows up on each panel.
+              mutate(var=NULL), 
+  inherit.aes=F,color=&quot;darkgray&quot;,  # tell this plot to ignore the aes statement
+  alpha=0.5,                       # make the lines faint
+  aes(x=date,y=share,group=symbol))+
+  geom_line(size=1.05,color=&quot;royalblue&quot;)+ # draw the real plot
+#  guides(color=F)+                        # ditch 
+  theme_minimal()+
+  facet_wrap(~var)+
+  scale_y_continuous(labels=scales::percent,breaks=seq(0,1,.01))+
+  theme(plot.caption=element_text(hjust=0),
+        strip.text=element_text(color=&quot;royalblue&quot;) )+
+  labs(x=&quot;&quot;,y=&quot;&quot;,title=&quot;U.S. Housing Inventory: Year-round vacant units as share of total housing stock&quot;, caption=mycaption)</code></pre>
+<p><img src="/post/2017-09-18-a-tidyquant-um-of-solace_files/figure-html/09-18-2017-chart-1-1.png" width="672" /></p>
+</div>
+<div id="data-wrangling-got-you-down-take-solace-in-great-new-tools." class="section level3">
+<h3>Data wrangling got you down? Take solace in great new tools.</h3>
+<p>Sometimes data wrangling can be a real bummer. But folks are constantly making new tools that make it easier. Tidyquant is one such tool. We only scratched the surface of what it can do, but it has already made our live a little easier and more tidy. How could it work for you?</p>
+</div>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2017/09/17/housing-vacancy-trends/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2017/09/17/housing-vacancy-trends/">If housing inventory is so tight, why are so many homes vacant?</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="/2017/09/19/housing-starts-grinding-higher-or-to-a-halt/">Housing starts grinding higher or grinding to a halt?</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="/2017/09/19/housing-starts-grinding-higher-or-to-a-halt/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/data-wrangling/">data wrangling</a>, 
+            
+                <a href="/tags/r/">R</a>, 
+            
+                <a href="/tags/housing/">housing</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2017%2f09%2f18%2fa-tidyquant-um-of-solace%2f&text=A%20%28Tidyquant%29um%20of%20solace via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2017%2f09%2f18%2fa-tidyquant-um-of-solace%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+

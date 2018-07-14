@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>Housing supply, population, and house prices: The macro view &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Housing supply, population, and house prices: The macro view">
+    <meta property="og:description" content="## &#39;getSymbols&#39; currently uses auto.assign=TRUE by default, but will## use auto.assign=FALSE in 0.5-0. You will still be able to use## &#39;loadSymbols&#39; to automatically load data. getOption(&quot;getSymbols.env&quot;)## and getOption(&quot;getSymbols.auto.assign&quot;) will still be checked for## alternate defaults.## ## This message is shown once per session and may be disabled by setting ## options(&quot;getSymbols.warning4.0&quot;=FALSE). See ?getSymbols for details.I travel around the United States giving talks, usually updates on recent trends in housing and mortgage markets.">
+
+<div class="header">
+  <h1>Housing supply, population, and house prices: The macro view</h1>
+  <h2></h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2017/05/28</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/house-prices">house prices</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <pre><code>## &#39;getSymbols&#39; currently uses auto.assign=TRUE by default, but will
+## use auto.assign=FALSE in 0.5-0. You will still be able to use
+## &#39;loadSymbols&#39; to automatically load data. getOption(&quot;getSymbols.env&quot;)
+## and getOption(&quot;getSymbols.auto.assign&quot;) will still be checked for
+## alternate defaults.
+## 
+## This message is shown once per session and may be disabled by setting 
+## options(&quot;getSymbols.warning4.0&quot;=FALSE). See ?getSymbols for details.</code></pre>
+<p>I travel around the United States giving talks, usually updates on recent trends in housing and mortgage markets. Often I get the chance to speak with real estate and mortgage professionals. For over two years, since at least 2015, I’ve heard one common theme: housing supply is tight. It’s difficult to find a home, particularly for first time homebuyers.</p>
+<p>It doesn’t matter if I’m in Cincinnati or Detroit, Denver or Dallas, Las Vegas or Los Angeles. It’s the same thing. We can’t find enough homes to buy.</p>
+<p>You know what I tell folks? Same thing I said back in 2015: if you think housing markets are tight this year, wait until next year. The market’s likely to be even tighter next year, and the year after tighter still. What’s going on?</p>
+<div id="quick-note-on-code" class="section level3">
+<h3><em>Quick note on code</em></h3>
+<p>Often in this space I provide links to <a href="https://www.r-project.org/">R</a> code for wrangling data and creating plots. In this post, I will not be sharing the code. That will come in a sequel. Where I have already included code I will supply links. Look for code on new and interesting plots in a future post.</p>
+</div>
+<div id="the-macro-view" class="section level1">
+<h1>The macro view</h1>
+<p>It helps to start with the big picture. The United States is a vast nation, with over 300 million people, 125 million households, and 130 million housing units. The U.S. population and housing stock are slow moving. Houses are durable, lasting decades, centuries in some cases. People too. It takes a while for things to change.</p>
+<p>But they do change. Over time, the next generation comes of age and begins forming households. To meet the needs of a growing population the housing stock needs to expand.</p>
+<p>Let’s talk a bit about how things move. Per estimates from the National Association of Home Builders (NAHB) it takes about seven months to build a single-family home. (<a href="http://eyeonhousing.org/2016/07/time-to-build-a-single-family-home-in-2015/">See report</a>). An apartment takes longer, around a year. The long lag between a housing start and completion means new supply only can respond gradually to changes in demand.</p>
+<p>Demand on the other hand, is in certain respects even slower moving. Demographic forces drive a shifting U.S. population, but over decades. Young adults start forming households in their early 20s, but the current crop of young adults are taking longer to reach many important life milestones. See this <a href="https://www.census.gov/content/dam/Census/library/publications/2017/demo/p20-579.pdf">Census report</a> for a comparison of today’s young adults with prior generations. One of the key differences between young adults today and prior generations is delayed marriage. Per the report, in the 1970s 8 in 10 people were married by the time they turned 30, today it’s not until the age of 45 that 8 in 10 have married.</p>
+<p>Although young adults have been slow to form households they are starting to show up in the market. When we look at estimates of recent building activity and demographic trends what do we see?</p>
+<p>The U.S. Census Bureau and Department of Housing and Urban Development (HUD) publish monthly estimates of new residential construction. See their <a href="https://www.census.gov/construction/nrc/pdf/newresconst.pdf">latest report</a>. The report tells us how many privately owned housing units were completed in a given month. For example, the latest report (released May 16, 2017) tells us that privately-owned housing completions in April 2017 were at a seasonally adjusted annual rate of 1,106,000.</p>
+<p>A 1.1 million annual rate of completions is well below what we need to match long-run demand. Here’s why.</p>
+<p>First, completions are only a gross measure, they don’t account for demolitions and other losses to the housing stock. Per the Components of Inventory Change report from HUD (<a href="https://www.huduser.gov/portal/datasets/cinch/cinch13/cinch11-13.pdf">see report</a>) over a two-year period from 2011 to 2013 the U.S. housing stock lost over 700,000 housing units permanently. The report indicates that the housing stock lost 1.1 million units over that period, but about 400,000 of those were temporary losses. Temporary losses include conversions to commercial use and badly damaged/condemned units that can be restored. Roughly, the U.S. is losing about 350,000 units each year permanently and another 200,000 temporarily.</p>
+<p>Second, you have to supply new units for net new households. Out of the 1.1 million housing units completed, 350,000 need to cover permanent losses. That leaves us with approximately 750,000 net completions. According to the latest population estimates from the U.S. Census (<a href="https://www.census.gov/programs-surveys/popest/data/tables.html">LINK</a>) the U.S. population ages 18 and over increased 0.9% from 2015 to 2016. There are about 125 million households. Roughly, we should expect to see about 1.1 million (0.9% x 125 million) new households formed each year. They’ll be looking for a place to live.</p>
+<p>Third and finally, you also have to figure second home demand. See again the <a href="http://eyeonhousing.org/2016/12/top-posts-of-2016-where-are-the-nations-second-homes/">NAHB</a>. Per the NAHB calculations, second homes account for about 5.6 percent of the total U.S. housing stock, increasing by about 0.6 million from 2009 to 2014. That figure suggests that second home demand is between 100,000 and 200,000 units per year.</p>
+<p>Adding it all up suggests you need around 1.65 million housing units each year to meet long-run demand. But the U.S. is only building at a 1.1 million housing units per year rate. If current trends continue, we’ll end up half a million housing units short of long-run demand this year. Consider the graph below.</p>
+<p><img src="/post/2017-05-28-housing-supply-house-prices_files/figure-html/05-28-2017-comp-plot-1-1.png" width="672" /></p>
+<p>And that is after several years of low levels of home building. In 2011, less than 600,000 housing units were completed in the United States. Since then, construction has picked up, but is nowhere near long-run demand. Each year, the number of additional housing units fails to keep pace with underlying demand, housing markets get tighter and tighter. For more, including a discussion of vacancies, see my post <a href="../../../../2016/04/30/vacant-housing-from-surplus-to-shortage">vacant housing: from surplus to shortage</a>. That post is from last year, but the major themes are still true today.</p>
+<p>House prices reflect these trends. Nationally, prices are increasing over 6 percent annually. The rate of house price growth is well above rent growth, income growth, and the rate of increase of non-housing prices. The graph below plots trends in these metrics since 1991. (See <a href="../../../../2017/04/11/Fred-plot">this post</a> for R code to get data and generate the graph below).</p>
+<p><img src="/post/2017-05-28-housing-supply-house-prices_files/figure-html/fig-05-028-2017-1-1.png" width="672" /></p>
+<p>The graph shows the trends in house prices, rents, per capita disposable income, and a measure of non-housing consumer prices. What we see is that since 1991, income has grown fastest. For a time last decade house prices rose well above incomes, but fell back down during the Great Recession. Since 2012, house prices have been growing fastest, though they haven’t caught up to income yet. Non-housing prices (things like food, apparel and services) have been rising slowest. Though you’d find interesting patterns looking at various components, see <a href="../../../../2017/05/21/consumer-price-household-debt">this post</a> for more on consumer price trends.</p>
+</div>
+<div id="population-and-housing-unit-trends" class="section level1">
+<h1>Population and housing unit trends</h1>
+<p>Here we will dig into some <a href="https://www.census.gov/newsroom/press-releases/2017/cb17-81-population-estimates-subcounty.html">recently released</a> Census data on population and housing unit growth.</p>
+<div id="some-basic-population-and-housing-unit-trends" class="section level2">
+<h2>Some basic population and housing unit trends</h2>
+<p>Let us begin by looking at some basic information on population and housing units. The Census data provides estimates down to the county level of the resident population and housing units in July of each year from 2010 through 2016.</p>
+<p><img src="/post/2017-05-28-housing-supply-house-prices_files/figure-html/fig-05-028-2017-pop-1-1.png" width="672" /></p>
+<p>The plot above shows that while the U.S. population expanded by 14 million from 2010 to 2016 (from 309 to 323 million) the U.S. housing stock only expanded by 4 million units from 2010 to 2016 (132 to 136 million). Another way of looking at these data is to consider the ratio of people to housing units. The graph below plots that relationship.</p>
+<p><img src="/post/2017-05-28-housing-supply-house-prices_files/figure-html/fig-05-028-2017-pop-2-1.png" width="672" /></p>
+<p>In 2010 there were 2.347 people for every housing unit in the United States. That expanded to 2.381 people for every housing unit by 2016. Fixing the 2016 population at 323 million, to keep the ratio of people per housing units at the 2010 level the housing stock would need to expand by 2 million units. And based on our calculations above, we are falling behind by about a half million additional units every year.</p>
+<p>That tight inventory story we heard about to start? We’re going to be hearing a lot more about it.</p>
+</div>
+</div>
+<div id="regional-story" class="section level1">
+<h1>Regional story</h1>
+<p>The national view obscures some important regional trends.</p>
+<p>As we have documented in a variety of ways, local housing markets differ. See for example:</p>
+<ul>
+<li><p><a href="../../../../2017/05/18/state-hpa">State house prices relative to national prices</a></p></li>
+<li><p><a href="../../../../2017/05/02/house-price-viz">Metro house prices, dot chart and geo tour</a></p></li>
+<li><p><a href="../../../../2017/04/25/bivariate-animate">Bivariate choropleth maps of employment and house prices</a></p></li>
+<li><p><a href="../../../../2017/04/23/horizon">Horizon charts</a></p></li>
+<li><p><a href="../../../../2017/04/16/house-price-to-income-acs-2015">Comparing the distribution household income to house values by metro area</a></p></li>
+<li><p><a href="../../../../2017/01/22/build-flex">An interactive flexdashboard</a></p></li>
+</ul>
+<p>In my next post, we’ll dig into the regional data, exploring in depth some of the key trends. To do so, we’ll need to explore (and explain) this figure.</p>
+<pre><code>## 
+## Attaching package: &#39;maps&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     map</code></pre>
+<pre><code>## rgeos version: 0.3-23, (SVN revision 546)
+##  GEOS runtime version: 3.5.0-CAPI-1.9.0 r4084 
+##  Linking to sp version: 1.2-5 
+##  Polygon checking: TRUE</code></pre>
+<pre><code>## Loading required package: sp</code></pre>
+<pre><code>## Checking rgeos availability: TRUE</code></pre>
+<pre><code>## Warning: Ignoring unknown aesthetics: x, y
+
+## Warning: Ignoring unknown aesthetics: x, y</code></pre>
+<p><img src="/post/2017-05-28-housing-supply-house-prices_files/figure-html/fig-05-028-2017-bivariate-map-1-1.png" width="672" /></p>
+<p>See you next time.</p>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2017/05/25/week-in-review/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2017/05/25/week-in-review/">Housing market recap</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="/2017/06/05/tableau-dash/">Housing supply, population, and house prices: Tableau Dashboard</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="/2017/06/05/tableau-dash/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/r/">R</a>, 
+            
+                <a href="/tags/dataviz/">dataviz</a>, 
+            
+                <a href="/tags/house-prices/">house prices</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2017%2f05%2f28%2fhousing-supply-house-prices%2f&text=Housing%20supply%2c%20population%2c%20and%20house%20prices%3a%20The%20macro%20view via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2017%2f05%2f28%2fhousing-supply-house-prices%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+

@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Economic expansions in the U.S. have been getting longer, recessions shorter. We explore with data visualizations made with R.">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>Expanding Expansions, Contracting Recessions &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com//img/charts_apr_26_2018/expand.png" >
+     
+    <meta property="og:title" content="Expanding Expansions, Contracting Recessions">
+    <meta property="og:description" content="Economic expansions in the U.S. have been getting longer, recessions shorter. We explore with data visualizations made with R.">
+
+<div class="header">
+  <h1>Expanding Expansions, Contracting Recessions</h1>
+  <h2>Economic expansions in the U.S. have been getting longer, recessions shorter. We explore with data visualizations made with R.</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/04/26</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/economy">economy</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/data-wrangling">data wrangling</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <p>IN THIS POST I WANT TO SHARE A GRAPH looking at the length of economic expansions and recessions in the United State over time. Earlier today, Andrew Chamberlain (on <a href="https://twitter.com/adchamberlain">Twitter</a>), <a href="https://twitter.com/adchamberlain/status/989521824303083521">observed</a> that at the end of this month the current economic expansion in the U.S. would be the second longest in history. Let’s explore.</p>
+<p>In the United States, the <a href="http://www.nber.org/">National Bureau of Economic Research (NBER)</a> dates expansions and recessions. See for example <a href="http://www.nber.org/cycles.html" class="uri">http://www.nber.org/cycles.html</a> for a list of dates. The table is informative, but can we do something more graphical? Yes we can.</p>
+<p>Here’s the graph I made. We’ll discuss and I’ll provide R code below.</p>
+<p><img src="../../../../img/charts_apr_26_2018/expand.png"></p>
+<div id="discuss" class="section level2">
+<h2>Discuss</h2>
+<p>This chart plots the date for NBER expansions/recession on the x axis against the duration (in months) on the y axis. The higher and longer the segment the longer the expansion/recession lasted. I also fit a regression line through the points. What this shows is that while expansions (blue) have gotten longer over time, recessions (red) have gotten shorter over time.</p>
+</div>
+<div id="r-code" class="section level1">
+<h1>R code</h1>
+<p>Per usual, let’s make a graph with <a href="https://www.r-project.org/">R</a>.</p>
+<div id="recession-dates" class="section level2">
+<h2>Recession dates</h2>
+<p>I often use recession shading on line plots, see <a href="https://datamatters.blog/2011/08/15/recession-bars/">here</a> for handy R code. But I also like to try more experimental visualizations, like <a href="../../../../2017/10/25/home-sales-in-expansions-and-recessions/">these</a>.</p>
+<p>Let’s first set up our data. The NBER page has an excel spreadsheet, but we can just do it manually.</p>
+<p>First let’s set up our R session with the libraries we will need today.</p>
+<pre class="r"><code>#####################################################################################
+## Load libraries ##
+#####################################################################################
+library(tidyquant)
+library(sqldf)
+library(ggrepel)
+library(animation)</code></pre>
+<p>And then create our data.</p>
+<pre class="r"><code>#####################################################################################
+## Make Recession Data Frame ##
+#####################################################################################
+
+recessions.df = read.table(textConnection(
+  &quot;Peak, Trough
+  1857-06-01, 1858-12-01
+  1860-10-01, 1861-06-01
+  1865-04-01, 1867-12-01
+  1869-06-01, 1870-12-01
+  1873-10-01, 1879-03-01
+  1882-03-01, 1885-05-01
+  1887-03-01, 1888-04-01
+  1890-07-01, 1891-05-01
+  1893-01-01, 1894-06-01
+  1895-12-01, 1897-06-01
+  1899-06-01, 1900-12-01
+  1902-09-01, 1904-08-01
+  1907-05-01, 1908-06-01
+  1910-01-01, 1912-01-01
+  1913-01-01, 1914-12-01
+  1918-08-01, 1919-03-01
+  1920-01-01, 1921-07-01
+  1923-05-01, 1924-07-01
+  1926-10-01, 1927-11-01
+  1929-08-01, 1933-03-01
+  1937-05-01, 1938-06-01
+  1945-02-01, 1945-10-01
+  1948-11-01, 1949-10-01
+  1953-07-01, 1954-05-01
+  1957-08-01, 1958-04-01
+  1960-04-01, 1961-02-01
+  1969-12-01, 1970-11-01
+  1973-11-01, 1975-03-01
+  1980-01-01, 1980-07-01
+  1981-07-01, 1982-11-01
+  1990-07-01, 1991-03-01
+  2001-03-01, 2001-11-01
+  2007-12-01, 2009-06-01
+  2018-04-02, 2100-01-01&quot;), sep=&#39;,&#39;,
+  colClasses=c(&#39;Date&#39;, &#39;Date&#39;), header=TRUE)</code></pre>
+<p>This code creates a simple data frame <code>recessions.df</code> with two columns Peak and Trough corresponding to the NBER dates. A recession period is between the Peak and Trough, while the expansion is dates between the trough and peak. Because the current expansion (through April 2018) has not ended, I added a row to the bottom of the data frame for the next expansion. I’m not sure <a href="../../../../2017/10/26/predicting-recessions-with-dynamic-model-averaging/">when the next recession</a> will occur, <a href="../../../../2017/08/27/forecast/">forecasting is hard</a> after all, but I’m pretty sure it will happen by 2100.</p>
+<p>This table isn’t quite ready for visualization.</p>
+<p>Recession dating goes back to the 1850s. Let’s create a monthly data frame with one row per month from January 1857 to April 2018.</p>
+<pre class="r"><code>df&lt;- data.frame(date=seq.Date(as.Date(&quot;1857-01-01&quot;), 
+                              as.Date(&quot;2018-04-01&quot;), by=&quot;1 month&quot;))</code></pre>
+</div>
+<div id="merging-by-date-ranges" class="section level2">
+<h2>Merging by date ranges</h2>
+<p>What we want to do is merge this date data frame <code>df</code> with our recessions data frame <code>recessions.df</code> based on date ranges. Then for each period we would like to know not only is it in an expansion or recession, but which expansion/recession. For example, April 2009 was in the recession that lasted from December 2007 to June 2009. This problem is small enough that you could do it by hand in a spreadsheet (no need to burn them all).</p>
+<p>But let’s do it algorithmically. Merging on a date range (e.g. is the data in <code>df</code> between Peak and Trough in <code>recessions.df</code>) isn’t straightforward in R, but it’s pretty easy in SQL. Fortunately, thanks to <a href="https://stackoverflow.com/questions/23095896/merging-two-dataframes-on-a-date-range-in-r">this Stack Overflow question and answer</a>, I learned about the <a href="https://CRAN.R-project.org/package=sqldf">sqldf package</a> that lets you run SQL on R data frames. WIth SQL operations the kind of merge we want is quite easy.</p>
+<p><em>If someone knows how to do this in R with either the tidyverse or data.table or base R, let me know.</em></p>
+<pre class="r"><code>rdf &lt;- recessions.df %&gt;% 
+  mutate(TroughLag  = lag(Trough),  # find last trough
+         PeakLag    = lag(Peak)      # find last peak
+         )
+
+# Merge with sqldf
+output &lt;- sqldf(&quot;select * from df left join rdf
+                 on  (df.date&gt;=rdf.Peak and df.date &lt;= rdf.Trough or
+                     (df.date &gt; rdf.TroughLag and df.date &lt;= rdf.Peak)) &quot;)</code></pre>
+<p>Noew</p>
+<pre class="r"><code>outdf &lt;- mutate(output,
+                expand=ifelse(date&gt;=Peak, &quot;Recession&quot;,&quot;Expansion&quot;),
+                d1=as.Date(ifelse(expand==&quot;Recession&quot;,Peak, TroughLag %m+% months(1))),
+                d2=as.Date(ifelse(expand==&quot;Recession&quot;,Trough, Peak %m-% months(1)))) %&gt;%
+  mutate(name=paste0(expand, &quot; &quot;,
+                     as.character(d1, format=&quot;%b %Y&quot;), &quot; : &quot;,
+                     as.character(d2, format=&quot;%b %Y&quot;)
+                     )) %&gt;%
+  # relabel the last row to say :present
+  mutate(name=ifelse(name==&quot;Expansion Jul 2009 : Mar 2018&quot;,
+                     &quot;Expansion Jul 2009 : Present&quot;, name)) %&gt;%
+  mutate(contraction = interval(Peak, Trough) %/% months(1),       # Peak to Trough
+         expansion   = interval(TroughLag, Peak) %/% months(1),    # Previous Trough to this Peak
+         cycle1      = interval(TroughLag, Trough) %/% months(1),  # Trough from previous Trough
+         cycle2      = interval(PeakLag, Peak) %/% months(1))      # Peak from previous Peak</code></pre>
+<pre><code>## Note: method with signature &#39;Timespan#Timespan&#39; chosen for function &#39;%/%&#39;,
+##  target signature &#39;Interval#Period&#39;.
+##  &quot;Interval#ANY&quot;, &quot;ANY#Period&quot; would also be valid</code></pre>
+<pre class="r"><code>knitr::kable(filter(outdf, date==&quot;2009-06-01&quot;))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">date</th>
+<th align="left">Peak</th>
+<th align="left">Trough</th>
+<th align="left">TroughLag</th>
+<th align="left">PeakLag</th>
+<th align="left">expand</th>
+<th align="left">d1</th>
+<th align="left">d2</th>
+<th align="left">name</th>
+<th align="right">contraction</th>
+<th align="right">expansion</th>
+<th align="right">cycle1</th>
+<th align="right">cycle2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">2009-06-01</td>
+<td align="left">2007-12-01</td>
+<td align="left">2009-06-01</td>
+<td align="left">2001-11-01</td>
+<td align="left">2001-03-01</td>
+<td align="left">Recession</td>
+<td align="left">2007-12-01</td>
+<td align="left">2009-06-01</td>
+<td align="left">Recession Dec 2007 : Jun 2009</td>
+<td align="right">18</td>
+<td align="right">73</td>
+<td align="right">91</td>
+<td align="right">81</td>
+</tr>
+</tbody>
+</table>
+<p>Now we can summarize our data. The end results is a table that looks quite a lot like the one the <a href="http://www.nber.org/cycles.html">NBER provides</a>. Though this table has entries for both expansions and recessions. It’s less compact as a table (it doubles the rows you need), but better for plotting.</p>
+<pre class="r"><code>#create summary data
+outdf2 &lt;- 
+  outdf %&gt;% group_by(name, expand)  %&gt;%
+  summarize(start.date=min(date),
+            end.date=max(date),
+            contraction=mean(contraction),
+            expansion=mean(expansion),
+            cycle1=mean(cycle1),
+            cycle2=mean(cycle2)) %&gt;% 
+  ungroup() %&gt;% arrange(start.date) %&gt;%
+  mutate(duration =ifelse(expand==&quot;Recession&quot;,contraction,expansion)) %&gt;%
+  arrange(start.date) %&gt;% filter(!is.na(expand) )
+
+knitr::kable(outdf2 %&gt;% tail())</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">name</th>
+<th align="left">expand</th>
+<th align="left">start.date</th>
+<th align="left">end.date</th>
+<th align="right">contraction</th>
+<th align="right">expansion</th>
+<th align="right">cycle1</th>
+<th align="right">cycle2</th>
+<th align="right">duration</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Recession Jul 1990 : Mar 1991</td>
+<td align="left">Recession</td>
+<td align="left">1990-07-01</td>
+<td align="left">1991-03-01</td>
+<td align="right">8</td>
+<td align="right">92</td>
+<td align="right">100</td>
+<td align="right">108</td>
+<td align="right">8</td>
+</tr>
+<tr class="even">
+<td align="left">Expansion Apr 1991 : Feb 2001</td>
+<td align="left">Expansion</td>
+<td align="left">1991-04-01</td>
+<td align="left">2001-02-01</td>
+<td align="right">8</td>
+<td align="right">120</td>
+<td align="right">128</td>
+<td align="right">128</td>
+<td align="right">120</td>
+</tr>
+<tr class="odd">
+<td align="left">Recession Mar 2001 : Nov 2001</td>
+<td align="left">Recession</td>
+<td align="left">2001-03-01</td>
+<td align="left">2001-11-01</td>
+<td align="right">8</td>
+<td align="right">120</td>
+<td align="right">128</td>
+<td align="right">128</td>
+<td align="right">8</td>
+</tr>
+<tr class="even">
+<td align="left">Expansion Dec 2001 : Nov 2007</td>
+<td align="left">Expansion</td>
+<td align="left">2001-12-01</td>
+<td align="left">2007-11-01</td>
+<td align="right">18</td>
+<td align="right">73</td>
+<td align="right">91</td>
+<td align="right">81</td>
+<td align="right">73</td>
+</tr>
+<tr class="odd">
+<td align="left">Recession Dec 2007 : Jun 2009</td>
+<td align="left">Recession</td>
+<td align="left">2007-12-01</td>
+<td align="left">2009-06-01</td>
+<td align="right">18</td>
+<td align="right">73</td>
+<td align="right">91</td>
+<td align="right">81</td>
+<td align="right">18</td>
+</tr>
+<tr class="even">
+<td align="left">Expansion Jul 2009 : Present</td>
+<td align="left">Expansion</td>
+<td align="left">2009-07-01</td>
+<td align="left">2018-04-01</td>
+<td align="right">980</td>
+<td align="right">106</td>
+<td align="right">1087</td>
+<td align="right">124</td>
+<td align="right">106</td>
+</tr>
+<tr class="odd">
+<td align="left">Note that the</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+</tbody>
+</table>
+<p>With this data in hand we can make our plot:</p>
+<pre class="r"><code>#####################################################################################
+## Make Plot ##
+#####################################################################################
+ggplot(data = outdf2 %&gt;% filter(!is.na(expand)),
+       aes(x=start.date, xend=end.date,
+           y=duration, yend=duration, label=name,color=expand))+
+  scale_fill_manual(name=&quot;Expansion or Recession&quot;, values= c(&quot;#4575b4&quot;, &quot;#d73027&quot;))+
+  scale_color_manual(name=&quot;Expansion or Recession&quot;, values= c(&quot;#4575b4&quot;, &quot;#d73027&quot;))+
+  theme_minimal(base_size=20)+
+  theme(legend.position=&quot;bottom&quot;,
+        plot.caption=element_text(hjust=0,size=12)  )+
+  geom_segment(size=1.1)+
+  
+  scale_y_continuous(breaks=seq(0,120,10),limits=c(0,125),expand=c(0,0),sec.axis=dup_axis())+
+  
+  # even with ggrepel, labeling all points gets crowded
+  geom_text_repel(data= outdf2 %&gt;% 
+                    filter(duration&gt;40 |  (year(start.date)&gt; 1969 | year(start.date) &lt; 1860) 
+                           ), size=3)+
+  stat_smooth(method=&quot;lm&quot;, fill=NA, linetype=2, alpha=0.35)+
+  labs(x=&quot;Date&quot;,y=&quot;Duration of U.S. Expansion/Recession in Months&quot;,
+       title=&quot;Expansions Expand, Recessions Contract&quot;,
+       subtitle=&quot;Duration of U.S. expansions/recessions over time\n&quot;,
+       caption=&quot;@lenkiefer Source: NBER recession dates as of April 26, 2018 http://www.nber.org/cycle.html\n\nSegments extend from expansion/recession start to end date on x axis, y axis equals length of expansion/recession.\nDotted lines regression fit to expansion/recession: duration ~ start.date&quot;)+
+  geom_rug(data=outdf,sides=&quot;b&quot;, inherit.aes=FALSE,aes(x=date,color=expand))</code></pre>
+<p><img src="/post/2018-04-26-expanding-expansions-contracting-recessions_files/figure-html/04-26-2018-plot-1-1.png" width="960" /></p>
+<p>And of course, now that we have it, we’re so close to animating it. The code below makes an animated gif.</p>
+<pre class="r"><code>#####################################################################################
+## Function for plotting ##
+#####################################################################################
+plotf&lt;-function(dd=max(outdf$date)){
+  
+  outdf.plot&lt;-filter(outdf,date&lt;=dd)
+  outdf2.plot&lt;-filter(outdf2, start.date&lt;=dd)
+
+    ggplot(data = outdf2.plot %&gt;% filter(!is.na(expand)),
+           aes(x=start.date, xend=end.date,
+               y=duration, yend=duration, label=name,color=expand))+
+    scale_fill_manual(name=&quot;Expansion or Recession&quot;, values= c(&quot;#4575b4&quot;, &quot;#d73027&quot;))+
+    scale_color_manual(name=&quot;Expansion or Recession&quot;, values= c(&quot;#4575b4&quot;, &quot;#d73027&quot;))+
+    theme_minimal(base_size=20)+
+    theme(legend.position=&quot;bottom&quot;,
+          plot.caption=element_text(hjust=0,size=12)
+    )+
+    
+    geom_segment(size=1.1)+
+    scale_y_continuous(breaks=seq(0,120,10),limits=c(0,125),expand=c(0,0),sec.axis=dup_axis())+
+    scale_x_date(limits=as.Date(c(&quot;1850-01-01&quot;,&quot;2019-01-01&quot;)))+
+    #geom_text_repel(data= outdf2.plot %&gt;% filter(duration&gt;40 |                                               (year(start.date)&gt; 1969 | year(start.date) &lt; 1860) 
+    #), size=3)+
+    stat_smooth(method=&quot;lm&quot;, fill=NA, linetype=2, alpha=0.35)+
+    labs(x=&quot;Date&quot;,y=&quot;Duration of U.S. Expansion/Recession in Months&quot;,
+         title=&quot;Expansions Expand, Recessions Contract&quot;,
+         subtitle=&quot;Duration of U.S. expansions/recessions over time\n&quot;,
+         caption=&quot;@lenkiefer Source: NBER recession dates as of April 26, 2018 http://www.nber.org/cycle.html\n\nSegments extend from expansion/recession start to end date on x axis, y axis equals length of expansion/recession.\nDotted lines regression fit to expansion/recession: duration ~ start.date&quot;)+
+    geom_rug(data=outdf.plot,sides=&quot;b&quot;, inherit.aes=FALSE,aes(x=date,color=expand))
+}
+
+# get dates
+dlist&lt;-sort(as.Date(rbind(outdf2$start.date,outdf2$end.date)))
+
+oopt&lt;-ani.options(interval=1/10)
+saveGIF({for (ii in 2:(length(dlist)+20)){
+  i&lt;-min(length(dlist),ii)
+
+  g&lt;-plotf(dlist[i])
+  print(g)
+  print(paste(ii,&quot;out of &quot;,length(dlist)+20))
+  ani.pause()
+}
+}, movie.name = &quot;YOURDIRECTORY/cycle.gif&quot;, ani.width=840, ani.height=1000)
+# Be sure to set YOURDIRECTORY to a placeyou want to save this awesome gif (needs animation and ImageMagick to run)</code></pre>
+<p>Running this give you:</p>
+<p><img src="../../../../img/charts_apr_26_2018/cycle.gif"></p>
+</div>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2018/04/23/april-2018-housing-market-update-april/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2018/04/23/april-2018-housing-market-update-april/">April 2018 Housing Market Update</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="/2018/05/02/what-s-up-vsup-that-s-what-s-up/">What&#39;s up? VSUP, that&#39;s what&#39;s up.</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="/2018/05/02/what-s-up-vsup-that-s-what-s-up/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/economy/">economy</a>, 
+            
+                <a href="/tags/dataviz/">dataviz</a>, 
+            
+                <a href="/tags/data-wrangling/">data wrangling</a>, 
+            
+                <a href="/tags/r/">R</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2018%2f04%2f26%2fexpanding-expansions-contracting-recessions%2f&text=Expanding%20Expansions%2c%20Contracting%20Recessions via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2018%2f04%2f26%2fexpanding-expansions-contracting-recessions%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+

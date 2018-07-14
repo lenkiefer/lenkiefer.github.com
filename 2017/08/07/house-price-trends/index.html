@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>Plotting recent house price trends with R &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Plotting recent house price trends with R">
+    <meta property="og:description" content="IT IS TIME FOR AN UPDATE ON HOUSE PRICE TRENDS AROUND THE UNITED STATES.
+I have been experimenting with some new visualizations and updating some old favorites. Let’s collect them here.
+This post will be an extension of my Visual Meditations on House Prices series from last year. Check out those posts for additional visualizations.
+DataWe’ll use the recently updated Freddie Mac House Price Index (link to source) data and use R to create some plots.">
+
+<div class="header">
+  <h1>Plotting recent house price trends with R</h1>
+  <h2></h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2017/08/07</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/data-wrangling">data wrangling</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/house-prices">house prices</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <p>IT IS TIME FOR AN UPDATE ON HOUSE PRICE TRENDS AROUND THE UNITED STATES.</p>
+<p>I have been experimenting with some new visualizations and updating some old favorites. Let’s collect them here.</p>
+<p>This post will be an extension of my <a href="../../../../2016/05/08/visual-meditations-on-house-prices">Visual Meditations on House Prices</a> series from last year. Check out those posts for additional visualizations.</p>
+<div id="data" class="section level3">
+<h3>Data</h3>
+<p>We’ll use the recently updated Freddie Mac House Price Index (<a href="http://www.freddiemac.com/finance/fmhpi/about.html">link to source</a>) data and use <a href="https://www.r-project.org/">R</a> to create some plots.</p>
+<p>You can download spreadsheets containing (.xls links) <a href="http://www.freddiemac.com/research/docs/states.xls">U.S. national and state</a> and <a href="http://www.freddiemac.com/research/docs/msas_new.xls">metro area trends</a>. Let’s presume you’ve saved those data in a folder, I call mine <em>data</em>.</p>
+<p>We’ll use <a href="http://readxl.tidyverse.org/index.html">readxl</a> to wrangle some data in Excel spreadsheets. See this post for more examples using readxl with <a href="../../../../2017/04/20/global-hpi-readxl">global house price data</a>.</p>
+<p>Also, a little later we will be combining our house price data with unemployment data from the <a href="https://www.bls.gov/">U.S. Bureau of Labor Statistics</a>. In order to merge our data, we’ll need a simple crosswalk file (<em>.txt</em>) file:</p>
+<ul>
+<li><a href="../../../../img/charts_feb_20_2017/region.txt">region.txt</a></li>
+</ul>
+<p>Let’s load the state and national data and plot recent trends.</p>
+<pre class="r"><code>#####################################################################################
+## Load Libraries ##
+#####################################################################################
+library(data.table)
+library(quantmod)</code></pre>
+<pre><code>## Loading required package: xts</code></pre>
+<pre><code>## Loading required package: zoo</code></pre>
+<pre><code>## 
+## Attaching package: &#39;zoo&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     as.Date, as.Date.numeric</code></pre>
+<pre><code>## 
+## Attaching package: &#39;xts&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:data.table&#39;:
+## 
+##     first, last</code></pre>
+<pre><code>## Loading required package: TTR</code></pre>
+<pre><code>## Version 0.4-0 included new data defaults. See ?getSymbols.</code></pre>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## Loading tidyverse: ggplot2
+## Loading tidyverse: tibble
+## Loading tidyverse: tidyr
+## Loading tidyverse: readr
+## Loading tidyverse: purrr
+## Loading tidyverse: dplyr</code></pre>
+<pre><code>## Conflicts with tidy packages ----------------------------------------------</code></pre>
+<pre><code>## between():   dplyr, data.table
+## filter():    dplyr, stats
+## first():     dplyr, xts, data.table
+## lag():       dplyr, stats
+## last():      dplyr, xts, data.table
+## transpose(): purrr, data.table</code></pre>
+<pre class="r"><code>library(viridis)</code></pre>
+<pre><code>## Loading required package: viridisLite</code></pre>
+<pre class="r"><code>library(readxl)
+library(cowplot)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;cowplot&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:ggplot2&#39;:
+## 
+##     ggsave</code></pre>
+<pre class="r"><code>library(ggbeeswarm)
+library(scales)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;scales&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     discard</code></pre>
+<pre><code>## The following object is masked from &#39;package:readr&#39;:
+## 
+##     col_factor</code></pre>
+<pre class="r"><code>library(ggjoy)
+library(forcats)
+library(kandinsky)
+library(geofacet)
+
+#####################################################################################
+## Load data ##
+#####################################################################################
+
+
+df&lt;-read_excel(&quot;data/states.xls&quot;, 
+               sheet = &quot;State Indices&quot;,
+               range=&quot;B6:BB516&quot; )
+
+df$date&lt;-seq.Date(as.Date(&quot;1975-01-01&quot;),as.Date(&quot;2017-06-01&quot;),by=&quot;1 month&quot;)
+
+#####################################################################################
+## Manipulate data data ##
+#####################################################################################
+df.state&lt;-df %&gt;% gather(geo,hpi,-date) %&gt;% mutate(type=&quot;state&quot;,state=geo) %&gt;%
+  group_by(geo) %&gt;%
+  mutate(hpa=hpi/shift(hpi,12)-1,
+         hpa1=hpi/shift(hpi,1)-1,
+         hpilag12=shift(hpi,12,fill=NA),
+         hpimax12=rollmax(hpi,13,align=&quot;right&quot;,fill=NA),
+         hpimin12=-rollmax(-hpi,13,align=&quot;right&quot;,fill=NA)) %&gt;% ungroup() %&gt;%
+  group_by(date) %&gt;%
+  mutate(us.hpa=hpa[geo==&quot;United States not seasonally adjusted&quot;],
+         us.hpi=hpi[geo==&quot;United States not seasonally adjusted&quot;]) %&gt;%
+  ungroup() %&gt;% mutate(up=ifelse(hpa&gt;us.hpa,hpa,us.hpa),
+                       down=ifelse(hpa&lt;=us.hpa,hpa,us.hpa),
+                       dlabel=paste(as.character(date,format=&quot;%B-%Y&quot;),&quot; \n &quot;)) %&gt;% 
+  ungroup() %&gt;%
+  filter( !( state %in% c(&quot;United States not seasonally adjusted&quot;,
+                         &quot;United States seasonally adjusted&quot;))) %&gt;%
+  group_by(state) %&gt;% mutate(id = row_number()) %&gt;% ungroup()
+
+#####################################################################################
+## Create U.S. only data ##
+#####################################################################################
+
+df.us&lt;-df %&gt;% select(&quot;United States seasonally adjusted&quot;,date) %&gt;% 
+  gather(geo,hpi,-date) %&gt;% mutate(type=&quot;US&quot;,state=geo) %&gt;% 
+  mutate(hpa=hpi/shift(hpi,12)-1,         hpa1=hpi/shift(hpi,1)-1)
+
+#####################################################################################
+## Plot U.S. trends ##
+#####################################################################################
+plot.hpi&lt;-
+  ggplot(data=filter(df.us,year(date)&gt;1999), aes(x=date,y=hpi,label=round(hpi,0)))+
+  geom_line()+theme_minimal()+
+  labs(x=&quot;&quot;, y=&quot;&quot;,
+       title=&quot;U.S. house price index&quot;,
+       subtitle=&quot;House price index: Dec 2000 = 100, seasonally adjusted&quot;,
+       caption=&quot;@lenkiefer Source: Freddie Mac House Price Index&quot;)+
+  theme(plot.title=element_text(size=14,face=&quot;bold&quot;),
+        plot.subtitle=element_text(size=10,face=&quot;italic&quot;),
+        plot.caption=element_text(hjust=0,size=8),
+        axis.ticks.length=unit(0.25,&quot;cm&quot;)) + 
+  geom_point(data=tail(df.us,1),color=&quot;red&quot;,size=3,alpha=0.82)+
+    geom_hline(yintercept=tail(df.us,1)$hpi,color=&quot;red&quot;,linetype=2)
+
+plot.hpa&lt;-
+  ggplot(data=filter(df.us,year(date)&gt;1999), aes(x=date,y=hpa,label=round(hpa,0)))+
+  geom_line()+theme_minimal()+
+  scale_y_continuous(labels=percent)+
+  labs(x=&quot;&quot;, y=&quot;&quot;,
+       title=&quot;12-month percent change&quot;,
+       subtitle=&quot;U.S. House price index&quot;,
+       caption=&quot;&quot;)+
+  theme(plot.title=element_text(size=14,face=&quot;bold&quot;),
+        plot.subtitle=element_text(size=10,face=&quot;italic&quot;),
+        plot.caption=element_text(hjust=0,size=8),
+        axis.ticks.length=unit(0.25,&quot;cm&quot;)) + 
+  geom_point(data=tail(df.us,1),color=&quot;red&quot;,size=3,alpha=0.82)+
+    geom_hline(yintercept=tail(df.us,1)$hpa,color=&quot;red&quot;,linetype=2)+
+    geom_hline(yintercept=0,color=&quot;black&quot;,linetype=2)
+
+plot_grid(plot.hpi, plot.hpa)</code></pre>
+<p><img src="/post/2017-08-07-house-price-trends_files/figure-html/08-06-2017-setup-1-1.png" width="672" /></p>
+<p>Note that I used the <a href="https://cran.r-project.org/web/packages/cowplot/index.html">cowplot</a> library to arrange multiple plots.</p>
+<p>From this chart we can see that house prices are above their pre-recession peak and that the rate of growth is approaching seven percent on an annual basis. How do trends look at the state level? And how do they compare to the U.S. trend we plotted?</p>
+<p>First, let’s look at state house price appreciation. We’ll create two small multiples, first a rectangular grid of state appreciation. Then we’ll use <a href="https://cran.r-project.org/web/packages/geofacet/index.html">geo_facet</a> for different layout. We’ll also use the <a href="https://cran.r-project.org/web/packages/ggjoy/index.html">ggjoy</a> package for some sweet gradient shading.</p>
+<pre class="r"><code>df.state$statef&lt;-fct_reorder(as.factor(df.state$state),
+                              df.state$hpa,fun=last,.desc = T)
+
+ggplot(data=filter(df.state,state !=&quot;DC&quot; &amp; year(date)&gt;1999), 
+         aes(x=date,y=hpa,label=round(hpa,0)))+
+  geom_line()+theme_minimal()+
+    geom_ridgeline_gradient(aes(fill=hpa,y=0,height=hpa),min_height=-10)+
+    scale_fill_viridis(option=&quot;C&quot;)   +
+    facet_wrap(~statef,ncol=5)  +
+  scale_y_continuous(labels=percent)+
+  labs(x=&quot;&quot;, y=&quot;&quot;,
+       title=&quot;12-month percent change in house prices&quot;,
+       subtitle=&quot;House price index: Dec 2000 = 100, seasonally adjusted&quot;,
+       caption=&quot;@lenkiefer Source: Freddie Mac House Price Index through June 2017&quot;)+
+  theme(plot.title=element_text(size=14,face=&quot;bold&quot;),
+                legend.position=&quot;none&quot;,
+        plot.subtitle=element_text(size=10,face=&quot;italic&quot;),
+        plot.caption=element_text(hjust=0,size=8),
+        axis.ticks.length=unit(0.25,&quot;cm&quot;)) +
+    geom_hline(yintercept=0,color=&quot;black&quot;,linetype=2)</code></pre>
+<p><img src="/post/2017-08-07-house-price-trends_files/figure-html/08-06-2017-plot-1-1.png" width="1152" /></p>
+<p>Now let’s try a geo facet layout:</p>
+<pre class="r"><code>ggplot(data=filter(df.state, year(date)&gt;1999), 
+         aes(x=date,y=hpa,label=round(hpa,0)))+
+  geom_line()+theme_minimal()+
+    geom_ridgeline_gradient(aes(fill=hpa,y=0,height=hpa),min_height=-10)+
+    scale_fill_viridis(option=&quot;C&quot;)   +
+  scale_y_continuous(labels=percent)+
+  scale_x_date(date_labels=&quot;%y&quot;,date_breaks=&quot;5 years&quot;)+
+  labs(x=&quot;&quot;, y=&quot;&quot;,
+       title=&quot;House price appreciation by state: Jan 2000 - Jun 2017&quot;,
+       subtitle=&quot;12-month percent change in house price index&quot;,
+       caption=&quot;@lenkiefer Source: Freddie Mac House Price Index through June 2017&quot;)+
+  theme(plot.title=element_text(size=14,face=&quot;bold&quot;),
+        legend.position=&quot;none&quot;,
+        plot.subtitle=element_text(size=10,face=&quot;italic&quot;),
+        plot.caption=element_text(hjust=0,size=8),
+        axis.ticks.length=unit(0.25,&quot;cm&quot;)) +
+    geom_hline(yintercept=0,color=&quot;black&quot;,linetype=2)+
+    facet_geo(~ state, grid = &quot;us_state_grid2&quot;)</code></pre>
+<p><img src="/post/2017-08-07-house-price-trends_files/figure-html/08-06-2017-plot-2-1.png" width="1344" /></p>
+</div>
+<div id="joyswarm" class="section level1">
+<h1>Joyswarm</h1>
+<p>Let’s now turn to metro area data and make a joyswarm plot (see <a href="../../../../2017/08/03/joyswarm">the post</a> for more on joyswarm plots). We can get monthly house price indices for over 300 metro areas. They are stored in two separate worksheets in the metro spreadsheet. Let’s load the data, compute 12-month appreciation rates by metro area and plot a joyswarm plot.</p>
+<pre class="r"><code>###############################################################################
+#### Load metro data
+###############################################################################
+df2&lt;-read_excel(&quot;data/msas_new.xls&quot;, 
+                sheet = &quot;MSA Indices A-L&quot;,
+               range=&quot;B6:HG516&quot; )
+df2$date&lt;-seq.Date(as.Date(&quot;1975-01-01&quot;),as.Date(&quot;2017-06-01&quot;),by=&quot;1 month&quot;)
+
+df3&lt;-read_excel(&quot;data/msas_new.xls&quot;, 
+                sheet = &quot;MSA Indices M-Z&quot;,
+                range=&quot;B6:FM516&quot; )
+df3$date&lt;-seq.Date(as.Date(&quot;1975-01-01&quot;),as.Date(&quot;2017-06-01&quot;),by=&quot;1 month&quot;)
+
+###############################################################################
+#### merge data and compute 12-month % change
+###############################################################################
+
+df4&lt;-left_join(df2,df3,by=&quot;date&quot;)
+df.metro &lt;- df4 %&gt;% gather(geo,hpi,-date) %&gt;% mutate(type=&quot;metro&quot;)
+df.metro</code></pre>
+<pre><code>## # A tibble: 194,820 x 4
+##          date         geo      hpi  type
+##        &lt;date&gt;       &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;
+##  1 1975-01-01 Abilene, TX 44.61498 metro
+##  2 1975-02-01 Abilene, TX 45.06790 metro
+##  3 1975-03-01 Abilene, TX 45.86827 metro
+##  4 1975-04-01 Abilene, TX 47.03022 metro
+##  5 1975-05-01 Abilene, TX 47.38393 metro
+##  6 1975-06-01 Abilene, TX 46.81175 metro
+##  7 1975-07-01 Abilene, TX 46.41641 metro
+##  8 1975-08-01 Abilene, TX 46.35436 metro
+##  9 1975-09-01 Abilene, TX 46.44499 metro
+## 10 1975-10-01 Abilene, TX 46.57779 metro
+## # ... with 194,810 more rows</code></pre>
+<pre class="r"><code>df.metro &lt;- df.metro %&gt;% mutate(state=substr(geo,nchar(geo)-1,nchar(geo)))
+df.metro&lt;-df.metro %&gt;% group_by(geo) %&gt;% 
+  mutate(hpa=hpi/lag(hpi,12)-1) %&gt;% ungroup()
+
+###############################################################################
+#### create joyswarm
+###############################################################################
+
+ggplot(data=filter(df.metro,year(date)&gt;2003 &amp; month(date)==6), aes(x=hpa,y=forcats::fct_reorder(factor(year(date)),date,.desc=T),color=hpa,fill=hpa))+
+  geom_joy(alpha=0.25,rel_min_height=0.005)+
+  geom_quasirandom(alpha=0.8,size=0.2)+
+  scale_fill_viridis(option=&quot;C&quot;)+
+  scale_color_viridis(option=&quot;C&quot;)+
+  theme_minimal()+
+  theme(legend.position=&quot;none&quot;,
+        plot.caption=element_text(hjust=0))+
+  scale_x_continuous(labels=percent)+
+  labs(x=&quot;12-month percent change in house price&quot;,y=&quot;&quot;,
+       title=&quot;Distribution of metro area house price appreciation&quot;,
+       subtitle=&quot;12-month percent change in June of each year&quot;,
+       caption=&quot;@lenkiefer Source: Freddie Mac House Price Index. Each dot a metro area, curve density over metros.&quot;)</code></pre>
+<pre><code>## Picking joint bandwidth of 0.0112</code></pre>
+<p><img src="/post/2017-08-07-house-price-trends_files/figure-html/08-07-2017-joyswarm-1-1.png" width="672" /></p>
+<p>This plot shows the distribution of house price increases has shifted higher over the past couple of years, but remains below the 2013 levels (when housing markets were recovering from the Great Recession) and the levels of last decade.</p>
+<div id="relating-house-price-trends-to-economic-variables" class="section level2">
+<h2>Relating house price trends to economic variables</h2>
+<p>We can relate house price trends to other economic variables. Let’s go back to the state data and plot the relationship between state house price appreciation and the unemployment rate. We’ll go get unemployment data from the U.S. Bureau of Labor Statistics.</p>
+<pre class="r"><code># Download data big file
+ur.data&lt;-fread(&quot;https://download.bls.gov/pub/time.series/la/la.data.1.CurrentS&quot;)
+
+# Download series ids
+
+ur.series&lt;-fread(&quot;https://download.bls.gov/pub/time.series/la/la.series&quot;)
+
+# We&#39;ll subset data
+ur.list&lt;-ur.series[area_type_code ==&quot;A&quot; &amp;   #get states
+                     measure_code == &quot;3&quot;  &amp;   #get unemployment rate
+                     seasonal == &quot;S&quot;,         #get seasonally adjusted data
+                   c(&quot;series_id&quot;,&quot;area_code&quot;,&quot;series_title&quot;),
+                   with=F]
+
+## Get state names and area crosswalk
+ur.area&lt;-fread(&quot;https://download.bls.gov/pub/time.series/la/la.area&quot;,
+               col.names=
+                 c(&quot;area_type_code&quot;,&quot;area_code&quot;,&quot;area_text&quot;,&quot;display_level&quot;,
+                   &quot;selectable&quot;,&quot;sort_sequence&quot;,&quot;blank&quot;))                   </code></pre>
+<pre><code>## Warning in fread(&quot;https://download.bls.gov/pub/time.series/la/la.area&quot;, :
+## Starting data input on line 2 and discarding line 1 because it has too
+## few or too many items to be column names or data: area_type_code area_code
+## area_text display_level selectable sort_sequence</code></pre>
+<pre class="r"><code># merge data
+ur.dt&lt;-merge(ur.data,ur.list,by=&quot;series_id&quot;,all.y=T)
+
+#create data variable
+ur.dt[,month:=as.numeric(substr(ur.dt$period,2,3))]
+ur.dt$date&lt;- as.Date(ISOdate(ur.dt$year,ur.dt$month,1) ) #set up date variable
+ur.dt&lt;-merge(ur.dt,ur.area[,c(&quot;area_text&quot;,&quot;area_code&quot;),with=F],by=&quot;area_code&quot;)
+
+
+# Load national unemployment rate using quantmod and FRED database
+# helpful reference https://jeffreybreen.wordpress.com/tag/quantmod/
+unrate = getSymbols(&#39;UNRATE&#39;,src=&#39;FRED&#39;, auto.assign=F) </code></pre>
+<pre><code>## &#39;getSymbols&#39; currently uses auto.assign=TRUE by default, but will
+## use auto.assign=FALSE in 0.5-0. You will still be able to use
+## &#39;loadSymbols&#39; to automatically load data. getOption(&quot;getSymbols.env&quot;)
+## and getOption(&quot;getSymbols.auto.assign&quot;) will still be checked for
+## alternate defaults.
+## 
+## This message is shown once per session and may be disabled by setting 
+## options(&quot;getSymbols.warning4.0&quot;=FALSE). See ?getSymbols for details.</code></pre>
+<pre class="r"><code>unrate.df = data.frame(date=time(unrate), coredata(unrate) )
+
+# Drop some columns
+ur.dt2&lt;-ur.dt[,c(&quot;date&quot;,&quot;area_text&quot;,&quot;value&quot;),with=F]
+
+## rename variables
+ur.dt2&lt;-dplyr::rename(ur.dt2, state=area_text)
+ur.dt2&lt;-dplyr::rename(ur.dt2, ur=value)
+
+# merge national unemploymnent 
+ur.dt2&lt;-merge(ur.dt2,unrate.df,by=&quot;date&quot;)
+ur.dt2&lt;-dplyr::rename(ur.dt2, ur.us=UNRATE)  #rename UNRATE to ur.us
+
+# create variables for use in ribbon chart
+ur.dt2[,up:=ifelse(ur&gt;ur.us,ur,ur.us)]</code></pre>
+<pre><code>## Warning in `[.data.table`(ur.dt2, , `:=`(up, ifelse(ur &gt; ur.us, ur,
+## ur.us))): Invalid .internal.selfref detected and fixed by taking a
+## (shallow) copy of the data.table so that := can add this new column by
+## reference. At an earlier point, this data.table has been copied by R (or
+## been created manually using structure() or similar). Avoid key&lt;-, names&lt;-
+## and attr&lt;- which in R currently (and oddly) may copy the whole data.table.
+## Use set* syntax instead to avoid copying: ?set, ?setnames and ?setattr.
+## Also, in R&lt;=v3.0.2, list(DT1,DT2) copied the entire DT1 and DT2 (R&#39;s list()
+## used to copy named objects); please upgrade to R&gt;v3.0.2 if that is biting.
+## If this message doesn&#39;t help, please report to datatable-help so the root
+## cause can be fixed.</code></pre>
+<pre class="r"><code>ur.dt2[,down:=ifelse(ur&lt;ur.us,ur,ur.us)]
+
+# drop D.C. and Puerto Rico (so we can have 50 plots in small multiple)
+ur.plot&lt;-ur.dt2[! state %in% c(&quot;Puerto Rico&quot;,&quot;District of Columbia&quot;)]
+ur.plot&lt;-ur.dt2[! state %in% c(&quot;Puerto Rico&quot;)]
+
+# Get list of states:
+st.list&lt;-unique(ur.plot$state)
+
+#Add U.S. as it&#39;s own state (for use in animation)
+ur.plot.us&lt;-copy(ur.plot)[state==&quot;Alabama&quot;]
+ur.plot.us[,state:=&quot;United States&quot;]
+ur.plot.us[,ur:=ur.us]
+ur.plot.us[,up:=ur.us]
+ur.plot.us[,down:=ur.us]
+ur.plot2&lt;-rbind(ur.plot,ur.plot.us)</code></pre>
+<p>Now with these data in hand, we can recreate the plot I described <a href="../../../../2017/01/18/workin-workout">here</a>, but with a geofacet layout.</p>
+<pre class="r"><code>    ggplot(data=ur.plot2,aes(x=date,y=ur))+
+    geom_line(color=&quot;black&quot;)+
+    geom_line(linetype=2,aes(y=ur.us))+
+    geom_ribbon(aes(ymin=ur,ymax=down),fill=&quot;#d73027&quot;,alpha=0.5)+
+    geom_ribbon(aes(ymin=ur,ymax=up),fill=&quot;#4575b4&quot;,alpha=0.5)+
+    facet_wrap(~state,ncol=10,scales=&quot;free_x&quot;)+
+    scale_y_continuous(limits=c(0,20))+
+    theme_minimal()+
+    theme(legend.position=&quot;top&quot;,
+          plot.caption=element_text(hjust=0),
+          plot.subtitle=element_text(face=&quot;italic&quot;),
+          plot.title=element_text(size=16,face=&quot;bold&quot;))+
+    labs(x=&quot;&quot;,y=&quot;&quot;,
+         title=&quot;The state of U.S. jobs - Working out @hrbmstr&#39;s workout of @stiles&#39; Viz&quot;,
+         subtitle=&quot;Solid line is state unemployment rate, dotted line is U.S. average unemployment rate\nRed (blue) indicates the state level is higher (lower) than the national average&quot;,
+         caption=&quot;@lenkiefer Data Source: U.S. Bureau of Labor Statistics\nViz based on https://rud.is/b/2017/01/18/workout-wednesday-redux-2017-week-3/,\nitself based on http://thedailyviz.com/2016/12/14/four-decades-of-state-unemployment-rates-in-small-multiples-part-2/&quot;)+
+    geom_rug(aes(color=ifelse(ur&gt;ur.us,&quot;Worse&quot;,&quot;Same or Better&quot;)),sides=&quot;b&quot;)+
+    scale_color_manual(values=c(&quot;#4575b4&quot;,&quot;#d73027&quot;),name=&quot;Better or worse than U.S.&quot;)+
+    scale_x_date(date_labels=&quot;%y&quot;,date_breaks=&quot;10 years&quot;)+
+    facet_geo(~ state, grid = &quot;us_state_grid2&quot;)</code></pre>
+<pre><code>## Some values in the specified facet_geo column &#39;state&#39; do not match
+##   the &#39;name&#39; column of the specified grid and will be removed:
+##   United States</code></pre>
+<p><img src="/post/2017-08-07-house-price-trends_files/figure-html/08-07-2017-ur-plot-1-1.png" width="1344" /></p>
+<p>Ha ha! That’s a lot of fun. Now let’s combine the house price data with the unemployment data.</p>
+</div>
+<div id="house-price-and-unemployment" class="section level2">
+<h2>House price and unemployment</h2>
+<pre class="r"><code>#####################################################################################
+# add region crosswalk
+#####################################################################################
+
+region&lt;-fread(&quot;data/region.txt&quot;)
+
+
+#####################################################################################
+# merge up data
+#####################################################################################
+ur.plot3&lt;-merge(ur.plot2,select(region,statecode,statename),
+                by.x=&quot;state&quot;,by.y=&quot;statename&quot;) %&gt;%
+  rename(statename=state)
+
+dfhu&lt;-merge(df.state,select(ur.plot3,-up,-down),
+            by.x=c(&quot;geo&quot;,&quot;date&quot;),by.y=c(&quot;statecode&quot;,&quot;date&quot;))
+
+
+ggplot(data=filter(dfhu,date==max(dfhu$date)),
+       aes(x=ur,y=hpa,group=state,label=state))+
+  geom_text(size=3,alpha=0.82)+
+  theme_minimal()+
+  scale_x_continuous()+
+  scale_y_continuous(labels=percent)+
+  scale_colour_gradient(low=&quot;red&quot;,high=&quot;blue&quot;,
+                               name = &quot;12-month percent change&quot;,
+                               labels = percent  )+
+  labs(y=&quot;12-month percent change in house prices&quot;, 
+       x=&quot;Unemployment rate (percent)&quot;,
+       title=&quot;House prices and unemployment&quot;,
+       subtitle=&quot;June, 2017&quot;,
+       caption=&quot;@lenkiefer Source: Freddie Mac house price index, U.S. Bureau of Labor Statistics&quot;)+
+    theme(plot.title=element_text(size=18),
+          plot.caption=element_text(size=7,hjust=0,vjust=1),
+          legend.key.width=unit(1,&quot;cm&quot;),
+          legend.position=&quot;top&quot;,
+          panel.grid.major.y =element_blank())</code></pre>
+<p><img src="/post/2017-08-07-house-price-trends_files/figure-html/08-07-2017-hpa-ur-scatter1-1.png" width="672" /></p>
+<p>This plot shows that in general, states with relatively higher unemployment rates tend to have lower house price growth.</p>
+<p>Let’s see how the relationship evolves over time. We’ll trace out a pather using <code>geom_path</code>, first for just the state of California.</p>
+<pre class="r"><code>#####################################################################################
+# make list of dates
+#####################################################################################
+dlist&lt;-unique(filter(dfhu,year(date)&gt;1999)$date)
+
+#####################################################################################
+# generate some functions (the utility will become apparent soon)
+#####################################################################################
+
+myf5&lt;- function (s, slist=&quot;CA&quot;) { return(filter(dfhu, 
+                                                date&gt;as.Date(&quot;2000-11-01&quot;) &amp;
+                                                  date&lt;=s &amp; state %in% slist) )}
+
+myplot5&lt;-function(df3) {
+  g&lt;-
+    ggplot(data=df3, 
+           aes(x=ur,y=hpa,group=state,color=hpa1,label=state))+
+    geom_point(data=filter(df3,date==max(df3$date)),size=2)+
+    geom_path(aes(alpha=id))+
+    guides(alpha=F,color=F)+
+    theme_minimal()+
+    geom_hline(yintercept=0,color=&quot;black&quot;,linetype=2)+
+    geom_vline(xintercept=100,color=&quot;black&quot;,linetype=2)+
+    scale_x_continuous(limits=c(0,15))+
+    scale_y_continuous(labels=percent,limits=c(-.4,.4))+
+    scale_colour_gradient(low=&quot;red&quot;,high=&quot;blue&quot;,name = &quot;12-month percent change&quot;,
+                          #limits=c(-.6,.6),
+                          labels = percent  )+
+    labs(y=&quot;12-month percent change in house prices&quot;, 
+         x=&quot;Unemployment rate (percent)&quot;,
+         title=&quot;House prices and unemployment&quot;,
+         subtitle=&quot;December 2000 through June 2017&quot;,
+         caption=&quot;@lenkiefer Source: Freddie Mac house price index, U.S. Bureau of Labor Statistics&quot;)+
+    theme(plot.title=element_text(size=18),
+          plot.caption=element_text(size=7,hjust=0,vjust=1),
+          legend.key.width=unit(1,&quot;cm&quot;),
+          legend.position=&quot;top&quot;,
+          panel.grid.major.y =element_blank())+facet_wrap(~state)
+  return(g) }
+
+myplot5(myf5(dlist[210],&quot;CA&quot;))</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_vline).</code></pre>
+<p><img src="/post/2017-08-07-house-price-trends_files/figure-html/08-07-2017-hpa-ur-scatter-2-1.png" width="672" /></p>
+<p>Now let’s try it for several states:</p>
+<pre class="r"><code>st.list&lt;- c(&quot;CA&quot;,&quot;TX&quot;,&quot;FL&quot;,&quot;NV&quot;,&quot;AZ&quot;,&quot;WA&quot;,&quot;CO&quot;,&quot;MI&quot;,&quot;NC&quot;)
+myplot5(myf5(dlist[210],st.list))</code></pre>
+<pre><code>## Warning: Removed 9 rows containing missing values (geom_vline).</code></pre>
+<p><img src="/post/2017-08-07-house-price-trends_files/figure-html/08-07-2017-hpa-ur-scatter-3-1.png" width="672" /></p>
+<p>Now let’s try to show it for all states.</p>
+<pre class="r"><code>ggplot(data=filter(dfhu, date&gt;as.Date(&quot;2000-11-01&quot;)), 
+       aes(x=ur,y=hpa,color=hpa1,label=state))+
+  geom_path(aes(alpha=id))+
+  
+  guides(alpha=F,color=F)+
+  theme_minimal()+
+  geom_hline(yintercept=0,color=&quot;black&quot;,linetype=2)+
+  geom_vline(xintercept=100,color=&quot;black&quot;,linetype=2)+
+  scale_x_continuous(limits=c(0,15))+
+  scale_y_continuous(labels=percent,limits=c(-.4,.4))+
+  scale_colour_gradient(low=&quot;red&quot;,high=&quot;blue&quot;,name = &quot;12-month percent change&quot;,
+                        #limits=c(-.6,.6),
+                        labels = percent  )+
+  labs(y=&quot;12-month percent change in house prices&quot;, 
+       x=&quot;Unemployment rate (percent)&quot;,
+       title=&quot;House prices and unemployment&quot;,
+       subtitle=&quot;December 2000 through June 2017&quot;,
+       caption=&quot;@lenkiefer Source: Freddie Mac house price index, U.S. Bureau of Labor Statistics&quot;)+
+  theme(plot.title=element_text(size=18),
+        plot.caption=element_text(size=7,hjust=0,vjust=1),
+        legend.key.width=unit(1,&quot;cm&quot;),
+        legend.position=&quot;top&quot;,
+        panel.grid.major.y =element_blank())+  # use facet_geo
+  facet_geo(~ state, grid = &quot;us_state_grid2&quot;)</code></pre>
+<pre><code>## Warning: Removed 96 rows containing missing values (geom_vline).</code></pre>
+<p><img src="/post/2017-08-07-house-price-trends_files/figure-html/08-07-2017-hpa-ur-scatter-4-1.png" width="1344" /></p>
+</div>
+</div>
+<div id="some-animations" class="section level1">
+<h1>Some animations</h1>
+<p>We can animate the swirly plot above for several states:</p>
+<p><img src="../../../../img/charts_aug_07_2017/redblueswirl9.gif"></p>
+<p><img src="../../../../img/charts_aug_03_2017/joyswarm2.gif" height="500" width="550"></p>
+<p>C:.github.com_aug_7_2017 redblueswirl9.gif</p>
+<p>We can also animate this chart we made <a href="../../../../2016/05/08/visual-meditations-on-house-prices">last year</a>, but with updated data through June 2017.</p>
+<p><img src="../../../../img/charts_aug_07_2017/redblue4.gif"></p>
+</div>
+<div id="kandinsky-plots" class="section level1">
+<h1>Kandinsky plots</h1>
+<p>Finally, let’s make some Kandisky style plots (see e.g. <a href="../../../../2017/07/27/kandinsky">this post</a>)</p>
+<div id="the-us" class="section level3">
+<h3>The US</h3>
+<pre class="r"><code>kandinsky(filter(df.us,year(date)&gt;1999) %&gt;% select(date,hpi))
+  grid.text(label=paste(&quot;U.S. house price index Jan 2000 - Jun 2017\n@lenkiefer, made using R package Kandinsky&quot;),
+            gp=gpar(fontsize=12),
+            x=.95,y=0.075,just=&quot;right&quot;)</code></pre>
+<p><img src="/post/2017-08-07-house-price-trends_files/figure-html/08-07-2017-kandinsky-US-1.png" width="672" /></p>
+</div>
+<div id="virginia-texas-ohio-kentucky" class="section level3">
+<h3>Virginia, Texas, Ohio, Kentucky</h3>
+<pre class="r"><code>kandinsky(filter(df.state, 
+                   state %in% c(&quot;VA&quot;,&quot;TX&quot;,&quot;OH&quot;,&quot;KY&quot;)) %&gt;% select(date,state,hpa))
+  grid.text(label=paste(&quot;12-month percent change in house price index\nJan 1976 - Jun 2017\nVA, TX, OH, and KY\n@lenkiefer, made using R package Kandinsky&quot;),
+            gp=gpar(fontsize=12),
+            x=.95,y=0.8,just=&quot;right&quot;)</code></pre>
+<p><img src="/post/2017-08-07-house-price-trends_files/figure-html/08-07-2017-kandinsky-states-1.png" width="672" /></p>
+</div>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2017/08/03/joyswarm/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2017/08/03/joyswarm/">Joyswarm: Joyplot &#43; beeswarm = awesome</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="/2017/08/10/animation-progress/">Adding an animation progress bar</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="/2017/08/10/animation-progress/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/r/">R</a>, 
+            
+                <a href="/tags/data-wrangling/">data wrangling</a>, 
+            
+                <a href="/tags/house-prices/">house prices</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2017%2f08%2f07%2fhouse-price-trends%2f&text=Plotting%20recent%20house%20price%20trends%20with%20R via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2017%2f08%2f07%2fhouse-price-trends%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+

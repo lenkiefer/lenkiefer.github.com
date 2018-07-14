@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>Brexit, State of the Nation&#39;s Housing, and home sales: the week in charts. &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Brexit, State of the Nation&#39;s Housing, and home sales: the week in charts.">
+    <meta property="og:description" content="IT WAS A BUSY WEEK FOR ECONOMIC AND HOUSING DATA. Existing and new home sales came out, the Joint Center for Housing Studies of Harvard University released their annual State of the Nation&rsquo;s Housing, and the U.K. voted to leave the European Union (the Brexit). We&rsquo;ll recap these data and events through charts I&rsquo;ve created and shared throughout the week.
+In this post, I&rsquo;ll share each of the charts with some commentary, and then below, I&rsquo;ll include the R code I used to generate the charts.">
+
+<div class="header">
+  <h1>Brexit, State of the Nation&#39;s Housing, and home sales: the week in charts.</h1>
+  <h2></h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2016/06/26</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/economy">Economy</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/housing">Housing</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+
+<p>IT WAS A BUSY WEEK FOR ECONOMIC AND HOUSING DATA. <a href="http://www.realtor.org/news-releases/2016/06/existing-home-sales-grow-18-percent-in-may-highest-pace-in-over-nine-years">Existing</a> and <a href="https://www.census.gov/construction/nrs/pdf/newressales.pdf">new</a> home sales came out, the Joint Center for Housing Studies of Harvard University released their annual <a href="http://www.jchs.harvard.edu/research/state_nations_housing">State of the Nation&rsquo;s Housing</a>, and the U.K. voted to leave the European Union (the Brexit). We&rsquo;ll recap these data and events through charts I&rsquo;ve created and shared throughout the week.</p>
+
+<p>In this post, I&rsquo;ll share each of the charts with some commentary, and then below, I&rsquo;ll include the R code I used to generate the charts.</p>
+
+<h1 id="home-sales-catching-up-to-the-fastest-pace-in-a-decade">Home sales catching up to the fastest pace in a decade</h1>
+
+<p>Both existing and new home sales for May 2016 came out this month, with Existing home sales released on Wednesday and new home sales on Thursday. Home sales have been picking up steam throughout 2016. Total home sales are likely to reach the highest annual total since 2006.  In order to do that, sales have to outpace 2007.</p>
+
+<h2 id="existing-home-sales-post-best-monthly-sales-since-2007">Existing home sales post best monthly sales since 2007</h2>
+
+<p>Existing home sales for May 2016 were at the highest level since 2007 and seem to be getting traction.  The graph below compares monthly existing home sales (not seasonally adjusted) across years. This year&rsquo;s pace is running below 2007, but the gap is narrow.  In 2007 home sales slowed in the summer and fall, so if this year&rsquo;s pace maintains its momentum it&rsquo;s likely this year will be the best year for existing home sales since 2006.</p>
+
+<p><img src="../../../../img/charts_jun_26_2016/ehs ytd may 2016.gif" alt="dot plot"/></p>
+
+<h2 id="new-home-sales-drop-but-estimates-uncertain">New home sales drop, but estimates uncertain</h2>
+
+<p>New home sales had an extremely strong initial reading for April, but the May release revised down the estimates substantially. In May 2016, new home sales were up 8.7 percent year-over-year. The estimates for new home sales are subject to a lot of sampling uncertainty, and Census provides estimates of that uncertainty. In the chart below I plot not only the level of new home sales, but also the 90% confidence interval constructed using <a href="https://www.census.gov/econ/currentdata/dbsearch?program=RESSALES&amp;startYear=1963&amp;endYear=2016&amp;categories=ASOLD&amp;dataType=TOTAL&amp;geoLevel=US&amp;adjusted=1&amp;errorData=1&amp;submit=GET+DATA&amp;releaseScheduleId=">data from Census</a>.</p>
+
+<p><img src="../../../../img/charts_jun_26_2016/newsales_6_25_2016_bands.gif" alt="dot plot"/></p>
+
+<h2 id="total-home-sales-behind-2007-but-looking-to-gain">Total home sales behind 2007, but looking to gain</h2>
+
+<p>Through May total home sales (new + existing) are running below 2007 pace, but not by much. The chart below compares monthly total home sales (NSA) since 2007.  In 2007 home sales slowed considerably in the seconed half of the year, leaving room for 2016 to catch up if we can maintain a pace similar to last year.</p>
+
+<p><img src="../../../../img/charts_jun_26_2016/tween sales jun 25 2016.gif" alt="dot plot"/></p>
+
+<h1 id="ahead-of-brexit-interest-rates-already-falling">Ahead of Brexit, interest rates already falling.</h1>
+
+<p>On Friday after the Brexit leave vote was announced, financial markets roiled, with stocks tumbling and Treasury yields falling. But even before the vote was announced, long-term interest rates had been falling.</p>
+
+<p><img src="../../../../img/charts_jun_26_2016/rate_6_23_2016_2.gif" alt="pmms 6 23 2016"/></p>
+
+<p>Will mortgage rates fall even more next week? With 10-year Treasury yields down almost 19 basis points on Friday, we should expect to see mortgage rates trend lower in the next week. But even if the declines in Treasury yields stick next week, in times of volatility some of the declines in Treasury yields do not flow into mortgage rates, instead spreads widen.</p>
+
+<p><img src="/img/Rfig/rate-scatter-1.svg" alt="plot of chunk rate-scatter" /></p>
+
+<p>The chart above shows that in general, the 30-year fixed mortgage rate follows the 10-year Treasury pretty closely. However, in 2012 there were several points below the line. Those weeks correspond to the spring of 2012 when 10-year Treasury yields fell more rapidly than mortgage rates. This was partially due to increased volatility and risk aversion around other European macroeconomic risks.</p>
+
+<p>The chart below shows the time series for the 10-year Treasury and the 30-year mortgage rate, with the spread shaded.</p>
+
+<p><img src="/img/Rfig/rate-spread1-1.svg" alt="plot of chunk rate-spread1" /></p>
+
+<p>The chart below plots the spread, with the 2011-2016 average (about 1.7 percentage points) spreads denoted by the dotted lines.  Periods when the spreads were above average (2011-2012) and again in 2016 were periods with increased macroeconomic risks.</p>
+
+<p><img src="/img/Rfig/rate-spread2-1.svg" alt="plot of chunk rate-spread2" /></p>
+
+<p>While risks may be elevated, it might be helpful to compare to 2008 when spreads were considerably wider:</p>
+
+<p><img src="/img/Rfig/rate-spread3-1.svg" alt="plot of chunk rate-spread3" /></p>
+
+<h1 id="visualizing-affordability">Visualizing affordability</h1>
+
+<p>This week the Joint Center for Housing Studies (JCHS) of Harvard University released their annual <a href="http://www.jchs.harvard.edu/research/state_nations_housing">State of the Nation&rsquo;s Housing</a>. The report is full of useful information about housing markets in the United States.</p>
+
+<p>One area of concern for analysts of U.S. housing markets is the rising cost burden of housing. In the report the JCHS computes costs burdens using Census data. Cost-burdened households are those that pay more than 30 percent of income for housing, while severely burdened households spend more than 50 percent. The chart below compares the percentage of cost-burdened households by metro area to the U.S. average broken out by household income.</p>
+
+<p><img src="../../../../img/charts_jun_26_2016/jchs 2016 w5b.gif" alt="dot plot"/></p>
+
+<h1 id="code-to-make-selected-charts">Code to make selected charts</h1>
+
+<p>In this section I&rsquo;ll provide code to make a few of the charts I posed above.</p>
+
+<p>First we&rsquo;ll load the required libraries.</p>
+
+<p>{% highlight r
+  library(ggplot2)
+  library(scales)
+  library(animation)
+  library(ggthemes)
+  library(data.table)
+  library(tweenr)  #used for animation
+library(&ldquo;viridis&rdquo;)
+{% endhighlight</p>
+
+<h2 id="existing-home-sales-chart">Existing home sales chart</h2>
+
+<p>Next, we&rsquo;ll make a static version of the bar chart:</p>
+
+<p>{% highlight r
+ehs &lt;- fread(&ldquo;data/ehs.txt&rdquo;)  #load data
+ehs$date&lt;-as.Date(ehs$date, format=&ldquo;%m/%d/%Y&rdquo;)
+ehs[, ehsc:=cumsum(ehs), by=year]  #computer cumulative sales YTD</p>
+
+<p>#Make plot
+    ggplot(data=ehs[year&gt;2006 &amp; month&lt;6], aes(x = factor(year), y = ehs,fill=reorder(mname,month),label=mname)) + geom_bar(color = &ldquo;gray&rdquo;, stat = &ldquo;identity&rdquo;,alpha=0.75)+
+    scale_fill_viridis(discrete=T,end=0.95,direction=1,option=&ldquo;D&rdquo;)+  #use viridis color scale
+    theme_minimal()+
+    geom_text(data=ehs[month==5 &amp; year==2016],aes(y=ehsc),nudge_y=0.25,hjust=-.2)+
+    geom_hline(yintercept=ehs[ month==5 &amp; year==2016]$ehsc,linetype=2,color=&ldquo;black&rdquo;)+
+    xlab(&ldquo;&rdquo;)+ylab(&ldquo;&rdquo;)+
+    labs(title=&ldquo;Existing Home Sales (Ths. NSA)&rdquo;,
+         subtitle=&ldquo;dotted line 2016 YTD&rdquo;,
+         caption=&ldquo;@lenkiefer Source:NAR&rdquo;)+
+    theme(plot.title=element_text(size=14))+
+    theme(legend.justification=c(0,0), legend.position=&ldquo;none&rdquo;)+
+    theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+    theme(plot.margin=unit(c(0.25,0.25,0.25,0.25),&ldquo;cm&rdquo;))+
+    scale_y_continuous(limits=c(0,3000))+
+    coord_flip()  #flip so that the bars are horizontal rather than vertical
+{% endhighlight</p>
+
+<p><img src="/img/Rfig/ehs-bars-1.svg" alt="plot of chunk ehs-bars" /></p>
+
+<h3 id="animated-existing-home-sales-chart">Animated existing home sales chart</h3>
+
+<p>Make the animation with the following code:</p>
+
+<p>{% highlight r
+ehs$mname&lt;-factor(ehs$mname)  #convert months to factor</p>
+
+<p>#This function will copy the data table, but overwrite months after the cutoff with values of 0
+#This way, tweenr will extend out as we add months and fill in the values
+myf3&lt;-function(m){
+  DT&lt;-copy(ehs)
+  DT&lt;-DT[month&gt;m,ehs:=0]
+  DT$mm&lt;-m
+  as.data.frame(DT)}</p>
+
+<p>my.list3&lt;-lapply(c(seq(1,5,1),0),myf3)  #the animation will loop through each of the first five months of the year an then meet back at 0.</p>
+
+<p>tf &lt;- tween_states(my.list3, tweenlength= 2, statelength=3, ease=rep(&lsquo;cubic-in-out&rsquo;,17),nframes=50)
+tf&lt;-data.table(tf)</p>
+
+<p>oopt = ani.options(interval = 0.125)
+saveGIF({for (i in 1:max(tf$.frame)) {
+  g&lt;-
+    ggplot(data=tf[year&gt;2006 &amp; .frame==i &amp; month&lt;6], aes(x = factor(year), y = ehs,fill=reorder(mname,month),label=mname)) + geom_bar(color = &ldquo;gray&rdquo;, stat = &ldquo;identity&rdquo;,alpha=0.75)+
+    scale_fill_viridis(discrete=T,end=0.95,direction=1,option=&ldquo;D&rdquo;)+  #use viridis color scale
+    theme_minimal()+
+    geom_text(data=tf[month==mm&amp; year==2016 &amp; .frame==i],aes(y=ehsc),nudge_y=0.25,hjust=-.2)+
+    geom_hline(yintercept=tf[.frame==i &amp; month==mm &amp; year==2016]$ehsc,linetype=2,color=&ldquo;black&rdquo;)+
+    xlab(&ldquo;&rdquo;)+ylab(&ldquo;&rdquo;)+
+    labs(title=&ldquo;Existing Home Sales (Ths. NSA)&rdquo;,
+         subtitle=&ldquo;dotted line 2016 YTD&rdquo;,
+         caption=&ldquo;@lenkiefer Source:NAR&rdquo;)+
+    theme(plot.title=element_text(size=14))+
+    theme(legend.justification=c(0,0), legend.position=&ldquo;none&rdquo;)+
+    theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+    theme(plot.margin=unit(c(0.25,0.25,0.25,0.25),&ldquo;cm&rdquo;))+
+    scale_y_continuous(limits=c(0,3000))+coord_flip()
+  print(g)
+  ani.pause()
+}
+},movie.name=&ldquo;ehs ytd may 2016.gif&rdquo;,ani.width = 600, ani.height = 450)
+{% endhighlight</p>
+
+<h2 id="new-home-sales-chart">New home sales chart</h2>
+
+<p>{% highlight r
+mydata &lt;- fread(&ldquo;data/nhs.txt&rdquo;)
+mydata$date&lt;-as.Date(mydata$date, format=&ldquo;%m/%d/%Y&rdquo;)
+    ggplot(data=mydata, aes(x=date,y=nsales, label = nsales))+geom_line(data=mydata)+
+    scale_y_continuous(limits = c(200, 1600), breaks=seq(200,1600,200)) +
+    geom_point(data=tail(mydata,1),colour = plasma(5)[1], size = 3)+
+    scale_x_date(labels= date_format(&ldquo;%b-%Y&rdquo;), limits = as.Date(c(&lsquo;2000-01-01&rsquo;,&lsquo;2016-05-31&rsquo;))) +
+    geom_ribbon(data=mydata,aes(x=date,ymin=down,ymax=up),fill=plasma(5)[5],alpha=0.5)  +
+    geom_hline(yintercept=tail(mydata,1)$nsales,linetype=2,color=plasma(5)[1])+
+    theme(axis.title.x = element_blank()) +   # Remove x-axis label
+    ylab(&ldquo;&rdquo;)+xlab(&ldquo;&rdquo;)+
+    theme_minimal()+
+    labs(x=NULL, y=NULL,
+         title=&ldquo;New Home Sales (Ths. SAAR)&rdquo;,
+         subtitle=paste(as.character(tail(mydata,1)$date,format=&ldquo;%b-%Y&rdquo;),&rdquo;:&ldquo;,tail(mydata,1)$nsales),
+         caption=&ldquo;@lenkiefer Source: Census/HUD, shaded area denotes confidence interval&rdquo;)+
+    theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+    theme(plot.subtitle=element_text(color=plasma(5)[1]))+
+    theme(plot.margin=unit(c(0.5,0.5,0.5,0.75),&ldquo;cm&rdquo;))+
+    coord_cartesian(xlim=c(as.Date(&ldquo;2000-01-01&rdquo;),as.Date(&ldquo;2016-7-14&rdquo;)), y=c(200,1600))
+{% endhighlight</p>
+
+<p><img src="/img/Rfig/nhs-band-1.svg" alt="plot of chunk nhs-band" /></p>
+
+<h3 id="animated-new-home-sales-chart">Animated new home sales chart</h3>
+
+<p>The animated gif for new sales is pretty straightforward to construct. We won&rsquo;t be using tweenr. Instead, we&rsquo;ll just loop through each row in the data frame, plotting all the points before that row.</p>
+
+<p>{% highlight r
+oopt = ani.options(interval = 0.15)
+saveGIF({for (i in 1:nrow(mydata)) {
+  g&lt;-
+    ggplot(data=mydata, aes(x=date,y=nsales, label = nsales))+geom_line(data=mydata[1:i,])+
+    scale_y_continuous(limits = c(200, 1600), breaks=seq(200,1600,200)) +
+    geom_point(data=mydata[i,],colour = plasma(5)[1], size = 3)+
+    scale_x_date(labels= date_format(&ldquo;%b-%Y&rdquo;), limits = as.Date(c(&lsquo;2000-01-01&rsquo;,&lsquo;2016-05-31&rsquo;))) +
+    geom_ribbon(data=mydata[1:i,],aes(x=date,ymin=down,ymax=up),fill=plasma(5)[5],alpha=0.5)  +
+    geom_hline(yintercept=mydata$nsales[i],linetype=2,color=plasma(5)[1])+
+    theme(axis.title.x = element_blank()) +   # Remove x-axis label
+    ylab(&ldquo;&rdquo;)+xlab(&ldquo;&rdquo;)+
+    theme_minimal()+
+    labs(x=NULL, y=NULL,
+         title=&ldquo;New Home Sales (Ths. SAAR)&rdquo;,
+         subtitle=paste(as.character(mydata$date[i],format=&ldquo;%b-%Y&rdquo;),&rdquo;:&ldquo;,mydata$nsales[i]),
+         caption=&ldquo;@lenkiefer Source: Census/HUD, shaded area denotes confidence interval&rdquo;)+
+    theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+    theme(plot.subtitle=element_text(color=plasma(5)[1]))+
+    theme(plot.margin=unit(c(0.5,0.5,0.5,0.75),&ldquo;cm&rdquo;))+
+    coord_cartesian(xlim=c(as.Date(&ldquo;2000-01-01&rdquo;),as.Date(&ldquo;2016-7-14&rdquo;)), y=c(200,1600))
+  print(g)
+  ani.pause()
+  print(i)
+}</p>
+
+<p>for (i2 in 1:10) {
+    print(g)
+    ani.pause()
+  }
+},movie.name=&ldquo;nhs.gif&rdquo;,ani.width = 600, ani.height = 450)
+{% endhighlight</p>
+
+<h2 id="code-for-intrest-rate-charts">Code for intrest rate charts</h2>
+
+<p>{% highlight r
+rdata &lt;- fread(&ldquo;data/rates.txt&rdquo;)  #load data
+rdata$date&lt;-as.Date(rdata$date, format=&ldquo;%m/%d/%Y&rdquo;)</p>
+
+<p>#Make scatterplot: Treasury rates vs Mortgage Rate:</p>
+
+<p>ggplot(data=rdata[year&gt;2010,],aes(x=rate10y,y=mrate,color=factor(year)))+geom_point()+
+         scale_color_viridis(name=&ldquo;Year&rdquo;,discrete=T,end=0.95,direction=1,option=&ldquo;D&rdquo;)+  #use viridis color scale<br />
+  stat_smooth(method=&ldquo;lm&rdquo;,color=&ldquo;black&rdquo;,fill=NA,linetype=2)+
+  theme(plot.title=element_text(size=14))+
+    theme(legend.justification=c(0,0), legend.position=&ldquo;top&rdquo;)+
+    theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+    theme(plot.margin=unit(c(0.25,0.25,0.25,0.25),&ldquo;cm&rdquo;))+
+    labs(x=&ldquo;10-year Treas. Yield (CMT, %)&rdquo;,y=&ldquo;30-year Fixed Mortgage Rate (%)&rdquo;,title=&ldquo;10-year Treasury Yields and Mortgage Rates&rdquo;,
+         subtitle=&ldquo;2011-2016&rdquo;,
+         caption=&ldquo;@lenkiefer Source: Freddie Mac, Federal Reserve&rdquo;)</p>
+
+<p>#Make line charts with shaded area (ribbon)</p>
+
+<p>ggplot(data=rdata[year&gt;2010,],aes(x=date,y=mrate))+
+  geom_line(color=plasma(5)[1])+
+  geom_line(aes(y=rate10y),color=plasma(5)[3])+
+  geom_ribbon(aes(ymin=rate10y,ymax=mrate),fill=plasma(5)[2],alpha=0.5)+
+  theme_minimal()+
+  theme(plot.title=element_text(size=14))+
+    theme(legend.justification=c(0,0), legend.position=&ldquo;top&rdquo;)+
+    theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+    theme(plot.margin=unit(c(0.25,0.25,0.25,0.25),&ldquo;cm&rdquo;))+
+    labs(x=&ldquo;&rdquo;,y=&ldquo;Rate (%)&rdquo;,title=&ldquo;10-year Treasury Yields and 30-year Fixed Mortgage Rates&rdquo;,
+         subtitle=&ldquo;2011-2016&rdquo;,
+         caption=&ldquo;@lenkiefer Source: Freddie Mac, Federal Reserve\ntop line mortgage rate, bottom 10-year Treasury, shaded area spread.&ldquo;)</p>
+
+<p>#use data table to compute average spread post-2010
+rdata[year&gt;2010,sav:=mean(mrate-rate10y,na.rm=T)]</p>
+
+<p>#Make spread chart:</p>
+
+<p>ggplot(data=rdata[year&gt;2010,],aes(x=date,y=mrate-rate10y))+
+  geom_line(color=plasma(5)[1])+
+  geom_ribbon(aes(ymin=sav,ymax=mrate-rate10y),fill=plasma(5)[2],alpha=0.5)+
+  theme_minimal()+ geom_line(aes(y=sav),color=&ldquo;black&rdquo;,linetype=2,size=1.15)+
+  theme(plot.title=element_text(size=14))+
+    theme(legend.justification=c(0,0), legend.position=&ldquo;top&rdquo;)+
+    theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+    theme(plot.margin=unit(c(0.25,0.25,0.25,0.25),&ldquo;cm&rdquo;))+
+    labs(x=&ldquo;&rdquo;,y=&ldquo;Rate (%)&rdquo;,title=&ldquo;Spread: 30-year Fixed Mortgage - 10-year Treasury&rdquo;,
+         subtitle=&ldquo;2011-2016&rdquo;,
+         caption=&ldquo;@lenkiefer Source: Freddie Mac, Federal Reserve dotted line average spread (2011-2016)&ldquo;)
+{% endhighlight</p>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2016/06/22/make-a-dotplot/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2016/06/22/make-a-dotplot/">Let&#39;s make a dot plot</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="/2016/07/01/going-off-grid/">Going off the grid</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="/2016/07/01/going-off-grid/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/economy/">Economy</a>, 
+            
+                <a href="/tags/housing/">Housing</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2016%2f06%2f26%2fweek-in-review%2f&text=Brexit%2c%20State%20of%20the%20Nation%27s%20Housing%2c%20and%20home%20sales%3a%20the%20week%20in%20charts. via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2016%2f06%2f26%2fweek-in-review%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+

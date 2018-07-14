@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>Purrrtier PowerPoint with R &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Purrrtier PowerPoint with R">
+    <meta property="og:description" content="WE ARE ON OUR WAY TOWARDS BUILDING a tidy PowerPoint workflow. In this post I want to build on my earlier posts (see here for an introduction and here for a more sophisticated approach) for building a PowerPoint presentation with R and try to make it even purrrtier.
+I saw that somebody shared my posts on reddit and I thought I would take a look at the comments. Folks on the internet are known for kindness and offering helpful advice right?">
+
+<div class="header">
+  <h1>Purrrtier PowerPoint with R</h1>
+  <h2></h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2017/10/21</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/office">Office</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/presentation">presentation</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/slides">slides</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <p>WE ARE ON OUR WAY TOWARDS BUILDING a tidy PowerPoint workflow. In this post I want to build on my earlier posts (see <a href="../../../../2017/09/23/crafting-a-powerpoint-presentation-with-r/">here</a> for an introduction and <a href="../../../../2017/09/27/use-purrr/">here</a> for a more sophisticated approach) for building a PowerPoint presentation with <a href="https://www.r-project.org/">R</a> and try to make it even <em>purrrtier</em>.</p>
+<p>I saw that somebody shared my posts <a href="https://www.reddit.com/r/rstats/comments/74avfa/crafting_a_powerpoint_presentation_with_r/">on reddit</a> and I thought I would take a look at the comments. Folks on the internet are known for kindness and offering helpful advice right?</p>
+<p>The comments on the post were pretty constructive. One issue brought up was that the slides we made suffered because <em>“The figures look all stretched out and not all that professional.”</em> And indeed they were. I was focusing on the workflow and grabbed some images I had handy that weren’t even sized properly for the slides I was using.</p>
+<p>We can fix that by using some other tools to export high quality images into PowerPoint.</p>
+<div id="using-office-r-with-rvg" class="section level2">
+<h2>Using Office R with rvg</h2>
+<p>We can combine <a href="https://CRAN.R-project.org/package=officer">officer</a> with the <a href="https://CRAN.R-project.org/package=rvg">rvg</a> package to export R graphics as high quality vector graphics into our PowerPoint. These images have the added advantage that we can edit them within PowerPoint, should we choose to do so.</p>
+</div>
+<div id="making-purrrtier-powerpoint" class="section level1">
+<h1>Making Purrrtier PowerPoint</h1>
+<p>Here’s the plan: We’ll go grab some data, then make some nice plots and then we’ll insert them into PowerPoint as vector graphics.</p>
+<div id="get-some-data" class="section level2">
+<h2>Get some data</h2>
+<p>For this example, we’ll plot U.S. house price trends at the state level. We’ll go to the <a href="https://www.fhfa.gov/DataTools/Downloads/pages/house-price-index.aspx">FHFA</a> webpage and download purchase-only house price indices for all 50 states plus the District of Columbia and plot the 4-quarter percent change in prices.</p>
+<pre class="r"><code>#####################################################################################
+## Load libraries ##
+#####################################################################################
+library(data.table)
+library(ggridges)
+library(tidyverse)
+library(tidyquant)
+library(officer)
+library(rvg)
+library(viridis)
+library(scales)
+
+#####################################################################################
+## Get house price data
+#####################################################################################
+#read in data available as a text file from the FHFA website:
+fhfa.data&lt;-fread(&quot;http://www.fhfa.gov/DataTools/Downloads/Documents/HPI/HPI_PO_state.txt&quot;)
+fhfa.data[,date:=as.Date(ISOdate(yr,qtr*3,1))] #make a date 
+df.hpi&lt;-fhfa.data %&gt;% 
+  group_by(state) %&gt;% 
+  mutate(hpa=Delt(index_nsa,k=4)) %&gt;%   # create 4-quarter % change in index
+  ungroup()
+
+# Let&#39;s a take a look
+knitr::kable(tail(df.hpi %&gt;% arrange(date,state) %&gt;% select(date,state,hpa) %&gt;% map_if(is.numeric,percent) %&gt;% data.frame(),10), row.names = FALSE)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">date</th>
+<th align="left">state</th>
+<th align="left">hpa</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">2017-06-01</td>
+<td align="left">SD</td>
+<td align="left">5.3%</td>
+</tr>
+<tr class="even">
+<td align="left">2017-06-01</td>
+<td align="left">TN</td>
+<td align="left">7.6%</td>
+</tr>
+<tr class="odd">
+<td align="left">2017-06-01</td>
+<td align="left">TX</td>
+<td align="left">8.2%</td>
+</tr>
+<tr class="even">
+<td align="left">2017-06-01</td>
+<td align="left">UT</td>
+<td align="left">9.2%</td>
+</tr>
+<tr class="odd">
+<td align="left">2017-06-01</td>
+<td align="left">VA</td>
+<td align="left">4.4%</td>
+</tr>
+<tr class="even">
+<td align="left">2017-06-01</td>
+<td align="left">VT</td>
+<td align="left">3.6%</td>
+</tr>
+<tr class="odd">
+<td align="left">2017-06-01</td>
+<td align="left">WA</td>
+<td align="left">12.4%</td>
+</tr>
+<tr class="even">
+<td align="left">2017-06-01</td>
+<td align="left">WI</td>
+<td align="left">6.2%</td>
+</tr>
+<tr class="odd">
+<td align="left">2017-06-01</td>
+<td align="left">WV</td>
+<td align="left">-1.1%</td>
+</tr>
+<tr class="even">
+<td align="left">2017-06-01</td>
+<td align="left">WY</td>
+<td align="left">0.9%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="make-a-deck" class="section level2">
+<h2>Make a deck</h2>
+<p>Let’s imagine that our goal is to make a 51 page slidedeck with one chart on each page. And we’d like the resolution on the charts to be good. No problem, we can use our <a href="../../../../2017/09/27/use-purrr/">strategy from before</a> along with the <a href="https://CRAN.R-project.org/package=rvg">rvg package</a> to get the job done.</p>
+<div id="make-some-functions" class="section level3">
+<h3>Make some functions</h3>
+<p>To make our life easier, it will be helpful to make some simple functions. We’re going to create two functions. One simple function will filter our data given a state. The second function will take an input dataset and plot it.</p>
+<pre class="r"><code># Get a list of states, will be useful later
+s.list&lt;-unique(df.hpi$state)
+
+#####################################################################################
+## Filter dataset function
+#####################################################################################
+
+f.state&lt;-function(s=&quot;CA&quot;){
+  filter(df.hpi,state==s) %&gt;% map_if(is.character,as.factor) %&gt;% data.frame()
+}
+
+#####################################################################################
+## Make plot function##
+#####################################################################################
+
+plotf&lt;-function(in.df=f.state(&quot;CA&quot;)){
+  ggplot(data=in.df, aes(x=date,y=hpa))+
+    geom_line(data=df.hpi, aes(group=state),alpha=0)+
+    theme_minimal()+
+    geom_ridgeline_gradient(aes(y=0,height=hpa,fill=hpa),min_height=-1)+
+    scale_fill_viridis(option=&quot;C&quot;,limit=c(-.35,.35))+
+    #geom_area(fill=&quot;royalblue&quot;,alpha=0.35)+
+    geom_line(color=&quot;black&quot;,size=1.1)+
+    labs(x=&quot;&quot;,y=&quot;&quot;,
+         title=paste0(&quot;House price index for &quot;,head(in.df,1)$state), 
+         subtitle=&quot;4-quarter percent change in index, not seasonally adjusted&quot;,
+         caption=&quot;@lenkiefer Source U.S. Federal Housing Finance Agency,  Purchase-only house price index by state&quot;)+
+    theme(legend.position=&quot;none&quot;,plot.caption=element_text(hjust=0))+
+    scale_y_continuous(labels=scales::percent,sec.axis=dup_axis(), breaks=seq(-1,1,.05))+
+    scale_x_date(date_breaks=&quot;5 years&quot;,date_labels=&quot;%Y&quot;)
+}</code></pre>
+<p>Now we can try it out via:</p>
+<pre class="r"><code>plotf()</code></pre>
+<p><img src="/post/2017-10-21-purrrtier-powerpoint-with-r_files/figure-html/10-21-201-test-function-plot-1-1.png" width="672" /></p>
+</div>
+<div id="write-the-deck" class="section level3">
+<h3>Write the deck</h3>
+<p>Now we proceed <a href="">as before</a> but instead of plugging in an image file with <code>ph_with_img</code> we’ll plug in a vector graphic with <code>rvg::ph_with_vg_at</code>. Recall that we’re loading a blank PowerPoint template first.</p>
+<pre class="r"><code># Load blank.pptx, an empty powerpoint that serves as a template
+my_pres&lt;-read_pptx(&quot;data/blank.pptx&quot;)
+
+# function for adding slides
+# updated 11/3/2017 to fix function references (was mp2, should be mp)
+myp&lt;- function(i){
+  my_pres %&gt;% 
+    add_slide(layout = &quot;Blank&quot;, master = &quot;Office Theme&quot;) %&gt;%
+    ph_with_vg_at( code=print(plotf(f.state(s.list[i]))) , 0.1, 0.1, 9.8,7.3) -&gt;
+    my_pres
+}
+
+# use purrr::walk() to write the files
+walk(1:N,myp)
+
+# save the .pptx file
+my_pres %&gt;%
+  print( target = &quot;hpi.pptx&quot;) %&gt;% 
+  invisible()</code></pre>
+<p>You can download the deck <a href="../../../../img/charts_oct_21_2017/hpi.pptx">here</a>. Below I’ve embedded a pdf version of the slidedeck.</p>
+<iframe src="../../../../img/charts_oct_21_2017/hpi.pdf" height="550" width="775">
+</iframe>
+</div>
+<div id="how-can-we-use-this" class="section level3">
+<h3>How can we use this?</h3>
+<p>If you open up the PowerPoint file you’ll notice that you can edit the images, for good or <a href="../../../../2017/10/03/ggplot-as-it-was-meant-to-be/">for evil</a>. You could do some additional editing within PowerPoint. Or you could work with transitions and make a little animation.</p>
+</div>
+</div>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2017/10/19/mortgage-rates-are-low/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2017/10/19/mortgage-rates-are-low/">Mortgage rates are low!</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="/2017/10/22/smooth-animations-r-pptx/">Combining PowerPoint and R&#39;s tweenr for smooth animations</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="/2017/10/22/smooth-animations-r-pptx/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/office/">Office</a>, 
+            
+                <a href="/tags/presentation/">presentation</a>, 
+            
+                <a href="/tags/r/">R</a>, 
+            
+                <a href="/tags/dataviz/">dataviz</a>, 
+            
+                <a href="/tags/slides/">slides</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2017%2f10%2f21%2fpurrrtier-powerpoint-with-r%2f&text=Purrrtier%20PowerPoint%20with%20R via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2017%2f10%2f21%2fpurrrtier-powerpoint-with-r%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+

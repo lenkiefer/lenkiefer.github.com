@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Spring is nearly upon us, or at least we can hope. Let&#39;s examine how housing activity typically rounds into shape as the weather warms up. We&#39;ll make some fun plots with R.">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>Rock that dadbod plot! &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com//img/charts_mar_03_2018/dadbod.png" >
+     
+    <meta property="og:title" content="Rock that dadbod plot!">
+    <meta property="og:description" content="Spring is nearly upon us, or at least we can hope. Let&#39;s examine how housing activity typically rounds into shape as the weather warms up. We&#39;ll make some fun plots with R.">
+
+<div class="header">
+  <h1>Rock that dadbod plot!</h1>
+  <h2>Spring is nearly upon us, or at least we can hope. Let&#39;s examine how housing activity typically rounds into shape as the weather warms up. We&#39;ll make some fun plots with R.</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/03/03</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/fun">fun</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <p>Spring is nearly upon us, or at least we can hope. Let’s examine how housing activity typically rounds into shape as the weather warms up. We’ll make some fun plots with <a href="https://www.r-project.org/">R</a>.</p>
+<div id="seasonality-in-housing-data" class="section level2">
+<h2>Seasonality in housing data</h2>
+<p>Housing market activity in the United States is highly seasonal. Consider this animated plot.</p>
+<p><img src="../../../../img/charts_mar_03_2018/salesbod_mar_02_2018.gif"></p>
+<p>This plot shows U.S. new home sales. Often the data are presented seasonally adjusted, but this plot is for non seasonally adjusted data. The top panel shows the distributions over monthly values, while the bottom panel is a time trend. Due to the shape of the plot I’ve taken to calling it a dadbodplot plot.</p>
+<p>Let’s make it.</p>
+</div>
+<div id="prepare-data" class="section level2">
+<h2>Prepare data</h2>
+<p>We’ll gather our data via <a href="https://fred.stlouisfed.org/">FRED</a>. See <a href="../../../../2017/12/11/plotting-u-s-macroeconomic-trends-with-fred-and-r/">here</a> for more on using the <a href="https://CRAN.R-project.org/package=quantmod">quantmod</a> and <a href="https://CRAN.R-project.org/package=tidyquant">tidyquant</a> packages to work with FRED data.</p>
+<p>This code follows the pattern described in <a href="../../../../2017/09/25/charting-housing-starts/">the post on charting housing starts</a> to prepare our data.</p>
+<pre class="r"><code>#####################################################################################
+## Step 0: Load Libraries ##
+#####################################################################################
+library(tidyquant)
+library(tidyverse)
+library(cowplot)
+library(lubridate)
+library(scales)
+library(ggridges)
+library (cowplot)
+
+#####################################################################################
+## Step 1: Prepare for data  ##
+#####################################################################################
+
+tickers=data.frame(# variable symbols/mnemonics
+  symbol = c(&quot;HOUSTNSA&quot;,
+             &quot;HSN1FNSA&quot;,
+             &quot;MORTGAGE30US&quot;),
+  # variable names
+  varname = c(&quot;Total housing starts (NSA)&quot;,
+              &quot;New Home Sales (NSA)&quot;,
+              &quot;30-year fixed mortgage rate&quot;)) %&gt;%
+  map_if(is.factor,as.character) %&gt;% # strings as characters
+  as.tibble()                        # make a tibble
+
+
+#####################################################################################
+## Step 2: Pull data  ##
+#####################################################################################
+
+tickers$symbol %&gt;% tq_get(get=&quot;economic.data&quot;, from=&quot;1990-01-01&quot;) -&gt; df
+
+#####################################################################################
+## Step 3: Organize data  ##
+#####################################################################################
+
+df&lt;-merge(df,tickers,by=&quot;symbol&quot;)
+df %&gt;% mutate( year=year(date),
+               month=month(date),
+               mname=forcats::fct_reorder(as.character(date, format=&quot;%b&quot;),month)) %&gt;%
+  group_by(year,symbol) %&gt;% arrange(date,symbol) %&gt;% 
+  mutate(cs = cumsum(price), # get yearly cumulative sum, number of obs
+         id = row_number(),
+         yearf= factor(year)) %&gt;% ungroup() -&gt; df</code></pre>
+<p>Now that we have our data we can start to build our plot. But first, let’s play with colors.</p>
+<div id="make-some-colors" class="section level3">
+<h3>Make some colors</h3>
+<p>For this post, I want to use a custom color palette.Not because it’s a good idea, colors can go wrong in so many ways, but because it is fun. We’ll follow <a href="https://drsimonj.svbtle.com/creating-corporate-colour-palettes-for-ggplot2">this post</a> by Simon Jackson <a href="https://twitter.com/drsimonj">on Twitter</a> that describes how to create custom color palettes for ggplot2.</p>
+<pre class="r"><code># Create custom palettes
+# follows: https://drsimonj.svbtle.com/creating-corporate-colour-palettes-for-ggplot2
+my_colors &lt;- c(
+  &quot;green&quot;      = rgb(103,180,75, maxColorValue = 256),
+  &quot;green2&quot;      = rgb(147,198,44, maxColorValue = 256),
+  &quot;lightblue&quot;  =  rgb(9, 177,240, maxColorValue = 256),
+  &quot;lightblue2&quot; = rgb(173,216,230, maxColorValue = 256),
+  &#39;blue&#39;       = &quot;#00aedb&quot;,
+  &#39;red&#39;        = &quot;#d11141&quot;,
+  &#39;orange&#39;     = &quot;#f37735&quot;,
+  &#39;yellow&#39;     = &quot;#ffc425&quot;,
+  &#39;gold&#39;       = &quot;#FFD700&quot;,
+  &#39;light grey&#39; = &quot;#cccccc&quot;,
+  &#39;dark grey&#39;  = &quot;#8c8c8c&quot;)
+
+my_cols &lt;- function(...) {
+  cols &lt;- c(...)
+  if (is.null(cols))
+    return (my_colors)
+  my_colors[cols]
+}
+
+
+my_palettes &lt;- list(
+  `main`  = my_cols(&quot;blue&quot;, &quot;green&quot;, &quot;yellow&quot;),
+  `cool`  = my_cols(&quot;blue&quot;, &quot;green&quot;),
+  `hot`   = my_cols(&quot;yellow&quot;, &quot;orange&quot;, &quot;red&quot;),
+  `mixed` = my_cols(&quot;lightblue&quot;, &quot;green&quot;, &quot;yellow&quot;, &quot;orange&quot;, &quot;red&quot;),
+  `mixed2` = my_cols(&quot;lightblue2&quot;,&quot;lightblue&quot;, &quot;green&quot;, &quot;green2&quot;,&quot;yellow&quot;,&quot;gold&quot;, &quot;orange&quot;, &quot;red&quot;),
+  `mixed3` = my_cols(&quot;lightblue2&quot;,&quot;lightblue&quot;, &quot;green&quot;, &quot;yellow&quot;,&quot;gold&quot;, &quot;orange&quot;, &quot;red&quot;),
+  `grey`  = my_cols(&quot;light grey&quot;, &quot;dark grey&quot;)
+)
+
+my_pal &lt;- function(palette = &quot;main&quot;, reverse = FALSE, ...) {
+  pal &lt;- my_palettes[[palette]]
+  
+  if (reverse) pal &lt;- rev(pal)
+  
+  colorRampPalette(pal, ...)
+}
+
+scale_color_mycol &lt;- function(palette = &quot;main&quot;, discrete = TRUE, reverse = FALSE, ...) {
+  pal &lt;- my_pal(palette = palette, reverse = reverse)
+  
+  if (discrete) {
+    discrete_scale(&quot;colour&quot;, paste0(&quot;my_&quot;, palette), palette = pal, ...)
+  } else {
+    scale_color_gradientn(colours = pal(256), ...)
+  }
+}
+
+scale_fill_mycol &lt;- function(palette = &quot;main&quot;, discrete = TRUE, reverse = FALSE, ...) {
+  pal &lt;- my_pal(palette = palette, reverse = reverse)
+  
+  if (discrete) {
+    discrete_scale(&quot;fill&quot;, paste0(&quot;my_&quot;, palette), palette = pal, ...)
+  } else {
+    scale_fill_gradientn(colours = pal(256), ...)
+  }
+}</code></pre>
+<p>By running this code we’ve created two functions <code>scale_color_mycol()</code> and <code>scale_fill_mycol()</code> that allow us to call up our custom color palettes.</p>
+</div>
+</div>
+<div id="rock-that-dadbod-plot" class="section level1">
+<h1>Rock that dadbod (plot)</h1>
+<p>Let’s build up our complex plot (and eventually animate it).We’ll build the plot one component at a time, starting with the top panel. This plot shows the distribution of home sales by month using the <a href="https://CRAN.R-project.org/package=ggridges">ggridges</a> <code>geom_density_ridgeline()</code>, <a href="http://serialmentor.com/blog/2017/9/15/goodbye-joyplots">formerly known as joyplots</a>.</p>
+<pre class="r"><code>#####################################################################################
+## filter data for just sales
+#####################################################################################
+df.sales&lt;-filter(df,symbol==&quot;HSN1FNSA&quot;)
+
+#####################################################################################
+## make plot
+#####################################################################################
+
+g.dadbod&lt;-
+  ggplot(data=df.sales, aes(x=price,y=mname))+
+  geom_density_ridges_gradient(alpha=0.85,scale=0.85,rel_min_height=.01,aes(fill=..x..))+
+  coord_flip()+
+  # use custom palette
+  #scale_fill_mycol(palette=&quot;mixed3&quot;,discrete=F,name=&quot;Home sales (1000s, NSA)&quot;,limits=c(-10,175))+
+  scale_fill_mycol(palette=&quot;mixed3&quot;,discrete=F,name=&quot;Home sales (1000s, NSA)&quot;)+
+  geom_point(alpha=0,aes(fill=..x..))+
+  geom_point(color=&quot;darkgray&quot;,alpha=0.65,size=2)+
+  geom_point(data=filter(df.sales,date==max(df.sales$date)),color=&quot;black&quot;,size=2)+
+  geom_label(data=filter(df.sales,date==max(df.sales$date)),color=&quot;black&quot;,size=2, label=&quot;Jan 2018&quot;,nudge_y=0.4)+
+  theme_ridges()+
+  theme(legend.position=&quot;top&quot;,
+        plot.title=element_text(hjust=0,face=&quot;bold&quot;,size=18),
+        plot.subtitle=element_text(hjust=0,face=&quot;italic&quot;,size=14),
+        plot.caption=element_text(hjust=0),
+        legend.key.width=unit(3,&quot;cm&quot;))+
+  labs(y=&quot;&quot;,title=&quot;Dadbod plot&quot;,
+       subtitle=&quot;New Home Sales (1000s, NSA) Jan 1990-Jan 2018&quot;,x=&quot;distribution over monthly values&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Bureau of the Census and U.S. Department of Housing and Urban Development,\nNew One Family Houses Sold: United States [HSN1F],\nretrieved from FRED, Federal Reserve Bank of St. Louis; https://fred.stlouisfed.org/series/HSN1FNSA, March 3, 2018.&quot;)
+
+g.dadbod</code></pre>
+<pre><code>## Picking joint bandwidth of 10.5</code></pre>
+<p><img src="/post/2018-03-03-rock-that-dadbod-plot_files/figure-html/dadbod-plot1-03-03-2018-1.png" width="960" /> What’s going on with this plot? Each dot represents one observation of home sales from Janauary 1990 through January 2018. The curves are a density fit over monthly values. This enables you to see the seasonality in home sales. Spring and summer tend to have more activity than fall and winter. We also can see that January 2018 is fairly low as January goes.Let’s add a time trend to the plot.</p>
+<p>Normally the plot is oreinted left to right, but I used <code>coord_flip()</code> to have it run up down. This gives us our dadbod shape.</p>
+<pre class="r"><code>glin&lt;-
+  ggplot(data=df.sales, 
+         aes(y=0,height=price,x=date,fill=price))+
+  geom_ridgeline_gradient()+
+  scale_fill_mycol(palette=&quot;mixed3&quot;,discrete=F,name=&quot;Home sales (1000s, NSA)&quot;,limits=c(-10,175))+
+  theme_ridges()+
+  theme(legend.position=&quot;none&quot;,
+        plot.caption=element_text(hjust=0),
+        legend.key.width=unit(1.25,&quot;cm&quot;))+
+  labs(y=&quot;&quot;,title=&quot;Time Trend&quot;,x=&quot;&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Bureau of the Census and U.S. Department of Housing and Urban Development, \nNew One Family Houses Sold: United States [HSN1FNSA],\nretrieved from FRED, Federal Reserve Bank of St. Louis; https://fred.stlouisfed.org/series/HSN1FNSA, March 3, 2018.&quot;)
+
+g2&lt;-cowplot::plot_grid(g.dadbod+theme(plot.caption=element_blank()),glin,rel_heights=c(5,2),ncol=1)</code></pre>
+<pre><code>## Picking joint bandwidth of 10.5</code></pre>
+<pre class="r"><code>g2</code></pre>
+<p><img src="/post/2018-03-03-rock-that-dadbod-plot_files/figure-html/dadbod-plot2-03-03-2018-1.png" width="960" /></p>
+<p>This plot adds a time trend below the dadbod plot. I’ve also used <code>ggridges::geom_ridgeline_gradient()</code> to apply the same gradient shading to the line plot.</p>
+<div id="animate-it" class="section level3">
+<h3>Animate it</h3>
+<p>If you wanted, you could animate this plot like we did at the start. Just set <code>mydir</code> to point to a directory where you want to save image files and run the following.</p>
+<p>See this post for more on my animation workflow: <a href="../../../../2018/01/17/simple-animated-line-plot/">SIMPLE ANIMATED LINE PLOT WITH R</a></p>
+<pre class="r"><code>mydir&lt;-&#39;WHERE_YOU_WANT_TO_SAVE_PICTURES&#39;
+dlist&lt;-unique(df.sales$date)  #gets a list of dates
+Nmax&lt;- lenght(dlist)          # number of images
+myplotf&lt;-function(i=1){
+  
+  # Function for saving images
+  
+  g&lt;-
+  ggplot(data=filter(df.sales,date&lt;=dlist[i]), aes(x=price,y=mname))+
+    geom_density_ridges(data=df.sales,alpha=0,color=NA,scale=0.85,rel_min_height=.01)+ # Add an invisible layer to the plot
+    geom_density_ridges_gradient(alpha=0.85,scale=0.85,rel_min_height=.01,aes(fill=..x..))+
+    coord_flip()+
+    scale_fill_mycol(palette=&quot;mixed3&quot;,discrete=F,name=&quot;Home sales (1000s, NSA)&quot;,limits=c(-10,175))+
+    geom_point(alpha=0,aes(fill=..x..))+
+    geom_point(color=&quot;darkgray&quot;,alpha=0.65,size=2)+
+    geom_point(data=filter(df3,date==dlist2[i]),color=&quot;black&quot;,size=2)+
+    #scale_fill_mycol(palette=&quot;mixed&quot;,discrete=F)+
+    theme_ridges()+
+    theme(legend.position=&quot;top&quot;,
+          plot.caption=element_text(hjust=0),
+          legend.key.width=unit(3,&quot;cm&quot;))+
+    labs(y=&quot;&quot;,title=&quot;New Home Sales (1000s, NSA)&quot;,x=&quot;distribution over monthly values&quot;,
+         subtitle=paste(&quot;through &quot;,dlist2[i]),
+         caption=&quot;@lenkiefer Source: U.S. Bureau of the Census and U.S. Department of Housing and Urban Development, New One Family Houses Sold: United States [HSN1F],\nretrieved from FRED, Federal Reserve Bank of St. Louis; https://fred.stlouisfed.org/series/HSN1F, March 1, 2018.&quot;)
+  glin&lt;-
+    ggplot(data=filter(df.sales,date&lt;=dlist[i]), 
+           aes(y=0,height=price,x=date,fill=price))+
+    geom_ridgeline_gradient(data=df3,fill=NA,color=NA,alpha=0)+
+    geom_ridgeline_gradient()+
+    scale_fill_mycol(palette=&quot;mixed3&quot;,discrete=F,name=&quot;Home sales (1000s, NSA)&quot;,limits=c(-10,175))+
+    theme_ridges()+
+    theme(legend.position=&quot;none&quot;,
+          plot.caption=element_text(hjust=0),
+          legend.key.width=unit(1.25,&quot;cm&quot;))+
+    labs(y=&quot;&quot;,title=&quot;Time Trend&quot;,x=&quot;&quot;,
+         subtitle=paste(&quot;through &quot;,dlist2[i]),
+         caption=&quot;@lenkiefer Source: U.S. Bureau of the Census and U.S. Department of Housing and Urban Development, \nNew One Family Houses Sold: United States [HSN1FNSA],\nretrieved from FRED, Federal Reserve Bank of St. Louis; https://fred.stlouisfed.org/series/HSN1FNSA, March 1, 2018.&quot;)
+  g3&lt;-cowplot::plot_grid(g+theme(plot.caption=element_blank()),glin,rel_heights=c(5,2),ncol=1)
+  file_path = paste0(mydir, &quot;/plot-&quot;,5000+i ,&quot;.png&quot;)  # add 5000 to the index so images are in order (otherwise 1 and 10 get confused)
+  ggsave(file_path, g3, width = 12, height = 12 , units = &quot;cm&quot;,scale=2.5,dpi=75) 
+  return(g3)
+}
+
+myplotf3(length(dlist))
+
+purrr::walk(seq(1,length(dlist),1), myplotf)
+
+# Navigate to YOURDIRECTORY and run  the following via command line/terminal to create gif 
+# (you need ImageMagick to run this)
+# magick convert -delay 10 loop -0 *.png  dadbod.gif</code></pre>
+</div>
+</div>
+<div id="other-series" class="section level1">
+<h1>Other series</h1>
+<p>We went and got housing starts data, let’s see how they look.</p>
+<pre class="r"><code>#####################################################################################
+## filter data for just starts
+#####################################################################################
+df.starts&lt;-filter(df,symbol %in% c(&quot;HOUSTNSA&quot;))
+
+#####################################################################################
+## make plot
+#####################################################################################
+
+g2.dadbod&lt;-
+  ggplot(data=df.starts, aes(x=price,y=mname))+
+  geom_density_ridges_gradient(alpha=0.85,scale=0.85,rel_min_height=.01,aes(fill=..x..))+
+  coord_flip()+
+  # use custom palette
+  scale_fill_mycol(palette=&quot;mixed3&quot;,discrete=F,name=&quot;Housing starts (1000s, NSA)&quot;)+
+  geom_point(alpha=0,aes(fill=..x..))+
+  geom_point(color=&quot;darkgray&quot;,alpha=0.65,size=2)+
+  geom_point(data=filter(df.starts,date==max(df.starts$date)),color=&quot;black&quot;,size=2)+
+    geom_label(data=filter(df.starts,date==max(df.starts$date)),color=&quot;black&quot;,size=2, label=&quot;Jan 2018&quot;,nudge_y=0.4)+
+  theme_ridges()+
+  facet_wrap(~varname, scale=&quot;free_y&quot;, ncol=1)+
+  theme(legend.position=&quot;top&quot;,
+        plot.title=element_text(hjust=0,face=&quot;bold&quot;,size=18),
+        plot.subtitle=element_text(hjust=0,face=&quot;italic&quot;,size=14),
+        plot.caption=element_text(hjust=0),
+        legend.key.width=unit(3,&quot;cm&quot;))+
+  labs(y=&quot;&quot;,title=&quot;Dadbod plot&quot;,
+       subtitle=&quot;Housing starts (1000s, NSA) Jan 1990-Jan 2018&quot;,x=&quot;distribution over monthly values&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Bureau of the Census and U.S. Department of Housing and Urban Development,\nHousing Starts: Total: New Privately Owned Housing Units Started,\nretrieved from FRED, Federal Reserve Bank of St. Louis; https://fred.stlouisfed.org/series/HOUSTNSA, March 3, 2018.&quot;)
+
+g2.dadbod</code></pre>
+<pre><code>## Picking joint bandwidth of 15.7</code></pre>
+<p><img src="/post/2018-03-03-rock-that-dadbod-plot_files/figure-html/dadbod-plot3-03-03-2018-1.png" width="960" /></p>
+<pre class="r"><code>glin2&lt;-
+  ggplot(data=df.starts, 
+         aes(y=0,height=price,x=date,fill=price))+
+  geom_ridgeline_gradient()+
+  scale_fill_mycol(palette=&quot;mixed3&quot;,discrete=F,name=&quot;Housing starts (1000s, NSA)&quot;)+
+  theme_ridges()+
+  theme(legend.position=&quot;none&quot;,
+        plot.caption=element_text(hjust=0),
+        legend.key.width=unit(1.25,&quot;cm&quot;))+
+  labs(y=&quot;&quot;,title=&quot;Time Trend&quot;,x=&quot;&quot;,subtitle=&quot;Housing starts (1000s,NSA)&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Bureau of the Census and U.S. Department of Housing and Urban Development,\nHousing Starts: Total: New Privately Owned Housing Units Started,\nretrieved from FRED, Federal Reserve Bank of St. Louis; https://fred.stlouisfed.org/series/HOUSTNSA, March 3, 2018.&quot;)
+
+g3&lt;-cowplot::plot_grid(g2.dadbod+theme(plot.caption=element_blank()),glin2,rel_heights=c(5,2),ncol=1)</code></pre>
+<pre><code>## Picking joint bandwidth of 15.7</code></pre>
+<pre class="r"><code>g3</code></pre>
+<p><img src="/post/2018-03-03-rock-that-dadbod-plot_files/figure-html/dadbod-plot4-03-03-2018-1.png" width="960" /></p>
+</div>
+<div id="mortgage-rates" class="section level1">
+<h1>Mortgage rates</h1>
+<p>Finally, we can use this approach to plot mortgage rate trends. In this case, I’m not going to flip the density plot. Essentially, this is a riff on my <a href="../../../../2017/11/16/majestic-mortgage-rate-plot/">majestic mortgage rate plot</a> with a time trend added below.</p>
+<pre class="r"><code>df.rate&lt;-filter(df,symbol==&quot;MORTGAGE30US&quot;)
+
+g.dens&lt;-
+ggplot(data=filter(df.rate, year(date)&gt;2009), 
+       aes(y=forcats::fct_reorder(yearf,-year),x=price,color=price,fill=..x..))+
+  
+  geom_density_ridges_gradient(rel_min_height=0.01,alpha=0.75)  +
+  #scale_fill_viridis(option=&quot;C&quot;,name=&quot;30-year fixed mortgage rate (%)&quot;)+
+  #scale_color_viridis(option=&quot;C&quot;)+
+  #scale_fill_mycol(palette=&quot;mixed3&quot;,discrete=F)+
+  scale_fill_mycol(palette=&quot;mixed3&quot;,discrete=F,name=&quot;30-year fixed mortgage rate (%)&quot;)+
+  guides(color=F)+
+  #geom_quasirandom(color=&quot;white&quot;,alpha=0.5,shape=21,size=1.1, groupOnX=F)+
+  geom_point(color=&quot;black&quot;,size=1,alpha=0.75)+
+  theme_ridges()+
+  theme(legend.position=&quot;top&quot;,
+        plot.caption=element_text(hjust=0),
+        legend.key.width=unit(1.25,&quot;cm&quot;))+
+  labs(x=&quot;30-year fixed mortgage rate&quot;,y=&quot;Year&quot;,
+       title=&quot;Distribution of U.S. average weekly mortgage rates&quot;,
+       subtitle=paste(&quot;through &quot;,as.character(max(df$date))),
+       caption=&quot;@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey&quot;)
+
+g.trend&lt;-
+ggplot(data=filter(df.rate, year(date)&gt; 2009),
+       aes(x=date,y=0,height=price,fill=price))+
+  geom_line()+geom_ridgeline_gradient()+
+  scale_fill_mycol(palette=&quot;mixed3&quot;,discrete=F,name=&quot;30-year fixed mortgage rate (%)&quot;)+
+  theme_ridges()+
+  theme(legend.position=&quot;none&quot;,
+        plot.caption=element_text(hjust=0),
+        legend.key.width=unit(1.25,&quot;cm&quot;))+
+  labs(y=&quot;&quot;,subtitle=&quot;30-year fixed mortgage rate (%)&quot;,x=&quot;&quot;,
+       title=&quot;Time trend&quot;,
+       xsubtitle=paste(&quot;through &quot;,as.character(max(df$date))),
+       caption=&quot;@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey&quot;)
+
+cowplot::plot_grid(g.dens,g.trend,rel_heights=c(3,1),ncol=1)</code></pre>
+<pre><code>## Picking joint bandwidth of 0.0986</code></pre>
+<p><img src="/post/2018-03-03-rock-that-dadbod-plot_files/figure-html/dadbod-plot5-03-03-2018-1.png" width="960" /></p>
+<p>And following the steps above, we could animate it:</p>
+<p><img src="../../../../img/charts_mar_03_2018/pmms_ridge_mar_01_2018.gif"></p>
+</div>
+<div id="rounding-into-shape" class="section level1">
+<h1>Rounding into shape</h1>
+<p>With spring nearly upon us, U.S. housing markets are set to <a href="https://twitter.com/lenkiefer/status/968609230688325632">round into shape</a>. Activity naturally picks up in the springtime, but we’ll have to see if <a href="../../../../2018/02/05/comparing-recent-periods-of-mortgage-rate-increases/">higher mortgage rates</a> dampens activity this year. In any case, these fun plots might help us track trends in the market.</p>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2018/02/26/employment-growth-and-house-price-trends/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2018/02/26/employment-growth-and-house-price-trends/">Employment growth and house price trends</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="/2018/03/05/forecasting-and-deciding-binary-outcomes-under-asymmetric-information/">Forecasting and deciding binary outcomes under asymmetric information</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="/2018/03/05/forecasting-and-deciding-binary-outcomes-under-asymmetric-information/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/dataviz/">dataviz</a>, 
+            
+                <a href="/tags/r/">R</a>, 
+            
+                <a href="/tags/fun/">fun</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2018%2f03%2f03%2frock-that-dadbod-plot%2f&text=Rock%20that%20dadbod%20plot%21 via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2018%2f03%2f03%2frock-that-dadbod-plot%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+

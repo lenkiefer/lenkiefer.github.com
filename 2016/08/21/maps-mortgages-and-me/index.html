@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>Maps, mortgages and me &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Maps, mortgages and me">
+    <meta property="og:description" content="IN THIS POST I WANT TO DOCUMENT some R code I&rsquo;ve recently been working on combining maps and distribution plots. As I discussed earlier lots of interesting data will be released in the fall and I want to be ready for it.
+Some of these snippets can be recycled when the new data is available.
+Maps One area of data visualization with R I haven&rsquo;t explored much is mapping. Part of this reason is because I&rsquo;ve had other tools to use, but usually it&rsquo;s because I&rsquo;m in a hurry.">
+
+<div class="header">
+  <h1>Maps, mortgages and me</h1>
+  <h2></h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2016/08/21</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/maps">maps</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+
+<p>IN THIS POST I WANT TO DOCUMENT some <a href="https://www.r-project.org/">R</a> code I&rsquo;ve recently been working on combining maps and distribution plots. As I <a href="../../../../2016/08/18/data-swarm">discussed earlier</a> lots of interesting data will be released in the fall and I want to be ready for it.</p>
+
+<p>Some of these snippets can be recycled when the new data is available.</p>
+
+<h1 id="maps">Maps</h1>
+
+<p>One area of data visualization with R I haven&rsquo;t explored much is mapping. Part of this reason is because I&rsquo;ve had other tools to use, but usually it&rsquo;s because I&rsquo;m in a hurry. Maybe because of prior experience with <a href="https://en.wikipedia.org/wiki/S-PLUS">SPlus</a> and the way ggplot is structured I&rsquo;ve found making other statistical graphs (line charts, scatters, etc.) relatively easy in R. But maps have been a different story.</p>
+
+<p>Because my mapping interests are relatively simple (I&rsquo;m usually just looking for a choropleth), I&rsquo;ve been able to get by with other tools like <a href="http://www.tableau.com/">Tableau</a> or even <a href="http://www.sas.com/en_us/home.html">SAS</a>.  For examples, see <a href="../../../../2016/05/22/population-growth-housing-supply-and-house-prices">this post</a>, <a href="../../../../2016/03/30/real-house-prices-and-population-growth">this post</a>, <a href="../../../../2016/02/28/house-price-trends">this post</a> or my <a href="http://public.tableau.com/profile/leonard.kiefer#!/">Tableau profile</a>.</p>
+
+<p>But there is a lot of cool stuff being done in R with maps. I have found recent posts by <a href="http://personal.tcu.edu/kylewalker/">Kyle Walker</a> and <a href="http://juliasilge.com/">Julia Silge</a> to be very helpful to get me started.  For example this <a href="http://personal.tcu.edu/kylewalker/housing-price-maps-ggplot2.html">post</a> by Kyle and this <a href="http://juliasilge.com/blog/Evenly-Distributed/">one</a> by Julia have been my launching points for this analysis. I&rsquo;m sure there are lots of other people doing interesting stuff&ndash;<a href="https://twitter.com/lenkiefer">please tell me about it</a>&ndash;but those two articles were useful for relative beginners such as myself.</p>
+
+<p>For this post I&rsquo;m going to return to the 2014 Home Mortgage Disclosure Act Data (HMDA) that you can get from the Consumer Financial Protection Bureau (CFPB) <a href="http://www.consumerfinance.gov/data-research/hmda/explore">webpage</a> and I <a href="../../../../2016/08/18/data-swarm">discussed earlier</a>.</p>
+
+<p>The goal will be to create a <a href="https://en.wikipedia.org/wiki/Choropleth_map">choropleth map</a> showing some summary statistics of the HMDA data and to integrate it with some other statistical analysis.  One example we&rsquo;ll try to build is this graph I posted on Twitter last night:</p>
+
+<p><blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">working on combining maps &amp; graphs with <a href="https://twitter.com/hashtag/rstats?src=hash">#rstats</a>, lots of data coming in the fall and gotta be ready for it. <a href="https://t.co/xMJfGiq7xQ">pic.twitter.com/xMJfGiq7xQ</a></p>&mdash; Leonard Kiefer (@lenkiefer) <a href="https://twitter.com/lenkiefer/status/767193986356371456">August 21, 2016</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+
+<p>If you haven&rsquo;t already go ahead and click on the follow button.</p>
+
+<p>The map in the upper left corner is a choropleth map showing the median loan size by county for mortgage loans originated in California in 2014. The other charts are beeswarm plots showing the distribution of loan size for California as a whole (upper right corner) and for each of the metro areas (and a non-metro residual) located in California.</p>
+
+<h2 id="building-the-maps">Building the maps</h2>
+
+<p>I&rsquo;m going to be adapting the code from <a href="http://juliasilge.com/blog/Evenly-Distributed/">Julia&rsquo;s post</a> to make this map.</p>
+
+<h3 id="load-data">Load data</h3>
+
+<p>First let&rsquo;s get the data we need.  I&rsquo;m going to be using the same HMDA <a href="../../../../2016/08/18/data-swarm">data from before</a> that you can download from the CFPB via <a href="http://www.consumerfinance.gov/data-research/hmda/explore#!/as_of_year=2014&amp;property_type=1,3&amp;action_taken=1&amp;loan_purpose=1,3&amp;loan_type=1&amp;section=filters">this link</a>.</p>
+
+<p>The HMDA data in the .csv file includes state and county names, but not <a href="https://www.census.gov/geo/reference/gtc/gtc_codes.html#fips">Federal Information Processing Series (FIPS) codes</a>. FIPS codes are convenient for working with geographic data. Names are sometimes formatted differently (do they include the word &ldquo;county&rdquo; for example) so having FIPS codes would make our life easier.  Fortunately the <a href="https://www.census.gov/geo/reference/codes/cou.html">Census</a> has a convenient lookup file we can use.  <em>This or a related file might well be included somewhere in some R package, even one I use, but didn&rsquo;t see it.</em></p>
+
+<p>{% highlight r
+#load libraries
+library(&lsquo;ggbeeswarm&rsquo;)
+library(data.table)
+library(ggplot2)
+library(scales)
+library(ggthemes)
+library(acs)
+library(reshape2)
+library(stringr)
+library(ggthemes)
+library(ggalt)
+library(rgeos)
+library(maptools)
+library(albersusa)
+library(broom)
+library(dplyr)
+library(tweenr)
+library(purrr)
+library(animation)
+library(viridis)</p>
+
+<p>#load data and scripts
+mydata &lt;- fread(&rdquo;~/data/hmda_lar.csv&rdquo;)
+source(&rsquo;~/code/multiplot.R&rsquo;)</p>
+
+<h1 id="function-for-combining-graphs-see-http-www-cookbook-r-com-graphs-multiple-graphs-on-one-page-ggplot2">function for combining graphs see: <a href="http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/">http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/</a></h1>
+
+<p>#data stuff</p>
+
+<p>#trim columns off data
+mydata&lt;-mydata[,list(state_name,state_abbr,county_name,loan_amount_000s,loan_purpose_name,loan_type_name,
+                     applicant_income_000s,lien_status_name,msamd_name)]</p>
+
+<p>#create merged state + county variable
+mydata&lt;-mydata[, c.name:=str_c(state_abbr,&rdquo;:&ldquo;,county_name)]</p>
+
+<p>#get fips lookup: from census</p>
+
+<p>fips.look&lt;-fread(&ldquo;<a href="http://www2.census.gov/geo/docs/reference/codes/files/national_county.txt&quot;">http://www2.census.gov/geo/docs/reference/codes/files/national_county.txt&quot;</a>,
+                 col.names=c(&ldquo;state_abbr&rdquo;,&ldquo;st.fips&rdquo;,&ldquo;county.fips&rdquo;,&ldquo;county_name&rdquo;,&ldquo;CLASSFP&rdquo;),head=F)</p>
+
+<p>fips.look&lt;-fips.look[,fips := str_c(str_pad(st.fips, 2, &ldquo;left&rdquo;, &ldquo;0&rdquo;),str_pad(county.fips, 3, &ldquo;left&rdquo;, &ldquo;0&rdquo;))]
+#create merged state + county variable
+fips.look&lt;-fips.look[,c.name:=str_c(state_abbr,&rdquo;:&ldquo;,county_name)]
+#get rid of extra columns for merge
+fips.look2&lt;-fips.look[,list(fips,c.name)]</p>
+
+<p>#merge fips numbers back onto data
+mydata&lt;-merge(mydata,fips.look2,by=&ldquo;c.name&rdquo;)</p>
+
+<p>#add state code, will be useful for labeling
+mydata&lt;-mydata[,st.fips:=substr(fips,1,2)]
+mydata&lt;-mydata[,county.fips:=substr(fips,3,5)]</p>
+
+<h1 id="loan-amounts-read-as-character-variable-scaled-in-1000s-create-upb-variable-in-s-and-numeric">loan amounts read as character variable, scaled in $1000s, create upb variable in $s and numeric</h1>
+
+<p>mydata$upb&lt;-as.numeric(mydata$loan_amount_000s)*1000</p>
+
+<h1 id="create-a-summary-file-that-has-total-upb-upb-median-loan-amount-upb-med-and-count-of-loans-count">Create a summary file that has total UPB (upb), median loan amount (upb.med), and count of loans (count)</h1>
+
+<p>county.sum&lt;-mydata[,list(upb=sum(upb),upb.med=median(upb),count=.N), by=list(fips,state_abbr,state_name,county_name,msamd_name)]
+{% endhighlight
+Now that we&rsquo;ve loaded our data and summarized it, let&rsquo;s load some maps.</p>
+
+<p>{% highlight r</p>
+
+<h1 id="let-s-load-some-maps">Let&rsquo;s load some maps:</h1>
+
+<p>states&lt;-usa_composite()  #create a state map thing
+smap&lt;-fortify(states,region=&ldquo;fips_state&rdquo;)
+smap.all&lt;-smap           #we&rsquo;re going to subset smap later, so copy full map</p>
+
+<p>counties &lt;- counties_composite()   #create a county map thing</p>
+
+<p>#add on summary stats by county using FIPS code
+counties@data &lt;- left_join(counties@data, county.sum, by = &ldquo;fips&rdquo;)<br />
+cmap &lt;- fortify(counties_composite(), region=&ldquo;fips&rdquo;)
+#create state and county FIPS codes
+cmap$state&lt;-substr(cmap$id,1,2)<br />
+cmap$county&lt;-substr(cmap$id,3,5)
+cmap$fips&lt;-paste0(cmap$state,cmap$county)
+cmap.all&lt;-cmap    #we&rsquo;re going to subset cmap later, so copy full map
+{% endhighlight</p>
+
+<p>Let&rsquo;s test to see if our map is working.  We&rsquo;re going to use geom_map() to make our maps.  Let&rsquo;s try to make a state map first:</p>
+
+<p>{% highlight r
+#test map 1:
+ggplot() +
+  geom_map(data = smap, map = smap,
+           aes(x = long, y = lat, map_id = id),
+           color = &ldquo;#2b2b2b&rdquo;, size = 0.05, fill = NA)
+{% endhighlight</p>
+
+<p><img src="/img/Rfig/fig-map-1-1.svg" alt="plot of chunk fig-map-1" /></p>
+
+<p>All right!  It&rsquo;s alive. Now let&rsquo;s try to make a more complicated map with some styling.  Let&rsquo;s make a choropleth map of the United States with each county colored according to the median loans size of mortgage loans originated in 2014.</p>
+
+<p>{% highlight r
+#test map 2:
+  ggplot() +
+  geom_map(data = cmap.all, map = cmap.all,
+           aes(x = long, y = lat, map_id = id),
+           color = &ldquo;#2b2b2b&rdquo;, size = 0.05, fill = NA) +
+  geom_map(data = counties@data, map = cmap.all,
+           aes(fill =log(upb.med), map_id = fips),
+           color = NA) +
+  #add black state borders (just to see if things are working)
+  geom_map(data = smap.all, map = smap.all,
+           aes(x = long, y = lat, map_id = id),
+           color = &ldquo;black&rdquo;, size = .5, fill = NA) +
+  theme_map(base_size = 12) +
+  theme(plot.title=element_text(size = 16, margin=margin(b=10))) +
+  theme(plot.subtitle=element_text(size = 14, margin=margin(b=-20))) +
+  theme(plot.caption=element_text(size = 9, margin=margin(t=-15),hjust=0)) +
+  coord_proj(us_laea_proj) +
+  labs(title=&ldquo;Median loan amount by county in 2014&rdquo;,
+       caption=&rdquo;\n@lenkiefer Source: CFPB, FFIEC, Home Mortgage Disclosure Act (HMDA) data\nIncludes all home purchase and refinance loans for 1-4 family dwellings and manufactured housing originated in 2014.&ldquo;)+
+  scale_fill_viridis(name=&ldquo;Median Loan Amount\n$, log scale\n&rdquo;,
+                     discrete=F,option=&ldquo;D&rdquo;,end=0.95,direction=-1,limits=c(log(10000),log(1.4e6)),
+                     breaks=c(log(10000),log(100000),log(1e6)),
+                     labels=c(&ldquo;$10,000&rdquo;,&ldquo;$100,000&rdquo;,&ldquo;$1,000,000&rdquo;)  )+  theme(legend.position = &ldquo;right&rdquo;)
+{% endhighlight</p>
+
+<p><img src="/img/Rfig/fig-map-2-1.svg" alt="plot of chunk fig-map-2" /></p>
+
+<p>Excellent!  Now all we have to do is combine this map with our beeswarm plots and we&rsquo;ll be good to go.</p>
+
+<h2 id="subsetting-map-and-adding-distribution-plot">Subsetting map and adding distribution plot</h2>
+
+<p>The composite map is interesting, but hard to see beyond some general patterns (the coasts have high median loans sizes, while loan sizes in the Midwest and (non-coastal) Southeast tend to be smaller).  Let&rsquo;s zoom in on a particular state and add a plot showing the distribution of loan sizes.</p>
+
+<p>{% highlight r</p>
+
+<h1 id="first-step-is-to-get-a-list-of-states-we-ll-exclude-fips-code-72-puerto-rico">First step is to get a list of states (we&rsquo;ll exclude FIPS code 72: Puerto Rico)</h1>
+
+<p>st.list&lt;-unique(mydata[st.fips !=&ldquo;72&rdquo;,]$st.fips)</p>
+
+<h1 id="the-next-step-is-to-make-a-function-that-generates-the-composite-plot-based-on-a-state-fips-number">The next step is to make a function that generates the composite plot based on a state FIPS number:</h1>
+
+<p>myplot&lt;-function(i){</p>
+
+<p>c.list&lt;-unique(mydata[st.fips ==st.list[i]]$fips)  # all counties within selected state [i]
+smap&lt;-subset(smap.all, id %in% st.list[i])         # subset state map
+cmap&lt;-subset(cmap.all, fips %in% c.list)           # subset county map</p>
+
+<p>#state label
+st.label&lt;-unique(fips.look[st.fips==as.numeric(st.list[i])]$state_abbr)</p>
+
+<h1 id="graph-1-map-as-above-but-only-including-subset">graph 1: map (as above, but only including subset)</h1>
+
+<p>g1&lt;-
+  ggplot() +
+  geom_map(data = cmap, map = cmap,
+           aes(x = long, y = lat, map_id = id),
+           color = &ldquo;#2b2b2b&rdquo;, size = 0.05, fill = NA) +
+  geom_map(data = counties@data, map = cmap,
+           aes(fill =log(upb.med), map_id = fips),
+           color = NA) +
+  geom_map(data = smap, map = smap,
+           aes(x = long, y = lat, map_id = id),
+           color = &ldquo;black&rdquo;, size = 1.05, fill = NA) +
+  theme_map( base_size = 12) +
+  theme(plot.title=element_text( size = 16, margin=margin(b=10))) +
+  theme(plot.subtitle=element_text(size = 14, margin=margin(b=-20))) +
+  theme(plot.caption=element_text(size = 9, margin=margin(t=-15),hjust=0)) +
+  coord_proj(us_laea_proj) +
+  labs(y=&ldquo;Loan Amount, $&rdquo;,x=&ldquo;Loan Purpose&rdquo;,
+       title=paste(&ldquo;Median loan amount by county in&rdquo;,
+                   unique(fips.look[st.fips==as.numeric(st.list[i])]$state_abbr)))+
+  scale_fill_viridis(name=&ldquo;Median Loan Amount\n$, log scale\n&rdquo;,
+                     discrete=F,option=&ldquo;D&rdquo;,end=0.95,direction=-1,limits=c(log(10000),log(1.4e6)),
+                     breaks=c(log(10000),log(100000),log(1e6)),
+                     labels=c(&ldquo;$10,000&rdquo;,&ldquo;$100,000&rdquo;,&ldquo;$1,000,000&rdquo;)  )+  theme(legend.position = &ldquo;right&rdquo;)</p>
+
+<p>#plot data:</p>
+
+<h1 id="prepare-data-select-only-data-in-the-state-derived-from-c-list">Prepare data: select only data in the state (derived from c.list)</h1>
+
+<p>pdata&lt;-county.sum[fips %in% c.list]</p>
+
+<p>pdata2&lt;-mydata[fips %in% c.list,.SD[sample(.N,min(.N,1000))],by = msamd_name ]  #subsample metro data</p>
+
+<h1 id="see-note-sample-by-groups">See note: sample by groups</h1>
+
+<h1 id="http-stackoverflow-com-questions-27325656-how-do-you-sample-groups-in-a-data-table-with-a-caveat"><a href="http://stackoverflow.com/questions/27325656/how-do-you-sample-groups-in-a-data-table-with-a-caveat">http://stackoverflow.com/questions/27325656/how-do-you-sample-groups-in-a-data-table-with-a-caveat</a></h1>
+
+<p>pdata2[msamd_name==&ldquo;&rdquo;,msamd_name:=&ldquo;Non-metro&rdquo;]  #rename missing metros to &ldquo;Non-Metro&rdquo;</p>
+
+<h1 id="pdata2-n-by-msamd-name-can-run-this-to-check-how-many-obs-we-have-per-metro">pdata2[,.N,by=msamd_name]    # Can run this to check how many obs we have per metro</h1>
+
+<p>pdata3&lt;-mydata[fips %in% c.list][sample(.N,1000)]  #subsample state data</p>
+
+<h1 id="graph-2-upb-distribution-for-entire-state">graph 2: upb distribution for entire state</h1>
+
+<p>g2&lt;-
+  ggplot(data=pdata2,aes(y=&ldquo;&rdquo;,x=upb,color=log(upb)))+
+  geom_quasirandom(alpha=0.5,size=0.35)+
+  theme_minimal()+
+  scale_color_viridis(name=&ldquo;Loan Amount\n$,log scale\n&rdquo;,discrete=F,option=&ldquo;D&rdquo;,end=0.95,direction=-1,
+                        limits=c(log(10000),log(1.4e6)),
+                        breaks=c(log(10000),log(100000),log(1e6)),
+                        labels=c(&ldquo;$10k&rdquo;,&ldquo;$100k&rdquo;,&ldquo;$1,000k&rdquo;) ) +
+  scale_x_log10(limits=c(10000,1.4e6),breaks=c(10000,100000,1000000),
+                  labels=c(&ldquo;$10k&rdquo;,&ldquo;$100k&rdquo;,&ldquo;$1,000k&rdquo;) )+
+  theme(plot.title=element_text(size=14))+theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+  theme(plot.margin=unit(c(0.25,0.25,0.25,0.25),&ldquo;cm&rdquo;))+
+  theme(legend.position = &ldquo;none&rdquo;)+
+  labs(y=&ldquo;&rdquo;,x=&ldquo;Loan Amount ($, log scale)&rdquo;,
+         caption=&rdquo;\n@lenkiefer Source: CFPB, FFIEC, Home Mortgage Disclosure Act (HMDA) data\nEach dot represents one originated loan in 2014 (1,000 loans randomly sampled for plot)&ldquo;,
+       title=paste(&ldquo;Loan size distribution by Metro in&rdquo;,
+                   unique(fips.look[st.fips==as.numeric(st.list[i])]$state_abbr)))+
+  theme(axis.text.x = element_text(size=4))+
+  facet_wrap(~msamd_name)+theme(strip.text.x = element_text(size = 4))</p>
+
+<h1 id="graph-3-upb-distribution-by-county-using-a-subsample-of-1000-obs">graph 3: upb distribution by county (using a subsample of 1000 obs)</h1>
+
+<p>g3&lt;-
+  ggplot(data=pdata3,aes(y=&ldquo;&rdquo;,x=upb,color=log(upb)))+geom_quasirandom(alpha=0.5,size=0.75)+
+  theme_minimal()+
+  scale_color_viridis(name=&ldquo;Loan Amount\n$,log scale\n&rdquo;,discrete=F,option=&ldquo;D&rdquo;,end=0.95,direction=-1,
+                      limits=c(log(10000),log(1.4e6)),
+                      breaks=c(log(10000),log(100000),log(1e6)),
+                      labels=c(&ldquo;$10k&rdquo;,&ldquo;$100k&rdquo;,&ldquo;$1,000k&rdquo;)                      ) +
+  scale_x_log10(limits=c(10000,1.4e6),breaks=c(10000,100000,1000000),
+                labels=c(&ldquo;$10k&rdquo;,&ldquo;$100k&rdquo;,&ldquo;$1,000k&rdquo;) )+
+  theme(plot.title=element_text(size=14))+theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+  theme(plot.margin=unit(c(0.25,0.25,0.25,0.25),&ldquo;cm&rdquo;))+  theme(legend.position = &ldquo;none&rdquo;)+
+  labs(y=&ldquo;&rdquo;,x=&ldquo;Loan Amount ($, log scale)&rdquo;,
+       title=paste(&ldquo;Mortgage loan size distribution in&rdquo;,
+                   unique(fips.look[st.fips==as.numeric(st.list[i])]$state_abbr)))+
+  facet_wrap(~state_name)</p>
+
+<p>m&lt;-multiplot(g1,g2,g3,layout=matrix(c(1,3,2,2,2,2), nrow=3, byrow=TRUE))</p>
+
+<h1 id="i-ve-source-the-multiplot-function-above-and-you-can-find-it-at">I&rsquo;ve source the multiplot function above, and you can find it at:</h1>
+
+<h1 id="http-www-cookbook-r-com-graphs-multiple-graphs-on-one-page-ggplot2"><a href="http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/">http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/</a></h1>
+
+<p>}</p>
+
+<h1 id="try-it-out-for-california">Try it out for California:</h1>
+
+<p>myplot(5)
+{% endhighlight</p>
+
+<p><img src="/img/Rfig/fig-map-3-1.svg" alt="plot of chunk fig-map-3" /></p>
+
+<h2 id="animated-gif">Animated gif</h2>
+
+<p>We can loop through all states and make a gif out of it:</p>
+
+<p>{% highlight r
+oopt = ani.options(interval = 1)
+saveGIF({for (i in 1:51) {
+  g&lt;-myplot(i)
+  print(g)
+  ani.pause()
+  print(i)
+}
+},movie.name=&ldquo;HMDA loan amounts v4.gif&rdquo;,ani.width = 1000, ani.height = 750)
+{% endhighlight</p>
+
+<p><img src="../../../../img/charts_aug_21_2016/HMDA loan amounts v4.gif" alt="HMDA Swarm"/></p>
+
+<h1 id="county-population-example">County Population Example</h1>
+
+<p>I began figuring out make maps in R by replicating Julia Silge&rsquo;s  <a href="http://juliasilge.com/blog/Evenly-Distributed/">excellent example</a>. Then I combined <a href="https://github.com/thomasp85/tweenr">tweenr</a> and <a href="https://github.com/eclarke/ggbeeswarm">beeswarm</a> plots to show how county population is distributed across states:</p>
+
+<p><img src="../../../../img/charts_aug_21_2016/map and dot v2.gif" alt="County map and dot" style="height: 550px;"/></p>
+
+<h2 id="code-for-county-population-example">Code for county population example</h2>
+
+<p>Once again we&rsquo;ll use the R package tweenr and animate to make an animated gif. See my earlier <a href="../../../../2016/05/29/improving-R-animated-gifs-with-tweenr">post about tweenr</a> for an introduction to tweenr, and more examples <a href="../../../../2016/05/30/more-tweenr-animations">here</a> and <a href="../../../../2016/06/26/week-in-review">here</a>.</p>
+
+<p>{% highlight r</p>
+
+<h1 id="this-comes-straight-from-julia-silge-http-juliasilge-com-blog-evenly-distributed">This comes straight from julia silge: <a href="http://juliasilge.com/blog/Evenly-Distributed/">http://juliasilge.com/blog/Evenly-Distributed/</a></h1>
+
+<h1 id="you-ll-need-api-key-acs-package-see-julia-s-post">You&rsquo;ll need api key &amp; acs package (see julia&rsquo;s post)</h1>
+
+<p>countygeo &lt;- geo.make(state = &ldquo;<em>&rdquo;, county = &ldquo;</em>&rdquo;)
+popfetch &lt;- acs.fetch(geography = countygeo,
+                      endyear = 2014,
+                      span = 5,
+                      table.number = &ldquo;B01003&rdquo;,
+                      col.names = &ldquo;pretty&rdquo;)
+myfips &lt;- geography(popfetch) %&gt;%<br />
+  mutate(fips = str_c(str_pad(state, 2, &ldquo;left&rdquo;, &ldquo;0&rdquo;),
+                      str_pad(county, 3, &ldquo;left&rdquo;, &ldquo;0&rdquo;))) %&gt;%
+  select(fips)
+geography(popfetch)=cbind(myfips, geography(popfetch))
+popDF &lt;- melt(estimate(popfetch)) %&gt;%
+  mutate(fips = str_sub(str_c(&ldquo;00&rdquo;, Var1), -5),
+         pop2014 = value) %&gt;%
+  select(fips, pop2014)
+head(popDF)</p>
+
+<h1 id="we-use-the-sampe-cmap-though-we-merge-population-data-instead-of-mortgage-data">We use the sampe cmap, though we merge population data instead of mortgage data</h1>
+
+<p>counties &lt;- counties_composite()
+counties@data &lt;- left_join(counties@data, popDF, by = &ldquo;fips&rdquo;)
+cmap &lt;- fortify(counties_composite(), region=&ldquo;fips&rdquo;)
+cmap$state&lt;-substr(cmap$id,1,2)
+cmap.all&lt;-cmap
+cmap&lt;-subset(cmap.all, state==st.list[1])</p>
+
+<p>popDF$state&lt;-substr(popDF$fips,1,2)
+st.list&lt;-unique(popDF$state)</p>
+
+<p>popDF&lt;-data.table(popDF)
+all_states &lt;- map_data(&ldquo;state&rdquo;)</p>
+
+<p>st.name&lt;-unique(all_states$region)  #get a list of states</p>
+
+<p>popDF$fips&lt;-factor(popDF$fips)
+popDF$state&lt;-factor(popDF$state)</p>
+
+<h1 id="pause-for-discussion">pause for discussion</h1>
+
+<p>{% endhighlight</p>
+
+<p>In order to get the tweenr animation to work, I need to ensure that each data frame I feed to the tween_states() function has the same number of observations.  But states have different numbers of counties. Texas has the most with 254 counties.</p>
+
+<p>We&rsquo;ll set up a blank data frame based on Texas and index the county number.  We&rsquo;ll merge each state to this data frame, which will give us missing values for county numbers less than 254.</p>
+
+<p>{% highlight r
+popDF&lt;-data.table(popDF)
+blank.df&lt;-popDF[state==&ldquo;48&rdquo;,] #max number of counties is Texas at 254<br />
+blank.df[,idn:=.I]  #create index</p>
+
+<p>popDF&lt;-popDF[ , idn := 1:.N , by = state ]  #now create index for each county by state</p>
+
+<h1 id="function-to-create-data-set-for-animated-swarm-plot">function to create data set for animated swarm plot</h1>
+
+<p>myf&lt;-function(mystate){
+  temp&lt;-merge(blank.df[,list(idn)],
+              popDF[state==mystate,],
+              by=&ldquo;idn&rdquo;,all.x=T)
+temp$fips&lt;-factor(temp$fips)
+temp$state&lt;-factor(temp$state)
+temp$idn&lt;-factor(temp$idn)
+temp&lt;-temp[order(idn)]
+return(data.frame(temp))
+}</p>
+
+<h1 id="use-lapply-to-generate-the-list-of-data-sets">use lapply to generate the list of data sets:</h1>
+
+<p>st.list&lt;-unique(cmap.all$state)  #need to exclude PR
+my.list2&lt;-lapply(c(st.list,st.list[1]),myf)</p>
+
+<h1 id="apply-tweenr">Apply tweenr:</h1>
+
+<p>tf &lt;- tween_states(my.list2, tweenlength= 2, statelength=3, ease=rep(&lsquo;cubic-in-out&rsquo;,53),nframes=300)
+#300 is the number of frames I chose, or about 6 frames per state.</p>
+
+<h1 id="adding-more-frames-will-smooth-transitions-but-made-the-file-larger">Adding more frames will smooth transitions but made the file larger</h1>
+
+<h1 id="twitter-has-a-5-mb-limit-for-gifs-so-i-shoot-for-that-if-i-m-planning-on-sharing-with-tweeps">Twitter has a 5 MB limit for gifs so I shoot for that if I&rsquo;m planning on sharing with tweeps</h1>
+
+<p>dtf&lt;-data.table(tf)</p>
+
+<p>oopt = ani.options(interval = 0.2)
+saveGIF({for (i in unique(dtf$.frame)){</p>
+
+<h1 id="graph-1-set-up-animated-beeswarm">graph 1: set up animated beeswarm</h1>
+
+<p>g1&lt;-
+  ggplot(dtf[.frame==i],
+       aes(y=&ldquo;&rdquo;,x=pop2014,color=log(pop2014)))+
+  theme_minimal()+<br />
+  theme(plot.title=element_text(size=14))+theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+  theme(plot.margin=unit(c(0.25,0.25,0.25,0.25),&ldquo;cm&rdquo;))+  theme(legend.position = &ldquo;right&rdquo;)+
+  geom_quasirandom(alpha=0.95,size=2)  +  #I like the quasirandom beeswarm option
+  scale_color_viridis(name=&ldquo;Pop\nlog scale\n&rdquo;,
+                      discrete=F,option=&ldquo;D&rdquo;,end=0.95,direction=-1,limits=c(log(100),log(1e7)),
+                      breaks=c(log(100),log(10000),log(100000),log(1e7)),
+                      labels=c(&ldquo;100&rdquo;,&ldquo;10,000&rdquo;,&ldquo;100,000&rdquo;,&ldquo;1,000,000&rdquo;)) +
+  scale_x_log10(label=comma,limits=c(100,1e6),breaks=c(1000,10000,100000,1000000))+
+  labs(x=&ldquo;Population in 2014 (log scale)&rdquo;,y=&ldquo;&rdquo;,
+       subtitle=&ldquo;Each dot represents 1 county&rdquo;,title=paste(st.label,&ldquo;County Population Distributions&rdquo;),
+       caption=&ldquo;@lenkiefer Source: ACS Five-Year Estimate 2010-2014&rdquo;)</p>
+
+<h1 id="graph-2-set-up-map">graph 2: set up map</h1>
+
+<p>fips.c&lt;-as.character(head(dtf[.frame==i]$state,1)) #get fips code for iteration i
+cmap&lt;-subset(cmap.all, state==fips.c)</p>
+
+<p>g2&lt;-
+  ggplot() +
+  geom_map(data = cmap, map = cmap,
+           aes(x = long, y = lat, map_id = id),
+           color = &ldquo;#2b2b2b&rdquo;, size = 0.05, fill = NA) +
+  geom_map(data = counties@data, map = cmap,
+           aes(fill = log(pop2014), map_id = fips),
+           color = NA) +
+  theme_map( base_size = 12) +
+  theme(plot.title=element_text( size = 16, margin=margin(b=10))) +
+  theme(plot.subtitle=element_text(size = 14, margin=margin(b=-20))) +
+  theme(plot.caption=element_text(size = 9, margin=margin(t=-15))) +
+  coord_proj(us_laea_proj) +   labs(title=&ldquo;&rdquo;,subtitle=&ldquo;&rdquo; ) +
+  scale_fill_viridis(name = &ldquo;Population&rdquo;, discrete=F,option=&ldquo;D&rdquo;,end=0.95,direction=-1)+
+  theme(legend.position = &ldquo;none&rdquo;)</p>
+
+<p>m&lt;-multiplot(g1,g2,layout=matrix(c(1,1,2,2,2), nrow=5, byrow=TRUE))
+print(m)
+print(i)
+ani.pause() }
+for (i2 in 1:2) {print(m)
+  ani.pause()  } },movie.name=&ldquo;map and dot v2.gif&rdquo;,ani.width = 400, ani.height = 500)
+{% endhighlight</p>
+
+<h1 id="what-hasn-t-worked-out-so-well-yet">What hasn&rsquo;t worked out so well (yet)</h1>
+
+<p>I&rsquo;ve got a few other ideas that haven&rsquo;t quite worked out. You can learn a lot from failures (especially your own), so I&rsquo;ll include an example.</p>
+
+<p>I wanted to compare the distribution of county population across states to the U.S. as a whole.  So I thought I&rsquo;d use a beeswarm plot (with geom_quasirandom). I wanted the state distribution to literally fall out of the national distribution using an animation.  I got this far:</p>
+
+<p><img src="../../../../img/charts_aug_21_2016/dot compare swarms.gif" alt="dot drops" style="width: 550px;"/></p>
+
+<p>Technically I had some trouble getting the labels on the plot (which state is dropping), but I think there&rsquo;s more wrong with it than that. Maybe we can fix it up for a later post.</p>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2016/08/19/mortgage-gif-8-19-2016/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2016/08/19/mortgage-gif-8-19-2016/">Mortgage rate gifs: Week of Aug 19, 2016</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="/2016/08/23/us-pop-map-1790-2010/">U.S. county population: 1790-2010</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="/2016/08/23/us-pop-map-1790-2010/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/dataviz/">dataviz</a>, 
+            
+                <a href="/tags/maps/">maps</a>, 
+            
+                <a href="/tags/r/">R</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2016%2f08%2f21%2fmaps-mortgages-and-me%2f&text=Maps%2c%20mortgages%20and%20me via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2016%2f08%2f21%2fmaps-mortgages-and-me%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+

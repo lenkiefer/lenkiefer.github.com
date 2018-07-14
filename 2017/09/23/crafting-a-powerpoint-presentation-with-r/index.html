@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>Crafting a PowerPoint Presentation with R &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Crafting a PowerPoint Presentation with R">
+    <meta property="og:description" content="LOOK I DON’T HAVE ANYTHING BAD TO SAY about PowerPoint. Others have said it (see for example Tufte and Harvard Business Review). It’s a tool and a fact of life for many of us.
+I am interested in making better PowerPoints. In this post we’ll use some R tools to generate a PowerPoint deck.
+OfficeRThe package officer allows you to access and manipulate ‘Microsoft Word’ and ‘Microsoft PowerPoint’ documents from R.">
+
+<div class="header">
+  <h1>Crafting a PowerPoint Presentation with R</h1>
+  <h2></h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2017/09/23</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/presentation">presentation</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/slides">slides</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/office">Office</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <p>LOOK I DON’T HAVE ANYTHING BAD TO SAY about PowerPoint. Others have said it (see for example <a href="https://www.edwardtufte.com/tufte/powerpoint">Tufte</a> and <a href="https://hbr.org/2010/04/powerpoint-is-evil-redux">Harvard Business Review</a>). It’s a tool and a fact of life for many of us.</p>
+<p>I am interested in making better PowerPoints. In this post we’ll use some <a href="https://www.r-project.org/">R</a> tools to generate a PowerPoint deck.</p>
+<div id="officer" class="section level1">
+<h1>OfficeR</h1>
+<p>The package <a href="https://cran.r-project.org/web/packages/officer/index.html">officer</a> allows you to access and manipulate ‘Microsoft Word’ and ‘Microsoft PowerPoint’ documents from R. That sounds pretty great. Let’s take the pacakge for a spin.</p>
+<p>What we’re going to do is turn <a href="../../../../2017/09/17/housing-vacancy-trends">my post from last week</a> into a PowerPoint deck. It won’t be a beautiful deck, we’ll worry about that another day. But it will be a functional deck. And we’ll be able to demonstrate a workflow that can automatically generate powerpoint decks. At the end I’ll discuss some thoughts on how this could be extended.</p>
+<p>The <a href="https://cran.r-project.org/web/packages/officer/vignettes/powerpoint.html#append-text-sequentially-in-a-shape">officer vignette</a> has a useful summary that we will be following pretty closely below.</p>
+<div id="template" class="section level3">
+<h3>Template</h3>
+<p>First we’re going to need a template. I’m starting with something very close to the default “Office Theme” from PowerPoint. I modified the template to switch back from Calibri font to Arial. You might have a template from a company, univeristy or other place that you’d like to use. Whatever the case may be, you’ll need to save a blank PowerPoint deck somewhere that you can read in. I’m calling mine <code>blank.pptx</code>.</p>
+<ul>
+<li>Download my blank template <a href="../../../../img/charts_sep_23_2017/blank.pptx">blank.pptx</a></li>
+</ul>
+<p>After saving our template we can load the officer library, read in our powerpoint and take a look at the structure.</p>
+<pre class="r"><code>library(officer)
+library(magrittr)
+my_pres&lt;-read_pptx(&quot;data/blank.pptx&quot;)
+knitr::kable(layout_summary(my_pres))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">layout</th>
+<th align="left">master</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Title Slide</td>
+<td align="left">Office Theme</td>
+</tr>
+<tr class="even">
+<td align="left">Title and Vertical Text</td>
+<td align="left">Office Theme</td>
+</tr>
+<tr class="odd">
+<td align="left">Vertical Title and Text</td>
+<td align="left">Office Theme</td>
+</tr>
+<tr class="even">
+<td align="left">Title and Content</td>
+<td align="left">Office Theme</td>
+</tr>
+<tr class="odd">
+<td align="left">Section Header</td>
+<td align="left">Office Theme</td>
+</tr>
+<tr class="even">
+<td align="left">Two Content</td>
+<td align="left">Office Theme</td>
+</tr>
+<tr class="odd">
+<td align="left">Comparison</td>
+<td align="left">Office Theme</td>
+</tr>
+<tr class="even">
+<td align="left">Title Only</td>
+<td align="left">Office Theme</td>
+</tr>
+<tr class="odd">
+<td align="left">Blank</td>
+<td align="left">Office Theme</td>
+</tr>
+<tr class="even">
+<td align="left">Content with Caption</td>
+<td align="left">Office Theme</td>
+</tr>
+<tr class="odd">
+<td align="left">Picture with Caption</td>
+<td align="left">Office Theme</td>
+</tr>
+</tbody>
+</table>
+<p>If we were to go and modify the slide master of <code>blank.pptx</code> we could modify the available layouts. The slides we’ll add will inherit most of their characteristics from the template, so you might want to modify them in the template. I did that by changing the fonts from Calibri to Arial.</p>
+<p>Now what are we going to do?</p>
+</div>
+</div>
+<div id="converting-a-blog-post-to-a-deck" class="section level1">
+<h1>Converting a blog post to a deck</h1>
+<p>Let’s convert my <a href="../../../../2017/09/17/housing-vacancy-trends">housing vacancy</a> blog post into a deck.</p>
+<p>There are different strategies we could take for this, and in real life we would spend a lot of time thinking here. Who is our audience? What are we trying to accomplish? Do we really need a PowerPoint deck? We’ll talk more about those things in a different post.</p>
+<p>Here let’s assume we want to create chartbook style presentation that would be read not projected. In the economic and finance world I live in, chartbooks are popular methods of communication. For a particularly thorough example, consider the Urban Institute’s <a href="https://www.urban.org/research/publication/housing-finance-glance-monthly-chartbook-august-2017">Housing Finance at a Glance: A Monthly Chartbook</a>.</p>
+<div id="planning-the-deck" class="section level2">
+<h2>Planning the deck</h2>
+<p>My original blog post had 5 charts. We will place each chart on its own slide and add commentary to the slide. We could get much more elaborate (see for example <a href="http://www.duarte.com/slidedocs/">Nancy Duarte’s SlideDocs</a>) but the default office “Content with Caption” pictured below works for me.</p>
+<p><img src="../../../../img/charts_sep_23_2017/layout1.PNG"></p>
+<p>This will allow us to put some words along with our chart.</p>
+<div id="charts" class="section level3">
+<h3>Charts</h3>
+<p>The nice thing about this workflow is that we can use R to generate our charts. See <a href="../../../../2017/09/18/a-tidyquant-um-of-solace/">here</a> for more discussion on data wrangling and chart generation. Just assume we followed that post and generated our charts and saved them as images.</p>
+<p>For each of the 5 charts from my blog post I created a <em>.png</em> file with the image. I saved each image with names <em>chart1.png</em> through <em>chart5.png</em> and stored them in a folder called <em>img</em>.</p>
+</div>
+</div>
+</div>
+<div id="creating-the-deck" class="section level1">
+<h1>Creating the deck</h1>
+<p>Now let’s build the deck. We’ll use the pipe operator (<code>%&gt;%</code>) liberally here.</p>
+<pre class="r"><code>my_pres&lt;-
+  # Load template
+  read_pptx(&quot;blank.pptx&quot;) %&gt;%
+  # Add a slide
+  add_slide(layout=&quot;Title Slide&quot;, master=&quot;Office Theme&quot;) %&gt;%
+  # Add some text to the title (ctrTitle)
+  ph_with_text(type = &quot;ctrTitle&quot;, str = &quot;If housing inventory is so tight, why are so many homes vacant?&quot;) %&gt;% 
+  # Add some text to the subtitle (subTitle)
+  ph_with_text(type = &quot;subTitle&quot;, str = &quot;A PowerPoint Summary of http://lenkiefer.com/2017/09/17/housing-vacancy-trends/&quot;) %&gt;% 
+  ph_with_text(type = &quot;ftr&quot;, str = myftr )</code></pre>
+<p>If we were to save this powerpoint deck here we’d have one slide:</p>
+<p><img src="../../../../img/charts_sep_23_2017/Slide1.PNG"></p>
+<p>Since we’re going to use the Title and Content layout in most of our slides, it’s helpful to understand its structure. The <code>layout_properties()</code> function is helpful here.</p>
+<pre class="r"><code>knitr::kable(layout_properties ( x = my_pres, layout = &quot;Title and Content&quot;,
+                    master = &quot;Office Theme&quot; ))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="left">master_name</th>
+<th align="left">name</th>
+<th align="left">type</th>
+<th align="left">id</th>
+<th align="left">ph_label</th>
+<th align="right">offx</th>
+<th align="right">offy</th>
+<th align="right">cx</th>
+<th align="right">cy</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>14</td>
+<td align="left">Office Theme</td>
+<td align="left">Title and Content</td>
+<td align="left">title</td>
+<td align="left">2</td>
+<td align="left">NA</td>
+<td align="right">0.6875</td>
+<td align="right">0.3993066</td>
+<td align="right">8.625</td>
+<td align="right">1.4496533</td>
+</tr>
+<tr class="even">
+<td>15</td>
+<td align="left">Office Theme</td>
+<td align="left">Title and Content</td>
+<td align="left">body</td>
+<td align="left">3</td>
+<td align="left">NA</td>
+<td align="right">0.6875</td>
+<td align="right">1.9965278</td>
+<td align="right">8.625</td>
+<td align="right">4.7586811</td>
+</tr>
+<tr class="odd">
+<td>16</td>
+<td align="left">Office Theme</td>
+<td align="left">Title and Content</td>
+<td align="left">dt</td>
+<td align="left">4</td>
+<td align="left">NA</td>
+<td align="right">0.6875</td>
+<td align="right">6.9513900</td>
+<td align="right">2.250</td>
+<td align="right">0.3993056</td>
+</tr>
+<tr class="even">
+<td>17</td>
+<td align="left">Office Theme</td>
+<td align="left">Title and Content</td>
+<td align="left">ftr</td>
+<td align="left">5</td>
+<td align="left">NA</td>
+<td align="right">3.3125</td>
+<td align="right">6.9513900</td>
+<td align="right">3.375</td>
+<td align="right">0.3993056</td>
+</tr>
+<tr class="odd">
+<td>18</td>
+<td align="left">Office Theme</td>
+<td align="left">Title and Content</td>
+<td align="left">sldNum</td>
+<td align="left">6</td>
+<td align="left">NA</td>
+<td align="right">7.0625</td>
+<td align="right">6.9513900</td>
+<td align="right">2.250</td>
+<td align="right">0.3993056</td>
+</tr>
+</tbody>
+</table>
+<p>We can see the the places where we can stick content under the <code>type</code> and <code>id</code> variables. In particular, we’ll want to include the title under title, the text under <code>body 2</code> and the image in <code>body 3</code>. Note that if you use a custom layout, you might find you have to inspect the layout_properties for that layout to figure out where exactly you want your content to go.</p>
+<p>Let’s keep going. We’ll store the commentary for each slide in variables.</p>
+<pre class="r"><code># Intro summary slide
+intro&lt;-&quot;Earlier this year we talked about how limited housing supply was helping to drive accelerating house prices across the country. In such an environment you would expect to see housing vacancies decline. Indeed, if you look at the rate of rental or homeowner vacancies you see a substantial reduction. But if we look a little closer at the housing inventory data something curious emerges.&quot;
+
+# Set captions
+cap1&lt;-&quot;During the Great Recession homeowner vacancy rates spiked, and gradually came back down. Rental vacancy rates did not spike nearly as much, but also came down in recent years as housing markets have gotten pretty tight.&quot;
+cap2&lt;-&quot;The top two panels show the vacant for rent vacant for sale units that make up the rental and homeowner vacancy rates. The bottom right panel shows year-round vacant units which have been rented or sold but the new renters or owners have not moved in yet. That has a pretty clear seasonal pattern, matching the rhythm of the U.S. housing market, but remains constant at a little under one percent. The bottom left panel shows the share of housing units that are vacant and held off the market.&quot;
+cap3&lt;-&quot;The year-round vacant other category has increased almost a full percentage point since 2005. Just to be clear, that&#39;s a lot of housing units. A one percentage point increase corresponds to over one million housing units. The largest component, taking up about a quarter are those units vacant due to personal/family reasons. This includes situations where the owner is in assisted living and not occupying the unit.&quot;
+cap4&lt;-&quot;The U.S. Census Bureau began tracking a breakdown of the other category since 2012. This chart shows the breakdown of the percent distribution for the second quarter of 2017.&quot;
+cap5&lt;-&quot;The share vacant due to foreclosure has declined quite a lot since 2012 when the U.S. housing market was still early in recovery. Those foreclosed housing units have largely moved through the system.&quot;
+myftr&lt;-&quot;@lenkiefer R to PowerPoint&quot;</code></pre>
+<p>Then we can build the deck:</p>
+<pre class="r"><code>read_pptx(&quot;blank.pptx&quot;) %&gt;%
+  # Title Slide
+  add_slide(layout=&quot;Title Slide&quot;, master=&quot;Office Theme&quot;) %&gt;%
+  ph_with_text(type = &quot;ctrTitle&quot;, str = &quot;If housing inventory is so tight, why are so many homes vacant?&quot;) %&gt;% 
+  ph_with_text(type = &quot;subTitle&quot;, str = &quot;A PowerPoint Summary of http://lenkiefer.com/2017/09/17/housing-vacancy-trends/&quot;) %&gt;% 
+  ph_with_text(type = &quot;ftr&quot;, str = myftr ) %&gt;%
+  # Summary Slide:
+  add_slide(layout = &quot;Title and Content&quot;, master = &quot;Office Theme&quot;) %&gt;% 
+  ph_with_text(type = &quot;title&quot;, index=1,str = &quot;Summary&quot;) %&gt;%
+  ph_with_text(type=&quot;body&quot;,str = intro ) %&gt;% 
+  ph_with_text(type = &quot;ftr&quot;, str = myftr ) %&gt;%
+  ph_with_text(type = &quot;sldNum&quot;, str = &quot;1&quot; ) %&gt;%
+  ph_with_text(type = &quot;dt&quot;, str = format(Sys.Date(),&quot;%B %d,%Y&quot;)) %&gt;%
+  # Slide with Chart 1:
+  add_slide(layout = &quot;Content with Caption&quot;, master = &quot;Office Theme&quot;) %&gt;%
+  ph_with_text(type = &quot;body&quot;, index=2,str = cap1) %&gt;% 
+  ph_with_img(type = &quot;body&quot;, index = 1, src = &quot;img/chart1.png&quot;) %&gt;%
+  ph_with_text(type = &quot;title&quot;, index=1,str = &quot;Homeowner and rental vacancy rates have declined&quot;) %&gt;%
+  ph_with_text(type = &quot;ftr&quot;, str = myftr ) %&gt;%
+  ph_with_text(type = &quot;sldNum&quot;, str = &quot;2&quot; ) %&gt;%
+  ph_with_text(type = &quot;dt&quot;, str = format(Sys.Date(),&quot;%B %d,%Y&quot;)) %&gt;%
+  # Slide with Chart 2:
+  add_slide(layout = &quot;Content with Caption&quot;, master = &quot;Office Theme&quot;) %&gt;%
+  ph_with_text(type = &quot;body&quot;, index=2,str = cap2) %&gt;% 
+  ph_with_img(type = &quot;body&quot;, index = 1, src = &quot;img/chart2.png&quot;) %&gt;%
+  ph_with_text(type = &quot;title&quot;, index=1,str = &quot;More homes held off market&quot;) %&gt;%
+  ph_with_text(type = &quot;ftr&quot;, str = myftr ) %&gt;%
+  ph_with_text(type = &quot;sldNum&quot;, str = &quot;3&quot; ) %&gt;%
+  ph_with_text(type = &quot;dt&quot;, str = format(Sys.Date(),&quot;%B %d,%Y&quot;)) %&gt;%
+  # Slide with Chart 3:
+  add_slide(layout = &quot;Content with Caption&quot;, master = &quot;Office Theme&quot;) %&gt;%
+  ph_with_text(type = &quot;body&quot;, index=2,str = cap3) %&gt;% 
+  ph_with_img(type = &quot;body&quot;, index = 1, src = &quot;img/chart3.png&quot;) %&gt;%
+  ph_with_text(type = &quot;title&quot;, index=1,str = &quot;Growth comes from other category&quot;) %&gt;%
+  ph_with_text(type = &quot;ftr&quot;, str = myftr ) %&gt;%
+  ph_with_text(type = &quot;sldNum&quot;, str = &quot;4&quot; ) %&gt;%
+  ph_with_text(type = &quot;dt&quot;, str = format(Sys.Date(),&quot;%B %d,%Y&quot;)) %&gt;%
+  # Slide with Chart 4:
+  add_slide(layout = &quot;Content with Caption&quot;, master = &quot;Office Theme&quot;) %&gt;%
+  ph_with_text(type = &quot;body&quot;, index=2,str = cap4) %&gt;% 
+  ph_with_img(type = &quot;body&quot;, index = 1, src = &quot;img/chart4.png&quot;) %&gt;%
+  ph_with_text(type = &quot;title&quot;, index=1,str = &quot;Breakdown of the other category&quot;) %&gt;%
+  ph_with_text(type = &quot;ftr&quot;, str = myftr ) %&gt;%
+  ph_with_text(type = &quot;sldNum&quot;, str = &quot;5&quot; ) %&gt;%
+  ph_with_text(type = &quot;dt&quot;, str = format(Sys.Date(),&quot;%B %d,%Y&quot;)) %&gt;%
+  # Slide with Chart 5:
+  add_slide(layout = &quot;Content with Caption&quot;, master = &quot;Office Theme&quot;) %&gt;%
+  ph_with_text(type = &quot;body&quot;, index=2,str = cap5) %&gt;% 
+  ph_with_img(type = &quot;body&quot;, index = 1, src = &quot;img/chart5.png&quot;) %&gt;%
+  ph_with_text(type = &quot;title&quot;, index=1,str = &quot;Distribution of other category over time&quot;) %&gt;%
+  ph_with_text(type = &quot;ftr&quot;, str = myftr ) %&gt;%
+  ph_with_text(type = &quot;sldNum&quot;, str = &quot;6&quot; ) %&gt;%
+  ph_with_text(type = &quot;dt&quot;, str =format(Sys.Date(),&quot;%B %d,%Y&quot;)) %&gt;%
+  # Print to save powerpoint
+  print( target = &quot;Housing Vacancy Blog Post.pptx&quot;) %&gt;% 
+  invisible()</code></pre>
+<p>You can download the deck <a href="../../../../img/charts_sep_23_2017/Housing%20Vacancy%20Blog%20Post.pptx">here</a>. Below I’ve embedded a pdf version of the slidedeck.</p>
+<iframe src="../../../../img/charts_sep_23_2017/Housing Vacancy Blog Post.pdf" height="500" width="775">
+</iframe>
+<p>Is it beautiful? Maybe, but it could be better. The good news is that we can scale this workflow pretty easily, especially if we only wanted to include charts and not add custom commentary.</p>
+</div>
+<div id="discussion" class="section level1">
+<h1>Discussion</h1>
+<p>This workflow has a lot of potential. I make a lot of charts and often in situations where ideas get communicated through PowerPoint decks. Being able to generate and manipulate PowerPoint files in R has tons of potential. Could this work for you?</p>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2017/09/21/housing-market-update-september-2017/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2017/09/21/housing-market-update-september-2017/">Housing market update September 2017</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="/2017/09/25/charting-housing-starts/">Charting housing starts with R</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="/2017/09/25/charting-housing-starts/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/dataviz/">dataviz</a>, 
+            
+                <a href="/tags/presentation/">presentation</a>, 
+            
+                <a href="/tags/slides/">slides</a>, 
+            
+                <a href="/tags/r/">R</a>, 
+            
+                <a href="/tags/office/">Office</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2017%2f09%2f23%2fcrafting-a-powerpoint-presentation-with-r%2f&text=Crafting%20a%20PowerPoint%20Presentation%20with%20R via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2017%2f09%2f23%2fcrafting-a-powerpoint-presentation-with-r%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+

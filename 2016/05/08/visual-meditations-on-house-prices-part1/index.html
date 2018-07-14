@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>Visual meditations on house prices, Part 1: data wrangling &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Visual meditations on house prices, Part 1: data wrangling">
+    <meta property="og:description" content="IntroductionTHIS POST CONSIDERS recent trends in house prices. Thinking a great deal about house prices, I like to look at many different DATA VISUALIZATIONS of house prices, at the national, state, and metro levels of aggregation. Also, in this post, I will include descriptions of how I built my visualizations, including code. These meditations as I call them, required some data wrangling and some thinking as to how to construct the charts.">
+
+<div class="header">
+  <h1>Visual meditations on house prices, Part 1: data wrangling</h1>
+  <h2></h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2016/05/08</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/house-prices">House prices</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>THIS POST CONSIDERS recent trends in house prices. Thinking a great deal about house prices, I like to look at many different DATA VISUALIZATIONS of house prices, at the national, state, and metro levels of aggregation. Also, in this post, I will include descriptions of how I built my visualizations, including code. These meditations as I call them, required some data wrangling and some thinking as to how to construct the charts.</p>
+<p>As the post was getting long, I decided to split it up. In this post, I’ll handle data wrangling. We’ll prepare the data for analysis both in <span class="icon-file-excel" style="color:green;"></span> Excel and R. In following post(s), we’ll get into the details of creating the data visualizations. When we’re through we’ll build something like this:</p>
+<p><img src="{{ site.url }}/img/charts_may_8_2016/hpi_dots_state_redblue2.gif" alt="FMHPI Gif"/></p>
+<p>Let us begin by gathering data.</p>
+<div id="the-data" class="section level2">
+<h2>The data</h2>
+<p>We’re going to be using the Freddie Mac House Price Index (FMHPI), which is available to the public on <a href="http://www.freddiemac.com/finance/house_price_index.html">Freddie Mac’s webpage</a>. This index is available at monthly frequencies for the nation, all 50 states plus the District of Columbia, and over 300 metro areas (CBSA). The national index is available both seasonally-adjusted (SA), and non-seasonally adjusted (NSA), while the state and metro indices are only available NSA.</p>
+<p><em>Disclosure my team at Freddie Mac helped assemble the Tableau data visualization on the Freddie Mac webpage. This blog posts represents my own view and does not necessarily represent the views of Freddie Mac.</em> We’re using the FMHPI because it’s convenient to work with, has broad coverage, and is publicly available.</p>
+<div id="fmhpi-webpage" class="section level3">
+<h3>FMHPI webpage:</h3>
+<p><img src="{{ site.url }}/img/charts_may_8_2016/fmhpi1.PNG" alt="FMHPI 1" style="width: 550px;"/></p>
+<p>We’ll need to navigate to the <a href="http://www.freddiemac.com/finance/fmhpi/archive.html">archive page</a> to download the data we want. The data are in two excel spreadsheets <span class="icon-file-excel" style="color:green;"></span>: <a href="http://www.freddiemac.com/finance/fmhpi/current/excel/states.xls"><em>one for the national and state indices</em></a> and <span class="icon-file-excel" style="color:green;"></span>: <a href="http://www.freddiemac.com/finance/fmhpi/current/excel/msas_new.xls"><em>one for the metro indices</em></a>. We’ll need them both for what follows.</p>
+</div>
+<div id="fmhpi-data-download" class="section level3">
+<h3>FMHPI data download:</h3>
+<p><img src="{{ site.url }}/img/charts_may_8_2016/fmhpi2.PNG" alt="FMHPI 1" style="width: 550px;"/></p>
+<p>There are R packages that can manipulate data in <span class="icon-file-excel" style="color:green;"></span> .xls or <span class="icon-file-excel" style="color:green;"></span> .xlsx file formats. I’m not planning on getting proficient at that, instead I’m going to open up my excel bag of tricks to handle some data preparation. First, let’s consider what we get when we download those house price spreadsheets.</p>
+</div>
+<div id="state-file-layout" class="section level3">
+<h3>State file layout</h3>
+<p><img src="{{ site.url }}/img/charts_may_8_2016/fmhpi3.PNG" alt="FMHPI 1" style="width: 550px;"/></p>
+</div>
+<div id="metro-file-layout" class="section level3">
+<h3>Metro file layout</h3>
+<p><img src="{{ site.url }}/img/charts_may_8_2016/fmhpi4.PNG" alt="FMHPI 1" style="width: 550px;"/></p>
+</div>
+<div id="comments-on-file-layouts" class="section level3">
+<h3>Comments on file layouts</h3>
+<p>Now these are not <a href="https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html"><em>tidy data</em></a>. Fortunately, the structure can be pretty quickly wrangled within excel to make our R life easier. My strategy is to employ some <span class="icon-file-excel" style="color:green;"></span> Excel tricks to tidy this data. I’ve used the gather tools in the tidyr pacakge and they do work well, but as I’m going to write out a .txt file anyway so I can avoid using a <span class="icon-file-excel" style="color:green;"></span> .xls file I might as well use my excel trick to tidy these data.</p>
+</div>
+</div>
+<div id="an-excel-trick-to-tidy-data" class="section level2">
+<h2>An excel trick to tidy data</h2>
+<p>Our goals is to convert the files to a tidy dataset.</p>
+<p><img src="{{ site.url }}/img/charts_may_8_2016/fmhpi6.PNG" alt="FMHPI 6" style="width: 550px;"/></p>
+<p>And we’re going to do it in about 10 seconds:</p>
+<p><img src="{{ site.url }}/img/charts_may_8_2016/tidy1.gif" alt="FMHPI 6" style="width: 550px;"/></p>
+<p>This is one of my favorite <span class="icon-file-excel" style="color:green;"></span> Excel tricks. You could of course, achieve this just as fast using the gather function in tidyr. But in case you are an <span class="icon-file-excel" style="color:green;"></span> Excel user, you can see the details of what I did in the <a href="https://www.youtube.com/watch?v=pUXJLzqlEPk"><em>this youtube video</em></a>.</p>
+<p>Because the metro data is laid out in two worksheets, you’ll have to do a little more leg work to get the metro data laid out (and you might have convert the files to .xlsx to handle the extra rows). Also, I’m going to convert the date field, which isn’t a date in the <span class="icon-file-excel" style="color:green;"></span> Excel file to a year, month, and date column. Ultimately, we’ll want a file that looks like this:</p>
+<p><img src="{{ site.url }}/img/charts_may_8_2016/fmhpi7.PNG" alt="FMHPI 6" style="width: 740px;"/></p>
+<p>and this for the metros:</p>
+<p><img src="{{ site.url }}/img/charts_may_8_2016/fmhpi8.PNG" alt="FMHPI 6" style="width: 740px;"/></p>
+<p>For the metros I included variables called “states” and “state1”, which were created by parsing the metro name. The variable “states” contains a list of all states that the metro area includes, while “state1” includes the primary state (first one listed by OMB). For example, the New York City metro area (New York-Newark-Jersey City, NY-NJ-PA) includes parts of New York, New Jersey, and Pennsylvania, but the primary state is New York. This field could be helpful if we want to group the metros.</p>
+<p>Then I save these files as .txt files to read into R. You can download the .txt files here (note I only included the NSA national index)</p>
+<ol style="list-style-type: decimal">
+<li><a href="%7B%7B%20site.url%20%7D%7D/img/charts_may_8_2016/fmhpi.txt"><em>state and national called fmhpi.txt</em></a></li>
+<li><a href="%7B%7B%20site.url%20%7D%7D/img/charts_may_8_2016/fmhpi2.txt"><em>metro called fmhpi2.txt</em></a></li>
+</ol>
+<pre class="r"><code>#Load some packages
+library(data.table, warn.conflicts = FALSE, quietly=TRUE)
+library(ggplot2, warn.conflicts = FALSE, quietly=TRUE)
+library(dplyr, warn.conflicts = FALSE, quietly=TRUE)</code></pre>
+<pre><code>## Warning: package &#39;dplyr&#39; was built under R version 3.4.2</code></pre>
+<pre class="r"><code>library(zoo, warn.conflicts = FALSE, quietly=TRUE)
+library(ggrepel, warn.conflicts = FALSE, quietly=TRUE)</code></pre>
+<pre><code>## Warning: package &#39;ggrepel&#39; was built under R version 3.4.2</code></pre>
+<pre class="r"><code>library(ggthemes, warn.conflicts = FALSE, quietly=TRUE)
+library(scales, warn.conflicts = FALSE, quietly=TRUE)
+library(animation, warn.conflicts = FALSE, quietly=TRUE)
+library(grid, warn.conflicts = FALSE, quietly=TRUE)
+library(tidyr, warn.conflicts = FALSE, quietly=TRUE)</code></pre>
+<pre><code>## Warning: package &#39;tidyr&#39; was built under R version 3.4.2</code></pre>
+<p>Now we’ll need to load and prepare some data. We’ll do this using the <a href="https://cran.r-project.org/web/packages/data.table/index.html"><em>data.table</em></a> package to set up our data.</p>
+<pre class="r"><code>#load national &amp; state data
+statedata &lt;- fread(&quot;data/fmhpi.txt&quot;)
+statedata$date&lt;-as.Date(statedata$date, format=&quot;%m/%d/%Y&quot;)
+
+#Now uses some data table caclulations to compute percent changes in house prices by state/metro
+statedata&lt;-statedata[,hpa:=c(NA,((1+diff(hpi)/hpi))^12)-1,by=state]  
+statedata&lt;-statedata[,hpa12:=c(rep(NA,12),((1+diff(hpi,12)/hpi))^1)-1,by=state]  
+statedata&lt;-statedata[,hpa3:=c(rep(NA,12),((1+diff(hpi,3)/hpi))^4)-1,by=state]  
+
+#create lags of state
+statedata&lt;-statedata[, hpi12 :=  shift(hpi,12), by=state]
+
+#compute rolling min/max
+statedata&lt;-statedata[, hpi12min:=rollapply(hpi, 12, min,fill=NA, na.rm=FALSE,align=&#39;right&#39;), by=state]
+statedata&lt;-statedata[, hpi12max:=rollapply(hpi, 12, max,fill=NA, na.rm=FALSE,align=&#39;right&#39;), by=state]
+
+#Do the same for metro data:
+
+#load metro data:
+metrodata &lt;- fread(&quot;data/fmhpi2.txt&quot;)
+metrodata$date&lt;-as.Date(metrodata$date, format=&quot;%m/%d/%Y&quot;)
+
+metrodata&lt;-metrodata[,hpa:=c(NA,((1+diff(hpi)/hpi))^12)-1,by=metro]  
+metrodata&lt;-metrodata[,hpa12:=c(rep(NA,12),((1+diff(hpi,12)/hpi))^1)-1,by=metro]  
+metrodata&lt;-metrodata[,hpa3:=c(rep(NA,12),((1+diff(hpi,3)/hpi))^4)-1,by=metro]  
+
+#create lags of metros
+metrodata&lt;-metrodata[, hpi12 :=  shift(hpi,12), by=metro]
+
+#compute 12-month rolling min/max
+metrodata&lt;-metrodata[, hpi12min:=rollapply(hpi, 12, min,fill=NA, na.rm=FALSE,align=&#39;right&#39;), by=metro]
+metrodata&lt;-metrodata[, hpi12max:=rollapply(hpi, 12, max,fill=NA, na.rm=FALSE,align=&#39;right&#39;), by=metro]</code></pre>
+<p>In the code above we take advantage of the data table structure and some functions to compute some time series calculations that will be helpful for the plots we’ll make later. For example, the diff function is used together with some exponentiation to calculate the monthly, quarterly, and annual house price appreciation (all annualized). I also used the rollapply function to caclulate a rolling 12-month min and max (backward looking by using align=‘right’).</p>
+<p>Before we close out this data preparation blog post, let’s at least make one plot from the data. The code below generates a time series plot for the national index from January 2000 to March 2016.</p>
+<p><img src="/post/2016-05-08-visual-meditations-on-house-prices-part1_files/figure-html/fig-main1-1.png" width="480" /></p>
+<p>The chart shows the rise, fall, and recovery of national house prices. In this index house prices are still a little below their nominal peak, but trending higher. In the follow-up posts, we’ll get creative with the data visualizations.</p>
+<p><a href="../%202016-05-08-visual-meditations-on-house-prices-part2">Click here for Part 2: sparklines and dots (animated)</a></p>
+</div>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2016/05/08/visual-meditations-on-house-prices-part2/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2016/05/08/visual-meditations-on-house-prices-part2/">Visual meditations on house prices, Part 2: sparklines and dots (animated)</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="/2016/05/08/visual-meditations-on-house-prices/">Visual meditations on house prices</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="/2016/05/08/visual-meditations-on-house-prices/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/dataviz/">dataviz</a>, 
+            
+                <a href="/tags/house-prices/">House prices</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2016%2f05%2f08%2fvisual-meditations-on-house-prices-part1%2f&text=Visual%20meditations%20on%20house%20prices%2c%20Part%201%3a%20data%20wrangling via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2016%2f05%2f08%2fvisual-meditations-on-house-prices-part1%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+

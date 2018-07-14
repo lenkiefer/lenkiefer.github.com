@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Chart Jobs Friday using R.">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>Charting Jobs Friday with R &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com//img/charts_mar_11_2018/part.png" >
+     
+    <meta property="og:title" content="Charting Jobs Friday with R">
+    <meta property="og:description" content="Chart Jobs Friday using R.">
+
+<div class="header">
+  <h1>Charting Jobs Friday with R</h1>
+  <h2>Chart Jobs Friday using R.</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/03/11</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/economy">economy</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <p>LAST FRIDAY WAS JOBS FRIDAY, the day when the U.S. Bureau of Labor Statistics (BLS) releases its monthly <a href="https://www.bls.gov/news.release/empsit.nr0.htm">employment situation report</a>. This report is blanketed with media coverage and economist and financial analysts all over the world pay close attention to the report. The employment situation gives a read on trends in the world’s largest economy’s labor market. It also provides a clue about how monetary policy might unfold, affecting bond yields around the world.</p>
+<p>In this post I want to share some code to plot trends from the report with <a href="https://www.r-project.org/">R</a>. Note that true Jobs Friday aficionados will have to modify this code, because the data is only updated with a lag. With so many folks dissecting the reports, speed might be desired and so you’d have to modify this approach to have the freshest charts ready to go in time to join the <a href="https://twitter.com/lenkiefer/status/969347113976041472">resonance room</a>.</p>
+<div id="data" class="section level2">
+<h2>Data</h2>
+<p>We’ll use data form two sources. As we have in recent posts (see for example <a href="../../../../2017/12/11/plotting-u-s-macroeconomic-trends-with-fred-and-r/">here</a>), we’ll gather data via <a href="https://fred.stlouisfed.org/">FRED</a>. See <a href="../../../../2017/12/11/plotting-u-s-macroeconomic-trends-with-fred-and-r/">here</a> for more on using the <a href="https://CRAN.R-project.org/package=quantmod">quantmod</a> and <a href="https://CRAN.R-project.org/package=tidyquant">tidyquant</a> packages to work with FRED data.</p>
+<p>But we’ll also go straight to the BLS webpage <a href="https://www.bls.gov/">BLS.gov</a> and grab data directly from some flat files they provide. That will be similar to what we did <a href="../../../../2017/11/07/jolts-a-dataviz-trilogy/">in this post on the JOLTS data</a>. Certain data we want isn’t available in FRED (at least not that I could find). Fortunately the text files from BLS are easy to work with.</p>
+</div>
+<div id="get-data" class="section level2">
+<h2>Get data</h2>
+<p>The code below will get our data from FRED. This is a straightforward application of the tidyquant approach, see the posts above for more details.</p>
+<pre class="r"><code>#####################################################################################
+## Step 1: Load Libraries ###
+#####################################################################################
+library(tidyverse)
+library(tidyquant)
+library(scales)
+library(tibbletime)
+library(data.table)
+library(cowplot)
+
+
+
+#####################################################################################
+## Step 2: go get data ###
+#####################################################################################
+
+# Set up tickers
+tickers&lt;- c(&quot;PAYEMS&quot;, # nonfarm payroll employment
+            &quot;UNRATE&quot;, # unemployment rate
+            &quot;CIVPART&quot;, # civilian labor force pariticipation rate
+            &quot;EMRATIO&quot;, # employment-to-population ratio
+            &quot;NROU&quot;  ) # estimate of natural rate of unemployment from U.S. Congressional Budget Office
+mynames &lt;- c(&quot;Nonfarm Payroll Employment&quot;,
+            &quot;Unemploymen Rate&quot;,
+            &quot;Labor Force Participation Rate&quot;,
+            &quot;Employment-to-Population Ratio&quot;,
+            &quot;Natural Rate of Unemployment&quot;)
+
+mytickers&lt;- data.frame(symbol=tickers,varname=mynames,  stringsAsFactors =FALSE)
+
+
+# download data via FRED 
+df&lt;-tq_get(tickers,                         # get selected symbols
+            get=&quot;economic.data&quot;,             # use FRED
+            from=&quot;1948-01-01&quot;)               # go from 1954 forward
+
+df &lt;- left_join(df, mytickers, by=&quot;symbol&quot;)
+
+
+#####################################################################################
+## Step 3: get data ready for analysis ###
+#####################################################################################
+
+df %&gt;% select(-varname) %&gt;% 
+  spread(symbol,price) -&gt; df2
+
+
+# Convert quarterly naturla rate (NROU) data to monthly data by &quot;filling down&quot; using na.locf
+
+df2 %&gt;% 
+  mutate(NROU2=na.locf(NROU,na.rm=F)) %&gt;% 
+  mutate(UGAP2=UNRATE-NROU2,
+         dj=c(NA,diff(PAYEMS)),
+         # create indicators for shaded plot
+         up=ifelse(UNRATE&gt;NROU2,UNRATE,NROU2),
+         down=ifelse(UNRATE&lt;NROU2,UNRATE,NROU2)) -&gt; df2
+
+# Set up recession indicators
+
+recessions.df = read.table(textConnection(
+  &quot;Peak, Trough
+  1948-11-01, 1949-10-01
+  1953-07-01, 1954-05-01
+  1957-08-01, 1958-04-01
+  1960-04-01, 1961-02-01
+  1969-12-01, 1970-11-01
+  1973-11-01, 1975-03-01
+  1980-01-01, 1980-07-01
+  1981-07-01, 1982-11-01
+  1990-07-01, 1991-03-01
+  2001-03-01, 2001-11-01
+  2007-12-01, 2009-06-01&quot;), sep=&#39;,&#39;,
+  colClasses=c(&#39;Date&#39;, &#39;Date&#39;), header=TRUE)</code></pre>
+<p>Now we can make some plots.</p>
+<div id="employment-growth" class="section level3">
+<h3>Employment growth</h3>
+<p>Let’s start by looking at monthly nonfarm job gains.</p>
+<pre class="r"><code>#####################################################################################
+## Step 4: make some plots ###
+#####################################################################################
+
+
+ggplot(data=filter(df2,year(date)&gt;1949), 
+       aes(x=date,y=dj,
+           color=ifelse(dj&gt;0,&quot;up m/m&quot;, 
+                        ifelse(dj==0,&quot;no change&quot;, &quot;down m/m&quot;)),
+           fill=ifelse(dj&gt;0,&quot;up m/m&quot;, 
+                       ifelse(dj==0,&quot;no change&quot;, &quot;down m/m&quot;))))+
+  geom_col(alpha=0.85,color=NA)+
+  #eom_rug()+
+  scale_y_continuous(labels=scales::comma,sec.axis=dup_axis())+
+  theme_minimal()+
+  scale_color_manual(values=c(&quot;#d73027&quot;,&quot;#4575b4&quot;),
+                     name=&quot;Monthly change&quot;)+
+  scale_fill_manual(values=c(&quot;#d73027&quot;,&quot;#4575b4&quot;),
+                    name=&quot;Monthly change&quot;)+
+  geom_rug(sides=&quot;b&quot;)+
+  scale_x_date(lim=as.Date(c(&quot;1950-01-01&quot;,&quot;2018-12-31&quot;)),date_breaks=&quot;5 years&quot;,date_labels=&quot;%Y&quot;)+
+  #scale_x_date(date_labels=&quot;%Y&quot;,date_breaks=&quot;1 year&quot;)+
+  theme(legend.position=&quot;none&quot;,
+        plot.caption=element_text(hjust=0),
+        plot.subtitle=element_text(size=14,face=&quot;italic&quot;,color=&quot;darkgray&quot;),
+        plot.title=element_text(size=14,face=&quot;bold&quot;,color=&quot;black&quot;))+
+  labs(x=&quot;&quot;,y=&quot;&quot;,
+       title=&quot;89 consecutive months of positive month-over-month job growth&quot;,
+       subtitle=&quot;Monthly change in U.S. nonfarm employment (1000s, SA)&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Bureau of Labor Statistics&quot;)</code></pre>
+<p><img src="/post/2018-03-11-charting-jobs-friday-with-r_files/figure-html/plot-01-03-11-2018-1.png" width="960" /></p>
+</div>
+<div id="unemployment-rate" class="section level3">
+<h3>Unemployment rate</h3>
+<p>Now let’s chart the unemployment rate relative to the Congressional Budget Office’s estimate of the long-term natural rate of unemployment.</p>
+<pre class="r"><code>ggplot(data=filter(df2,!is.na(NROU2)),aes(x=date,y=UNRATE))+
+  geom_rect(data=recessions.df, inherit.aes=F, aes(xmin=Peak, xmax=Trough, ymin=-Inf, ymax=+Inf), fill=&#39;darkgray&#39;, alpha=0.5) +
+  geom_line(color=&quot;black&quot;)+
+  geom_line(linetype=2,aes(y=NROU2))+
+  geom_ribbon(aes(ymin=UNRATE,ymax=down),fill=&quot;#d73027&quot;,alpha=0.5)+
+  geom_ribbon(aes(ymin=UNRATE,ymax=up),fill=&quot;#4575b4&quot;,alpha=0.5)  +
+  scale_x_date(date_breaks=&quot;5 years&quot;,date_labels=&quot;%Y&quot;)+
+  scale_y_continuous(sec.axis=dup_axis())+
+  theme_minimal(base_size=8)+
+  theme(legend.position=&quot;top&quot;,
+        plot.caption=element_text(hjust=0),
+        plot.subtitle=element_text(face=&quot;italic&quot;),
+        plot.title=element_text(size=16,face=&quot;bold&quot;))+
+  labs(x=&quot;&quot;,y=&quot;Percent&quot;,
+       title=&quot;U.S. Unemployment Rate vs Natural Rate of Unemployment&quot;,
+       subtitle=&quot;Solid line Unemployment Rate, dotted line Long-term Natural Rate of Unemployment&quot;,
+       caption=&quot;@lenkiefer Data Source: U.S. Bureau of Labor Statistics, U.S. Congressional Budget Office,shaded bars NBER Recessions\nNatural Rate of Unemployment (Long-Term) retrieved from FRED, Federal Reserve Bank of St. Louis; https://fred.stlouisfed.org/series/NROU, March 10, 2018&quot;)+
+  geom_rug(aes(color=ifelse(UNRATE&lt;=NROU2,&quot;Below or Equal&quot;,&quot;Above&quot;)),sides=&quot;b&quot;)+
+  scale_color_manual(values=c(&quot;#d73027&quot;,&quot;#4575b4&quot;),name=&quot;Unemployment Rate Above/Below Natural Rate &quot;)</code></pre>
+<p><img src="/post/2018-03-11-charting-jobs-friday-with-r_files/figure-html/plot-02-03-11-2018-1.png" width="960" /></p>
+<p>The unemployment rate is below the CBO’s estimate natural rate of unemployment, but wage growth has been tepid. What’s going on? Let’s look at the labor force participation rate and the employment-to-population ratio</p>
+<pre class="r"><code>ggplot(data=df2, aes(x=date,y=CIVPART,label=CIVPART))+
+  geom_rect(data=recessions.df, inherit.aes=F, aes(xmin=Peak, xmax=Trough, ymin=-Inf, ymax=+Inf), fill=&#39;darkgray&#39;, alpha=0.5) +
+  geom_line(size=1.05)+theme_minimal()+
+  geom_point(data=filter(df2,date==max(dfp$date)),size=2,alpha=0.75)+
+  geom_text(data=filter(df2,date==max(dfp$date)),fontface=&quot;bold&quot;,size=4,nudge_y=.15)+
+  scale_x_date(date_breaks=&quot;1 years&quot;,date_labels=&quot;%Y&quot;)+
+  scale_y_continuous(sec.axis=dup_axis())+
+  theme(legend.position=&quot;none&quot;,
+        plot.caption=element_text(hjust=0),
+        plot.subtitle=element_text(face=&quot;italic&quot;),
+        plot.title=element_text(size=16,face=&quot;bold&quot;))+
+  labs(x=&quot;&quot;,y=&quot;&quot;,title=&quot;Labor Force Participation Rate&quot;,
+       subtitle=&quot;in percentage points (seasonally adjusted)&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Bureau of Labor Statistics, shaded bars NBER Recessions\nCivilian Labor Force Participation Rate [CIVPART], retrieved from FRED, Federal Reserve Bank of St. Louis; \nhttps://fred.stlouisfed.org/series/CIVPART, March 11, 2018.&quot;)+
+  coord_cartesian(xlim=as.Date(c(&quot;2000-01-01&quot;,&quot;2018-03-01&quot;)),ylim=c(62,68))</code></pre>
+<p><img src="/post/2018-03-11-charting-jobs-friday-with-r_files/figure-html/plot-03-03-11-2018-1.png" width="960" /></p>
+<pre class="r"><code>ggplot(data=df2, aes(x=date,y=EMRATIO,label=EMRATIO))+
+  geom_rect(data=recessions.df, inherit.aes=F, aes(xmin=Peak, xmax=Trough, ymin=-Inf, ymax=+Inf), fill=&#39;darkgray&#39;, alpha=0.5) +
+  geom_line(size=1.05)+theme_minimal()+
+  geom_point(data=filter(df2,date==max(dfp$date)),size=2,alpha=0.75)+
+  geom_text(data=filter(df2,date==max(dfp$date)),fontface=&quot;bold&quot;,size=4,nudge_y=.25)+
+  scale_x_date(date_breaks=&quot;1 years&quot;,date_labels=&quot;%Y&quot;)+
+  scale_y_continuous(sec.axis=dup_axis())+
+  theme(legend.position=&quot;none&quot;,
+        plot.caption=element_text(hjust=0),
+        plot.subtitle=element_text(face=&quot;italic&quot;),
+        plot.title=element_text(size=16,face=&quot;bold&quot;))+
+  labs(x=&quot;&quot;,y=&quot;&quot;,title=&quot;Employment-to-Population Ratio &quot;,
+       subtitle=&quot;in percentage points (seasonally adjusted)&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Bureau of Labor Statistics, shaded bars NBER Recessions\nEmployment-Population Ratio [EMRATIO], retrieved from FRED, Federal Reserve Bank of St. Louis;\nhttps://fred.stlouisfed.org/series/EMRATIO, March 11, 2018.&quot;)+
+  coord_cartesian(xlim=as.Date(c(&quot;2000-01-01&quot;,&quot;2018-03-01&quot;)),ylim=c(58,65))</code></pre>
+<p><img src="/post/2018-03-11-charting-jobs-friday-with-r_files/figure-html/plot-03-03-11-2018-2.png" width="960" /></p>
+<p>The participation ratio is partially affected by an aging population. It might better to restrict our attention to the prime working age population, those ages 25 to 54. We can get that data from FRED but I want to compare Men and Women. I couldn’t find that data in FRED, but the BLS has it. Let’s go get it from a flat file.</p>
+<p>There is a file containing all the series_id for all the variables the BLS provides. It’s a large file, but I just want to find Participation Rates, so I’ll use a regular expression and some variable codes</p>
+<pre class="r"><code>#####################################################################################
+## Step 4: get data direct from BLS ###
+#####################################################################################
+
+dfs&lt;-fread(&quot;https://download.bls.gov/pub/time.series/ln/ln.series&quot;)
+
+codes&lt;-dfs[grepl(&quot;Participation Rate&quot;, series_title) &amp;   # use regular expression
+             ages_code==33 &amp;                             # only ags 25 to 54
+             periodicity_code ==&quot;M&quot; &amp;                    # only monthly frequence
+             seasonal==&quot;S&quot;                               # only Seasonally adjusted
+           ]
+codes$var &lt;- c(&quot;All&quot;,&quot;Men&quot;,&quot;Women&quot;)
+codes &lt;- select(codes, series_id, series_title, var)
+
+# get all data (large file)
+df.all&lt;-fread(&quot;https://download.bls.gov/pub/time.series/ln/ln.data.1.AllData&quot;)
+
+# filter data
+dfp&lt;-df.all[series_id %in% codes$series_id,]
+#create date variable
+dfp[,month:=as.numeric(substr(dfp$period,2,3))]
+dfp$date&lt;- as.Date(ISOdate(dfp$year,dfp$month,1) ) #set up date variable
+
+dfp$v&lt;-as.numeric(dfp$value)
+# join on variable names, drop unused variables, convert to data.table
+left_join(dfp, select(codes, series_id,series_title,var), by=&quot;series_id&quot;) %&gt;%  select(series_id,series_title,var,date,v) %&gt;% data.table() -&gt; dfp</code></pre>
+<p>Let’s take a look at our cleaned up data.</p>
+<pre class="r"><code>str(dfp)</code></pre>
+<pre><code>## Classes &#39;data.table&#39; and &#39;data.frame&#39;:   2526 obs. of  5 variables:
+##  $ series_id   : chr  &quot;LNS11300060&quot; &quot;LNS11300060&quot; &quot;LNS11300060&quot; &quot;LNS11300060&quot; ...
+##  $ series_title: chr  &quot;(Seas) Labor Force Participation Rate - 25-54 yrs.&quot; &quot;(Seas) Labor Force Participation Rate - 25-54 yrs.&quot; &quot;(Seas) Labor Force Participation Rate - 25-54 yrs.&quot; &quot;(Seas) Labor Force Participation Rate - 25-54 yrs.&quot; ...
+##  $ var         : chr  &quot;All&quot; &quot;All&quot; &quot;All&quot; &quot;All&quot; ...
+##  $ date        : Date, format: &quot;1948-01-01&quot; &quot;1948-02-01&quot; ...
+##  $ v           : num  64.2 64.6 64.3 64.8 64.3 65 65.4 65 65.4 65 ...
+##  - attr(*, &quot;.internal.selfref&quot;)=&lt;externalptr&gt;</code></pre>
+<p>Now we can plot it. Both recently…</p>
+<pre class="r"><code>ggplot(data=dfp, aes(x=date,y=v,color=var, label=var))+
+  geom_rect(data=recessions.df, inherit.aes=F, aes(xmin=Peak, xmax=Trough, ymin=-Inf, ymax=+Inf), fill=&#39;darkgray&#39;, alpha=0.5) +
+  geom_line(size=1.05)+theme_minimal()+
+  geom_point(data=filter(dfp,date==max(dfp$date)),size=2,alpha=0.75)+
+  geom_text(data=filter(dfp,date==max(dfp$date)),fontface=&quot;bold&quot;,size=4,nudge_y=1)+
+  scale_x_date(date_breaks=&quot;1 years&quot;,date_labels=&quot;%Y&quot;)+
+  scale_y_continuous(sec.axis=dup_axis())+
+  theme(legend.position=&quot;none&quot;,
+        plot.caption=element_text(hjust=0),
+        plot.subtitle=element_text(face=&quot;italic&quot;),
+        plot.title=element_text(size=16,face=&quot;bold&quot;))+
+  labs(x=&quot;&quot;,y=&quot;&quot;,title=&quot;Labor Force Participation Rate: Prime Working Age (25-54)&quot;,
+       subtitle=&quot;in percentage points (seasonally adjusted)&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Bureau of Labor Statistics, shaded bars NBER Recessions&quot;)+
+  coord_cartesian(xlim=as.Date(c(&quot;2000-01-01&quot;,&quot;2018-03-01&quot;)),ylim=c(70,95))</code></pre>
+<p><img src="/post/2018-03-11-charting-jobs-friday-with-r_files/figure-html/plot-04-03-11-2018-1.png" width="960" /></p>
+<p>…and over history.</p>
+<pre class="r"><code>ggplot(data=dfp, aes(x=date,y=v,color=var, label=var))+
+  geom_rect(data=recessions.df, inherit.aes=F, aes(xmin=Peak, xmax=Trough, ymin=-Inf, ymax=+Inf), fill=&#39;darkgray&#39;, alpha=0.5) +
+  geom_line(size=1.05)+theme_minimal()+
+  geom_point(data=filter(dfp,date==max(dfp$date)),size=2,alpha=0.75)+
+  geom_text(data=filter(dfp,date==max(dfp$date)),fontface=&quot;bold&quot;,size=4,nudge_y=2)+
+  scale_x_date(date_breaks=&quot;5 years&quot;,date_labels=&quot;%Y&quot;)+
+  scale_y_continuous(sec.axis=dup_axis())+
+  #scale_color_mycol(palette=&quot;main&quot;,discrete=T,name=&quot;Labor force participation rate (%)&quot;)+
+  theme(legend.position=&quot;none&quot;,
+        plot.caption=element_text(hjust=0),
+        plot.subtitle=element_text(face=&quot;italic&quot;),
+        plot.title=element_text(size=16,face=&quot;bold&quot;))+
+  labs(x=&quot;&quot;,y=&quot;&quot;,title=&quot;Labor Force Participation Rate: Prime Working Age (25-54)&quot;,
+       subtitle=&quot;in percentage points (seasonally adjusted)&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Bureau of Labor Statistics, shaded bars NBER Recessions&quot;)</code></pre>
+<p><img src="/post/2018-03-11-charting-jobs-friday-with-r_files/figure-html/plot-05-03-11-2018-1.png" width="960" /></p>
+<p>Quite a lot of stories there.</p>
+</div>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2018/03/05/forecasting-and-deciding-binary-outcomes-under-asymmetric-information/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2018/03/05/forecasting-and-deciding-binary-outcomes-under-asymmetric-information/">Forecasting and deciding binary outcomes under asymmetric information</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="/2018/03/12/forecasting-game/">Forecasting Game</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="/2018/03/12/forecasting-game/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/economy/">economy</a>, 
+            
+                <a href="/tags/dataviz/">dataviz</a>, 
+            
+                <a href="/tags/r/">R</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2018%2f03%2f11%2fcharting-jobs-friday-with-r%2f&text=Charting%20Jobs%20Friday%20with%20R via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2018%2f03%2f11%2fcharting-jobs-friday-with-r%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+

@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>Forecasting &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+  <link rel="alternate" type="application/rss+xml" title="Len Kiefer" href="/tags/forecasting/index.xml" />
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="/tags/forecasting/index.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+    </li>
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Forecasting">
+    <meta property="og:description" content="">
+
+<div class="header">
+  <h1>Forecasting</h1>
+</div>
+
+<div class="content">
+  
+    <article>
+  <header>
+    <h2><a href="/2018/06/10/kalman-filter-for-a-dynamic-linear-model-in-r/">Kalman Filter for a dynamic linear model in R</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/06/10</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/forecasting">forecasting</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  As an economist with a background in econometrics and forecasting I recognize that predictions are often (usually?) an exercise in futility. Forecasting, after all, is hard. While non-economists have great fun pointing this futility out, many critics miss out on why it’s so hard.
+There are at least two reasons why forecasting is hard. The first, the unknown future, is pretty well understood. Empirical regularities with much forecasting power in the social sciences are hard to come by and are rarely stable.
+  </p>
+
+  
+  <footer>
+    <a href="/2018/06/10/kalman-filter-for-a-dynamic-linear-model-in-r/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="/2018/03/12/forecasting-game/">Forecasting Game</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/03/12</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/forecasting">forecasting</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/fun">fun</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  LET’S PICK BACK UP where we left off and think about communicating forecast results. To help guide our thinking, let’s set up a little game.
+Basic setupLike last time we’re going to focus on a situation where a forecaster observes some information about the world and makes an announcement about a future binary outcome. A decision maker observes the forecaster’s announcement and takes a binary action. Then the outcome is realized and the forecaster receives a payoff.
+  </p>
+
+  
+  <footer>
+    <a href="/2018/03/12/forecasting-game/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="/2018/03/05/forecasting-and-deciding-binary-outcomes-under-asymmetric-information/">Forecasting and deciding binary outcomes under asymmetric information</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/03/05</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/statistics">statistics</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/forecasting">forecasting</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  LAST WEEK IN THE WALL STREET JOURNAL an article LINK talked about how pundits can strategically make probabilistic forecasts. It seems 40% is a sort of magic number, where it’s high enough that if the event comes true you can claim credit as a forecaster, but if it doesn’t happen, you still gave it less than 50/50 odds.
+Since I’m often asked to make forecasts I’m interested in this problem. Under what conditions is a 40 percent probability an optimal forecast?
+  </p>
+
+  
+  <footer>
+    <a href="/2018/03/05/forecasting-and-deciding-binary-outcomes-under-asymmetric-information/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="/2017/10/28/dma-part-2/">A closer look at forecasting recessions with dynamic model averaging</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2017/10/28</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/economy">economy</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/forecasting">forecasting</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/statistics">statistics</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  BACK WE GO INTO THE VASTY DEEP. LAST TIME we introduced the idea of using dynamic model averaging to forecast recessions. I was so excited about the new approach that I didn’t take the time to break down what was going on with it. In this post we’ll look more closely at what’s happening with the dma packaged when we try to forecast recessions.
+Per usual we’ll do it with R and I’ll include code so you can follow along.
+  </p>
+
+  
+  <footer>
+    <a href="/2017/10/28/dma-part-2/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="/2017/10/26/predicting-recessions-with-dynamic-model-averaging/">Forecasting recessions with dynamic model averaging</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2017/10/26</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/economy">economy</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/forecasting">forecasting</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/statistics">statistics</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  HERE THE LITERATURE IS VASTY DEEP. In this post we’ll dip our toes, every so slightly, into the dark waters of macroeconometric forecasting. I’ve been studying some techniques and want to try them out. I’m still at the learning and exploring stage, but let’s do it together.
+In this post we’ll conduct an exercise in forecasting U.S. recessions using several approaches. Per usual we’ll do it with R and I’ll include code so you can follow along.
+  </p>
+
+  
+  <footer>
+    <a href="/2017/10/26/predicting-recessions-with-dynamic-model-averaging/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="/2017/08/27/forecast/">Forecasting is hard (work)</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2017/08/27</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/economy">economy</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/forecasting">forecasting</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/animation">animation</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  IN THIS POST WE WILL STUDY FORECASTS OF US ECONOMIC CONDITIONS.
+Niels Bohr quipped:
+Prediction is very difficult, especially if it’s about the future.
+I’m a macroeconomist by training, and my day job sometimes requires me to forecast the future so I can relate. Predicting the future can be quite difficult.
+In this post, we’ll analyze forecasts of economic conditions from professional forecasters using R to wrangle the data and construct plots.
+  </p>
+
+  
+  <footer>
+    <a href="/2017/08/27/forecast/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+</div>
+
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>

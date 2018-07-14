@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Friends don&#39;t let freinds use dual y axis charts, but this might be an exception">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>Spotlight on housing affordability &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com//img/charts_may_08_2018/spotlight.png" >
+     
+    <meta property="og:title" content="Spotlight on housing affordability">
+    <meta property="og:description" content="Friends don&#39;t let freinds use dual y axis charts, but this might be an exception">
+
+<div class="header">
+  <h1>Spotlight on housing affordability</h1>
+  <h2>Friends don&#39;t let freinds use dual y axis charts, but this might be an exception</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/05/08</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/housing">housing</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <p>IN MY LINE OF WORK, (finance/economics) you see a lot of dual axis line charts. I am <a href="https://twitter.com/lenkiefer/status/868534823362678784">of the opinion</a> that dual y axis charts are sort of evil. But in this post I’m going to make one. It’s for a totally legit reason though.</p>
+<p>Like in an <a href="../../../../2018/05/02/what-s-up-vsup-that-s-what-s-up/">earlier post</a> we’ll make a graph similar to one I saw on <a href="https://xeno.graphics/">xenographics</a>. Xenographics gives examples of and links to “weird, but (sometimes) useful charts”. The examples xenographics gives are <a href="https://xeno.graphics/bivariate-tilegrid-map/">undoubtedly interesting</a> and might help inspire you if you’re looking for something new.</p>
+<p>Per usual, let’s make a graph with <a href="https://www.r-project.org/">R</a>.</p>
+<div id="housing-affordability" class="section level1">
+<h1>Housing affordability</h1>
+<p>I’m scheduled to give <a href="https://www.nar.realtor/educsessmid.nsf/allpages/1328298?opendocument&amp;sf188870616=1">a talk</a> on house price trends. During my talk I’m going to compare recent house price trends to income. For recent trends <a href="https://twitter.com/lenkiefer/status/956199271187050496">see this tweet thread</a>.</p>
+<p>For my upcoming talk I want a special kind of graphic to compare house prices to income. After looking around xenographics I decided that <a href="https://xeno.graphics/spotlight-chart/">spotlight charts</a> might be a good visual for my talk. See here for the <a href="http://krisztinaszucs.com/my-product/hollywood/">original dataviz</a>.</p>
+<p>But in order to make this chart with R we’re going to need to use a dual axis. Fortunately in <a href="http://ggplot2.org/">recent versions of ggplot2</a> ther’es an ability to add a secondary y axis despite potential issues with them. See for example, <a href="https://blog.datawrapper.de/dualaxis/">this post</a> by DataWrapper’s Lisa Charlotte Rost <a href="https://twitter.com/lisacrost">on Twitter</a> that looks at these charts.</p>
+</div>
+<div id="the-plan" class="section level1">
+<h1>The plan</h1>
+<p>We’re going to compare median household income to median house prices by metro area. We’ll use a spotlight graph to expand the ratio by metro into its numerator and denominator. The ratio will serve as the light source, while the numerator and denominator will define the cone extending from the ratio.</p>
+<div id="get-data" class="section level2">
+<h2>Get data</h2>
+<p>We will use the <a href="https://www.census.gov/programs-surveys/acs/">acs</a> packaged to access the U.S. Census Bureau’s <a href="https://www.census.gov/programs-surveys/acs/">American Community Survey (ACS)</a> API and get data. Note for this to work for you you’ll need to get an <a href="https://api.census.gov/data/key_signup.html">API key</a> from the U.S. Census Bureau.</p>
+<p>The latest data from the ACS is for 2016 (in my talk I’ll use more recent data from other sources). Let’s access the 1-year estimates and gather data on metropolitan stastical area (MSA) median household income and median house values. For other ways to visualize these kinds of data see <a href="../../../../2017/06/19/housing-afford/">this post</a> from last year.</p>
+<pre class="r"><code>#####################################################################################
+## Load libraries ----
+#####################################################################################
+library(acs)
+library(scales)
+library(tidyverse)
+library(viridis)
+
+#####################################################################################
+## Get data ----
+#####################################################################################
+
+#install your key
+api.key.install(key=&quot;YOUR_API_KEY&quot;)
+
+# Get metros
+geo &lt;- geo.make(msa=&#39;*&#39;)
+
+# housing values table B25077
+
+hv &lt;- acs.fetch(endyear=2016, span=1, geography=geo, table.number=&quot;B25077&quot;)
+
+# income table B19013
+inc &lt;- acs.fetch(endyear=2016, span=1, geography=geo, table.number=&quot;B19013&quot;)
+
+# Population Table B25008
+pop &lt;- acs.fetch(endyear=2016, span=1, geography=geo, table.number=&quot;B25008&quot;)
+
+
+df.acs &lt;- data.frame(area=hv@geography$NAME,        # MSA name
+                     pop=unname(pop@estimate[,1]), # Metro Population 
+                     hvalue=unname(hv@estimate),   # Median Housing value
+                     inc=unname(inc@estimate)      # Median Household Income
+
+                     ) %&gt;% 
+  mutate(ratio=hvalue/inc) %&gt;%                     # create ratio of house value to income
+  arrange(-pop)                                    # sort (descending) by population</code></pre>
+<p>Let’s look at the first few rows…</p>
+<pre class="r"><code>knitr::kable(head(df.acs))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">area</th>
+<th align="right">pop</th>
+<th align="right">hvalue</th>
+<th align="right">inc</th>
+<th align="right">ratio</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">New York-Newark-Jersey City, NY-NJ-PA Metro Area</td>
+<td align="right">19742242</td>
+<td align="right">426300</td>
+<td align="right">71897</td>
+<td align="right">5.929316</td>
+</tr>
+<tr class="even">
+<td align="left">Los Angeles-Long Beach-Anaheim, CA Metro Area</td>
+<td align="right">13092245</td>
+<td align="right">578200</td>
+<td align="right">65950</td>
+<td align="right">8.767248</td>
+</tr>
+<tr class="odd">
+<td align="left">Chicago-Naperville-Elgin, IL-IN-WI Metro Area</td>
+<td align="right">9352081</td>
+<td align="right">229900</td>
+<td align="right">66020</td>
+<td align="right">3.482278</td>
+</tr>
+<tr class="even">
+<td align="left">Dallas-Fort Worth-Arlington, TX Metro Area</td>
+<td align="right">7148981</td>
+<td align="right">189100</td>
+<td align="right">63812</td>
+<td align="right">2.963392</td>
+</tr>
+<tr class="odd">
+<td align="left">Houston-The Woodlands-Sugar Land, TX Metro Area</td>
+<td align="right">6691456</td>
+<td align="right">181400</td>
+<td align="right">61708</td>
+<td align="right">2.939651</td>
+</tr>
+<tr class="even">
+<td align="left">Washington-Arlington-Alexandria, DC-VA-MD-WV Metro Area</td>
+<td align="right">6026273</td>
+<td align="right">411400</td>
+<td align="right">95843</td>
+<td align="right">4.292437</td>
+</tr>
+<tr class="odd">
+<td align="left">…and some summary stasitics.</td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>knitr::kable(summary(df.acs %&gt;% select(-area)))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">pop</th>
+<th align="center">hvalue</th>
+<th align="center">inc</th>
+<th align="center">ratio</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td></td>
+<td align="center">Min. : 52649</td>
+<td align="center">Min. : 68500</td>
+<td align="center">Min. : 14546</td>
+<td align="center">Min. :1.700</td>
+</tr>
+<tr class="even">
+<td></td>
+<td align="center">1st Qu.: 96092</td>
+<td align="center">1st Qu.:124200</td>
+<td align="center">1st Qu.: 45195</td>
+<td align="center">1st Qu.:2.666</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td align="center">Median : 158490</td>
+<td align="center">Median :154450</td>
+<td align="center">Median : 50967</td>
+<td align="center">Median :3.101</td>
+</tr>
+<tr class="even">
+<td></td>
+<td align="center">Mean : 550359</td>
+<td align="center">Mean :182636</td>
+<td align="center">Mean : 51924</td>
+<td align="center">Mean :3.430</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td align="center">3rd Qu.: 402945</td>
+<td align="center">3rd Qu.:206500</td>
+<td align="center">3rd Qu.: 57748</td>
+<td align="center">3rd Qu.:3.742</td>
+</tr>
+<tr class="even">
+<td></td>
+<td align="center">Max. :19742242</td>
+<td align="center">Max. :911900</td>
+<td align="center">Max. :110040</td>
+<td align="center">Max. :9.184</td>
+</tr>
+</tbody>
+</table>
+<p>When we compare the median house price to the median household income, <code>ratio</code>, we see that there’s quite a bit of variation across MSAs.</p>
+</div>
+</div>
+<div id="spotlight-chart" class="section level1">
+<h1>Spotlight chart</h1>
+<p>Let me first show you the spotlight chart, and then we’ll explain.</p>
+<p><img src="/post/2018-05-08-spotlight-on-housing-affordability_files/figure-html/05-08-2018-spotlight1-1.png" width="672" /></p>
+<p>On the left side I plot the ratio of median house prices to median income, while on the right I show the $ values of those stats.</p>
+<p>This viz <em>shines</em> when you compare metros:</p>
+<p><img src="/post/2018-05-08-spotlight-on-housing-affordability_files/figure-html/05-08-2018-spotlight-2-1.png" width="864" /></p>
+<p>In this we see that the ratio of house values to income is greater in Miami metro compared to Washington D.C., but house values are greater in D.C. than in Miami. Lower incomes in Miami push the ratio higher. The spotlight is wider.</p>
+<div id="make-the-chart" class="section level2">
+<h2>Make the chart</h2>
+<p>In order to make the chart we need to use (abuse?) the ggplot2 <a href="http://ggplot2.tidyverse.org/reference/sec_axis.html">sec.axis</a> function along with the <code>rescale()</code> function from the <a href="https://CRAN.R-project.org/package=scales">scales</a> package.</p>
+<p>What we will do is map the ratio, median income, and median price stasitics to a 0 to 100 scale. Then we’ll invert the mapping to label the points.</p>
+<pre class="r"><code>df.acs2 &lt;- df.acs[6,]   # just get row 6, Washington D.C.
+
+maxp &lt;- max(df.acs$hvalue)
+maxr &lt;- max(df.acs$ratio)
+minr &lt;- min(df.acs$ratio)
+
+df.plot &lt;- df.acs2 %&gt;% 
+  mutate(p=rescale(hvalue,to=c(0,100), from=c(0,maxp)),
+         i=rescale(inc, to=c(0,100), from=c(0,maxp)),
+         r=rescale(ratio, to=c(0,100), from=c(minr,maxr))
+  )
+knitr::kable(df.plot %&gt;% select(-area))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">pop</th>
+<th align="right">hvalue</th>
+<th align="right">inc</th>
+<th align="right">ratio</th>
+<th align="right">p</th>
+<th align="right">i</th>
+<th align="right">r</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">6026273</td>
+<td align="right">411400</td>
+<td align="right">95843</td>
+<td align="right">4.292437</td>
+<td align="right">45.1146</td>
+<td align="right">10.51025</td>
+<td align="right">34.64067</td>
+</tr>
+</tbody>
+</table>
+<p>Now our price (<code>hvalue</code>), income (<code>inc</code>), and ratio (<code>ratio</code>) stats are mapped to a 0 to 100 scale (p,i,r respectively).</p>
+<p>To draw the spotlight we need a triangle that goes from r to p and i. We’ll put <code>r</code> on the left at x value 1 and the values <code>i</code> and <code>r</code> on the right at value 2 (the particular values are arbitrary). In order to create the points we’ll double up the x values using the <code>expand</code> function.</p>
+<pre class="r"><code>df.plot2 &lt;- 
+  df.plot %&gt;% 
+  group_by(area) %&gt;%
+  expand(x=c(0,1,2),r,p,i) %&gt;%
+  mutate(y=case_when(
+    x == 0 ~ r,
+    x == 1 ~ p,
+    x == 2 ~ i)  ) %&gt;% 
+  mutate(x=ifelse(x==0,1,2)) %&gt;% 
+  ungroup()
+
+knitr::kable(df.plot2 %&gt;% select(-area))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">x</th>
+<th align="right">r</th>
+<th align="right">p</th>
+<th align="right">i</th>
+<th align="right">y</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">34.64067</td>
+<td align="right">45.1146</td>
+<td align="right">10.51025</td>
+<td align="right">34.64067</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">34.64067</td>
+<td align="right">45.1146</td>
+<td align="right">10.51025</td>
+<td align="right">45.11460</td>
+</tr>
+<tr class="odd">
+<td align="right">2</td>
+<td align="right">34.64067</td>
+<td align="right">45.1146</td>
+<td align="right">10.51025</td>
+<td align="right">10.51025</td>
+</tr>
+</tbody>
+</table>
+<p>Now we simply draw our point (for the spotlight source) and the triangle (for the cone of light). And style. I’m using a dark theme, but it could be <a href="../../../../2017/04/14/after-dark/">even darker</a>.</p>
+<pre class="r"><code># add back some fields we dropped wiht expand() above
+df.plot2&lt;- left_join(df.plot2, df.acs2, by=&quot;area&quot;)
+
+  ggplot(data=df.plot2, 
+        aes(color=area,fill=area,group=area))+
+  geom_polygon(aes(x=x,y=y),alpha=0.5, color=NA,fill=&quot;white&quot;)+
+  geom_point(aes(x=1,y=r,size=4), color=&quot;white&quot;)+
+  scale_fill_viridis(discrete=TRUE)+
+  theme_dark()+
+  theme(legend.position=&quot;none&quot;)+
+    facet_wrap(~area,ncol=1)+
+  scale_x_continuous(labels=c(&quot;Ratio&quot;,&quot;$ House Value/Income&quot;), breaks=c(1,2), limits=c(0.65,2.15))+
+  scale_y_continuous(name=&quot;Ratio&quot;, 
+                     breaks=seq(0,100,10),
+                     limits=c(0,100),
+                     labels=format(round(seq(minr,maxr,length.out=11),1),nsmall=1),
+                     # Note that we&#39;ll invert the scale for the labels (switching to and from)
+                     sec.axis=sec_axis(~rescale(., to=c(0,maxp),
+                                                from=c(0,100)),
+                                                breaks=seq(0,maxp,length.out=11),
+                                       name=&quot;Median House Value/Median Household Income, 2016 $&quot;,
+                                       labels=round(seq(0,maxp/1000,length.out=11),0))
+                     )+
+  geom_text(data= . %&gt;% filter(x==1),
+            aes(label=round(ratio,1), x=0.92,y=y),
+            hjust=1, color=&quot;white&quot;, size=3)+
+  geom_text(data= . %&gt;% filter(y==p),
+            aes(label=paste0(&quot;house value:\n&quot;,round(hvalue/1000,0)), x=2.05,y=y),
+            hjust=0, color=&quot;white&quot;, size=3)+
+  geom_text(data= . %&gt;% filter(y==i),
+            aes(label=paste0(&quot;income:\n&quot;,round(inc/1000,0)), x=2.05,y=y),
+            hjust=0, color=&quot;white&quot;, size=3)+
+    theme(plot.caption=element_text(hjust=0))+
+  labs(x=&quot;&quot;, title=&quot;Spotlight on housing affordability&quot;,
+       caption=&quot;@lenkiefer Source: 2016 American Community Survey 1-year estimates\ninspired by http://krisztinaszucs.com/my-product/hollywood/&quot;)</code></pre>
+<p><img src="/post/2018-05-08-spotlight-on-housing-affordability_files/figure-html/05-08-2018-spotlight-example-1.png" width="672" /> Finally, we can create a function and try out some additional styling. The original viz used a restrained black/white and gray color scheme. I don’t understand colors, but that doesn’t stop me from experimenting so I’ll try out a <a href="https://CRAN.R-project.org/package=viridis">viridis</a> palette.</p>
+<pre class="r"><code>plotf &lt;- function(df.acs2= df.acs[1:10,]){
+
+maxp &lt;- max(df.acs2$hvalue)
+maxr &lt;- max(df.acs2$ratio)
+minr &lt;- min(df.acs2$ratio)
+
+df.plot &lt;- df.acs2 %&gt;% 
+
+  mutate(r=rescale(ratio, to=c(0,100), from=c(minr,maxr)),
+         p=rescale(hvalue,to=c(0,100), from=c(0,maxp)),
+         i=rescale(inc, to=c(0,100), from=c(0,maxp))
+  )
+
+df.plot2 &lt;- 
+  df.plot %&gt;% 
+  group_by(area) %&gt;%
+  expand(x=c(0,1,2),r,p,i) %&gt;%
+  mutate(y=case_when(
+    x == 0 ~ r,
+    x == 1 ~ p,
+    x == 2 ~ i)  ) %&gt;% 
+  mutate(x=ifelse(x==0,1,2))
+
+df.plot2&lt;- left_join(df.plot2, df.acs2, by=&quot;area&quot;)
+
+g1&lt;-
+
+
+ggplot(data=df.plot2, 
+       aes(color=area,fill=area,group=area))+
+  geom_polygon(aes(x=x,y=y),alpha=0.35, color=NA)+
+  geom_point(aes(x=1,y=r,size=4), color=&quot;white&quot;)+
+  theme_dark()+
+  scale_fill_viridis(discrete=TRUE)+
+  theme(legend.position=&quot;none&quot;)+#facet_wrap(~area)+
+  scale_x_continuous(labels=c(&quot;Ratio&quot;,&quot;$ Income/House Value&quot;), breaks=c(1,2), limits=c(0.65,2.15))+
+  scale_y_continuous(name=&quot;Ratio: Median House Value to Median Household Income&quot;, 
+                     breaks=seq(0,100,10),
+                     limits=c(0,100),
+                     labels=format(round(seq(minr,maxr,length.out=11),1),nsmall=1),
+                     sec.axis=sec_axis(~rescale(., to=c(0,maxp),
+                                                from=c(0,100)),
+                                       breaks=seq(0,maxp,length.out=11),
+                                       labels=round(seq(0,maxp/1000,length.out=11),0),
+                                       name=&quot;Median House Value/Median Household Income, 2016 $&quot;)
+  )+
+  ggrepel::geom_text_repel(data= . %&gt;% filter(x==1),
+            aes(#label=paste0(gsub(&quot;(.*),.*&quot;, &quot;\\1&quot;, area),&quot;\nratio: &quot;,round(ratio,1)), 
+              label=paste0(gsub(&quot;(.*),.*&quot;, &quot;\\1&quot;, area)), 
+                x=0.97,y=y),
+            hjust=1, color=&quot;white&quot;, size=3)+
+  theme(plot.caption=element_text(hjust=0))+
+  labs(x=&quot;&quot;, title=&quot;Spotlight on housing affordability&quot;,
+       caption=&quot;@lenkiefer Source: 2016 American Community Survey 1-year estimates\ninspired by http://krisztinaszucs.com/my-product/hollywood/&quot;)
+            
+return(g1)
+}
+
+plotf()</code></pre>
+<p><img src="/post/2018-05-08-spotlight-on-housing-affordability_files/figure-html/05-08-2018-spotlight-example-2-1.png" width="960" /></p>
+</div>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2018/05/04/jobs-friday-may-2018/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2018/05/04/jobs-friday-may-2018/">Jobs Friday May 2018</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="/2018/05/21/pomological-plots/">Pomological Plots</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="/2018/05/21/pomological-plots/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/dataviz/">dataviz</a>, 
+            
+                <a href="/tags/r/">R</a>, 
+            
+                <a href="/tags/housing/">housing</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2018%2f05%2f08%2fspotlight-on-housing-affordability%2f&text=Spotlight%20on%20housing%20affordability via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2018%2f05%2f08%2fspotlight-on-housing-affordability%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+

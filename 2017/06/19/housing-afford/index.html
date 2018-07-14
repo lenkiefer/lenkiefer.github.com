@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>Housing affordability trends &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Housing affordability trends">
+    <meta property="og:description" content="HOW IS YOUR SUMMER GOING? Well okay, it’s not summer yet, but it sure is hot around where I am. Haven’t posted recently, so I’m going to share a couple of visualizations.
+Per usual, we’ll use R to generate the plots and I’ll share the code below.
+Visualizing affordabilityLast week the Joint Center for Housing Studies (JCHS) of Harvard University released their annual State of the Nation’s Housing report. The report is full of useful information about housing markets in the United States.">
+
+<div class="header">
+  <h1>Housing affordability trends</h1>
+  <h2></h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2017/06/19</time>
+  </div>
+
+  
+
+  
+
+  
+
+</div>
+
+  <p>HOW IS YOUR SUMMER GOING? Well okay, it’s not summer yet, but it sure is hot around where I am. Haven’t posted recently, so I’m going to share a couple of visualizations.</p>
+<p>Per usual, we’ll use <a href="https://www.r-project.org/">R</a> to generate the plots and I’ll share the code below.</p>
+<div id="visualizing-affordability" class="section level1">
+<h1>Visualizing affordability</h1>
+<p>Last week the Joint Center for Housing Studies (JCHS) of Harvard University released their annual <a href="http://www.jchs.harvard.edu/research/state_nations_housing">State of the Nation’s Housing</a> report. The report is full of useful information about housing markets in the United States.</p>
+</div>
+<div id="data" class="section level1">
+<h1>Data</h1>
+<p>The JCHS makes data available in an excel spreadsheet (<a href="http://www.jchs.harvard.edu/sites/jchs.harvard.edu/files/all_son_2017_tables_current_6_12_17.xlsx">LINK .xlsx</a>). The code below will presume that you’ve saved this spreadsheet somewhere.</p>
+<p>We’ll have to use <em>readxl</em> (see this <a href="../../../../2017/04/20/global-hpi-readxl">post for more on wrangling Excel data with R</a>) to get the data ready to use. It’s going to involve understanding the structure of the Excel file and using some of <a href="https://cran.r-project.org/web/packages/readxl/index.html">readxl</a>’s nice <a href="https://blog.rstudio.org/2017/04/19/readxl-1-0-0/">features</a>.</p>
+<p>The spreadsheet is pretty well organized so using the patterns described in the links above we can pretty easily get the data ready.</p>
+<p>We are going to use two of the worksheets. Worksheet W-9 contains estimates of metro area median monthly mortgage payments and worksheet W-11 contains estimates of metro area median house price-to-median household income estimates.</p>
+<p>Let’s go get that data and wrangle it into shape:</p>
+<pre class="r"><code>library(readxl)
+library(tidyverse)</code></pre>
+<pre><code>## Loading tidyverse: ggplot2
+## Loading tidyverse: tibble
+## Loading tidyverse: tidyr
+## Loading tidyverse: readr
+## Loading tidyverse: purrr
+## Loading tidyverse: dplyr</code></pre>
+<pre><code>## Conflicts with tidy packages ----------------------------------------------</code></pre>
+<pre><code>## filter(): dplyr, stats
+## lag():    dplyr, stats</code></pre>
+<pre class="r"><code>library(ggbeeswarm)
+library(viridis)</code></pre>
+<pre><code>## Loading required package: viridisLite</code></pre>
+<pre class="r"><code>library(scales)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;scales&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     discard</code></pre>
+<pre><code>## The following object is masked from &#39;package:readr&#39;:
+## 
+##     col_factor</code></pre>
+<pre class="r"><code># Load the mortgage payment data
+df&lt;-read_excel(path=&quot;data/all_son_2017_tables_current_6_12_17.xlsx&quot;,
+               sheet=&quot;W-9&quot;,
+               range=&quot;A5:AB387&quot;)
+
+# gather the data to tidy
+df&lt;-df %&gt;% gather(year,pmt,c(2:28))
+# rename the metro column from &#39;Metropolitan Area&#39;, to &#39;metro&#39;
+colnames(df)[1]&lt;-&quot;metro&quot;
+# convert year to numeric
+df$year&lt;-as.numeric(df$year)
+
+
+# Load the median house price to median income estimates
+
+df2&lt;-read_excel(path=&quot;data/all_son_2017_tables_current_6_12_17.xlsx&quot;,
+               sheet=&quot;W-12&quot;,
+               range=&quot;A5:AB387&quot;)
+
+# gather the data to tidy
+df2&lt;-df2 %&gt;% gather(year,pti,c(2:28))
+# rename the metro column from &#39;Metropolitan Area&#39;, to &#39;metro&#39;
+colnames(df2)[1]&lt;-&quot;metro&quot;
+# convert year to numeric
+df2$year&lt;-as.numeric(df2$year)</code></pre>
+</div>
+<div id="make-some-plots" class="section level1">
+<h1>Make some plots</h1>
+<p>Now that we have our data loaded and tidied we are ready to make a couple of plots. I’m going to use <a href="https://cran.r-project.org/web/packages/ggbeeswarm/index.html">ggbeeswarm</a> plots to show the distribution of our stats across metro areas. See <a href="../../../../2016/08/18/data-swarm">this post</a>) for more on ggbeeswarm plots.</p>
+<p>For additional context we’ll add a thick black line showing trends in the U.S. level statistics over time.</p>
+<pre class="r"><code>ggplot(data=filter(df,metro !=&quot;United States&quot;), aes(x=year,y=pmt,color=log(pmt)))+
+  geom_quasirandom(alpha=0.75,size=0.75)+
+  scale_color_viridis(name=&quot;Monthly mortgage payment, 2016 $&quot;,breaks=c(log(500),log(1000),log(2000),log(3000),log(6000)),
+                      labels=c(&quot;$500&quot;,&quot;$1,000&quot;,&quot;$2,000&quot;,&quot;$3,000&quot;,&quot;$6,000&quot;))+
+  scale_y_log10(breaks=c(500,1000,1500,2000,3000,6000),labels=scales::dollar)+
+  geom_path(data=filter(df,metro ==&quot;United States&quot;),color=&quot;black&quot;,size=1.1)+
+  theme_minimal()+
+  theme(plot.caption=element_text(hjust=0),
+        plot.title=element_text(hjust=0,face=&quot;bold&quot;,size=24),
+        legend.position=&quot;bottom&quot;,
+        legend.key.width = unit(2, &quot;cm&quot;))+
+  labs(x=&quot;&quot;,y=&quot;Monthly payment in 2016 $, log scale&quot;,title=&quot;How affordable is housing?&quot;,
+       subtitle=&quot;Metro Area-Monthly Mortgage Payment on the Median Priced Home: 1990-2016&quot;,
+       caption=&quot;@lenkiefer Each dot represents one metro area, the solid line is the U.S.\n\nSources: JCHS tabulations of National Association of Realtors and Moody&#39;s Analytics Forecasted Single-Family Seasonally \nAdjusted Quarterly Median Home Price, annualized by DataBuffet; Freddie Mac Annual Primary Mortgage Market Survey.\nJCHS 2017 State of the Nation&#39;s Housing, Appendix Tables http://www.jchs.harvard.edu/research/state_nations_housing\n\nNote: Monthly payment assumes a 5% down payment on the median-priced existing single-family home with property taxes of 1.25%, \nproperty insurance of 0.25%, and mortgage insurance of 0.5%. Values are adjusted to 2016 dollars using CPI-U All Items Less Shelter.&quot;)</code></pre>
+<p><img src="/post/2017-06-19-housing-afford_files/figure-html/06-19-2017-swarm-1-1.png" width="864" /></p>
+<pre class="r"><code>  ggplot(data=filter(df2,metro !=&quot;United States&quot;), aes(x=year,y=pti,color=log(pti)))+
+  geom_quasirandom(alpha=0.75,size=0.75)+
+  scale_color_viridis(name=&quot;Median Price-to-Median Income ratio&quot;,labels=exp,
+                      breaks=c(log(1.5),log(3),log(6),log(10),log(15)))+
+  scale_y_log10(breaks=c(1.5,3,6,10,15))+
+  geom_path(data=filter(df2,metro ==&quot;United States&quot;),color=&quot;black&quot;,size=1.1)+
+  theme_minimal()+
+  theme(plot.caption=element_text(hjust=0),
+        plot.title=element_text(hjust=0,face=&quot;bold&quot;,size=24),
+        legend.position=&quot;bottom&quot;,
+        legend.key.width = unit(2, &quot;cm&quot;))+
+  labs(x=&quot;&quot;,y=&quot;Median Home Price-to-Median Income Ratio, log scale&quot;,title=&quot;How affordable is housing?&quot;,
+       subtitle=&quot;Metro Area-Median Home Price-to-Median Income Ratios: 1990-2016&quot;,
+       caption=&quot;@lenkiefer Each dot represents one metro area, the solid line is the U.S.\n\nSources:  JCHS tabulations of National Association of Realtors and Moody&#39;s Analytics Forecasted Single-Family \nQuarterly Median Home Price;Moody&#39;s Analystics Forecasted Median Household Income.\nJCHS 2017 State of the Nation&#39;s Housing, Appendix Tables http://www.jchs.harvard.edu/research/state_nations_housing\n\nNote: Median home price is for existing single-family homes only. Median household income in 2016 is forecasted by Moody&#39;s Analytics.&quot;)</code></pre>
+<p><img src="/post/2017-06-19-housing-afford_files/figure-html/06-19-2017-swarm-2-1.png" width="864" /></p>
+<div id="discussion" class="section level2">
+<h2>Discussion</h2>
+<p>These two plots show two ways of looking at housing affordability trends. To understand, let’s reconstruct these charts bit by bit.</p>
+<p>First, let’s just focus on the national trends.</p>
+<p>Consider this chart of national trends in monthly mortgage payments.</p>
+<pre class="r"><code>ggplot(data=filter(df,metro ==&quot;United States&quot;), aes(x=year,y=pmt,color=log(pmt)))+
+  scale_y_log10(breaks=c(500,1000,1750,1500,2000,3000,6000),
+                labels=scales::dollar,limits=c(950,2050))+
+  geom_path(data=filter(df,metro ==&quot;United States&quot;),color=&quot;black&quot;,size=1.1)+
+  theme_minimal()+
+  theme(plot.caption=element_text(hjust=0),
+        plot.title=element_text(hjust=0,face=&quot;bold&quot;,size=24),
+        legend.position=&quot;bottom&quot;,
+        legend.key.width = unit(2, &quot;cm&quot;))+
+  labs(x=&quot;&quot;,y=&quot;Monthly payment in 2016 $, log scale&quot;,title=&quot;How affordable is housing?&quot;,
+       subtitle=&quot;U.S.-Monthly Mortgage Payment on the Median Priced Home: 1990-2016&quot;,
+       caption=&quot;@lenkiefer Sources: JCHS tabulations of National Association of Realtors and Moody&#39;s Analytics Forecasted Single-Family Seasonally \nAdjusted Quarterly Median Home Price, annualized by DataBuffet; Freddie Mac Annual Primary Mortgage Market Survey.\nJCHS 2017 State of the Nation&#39;s Housing, Appendix Tables http://www.jchs.harvard.edu/research/state_nations_housing\n\nNote: Monthly payment assumes a 5% down payment on the median-priced existing single-family home with property taxes of 1.25%, \nproperty insurance of 0.25%, and mortgage insurance of 0.5%. Values are adjusted to 2016 dollars using CPI-U All Items Less Shelter.&quot;)</code></pre>
+<p><img src="/post/2017-06-19-housing-afford_files/figure-html/06-19-2017-line-1-1.png" width="864" /></p>
+<p>For the U.S. as a whole, monthly mortgage payments for the median-priced home ranged between $1,500 and $1,750 from 1990 through the middle part of last decade (all these estimates are in inflation-adjusted 2016 dollars). From 2004 onwards, payments reached up to nearly $2,000 before collapsing during the crash. Since then, they have recovered, but are still below historical averages.</p>
+<p>Contrast this chart with trends in home price-to-income ratios.</p>
+<pre class="r"><code>  ggplot(data=filter(df2,metro ==&quot;United States&quot;), aes(x=year,y=pti,color=log(pti)))+
+  scale_y_log10(breaks=c(3,3.25,3.5,3.75,4,4.5,5),limits=c(2.95,5.05))+
+  geom_path(data=filter(df2,metro ==&quot;United States&quot;),color=&quot;black&quot;,size=1.1)+
+  theme_minimal()+
+  theme(plot.caption=element_text(hjust=0),
+        plot.title=element_text(hjust=0,face=&quot;bold&quot;,size=24),
+        legend.position=&quot;bottom&quot;,
+        legend.key.width = unit(2, &quot;cm&quot;))+
+  labs(x=&quot;&quot;,y=&quot;Median Home Price-to-Median Income Ratio, log scale&quot;,title=&quot;How affordable is housing?&quot;,
+       subtitle=&quot;U.S.-Median Home Price-to-Median Income Ratios: 1990-2016&quot;,
+       caption=&quot;@lenkiefer Sources: JCHS tabulations of National Association of Realtors and Moody&#39;s Analytics Forecasted Single-Family \nQuarterly Median Home Price;Moody&#39;s Analystics Forecasted Median Household Income.\nJCHS 2017 State of the Nation&#39;s Housing, Appendix Tables http://www.jchs.harvard.edu/research/state_nations_housing\n\nNote: Median home price is for existing single-family homes only. Median household income in 2016 is forecasted by Moody&#39;s Analytics.&quot;)</code></pre>
+<p><img src="/post/2017-06-19-housing-afford_files/figure-html/06-19-2017-line-2-1.png" width="864" /></p>
+<p>The charts shows how median home prices have evolved after adjusting for trends in median house prices but not adjusting for lower mortgage rates. Here the trend is upward.</p>
+<div id="adding-metro-distributions" class="section level3">
+<h3>Adding metro distributions</h3>
+<p>We’d like to compare how the distribution of these statistics evolved over time. First, let’s just consider a single year for the mortgage payment:</p>
+<pre class="r"><code>ggplot(data=filter(df,metro !=&quot;United States&quot; &amp; year==2016), aes(x=&quot;2016&quot;,y=pmt,color=log(pmt)))+
+  geom_quasirandom(alpha=0.75,size=2)+
+  scale_color_viridis(name=&quot;Monthly mortgage payment, 2016 $&quot;,breaks=c(log(500),log(1000),log(2000),log(3000),log(6000)),
+                      labels=c(&quot;$500&quot;,&quot;$1,000&quot;,&quot;$2,000&quot;,&quot;$3,000&quot;,&quot;$6,000&quot;))+
+  scale_y_log10(breaks=c(500,1000,1500,2000,3000,6000),labels=scales::dollar)+
+  geom_hline(data=filter(df,metro ==&quot;United States&quot; &amp; year==2016),color=&quot;black&quot;,size=1.1,aes(yintercept=pmt))+
+  theme_minimal()+
+  theme(plot.caption=element_text(hjust=0),
+        plot.title=element_text(hjust=0,face=&quot;bold&quot;,size=24),
+        legend.position=&quot;bottom&quot;,
+        legend.key.width = unit(2, &quot;cm&quot;))+
+  labs(x=&quot;&quot;,y=&quot;Monthly payment in 2016 $, log scale&quot;,title=&quot;How affordable is housing?&quot;,
+       subtitle=&quot;Metro Area-Monthly Mortgage Payment on the Median Priced Home: 2016&quot;,
+       caption=&quot;@lenkiefer Each dot represents one metro area, the solid line is the U.S.\n\nSources: JCHS tabulations of National Association of Realtors and Moody&#39;s Analytics Forecasted Single-Family Seasonally \nAdjusted Quarterly Median Home Price, annualized by DataBuffet; Freddie Mac Annual Primary Mortgage Market Survey.\nJCHS 2017 State of the Nation&#39;s Housing, Appendix Tables http://www.jchs.harvard.edu/research/state_nations_housing\n\nNote: Monthly payment assumes a 5% down payment on the median-priced existing single-family home with property taxes of 1.25%, \nproperty insurance of 0.25%, and mortgage insurance of 0.5%. Values are adjusted to 2016 dollars using CPI-U All Items Less Shelter.&quot;)</code></pre>
+<p><img src="/post/2017-06-19-housing-afford_files/figure-html/06-19-2017-swarm-1-2016-1.png" width="864" /></p>
+<p>Each dot represents a single metro area with the black line the U.S. as a reference.</p>
+<p>Now let’s compare just two points in time, 2015 and 2016.</p>
+<pre class="r"><code>ggplot(data=filter(df,metro !=&quot;United States&quot; &amp; year&gt;=2015), aes(x=factor(year),y=pmt,color=log(pmt)))+
+  geom_quasirandom(alpha=0.75,size=2)+
+  scale_color_viridis(name=&quot;Monthly mortgage payment, 2016 $&quot;,breaks=c(log(500),log(1000),log(2000),log(3000),log(6000)),
+                      labels=c(&quot;$500&quot;,&quot;$1,000&quot;,&quot;$2,000&quot;,&quot;$3,000&quot;,&quot;$6,000&quot;))+
+  scale_y_log10(breaks=c(500,1000,1500,2000,3000,6000),labels=scales::dollar)+
+  geom_path(data=filter(df,metro ==&quot;United States&quot;&amp; year&gt;=2015),color=&quot;black&quot;,size=1.1,aes(group=metro))+
+  theme_minimal()+
+  theme(plot.caption=element_text(hjust=0),
+        plot.title=element_text(hjust=0,face=&quot;bold&quot;,size=24),
+        legend.position=&quot;bottom&quot;,
+        legend.key.width = unit(2, &quot;cm&quot;))+
+  labs(x=&quot;&quot;,y=&quot;Monthly payment in 2016 $, log scale&quot;,title=&quot;How affordable is housing?&quot;,
+       subtitle=&quot;Metro Area-Monthly Mortgage Payment on the Median Priced Home: 2015-2016&quot;,
+       caption=&quot;@lenkiefer Each dot represents one metro area, the solid line is the U.S.\n\nSources: JCHS tabulations of National Association of Realtors and Moody&#39;s Analytics Forecasted Single-Family Seasonally \nAdjusted Quarterly Median Home Price, annualized by DataBuffet; Freddie Mac Annual Primary Mortgage Market Survey.\nJCHS 2017 State of the Nation&#39;s Housing, Appendix Tables http://www.jchs.harvard.edu/research/state_nations_housing\n\nNote: Monthly payment assumes a 5% down payment on the median-priced existing single-family home with property taxes of 1.25%, \nproperty insurance of 0.25%, and mortgage insurance of 0.5%. Values are adjusted to 2016 dollars using CPI-U All Items Less Shelter.&quot;)</code></pre>
+<p><img src="/post/2017-06-19-housing-afford_files/figure-html/06-19-2017-swarm-1-15-16-1.png" width="864" /></p>
+<p>By adding another year we can see that the distribution has shifted up ever so slightly.</p>
+<p>And now that we have two, the small multiple we started with should make more sense:</p>
+<pre class="r"><code>ggplot(data=filter(df,metro !=&quot;United States&quot;), aes(x=year,y=pmt,color=log(pmt)))+
+  geom_quasirandom(alpha=0.75,size=0.75)+
+  scale_color_viridis(name=&quot;Monthly mortgage payment, 2016 $&quot;,breaks=c(log(500),log(1000),log(2000),log(3000),log(6000)),
+                      labels=c(&quot;$500&quot;,&quot;$1,000&quot;,&quot;$2,000&quot;,&quot;$3,000&quot;,&quot;$6,000&quot;))+
+  scale_y_log10(breaks=c(500,1000,1500,2000,3000,6000),labels=scales::dollar)+
+  geom_path(data=filter(df,metro ==&quot;United States&quot;),color=&quot;black&quot;,size=1.1)+
+  theme_minimal()+
+  theme(plot.caption=element_text(hjust=0),
+        plot.title=element_text(hjust=0,face=&quot;bold&quot;,size=24),
+        legend.position=&quot;bottom&quot;,
+        legend.key.width = unit(2, &quot;cm&quot;))+
+  labs(x=&quot;&quot;,y=&quot;Monthly payment in 2016 $, log scale&quot;,title=&quot;How affordable is housing?&quot;,
+       subtitle=&quot;Metro Area-Monthly Mortgage Payment on the Median Priced Home: 1990-2016&quot;,
+       caption=&quot;@lenkiefer Each dot represents one metro area, the solid line is the U.S.\n\nSources: JCHS tabulations of National Association of Realtors and Moody&#39;s Analytics Forecasted Single-Family Seasonally \nAdjusted Quarterly Median Home Price, annualized by DataBuffet; Freddie Mac Annual Primary Mortgage Market Survey.\nJCHS 2017 State of the Nation&#39;s Housing, Appendix Tables http://www.jchs.harvard.edu/research/state_nations_housing\n\nNote: Monthly payment assumes a 5% down payment on the median-priced existing single-family home with property taxes of 1.25%, \nproperty insurance of 0.25%, and mortgage insurance of 0.5%. Values are adjusted to 2016 dollars using CPI-U All Items Less Shelter.&quot;)</code></pre>
+<p><img src="/post/2017-06-19-housing-afford_files/figure-html/06-19-2017-swarm-1-redo-1.png" width="864" /></p>
+</div>
+</div>
+</div>
+<div id="follow-up" class="section level1">
+<h1>Follow-up</h1>
+<p>There’s a lot more interesting data compiled in the JCHS report. If you are interested in U.S. housing market trends, then you definitely should check out the full report (<a href="http://www.jchs.harvard.edu/sites/jchs.harvard.edu/files/harvard_jchs_state_of_the_nations_housing_2017.pdf">LINK pdf</a>). The JCHS has also prepared some interesting interactive maps <a href="http://harvard-cga.maps.arcgis.com/apps/MapSeries/index.html?appid=c3cae00cb1c84af88c2c3774e0808a12">see for example here</a> that have a bunch of interesting information.</p>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2017/06/05/tableau-dash/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2017/06/05/tableau-dash/">Housing supply, population, and house prices: Tableau Dashboard</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="/2017/06/20/more-afford/">More on housing affordability</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="/2017/06/20/more-afford/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2017%2f06%2f19%2fhousing-afford%2f&text=Housing%20affordability%20trends via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2017%2f06%2f19%2fhousing-afford%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+

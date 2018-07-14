@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>Consumer Credit Trends &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Consumer Credit Trends">
+    <meta property="og:description" content="TODAY the NEW YORK FEDERAL RESERVE BANK released its Quarterly Report on Household Debt and Credit. These data come from the Center for Microeconomic Data based on credit records from Equifax.
+R code for the graphs are posted at bottom of page
+Trends in household debt balances One of the key statistics tracked in the report (full data can be found here) is household debt balances. They break debt balances out by loan type:">
+
+<div class="header">
+  <h1>Consumer Credit Trends</h1>
+  <h2></h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2016/08/09</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/economy">economy</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/animation">animation</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/data-wrangling">data wrangling</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+
+<p>TODAY the NEW YORK FEDERAL RESERVE BANK <a href="https://www.newyorkfed.org/newsevents/news/research/2016/rp160809">released</a> its Quarterly Report on Household Debt and Credit. These data come from the <a href="https://www.newyorkfed.org/microeconomics/ccp.html">Center for Microeconomic Data</a> based on credit records from Equifax.</p>
+
+<p><strong>R code for the graphs are posted at bottom of page</strong></p>
+
+<h1 id="trends-in-household-debt-balances">Trends in household debt balances</h1>
+
+<p>One of the key statistics tracked in the report (full data can be found <a href="https://www.newyorkfed.org/microeconomics/data.html">here</a>) is household debt balances. They break debt balances out by loan type:</p>
+
+<ul>
+<li>mortgage debt</li>
+<li>student loans</li>
+<li>auto loans</li>
+<li>credit cards</li>
+<li>home equity revolving debt</li>
+<li>other debt</li>
+</ul>
+
+<p>Mortgage debt is by far the largest component of household debt. Out of the $12.3 trillion in debt in  2016Q2, mortgage debt comprises $8.4 trillion per the FRBNY Consumer Credit Panel. From 2003Q1 through 2016Q2 mortgage debt has ranged from 68% to 74% of total debt balances.</p>
+
+<p>If you take away mortgage debt you can more easily compare the trends in other forms of household debt.</p>
+
+<p><img src="/img/Rfig/debt-2016q2-levels-1.svg" alt="plot of chunk debt-2016q2-levels" /></p>
+
+<p>While most forms of debt rose, fell and recovered leading up to, during, and after the Great Recession, student debt has pretty much gone up in a straight line.</p>
+
+<p>If you use an index so that 2003Q1 = 100, you can include mortgage and total debt:</p>
+
+<p><img src="/img/Rfig/debt-2016q2-index-1.svg" alt="plot of chunk debt-2016q2-index" /></p>
+
+<p>The trend is striking, but I think it jumps out at you even more if you use an animated gif:</p>
+
+<p><img src="../../../../img/charts_aug_9_2016/debt balances 2016Q2.gif" alt="credit gif"/></p>
+
+<h1 id="state-per-capita-debt-trends">State per capita debt trends</h1>
+
+<p>The panel also reports on per capita household debt by select states.  In general per capita debt levels have stabilized after falling during the Great Recession.  The debt trends are diven primarily by mortgage debt, so states with volatile house prices and high rates of foreclosure (<em>e.g.</em> AZ, FL, NV) have had the greatest volatility in per capita debt levels.</p>
+
+<p>But in recent quarters most states are trending modestly higher.</p>
+
+<p><img src="/img/Rfig/debt-2016q2-states-1.svg" alt="plot of chunk debt-2016q2-states" /></p>
+
+<h2 id="code-for-plots">Code for plots</h2>
+
+<p>If you&rsquo;ve read some of my earlier posts <a href="../../../../2016/05/08/visual-meditations-on-house-prices">here</a> and
+<a href="../../../../2016/06/26/week-in-review">here</a> then generating these plots is rather strightforward.</p>
+
+<p>I have been meaning to do more data wrangling in R, but I&rsquo;m still falling back on Excel tricks.</p>
+
+<p>For the first three plots I&rsquo;ve collected my data in a text file called <em>debt2016q2.txt</em>. The datafile has four columns and looks like:</p>
+
+<p><img src="../../../../img/charts_aug_9_2016/datalayout.PNG" alt="data layout"/></p>
+
+<p>For the state level data I have another data file with a similar format called <em>pcdebt2016q2.txt</em>:</p>
+
+<p><img src="../../../../img/charts_aug_9_2016/datalayout2.PNG" alt="data layout"/></p>
+
+<p>Using these data files we can generate the plots using the following code:</p>
+
+<p>{% highlight r
+#Set up libraries
+  library(ggplot2)
+  library(scales)
+  library(animation)
+  library(ggthemes)
+  library(data.table)
+  library(ggrepel)</p>
+
+<p>#Load data
+data &lt;- fread(&ldquo;data/debt2016q2.txt&rdquo;)
+data$date&lt;-as.Date(data$date, format=&ldquo;%m/%d/%Y&rdquo;)</p>
+
+<p>dlist&lt;-unique(data$date)  #unique set of dates
+N&lt;-length(dlist)  #number of dates</p>
+
+<p>#Create static plots:</p>
+
+<h1 id="in-levels">In levels</h1>
+
+<p>ggplot(data=data[type !=&ldquo;Total&rdquo; &amp; type !=&ldquo;Mortgage&rdquo;,],aes(x=date,y=debt,color=type,label=type))+  #exclude mortgage and total lines</p>
+
+<p>geom_line(size=1.2)+ #add lines
+  geom_text_repel(data=data[date==dlist[N] &amp; type != &ldquo;Total&rdquo;&amp; type !=&ldquo;Mortgage&rdquo;,],nudge_x=10,nudge_y=.025)+ #add labels at end</p>
+
+<pre><code>#style plot:
+theme_minimal()+ #use minimal theme from ggthemes library
+
+theme(plot.title=element_text(size=14))+theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+theme(plot.margin=unit(c(0.25,0.25,0.25,0.25),&quot;cm&quot;))+
+  coord_cartesian(xlim=c(as.Date(&quot;2003-01-01&quot;),as.Date(&quot;2017-03-30&quot;)))+
+theme(legend.position=&quot;none&quot;)+
+labs(title=&quot;Household debt balances&quot;,
+     subtitle=&quot;Trillions of Dollars&quot;,
+     x=&quot;&quot;,y=&quot;&quot;,caption=&quot;@lenkiefer Source: FRBNY Consumer Credit Panel/Equifax&quot;)
+</code></pre>
+
+<h1 id="using-indexed-data">Using indexed data</h1>
+
+<p>ggplot(data=data,aes(x=date,y=rv,color=type,label=type))+geom_line(size=1.2)+
+    geom_text_repel(data=data[date==dlist[N],],nudge_x=10,nudge_y=.025)+  #add labels at end</p>
+
+<pre><code>scale_y_continuous(breaks=seq(0,550,50))+ #set axis
+
+coord_cartesian(xlim=c(as.Date(&quot;2003-01-01&quot;),as.Date(&quot;2017-03-30&quot;)), y=c(0,550))+
+
+#style plot:
+theme_minimal()+  #use minimal theme from ggthemes library
+theme(plot.title=element_text(size=14))+theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+theme(plot.margin=unit(c(0.25,0.25,0.25,0.25),&quot;cm&quot;))+
+theme(legend.position=&quot;none&quot;)+
+labs(title=&quot;Household debt balances&quot;,
+     subtitle=&quot;Index (2003 Q1 = 100)&quot;,
+     x=&quot;&quot;,y=&quot;&quot;,caption=&quot;@lenkiefer Source: FRBNY Consumer Credit Panel/Equifax&quot;)
+</code></pre>
+
+<p>#Create animated gif</p>
+
+<p>oopt = ani.options(interval = 0.15)
+saveGIF({for (i in 5:N) {
+  g&lt;-
+    ggplot(data=data[date&lt;=dlist[i],],aes(x=date,y=rv,color=type,label=type))+geom_line(size=1.2)+theme_minimal()+
+    geom_text_repel(data=data[date==dlist[i],],nudge_x=10,nudge_y=.025)+
+    scale_y_continuous(breaks=seq(0,550,50))+
+    coord_cartesian(xlim=c(as.Date(&ldquo;2003-01-01&rdquo;),as.Date(&ldquo;2017-03-30&rdquo;)), y=c(0,550))+
+    theme(plot.title=element_text(size=14))+theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+    theme(plot.margin=unit(c(0.25,0.25,0.25,0.25),&ldquo;cm&rdquo;))+
+    theme(legend.position=&ldquo;none&rdquo;)+
+    labs(title=&ldquo;Household debt balances&rdquo;,
+         subtitle=&ldquo;Index (2003 Q1 = 100)&rdquo;,
+         x=&ldquo;&rdquo;,y=&ldquo;&rdquo;,caption=&ldquo;@lenkiefer Source: FRBNY Consumer Credit Panel/Equifax&rdquo;)</p>
+
+<pre><code>print(g)
+ani.pause()
+</code></pre>
+
+<p>}
+  #pause at end
+  for (i2 in 1:10) {
+    print(g)
+    ani.pause()
+  }
+},movie.name=&ldquo;debt balances 2016Q2.gif&rdquo;,ani.width = 740, ani.height = 550)</p>
+
+<h1 id="create-state-plot">Create state plot:</h1>
+
+<h1 id="load-state-data">load state data</h1>
+
+<p>sdata &lt;- fread(&ldquo;data/pcdebt2016q2.txt&rdquo;)
+sdata$date&lt;-as.Date(sdata$date, format=&ldquo;%m/%d/%Y&rdquo;)</p>
+
+<p>dslist&lt;-unique(sdata$date)  #unique set of dates
+Ns&lt;-length(dlist)  #number of dates</p>
+
+<p>ggplot(data=sdata,aes(x=date,y=pcdebt,color=state,label=round(pcdebt,0)))+geom_line(size=1.2)+theme_minimal()+
+  geom_text_repel(data=sdata[date==dslist[N],],nudge_x=10,nudge_y=.025)+
+    facet_wrap(~state,ncol=3)  +
+  scale_y_log10(limits=c(20,90),breaks=seq(25,90,15))+
+    theme(plot.title=element_text(size=14))+theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+    theme(plot.margin=unit(c(0.25,0.25,0.25,0.25),&ldquo;cm&rdquo;))+
+      coord_cartesian(xlim=c(as.Date(&ldquo;2003-01-01&rdquo;),as.Date(&ldquo;2017-03-30&rdquo;)))+
+    theme(legend.position=&ldquo;none&rdquo;)+
+    labs(title=&ldquo;Per capita household debt&rdquo;,
+         subtitle=&ldquo;Thousands of dollars, (Based on the population with a credit report) &ldquo;,
+         x=&ldquo;&rdquo;,y=&ldquo;per capita debt (Ths $, log scale)&rdquo;,caption=&ldquo;@lenkiefer Source: FRBNY Consumer Credit Panel/Equifax&rdquo;)
+{% endhighlight</p>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2016/07/01/going-off-grid/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2016/07/01/going-off-grid/">Going off the grid</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="/2016/08/2016/08/13/visual-meditations-on-house-prices-part5/">Visual meditations on house prices, Part 5: distributions</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="/2016/08/2016/08/13/visual-meditations-on-house-prices-part5/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/dataviz/">dataviz</a>, 
+            
+                <a href="/tags/economy/">economy</a>, 
+            
+                <a href="/tags/r/">R</a>, 
+            
+                <a href="/tags/animation/">animation</a>, 
+            
+                <a href="/tags/data-wrangling/">data wrangling</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2016%2f08%2f09%2ftrends-in-credit%2f&text=Consumer%20Credit%20Trends via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2016%2f08%2f09%2ftrends-in-credit%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+

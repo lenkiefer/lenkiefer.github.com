@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Let&#39;s make a new mortgage rate dataviz.">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>Rate Cloud &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/charts_apr_12_2018/ratecloud.png" >
+     
+    <meta property="og:title" content="Rate Cloud">
+    <meta property="og:description" content="Let&#39;s make a new mortgage rate dataviz.">
+
+<div class="header">
+  <h1>Rate Cloud</h1>
+  <h2>Let&#39;s make a new mortgage rate dataviz.</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/04/12</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/fun">fun</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/animation">animation</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <p>TIME FOR A FUN NEW MORTGAGE RATE CHART.</p>
+<p>This one:</p>
+<p><img src="../../../../img/charts_apr_12_2018/rate_cloud2.gif"></p>
+<p>We’ll use <a href="https://www.r-project.org/">R</a> to plot a new visualization of mortgage rates.</p>
+<p>Let’s make it.</p>
+<div id="data" class="section level1">
+<h1>Data</h1>
+<p>As we did with our <a href="../../../../2017/11/16/majestic-mortgage-rate-plot/">majestic mortgage rate plot post</a> we’ll plot mortgage rates using the <a href="http://www.freddiemac.com/pmms/">Freddie Mac Primary Mortgage Market Survey</a>.</p>
+<p>We’ll get the mortgage rates data via the Saint Louis Federal Reserve’s <a href="https://fred.stlouisfed.org/">FRED</a> database. If you followed <a href="../../../../2017/04/11/fred-plot">my post</a> from back in April of last year you know what we can do if we combine FRED with the <a href="https://cran.r-project.org/web/packages/quantmod/index.html">quantmod</a> package. It gets even easier if we use <a href="https://CRAN.R-project.org/package=tidyquant">tidyquant</a> like we did <a href="../../../../2017/09/18/a-tidyquant-um-of-solace/">here</a>.</p>
+<p><em>NOTE ON CODE</em> In order for the animations to work, you’ll need (as of writing) the development version of <a href="http://ggplot2.org/">ggplot2</a> version 2.2.1.9000, availabe on github <a href="https://github.com/tidyverse/ggplot2">LINK</a>. If you don’t want to make the animations, then the current version of ggplot2 available on CRAN should be fine. <em>END NOTE</em></p>
+<pre class="r"><code>#####################################################################################
+## Load libraries ----  ##
+#####################################################################################
+library(tidyverse)
+library(tidyquant)
+library(ggridges)
+library(animation) # for the animated gif
+
+#####################################################################################
+## Get mortgage data ---- ##
+# Can also get direct here: http://www.freddiemac.com/pmms/docs/historicalweeklydata.xls
+#####################################################################################
+
+df&lt;- tq_get(&quot;MORTGAGE30US&quot;,get=&quot;economic.data&quot;,from=&quot;1971-04-01&quot;)
+df$year&lt;-year(df$date)
+knitr::kable(tail(df))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">date</th>
+<th align="right">price</th>
+<th align="right">year</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">2018-06-07</td>
+<td align="right">4.54</td>
+<td align="right">2018</td>
+</tr>
+<tr class="even">
+<td align="left">2018-06-14</td>
+<td align="right">4.62</td>
+<td align="right">2018</td>
+</tr>
+<tr class="odd">
+<td align="left">2018-06-21</td>
+<td align="right">4.57</td>
+<td align="right">2018</td>
+</tr>
+<tr class="even">
+<td align="left">2018-06-28</td>
+<td align="right">4.55</td>
+<td align="right">2018</td>
+</tr>
+<tr class="odd">
+<td align="left">2018-07-05</td>
+<td align="right">4.52</td>
+<td align="right">2018</td>
+</tr>
+<tr class="even">
+<td align="left">2018-07-12</td>
+<td align="right">4.53</td>
+<td align="right">2018</td>
+</tr>
+</tbody>
+</table>
+<p>Now that we have our data, we can make our plot. Our plot will use the new raincloud feature in the <a href="https://CRAN.R-project.org/package=ggridges">ggridges</a> package of Claus Wilke. By the way, if you are interested in data visualization, Claus has a very interesting book-in-progress you might want to check out. <a href="http://serialmentor.com/dataviz/">LINK to dataviz book.</a>. I’m pretty sure I’m going to violate many of the excellent guidelines Claus offers. But note, this post is tagged <a href="http://lenkiefer.com/tags/fun/">“fun”</a>.</p>
+<div id="custom-color-palette" class="section level3">
+<h3>Custom color palette</h3>
+<p>As we discussed in our <a href="http://lenkiefer.com/2018/03/03/rock-that-dadbod-plot/">dadbod plot post</a> we’ll use a custom color palette. The code below creates it.</p>
+<pre class="r"><code>#####################################################################################
+## Make Color Scale ----  ##
+#####################################################################################
+my_colors &lt;- c(
+  &quot;green&quot;      = rgb(103,180,75, maxColorValue = 256),
+  &quot;green2&quot;      = rgb(147,198,44, maxColorValue = 256),
+  &quot;lightblue&quot;  =  rgb(9, 177,240, maxColorValue = 256),
+  &quot;lightblue2&quot; = rgb(173,216,230, maxColorValue = 256),
+  &#39;blue&#39;       = &quot;#00aedb&quot;,
+  &#39;red&#39;        = &quot;#d11141&quot;,
+  &#39;orange&#39;     = &quot;#f37735&quot;,
+  &#39;yellow&#39;     = &quot;#ffc425&quot;,
+  &#39;gold&#39;       = &quot;#FFD700&quot;,
+  &#39;light grey&#39; = &quot;#cccccc&quot;,
+  &#39;dark grey&#39;  = &quot;#8c8c8c&quot;)
+
+
+my_cols &lt;- function(...) {
+  cols &lt;- c(...)
+  if (is.null(cols))
+    return (my_colors)
+  my_colors[cols]
+}
+
+
+my_palettes &lt;- list(
+  `main`  = my_cols(&quot;blue&quot;, &quot;green&quot;, &quot;yellow&quot;),
+  `cool`  = my_cols(&quot;blue&quot;, &quot;green&quot;),
+  `hot`   = my_cols(&quot;yellow&quot;, &quot;orange&quot;, &quot;red&quot;),
+  `mixed` = my_cols(&quot;lightblue&quot;, &quot;green&quot;, &quot;yellow&quot;, &quot;orange&quot;, &quot;red&quot;),
+  `mixed2` = my_cols(&quot;lightblue2&quot;,&quot;lightblue&quot;, &quot;green&quot;, &quot;green2&quot;,&quot;yellow&quot;,&quot;gold&quot;, &quot;orange&quot;, &quot;red&quot;),
+  `mixed3` = my_cols(&quot;lightblue2&quot;,&quot;lightblue&quot;, &quot;green&quot;, &quot;yellow&quot;,&quot;gold&quot;, &quot;orange&quot;, &quot;red&quot;),
+  `grey`  = my_cols(&quot;light grey&quot;, &quot;dark grey&quot;)
+)
+
+my_pal &lt;- function(palette = &quot;main&quot;, reverse = FALSE, ...) {
+  pal &lt;- my_palettes[[palette]]
+  
+  if (reverse) pal &lt;- rev(pal)
+  
+  colorRampPalette(pal, ...)
+}
+
+
+scale_color_mycol &lt;- function(palette = &quot;main&quot;, discrete = TRUE, reverse = FALSE, ...) {
+  pal &lt;- my_pal(palette = palette, reverse = reverse)
+  
+  if (discrete) {
+    discrete_scale(&quot;colour&quot;, paste0(&quot;my_&quot;, palette), palette = pal, ...)
+  } else {
+    scale_color_gradientn(colours = pal(256), ...)
+  }
+}
+
+
+
+scale_fill_mycol &lt;- function(palette = &quot;main&quot;, discrete = TRUE, reverse = FALSE, ...) {
+  pal &lt;- my_pal(palette = palette, reverse = reverse)
+  
+  if (discrete) {
+    discrete_scale(&quot;fill&quot;, paste0(&quot;my_&quot;, palette), palette = pal, ...)
+  } else {
+    scale_fill_gradientn(colours = pal(256), ...)
+  }
+}</code></pre>
+</div>
+<div id="static-plot" class="section level2">
+<h2>Static plot</h2>
+<p>The following code creates the static plot.</p>
+<pre class="r"><code>#####################################################################################
+## Static plot ----  ##
+#####################################################################################
+# filter the data and make some labels
+dfp&lt;- filter(df, year &gt;2013) %&gt;% 
+  select(date,price) %&gt;% 
+  # create labels and a factor variables
+  mutate(rate_label=as.factor(as.character(round(price,2))), 
+         yearf=factor(year(date)),
+         year=year(date))
+
+#Create a list of dates
+dlist&lt;-unique(dfp$date)
+# max length
+
+N&lt;-length(dlist)
+# @Clauswilke on fixing axis for animation: https://twitter.com/ClausWilke/status/969774047729999872 
+
+make_plot_appear &lt;- function(i=25){
+  plot_data &lt;- filter(dfp, date&lt;=dlist[i]) 
+
+  p&lt;- plot_data %&gt;% 
+    
+    ggplot(aes(y=forcats::fct_reorder(yearf,-year),x=price,color=price,fill=..x..))+
+    geom_density_ridges(data=dfp,color=NA, fill=NA)+
+    scale_fill_mycol(palette=&quot;grey&quot;,name=&quot;30-year fixed mortgage rate (%)&quot;,discrete=F)+
+    geom_density_ridges_gradient(rel_min_height=0.01,alpha=0.75,point_color=&quot;royalblue&quot;,scale=0.9,
+                                 jittered_points = TRUE, position = &quot;raincloud&quot;)  +
+    guides(color=F,fill=F)+
+    theme_ridges()+
+    theme(legend.position=&quot;top&quot;,
+          plot.caption=element_text(hjust=0),
+          legend.key.width=unit(1.25,&quot;cm&quot;))+
+    labs(x=&quot;30-year fixed mortgage rate&quot;,y=&quot;Year&quot;,
+         title=&quot;Distribution of U.S. average weekly mortgage rates&quot;,
+         subtitle=paste(&quot;through &quot;,as.character(as.Date(max(plot_data$date)), format=&quot;%B %d, %Y&quot;)),
+         caption=&quot;@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey&quot;)+
+    scale_y_discrete(expand = expand_scale(mult = 0, add = c(0.5, 0.25)))  # drop this if you don&#39;t have ggplot 2.2.1.9000 (Development as of 4/12/2018)
+  
+  return(p)
+}    
+    
+make_plot_appear(N)</code></pre>
+<p><img src="/post/2018-04-12-rate-cloud_files/figure-html/04-12-2018-plot-1-1.png" width="672" /></p>
+</div>
+<div id="animate-it" class="section level2">
+<h2>Animate it</h2>
+<p>And we could animate it. One option lets you see the data evolve, while the second just lets you get rained on.</p>
+<div id="evolving-data" class="section level3">
+<h3>Evolving data</h3>
+<pre class="r"><code>oopt&lt;-ani.options(interval=1/10)
+suppressMessages(  # if you want to supress ggridges messages during aniamtion loop
+saveGIF({for (i in 54:N){
+#  saveGIF({for (i in 53:75){
+  g&lt;-make_plot_appear(i)
+  print(g)
+  print(paste(i,&quot;out of&quot;,N)) # a counter to know when animation loop may end
+  ani.pause()
+}
+  for (ii in 1:20){
+    g&lt;- make_plot_appear(N)
+    print(g)
+    ani.pause()
+  }
+}, movie.name = &quot;YOURDIRECTORY/rate_cloud.gif&quot;,  ani.width=840, ani.height=1000)  # replace YOURDIRECTORY with a path to where you want to save gif
+)</code></pre>
+<p>Running that will give you this animation:</p>
+<p><img src="../../../../img/charts_apr_12_2018/rate_cloud.gif"></p>
+</div>
+<div id="raindrops-keep-falling-on-my-head" class="section level3">
+<h3>Raindrops keep falling on my head</h3>
+<pre class="r"><code>make_plot_appear2 &lt;- function(i=25){
+  plot_data &lt;- filter(df, year &gt;2009) %&gt;% select(date,price) %&gt;% 
+    mutate(rate_label=as.factor(as.character(round(price,2))), 
+           yearf=factor(year(date)),
+           year=year(date))
+
+  p&lt;- plot_data %&gt;% 
+    
+    ggplot(aes(y=forcats::fct_reorder(yearf,-year),x=price,color=price,fill=..x..))+
+    scale_fill_mycol(palette=&quot;grey&quot;,name=&quot;30-year fixed mortgage rate (%)&quot;,discrete=F)+
+    
+    # Use the new jittered pints and position functions in ggridges::geom_density_ridges
+    
+    geom_density_ridges_gradient(rel_min_height=0.01,alpha=0.75,point_color=&quot;royalblue&quot;,scale=0.6,
+                                 jittered_points = TRUE, position = &quot;raincloud&quot;)  +
+    guides(color=F,fill=F)+
+    theme_ridges()+
+    theme(legend.position=&quot;top&quot;,
+          plot.caption=element_text(hjust=0),
+          legend.key.width=unit(1.25,&quot;cm&quot;))+
+    labs(x=&quot;30-year fixed mortgage rate&quot;,y=&quot;Year&quot;,
+         title=&quot;Distribution of U.S. average weekly mortgage rates&quot;,
+         subtitle=paste(&quot;through &quot;,as.character(as.Date(max(plot_data$date)), format=&quot;%B %d, %Y&quot;)),
+         caption=&quot;@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey&quot;)+
+     scale_y_discrete(expand = expand_scale(mult = 0, add = c(0.5, 0.25)))
+  
+  return(p)
+}   
+
+saveGIF({for (ii in 1:15){
+  g&lt;-make_plot_appear2()
+  print(g)
+  print(paste(ii,&quot;out of 15&quot;))
+  ani.pause()
+}
+}, movie.name = &quot;YOURDIRECTORY/rate_cloud2.gif&quot;,  ani.width=840, ani.height=1000)  # replace YOURDIRECTORY with a path to where you want to save gif</code></pre>
+<p>Running that will give you this animation:</p>
+<p><img src="../../../../img/charts_apr_12_2018/rate_cloud2.gif"></p>
+<p>Like I said fun.</p>
+</div>
+</div>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2018/03/18/pipe-tweenr/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2018/03/18/pipe-tweenr/">Pipe Tweenr</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="/2018/04/23/april-2018-housing-market-update-april/">April 2018 Housing Market Update</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="/2018/04/23/april-2018-housing-market-update-april/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/r/">R</a>, 
+            
+                <a href="/tags/dataviz/">dataviz</a>, 
+            
+                <a href="/tags/fun/">fun</a>, 
+            
+                <a href="/tags/animation/">animation</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2018%2f04%2f12%2frate-cloud%2f&text=Rate%20Cloud via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2018%2f04%2f12%2frate-cloud%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+

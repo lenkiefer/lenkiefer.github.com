@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>Visualizing uncertainty in housing data &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Visualizing uncertainty in housing data">
+    <meta property="og:description" content="HOUSING DATA ARE OFTEN MEASURED WITH CONSIDERABLE uncertainty. Estimates are usually based on small samples that are subject to sampling variability. The various government statistical agencies usually report estimates of uncertainty with their releases. For example, both the New Residential Construction and New Residential Sales reports include estimates of sampling uncertainty along with their point estimates.
+In this post I want to explore ways to visualize sampling uncertainty with R. I am reminded of article from a the New York Times Upshot blog a few years ago.">
+
+<div class="header">
+  <h1>Visualizing uncertainty in housing data</h1>
+  <h2></h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2017/04/26</time>
+  </div>
+
+  
+
+  
+
+  
+
+</div>
+
+  <p>HOUSING DATA ARE OFTEN MEASURED WITH CONSIDERABLE uncertainty. Estimates are usually based on small samples that are subject to sampling variability. The various government statistical agencies usually report estimates of uncertainty with their releases. For example, both the <a href="https://www.census.gov/construction/nrc/index.html">New Residential Construction</a> and <a href="https://www.census.gov/construction/nrs/index.html">New Residential Sales</a> reports include estimates of sampling uncertainty along with their point estimates.</p>
+<p>In this post I want to explore ways to visualize sampling uncertainty with <a href="https://www.r-project.org/">R</a>. I am reminded of <a href="https://www.nytimes.com/2014/05/02/upshot/how-not-to-be-misled-by-the-jobs-report.html?_r=0">article</a> from a the New York Times Upshot blog a few years ago.</p>
+<div id="data" class="section level2">
+<h2>Data</h2>
+<p>For data, let’s go ahead and use New Home Sales estimates from the U.S. Census Bureau and U.S. Department of Housing and Urban Development. The Census provides a nice .csv file you can <a href="https://www.census.gov/construction/nrs/index.html">download here</a>. The spreadsheet includes estimates of sampling uncertainty.</p>
+<p>If you go to <a href="https://www.census.gov/econ/currentdata/clutch/getzippedfile?program=RESCONST&amp;filename=RESCONST-mf.zip">this link</a> you can get a zip file that contains the data we’ll use. If you open the .csv file in Excel, you will find the data actually begins on row 705 (as of April 26, 2017, it will move over time). Let’s proceed you’ve unzipped the .csv file and saved it somewhere as <em>RESSALES-mf.csv</em>.</p>
+<p>Note that this file is laid out much the same as the housing starts data we used <a href="../../../../2017/04/18/housing-good-start">last week</a>.</p>
+<pre class="r"><code>##################################################################################
+# Load libraries
+##################################################################################
+library(&quot;animation&quot;)
+library(&quot;ggplot2&quot;)
+library(&quot;scales&quot;)
+library(&#39;ggthemes&#39;)
+library(viridis)</code></pre>
+<pre><code>## Loading required package: viridisLite</code></pre>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## Loading tidyverse: tibble
+## Loading tidyverse: tidyr
+## Loading tidyverse: readr
+## Loading tidyverse: purrr
+## Loading tidyverse: dplyr</code></pre>
+<pre><code>## Conflicts with tidy packages ----------------------------------------------</code></pre>
+<pre><code>## col_factor(): readr, scales
+## discard():    purrr, scales
+## filter():     dplyr, stats
+## lag():        dplyr, stats</code></pre>
+<pre class="r"><code>library(readxl)
+library(ggbeeswarm)
+library(zoo)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;zoo&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     as.Date, as.Date.numeric</code></pre>
+<pre class="r"><code>library(data.table)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;data.table&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:dplyr&#39;:
+## 
+##     between, first, last</code></pre>
+<pre><code>## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     transpose</code></pre>
+<pre class="r"><code>##################################################################################
+# Load Data
+##################################################################################
+
+df.sales&lt;-read.csv(&quot;data/RESSALES-mf.csv&quot;,skip=704)
+
+##################################################################################
+# The following information comes straight from the .csv file
+# and describes the keys in the data file
+##################################################################################
+
+##################################################################################
+# CATEGORIES
+# cat_idx   cat_code    cat_desc    cat_indent
+# 1 SOLD    New Single-family Houses Sold   0
+# 2 ASOLD   Annual Rate for New Single-family Houses Sold   0
+# 3 FORSALE New Single-family Houses For Sale   0
+
+##################################################################################
+
+##################################################################################
+# DATA TYPES            
+# dt_idx    dt_code dt_desc dt_unit
+# 1 TOTAL   All Houses  K
+# 2 NOTSTD  Houses that are Not Started K
+# 3 UNDERC  Houses that are Under Construction  K
+# 4 COMPED  Houses that are Completed   K
+# 5 MEDIAN  Median Sales Price  DOL
+# 6 AVERAG  Average Sales Price DOL
+# 7 MONSUP  Months&#39; Supply at Current Sales Rate    MO
+# 8 MMTHS   Median Number of Months For Sale Since Completion   MO
+##################################################################################
+
+##################################################################################
+# ERROR TYPES           
+# et_idx    et_code et_desc et_unit
+# 1 E_TOTAL Relative Standard Error for All Houses  PCT
+# 2 E_NOTSTD    Relative Standard Error for Houses that are Not Started PCT
+# 3 E_UNDERC    Relative Standard Error for Houses that are Under Construction  PCT
+# 4 E_COMPED    Relative Standard Error for Houses that are Completed   PCT
+# 5 E_MEDIAN    Relative Standard Error for Median Sales Price  PCT
+# 6 E_AVERAG    Relative Standard Error for Average Sales Price PCT
+# 7 E_MONSUP    Relative Standard Error for Months&#39; Supply at Current Sales Rate    PCT
+# 8 E_MMTHS Relative Standard Error for Median Number of Months For Sale Since Completion   PCT
+##################################################################################
+
+##################################################################################
+# GEO LEVELS        
+# geo_idx   geo_code    geo_desc
+# 1 US  United States
+# 2 NE  Northeast
+# 3 MW  Midwest
+# 4 SO  South
+# 5 WE  West
+##################################################################################
+
+##################################################################################
+# Dates are indexed one a month from 1963-01-01 to 2017-03-01
+# e. g. 
+# TIME PERIODS  
+# per_idx   per_name
+# 1 1/1/19563
+# 2 2/1/1963
+# ....
+# 651 3/1/2017
+##################################################################################
+
+
+##################################################################################
+# Construct a lookup table for dates
+dt.lookup&lt;- data.table(per_idx=seq(1,651),
+                       date=seq.Date(as.Date(&quot;1963-01-01&quot;),
+                                     as.Date(&quot;2017-03-01&quot;),by=&quot;month&quot;))
+##################################################################################
+
+##################################################################################
+# Append dataes
+df.sales&lt;-left_join(df.sales,dt.lookup,by=&quot;per_idx&quot;)
+##################################################################################
+
+##################################################################################
+# print a table using the htmlTable library, round numeric to 0 digits for readability 
+# Note we won&#39;t round in analysis)
+##################################################################################
+
+htmlTable::htmlTable(rbind(tail(df.sales %&gt;% 
+                                  map_if(is_numeric,round,0) %&gt;% 
+                                  data.frame() %&gt;% as.tbl())))</code></pre>
+<pre><code>## Warning: Deprecated
+
+## Warning: Deprecated
+
+## Warning: Deprecated
+
+## Warning: Deprecated
+
+## Warning: Deprecated
+
+## Warning: Deprecated
+
+## Warning: Deprecated
+
+## Warning: Deprecated</code></pre>
+<table class='gmisc_table' style='border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;' >
+<thead>
+<tr>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey;'> </th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>per_idx</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>cat_idx</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>dt_idx</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>et_idx</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>geo_idx</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>is_adj</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>val</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>date</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style='text-align: left;'>1</td>
+<td style='text-align: center;'>651</td>
+<td style='text-align: center;'>3</td>
+<td style='text-align: center;'>1</td>
+<td style='text-align: center;'>0</td>
+<td style='text-align: center;'>3</td>
+<td style='text-align: center;'>0</td>
+<td style='text-align: center;'>34</td>
+<td style='text-align: center;'>2017-03-01</td>
+</tr>
+<tr>
+<td style='text-align: left;'>2</td>
+<td style='text-align: center;'>651</td>
+<td style='text-align: center;'>3</td>
+<td style='text-align: center;'>0</td>
+<td style='text-align: center;'>1</td>
+<td style='text-align: center;'>3</td>
+<td style='text-align: center;'>0</td>
+<td style='text-align: center;'>10</td>
+<td style='text-align: center;'>2017-03-01</td>
+</tr>
+<tr>
+<td style='text-align: left;'>3</td>
+<td style='text-align: center;'>651</td>
+<td style='text-align: center;'>3</td>
+<td style='text-align: center;'>1</td>
+<td style='text-align: center;'>0</td>
+<td style='text-align: center;'>4</td>
+<td style='text-align: center;'>0</td>
+<td style='text-align: center;'>144</td>
+<td style='text-align: center;'>2017-03-01</td>
+</tr>
+<tr>
+<td style='text-align: left;'>4</td>
+<td style='text-align: center;'>651</td>
+<td style='text-align: center;'>3</td>
+<td style='text-align: center;'>0</td>
+<td style='text-align: center;'>1</td>
+<td style='text-align: center;'>4</td>
+<td style='text-align: center;'>0</td>
+<td style='text-align: center;'>6</td>
+<td style='text-align: center;'>2017-03-01</td>
+</tr>
+<tr>
+<td style='text-align: left;'>5</td>
+<td style='text-align: center;'>651</td>
+<td style='text-align: center;'>3</td>
+<td style='text-align: center;'>1</td>
+<td style='text-align: center;'>0</td>
+<td style='text-align: center;'>5</td>
+<td style='text-align: center;'>0</td>
+<td style='text-align: center;'>62</td>
+<td style='text-align: center;'>2017-03-01</td>
+</tr>
+<tr>
+<td style='border-bottom: 2px solid grey; text-align: left;'>6</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>651</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>3</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>0</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>1</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>5</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>0</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>7</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>2017-03-01</td>
+</tr>
+</tbody>
+</table>
+<p>Let’s organize the data a little bit more.</p>
+<pre class="r"><code>##################################################################################
+# Filter to just the us, total sales at an annual rate
+new.sales&lt;-filter(df.sales, cat_idx==2 &amp; (dt_idx==1 | et_idx==1) &amp; geo_idx ==1 )
+##################################################################################
+
+##################################################################################
+# Rearrange the data
+new.sales&lt;-new.sales %&gt;% filter(year(date)&gt;1999) %&gt;% 
+  select(date,val,et_idx) %&gt;% spread(et_idx,val)
+# Rename columns
+colnames(new.sales)&lt;-c(&quot;date&quot;,&quot;sales&quot;,&quot;e.sales&quot;)
+##################################################################################
+
+# Check it out:
+htmlTable::htmlTable(rbind(tail(new.sales %&gt;% 
+                                  map_if(is_numeric,round,0) %&gt;% 
+                                  data.frame() %&gt;% as.tbl())))</code></pre>
+<pre><code>## Warning: Deprecated
+
+## Warning: Deprecated
+
+## Warning: Deprecated</code></pre>
+<table class='gmisc_table' style='border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;' >
+<thead>
+<tr>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey;'> </th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>date</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>sales</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>e.sales</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style='text-align: left;'>1</td>
+<td style='text-align: center;'>2016-10-01</td>
+<td style='text-align: center;'>568</td>
+<td style='text-align: center;'>8</td>
+</tr>
+<tr>
+<td style='text-align: left;'>2</td>
+<td style='text-align: center;'>2016-11-01</td>
+<td style='text-align: center;'>573</td>
+<td style='text-align: center;'>8</td>
+</tr>
+<tr>
+<td style='text-align: left;'>3</td>
+<td style='text-align: center;'>2016-12-01</td>
+<td style='text-align: center;'>551</td>
+<td style='text-align: center;'>7</td>
+</tr>
+<tr>
+<td style='text-align: left;'>4</td>
+<td style='text-align: center;'>2017-01-01</td>
+<td style='text-align: center;'>585</td>
+<td style='text-align: center;'>8</td>
+</tr>
+<tr>
+<td style='text-align: left;'>5</td>
+<td style='text-align: center;'>2017-02-01</td>
+<td style='text-align: center;'>587</td>
+<td style='text-align: center;'>8</td>
+</tr>
+<tr>
+<td style='border-bottom: 2px solid grey; text-align: left;'>6</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>2017-03-01</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>621</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>8</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="viz-1-ribbon-chart" class="section level2">
+<h2>VIZ 1: Ribbon Chart</h2>
+<p>First, let’s remake a viz we’ve <a href="../../../../2017/01/30/housing-recap">done before</a>. We’ll plot a standard line chart and add a ribbon capturing uncertainty.</p>
+<pre class="r"><code>##################################################################################
+# Compute ribbon size
+
+new.sales &lt;- new.sales %&gt;% mutate( up=qnorm(0.95,mean=sales,sd=e.sales/100*sales),
+                                   down=qnorm(0.05,mean=sales,sd=e.sales/100*sales))
+##################################################################################
+
+
+##################################################################################
+# Make Plot
+ggplot(data=new.sales, aes(x=date,y=sales, label = sales))+
+    geom_line()+
+    scale_y_continuous() + 
+    scale_x_date(labels= date_format(&quot;%Y&quot;), date_breaks=&quot;1 year&quot; ) +
+    geom_ribbon(aes(x=date,ymin=down,ymax=up),fill=plasma(5)[5],alpha=0.5)  +
+    theme_minimal()+
+    labs(x=NULL, y=NULL,
+         title=&quot;New Home Sales (Ths. SAAR)&quot;,
+         subtitle=&quot;shaded region denotes confidence interval&quot;,
+           caption=&quot;@lenkiefer Source: U.S. Census Bureau and U.S. Department of Housing and Urban Development&quot;)+
+    theme(plot.caption=element_text(hjust=0))</code></pre>
+<p><img src="/post/2017-04-26-housing-data-uncertainty_files/figure-html/04-26-2017-viz-1-1.png" width="672" /></p>
+</div>
+<div id="viz-2-gif" class="section level2">
+<h2>Viz 2: Gif</h2>
+<p>Instead of using a ribbon, let’s draw random samples and animate them to highlight uncertainty.</p>
+<pre class="r"><code>##################################################################################
+# Function for sampling
+myf&lt;- function(sales,e.sales){
+  rnorm(250,sales,e.sales/100*sales)
+}
+##################################################################################
+
+
+##################################################################################
+# draw samples using map2, then unnest to blow up data and group
+output.data&lt;-new.sales %&gt;% 
+  mutate(sales.samp =map2(sales,e.sales,myf)) %&gt;%  # draw our samples
+  unnest(sales.samp) %&gt;%  # unpack the samples
+  group_by(date) %&gt;% 
+  mutate(id=row_number()) %&gt;% ungroup()  # this gives us an id for each sample
+##################################################################################</code></pre>
+<p>Now we can animate it:</p>
+<pre class="r"><code>##################################################################################
+# Animate plot!
+##################################################################################
+oopt = ani.options(interval = 0.25)
+saveGIF({for (i in 1:100) {
+  g&lt;-
+    ggplot(data=filter(output.data,year(date)&gt;2015 &amp; id&lt;=i),aes(x=date,y=sales.samp,group=id))+
+    geom_line(color=&quot;gray50&quot;,aes(alpha=ifelse(id==i,1,0.2)))+
+    #geom_line(data=filter(output.data,id==i),color=&quot;red&quot;,alpha=1,size=1.05)+
+    guides(alpha=F)+
+    geom_point(size=3,color=&quot;black&quot;,aes(y=sales))+
+    theme_minimal()+
+    labs(x=&quot;&quot;,y=&quot;&quot;,
+         title=&quot;New home sales (1000s, SAAR)&quot;,
+         subtitle=&quot;Black dots estimates,each gray line a random sample from normal with survey standard error&quot;,
+           caption=&quot;@lenkiefer Source: U.S. Census Bureau and U.S. Department of Housing and Urban Development&quot;)+
+    coord_cartesian(xlim=as.Date(c(&quot;2016-01-01&quot;,&quot;2017-03-01&quot;)),ylim=c(400,700))+
+    theme(plot.caption=element_text(hjust=0))
+  print(g)
+  ani.pause()
+  print(paste(i,&quot;out of 100&quot;))
+}
+
+},movie.name=&quot;newsales_04_26_2017 samp ex.gif&quot;,ani.width = 600, ani.height = 450)</code></pre>
+<p><img src="../../../../img/charts_apr_26_2017/newsales_04_26_2017 samp ex.gif" ></p>
+</div>
+<div id="viz-3-beeswarm" class="section level2">
+<h2>Viz 3: Beeswarm</h2>
+<p>We can also make a beeswarm plot (for more <a href="../../../../2016/08/18/data-swarm">see here</a>).</p>
+<pre class="r"><code>ggplot(data=filter(output.data,year(date)&gt;2015),
+       aes(x=date,y=sales.samp,color=sales.samp))+
+  scale_color_viridis(name=&quot;&quot;)+ guides(color=F)+
+  geom_quasirandom()+theme_minimal()+
+  geom_point(data=filter(output.data,year(date)&gt;2015 &amp; id==1),
+             aes(y=sales),color=&quot;black&quot;,size=3) +
+  scale_x_date(date_labels=&quot;%b-%Y&quot;,date_breaks=&quot;2 months&quot;)+
+    labs(x=&quot;&quot;,y=&quot;&quot;,
+         title=&quot;New Home Sales (1000s SAAR)&quot;,
+         subtitle=&quot;Estimates (black dots) and sampling uncertainty&quot;,
+         caption=&quot;@lenkiefer Source: U.S. Census Bureau and U.S. Department of Housing and Urban Development\ncolored dots represent draws from a normal distribution centered at estimate with standard error of estimate.&quot;)+
+      theme(plot.caption=element_text(hjust=0))</code></pre>
+<p><img src="/post/2017-04-26-housing-data-uncertainty_files/figure-html/04-26-2017-viz-3-swarm-1.png" width="672" /></p>
+<p>And we could animate it:</p>
+<pre class="r"><code>##################################################################################
+# Animate plot!
+##################################################################################
+oopt = ani.options(interval = 0.2)
+saveGIF({for (i in 1:200) {
+  g&lt;-
+    ggplot(data=filter(output.data,date&gt;=&quot;2016-03-01&quot; &amp; id&lt;=i),
+           aes(x=date,y=sales.samp,color=sales.samp,
+               alpha=ifelse(id==i,1,0.2) ))+
+    scale_color_viridis(name=&quot;&quot;)+ guides(color=F)+
+    geom_quasirandom()+theme_minimal()+
+    geom_point(data=filter(output.data,date&gt;=&quot;2016-03-01&quot; &amp; id==1),
+               aes(y=sales),color=&quot;black&quot;,size=3,alpha=1) +
+    scale_x_date(date_labels=&quot;%b-%Y&quot;,date_breaks=&quot;2 months&quot;,
+                 limits=as.Date(c(&quot;2016-02-15&quot;,&quot;2017-04-15&quot;)))+
+    scale_y_continuous(limits=c(400,800))+
+    guides(alpha=F)+
+    labs(x=&quot;&quot;,y=&quot;&quot;,
+         title=&quot;New Home Sales (1000s SAAR)&quot;,
+         subtitle=&quot;Estimates (black dots) and sampling uncertainty&quot;,
+         caption=&quot;@lenkiefer Source: U.S. Census Bureau and U.S. Department of Housing and Urban Development\ncolored dots represent draws from a normal distribution centered at estimate with standard error of estimate.&quot;)+
+      theme(plot.caption=element_text(hjust=0))
+  print(g)
+  ani.pause()
+  print(paste(i,&quot;out of 250&quot;))  #counter
+}
+
+},movie.name=&quot;new home sales swarm.gif&quot;,ani.width = 600, ani.height = 450)</code></pre>
+<p><img src="../../../../img/charts_apr_26_2017/new home sales swarm.gif" ></p>
+</div>
+<div id="conclusion" class="section level1">
+<h1>Conclusion</h1>
+<p>Visualizing uncertainty can be challenging. Depending on the audience, uncertainty can be a difficult concept. I’m not sure the data visualization field has a consensus on the right way to visualize uncertainty.</p>
+<p>But communicating uncertainty can be quite important. Maybe one of these ideas could work for you.</p>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2017/04/25/bivariate-animate/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2017/04/25/bivariate-animate/">Animate a bivariate choropleth</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="/2017/05/02/house-price-viz/">House price visualizations</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="/2017/05/02/house-price-viz/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2017%2f04%2f26%2fhousing-data-uncertainty%2f&text=Visualizing%20uncertainty%20in%20housing%20data via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2017%2f04%2f26%2fhousing-data-uncertainty%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+

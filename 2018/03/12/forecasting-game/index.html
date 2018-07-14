@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="What&#39;s a forecaster to do?  We look at a forecasting game and determine the optimal communication strategy for a forecaster who predicts a binary outcome.">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>Forecasting Game &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com//img/charts_mar_12_2018/game.png" >
+     
+    <meta property="og:title" content="Forecasting Game">
+    <meta property="og:description" content="What&#39;s a forecaster to do?  We look at a forecasting game and determine the optimal communication strategy for a forecaster who predicts a binary outcome.">
+
+<div class="header">
+  <h1>Forecasting Game</h1>
+  <h2>What&#39;s a forecaster to do?  We look at a forecasting game and determine the optimal communication strategy for a forecaster who predicts a binary outcome.</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/03/12</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/forecasting">forecasting</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/fun">fun</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <p>LET’S PICK BACK UP <a href="../../../../2018/03/05/forecasting-and-deciding-binary-outcomes-under-asymmetric-information/">where we left off</a> and think about communicating forecast results. To help guide our thinking, let’s set up a little game.</p>
+<div id="basic-setup" class="section level1">
+<h1>Basic setup</h1>
+<p>Like last time we’re going to focus on a situation where a forecaster observes some information about the world and makes an announcement about a future binary outcome. A decision maker observes the forecaster’s announcement and takes a binary action. Then the outcome is realized and the forecaster receives a payoff. The decision maker’s action will be a mechanical function of the forecaster’s announcement.</p>
+<p>We have:</p>
+<ul>
+<li>Y: an outcome, either 0 or 1</li>
+<li>X: an observation about the world. For simplicity we’ll assume that the forecaster observes P(Y|X) which corresponds to an unbiased estimate of the conditional probability of the outcome taking place</li>
+<li>A: an action, either 0 or 1</li>
+<li>Z: a signal from the forecaster, a value between 0 and 1 (e.g. a pronouncement of the forecaster’s assessment of the conditional likelihood that Y=1)</li>
+</ul>
+<div id="forecaster-payoffs" class="section level2">
+<h2>Forecaster payoffs</h2>
+<p>We’ll need to parameterize the forecaster’s payoffs. I’ve chosen a particular functional form which has the following properties.</p>
+<ul>
+<li>The forecaster’s payoff depends on the pronouncement Z, the action taken A, and the outcome Y</li>
+<li>The closer the pronouncement is to the true outcome, the lesser the payoff. The payoff takes a quadratic form.</li>
+<li>The right action (A= 0 when Y =0 or A =1 to Y =1) is always better</li>
+<li>The payoff is symmetric</li>
+</ul>
+<p>Having the payoff depend on the pronouncement rather than solely the outcomes captures a reputation effect. All else being equal, the forecaster would prefer to be right.</p>
+<p>Let’s simulate this payoff and take a look. Per usual, we’ll generate the figures and analysis with <a href="https://www.r-project.org/">R</a>.</p>
+<p>The code below generates the following three graphs which help illustrate the payoffs.</p>
+<pre class="r"><code>#####################################################################################
+## Step 0: Load libraries ###
+#####################################################################################
+library(tidyverse)
+library(ggridges)
+library(viridis)
+
+#####################################################################################
+## Step 2: set parameters ###
+#####################################################################################
+X    &lt;- seq(0,1,.1)    # probabilities
+Z    &lt;- seq(0,1,.1)    # signals
+a    &lt;- c(0,1)         # actions
+y    &lt;- c(0,1)         # outcomes
+c1   &lt;- 0.5            # payoff parameter 1
+c2   &lt;- 0.5            # payoff parameter 2
+ccd  &lt;- 0.5            # cutoff on decision
+mx11 &lt;- 0.3            # relative rate on reputation (getting it right)
+mx22 &lt;- 0.3            # relative rate on repurtation (getting it right)
+mx12 &lt;- 0.1            # relative rate on reputation (getting it right)
+mx21 &lt;- 0.1            # relative rate on reputation (getting it right)
+
+
+#####################################################################################
+## Step 3: analyze ###
+#####################################################################################
+
+# Simulate some information, signals, actions, and outcomes
+df2&lt;-expand.grid(x=X,z=Z, a=a,y=y)
+
+# Function to compute forecaster payoffs
+
+f.payoff3&lt;- function(y=0,a=0,z=0,cc1=c1,cc2=c2,m11=mx11,m22=mx22,m12=mx12,m21=mx21,...){
+  payoff&lt;-case_when(y==0 &amp; a==0 ~ -m11*(z&gt;0.5)*(z-0.5)**2-m21*abs(z-y),
+                    y==0 &amp; a==1 ~ -cc2-sign(z-0.5)*(z-0.5)**2,
+                    y==1 &amp; a==1 ~ -m22*(z&lt;0.5)*(0.5-z)**2-m12*abs(z-y),
+                    y==1 &amp; a==0 ~ -cc1-sign(0.5-z)*(z-0.5)**2
+  )
+  return(payoff)
+}
+
+# Simulate payoffs using purrr::pmap
+
+df2 %&gt;%  as.tbl() %&gt;% mutate(payoff= pmap(list(y=y,a=a,z=z),f.payoff3, cc1=c1,cc2=c2)) %&gt;% unnest() %&gt;%
+  mutate(outcome=paste0(&quot;Action A = &quot;,a,&quot;, outcome Y = &quot;,y))-&gt; df4
+
+# plot payoffs
+
+ggplot(data=df4, aes(x=z,y=payoff, color=outcome))+geom_line(size=1.1)+theme_gray()+
+  scale_color_viridis(option=&quot;D&quot;,discrete=T,end=0.85)+
+  labs(x=&quot;Signal &quot;,y=&quot;Forecaster Payoff&quot;, 
+       title=&quot;Payoffs given signal Z, action A, and outcome Y&quot;,
+       subtitle=&quot;Action A = 1 taken if Z &gt;= c, A=0 if Z &lt; c&quot;)</code></pre>
+<p><img src="/post/2018-03-12-forecasting-game_files/figure-html/chunk-01-03-12-2018-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(data=df4, aes(x=z,y=payoff, color=outcome,group=outcome))+
+  theme_gray()+facet_wrap(~outcome,scales=&quot;free_x&quot;)+scale_y_continuous(sec.axis=dup_axis())+
+  geom_line(data=df4 %&gt;% mutate(outcome=NULL), aes(group=paste(a,y)),size=1.1,color=&quot;gray&quot;,alpha=0.85)+
+  geom_line(size=1.1)+
+  scale_color_viridis(option=&quot;D&quot;,discrete=T,end=0.85)+
+  labs(x=&quot;Signal &quot;,y=&quot;Forecaster Payoff&quot;, 
+       title=&quot;Payoffs given signal Z, action A, and outcome Y&quot;,
+       subtitle=&quot;Action A = 1 taken if Z &gt;= c, A=0 if Z &lt; c&quot;)+
+  theme(legend.position=&quot;none&quot;)</code></pre>
+<p><img src="/post/2018-03-12-forecasting-game_files/figure-html/chunk-01-03-12-2018-2.png" width="672" /></p>
+<pre class="r"><code>ggplot(data=df4, aes(x=z,y=payoff, color=outcome,group=outcome))+
+  geom_line(alpha=0)+
+  geom_line(size=1.1,color=&quot;gray&quot;,alpha=0.85)+
+  theme_gray()+
+  geom_line(data=filter(df4, a==1 &amp; y==0),size=1.1)+
+  geom_text(data=filter(df4, a==1 &amp; y==0 &amp; z==0.5), aes(label=outcome,y=-0.4))+
+  scale_color_viridis(option=&quot;D&quot;,discrete=T,end=0.85)+
+  labs(x=&quot;Signal &quot;,y=&quot;Forecaster Payoff&quot;, 
+       title=&quot;Payoffs given signal Z, action A, and outcome Y&quot;,
+       subtitle=&quot;Action A = 1 taken if Z &gt;= c, A=0 if Z &lt; c&quot;)+
+  theme(legend.position=&quot;none&quot;)</code></pre>
+<p><img src="/post/2018-03-12-forecasting-game_files/figure-html/chunk-01-03-12-2018-3.png" width="672" /> Given this payoff structure, what’s the best thing for the forecaster to do? Well, it depends on how actions are decided. For now, let’s assume that the action A depends solely on the forecaster’s signal Z. If Z is greater or equal to some cutoff c, then the action A=1 is taken, otherwise action A=0 is taken. The following code allows us to determine the optimal response Z, conditional on information X and cutoff c.</p>
+<p>We can also plot the optimal Z as a function of these variables. Below I try several representations.</p>
+<pre class="r"><code># Function for expected payoffs
+
+f.payoff5&lt;- function(zz=0,  # signal
+                     xx=0,  # information
+                     ccd=cd # cutoff
+                     ,...){
+  payoff5&lt;- xx*f.payoff3(y=1,a=1*(zz&gt;=ccd),z=zz) + (1-xx)*f.payoff3(y=0,a=1*(zz&gt;=ccd),z=zz)
+  return(payoff5)
+}
+
+
+# optimize over signal z: 
+optz&lt;- function(xt=0, ct=cd){
+  return(optimize(f.payoff5,c(0,1),xx=xt,ccd=ct,maximum=TRUE,tol=.Machine$double.eps^0.25)$maximum)
+}
+
+
+#data.frame(expand.grid(y=c(0,1), z=c(0,1))) %&gt;% mutate(payoff=pmap(list(y=y,z=z,a=1*(z==1)), f.payoff3)) %&gt;% unnest() -&gt; df6
+
+data.frame(expand.grid(x=seq(0,1,.02),cd=seq(0,1,.1))) %&gt;% mutate(zstar=map2(x,cd,optz)) %&gt;% unnest()-&gt;dfz
+
+# plot results
+
+ggplot(data=dfz, aes(x=x,y=cd,fill=zstar))+geom_tile(color=NA)+scale_fill_viridis(option=&quot;B&quot;,name=&quot;Signal Z&quot;)+
+  labs(x=&quot;Observed P(Y=1|X)&quot;,y=&quot;Cutoff c, defining action A: A=I(Z &gt;= c)&quot;, title=&quot;Optimal Signal Z, conditional on P(Y=1|X) and cutoff c&quot;,
+       subtitle=&quot;Action A = 1 taken if Z &gt;= c, A=0 if Z &lt; c&quot;)</code></pre>
+<p><img src="/post/2018-03-12-forecasting-game_files/figure-html/chunk-02-03-12-2018-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(data=dfz, aes(x=x,y=zstar))+geom_line() + geom_line(linetype=2,color=&quot;darkgray&quot;,aes(y=x))+facet_wrap(~cd) + 
+  labs(x=&quot;Observed P(Y=1|X)&quot;,y=&quot;Signal Z&quot;, title=&quot;Optimal Signal Z, conditional on P(Y=1|X) and cutoff c&quot;,
+       subtitle=&quot;Action A = 1 taken if Z &gt;= c, A=0 if Z &lt; c&quot;)</code></pre>
+<p><img src="/post/2018-03-12-forecasting-game_files/figure-html/chunk-02-03-12-2018-2.png" width="672" /></p>
+<pre class="r"><code>ggplot(data=dfz, aes(x=x,height=zstar,y=0,fill=zstar))+
+  geom_ridgeline_gradient(color=&quot;black&quot;)+facet_wrap(~paste(&quot;c =&quot;,cd))+scale_fill_viridis(option=&quot;B&quot;,name=&quot;Response Z&quot;)+
+  geom_line(aes(y=x),color=&quot;darkgray&quot;,linetype=2) + 
+  labs(x=&quot;Observed P(Y=1|X)&quot;,y=&quot;Signal Z&quot;, title=&quot;Optimal Signal Z, conditional on P(Y=1|X) and cutoff c&quot;,
+       subtitle=&quot;Action A = 1 taken if Z &gt;= c, A=0 if Z &lt; c&quot;)</code></pre>
+<p><img src="/post/2018-03-12-forecasting-game_files/figure-html/chunk-02-03-12-2018-3.png" width="672" /></p>
+<pre class="r"><code>ggplot(data=dfz, aes(x=x,height=zstar-x,y=x,fill=zstar-x))+
+  geom_ridgeline_gradient(color=&quot;black&quot;,min_height=-1)+
+  facet_wrap(~paste(&quot;c =&quot;,cd))+
+  scale_fill_viridis(option=&quot;B&quot;,name=&quot;Response Z&quot;)+
+  geom_line(aes(y=x),color=&quot;darkgray&quot;,linetype=2) + 
+  labs(x=&quot;Observed P(Y=1|X)&quot;,y=&quot;Signal Z&quot;, title=&quot;Optimal Signal Z, conditional on P(Y=1|X) and cutoff c&quot;,
+       subtitle=&quot;Action A = 1 taken if Z &gt;= c, A=0 if Z &lt; c&quot;)</code></pre>
+<p><img src="/post/2018-03-12-forecasting-game_files/figure-html/chunk-02-03-12-2018-4.png" width="672" /></p>
+</div>
+<div id="discussion" class="section level2">
+<h2>Discussion</h2>
+<p>These charts show that the optimal signal is not always equal to the best estimate of the conditional probability. The best response is no longer a step function <a href="../../../../2018/03/05/forecasting-and-deciding-binary-outcomes-under-asymmetric-information/">see our earlier results</a>. Now, due to reputation effects, the forecaster seeks to hedge, particularly in cases where a specific action is going to be taken regardless of what the forecaster says (c=0 or c=1).</p>
+<p>It’s also interesting to look at the case when c=0.5.</p>
+<div id="expected-payoffs" class="section level3">
+<h3>Expected payoffs</h3>
+<p>In this setup, how does the forecaster’s expected payoff vary as a function of information X?</p>
+<p>Let’s plot it:</p>
+<pre class="r"><code># compute expected payoffs
+
+dfz %&gt;% mutate(ep=pmap(list(zz=zstar,xx=x,ccd=cd),f.payoff5)) %&gt;% unnest() -&gt; dfz2
+
+
+ggplot(data=dfz2, aes(x=x,height=zstar,y=0,fill=ep))+
+  geom_ridgeline_gradient(color=&quot;black&quot;)+facet_wrap(~paste(&quot;c =&quot;,cd))+scale_fill_viridis(option=&quot;B&quot;,name=&quot;Response Z&quot;)+
+  geom_line(aes(y=x),color=&quot;darkgray&quot;,linetype=2) + 
+  labs(x=&quot;Observed P(Y=1|X)&quot;,y=&quot;Expected Payoff&quot;, title=&quot;Expected Payoff given optimal Signal Z, conditional on P(Y=1|X) and cutoff c&quot;,
+       subtitle=&quot;Action A = 1 taken if Z &gt;= c, A=0 if Z &lt; c&quot;)</code></pre>
+<p><img src="/post/2018-03-12-forecasting-game_files/figure-html/chunk-03-03-12-2018-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(data=dfz2, aes(x=x,height=zstar-x,y=x,fill=ep))+
+  geom_ridgeline_gradient(color=&quot;black&quot;,min_height=-1)+facet_wrap(~paste(&quot;c =&quot;,cd))+scale_fill_viridis(option=&quot;B&quot;,name=&quot;Response Z&quot;)+
+  geom_line(aes(y=x),color=&quot;darkgray&quot;,linetype=2) + 
+  labs(x=&quot;Observed P(Y=1|X)&quot;,y=&quot;Expected Payoff&quot;, title=&quot;Expected Payoff given optimal Signal Z, conditional on P(Y=1|X) and cutoff c&quot;,
+       subtitle=&quot;Action A = 1 taken if Z &gt;= c, A=0 if Z &lt; c&quot;)</code></pre>
+<p><img src="/post/2018-03-12-forecasting-game_files/figure-html/chunk-03-03-12-2018-2.png" width="672" /></p>
+<pre class="r"><code>ggplot(data=dfz2, aes(x=x,y=cd,fill=ep))+geom_tile(color=NA)+scale_fill_viridis(option=&quot;B&quot;,name=&quot;Signal Z&quot;)+
+  labs(x=&quot;Observed P(Y=1|X)&quot;,y=&quot;Cutoff c, defining action A: A=I(Z &gt;= c)&quot;, title=&quot;Expected payoff given optimal Signal Z, conditional on P(Y=1|X) and cutoff c&quot;,
+       subtitle=&quot;Action A = 1 taken if Z &gt;= c, A=0 if Z &lt; c&quot;)</code></pre>
+<p><img src="/post/2018-03-12-forecasting-game_files/figure-html/chunk-03-03-12-2018-3.png" width="672" /></p>
+<p>Here we can see that the payoff is generally greater when there is less uncertainty around Y. Very high, or very low conditional probabilities allow the forecaster to make a strong pronouncement with greater confidence.</p>
+</div>
+<div id="next-steps" class="section level3">
+<h3>Next steps</h3>
+<p>We still haven’t answered how the decision maker might respond given the forecaster’s behavior. But we can expand this example to figure out the best cutoff for the decision maker to set.</p>
+</div>
+</div>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2018/03/11/charting-jobs-friday-with-r/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2018/03/11/charting-jobs-friday-with-r/">Charting Jobs Friday with R</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="/2018/03/18/pipe-tweenr/">Pipe Tweenr</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="/2018/03/18/pipe-tweenr/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/dataviz/">dataviz</a>, 
+            
+                <a href="/tags/forecasting/">forecasting</a>, 
+            
+                <a href="/tags/r/">R</a>, 
+            
+                <a href="/tags/fun/">fun</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2018%2f03%2f12%2fforecasting-game%2f&text=Forecasting%20Game via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2018%2f03%2f12%2fforecasting-game%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+

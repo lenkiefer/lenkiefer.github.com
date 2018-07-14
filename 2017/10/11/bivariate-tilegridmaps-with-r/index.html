@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>Bivariate tilegridmaps with R &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Bivariate tilegridmaps with R">
+    <meta property="og:description" content="I HAVE BEEN EXPERIMENTING WITH A NEW WAY TO VISUALIZE DATA, a bivariate tilegridmap. When I get around to rolling out my tidyPowerPoint workflow we’re going to want something other than bars and lines to fill it up. A graph like this might be a fun option.
+We’ll build one, but first, just let me show you one I tweeted earlier today:
+bivariate #tilegridmap map anyone? pic.twitter.com/y3G5XExzoN
+&mdash; Leonard Kiefer (@lenkiefer) October 11, 2017  In this post, let’s go over how to make this plot with R.">
+
+<div class="header">
+  <h1>Bivariate tilegridmaps with R</h1>
+  <h2></h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2017/10/11</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/maps">maps</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/fun">fun</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <p>I HAVE BEEN EXPERIMENTING WITH A NEW WAY TO VISUALIZE DATA, a bivariate tilegridmap. When I get around to rolling out my tidyPowerPoint workflow we’re going to want something other than bars and lines to fill it up. A graph like this might be a fun option.</p>
+<p>We’ll build one, but first, just let me show you one I tweeted earlier today:</p>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">bivariate <a href="https://twitter.com/hashtag/tilegridmap?src=hash&amp;ref_src=twsrc%5Etfw">#tilegridmap</a> map anyone? <a href="https://t.co/y3G5XExzoN">pic.twitter.com/y3G5XExzoN</a></p>&mdash; Leonard Kiefer (@lenkiefer) <a href="https://twitter.com/lenkiefer/status/918235215008555008?ref_src=twsrc%5Etfw">October 11, 2017</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+ 
+<p>In this post, let’s go over how to make this plot with <a href="https://www.r-project.org/">R</a>. If you’re interested in these plots, you might be interested in <a href="../../../../2017/04/24/bivariate-map/">this post</a> on making a bivariate choropleth map with R. That post explains the color scales and opacity we’ll use to make our plot.</p>
+<div id="get-some-data" class="section level1">
+<h1>Get some data</h1>
+<p>We’ll exploit the same technique we <a href="../../../../2017/10/10/quick-geofacet-plots/">used yesterday</a> to get some state data from the Saint Louis Federal Reserve’s <a href="https://fred.stlouisfed.org/">FRED</a> database.</p>
+<pre class="r"><code>#####################################################################################
+## Step 1: Load Libraries ##
+#####################################################################################
+library(tidyquant)
+library(tibbletime)
+library(geofacet)
+library(viridis)
+library(scales)
+library(cowplot)   # to arrange plots
+
+#####################################################################################
+## Step 2: go get data ##
+#####################################################################################
+
+tickers&lt;-c(paste0(us_state_grid3$code,&quot;NA&quot;),      # nonfarm employment is NA
+           paste0(us_state_grid3$code,&quot;STHPI&quot;))   # FHFA house price index
+
+df&lt;-tq_get(tickers,get=&quot;economic.data&quot;,from=&quot;2010-01-01&quot;)
+
+#####################################################################################
+## Organize the data ##
+#####################################################################################
+
+df&lt;-mutate(df,
+           state = substr(symbol,1,2), 
+           var   = substr(symbol,3,10)) 
+
+# Create rolling mean function using tibbletime::rollify
+rolling_mean &lt;- rollify(mean, window = 3)
+
+# Create employment data
+df %&gt;% as_tbl_time(index=date) %&gt;%
+  filter(var==&quot;NA&quot;) %&gt;% group_by(state) %&gt;%
+  mutate(emp_ma3=rolling_mean(price)) %&gt;%
+  mutate(eg=Delt(emp_ma3,k=12))-&gt; df.emp
+
+# Create house price data
+df %&gt;% as_tbl_time(index=date) %&gt;% 
+  filter(var==&quot;STHPI&quot;) %&gt;% 
+  group_by(state) %&gt;%
+  mutate(hpa=Delt(price,k=4)) -&gt; df.hpi
+
+# Create combined data
+dfb &lt;- left_join(select(df.hpi,date,state,hpa), 
+                 select(df.emp,date,state,eg),
+                 by=c(&quot;date&quot;,&quot;state&quot;))  %&gt;% 
+  filter(!is.na(eg) &amp; !is.na(hpa))</code></pre>
+<div id="get-the-data-ready" class="section level2">
+<h2>Get the data ready</h2>
+<p>In order to construct our bivariate color scheme we need to compute terciles of our x and y variable.</p>
+<pre class="r"><code># Compute quantiles:
+
+dfb %&gt;% group_by(date) %&gt;%
+  mutate(eg0=quantile(eg,0,na.rm=T),
+         eg1=quantile(eg,0.33,na.rm=T),
+         eg2=quantile(eg,0.66,na.rm=T),
+         eg3=quantile(eg,1,na.rm=T),
+         hpa0=quantile(hpa,0,na.rm=T),
+         hpa1=quantile(hpa,0.33,na.rm=T),
+         hpa2=quantile(hpa,0.66,na.rm=T),
+         hpa3=quantile(hpa,1,na.rm=T)
+         )  %&gt;%
+  mutate(x=ifelse(eg&lt;eg1,1,ifelse(eg&lt;eg2,2,3)),
+         y=ifelse(hpa&lt;hpa1,1,ifelse(hpa&lt;hpa2,2,3))
+         )-&gt; dfb
+
+dfq&lt;- dfb %&gt;% group_by(date) %&gt;%
+  summarize(eg0=quantile(eg,0,na.rm=T),
+            eg1=quantile(eg,0.33,na.rm=T),
+            eg2=quantile(eg,0.66,na.rm=T),
+            eg3=quantile(eg,1,na.rm=T),
+            hpa0=quantile(hpa,0,na.rm=T),
+            hpa1=quantile(hpa,0.33,na.rm=T),
+            hpa2=quantile(hpa,0.66,na.rm=T),
+            hpa3=quantile(hpa,1,na.rm=T),
+            eg=0,hpa=0,state=&quot;Legend&quot;,
+            x=1,y=1) %&gt;% 
+  filter(date==max(dfb$date))</code></pre>
+</div>
+<div id="make-the-plot" class="section level2">
+<h2>Make the plot</h2>
+<p>This code creates our plot. (gonna be loooong, got to be big to fit everything in…still gotta see if wecan reduce it.)</p>
+<pre class="r"><code># just get last month (quarter) of data
+dfb2&lt;-filter(dfb,date==max(dfb$date))
+
+dfq&lt;- dfb2 %&gt;%
+    group_by(date) %&gt;%
+    summarize(eg0=quantile(eg,0,na.rm=T),
+              eg1=quantile(eg,0.33,na.rm=T),
+              eg2=quantile(eg,0.66,na.rm=T),
+              eg3=quantile(eg,1,na.rm=T),
+              hpa0=quantile(hpa,0,na.rm=T),
+              hpa1=quantile(hpa,0.33,na.rm=T),
+              hpa2=quantile(hpa,0.66,na.rm=T),
+              hpa3=quantile(hpa,1,na.rm=T),
+              eg=0,hpa=0,state=&quot;Legend&quot;,
+              x=1,y=1) 
+  
+  
+gxy&lt;-
+  ggplot(data=dfb2,
+         aes(x=eg,y=hpa,label=state,
+             # see http://lenkiefer.com/2017/04/24/bivariate-map/
+             # for explanation on the color/fill/alpha
+             color=atan(y/x),
+             fill=atan(y/x),
+             alpha=x+y ))+
+  
+  # Shade areas based on the terciles
+  geom_rect(data=dfq,aes(xmin=-Inf,xmax=eg1,ymin=hpa1,ymax=hpa2,fill=atan(2/1),alpha=3/2))+
+  geom_rect(data=dfq,aes(xmin=eg1,xmax=eg2,ymin=hpa1,ymax=hpa2,fill=atan(2/2),alpha=4/2))+
+  geom_rect(data=dfq,aes(xmin=eg2,xmax=Inf,ymin=hpa1,ymax=hpa2,fill=atan(2/3),alpha=5/2))+
+  
+  geom_rect(data=dfq,aes(xmin=-Inf,xmax=eg1,ymin=-Inf,ymax=hpa1,fill=atan(1/1),alpha=2/2))+
+  geom_rect(data=dfq,aes(xmin=eg1,xmax=eg2,ymin=-Inf,ymax=hpa1,fill=atan(1/2),alpha=3/2))+
+  geom_rect(data=dfq,aes(xmin=eg2,xmax=Inf,ymin=-Inf,ymax=hpa1,fill=atan(1/3),alpha=4/2))+
+  
+  geom_rect(data=dfq,aes(xmin=-Inf,xmax=eg1,ymin=hpa2,ymax=Inf,fill=atan(3/1),alpha=4/2))+
+  geom_rect(data=dfq,aes(xmin=eg1,xmax=eg2,ymin=hpa2,ymax=Inf, fill=atan(3/2),alpha=5/2))+
+  geom_rect(data=dfq,aes(xmin=eg2,xmax=Inf,ymin=hpa2,ymax=Inf, fill=atan(3/3),alpha=6/2))  +
+  geom_point(color=&quot;gray&quot;,size=3,shape=21)+
+  scale_color_viridis(option=&quot;D&quot;)+
+  scale_fill_viridis(option=&quot;D&quot;)+
+  theme(legend.position=&quot;none&quot;,
+        plot.caption=element_text(hjust=0,size=8,face=&quot;italic&quot;))+
+  labs(x=&quot;employment growth&quot;, y=&quot;house price growth&quot;,
+       title=paste0(&quot;In Q2 of &quot;,max(year(dfb2$date))),
+       caption=&quot;Sources: Employment, U.S. Bureau of Labor Statistics quarterly average of 12-month percent change in nonfarm employment (SA),\nHouse prices 4-quarter percent change in FHFA All-Transactions House Price Index (NSA)&quot;)+
+  scale_x_continuous(labels=percent)+
+  scale_y_continuous(labels=percent)
+  
+  
+  
+g.tile&lt;-
+  ggplot(data=dfb2,
+         aes(x=eg,y=hpa,label=state,
+           # see http://lenkiefer.com/2017/04/24/bivariate-map/
+           # for explanation on the color/fill/alpha
+           color=atan(y/x),       
+           fill=atan(y/x),
+           alpha=x+y ))+
+  geom_rect(aes(xmin=-Inf,xmax=Inf,ymin=-Inf,ymax=Inf,
+                alpha=ifelse(state!=&quot;Legend&quot;,x+y,0)),color=NA)+
+  # Draw gridlines to demarcate the terciles on the scatterplot
+  geom_segment(aes(x=eg0,xend=eg3,y=hpa0,yend=hpa0),color=&quot;lightgray&quot;)+
+  geom_segment(aes(x=eg0,xend=eg3,y=hpa1,yend=hpa1),color=&quot;lightgray&quot;)+
+  geom_segment(aes(x=eg0,xend=eg3,y=hpa2,yend=hpa2),color=&quot;lightgray&quot;)+
+  geom_segment(aes(x=eg0,xend=eg3,y=hpa3,yend=hpa3),color=&quot;lightgray&quot;)+
+  geom_segment(aes(x=eg0,xend=eg0,y=hpa0,yend=hpa3),color=&quot;lightgray&quot;)+  
+  geom_segment(aes(x=eg1,xend=eg1,y=hpa0,yend=hpa3),color=&quot;lightgray&quot;)+
+  geom_segment(aes(x=eg2,xend=eg2,y=hpa0,yend=hpa3),color=&quot;lightgray&quot;)+
+  geom_segment(aes(x=eg3,xend=eg3,y=hpa0,yend=hpa3),color=&quot;lightgray&quot;)+
+  
+  # add a point to indicate where this state lies
+  geom_point(alpha=1,color=&quot;black&quot;)+
+  guides(fill=F,color=F,alpha=F)+
+  scale_color_viridis(name=&quot;Color scale&quot;,option=&quot;D&quot;)+
+  scale_fill_viridis(name=&quot;Color scale&quot;,option=&quot;D&quot;)+
+  # Use geofacet::facet_geo to arrange the tiles
+  facet_geo(~state, grid=&quot;us_state_grid1&quot;,label=&quot;code&quot;)  +
+  theme(axis.text=element_blank(),
+        plot.title=element_text(hjust=0,face=&quot;bold&quot;,size=18),
+        plot.subtitle=element_text(hjust=0,face=&quot;italic&quot;,size=14),
+        axis.ticks=element_blank(),
+        axis.line=element_blank(),
+        strip.background=element_blank(),
+        panel.background=element_blank(),
+        plot.background=element_rect(fill=&quot;white&quot;),
+        panel.grid.major = element_line(colour = NA),
+        panel.grid.minor = element_line(colour = NA))+
+  labs(x=&quot;&quot;,y=&quot;&quot;,title=&quot;Bivariate Tilegrid Map!&quot;,subtitle=&quot;@lenkiefer&quot;)
+
+# Arrange out plots with cowplot::plot_grid
+plot_grid(g.tile,
+          gxy,
+          ncol=1,
+          rel_heights=c(5,2))</code></pre>
+<p><img src="/post/2017-10-11-bivariate-tilegridmaps-with-r_files/figure-html/10-11-17-plot-1-1.png" width="864" /></p>
+<div id="so-maybe" class="section level3">
+<h3>So maybe?</h3>
+<p>Not quite sure if this viz hits the mark, but I think there are some interesting ideas in here. Let me know what you think.</p>
+</div>
+</div>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2017/10/10/quick-geofacet-plots/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2017/10/10/quick-geofacet-plots/">quick geofacet plots</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="/2017/10/15/unemployment-flexdashboard/">Unemployment Flexdashboard</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="/2017/10/15/unemployment-flexdashboard/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/r/">R</a>, 
+            
+                <a href="/tags/dataviz/">dataviz</a>, 
+            
+                <a href="/tags/maps/">maps</a>, 
+            
+                <a href="/tags/fun/">fun</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2017%2f10%2f11%2fbivariate-tilegridmaps-with-r%2f&text=Bivariate%20tilegridmaps%20with%20R via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2017%2f10%2f11%2fbivariate-tilegridmaps-with-r%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+

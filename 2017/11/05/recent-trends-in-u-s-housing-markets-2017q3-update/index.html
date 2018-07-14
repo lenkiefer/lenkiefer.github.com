@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="In this post we review of U.S. housing market trends through the third quarter of 2017. We take a close look at state housing markets and present several visualizations of house price trends.">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>Recent trends in U.S. housing markets: 2017Q3 update &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com//img/charts_nov_05_2017/hpi-emp.png" >
+     
+    <meta property="og:title" content="Recent trends in U.S. housing markets: 2017Q3 update">
+    <meta property="og:description" content="In this post we review of U.S. housing market trends through the third quarter of 2017. We take a close look at state housing markets and present several visualizations of house price trends.">
+
+<div class="header">
+  <h1>Recent trends in U.S. housing markets: 2017Q3 update</h1>
+  <h2>In this post we review of U.S. housing market trends through the third quarter of 2017. We take a close look at state housing markets and present several visualizations of house price trends.</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2017/11/05</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/housing">housing</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/house-prices">house prices</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/economy">economy</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/data">data</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <p>LET US REVIEW HOUSING MARKET TRENDS in the United States through the first three quarters of 2017.</p>
+<div id="economic-background" class="section level1">
+<h1>Economic background</h1>
+<p>The overall economic environment remains favorable for housing. <a href="../../../../2017/10/19/mortgage-rates-are-low/">Interest rates are low</a>, the labor market has been solid and income growth, while modest, has begun to tick up.</p>
+<div id="low-mortgage-rates" class="section level2">
+<h2>Low mortgage rates</h2>
+<p>For most of 2017 mortgage rates have declined. Rates entered the year above 4 percent for the 30-year fixed rate mortgage, but after peaking in March, declined through September. In recent weeks rates have ticked up modestly, but are still quite low by historical standards.</p>
+<p><img src="/post/2017-11-05-recent-trends-in-u-s-housing-markets-2017q3-update_files/figure-html/11-05-2017-plot-1-1.png" width="672" /></p>
+<p>The chart below shows historical mortgage rates going back to 1971.</p>
+<p><img src="/post/2017-11-05-recent-trends-in-u-s-housing-markets-2017q3-update_files/figure-html/11-05-2017-plot-1b-1.png" width="672" /></p>
+</div>
+<div id="solid-labor-market" class="section level2">
+<h2>Solid labor market</h2>
+<p>Job growth has been solid, and the unemployment rate is down to 4.1 percent.</p>
+<p><img src="/post/2017-11-05-recent-trends-in-u-s-housing-markets-2017q3-update_files/figure-html/11-05-2017-plot-2-1.png" width="672" /></p>
+<p>Following revisions to the September employment data, payroll employment has increased for 85 consecutive months.</p>
+<p><img src="/post/2017-11-05-recent-trends-in-u-s-housing-markets-2017q3-update_files/figure-html/11-05-2017-plot-2b-1.png" width="672" /></p>
+</div>
+<div id="housing-supply-not-keeping-pace-with-demand" class="section level2">
+<h2>Housing supply not keeping pace with demand</h2>
+<p>Housing supply is having trouble keeping pace with demand. As <a href="../../../../2017/09/19/housing-starts-grinding-higher-or-to-a-halt/">we talked about</a> housing starts are only gradually increasing and may have stalled in recent months.</p>
+<p><img src="/post/2017-11-05-recent-trends-in-u-s-housing-markets-2017q3-update_files/figure-html/11-05-2017-plot-3-1.png" width="672" /></p>
+</div>
+</div>
+<div id="house-price-trends" class="section level1">
+<h1>House price trends</h1>
+<p>Partially due supply outpacing demand, house prices are increasing across the United States. Let’s take a look. We’ll present some visualizations using the <a href="http://www.freddiemac.com/research/indices/house-price-index.html">Freddie Mac House Price Index</a>.</p>
+<p>The plot below shows trends in the 12-month percent change U.S. house prices.</p>
+<p><img src="/post/2017-11-05-recent-trends-in-u-s-housing-markets-2017q3-update_files/figure-html/11-05-2017-plot-4-1.png" width="672" /></p>
+<p>How do house price trends compare across states? The table below shows 12-month appreciation by state in September of 2017.</p>
+<table class='gmisc_table' style='border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;' >
+<thead>
+<tr><td colspan='3' style='text-align: left;'>
+House price appreciation by state in September 2017</td></tr>
+<tr>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey;'> </th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>State</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>12-month
+percent change in house prices</th>
+</tr>
+</thead>
+<tbody>
+<tr style='background-color: #ffffff;'>
+<td style='background-color: #ffffff; text-align: left;'>1</td>
+<td style='background-color: #ffffff; text-align: center;'>WA</td>
+<td style='background-color: #ffffff; text-align: center;'>12.8%</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>2</td>
+<td style='background-color: #f7f7f7; text-align: center;'>NV</td>
+<td style='background-color: #f7f7f7; text-align: center;'>11.3%</td>
+</tr>
+<tr style='background-color: #ffffff;'>
+<td style='background-color: #ffffff; text-align: left;'>3</td>
+<td style='background-color: #ffffff; text-align: center;'>CO</td>
+<td style='background-color: #ffffff; text-align: center;'>9.4%</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>4</td>
+<td style='background-color: #f7f7f7; text-align: center;'>UT</td>
+<td style='background-color: #f7f7f7; text-align: center;'>9.2%</td>
+</tr>
+<tr style='background-color: #ffffff;'>
+<td style='background-color: #ffffff; text-align: left;'>5</td>
+<td style='background-color: #ffffff; text-align: center;'>ID</td>
+<td style='background-color: #ffffff; text-align: center;'>9.1%</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>6</td>
+<td style='background-color: #f7f7f7; text-align: center;'>MI</td>
+<td style='background-color: #f7f7f7; text-align: center;'>8.9%</td>
+</tr>
+<tr style='background-color: #ffffff;'>
+<td style='background-color: #ffffff; text-align: left;'>7</td>
+<td style='background-color: #ffffff; text-align: center;'>FL</td>
+<td style='background-color: #ffffff; text-align: center;'>8.4%</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>8</td>
+<td style='background-color: #f7f7f7; text-align: center;'>CA</td>
+<td style='background-color: #f7f7f7; text-align: center;'>8.2%</td>
+</tr>
+<tr style='background-color: #ffffff;'>
+<td style='background-color: #ffffff; text-align: left;'>9</td>
+<td style='background-color: #ffffff; text-align: center;'>OR</td>
+<td style='background-color: #ffffff; text-align: center;'>8.0%</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>10</td>
+<td style='background-color: #f7f7f7; text-align: center;'>AZ</td>
+<td style='background-color: #f7f7f7; text-align: center;'>8.0%</td>
+</tr>
+<tr style='background-color: #ffffff;'>
+<td style='background-color: #ffffff; text-align: left;'>11</td>
+<td style='background-color: #ffffff; text-align: center;'>GA</td>
+<td style='background-color: #ffffff; text-align: center;'>7.9%</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>12</td>
+<td style='background-color: #f7f7f7; text-align: center;'>MT</td>
+<td style='background-color: #f7f7f7; text-align: center;'>7.9%</td>
+</tr>
+<tr style='background-color: #ffffff;'>
+<td style='background-color: #ffffff; text-align: left;'>13</td>
+<td style='background-color: #ffffff; text-align: center;'>TN</td>
+<td style='background-color: #ffffff; text-align: center;'>7.6%</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>14</td>
+<td style='background-color: #f7f7f7; text-align: center;'>NE</td>
+<td style='background-color: #f7f7f7; text-align: center;'>7.4%</td>
+</tr>
+<tr style='background-color: #ffffff;'>
+<td style='background-color: #ffffff; text-align: left;'>15</td>
+<td style='background-color: #ffffff; text-align: center;'>DC</td>
+<td style='background-color: #ffffff; text-align: center;'>7.2%</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>16</td>
+<td style='background-color: #f7f7f7; text-align: center;'>KY</td>
+<td style='background-color: #f7f7f7; text-align: center;'>7.0%</td>
+</tr>
+<tr style='background-color: #ffffff;'>
+<td style='background-color: #ffffff; text-align: left;'>17</td>
+<td style='background-color: #ffffff; text-align: center;'>SC</td>
+<td style='background-color: #ffffff; text-align: center;'>6.7%</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>18</td>
+<td style='background-color: #f7f7f7; text-align: center;'>RI</td>
+<td style='background-color: #f7f7f7; text-align: center;'>6.7%</td>
+</tr>
+<tr style='background-color: #ffffff;'>
+<td style='background-color: #ffffff; text-align: left;'>19</td>
+<td style='background-color: #ffffff; text-align: center;'>MA</td>
+<td style='background-color: #ffffff; text-align: center;'>6.5%</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>20</td>
+<td style='background-color: #f7f7f7; text-align: center;'>DE</td>
+<td style='background-color: #f7f7f7; text-align: center;'>6.3%</td>
+</tr>
+<tr style='background-color: #ffffff;'>
+<td style='background-color: #ffffff; text-align: left;'>21</td>
+<td style='background-color: #ffffff; text-align: center;'>TX</td>
+<td style='background-color: #ffffff; text-align: center;'>6.2%</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>22</td>
+<td style='background-color: #f7f7f7; text-align: center;'>OH</td>
+<td style='background-color: #f7f7f7; text-align: center;'>6.2%</td>
+</tr>
+<tr style='background-color: #ffffff;'>
+<td style='background-color: #ffffff; text-align: left;'>23</td>
+<td style='background-color: #ffffff; text-align: center;'>NC</td>
+<td style='background-color: #ffffff; text-align: center;'>6.1%</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>24</td>
+<td style='background-color: #f7f7f7; text-align: center;'>NH</td>
+<td style='background-color: #f7f7f7; text-align: center;'>6.1%</td>
+</tr>
+<tr style='background-color: #ffffff;'>
+<td style='background-color: #ffffff; text-align: left;'>25</td>
+<td style='background-color: #ffffff; text-align: center;'>AR</td>
+<td style='background-color: #ffffff; text-align: center;'>6.1%</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>26</td>
+<td style='background-color: #f7f7f7; text-align: center;'>ME</td>
+<td style='background-color: #f7f7f7; text-align: center;'>6.1%</td>
+</tr>
+<tr style='background-color: #ffffff;'>
+<td style='background-color: #ffffff; text-align: left;'>27</td>
+<td style='background-color: #ffffff; text-align: center;'>VT</td>
+<td style='background-color: #ffffff; text-align: center;'>5.9%</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>28</td>
+<td style='background-color: #f7f7f7; text-align: center;'>MN</td>
+<td style='background-color: #f7f7f7; text-align: center;'>5.8%</td>
+</tr>
+<tr style='background-color: #ffffff;'>
+<td style='background-color: #ffffff; text-align: left;'>29</td>
+<td style='background-color: #ffffff; text-align: center;'>WI</td>
+<td style='background-color: #ffffff; text-align: center;'>5.7%</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>30</td>
+<td style='background-color: #f7f7f7; text-align: center;'>KS</td>
+<td style='background-color: #f7f7f7; text-align: center;'>5.6%</td>
+</tr>
+<tr style='background-color: #ffffff;'>
+<td style='background-color: #ffffff; text-align: left;'>31</td>
+<td style='background-color: #ffffff; text-align: center;'>MS</td>
+<td style='background-color: #ffffff; text-align: center;'>5.6%</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>32</td>
+<td style='background-color: #f7f7f7; text-align: center;'>IN</td>
+<td style='background-color: #f7f7f7; text-align: center;'>5.5%</td>
+</tr>
+<tr style='background-color: #ffffff;'>
+<td style='background-color: #ffffff; text-align: left;'>33</td>
+<td style='background-color: #ffffff; text-align: center;'>NY</td>
+<td style='background-color: #ffffff; text-align: center;'>5.3%</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>34</td>
+<td style='background-color: #f7f7f7; text-align: center;'>LA</td>
+<td style='background-color: #f7f7f7; text-align: center;'>5.3%</td>
+</tr>
+<tr style='background-color: #ffffff;'>
+<td style='background-color: #ffffff; text-align: left;'>35</td>
+<td style='background-color: #ffffff; text-align: center;'>SD</td>
+<td style='background-color: #ffffff; text-align: center;'>5.2%</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>36</td>
+<td style='background-color: #f7f7f7; text-align: center;'>MD</td>
+<td style='background-color: #f7f7f7; text-align: center;'>5.1%</td>
+</tr>
+<tr style='background-color: #ffffff;'>
+<td style='background-color: #ffffff; text-align: left;'>37</td>
+<td style='background-color: #ffffff; text-align: center;'>MO</td>
+<td style='background-color: #ffffff; text-align: center;'>5.1%</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>38</td>
+<td style='background-color: #f7f7f7; text-align: center;'>NJ</td>
+<td style='background-color: #f7f7f7; text-align: center;'>5.0%</td>
+</tr>
+<tr style='background-color: #ffffff;'>
+<td style='background-color: #ffffff; text-align: left;'>39</td>
+<td style='background-color: #ffffff; text-align: center;'>OK</td>
+<td style='background-color: #ffffff; text-align: center;'>4.6%</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>40</td>
+<td style='background-color: #f7f7f7; text-align: center;'>PA</td>
+<td style='background-color: #f7f7f7; text-align: center;'>4.5%</td>
+</tr>
+<tr style='background-color: #ffffff;'>
+<td style='background-color: #ffffff; text-align: left;'>41</td>
+<td style='background-color: #ffffff; text-align: center;'>NM</td>
+<td style='background-color: #ffffff; text-align: center;'>4.4%</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>42</td>
+<td style='background-color: #f7f7f7; text-align: center;'>IA</td>
+<td style='background-color: #f7f7f7; text-align: center;'>4.4%</td>
+</tr>
+<tr style='background-color: #ffffff;'>
+<td style='background-color: #ffffff; text-align: left;'>43</td>
+<td style='background-color: #ffffff; text-align: center;'>IL</td>
+<td style='background-color: #ffffff; text-align: center;'>4.2%</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>44</td>
+<td style='background-color: #f7f7f7; text-align: center;'>CT</td>
+<td style='background-color: #f7f7f7; text-align: center;'>4.1%</td>
+</tr>
+<tr style='background-color: #ffffff;'>
+<td style='background-color: #ffffff; text-align: left;'>45</td>
+<td style='background-color: #ffffff; text-align: center;'>VA</td>
+<td style='background-color: #ffffff; text-align: center;'>3.8%</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>46</td>
+<td style='background-color: #f7f7f7; text-align: center;'>AK</td>
+<td style='background-color: #f7f7f7; text-align: center;'>2.6%</td>
+</tr>
+<tr style='background-color: #ffffff;'>
+<td style='background-color: #ffffff; text-align: left;'>47</td>
+<td style='background-color: #ffffff; text-align: center;'>AL</td>
+<td style='background-color: #ffffff; text-align: center;'>2.2%</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>48</td>
+<td style='background-color: #f7f7f7; text-align: center;'>HI</td>
+<td style='background-color: #f7f7f7; text-align: center;'>2.2%</td>
+</tr>
+<tr style='background-color: #ffffff;'>
+<td style='background-color: #ffffff; text-align: left;'>49</td>
+<td style='background-color: #ffffff; text-align: center;'>WV</td>
+<td style='background-color: #ffffff; text-align: center;'>2.1%</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>50</td>
+<td style='background-color: #f7f7f7; text-align: center;'>WY</td>
+<td style='background-color: #f7f7f7; text-align: center;'>1.7%</td>
+</tr>
+<tr style='background-color: #ffffff;'>
+<td style='background-color: #ffffff; border-bottom: 2px solid grey; text-align: left;'>51</td>
+<td style='background-color: #ffffff; border-bottom: 2px solid grey; text-align: center;'>ND</td>
+<td style='background-color: #ffffff; border-bottom: 2px solid grey; text-align: center;'>0.8%</td>
+</tr>
+</tbody>
+<tfoot><tr><td colspan='3'>
+Source: Freddie Mac House Price Index</td></tr></tfoot>
+</table>
+<p>Let’s use a <a href="https://hafen.github.io/geofacet/">geofaceted</a> plot to show the trends in 12-month house price appreciation by state.</p>
+<p><img src="/post/2017-11-05-recent-trends-in-u-s-housing-markets-2017q3-update_files/figure-html/11-05-2017-plot-5-1.png" width="864" /></p>
+<p>How do prices compare over the long run? Let’s look at the index for each state relative to December 2000.</p>
+<p><img src="/post/2017-11-05-recent-trends-in-u-s-housing-markets-2017q3-update_files/figure-html/11-05-2017-plot-6-1.png" width="672" /></p>
+<p>What factors contribute to differences in house prices across areas? One important factor is local demand. We can compare price growth by state to employment growth.</p>
+<p><img src="/post/2017-11-05-recent-trends-in-u-s-housing-markets-2017q3-update_files/figure-html/11-05-2017-plot-7-1.png" width="672" /></p>
+<p>States with strong employment growth tend to have higher rates of house price appreciation. We can trace out the pattern over time. First, for one state, and then for all.</p>
+<p><img src="/post/2017-11-05-recent-trends-in-u-s-housing-markets-2017q3-update_files/figure-html/11-05-2017-plot-8-1.png" width="672" /></p>
+<p><img src="/post/2017-11-05-recent-trends-in-u-s-housing-markets-2017q3-update_files/figure-html/11-05-2017-plot-9-1.png" width="672" /></p>
+<div id="comparing-house-price-growth-to-permits" class="section level2">
+<h2>Comparing house price growth to permits</h2>
+<p>Let’s also compare state house price appreciation to housing construction. The chart below is a scatterplot like the ones above, but it compares the house price appreciation to the annual difference in a 12-month rolling average of building permits for 1-unit properties.</p>
+<p><img src="/post/2017-11-05-recent-trends-in-u-s-housing-markets-2017q3-update_files/figure-html/11-05-2017-plot-10-1.png" width="672" /></p>
+<p>And across years:</p>
+<p><img src="/post/2017-11-05-recent-trends-in-u-s-housing-markets-2017q3-update_files/figure-html/11-05-2017-plot-11-1.png" width="672" /></p>
+<p>Finally, consider this animation showing house price trends by state.</p>
+<p><img src="../../../../img/charts_nov_05_2017/hpi.gif"></p>
+</div>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2017/10/30/dynamic-model-averaging-presentation-slides/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2017/10/30/dynamic-model-averaging-presentation-slides/">Dynamic Model Averaging Presentation Slides</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="/2017/11/06/a-note-on-competing-risks/">A note on competing risks</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="/2017/11/06/a-note-on-competing-risks/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/housing/">housing</a>, 
+            
+                <a href="/tags/house-prices/">house prices</a>, 
+            
+                <a href="/tags/economy/">economy</a>, 
+            
+                <a href="/tags/data/">data</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2017%2f11%2f05%2frecent-trends-in-u-s-housing-markets-2017q3-update%2f&text=Recent%20trends%20in%20U.S.%20housing%20markets%3a%202017Q3%20update via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2017%2f11%2f05%2frecent-trends-in-u-s-housing-markets-2017q3-update%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+

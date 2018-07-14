@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>Joyswarm: Joyplot &#43; beeswarm = awesome &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Joyswarm: Joyplot &#43; beeswarm = awesome">
+    <meta property="og:description" content="I LOOK AT A LOT OF DATA and the thing about data is it’s not always what it seems to be. A lot of data are uncertain, and based on estimates.
+We’ve talked about this before. See for example, this post on visualizing uncertainty in housing data. In this post I’m going to combine one of my favorite new plot types, the joyplot (see this post) with another of my favorite plot types: the beeswarm plot (see this post for more on beeswarm plots).">
+
+<div class="header">
+  <h1>Joyswarm: Joyplot &#43; beeswarm = awesome</h1>
+  <h2></h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2017/08/03</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <p>I LOOK AT A LOT OF DATA and the thing about data is it’s not always what it seems to be. A lot of data are uncertain, and based on estimates.</p>
+<p>We’ve talked about this before. See for example, <a href="../../../../2017/04/26/housing-data-uncertainty">this post on visualizing uncertainty in housing data</a>. In this post I’m going to combine one of my favorite new plot types, the <a href="https://cran.r-project.org/web/packages/ggjoy/vignettes/introduction.html">joyplot</a> (see <a href="../../../../2017/07/26/joy">this post</a>) with another of my favorite plot types: the <a href="https://github.com/eclarke/ggbeeswarm">beeswarm</a> plot (see <a href="../../../../2016/08/18/data-swarm">this post</a> for more on beeswarm plots). These plots can help us visualize uncertainty.</p>
+<p>As usual we’ll use <a href="https://www.r-project.org/">R</a> to create our plots.</p>
+<div id="setup" class="section level1">
+<h1>Setup</h1>
+<p>In this post I’m going to generate some simple random variables. I’m also going to use some <a href="http://purrr.tidyverse.org/">purrr</a> tricks I picked up from <a href="https://github.com/jennybc/">Jenny Bryan</a>’s excellent <a href="https://jennybc.github.io/purrr-tutorial/">purrr tutorial</a> to help manage our simulated data.</p>
+<p>For this example, I’m just going to simulate random variables from small number <code>N=10</code> of distributions. For each of the N distributions I’m going to draw 100 pseudo random draws. Each distribution will be a normal distribution, with a different mean and variance. We’ll draw means from a standard normal distribution and standard deviation from the uniform distribution. This will give us some “Normal” looking (<em>see what I did there?</em>) random variables with just enough variation to be visually interesting.</p>
+<p>First, let’s load our libraries and draw some data.</p>
+<pre class="r"><code>#####################################################################################
+# load libraries
+# we&#39;ll use this to make our data
+library(tidyverse)</code></pre>
+<pre><code>## Loading tidyverse: ggplot2
+## Loading tidyverse: tibble
+## Loading tidyverse: tidyr
+## Loading tidyverse: readr
+## Loading tidyverse: purrr
+## Loading tidyverse: dplyr</code></pre>
+<pre><code>## Conflicts with tidy packages ----------------------------------------------</code></pre>
+<pre><code>## filter(): dplyr, stats
+## lag():    dplyr, stats</code></pre>
+<pre class="r"><code>library(lubridate)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;lubridate&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:base&#39;:
+## 
+##     date</code></pre>
+<pre class="r"><code>library(purrr)
+# We&#39;ll use these for plotting
+library(ggbeeswarm)
+library(ggjoy)
+library(viridis)  # for the colors!</code></pre>
+<pre><code>## Loading required package: viridisLite</code></pre>
+<pre class="r"><code>#####################################################################################
+
+#####################################################################################
+# generate some random numbers
+set.seed(80317)
+N&lt;-10  # number of random variables
+S&lt;-100 # sample size
+
+# our data metadata, id # , mean, standard deviation
+df&lt;-as.tibble(list(id=1:N,            # id
+                   mean=rnorm(N),    # mean
+                   sd=runif(N)))     # standard deviation
+#####################################################################################
+# take a peek after rounding data
+htmlTable::htmlTable(df %&gt;% map_if(is.numeric,round,3) %&gt;% as.data.frame())</code></pre>
+<table class='gmisc_table' style='border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;' >
+<thead>
+<tr>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey;'> </th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>id</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>mean</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>sd</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style='text-align: left;'>1</td>
+<td style='text-align: center;'>1</td>
+<td style='text-align: center;'>-1.706</td>
+<td style='text-align: center;'>0.685</td>
+</tr>
+<tr>
+<td style='text-align: left;'>2</td>
+<td style='text-align: center;'>2</td>
+<td style='text-align: center;'>-0.292</td>
+<td style='text-align: center;'>0.761</td>
+</tr>
+<tr>
+<td style='text-align: left;'>3</td>
+<td style='text-align: center;'>3</td>
+<td style='text-align: center;'>-1.118</td>
+<td style='text-align: center;'>0.082</td>
+</tr>
+<tr>
+<td style='text-align: left;'>4</td>
+<td style='text-align: center;'>4</td>
+<td style='text-align: center;'>0.183</td>
+<td style='text-align: center;'>0.688</td>
+</tr>
+<tr>
+<td style='text-align: left;'>5</td>
+<td style='text-align: center;'>5</td>
+<td style='text-align: center;'>-1.693</td>
+<td style='text-align: center;'>0.75</td>
+</tr>
+<tr>
+<td style='text-align: left;'>6</td>
+<td style='text-align: center;'>6</td>
+<td style='text-align: center;'>1.146</td>
+<td style='text-align: center;'>1</td>
+</tr>
+<tr>
+<td style='text-align: left;'>7</td>
+<td style='text-align: center;'>7</td>
+<td style='text-align: center;'>-1.988</td>
+<td style='text-align: center;'>0.164</td>
+</tr>
+<tr>
+<td style='text-align: left;'>8</td>
+<td style='text-align: center;'>8</td>
+<td style='text-align: center;'>-0.597</td>
+<td style='text-align: center;'>0.33</td>
+</tr>
+<tr>
+<td style='text-align: left;'>9</td>
+<td style='text-align: center;'>9</td>
+<td style='text-align: center;'>-0.446</td>
+<td style='text-align: center;'>0.105</td>
+</tr>
+<tr>
+<td style='border-bottom: 2px solid grey; text-align: left;'>10</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>10</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>-0.39</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>0.818</td>
+</tr>
+</tbody>
+</table>
+<p>Now we have some metadata, but what we’d like to do is generate samples for each distribution described in the table above.</p>
+<p>This is a purrrfect time to use purrr and its powerful <code>map()</code> functions. We can generate a whole bunch of data by running the bit below:</p>
+<pre class="r"><code>#####################################################################################
+# generate samples (N x S = 10 X 100 = 1,000 obs)
+df2 &lt;- df %&gt;% 
+  mutate(S=S) %&gt;% 
+  mutate(mysamp=pmap(list(S,mean,sd),rnorm)) %&gt;% 
+  unnest(mysamp)
+
+#####################################################################################
+# what do we have?
+str(df2)</code></pre>
+<pre><code>## Classes &#39;tbl_df&#39;, &#39;tbl&#39; and &#39;data.frame&#39;:    1000 obs. of  5 variables:
+##  $ id    : int  1 1 1 1 1 1 1 1 1 1 ...
+##  $ mean  : num  -1.71 -1.71 -1.71 -1.71 -1.71 ...
+##  $ sd    : num  0.685 0.685 0.685 0.685 0.685 ...
+##  $ S     : num  100 100 100 100 100 100 100 100 100 100 ...
+##  $ mysamp: num  -3.495 -0.667 -1.877 -2.079 -1.212 ...</code></pre>
+<p>In the code above I used the <code>pmap()</code> function with three arguments, <code>S</code> for sample size, <code>mean</code> for the population mean and <code>sd</code> for the population standard deviation. Before I called the <code>unnest()</code> function my data frame would have data frames stored in columns. Using <code>unnest()</code> allowed me to unpack the data. I ended up with 1000 observations, corresponding to 100 draws from 10 different distributions.</p>
+<p>Now we’re ready for some visualization.</p>
+</div>
+<div id="joyplots" class="section level1">
+<h1>Joyplots</h1>
+<p>Let’s make a joyplot using gradient shading for our distributions.</p>
+<pre class="r"><code>ggplot(data=df2,aes(x=mysamp,
+                    y=factor(id),
+                    fill=..x..))+
+  geom_joy_gradient()+
+  scale_fill_viridis()+
+    theme_joy()+
+    theme(legend.position=&quot;none&quot;,plot.caption=element_text(hjust=0,size=9),
+          axis.title=element_text(size=12),
+          plot.title=element_text(size=24))+
+    labs(x=&quot;X variable&quot;,y=&quot;ID&quot;,caption=&quot;@lenkiefer&quot;, title=&quot;Joyplot&quot;)</code></pre>
+<pre><code>## Picking joint bandwidth of 0.188</code></pre>
+<p><img src="/post/2017-08-03-joyswarm_files/figure-html/08-03-2017-joy-1-1.png" width="672" /></p>
+<div id="a-note-of-forcats" class="section level3">
+<h3>A note of forcats</h3>
+<p>It might be desirable to reorder these variables by something other than id. For example, we have the true mean saved in our dataframe. We can sort the id factors using the <code>forcats::fct_reorder()</code> function (see <a href="http://forcats.tidyverse.org/">forcats tidyverse page</a>). I’ve found it useful so I’m posting this bit here (you’re welcome future Len).</p>
+<pre class="r"><code>ggplot(data=df2,aes(x=mysamp,
+                    y=forcats::fct_reorder(factor(id),mean), # reorder the factor by mean
+                                           fill=..x..))+
+  geom_joy_gradient()+
+  scale_fill_viridis()+
+    theme_joy()+
+    theme(legend.position=&quot;none&quot;,plot.caption=element_text(hjust=0,size=9),
+          axis.title=element_text(size=12),
+          plot.title=element_text(size=24))+
+    labs(x=&quot;X variable&quot;,y=&quot;ID&quot;,caption=&quot;@lenkiefer&quot;, title=&quot;Joyplot&quot;)</code></pre>
+<pre><code>## Picking joint bandwidth of 0.188</code></pre>
+<p><img src="/post/2017-08-03-joyswarm_files/figure-html/08-03-2017-joy-2-forcats-1.png" width="672" /></p>
+</div>
+<div id="beeswarms" class="section level2">
+<h2>Beeswarms</h2>
+<p>The joyplots are really cool, but there are other plots to show distributions. Plots like beeswarm](<a href="https://github.com/eclarke/ggbeeswarm" class="uri">https://github.com/eclarke/ggbeeswarm</a>) plots. Let’s make one using our data.</p>
+<pre class="r"><code>ggplot(data=df2,aes(x=mysamp,
+                    y=factor(id),
+                    color=mysamp))+
+  geom_quasirandom(alpha=0.82)+
+  scale_color_viridis()+
+    theme_joy()+
+    theme(legend.position=&quot;none&quot;,plot.caption=element_text(hjust=0,size=9),
+          axis.title=element_text(size=12),
+          plot.title=element_text(size=24))+
+    labs(x=&quot;X variable&quot;,y=&quot;ID&quot;,caption=&quot;@lenkiefer&quot;, title=&quot;Beeswarm plot&quot;)</code></pre>
+<p><img src="/post/2017-08-03-joyswarm_files/figure-html/08-03-2017-swarm-1-1.png" width="672" /></p>
+</div>
+</div>
+<div id="joyswarms" class="section level1">
+<h1>Joyswarms</h1>
+<p>But wait. If joyplots are cool, and beeswarm plots are hot, what do we get if we put them together? Something pretty awesome I think. And it’s super easy.</p>
+<pre class="r"><code>ggplot(data=df2,aes(x=mysamp,
+                    y=factor(id),
+                    color=mysamp,
+                    fill=..x..))+
+  scale_color_viridis()+
+  geom_joy(alpha=0.82,fill=&quot;lightgray&quot;)+
+  geom_quasirandom(alpha=0.82)+  # Bee sure to put point second
+  scale_fill_viridis()+
+    theme_joy()+
+    theme(legend.position=&quot;none&quot;,plot.caption=element_text(hjust=0,size=9),
+          axis.title=element_text(size=12),
+          plot.title=element_text(size=24))+
+    labs(x=&quot;X variable&quot;,y=&quot;ID&quot;,caption=&quot;@lenkiefer&quot;, title=&quot;Joyswarm plot&quot;)</code></pre>
+<pre><code>## Picking joint bandwidth of 0.188</code></pre>
+<p><img src="/post/2017-08-03-joyswarm_files/figure-html/08-03-2017-joyswarm-1-1.png" width="672" /></p>
+<p>Oh yeah!</p>
+<p>And of course, they’re kind of fun to animate. Like so:</p>
+<p><img src="../../../../img/charts_aug_03_2017/joyswarm2.gif" height="500" width="550"></p>
+<div id="joyswarms-in-the-wild" class="section level2">
+<h2>Joyswarms in the wild</h2>
+<p>These could be useful out in the wild. I’ve been experimenting with some real world data (check my <a href="https://twitter.com/lenkiefer">Twitter feed</a>). And in the future, maybe I’ll share some examples here.</p>
+<p><em>Oh wait, nevermind. We’ll do one now.</em></p>
+<p>I just saw a <a href="https://twitter.com/stlouisfed/status/892930536485900290">tweet</a> from the <a href="https://www.stlouisfed.org/">St. Louis Federal Reserve</a> on how long new homes are staying on the market.</p>
+<blockquote class="twitter-tweet" data-lang="en">
+<p lang="en" dir="ltr">
+How long has it taken for new houses to be sold? See months on market since 1975 <a href="https://t.co/BEN6kcATjQ">https://t.co/BEN6kcATjQ</a> <a href="https://t.co/yVP49SxCwT">pic.twitter.com/yVP49SxCwT</a>
+</p>
+— St. Louis Fed (<span class="citation">@stlouisfed</span>) <a href="https://twitter.com/stlouisfed/status/892930536485900290">August 3, 2017</a>
+</blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p>That’s a great candidate for a joyswarm plot. Let’s make one.</p>
+<p>We’ll use the approach I <a href="../../../../2017/04/11/Fred-plot">outlined here</a> to get the data. Let’s download the data and plot a time series.</p>
+<pre class="r"><code>library(quantmod)</code></pre>
+<pre><code>## Loading required package: xts</code></pre>
+<pre><code>## Loading required package: zoo</code></pre>
+<pre><code>## 
+## Attaching package: &#39;zoo&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     as.Date, as.Date.numeric</code></pre>
+<pre><code>## 
+## Attaching package: &#39;xts&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:dplyr&#39;:
+## 
+##     first, last</code></pre>
+<pre><code>## Loading required package: TTR</code></pre>
+<pre><code>## Version 0.4-0 included new data defaults. See ?getSymbols.</code></pre>
+<pre class="r"><code>df.fred= getSymbols(&#39;MNMFS&#39;,src=&#39;FRED&#39;, auto.assign=F) </code></pre>
+<pre><code>## &#39;getSymbols&#39; currently uses auto.assign=TRUE by default, but will
+## use auto.assign=FALSE in 0.5-0. You will still be able to use
+## &#39;loadSymbols&#39; to automatically load data. getOption(&quot;getSymbols.env&quot;)
+## and getOption(&quot;getSymbols.auto.assign&quot;) will still be checked for
+## alternate defaults.
+## 
+## This message is shown once per session and may be disabled by setting 
+## options(&quot;getSymbols.warning4.0&quot;=FALSE). See ?getSymbols for details.</code></pre>
+<pre class="r"><code>df.fred = data.frame(date=time(df.fred), coredata(df.fred) )
+
+mycaption=&quot;@lenkiefer Source: U.S. Bureau of the Census, Median Number of Months on Sales Market for Newly Completed Homes [MNMFS], retrieved from FRED, Federal Reserve Bank of St. Louis; https://fred.stlouisfed.org/series/MNMFS, August 3, 2017.&quot;
+
+# Wrap caption 120 characters:
+mycaption &lt;- paste0(strwrap(mycaption, 80), sep=&quot;&quot;, collapse=&quot;\n&quot;)
+
+ggplot(data=df.fred,aes(x=date,y=MNMFS))+geom_line()+
+    theme_minimal()+theme(plot.caption=element_text(hjust=0),
+                        legend.position=&quot;top&quot;)+
+  guides(linetype=F)+
+  scale_color_viridis(name=&quot;Variable&quot;,discrete=T,end=0.8)+
+  labs(x=&quot;&quot;,
+       x=&quot;Months, Not Seasonally Adjusted&quot;,
+       title=&quot;Median Number of Months on Sales Market for Newly Completed Homes&quot;,
+       caption=mycaption     )</code></pre>
+<pre><code>## Warning: The plyr::rename operation has created duplicates for the
+## following name(s): (`x`)</code></pre>
+<p><img src="/post/2017-08-03-joyswarm_files/figure-html/08-03-2017-fred-data-1.png" width="672" /></p>
+<p>These data are not seasonally adjusted, so you can see the pronounced seasonal variation. You can also see large volatility around the Great Recession. Let’s first create a joyplot using month on the Y axis. We’ll also add dots showing the 2017 values.</p>
+<pre class="r"><code>ggplot(data=df.fred,
+       aes(y=forcats::fct_reorder(factor(as.character(date,format=&quot;%B&quot;)),
+                                  -month(date)),
+           x=MNMFS, fill=..x..))+
+  geom_joy_gradient(rel_min_height=0.01)+
+  theme_joy()+
+  theme(plot.caption=element_text(hjust=0),
+        legend.position=&quot;top&quot;)+
+  geom_point(data=dplyr::filter(df.fred,year(date)==2017))+
+  scale_fill_viridis(name=&quot;Median months on market&quot;,option=&quot;C&quot;,direction=-1)+
+  labs(y=&quot;&quot;,
+       x=&quot;Months, Not Seasonally Adjusted&quot;,
+       title=&quot;Median Number of Months on Sales Market for Newly Completed Homes&quot;,
+       subtitle=&quot;Distribution Jan 1975-Jun 2017\nBlack dots=2017 values&quot;,
+       caption=mycaption)</code></pre>
+<pre><code>## Picking joint bandwidth of 0.536</code></pre>
+<p><img src="/post/2017-08-03-joyswarm_files/figure-html/08-03-2017-fred-joy-1-1.png" width="672" /></p>
+<p>Here we can see that the 2017 values are quite low by historical standards.</p>
+<p>Let’s try a joyswarm:</p>
+<pre class="r"><code>ggplot(data=dplyr::filter(df.fred,month(date)&lt;7),
+       aes(y=forcats::fct_reorder(factor(as.character(date,format=&quot;%B&quot;)),
+                                  -month(date)),
+           x=MNMFS,
+           color=MNMFS))+
+  geom_joy(rel_min_height=0.01,alpha=0.6,fill=&quot;lightgray&quot;)+
+  geom_quasirandom(alpha=0.8)+
+  theme_joy()+
+  theme(plot.caption=element_text(hjust=0),
+        legend.position=&quot;top&quot;)+
+  geom_point(data=dplyr::filter(df.fred,year(date)==2017),color=&quot;black&quot;,size=1.5)+
+  scale_color_viridis(name=&quot;Median months on market&quot;,option=&quot;C&quot;,direction=-1)+
+  labs(y=&quot;&quot;,
+       x=&quot;Months, Not Seasonally Adjusted&quot;,
+       title=&quot;Median Number of Months on Sales Market for Newly Completed Homes&quot;,
+       subtitle=&quot;Distribution Jan 1975-Jun 2017\nBlack dots=2017 values&quot;,
+       caption=mycaption)</code></pre>
+<pre><code>## Picking joint bandwidth of 0.493</code></pre>
+<p><img src="/post/2017-08-03-joyswarm_files/figure-html/08-03-2017-fred-joyswarm-1-1.png" width="672" /></p>
+<div id="its-hard-to-beat-good-ol-boxplots" class="section level3">
+<h3>It’s hard to beat good ol’ boxplots</h3>
+<p>Though I like joyplots, beeswarm plots, and joyswarm plots a lot, when it comes to clarity it’s hard to beat good ol’ boxplots (see below). However, these plots do create some visual interest and help stimulate thinking about the data.</p>
+<pre class="r"><code>ggplot(data=df.fred,
+       aes(x=forcats::fct_reorder(factor(as.character(date,format=&quot;%B&quot;)),
+                                  -month(date)),
+           
+           y=MNMFS,color=MNMFS,
+           group=month(date)))+
+  theme_joy()+
+  coord_flip()+
+  theme(plot.caption=element_text(hjust=0),
+        legend.position=&quot;top&quot;)+
+  geom_boxplot(color=viridis::plasma(5)[3])+
+    geom_point(data=dplyr::filter(df.fred,year(date)==2017),color=&quot;black&quot;,size=1.5)+
+  scale_color_viridis(name=&quot;Median months on market&quot;,option=&quot;C&quot;,direction=1)+
+  labs(x=&quot;&quot;,y=&quot;Months, Not Seasonally Adjusted&quot;,
+       title=&quot;Median Number of Months on Sales Market for Newly Completed Homes&quot;,
+       subtitle=&quot;Distribution Jan 1975-Jun 2017\nBlack dots=2017 values&quot;,
+       caption=mycaption)</code></pre>
+<p><img src="/post/2017-08-03-joyswarm_files/figure-html/08-03-2017-fred-box-1-1.png" width="672" /></p>
+</div>
+</div>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2017/07/27/kandinsky/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2017/07/27/kandinsky/">Mortgage Rate Kandinsky</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="/2017/08/07/house-price-trends/">Plotting recent house price trends with R</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="/2017/08/07/house-price-trends/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/r/">R</a>, 
+            
+                <a href="/tags/dataviz/">dataviz</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2017%2f08%2f03%2fjoyswarm%2f&text=Joyswarm%3a%20Joyplot%20%2b%20beeswarm%20%3d%20awesome via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2017%2f08%2f03%2fjoyswarm%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+

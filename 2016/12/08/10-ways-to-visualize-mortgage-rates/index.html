@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>10 ways to visualize mortgage rates  &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="10 ways to visualize mortgage rates ">
+    <meta property="og:description" content="IntroductionIN ORDER TO HELP PEOPLE UNDERSTAND WHAT’S GOING ON with the economy, housing and mortgage markets I spend a great deal of time thinking about interest rates. Interest rates, specifically mortgage rates are very important to housing and mortgage markets. In my professional life I work on tracking trends in housing and mortgage markets, and that includes mortgage rates. I create a lot of visualizations of mortgage rates.
+In this post I’m going to share with you 10 of my favorate ways to visualize mortgage rates and give you R code to do it.">
+
+<div class="header">
+  <h1>10 ways to visualize mortgage rates </h1>
+  <h2></h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2016/12/08</time>
+  </div>
+
+  
+
+  
+
+  
+
+</div>
+
+  <div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>IN ORDER TO HELP PEOPLE UNDERSTAND WHAT’S GOING ON with the economy, housing and mortgage markets I spend a great deal of time thinking about interest rates. Interest rates, specifically mortgage rates are very important to housing and mortgage markets. In my <a href="https://www.linkedin.com/in/leonard-kiefer-51175331">professional life</a> I work on tracking trends in housing and mortgage markets, and that includes mortgage rates. I create a lot of visualizations of mortgage rates.</p>
+<p>In this post I’m going to share with you 10 of my favorate ways to visualize mortgage rates and give you <a href="https://www.r-project.org/">R</a> code to do it.</p>
+<div id="the-data" class="section level2">
+<h2>The data</h2>
+<p>The data I’m going to use are estimates of weekly U.S. average 30-year fixed mortgage rates from the <a href="http://www.freddiemac.com/pmms/index.html">Primary Mortgage Market Survey</a> from Freddie Mac. These data can be easily downloaded from the St. Louis Fred database <a href="http://bit.ly/2hli7Sh">here</a>.</p>
+<p>I have the data saved in a simple text file with a column for data, the mortgage rate, and helper columns week, month, and year, where week is the week number starting with the first week of the year.</p>
+<p>Let’s load the data and take a peek.</p>
+<pre class="r"><code>#load libraries
+library(data.table, warn.conflicts = FALSE, quietly=TRUE)
+library(ggplot2, warn.conflicts = FALSE, quietly=TRUE)
+library(dplyr, warn.conflicts = FALSE, quietly=TRUE)
+library(zoo, warn.conflicts = FALSE, quietly=TRUE)
+library(ggrepel, warn.conflicts = FALSE, quietly=TRUE)
+library(ggthemes, warn.conflicts = FALSE, quietly=TRUE)
+library(scales, warn.conflicts = FALSE, quietly=TRUE)
+library(tidyr, warn.conflicts = FALSE, quietly=TRUE)
+library(zoo,warn.conflicts=F,quietly=T)
+library(purrr,warn.conflicts=F,quietly=T)
+library(xts,warn.conflicts=F,quietly=T)
+library(lubridate,warn.conflicts=F,quietly=T)
+library(viridis,warn.conflicts = F,quietly = F) #for the colorz
+library(&quot;htmlTable&quot;)
+#load data from text file
+pmms30yr &lt;- fread(&quot;data/pmms30yr.txt&quot;)
+#set up date variable
+pmms30yr$date&lt;-as.Date(pmms30yr$date, format=&quot;%m/%d/%Y&quot;)
+
+# make tables for viewing formatting dates with purr %&gt;% operations
+htmlTable(head(pmms30yr %&gt;% map_if(is.Date, as.character,format=&quot;%b %d,%Y&quot;) %&gt;% map_if(is.numeric, round,3) %&gt;%as.data.frame() ,10), col.rgroup = c(&quot;none&quot;, &quot;#F7F7F7&quot;),caption=&quot;30-year Fixed Mortgage Rate (%)&quot;,
+          tfoot=&quot;Source: Freddie Mac Primary Mortgage Market Survey&quot;)</code></pre>
+<table class='gmisc_table' style='border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;' >
+<thead>
+<tr><td colspan='8' style='text-align: left;'>
+30-year Fixed Mortgage Rate (%)</td></tr>
+<tr>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey;'> </th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>date</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>rate</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>drate</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>name</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>year</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>month</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>week</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style='text-align: left;'>1</td>
+<td style='text-align: center;'>Apr 02,1971</td>
+<td style='text-align: center;'>7.33</td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'></td>
+<td style='text-align: center;'>1971</td>
+<td style='text-align: center;'>4</td>
+<td style='text-align: center;'>14</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>2</td>
+<td style='background-color: #f7f7f7; text-align: center;'>Apr 09,1971</td>
+<td style='background-color: #f7f7f7; text-align: center;'>7.31</td>
+<td style='background-color: #f7f7f7; text-align: center;'>-0.02</td>
+<td style='background-color: #f7f7f7; text-align: center;'>down</td>
+<td style='background-color: #f7f7f7; text-align: center;'>1971</td>
+<td style='background-color: #f7f7f7; text-align: center;'>4</td>
+<td style='background-color: #f7f7f7; text-align: center;'>15</td>
+</tr>
+<tr>
+<td style='text-align: left;'>3</td>
+<td style='text-align: center;'>Apr 16,1971</td>
+<td style='text-align: center;'>7.31</td>
+<td style='text-align: center;'>0</td>
+<td style='text-align: center;'>no change</td>
+<td style='text-align: center;'>1971</td>
+<td style='text-align: center;'>4</td>
+<td style='text-align: center;'>16</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>4</td>
+<td style='background-color: #f7f7f7; text-align: center;'>Apr 23,1971</td>
+<td style='background-color: #f7f7f7; text-align: center;'>7.31</td>
+<td style='background-color: #f7f7f7; text-align: center;'>0</td>
+<td style='background-color: #f7f7f7; text-align: center;'>no change</td>
+<td style='background-color: #f7f7f7; text-align: center;'>1971</td>
+<td style='background-color: #f7f7f7; text-align: center;'>4</td>
+<td style='background-color: #f7f7f7; text-align: center;'>17</td>
+</tr>
+<tr>
+<td style='text-align: left;'>5</td>
+<td style='text-align: center;'>Apr 30,1971</td>
+<td style='text-align: center;'>7.29</td>
+<td style='text-align: center;'>-0.02</td>
+<td style='text-align: center;'>down</td>
+<td style='text-align: center;'>1971</td>
+<td style='text-align: center;'>4</td>
+<td style='text-align: center;'>18</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>6</td>
+<td style='background-color: #f7f7f7; text-align: center;'>May 07,1971</td>
+<td style='background-color: #f7f7f7; text-align: center;'>7.38</td>
+<td style='background-color: #f7f7f7; text-align: center;'>0.09</td>
+<td style='background-color: #f7f7f7; text-align: center;'>up</td>
+<td style='background-color: #f7f7f7; text-align: center;'>1971</td>
+<td style='background-color: #f7f7f7; text-align: center;'>5</td>
+<td style='background-color: #f7f7f7; text-align: center;'>19</td>
+</tr>
+<tr>
+<td style='text-align: left;'>7</td>
+<td style='text-align: center;'>May 14,1971</td>
+<td style='text-align: center;'>7.42</td>
+<td style='text-align: center;'>0.04</td>
+<td style='text-align: center;'>up</td>
+<td style='text-align: center;'>1971</td>
+<td style='text-align: center;'>5</td>
+<td style='text-align: center;'>20</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>8</td>
+<td style='background-color: #f7f7f7; text-align: center;'>May 21,1971</td>
+<td style='background-color: #f7f7f7; text-align: center;'>7.44</td>
+<td style='background-color: #f7f7f7; text-align: center;'>0.02</td>
+<td style='background-color: #f7f7f7; text-align: center;'>up</td>
+<td style='background-color: #f7f7f7; text-align: center;'>1971</td>
+<td style='background-color: #f7f7f7; text-align: center;'>5</td>
+<td style='background-color: #f7f7f7; text-align: center;'>21</td>
+</tr>
+<tr>
+<td style='text-align: left;'>9</td>
+<td style='text-align: center;'>May 28,1971</td>
+<td style='text-align: center;'>7.46</td>
+<td style='text-align: center;'>0.02</td>
+<td style='text-align: center;'>up</td>
+<td style='text-align: center;'>1971</td>
+<td style='text-align: center;'>5</td>
+<td style='text-align: center;'>22</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: left;'>10</td>
+<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>Jun 04,1971</td>
+<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>7.52</td>
+<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>0.06</td>
+<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>up</td>
+<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>1971</td>
+<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>6</td>
+<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>23</td>
+</tr>
+</tbody>
+<tfoot><tr><td colspan='8'>
+Source: Freddie Mac Primary Mortgage Market Survey</td></tr></tfoot>
+</table>
+<p>The data are weekly observations on mortgage rates running from April 2, 1971 through December 8, 2016. Now let’s take these series and make 10 different visualizations. We’ll start simple, and build up to more complex visualizations.</p>
+<div id="a-note-on-data-manipulations" class="section level3">
+<h3>A note on data manipulations</h3>
+<p>I’m going to be using the <a href="https://cran.r-project.org/web/packages/data.table/index.html">data.table()</a> package from R. I’ve found this package very helpful for doing the types of data manipulations I most frequently need. Check the comments in the code below for specific callouts.</p>
+</div>
+</div>
+</div>
+<div id="a-simple-line-chart" class="section level1">
+<h1>1: A simple line chart</h1>
+<p>Let’s start simple with a line chart. We’ll also add some styling including a reference line at the last monthly observation and a dot at the last point. We’ll start the data in 2001.</p>
+<pre class="r"><code>g1&lt;-
+  ggplot(data=pmms30yr[date&gt;&#39;2000-12-31&#39;],  
+       #We&#39;re going to subset the data to be after Dec 31, 2000.  
+       #We could use filter function, but instead I&#39;m using the data.table() shorthand
+        aes(x=date,y=rate,label=rate))+geom_line()+theme_minimal()+
+    #set date breaks at 1 year, format as 2000 (&quot;%Y&quot;), 00 would be &quot;%y&quot;
+    scale_x_date(date_breaks=&quot;1 year&quot;, date_labels=&quot;%Y&quot;)+  
+  #add text, marker and reference line for last observation
+  geom_text(data=tail(pmms30yr,1),nudge_y=.25,color=&quot;red&quot;)+
+  #use nudge_y to lift label above point
+  geom_point(data=tail(pmms30yr,1),size=2,color=&quot;red&quot;,alpha=0.75)+
+  geom_hline(yintercept=tail(pmms30yr,1)$rate,linetype=2,alpha=0.82,color=&quot;red&quot;)+
+  labs(x=&quot;&quot;, y=&quot;&quot;,
+       title=&quot;30-year Fixed Mortgage Rate (%)&quot;,
+       subtitle=&quot;weekly rates since 2001&quot;,
+       caption=&quot;@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey&quot;)+
+  theme(plot.title=element_text(size=14))+
+  theme(axis.text=element_text(size=8))+
+  theme(plot.caption=element_text(hjust=0))
+g1</code></pre>
+<p><img src="/post/2016-12-08-10-ways-to-visualize-rates_files/figure-html/rate-viz1-dec-08-2016,-1.png" width="576" /></p>
+</div>
+<div id="line-chart-comparing-weeks-by-year" class="section level1">
+<h1>2: Line chart comparing weeks by year</h1>
+<p>This next chart is a variation on the line chart. Instead of using date for the <em>x</em> axis, we use the week of the year and plot a separate line for recent years (2013, 2014, 2015 and 2016). By comparing the lines at any point on the <em>x</em> axis, we can see where rates were one or more years ago on this week.</p>
+<pre class="r"><code>i&lt;-max(pmms30yr[year==2016]$week)  #figure out the maximum week number in 2016
+
+g2&lt;-
+  ggplot(data=pmms30yr[year&gt;2012 &amp; week&lt;=i], 
+           aes(x=week,y=rate,label=paste(&quot;   &quot;,year),
+               linetype=as.factor(year),
+               color=as.factor(year)))+
+    geom_line(size=1.05)+theme_minimal()+
+    theme(legend.position=&quot;none&quot;)+
+    scale_x_continuous(limits=c(0,54),breaks=seq(0,55,5))+
+    scale_y_continuous(limits=c(3.25,4.75),breaks=seq(3.25,5,0.25))+
+    geom_text(data=pmms30yr[year&gt;2012 &amp; week==i],nudge_x=2)+
+    geom_point(data=pmms30yr[year&gt;2012 &amp; week==i],size=3.5,alpha=0.75)+
+    labs(x=&quot;Week Number&quot;, y=&quot;Mortgage Rate (%)&quot;,
+         title=&quot;30-year Fixed Mortgage Rate by Week of Year&quot;,
+         subtitle=&quot;comparing 2013, 2014, 2015 and 2016&quot;,
+         caption=&quot;@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey&quot;)+
+  theme(plot.title=element_text(size=14))+
+  theme(axis.text=element_text(size=8))+
+  theme(plot.caption=element_text(hjust=0))
+g2</code></pre>
+<p><img src="/post/2016-12-08-10-ways-to-visualize-rates_files/figure-html/rate-viz2-dec-08-2016,-1.png" width="576" /></p>
+</div>
+<div id="area-chart-showing-year-over-year-changes" class="section level1">
+<h1>3: Area chart showing year-over-year changes</h1>
+<p>In this next chart we’re going to compute a rolling 52-week difference. We also want to shade in the area between the line difference colors based on whether or not rates are up or down. Shading between two lines in ggplot is tricky, so I’m going to actually create two series, one for positive 52-week changes and another for negative 52-week changes.</p>
+<pre class="r"><code>pmms30yr[,d52:=rate-shift(rate,52)]
+pmms30yr[,d52.up:=ifelse(d52&gt;0,d52,0)]      #if diff &gt;0, diff in rates, else 0
+pmms30yr[,d52.down:=ifelse(d52&lt;0,d52,0)]    #if diff &lt;0, diff in rates, else 0
+
+g3&lt;-
+  ggplot(data=pmms30yr[date&gt;&#39;1979-12-31&#39;],  
+       #We&#39;re going to subset the data to be after Dec 31, 2000.  
+       #We could use filter function, but instead I&#39;m using the data.table() shorthand
+        aes(x=date,y=d52,label=rate))+geom_line()+theme_minimal()+
+    #set date breaks at 1 year, format as 2000 (&quot;%Y&quot;), 00 would be &quot;%y&quot;
+    scale_x_date(breaks=seq(as.Date(&quot;1980-01-01&quot;),as.Date(&quot;2020-01-01&quot;),&quot;5 years&quot;), date_labels=&quot;%Y&quot;)+  
+  #add text, marker and reference line for last observation
+  geom_area(aes(y=d52.down),fill=viridis(5)[4],alpha=0.5)+  #shade green if down
+  geom_area(aes(y=d52.up),fill=viridis(5)[2],alpha=0.5)+    # shade blue if up
+  labs(x=&quot;&quot;, y=&quot;&quot;,
+       title=&quot;30-year Fixed Mortgage Rate&quot;,
+       subtitle=&quot;52-week change in percentage points&quot;,
+       caption=&quot;@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey&quot;)+
+  theme(plot.title=element_text(size=14))+
+  theme(axis.text=element_text(size=8))+
+  theme(plot.caption=element_text(hjust=0))
+g3</code></pre>
+<p><img src="/post/2016-12-08-10-ways-to-visualize-rates_files/figure-html/rate-viz3-dec-08-2016,-1.png" width="576" /></p>
+</div>
+<div id="combo-line-with-rugplot" class="section level1">
+<h1>4: Combo line with rugplot</h1>
+<p>We can enhance this plot by adding a <a href="http://docs.ggplot2.org/0.9.2.1/geom_rug.html">marginal rug plot</a> to the bottom of the chart indicating whether or not rates are up or down for that week.</p>
+<pre class="r"><code>g4&lt;-g3+
+  geom_rug(data=pmms30yr[year(date)&gt;1979 &amp; d52&lt;0,],
+           aes(y=d52.down),color=viridis(5)[4],alpha=0.5,sides=&quot;b&quot;)+  # Only put rug at bottom
+  geom_rug(data=pmms30yr[year(date)&gt;1979 &amp; d52&gt;0,],
+           aes(y=d52.up),color=viridis(5)[2],alpha=0.5,sides=&quot;b&quot;)     # Only put rug at bottom
+g4</code></pre>
+<p><img src="/post/2016-12-08-10-ways-to-visualize-rates_files/figure-html/rate-viz4-dec-08-2016,-1.png" width="576" /></p>
+</div>
+<div id="step-function" class="section level1">
+<h1>5: Step function</h1>
+<p>We can use a step function to compare the annual average to the weekly values. What we’ll do in this plot is compute the annual average (using data.table()) and plot it as a step function on top of the line chart from 1.</p>
+<pre class="r"><code>#compute monthly and annual averages:
+pmms30yr[,rate.y:=mean(rate),by=c(&quot;year&quot;)]
+
+g5&lt;-ggplot(data=pmms30yr[date&gt;&#39;2000-12-31&#39;],  
+       #We&#39;re going to subset the data to be after Dec 31, 2000.  
+       #We could use filter function, but instead I&#39;m using the data.table() shorthand
+        aes(x=date,y=rate,label=rate))+
+  geom_line(alpha=0.75)+
+  
+  theme_minimal()+
+    #set date breaks at 1 year, format as 2000 (&quot;%Y&quot;), 00 would be &quot;%y&quot;
+    scale_x_date(date_breaks=&quot;1 year&quot;, date_labels=&quot;%Y&quot;)+  
+  #add annual average as step function
+  geom_step(aes(y=rate.y),color=viridis(5)[2],size=1.1)+
+  labs(x=&quot;&quot;, y=&quot;&quot;,title=&quot;30-year Fixed Mortgage Rate (%)&quot;,
+       subtitle=&quot;Weekly rates since 2001, blue line annual average&quot;,
+       caption=&quot;@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey&quot;)+
+  theme(plot.title=element_text(size=14))+
+  theme(axis.text=element_text(size=8))+
+  theme(plot.caption=element_text(hjust=0))
+g5</code></pre>
+<p><img src="/post/2016-12-08-10-ways-to-visualize-rates_files/figure-html/rate-viz5-dec-08-2016,-1.png" width="576" /></p>
+</div>
+<div id="pie-chart" class="section level1">
+<h1>6: Pie Chart</h1>
+<p>We can also make a Pie chart:</p>
+<pre class="r"><code>g6&lt;-
+  ggplot(pmms30yr[year==2015], aes(x=&quot;&quot;, y=rate, fill=as.character(date,&quot;%b&quot;)))+
+  geom_bar(width = 1, stat = &quot;identity&quot;) + coord_polar(&quot;y&quot;, start=0)+
+  theme_void()+  scale_fill_viridis(name=&quot;Month&quot;,discrete=T)+
+  labs(title=&quot;Share of a year&quot;)
+g6</code></pre>
+<p><img src="/post/2016-12-08-10-ways-to-visualize-rates_files/figure-html/rate-viz6-dec-08-2016,-1.png" width="576" /></p>
+<p>Ha ha, just kidding, that’s awful!</p>
+</div>
+<div id="strip-chart" class="section level1">
+<h1>7: Strip chart</h1>
+<p>I just tried this chart out today and I really like it. It’s a strip chart that shows the year-over-year percent change in mortgage rates. You can’t read the information as accurately as a line chart, but it gives you a much better impression on how rates have been changing. Let’s make it and then discuss more:</p>
+<pre class="r"><code>g7&lt;-
+  ggplot(data=pmms30yr[year&gt;2000,],aes(x=week,y=1,color=d52,fill=d52))+
+  geom_col()+
+  scale_fill_viridis(name=&quot;52-week\nChange (pp)&quot;,discrete=F,option=&quot;B&quot;)+
+  scale_color_viridis(name=&quot;52-week\nChange (pp)&quot;,discrete=F,option=&quot;B&quot;)+
+  theme_minimal()+
+  facet_wrap(~year,ncol=4)+
+  theme(axis.ticks.y=element_blank(),
+        axis.text.y=element_blank(),
+        panel.grid.major=element_blank(),
+        panel.grid.minor=element_blank(),
+        axis.text.x=element_text(size=6))+
+    labs(x=&quot;&quot;, y=&quot;&quot;,
+       title=&quot;30-year Fixed Mortgage Rate&quot;,
+       subtitle=&quot;52-week change in percentage points&quot;,
+       caption=&quot;@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey&quot;)+
+  scale_x_continuous(breaks=c(1,26,52),labels=c(&quot;Jan&quot;,&quot;Jul&quot;,&quot;Dec&quot;))+
+    theme(plot.title=element_text(size=14))+
+  theme(axis.text=element_text(size=8))+
+  theme(plot.caption=element_text(hjust=0))
+g7</code></pre>
+<p><img src="/post/2016-12-08-10-ways-to-visualize-rates_files/figure-html/rate-viz7-dec-08-2016,-1.png" width="576" /></p>
+<p>While you can’t read the values from this chart as clearly as a line chart (or a table), you can quickly get a <em>feel</em> for the important trends in the data. The bright yellow periods are when mortgage rates were rising, while the dark purple corresponds to periods when rates were falling. It’s pretty easy to see that 2001, 2003, 2009 and 2012 were years when rates fell a lot, while 2006, 2013, and 2014 were when rates were rising relative to the previous year.</p>
+</div>
+<div id="animated-line-chart" class="section level1">
+<h1>8: Animated Line Chart</h1>
+<p>These next three charts are animated versions of some the preceding charts. We’ll start with a simple animated line chart from 1.</p>
+<pre class="r"><code>N&lt;-max(pmms30yr[year==2016]$week)  
+oopt = ani.options(interval = 0.15)
+saveGIF({for (i in 1:N) {
+  g&lt;-
+    ggplot(data=pmms30yr[date&gt;=&#39;2015-12-31&#39; &amp; week&lt;=i], aes(x=date,y=rate,label=rate))+geom_line()+theme_minimal()+
+    theme(legend.position=&quot;none&quot;)+
+    scale_x_date(date_breaks=&quot;1 month&quot;, date_labels=&quot;%b&quot;)+
+    scale_y_continuous(limits=c(3,4.2),breaks=seq(3,4.2,.1))+
+    geom_text(data=pmms30yr[date&gt;=&#39;2015-12-31&#39; &amp; week==i],nudge_x=10)+
+    geom_point(data=pmms30yr[date&gt;=&#39;2015-12-31&#39; &amp; week==i],size=2,color=&quot;red&quot;,alpha=0.75)+
+    labs(x=&quot;&quot;, y=&quot;Mortgage Rate (%)&quot;,
+         title=&quot;30-year Fixed Mortgage Rate (%)&quot;,
+         subtitle=&quot;weekly rates in 2016&quot;,
+         caption=&quot;@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey&quot;)+
+    theme(plot.title=element_text(size=18))+
+    theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+    theme(plot.margin=unit(c(0.25,0.25,0.25,0.25),&quot;cm&quot;))+
+    coord_cartesian(xlim=c(as.Date(&quot;2015-12-31&quot;),as.Date(&quot;2016-11-30&quot;)), y=c(3.3,4.2))
+  print(g)
+  ani.pause()
+}
+  
+  for (i2 in 1:20) {
+    print(g)
+    ani.pause()
+  }
+},movie.name=&quot;rate_12_08_2016.gif&quot;,ani.width = 650, ani.height = 400)</code></pre>
+<p><img src="{{ site.url }}/img/charts_dec_8_2016/rate_12_08_2016.gif" alt="pmms gif 2016"/></p>
+</div>
+<div id="animated-line-chart-2" class="section level1">
+<h1>9: Animated Line Chart 2</h1>
+<p>We can also construct an animation for the weekly comparison line chart:</p>
+<pre class="r"><code>oopt = ani.options(interval = 0.15)
+saveGIF({for (i in 1:N) {
+  g&lt;-
+    ggplot(data=pmms30yr[year&gt;2012 &amp; week&lt;=i], 
+           aes(alpha=week/i,x=week,y=rate,label=paste(&quot; &quot;,year),color=as.factor(year)))+
+    geom_line(size=1.05)+theme_minimal()+
+    scale_color_viridis(discrete=T,end=0.9,direction=-1)+
+    theme(legend.position=&quot;none&quot;)+
+    scale_x_continuous(limits=c(0,50),breaks=seq(0,50,5))+
+    scale_y_continuous(limits=c(3.25,4.75),breaks=seq(3.25,5,0.25))+
+    geom_text(data=pmms30yr[year&gt;2012 &amp; week==i],nudge_x=2)+
+    geom_point(data=pmms30yr[year&gt;2012 &amp; week==i],size=3.5,alpha=0.75)+
+    labs(x=&quot;Week Number&quot;, y=&quot;Mortgage Rate (%)&quot;,
+         title=&quot;30-year Fixed Mortgage Rate by Week of Year&quot;,
+         subtitle=&quot;comparing 2013, 2014, 2015 and 2016&quot;,
+         caption=&quot;@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey&quot;)+
+    theme(plot.title=element_text(size=18))+
+    theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+    theme(plot.margin=unit(c(0.25,0.25,0.25,0.25),&quot;cm&quot;))
+  print(g)
+  print(i)
+  ani.pause()
+}
+  for (i2 in 1:20) {
+    print(g)
+    print(i2)
+    ani.pause()
+  }
+},movie.name=&quot;rate_compare_dec_08_2016.gif&quot;,ani.width = 500, ani.height = 350)</code></pre>
+<p><img src="{{ site.url }}/img/charts_dec_8_2016/rate_compare_dec_08_2016.gif" alt="pmms gif weekly"/></p>
+</div>
+<div id="animated-line-chart-with-annotations" class="section level1">
+<h1>10: Animated line chart with annotations</h1>
+<p>We can also add some annotations and some more detailed camerawork for the animated linechart.</p>
+<p>The way we’ll do it, is set up a function that takes two input dates, a minimum and a maximum. The data will then get truncated at the min and max dates, allowing us to zoom around the time series history of mortgage rates.</p>
+<p>For smoother animations we’ll use tweenr.See my earlier <a href="../../../../2016/05/29/improving-R-animated-gifs-with-tweenr">post about tweenr</a> for an introduction to tweenr, and more examples <a href="../../../../2016/05/30/more-tweenr-animations">here</a> and <a href="../../../../2016/06/26/week-in-review">here</a>.</p>
+<pre class="r"><code>library(tweenr)
+DT&lt;-copy(pmms30yr)
+myf&lt;-function(dd,dmin=as.Date(&quot;2014-12-31&quot;),
+              #Variable subt contains annotations in the subtitle frame
+              subt=&quot;Nothing&quot;,
+              keepdots=&quot;No&quot;){
+  DT2&lt;-copy(DT)
+  #set max to last value
+  DT2[date&gt;dd,rate:=DT[date==dd]$rate]
+  DT2[date&gt;dd,date:=dd]
+  #set min to first value
+  DT2[date&lt;=dmin,rate:=DT[date==dmin]$rate]
+  DT2[date&lt;=dmin,date:=dmin]
+  DT2[,subt:=label_wrap_gen(100)(subt)]
+  DT2$subt&lt;-factor(DT2$subt)
+  DT2$keepdots&lt;-factor(keepdots)
+  as.data.frame(DT2[, list(date,rate,subt,keepdots)])}
+
+
+tf &lt;- tween_states(
+  list(myf(as.Date(&quot;2016-11-03&quot;),as.Date(&quot;2015-12-31&quot;),subt=&quot;rates fell throughout most of 2016 up to the U.S. general election...&quot;),
+       myf(as.Date(&quot;2016-12-01&quot;),as.Date(&quot;2015-12-31&quot;),subt=&quot;...rising rapidly after the election....&quot;),
+       myf(as.Date(&quot;2016-12-08&quot;),as.Date(&quot;2014-10-02&quot;),subt=&quot;...rates are up to the highest level since Oct 2014....&quot;),
+       myf(as.Date(&quot;2016-12-08&quot;),as.Date(&quot;2012-12-27&quot;),subt=&quot;...having declined after the Taper Talk in 2013....&quot;),
+       myf(as.Date(&quot;2016-12-08&quot;),as.Date(&quot;1971-04-02&quot;),subt=&quot;...and after over 30 years of general decline.&quot;),
+       myf(as.Date(&quot;2015-12-31&quot;),as.Date(&quot;2015-12-31&quot;),subt=&quot;...rates entered 2016 above 4%, but...&quot;)
+         ),tweenlength= 3, statelength=1, ease=rep(&#39;cubic-in-out&#39;,2),nframes=100)
+tf&lt;-data.table(tf)
+
+oopt = ani.options(interval = 0.15)
+saveGIF({for (i in 1:44) {
+  g&lt;-
+    ggplot(data=pmms30yr[date==&#39;2015-12-31&#39; | (date&gt;=&#39;2015-12-31&#39; &amp; week&lt;=i)], aes(x=date,y=rate,label=paste(&quot; &quot;,rate)))+
+    geom_line()+theme_minimal()+
+    theme(legend.position=&quot;none&quot;)+
+    geom_text(data=pmms30yr[date&gt;=&#39;2015-12-31&#39; &amp; week==i],nudge_x=10)+
+    geom_point(data=pmms30yr[date&gt;=&#39;2015-12-31&#39; &amp; week==i],size=2,color=&quot;red&quot;,alpha=0.75)+
+    labs(x=&quot;&quot;, y=&quot;Mortgage Rate (%)&quot;,
+         title=&quot;30-year Fixed Mortgage Rate (%)&quot;,
+         subtitle=&quot;Rates fell throughout most of 2016 up to the U.S. general election...&quot;,
+         caption=&quot;@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey&quot;)+
+    theme(plot.title=element_text(size=18))+
+    theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+    theme(plot.margin=unit(c(0.25,0.25,0.25,0.25),&quot;cm&quot;))+
+    coord_cartesian(xlim=c(as.Date(&quot;2015-12-31&quot;),as.Date(&quot;2016-12-31&quot;)), y=c(3.25,4.01))
+  print(g)
+  ani.pause()
+  print(i)
+}
+  
+  for (i in 1:1){
+    print(g)
+    ani.pause()
+    print(i)
+  }
+  
+  for (i in 1:max(tf$.frame)) {
+    g&lt;-
+      ggplot(data=tf[.frame==i], aes(x=date,y=rate,label=rate))+geom_line()+theme_minimal()+
+      theme(legend.position=&quot;none&quot;)+
+      geom_point(data=tf[date==max(tf[.frame==i]$date) &amp; .frame==i,],size=2,color=&quot;red&quot;,alpha=0.75)+
+      labs(x=&quot;&quot;, y=&quot;Mortgage Rate (%)&quot;,
+           title=&quot;30-year Fixed Mortgage Rate (%)&quot;,
+           subtitle=tf[.frame==i,]$subt,
+           caption=&quot;@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey&quot;)+
+      theme(plot.title=element_text(size=18))+
+      theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+      theme(plot.margin=unit(c(0.25,0.25,0.25,0.25),&quot;cm&quot;))+
+      coord_cartesian(xlim=c(min(tf[.frame==i]$date),as.Date(&quot;2016-12-31&quot;)), y=c(3.25,max(tf[.frame==i]$rate)))
+    
+    print(g)
+    ani.pause()
+    print(i)
+  }
+},movie.name=&quot;rate_12_08_2016_annotate.gif&quot;,ani.width = 500, ani.height = 350)</code></pre>
+<p><img src="{{ site.url }}/img/charts_dec_8_2016/rate_12_08_2016_annotate.gif" alt="pmms gif annotate 2016"/></p>
+</div>
+<div id="more" class="section level1">
+<h1>More?</h1>
+<p>I’ve got several other visualizations I use from time to time. Check back in this space for more.</p>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2016/12/04/nested-recursion-loops-within-loops-within-data-frames/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2016/12/04/nested-recursion-loops-within-loops-within-data-frames/">Nested recursion: Loops within loops within data frames </a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="/2016/12/10/global-house-price-trends/">Global house price trends </a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="/2016/12/10/global-house-price-trends/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2016%2f12%2f08%2f10-ways-to-visualize-mortgage-rates%2f&text=10%20ways%20to%20visualize%20mortgage%20rates%20 via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2016%2f12%2f08%2f10-ways-to-visualize-mortgage-rates%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+

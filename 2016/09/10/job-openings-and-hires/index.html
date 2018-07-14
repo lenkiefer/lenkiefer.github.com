@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>JOLTS! Job openings and labor turnover trends &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="JOLTS! Job openings and labor turnover trends">
+    <meta property="og:description" content="IN THIS POST WE&rsquo;LL LOOK AT recent job openings and hires data from the Bureau of Labor Statistics Job Openings and Labor Turnover Survey (JOLTS).
+R code for selected graphs posted below
+Job openings and labor turnover Total nonfarm trends Let&rsquo;s start by looking at aggregate national trends for total nonfarm sector. The plot below compares hires, job openings and separations (the sum of quits, layoffs and discharges, and other separations) over time.">
+
+<div class="header">
+  <h1>JOLTS! Job openings and labor turnover trends</h1>
+  <h2></h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2016/09/10</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/economy">economy</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/animation">animation</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/data-wrangling">data wrangling</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+
+<p>IN THIS POST WE&rsquo;LL LOOK AT recent job openings and hires data from the Bureau of Labor Statistics <a href="http://www.bls.gov/jlt/home.htm">Job Openings and Labor Turnover Survey (JOLTS)</a>.</p>
+
+<p><em>R code for selected graphs posted below</em></p>
+
+<h2 id="job-openings-and-labor-turnover">Job openings and labor turnover</h2>
+
+<h3 id="total-nonfarm-trends">Total nonfarm trends</h3>
+
+<p>Let&rsquo;s start by looking at aggregate national trends for total nonfarm sector.  The plot below compares hires, job openings and separations (the sum of quits, layoffs and discharges, and other separations) over time.  The JOLTS data begins in December 2000.</p>
+
+<p>In the <a href="http://www.bls.gov/news.release/pdf/jolts.pdf">latest release</a> for July 2016, total job openings in the U.S. were 5.9 million, the highest recorded. The graph below compares hires, job openings and separations.</p>
+
+<p><img src="/img/Rfig/fig-JOLTS-graph1-1.svg" alt="plot of chunk fig-JOLTS-graph1" /></p>
+
+<h3 id="trends-by-industry">Trends by industry</h3>
+
+<p>We also can compare trends by industry.</p>
+
+<p><img src="/img/Rfig/fig-JOLTS-graph2-1.svg" alt="plot of chunk fig-JOLTS-graph2" /></p>
+
+<p>We can break these charts into individual panel plots for hires, job openings and total separations.</p>
+
+<p><img src="/img/Rfig/fig-JOLTS-graph2b-1.svg" alt="plot of chunk fig-JOLTS-graph2b" /><img src="/img/Rfig/fig-JOLTS-graph2b-2.svg" alt="plot of chunk fig-JOLTS-graph2b" /><img src="/img/Rfig/fig-JOLTS-graph2b-3.svg" alt="plot of chunk fig-JOLTS-graph2b" /></p>
+
+<h2 id="index-the-data">Index the data</h2>
+
+<p>In order to make comparisons easier, we can index the data so the series can be compared on the same y axis. Due to the spike in hiring due to the 2010 Census, we&rsquo;ll omit the Federal category in the graphs to come.</p>
+
+<p><img src="/img/Rfig/fig-JOLTS-graph3-1.svg" alt="plot of chunk fig-JOLTS-graph3" /><img src="/img/Rfig/fig-JOLTS-graph3-2.svg" alt="plot of chunk fig-JOLTS-graph3" /><img src="/img/Rfig/fig-JOLTS-graph3-3.svg" alt="plot of chunk fig-JOLTS-graph3" /></p>
+
+<h2 id="the-beveridge-curve">The Beveridge Curve</h2>
+
+<p>If we add the unemployment rate from the BLS <a href="http://www.census.gov/programs-surveys/cps.html">Current Population Survey  (CPS)</a> we can draw a <a href="https://en.wikipedia.org/wiki/Beveridge_curve">Beveridge Curve</a>.</p>
+
+<p><img src="../../../../img/charts_sep_10_2016/bv.png" alt="Beveridge Curve"/></p>
+
+<h1 id="animated-gifs">Animated gifs</h1>
+
+<p>We can also make animated gif versions of these graphs</p>
+
+<p><img src="../../../../img/charts_sep_10_2016/JO.gif" alt="JOLTS gif"/></p>
+
+<p><img src="../../../../img/charts_sep_10_2016/HI.gif" alt="JOLTS gif"/></p>
+
+<p><img src="../../../../img/charts_sep_10_2016/JO ind.gif" alt="JOLTS gif"/></p>
+
+<p><img src="../../../../img/charts_sep_10_2016/HI ind.gif" alt="JOLTS gif"/></p>
+
+<p><img src="../../../../img/charts_sep_10_2016/HI vs JO.gif" alt="JOLTS gif"/></p>
+
+<p><img src="../../../../img/charts_sep_10_2016/bv curve.gif" alt="JOLTS gif"/></p>
+
+<h2 id="r-code-for-graphics">R code for graphics</h2>
+
+<p>Below is the <a href="https://www.r-project.org/">R</a> code I used to generate the graphs above.</p>
+
+<p>The data are conveniently availabe in text files we can download from the BLS directly.  This <a href="http://download.bls.gov/pub/time.series/jt/jt.txt">file</a> gives an overview of the different files, which are located <a href="http://download.bls.gov/pub/time.series/jt/">here</a>.</p>
+
+<h3 id="data-preparations">Data Preparations</h3>
+
+<p>{% highlight r</p>
+
+<h2 id="load-libraries">Load libraries:</h2>
+
+<p>library(data.table)
+library(dplyr)
+library(tidyr)
+library(viridis)
+library(ggplot2)
+library(ggthemes)
+library(scales)
+library(animation)
+library(tweenr)</p>
+
+<h2 id="get-data-from-bls-gov">Get data from BLS.gov</h2>
+
+<p>jolts.dt&lt;-fread(&ldquo;<a href="http://download.bls.gov/pub/time.series/jt/jt.data.1.AllItems&quot;">http://download.bls.gov/pub/time.series/jt/jt.data.1.AllItems&quot;</a>)
+jolts.series&lt;-fread(&ldquo;<a href="http://download.bls.gov/pub/time.series/jt/jt.series&quot;">http://download.bls.gov/pub/time.series/jt/jt.series&quot;</a>)
+jolts.ind&lt;-fread(&ldquo;<a href="http://download.bls.gov/pub/time.series/jt/jt.industry&quot;">http://download.bls.gov/pub/time.series/jt/jt.industry&quot;</a>,
+                 col.names=c(&ldquo;industry_code&rdquo;,&ldquo;industry_text&rdquo;,   &ldquo;display_level&rdquo;,    &ldquo;selectable&rdquo;,&ldquo;sort_sequence&rdquo;,&ldquo;blank&rdquo;))
+jolts.element&lt;-fread(&ldquo;<a href="http://download.bls.gov/pub/time.series/jt/jt.dataelement&quot;">http://download.bls.gov/pub/time.series/jt/jt.dataelement&quot;</a>,
+                     col.names=c(&ldquo;dataelement_code&rdquo;,&ldquo;dataelement_text&rdquo;,&ldquo;display_level&rdquo;,&ldquo;selectable&rdquo;,&ldquo;sort_sequence&rdquo;,&ldquo;blank&rdquo;                     ))</p>
+
+<h2 id="set-up-data-merge-industry-names-etc">Set up data, merge industry names etc.</h2>
+
+<p>#ratelevel: R=rate, L=level</p>
+
+<p>#dataelement_code   dataelement_text    display_level   selectable  sort_sequence
+#HI Hires   0   T   2<br />
+#JO Job openings    0   T   1<br />
+#LD Layoffs and discharges  1   T   5<br />
+#OS Other separations   1   T   6<br />
+#QU Quits   1   T   4<br />
+#TS Total separations   0   T   3</p>
+
+<p>#region_code    region_text display_level   selectable  sort_sequence
+#00 Total US    0   T   1<br />
+#MW Midwest (Only available for Total Nonfarm)  1   T   4<br />
+#NE Northeast (Only available for Total Nonfarm)    1   T   2<br />
+#SO South (Only available for Total Nonfarm)    1   T   3<br />
+#WE West (Only available for Total Nonfarm) 1   T   5</p>
+
+<p>#industries
+  ind.list&lt;-unique(jolts.series$industry_code)                  #industry list
+  ind.list1&lt;-unique(jolts.ind[display_level==1,]$industry_code) #industry level 1 list
+  ind.list2&lt;-unique(jolts.ind[display_level==2,]$industry_code) #industry level 2 list
+  ind.list3&lt;-unique(jolts.ind[display_level==3,]$industry_code) #industry level 3 list
+  reg.list&lt;-unique(jolts.series$region_code)  #region list
+  elem.list&lt;-unique(jolts.element$dataelement_code) #data element list</p>
+
+<p>#create data:
+  my.series&lt;-jolts.series[ seasonal==&ldquo;S&rdquo;  &amp;
+                            ratelevel_code==&ldquo;L&rdquo; &amp; region_code==&ldquo;00&rdquo;, ]
+  my.out&lt;-jolts.dt[ series_id %in% my.series$series_id,]
+  my.out&lt;-merge(my.out,jolts.series[,list(series_id,industry_code,dataelement_code)],by=&ldquo;series_id&rdquo;)
+  my.out&lt;-merge(my.out,jolts.ind[,list(industry_code,industry_text)],by=&ldquo;industry_code&rdquo;)
+  my.out[,month:=as.numeric(substr(period,2,3))]
+  my.out[,date:= as.Date(ISOdate(year,month,1))]</p>
+
+<p>#Create index to December 2000 (first observations)
+  bdata&lt;-my.out[year==2000 &amp; month==12,]
+  bdata&lt;-dplyr::rename(bdata, value00=value)
+  bdata&lt;-bdata[, c(&lsquo;value00&rsquo;,&lsquo;series_id&rsquo;), with = FALSE]
+  my.out&lt;-merge(my.out,bdata,by=&ldquo;series_id&rdquo;)
+  my.out[,val00:=100*value/value00]</p>
+
+<p>#Create index to December 2007
+  bdata&lt;-my.out[year==2007 &amp; month==12,]
+  bdata&lt;-dplyr::rename(bdata, value07=value)
+  bdata&lt;-bdata[, c(&lsquo;value07&rsquo;,&lsquo;series_id&rsquo;), with = FALSE]
+  my.out&lt;-merge(my.out,bdata,by=&ldquo;series_id&rdquo;)
+  my.out[,val07:=100*value/value07]</p>
+
+<p>#order the industries by employment in 2000
+  my.out&lt;-my.out[order(date,-value00),]
+  #Create factor (for plot facets)
+  my.out[,industry_textf:=factor(industry_text,levels=unique(my.out$industry_text))]
+{% endhighlight</p>
+
+<h3 id="make-the-plots">Make the plots</h3>
+
+<p>{% highlight r</p>
+
+<h1 id="total-nonfarm-plot">Total nonfarm plot</h1>
+
+<p>ggplot(data=my.out[industry_code==00000 &amp; dataelement_code %in% c(&ldquo;HI&rdquo;,&ldquo;JO&rdquo;,&ldquo;TS&rdquo;),],
+         aes(x=date,y=value,color=dataelement_text))+
+  facet_wrap(~dataelement_text)+scale_y_continuous(label=comma)+
+  scale_color_viridis(name=&ldquo;&rdquo;,discrete=T,end=0.8)+
+  theme(strip.text.x = element_text(size = 8))+
+  geom_line(size=1.1)+
+  theme_minimal()+theme(legend.position=&ldquo;none&rdquo;)+
+  theme(plot.caption=element_text(hjust=0,size=7))+
+  theme(strip.text.x = element_text(size = 8))+
+  labs(x=&ldquo;&rdquo;, y=&ldquo;&rdquo;,
+       subtitle=&ldquo;Total Nonfarm, (Ths, Seasonally-Adjusted)&rdquo;,
+       title=&ldquo;Hires, Job Openings, and Separations &ldquo;,
+       caption=&ldquo;@lenkiefer Source: U.S. Bureau of Labor Statistics Job Openings and Labor Turnover Survey (JOLTS)&ldquo;)</p>
+
+<h1 id="hires-job-openings-and-separations-by-inudstry-plot">Hires, Job Openings and Separations by Inudstry plot</h1>
+
+<p>ggplot(data=my.out[industry_code %in% ind.list2 &amp; dataelement_code %in% c(&ldquo;HI&rdquo;,&ldquo;JO&rdquo;,&ldquo;TS&rdquo;),],
+         aes(x=date,y=value,color=dataelement_text))+
+  facet_wrap(~industry_textf,scales=&ldquo;free_y&rdquo;)+
+  scale_y_continuous(label=comma)+
+  scale_color_viridis(name=&ldquo;&rdquo;,discrete=T,end=0.8)+
+  theme(strip.text.x = element_text(size = 8))+
+  geom_line(size=0.75)+
+  theme_minimal()+theme(legend.position=&ldquo;top&rdquo;)+
+  theme(plot.caption=element_text(hjust=0,size=7))+
+    theme(strip.text.x = element_text(size = 7))+
+    theme(axis.text.x = element_text(size=7),
+          axis.text.y = element_text(size=7)  ) +
+  labs(x=&ldquo;&rdquo;, y=&ldquo;Ths, Seasonally-adjusted&rdquo;,
+       subtitle=&ldquo;by industry&rdquo;,
+       title=&ldquo;Hires, Job Openings, and Separations &ldquo;,
+       caption=&ldquo;@lenkiefer Source: U.S. Bureau of Labor Statistics Job Openings and Labor Turnover Survey (JOLTS)&ldquo;)</p>
+
+<p>ggplot(data=my.out[ industry_code %in% ind.list2 &amp; dataelement_code==&ldquo;HI&rdquo;,],
+         aes(x=date,y=value,color=industry_text))+
+  facet_wrap(~industry_textf,scales=&ldquo;free_y&rdquo;)+
+  geom_line(size=0.85)+
+  theme_minimal()+theme(legend.position=&ldquo;none&rdquo;)+
+  scale_x_date(limits=c(min(d.list2),max(d.list2)))+<br />
+  theme(plot.caption=element_text(hjust=0,size=7))+
+  theme(strip.text.x = element_text(size = 7))+
+    theme(axis.text.x = element_text(size=7),
+          axis.text.y = element_text(size=7)  ) +
+  labs(x=&ldquo;&rdquo;, y=&ldquo;Ths, Seasonally-adjusted&rdquo;,
+       subtitle=&ldquo;by industry&rdquo;,
+       title=&ldquo;Hires (Ths, Seasonally-Adjusted)&rdquo;,
+       caption=&ldquo;@lenkiefer Source: U.S. Bureau of Labor Statistics Job Openings and Labor Turnover Survey (JOLTS)&ldquo;)</p>
+
+<p>ggplot(data=my.out[ industry_code %in% ind.list2 &amp; dataelement_code==&ldquo;JO&rdquo;,],
+         aes(x=date,y=value,color=industry_text))+
+  facet_wrap(~industry_textf,scales=&ldquo;free_y&rdquo;)+
+  theme(strip.text.x = element_text(size = 8))+
+  geom_line(size=0.85)+
+  theme_minimal()+theme(legend.position=&ldquo;none&rdquo;)+
+  #scale_x_date(limits=c(min(d.list2),max(d.list2)))+<br />
+      scale_x_date(limits=c(as.Date(&ldquo;2007-12-01&rdquo;),max(d.list)))+
+  theme(plot.caption=element_text(hjust=0,size=7))+
+  theme(strip.text.x = element_text(size = 7))+
+    theme(axis.text.x = element_text(size=7),
+          axis.text.y = element_text(size=7)  ) +
+  labs(x=&ldquo;&rdquo;, y=&ldquo;Ths, Seasonally-adjusted&rdquo;,
+       subtitle=&ldquo;by industry&rdquo;,
+       title=&ldquo;Job Openings (Ths, Seasonally-Adjusted)&rdquo;,
+       caption=&ldquo;@lenkiefer Source: U.S. Bureau of Labor Statistics Job Openings and Labor Turnover Survey (JOLTS)&ldquo;)</p>
+
+<p>ggplot(data=my.out[ industry_code %in% ind.list2 &amp; dataelement_code==&ldquo;TS&rdquo;,],
+         aes(x=date,y=value,color=industry_text))+
+  facet_wrap(~industry_textf,scales=&ldquo;free_y&rdquo;)+
+  theme(strip.text.x = element_text(size = 8))+
+  geom_line(size=0.85)+
+  theme_minimal()+theme(legend.position=&ldquo;none&rdquo;)+
+  #scale_x_date(limits=c(min(d.list2),max(d.list2)))+<br />
+      scale_x_date(limits=c(as.Date(&ldquo;2007-12-01&rdquo;),max(d.list)))+
+  theme(plot.caption=element_text(hjust=0,size=7))+
+  theme(strip.text.x = element_text(size = 7))+
+    theme(axis.text.x = element_text(size=7),
+          axis.text.y = element_text(size=7)  ) +
+  labs(x=&ldquo;&rdquo;, y=&ldquo;Ths, Seasonally-adjusted&rdquo;,
+       subtitle=&ldquo;by industry&rdquo;,
+       title=&ldquo;Total Separations (Ths, Seasonally-Adjusted)&rdquo;,
+       caption=&ldquo;@lenkiefer Source: U.S. Bureau of Labor Statistics Job Openings and Labor Turnover Survey (JOLTS)&ldquo;)
+{% endhighlight</p>
+
+<h3 id="index-the-data-and-and-plot">Index the data and and plot</h3>
+
+<p>{% highlight r
+ggplot(data=my.out[(industry_code==100000 |(industry_code !=910000 &amp; industry_code %in% ind.list2) )
+                       &amp; dataelement_code==&ldquo;HI&rdquo;,],
+         aes(x=date,y=val07,color=industry_text))+
+  facet_wrap(~industry_textf)+
+  theme(strip.text.x = element_text(size = 8))+
+  scale_y_continuous(limits=c(0,250),breaks=seq(0,350,50))+
+  geom_ribbon(alpha=0.5,aes(ymin=100,ymax=val07,fill=industry_text),color=NA)+geom_line(size=0.85)+
+  theme_minimal()+theme(legend.position=&ldquo;none&rdquo;)+geom_hline(yintercept=100,linetype=2,color=&ldquo;black&rdquo;,size=0.75)+
+  scale_x_date(limits=c(min(d.list2),max(d.list2)))+    theme(plot.caption=element_text(hjust=0))+
+  theme(strip.text.x = element_text(size = 8))+
+  labs(x=&ldquo;&rdquo;, y=&ldquo;Index, Dec 2007=100&rdquo;,
+       subtitle=&ldquo;by industry&rdquo;,
+       title=&ldquo;Hires (Seasonally-Adjusted Index, Dec 2007=100)&rdquo;,
+       caption=&ldquo;@lenkiefer Source: U.S. Bureau of Labor Statistics Job Openings and Labor Turnover Survey (JOLTS)&ldquo;)</p>
+
+<p>ggplot(data=my.out[(industry_code==100000 |(industry_code !=910000 &amp; industry_code %in% ind.list2) )&amp;
+                         dataelement_code==&ldquo;JO&rdquo;,],
+           aes(x=date,y=val07,color=industry_text))+
+    facet_wrap(~industry_textf)+
+    scale_y_continuous(limits=c(0,250),breaks=seq(0,350,50))+
+    geom_ribbon(alpha=0.5,aes(ymin=100,ymax=val07,fill=industry_text),color=NA)+geom_line(size=0.85)+
+    theme_minimal()+theme(legend.position=&ldquo;none&rdquo;)+geom_hline(yintercept=100,linetype=2,color=&ldquo;black&rdquo;,size=0.75)+
+    scale_x_date(limits=c(min(d.list2),max(d.list2)))+
+    theme(plot.caption=element_text(hjust=0,size=7))+
+    theme(strip.text.x = element_text(size = 8))+
+    labs(x=&ldquo;&rdquo;, y=&ldquo;Index, Dec 2007=100&rdquo;,
+         subtitle=&ldquo;by industry&rdquo;,
+         title=&ldquo;Job Openings (Seasonally-Adjusted Index, Dec 2007=100)&rdquo;,
+         caption=&ldquo;@lenkiefer Source: U.S. Bureau of Labor Statistics Job Openings and Labor Turnover Survey (JOLTS)&ldquo;)</p>
+
+<p>ggplot(data=my.out[(industry_code==100000 |(industry_code !=910000 &amp; industry_code %in% ind.list2) )&amp;
+                        dataelement_code %in% c(&ldquo;HI&rdquo;,&ldquo;JO&rdquo;)],
+           aes(x=date,y=val07,color=dataelement_code))+
+    facet_wrap(~industry_textf)+
+    scale_color_viridis(name=&ldquo;Hires (Hi) and Job Openings (JO)&rdquo;,discrete=T,end=0.75,begin=0.25)+
+    scale_linetype_discrete(guide=FALSE)+
+    scale_y_continuous(limits=c(0,250),breaks=seq(0,350,50))+
+    #geom_ribbon(alpha=0.5,aes(ymin=100,ymax=val07,fill=dataelement_code),color=NA)+
+    geom_line(size=0.85)+</p>
+
+<pre><code>theme_minimal()+theme(legend.position=&quot;bottom&quot;)+geom_hline(yintercept=100,linetype=2,color=&quot;black&quot;,size=0.75)+
+scale_x_date(limits=c(as.Date(&quot;2007-12-01&quot;),max(d.list)))+
+theme(plot.caption=element_text(hjust=0,size=7))+
+theme(strip.text.x = element_text(size = 8))+
+labs(x=&quot;&quot;, y=&quot;&quot;,
+     subtitle=&quot;Seasonally-Adjusted Index, Dec 2007=100&quot;,
+     title=&quot;Hires and Job Openings by industry&quot;,
+     caption=&quot;@lenkiefer Source: U.S. Bureau of Labor Statistics Job Openings and Labor Turnover Survey (JOLTS)&quot;)
+</code></pre>
+
+<p>{% endhighlight</p>
+
+<h3 id="beveridge-curve-code">Beveridge Curve code</h3>
+
+<p>For the Beveridge Curve I need to get the CPS data. We can read it from a flat file, but because I was just looking for the aggregate series I downloaded from the <a href="http://www.bls.gov/data/">BLS page</a> and stored it along with the national total nonfarm job openings rate in a simple text file. You can follow the links below to get the data:</p>
+
+<ul>
+<li><a href="http://data.bls.gov/timeseries/LNS14000000">Unemployment Rate: LNS14000000</a></li>
+<li><a href="http://data.bls.gov/timeseries/JTS00000000JOR">Job Openings Rate: JTS00000000JOR</a></li>
+</ul>
+
+<p>{% highlight r</p>
+
+<h1 id="load-data-from-text-file">Load data from text file.</h1>
+
+<h1 id="data-can-be-found-here-http-www-bls-gov-data">data can be found here: <a href="http://www.bls.gov/data/">http://www.bls.gov/data/</a></h1>
+
+<p>bv&lt;-fread(&ldquo;data/bv.txt&rdquo;)
+bv$date&lt;-as.Date(bv$date, format=&ldquo;%m/%d/%Y&rdquo;)
+bv$id&lt;-factor(bv$id,levels=unique(bv$id))</p>
+
+<h1 id="draw-plot">Draw Plot</h1>
+
+<pre><code>ggplot(data=bv,aes(y=jo.rate,x=ur.rate,color=rec,group=code))+
+geom_point(aes(alpha=as.numeric(date)/as.numeric(d.list[i])))+
+scale_alpha_continuous(guide=F)+
+theme_minimal()+coord_cartesian(xlim=c(4,10),ylim=c(1.5,4))+
+scale_color_viridis(name=&quot;Recession or\nExpansion?&quot;,discrete=T,direction=-1,option=&quot;D&quot;,end=0.75,begin=0.25)+
+geom_path(alpha=0.5)+ 
+</code></pre>
+
+<p>theme(plot.caption=element_text(hjust=0,size=7))+
+    labs(x=&ldquo;Unemployment Rate&rdquo;,y=&ldquo;Job Openings Rate&rdquo;,
+         title=&ldquo;The Beveridge Curve&rdquo;,
+         subtitle=&ldquo;job openings rate vs unemployment rate (SA)&rdquo;,
+         caption=&ldquo;@lenkiefer Source: U.S. Bureau of Labor Statistics, Current Population Survey and Job Opening and Labor Turnover Survey&rdquo;)
+{% endhighlight</p>
+
+<h3 id="animation">Animation</h3>
+
+<p>The animated charts were made using a combination of the animation and tweenr packages for R.</p>
+
+<p><em>See my earlier <a href="../../../../2016/05/29/improving-R-animated-gifs-with-tweenr">post about tweenr</a> for an introduction to tweenr, and more examples <a href="../../../../2016/05/30/more-tweenr-animations">here</a> and <a href="../../../../2016/06/26/week-in-review">here</a>.</em></p>
+
+<p>{% highlight r
+#gifs are made in the usual fashion, like so:</p>
+
+<p>d.list2&lt;-unique(my.out[date&gt;=&ldquo;2007-12-01&rdquo;,]$date)
+N&lt;-length(d.list2)
+oopt = ani.options(interval = 0.1)
+saveGIF({for (i in 1:N) {
+g&lt;-
+  ggplot(data=my.out[(industry_code==100000 |(industry_code !=910000 &amp; industry_code %in% ind.list2) )&amp;
+                       date&lt;=d.list2[i] &amp; dataelement_code==&ldquo;JO&rdquo;,],
+         aes(x=date,y=val07,color=industry_text))+
+  facet_wrap(~industry_textf)+
+  #scale_y_continuous(limits=c(25,150),breaks=seq(25,175,25))+
+  scale_y_continuous(limits=c(0,250),breaks=seq(0,350,50))+
+  geom_ribbon(alpha=0.5,aes(ymin=100,ymax=val07,fill=industry_text),color=NA)+geom_line(size=0.85)+
+  theme_minimal()+theme(legend.position=&ldquo;none&rdquo;)+geom_hline(yintercept=100,linetype=2,color=&ldquo;black&rdquo;,size=0.75)+
+  scale_x_date(limits=c(min(d.list2),max(d.list2)))+    theme(plot.caption=element_text(hjust=0))+
+  #scale_y_log10()+
+  labs(x=&ldquo;&rdquo;, y=&ldquo;Index, Dec 2007=100&rdquo;,
+       subtitle=&ldquo;by industry&rdquo;,
+       title=&ldquo;Job Openings (Index: Dec 2007=100, Seasonally-adjusted)&ldquo;,
+       caption=&ldquo;@lenkiefer Source: U.S. Bureau of Labor Statistics Job Openings and Labor Turnover Survey (JOLTS)&ldquo;)
+  print(g)
+  print(i)
+  ani.pause()  }
+  for (i2 in 1:10) {
+    print(g)
+    ani.pause()  }
+  },movie.name=&ldquo;tween jolts jo industry.gif&rdquo;,ani.width = 800, ani.height = 450)
+{% endhighlight</p>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2016/09/02/consumer-spend/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2016/09/02/consumer-spend/">What we spend: Consumer Expenditures in 2015</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="/2016/09/14/bev-curves/">Industry-specific Beveridge Curves</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="/2016/09/14/bev-curves/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/dataviz/">dataviz</a>, 
+            
+                <a href="/tags/economy/">economy</a>, 
+            
+                <a href="/tags/r/">R</a>, 
+            
+                <a href="/tags/animation/">animation</a>, 
+            
+                <a href="/tags/data-wrangling/">data wrangling</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2016%2f09%2f10%2fjob-openings-and-hires%2f&text=JOLTS%21%20Job%20openings%20and%20labor%20turnover%20trends via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2016%2f09%2f10%2fjob-openings-and-hires%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+

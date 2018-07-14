@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A trilogy of animated data visualizations showing labor market trends. R code for the data wrangling and plotting bits.">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>JOLTS a dataviz trilogy &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com//img/charts_nov_07_2017/hi.png" >
+     
+    <meta property="og:title" content="JOLTS a dataviz trilogy">
+    <meta property="og:description" content="A trilogy of animated data visualizations showing labor market trends. R code for the data wrangling and plotting bits.">
+
+<div class="header">
+  <h1>JOLTS a dataviz trilogy</h1>
+  <h2>A trilogy of animated data visualizations showing labor market trends. R code for the data wrangling and plotting bits.</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2017/11/07</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/economy">economy</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <p>LET’S TAKE A LOOK AT RECENT LABOR MARKET TRENDS IN THE UNITED STATES. Below we’ll plot labor market trends using the U.S. Bureau of Labor Statistics <a href="https://www.bls.gov/jlt/">Job Openings and Labor Turnover Survey (JOLTS)</a>.</p>
+<p><a href="../../../../2016/09/10/job-openings-and-hires/">Last year</a> we looked at how to get the data and plot it using <a href="https://www.r-project.org/">R</a>. Look to that post for more details, though I’ll include all the code we need below at the bottom.</p>
+<div id="a-trilogy-of-plots" class="section level1">
+<h1>A trilogy of plots</h1>
+<p>First, let’s look at some static plots.</p>
+<div id="job-openings" class="section level2">
+<h2>Job openings</h2>
+<p>The first plot shows job openings by industry in the U.S.</p>
+<p><img src="../../../../img/charts_nov_07_2017/jo.png"></p>
+<p>We can see that job openings have increased. How about hiring?</p>
+</div>
+<div id="hires" class="section level2">
+<h2>Hires</h2>
+<p><img src="../../../../img/charts_nov_07_2017/hi.png"></p>
+<p>Hiring has increased, but not as much as job openings.</p>
+</div>
+<div id="quits" class="section level2">
+<h2>Quits</h2>
+<p>Quits are a useful measure of confidence in the labor market. If workers feel confident about the labor market they are more likely to quit than if they feel apprehensive about their prospects. Increased quits are a sign of tightening in the labor market. Indeed we see that quits have trended higher.</p>
+<p><img src="../../../../img/charts_nov_07_2017/qu.png"></p>
+</div>
+<div id="animated-verisions" class="section level2">
+<h2>Animated verisions</h2>
+<p><img src="../../../../img/charts_nov_07_2017/jo_nov17.gif"></p>
+<p><img src="../../../../img/charts_nov_07_2017/hi_nov17.gif"></p>
+<p><img src="../../../../img/charts_nov_07_2017/qu_nov17.gif"></p>
+<div id="r-code" class="section level3">
+<h3>R code</h3>
+<p>The code below creates the plots above.</p>
+</div>
+</div>
+<div id="get-data" class="section level2">
+<h2>Get data</h2>
+<p>First, we need to get the data:</p>
+<pre class="r"><code>#####################################################################################
+## Load libraries ##
+#####################################################################################
+library(data.table)
+library(tidyverse)
+
+
+#####################################################################################
+## Get data from BLS with data.table::fread ##
+#####################################################################################
+jolts.dt&lt;-fread(&quot;http://download.bls.gov/pub/time.series/jt/jt.data.1.AllItems&quot;)
+jolts.series&lt;-fread(&quot;http://download.bls.gov/pub/time.series/jt/jt.series&quot;)
+jolts.ind&lt;-fread(&quot;http://download.bls.gov/pub/time.series/jt/jt.industry&quot;,
+                 col.names=c(&quot;industry_code&quot;,&quot;industry_text&quot;,   &quot;display_level&quot;,    &quot;selectable&quot;,&quot;sort_sequence&quot;,&quot;blank&quot;))
+jolts.element&lt;-fread(&quot;http://download.bls.gov/pub/time.series/jt/jt.dataelement&quot;,
+                     col.names=c(&quot;dataelement_code&quot;,&quot;dataelement_text&quot;,&quot;display_level&quot;,&quot;selectable&quot;,&quot;sort_sequence&quot;,&quot;blank&quot;                     ))
+
+#ratelevel: R=rate, L=level
+#dataelement_code   dataelement_text    display_level   selectable  sort_sequence
+#HI Hires   0   T   2   
+#JO Job openings    0   T   1   
+#LD Layoffs and discharges  1   T   5   
+#OS Other separations   1   T   6   
+#QU Quits   1   T   4   
+#TS Total separations   0   T   3
+
+#region_code    region_text display_level   selectable  sort_sequence
+#00 Total US    0   T   1   
+#MW Midwest (Only available for Total Nonfarm)  1   T   4   
+#NE Northeast (Only available for Total Nonfarm)    1   T   2   
+#SO South (Only available for Total Nonfarm)    1   T   3   
+#WE West (Only available for Total Nonfarm) 1   T   5   
+
+#industries
+ind.list&lt;-unique(jolts.series$industry_code)
+ind.list1&lt;-unique(jolts.ind[display_level==1,]$industry_code)
+ind.list2&lt;-unique(jolts.ind[display_level==2,]$industry_code)
+ind.list3&lt;-unique(jolts.ind[display_level==3,]$industry_code)
+reg.list&lt;-unique(jolts.series$region_code)
+elem.list&lt;-unique(jolts.element$dataelement_code)
+
+
+jolts.series[seasonal==&quot;S&quot; &amp; dataelement_code==&quot;HI&quot; &amp;
+               ratelevel_code==&quot;R&quot; &amp; region_code==&quot;00&quot;, ]
+
+my.series&lt;-jolts.series[seasonal==&quot;S&quot;  &amp;
+                          ratelevel_code==&quot;L&quot; &amp; region_code==&quot;00&quot;, ]
+
+#####################################################################################
+## data manipulation ##
+#####################################################################################
+
+my.out&lt;-jolts.dt[ series_id %in% my.series$series_id,] 
+my.out&lt;-merge(my.out,jolts.series[,list(series_id,industry_code,dataelement_code)],by=&quot;series_id&quot;)
+my.out&lt;-merge(my.out,jolts.ind[,list(industry_code,industry_text)],by=&quot;industry_code&quot;)
+my.out[,month:=as.numeric(substr(period,2,3))]
+my.out[,date:= as.Date(ISOdate(year,month,1))]
+
+bdata&lt;-my.out[year==2000 &amp; month==12,]
+bdata&lt;-dplyr::rename(bdata, value00=value)
+bdata&lt;-bdata[, c(&#39;value00&#39;,&#39;series_id&#39;), with = FALSE]
+my.out&lt;-merge(my.out,bdata,by=&quot;series_id&quot;)
+my.out[,val00:=100*value/value00]
+bdata&lt;-my.out[year==2007 &amp; month==12,]
+bdata&lt;-dplyr::rename(bdata, value07=value)
+bdata&lt;-bdata[, c(&#39;value07&#39;,&#39;series_id&#39;), with = FALSE]
+my.out&lt;-merge(my.out,bdata,by=&quot;series_id&quot;)
+my.out[,val07:=100*value/value07]
+my.out&lt;-my.out[order(date,-value00),]
+my.out[,industry_textf:=factor(industry_text,levels=unique(my.out$industry_text))]
+levels(my.out$industry_textf)
+
+d.list&lt;-unique(my.out$date)  
+d.list2&lt;-unique(my.out[date&gt;=&quot;2007-12-01&quot;,]$date)
+N&lt;-length(d.list2)</code></pre>
+</div>
+<div id="plotting-functions" class="section level2">
+<h2>Plotting functions</h2>
+<p>The functions below create our plots</p>
+<pre class="r"><code># myplotf() plots job openings
+# myplotf2() plots hires
+# myplotf3() plots quits
+
+
+myplotf&lt;-function(i=N){
+  g&lt;-
+    ggplot(data=my.out[(industry_code==00000 |(industry_code !=910000 &amp; 
+                                                 industry_code %in% ind.list2) )&amp; 
+                         date&lt;=d.list2[i] &amp;
+                         dataelement_code==&quot;JO&quot;,],
+           aes(x=date,y=value,color=industry_text))+
+    facet_wrap(~industry_textf,scales=&quot;free_y&quot;)+
+    geom_line(data=my.out[(industry_code==00000 |(industry_code !=910000 &amp;
+                                                    industry_code %in% ind.list2) )&amp; 
+                            dataelement_code==&quot;JO&quot;,],color=NA)+
+    geom_ribbon(alpha=0.5,aes(ymin=0,ymax=value,fill=industry_text),color=NA)+
+    geom_line(size=0.5)+
+    theme_minimal(base_size=8)+theme(legend.position=&quot;none&quot;)+
+    geom_hline(data=my.out[(industry_code==00000 |(industry_code !=910000 &amp; industry_code %in% ind.list2) )&amp;                            date==d.list2[i] &amp; dataelement_code==&quot;JO&quot;,],
+               aes(yintercept=value),linetype=2,color=&quot;black&quot;,size=0.75)+
+    scale_x_date(limits=c(min(d.list),max(d.list2)))+  
+    theme(plot.caption=element_text(hjust=0))+
+    labs(x=&quot;&quot;, y=&quot;Thousands, SA&quot;,
+         subtitle=paste(&quot;by industry, dotted line value as of&quot;,
+                        as.character(d.list2[i],format=&quot;%b-%Y&quot;)),
+         title=&quot;Job Openings (Ths, seasonally-adjusted)&quot;,
+         caption=&quot;@lenkiefer Source: U.S. Bureau of Labor Statistics Job Openings and Labor Turnover Survey (JOLTS)&quot;)
+}
+
+
+
+myplotf2&lt;-function(i=N){
+  g&lt;-
+    ggplot(data=my.out[(industry_code==00000 |(industry_code !=910000 &amp;
+                                                 industry_code %in% ind.list2) )&amp; 
+                         date&lt;=d.list2[i] &amp; dataelement_code==&quot;HI&quot;,],
+           aes(x=date,y=value,color=industry_text))+
+    facet_wrap(~industry_textf,scales=&quot;free_y&quot;)+
+    geom_line(data=my.out[(industry_code==00000 |(industry_code !=910000 &amp; 
+                                                    industry_code %in% ind.list2) )&amp; 
+                            dataelement_code==&quot;HI&quot;,],color=NA)+
+    geom_ribbon(alpha=0.5,aes(ymin=0,ymax=value,fill=industry_text),color=NA)+
+    geom_line(size=0.85)+
+    theme_minimal(base_size=8)+theme(legend.position=&quot;none&quot;)+
+    geom_hline(data=my.out[(industry_code==00000 |(industry_code !=910000 &amp; industry_code %in% ind.list2) )&amp; 
+                             date==d.list2[i] &amp; dataelement_code==&quot;HI&quot;,],
+               aes(yintercept=value),linetype=2,color=&quot;black&quot;,size=0.75)+
+    scale_x_date(limits=c(min(d.list),max(d.list2)))+  
+    theme(plot.caption=element_text(hjust=0))+
+    #scale_y_log10()+
+    labs(x=&quot;&quot;, y=&quot;Thousands, SA&quot;,
+         subtitle=paste(&quot;by industry, dotted line value as of&quot;,
+                        as.character(d.list2[i],format=&quot;%b-%Y&quot;)),
+         title=&quot;Hires (Ths, seasonally-adjusted)&quot;,
+         caption=&quot;@lenkiefer Source: U.S. Bureau of Labor Statistics Job Openings and Labor Turnover Survey (JOLTS)&quot;)
+}
+
+for (i in seq(1,N,3)) {
+  file_path = paste0(mydir, &quot;/plot-&quot;,5000+i ,&quot;.png&quot;)
+  g&lt;-myplotf2(i)
+  ggsave(file_path, g, width =12, height = 10 , units = &quot;cm&quot;,scale=1.5) 
+  print(paste(i,&quot;out of&quot;,N))
+}
+
+myplotf3&lt;-function(i=N){
+  ggplot(data=my.out[(industry_code==00000 |(industry_code !=910000 &amp; 
+                                               industry_code %in% ind.list2) )&amp; 
+                     date&lt;=d.list2[i] &amp; dataelement_code==&quot;QU&quot;,],
+       aes(x=date,y=value,color=industry_text))+
+  facet_wrap(~industry_textf,scales=&quot;free_y&quot;)+
+  geom_line(data=my.out[(industry_code==00000 |(industry_code !=910000 &amp; industry_code %in% ind.list2) )&amp; 
+                          dataelement_code==&quot;QU&quot;,],color=NA)+
+  
+  #scale_y_continuous(limits=c(25,150),breaks=seq(25,175,25))+
+  #scale_y_continuous(limits=c(0,250),breaks=seq(0,350,50))+
+  geom_ribbon(alpha=0.5,aes(ymin=0,ymax=value,fill=industry_text),color=NA)+
+  geom_line(size=0.85)+
+  theme_minimal(base_size=8)+theme(legend.position=&quot;none&quot;)+
+  geom_hline(data=my.out[(industry_code==00000 |(industry_code !=910000 &amp; industry_code %in% ind.list2) )&amp; 
+                           date==d.list2[i] &amp; dataelement_code==&quot;QU&quot;,],
+             aes(yintercept=value),linetype=2,color=&quot;black&quot;,size=0.75)+
+  scale_x_date(limits=c(min(d.list),max(d.list2)))+  
+  theme(plot.caption=element_text(hjust=0))+
+  #scale_y_log10()+
+  labs(x=&quot;&quot;, y=&quot;Thousands, SA&quot;,
+       subtitle=paste(&quot;by industry, dotted line value as of&quot;,
+                      as.character(d.list2[i],format=&quot;%b-%Y&quot;)),
+       title=&quot;Quits (Ths, seasonally-adjusted)&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Bureau of Labor Statistics Job Openings and Labor Turnover Survey (JOLTS)&quot;)
+}</code></pre>
+</div>
+<div id="call-plots" class="section level2">
+<h2>Call plots</h2>
+<p>If we just want a static plot, we can just call the functions with <span class="math inline">\(i=length(dlist)=N\)</span>.</p>
+<p>If we want an animation, set the variable <code>mydir</code> to a place where you want to store the image files. Then run:</p>
+<pre class="r"><code>mydir&lt;- &quot;YOURDIRECTORY&quot;  #where you want the images
+
+for (i in seq(1,N,3)) {
+  file_path = paste0(mydir, &quot;/plot-&quot;,5000+i ,&quot;.png&quot;)
+  g&lt;-myplotf(i)
+  ggsave(file_path, g, width =12, height = 10 , units = &quot;cm&quot;,scale=1.5) 
+  print(paste(i,&quot;out of&quot;,N))
+}
+g&lt;-myplotf(N)
+for (i in (N+1):(N+5)){
+  file_path = paste0(mydir, &quot;/plot-&quot;,5000+i ,&quot;.png&quot;)
+  ggsave(file_path, g, width =12, height = 10 , units = &quot;cm&quot;,scale=1.5) 
+  print(paste(i,&quot;out of&quot;,N))
+}</code></pre>
+<p>Simply substitute <code>myplotf2()</code> or <code>myplotf3()</code> for <code>myplotf()</code> if you want hires (quits) instead of job openings.</p>
+<p>Then navigate to <code>mydir</code> and call <code>magick convert -delay 10 loop -0 *.png awesomegif.gif</code> from the command line to create the gif. Alternatively, you could try the <a href="https://cran.r-project.org/web/packages/magick/index.html">magick</a> package.</p>
+</div>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2017/11/06/a-note-on-competing-risks/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2017/11/06/a-note-on-competing-risks/">A note on competing risks</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="/2017/11/08/tour-of-u-s-metro-area-house-price-trends/">Tour of U.S. metro area house price trends</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="/2017/11/08/tour-of-u-s-metro-area-house-price-trends/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/economy/">economy</a>, 
+            
+                <a href="/tags/r/">R</a>, 
+            
+                <a href="/tags/dataviz/">dataviz</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2017%2f11%2f07%2fjolts-a-dataviz-trilogy%2f&text=JOLTS%20a%20dataviz%20trilogy via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2017%2f11%2f07%2fjolts-a-dataviz-trilogy%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+

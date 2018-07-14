@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>Visual meditations on house prices, Part 6: state recovery &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Visual meditations on house prices, Part 6: state recovery">
+    <meta property="og:description" content="Introduction HOUSE PRICES HAVE NOW RECOVERED BACK TO THEIR PRE-RECESSION PEAK, at least according to some indices. The Freddie Mac House Price Index, for example, surpassed its pre-2008 peak in the latest release for data through September 2016. In this post I&rsquo;ll be exploring trends in house prices and exploring different ways of showing how far house prices have come, and in some cases, how far they still have to go.">
+
+<div class="header">
+  <h1>Visual meditations on house prices, Part 6: state recovery</h1>
+  <h2></h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2016/11/03</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/house-prices">house prices</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+
+<h1 id="introduction">Introduction</h1>
+
+<p>HOUSE PRICES HAVE NOW RECOVERED BACK TO THEIR PRE-RECESSION PEAK, at least according to some indices.  The <a href="http://www.freddiemac.com/finance/house_price_index.html">Freddie Mac House Price Index</a>, for example, surpassed its pre-2008 peak in the latest release for data through September 2016. In this post I&rsquo;ll be exploring trends in house prices and exploring different ways of showing how far house prices have come, and in some cases, how far they still have to go.</p>
+
+<p>Time for some new visual meditations on house prices.</p>
+
+<p>For reference, the prior meditation are listed below, and I&rsquo;ll keep an updated list of all of them <a href="../../../../2016/05/08/visual-meditations-on-house-prices">here</a>.</p>
+
+<ul>
+<li><a href="../../../../2016/05/08/visual-meditations-on-house-prices-part1">Part 1: data wrangling </a></li>
+<li><a href="../../../../2016/05/08/visual-meditations-on-house-prices-part2">Part 2: sparklines and dots (animated) </a></li>
+<li><a href="../../../../2016/05/10/visual-meditations-on-house-prices-part3">Part 3: bubbles and bounce </a></li>
+<li><a href="../../../../2016/05/14/visual-meditations-on-house-prices-part4">Part 4: graph gallery </a></li>
+<li><a href="../../../../2016/08/13/visual-meditations-on-house-prices-part5">Part 5: distributions </a></li>
+</ul>
+
+<p>These visualizations will be made in R, and I&rsquo;ll post code for some of the graphs at the bottom.</p>
+
+<h2 id="the-data">The data</h2>
+
+<p>As <a href="../../../../2016/05/08/visual-meditations-on-house-prices-part1">before</a>, we&rsquo;ll be using the Freddie Mac House Price Index for many of these visualizations.  We&rsquo;re going to need a text file organized as described in that post. Just follow those examples to set up the data.  Or you can download the two text files below:</p>
+
+<ol>
+<li><a href="../../../../img/charts_nov_3_2016/fmhpi2016q3.txt"><em>state and national called fmhpi.txt</em></a></li>
+<li><a href="../../../../img/charts_nov_3_2016/fmhpi2016q3metro.txt"><em>metro called fmhpi2.txt</em></a></li>
+</ol>
+
+<p><img src="/img/Rfig/fig-hpimed6-viz1-1.svg" alt="plot of chunk fig-hpimed6-viz1" /></p>
+
+<p>This plot shows the seasonally-adjusted index for the United States. In September of 2016 the index was at 165.25, just above (0.1%) the pre-2008 peak of 165.06.</p>
+
+<p>The story varies quite a bit across the country. While the national average is just abvoe the pre-2008 peak, some states are above and some are below.</p>
+
+<h2 id="state-trends">State trends</h2>
+
+<h3 id="maps">Maps</h3>
+
+<p>First, let&rsquo;s look at a map of annual house price appreciation by state, September 2015 to September 2016:</p>
+
+<p><img src="/img/Rfig/fig-hpimed6-viz2-1.svg" alt="plot of chunk fig-hpimed6-viz2" /></p>
+
+<p>We can contrast this with a map showing the percentage difference between the September 2016 index and that state&rsquo;s pre-2008 peak.</p>
+
+<p><img src="/img/Rfig/fig-hpimed6-viz3-1.svg" alt="plot of chunk fig-hpimed6-viz3" /></p>
+
+<p>This map reveals that North Dakota, Colorado, and Texas have had the fastest house price appreciation relative to their pre-2008 peak (45%, 38%, and 35% respectively). On the other end, Nevada, Connecticut  and Arizona are the lowest relative to their pre-2008 peak at -24%, -20%, and -18% respectively.</p>
+
+<p>It would be interesting to compare the rank of states in terms of year-over-year house price appreciation.</p>
+
+<p><img src="/img/Rfig/fig-hpimed6-viz3b-1.svg" alt="plot of chunk fig-hpimed6-viz3b" /></p>
+
+<p>We can also construct a panel plot comparing the last few years:</p>
+
+<p><img src="/img/Rfig/fig-hpimed6-viz3c-1.svg" alt="plot of chunk fig-hpimed6-viz3c" /></p>
+
+<p>Early in the housing recovery the central United States, pretty much a straight path from Texas up to North Dakota had the fastest house price growth (or least decline).  But as the recovery has progressed, growth has accelerated in the West and in Florida.</p>
+
+<p>The animated gif below shows how the rankings have changed each September from 1980-2016:</p>
+
+<p><img src="../../../../img/charts_nov_3_2016/fmhpi map 2016q3 v4.gif" alt="hpa rank map gif"/></p>
+
+<h2 id="dot-plot">Dot plot</h2>
+
+<p>In an <a href="../../../../2016/05/08/visual-meditations-on-house-prices-part2">earlier post</a> I described how to make the following dotplot:</p>
+
+<p><img src="/img/Rfig/fig-hpimed6-viz4-1.svg" alt="plot of chunk fig-hpimed6-viz4" /></p>
+
+<p>The plot shows the value of the house price index in September 2016 relative to the past 12 months.  The color corresponds to the pace of house price appreciation, and the tail represents the range of the index over the past 12 months.</p>
+
+<p>Hawaii has the highest index value (meaning that house prices have grown most in HI relative to December 2000), but the fastest year-over-year growth has been in Washington state.  You can see that in the graph by the blueness of the dot and in the length of the tail.</p>
+
+<p>This is a fun graph to animate:</p>
+
+<p><img src="../../../../img/charts_nov_3_2016/redbluedot 2016q3.gif" alt="red blue gif"/></p>
+
+<h2 id="metro-trends">Metro trends</h2>
+
+<p>We can also look at trends at the metro level, which will be the topic of a future post.</p>
+
+<h1 id="code-for-these-plots">Code for these plots</h1>
+
+<p>Here is the code I used, using the data files I linked to above, to create these graphics.  Note that I&rsquo;m use R and the development version of ggplot2.</p>
+
+<p>{% highlight r
+#Load some packages
+library(data.table, warn.conflicts = FALSE, quietly=TRUE)
+library(ggplot2, warn.conflicts = FALSE, quietly=TRUE)
+library(dplyr, warn.conflicts = FALSE, quietly=TRUE)
+library(zoo, warn.conflicts = FALSE, quietly=TRUE)
+library(ggrepel, warn.conflicts = FALSE, quietly=TRUE)
+library(ggthemes, warn.conflicts = FALSE, quietly=TRUE)
+library(scales, warn.conflicts = FALSE, quietly=TRUE)
+library(animation, warn.conflicts = FALSE, quietly=TRUE)
+library(grid, warn.conflicts = FALSE, quietly=TRUE)
+library(tidyr, warn.conflicts = FALSE, quietly=TRUE)
+library(rgeos, warn.conflicts = FALSE, quietly=TRUE)
+library(maptools, warn.conflicts = FALSE, quietly=TRUE)
+library(albersusa, warn.conflicts = FALSE, quietly=TRUE)</p>
+
+<p>#load data
+statedata &lt;- fread(&ldquo;data/fmhpi2016q3.txt&rdquo;)
+statedata$date&lt;-as.Date(statedata$date, format=&ldquo;%m/%d/%Y&rdquo;)</p>
+
+<p>#Now uses some data table calculations to compute percent changes in house prices by state/metro
+statedata&lt;-statedata[,hpa:=c(NA,((1+diff(hpi)/hpi))^12)-1,by=state]<br />
+statedata&lt;-statedata[,hpa12:=c(rep(NA,12),((1+diff(hpi,12)/hpi))^1)-1,by=state]</p>
+
+<p>#compute pre-2008 peak
+statedata[,hpi.max08:=max(ifelse(year&lt;2009,hpi,0),na.rm=T),by=state]</p>
+
+<p>#compute post-2008 trough
+statedata[,hpi.min08:=min(ifelse(year&gt;2008,hpi,1000),na.rm=T),by=state]</p>
+
+<p>#do map stuff
+states&lt;-usa_composite()
+statedata[,iso_3166_2:=state]  #rename state to match usa_composite
+statedata[,hpi.comp:=hpi/hpi.max08-1]  #compute house price growth relative to pre-2008 peak
+statedata&lt;-statedata[!(state %in% c(&ldquo;US.SA&rdquo;,&ldquo;US.NSA&rdquo;))]
+statedata[,hparank:=rank(-hpa12),by=date]</p>
+
+<p>#create an indicator for house price appreciation relative to pre-2008 peak
+statedata[,hpi.compd:=ifelse(hpi.comp&lt; -0.25,&rdquo;&lt;-25%&ldquo;,
+                             ifelse(hpi.comp&lt; -0.05,&ldquo;-25% to -5%&rdquo;,
+                                    ifelse(hpi.comp<0,"-5% to 0%",
+                                           ifelse(hpi.comp<0.05,"0% to +5%",
+                                                  ifelse(hpi.comp<0.25,"+5% to +25%",
+                                                         ">+25%&ldquo;)))))     ]
+statedata$hpi.compd&lt;-factor(statedata$hpi.compd, levels=unique(statedata$hpi.compd))
+smap&lt;-fortify(states,region=&ldquo;fips_state&rdquo;)
+states@data &lt;- left_join(states@data, statedata, by = &ldquo;iso_3166_2&rdquo;)</p>
+
+<p>#make annual percent change map:
+ggplot() +
+  geom_map(data = smap, map = smap,
+           aes(x = long, y = lat, map_id = id),
+           color = &ldquo;#2b2b2b&rdquo;, size = 0.05, fill = NA) +
+  geom_map(data =subset(states@data,year==2016 &amp; month==9), map = smap,
+           aes( map_id = fips_state,fill=hpa12),
+           color = &ldquo;gray&rdquo;, size = .25) +
+  theme_map( base_size = 12) +
+  theme(plot.title=element_text( size = 16, margin=margin(b=10))) +
+  theme(plot.subtitle=element_text(size = 14, margin=margin(b=-20))) +
+  theme(plot.caption=element_text(size = 9, margin=margin(t=-15))) +
+  coord_proj(us_laea_proj) +   labs(title=&ldquo;&rdquo;,subtitle=&ldquo;&rdquo; ) +
+  scale_fill_viridis(name = &ldquo;&rdquo;, discrete=F,option=&ldquo;D&rdquo;,end=0.95,
+                     direction=1,limits=c(0,0.12),
+                     label=percent
+                     )+
+  theme(legend.position = &ldquo;top&rdquo;) +theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+  labs(title=&ldquo;Annual House Price Growth (Y/Y %)&rdquo;,</p>
+
+<pre><code>   caption=&quot;@lenkiefer Source: Freddie Mac House Price Index (Not Seasonally adjusted)&quot;)
+</code></pre>
+
+<p>{% endhighlight</p>
+
+<p><img src="/img/Rfig/unnamed-chunk-2-1.svg" alt="plot of chunk unnamed-chunk-2" /></p>
+
+<p>{% highlight r
+#make comparison to pre-2008 peak map</p>
+
+<p>ggplot() +
+  geom_map(data = smap, map = smap,
+           aes(x = long, y = lat, map_id = id),
+           color = &ldquo;#2b2b2b&rdquo;, size = 0.05, fill = NA) +
+  geom_map(data =subset(states@data,year==2016 &amp; month==9), map = smap,
+           aes( map_id = fips_state,fill=hpi.compd),
+           color = &ldquo;gray&rdquo;, size = .25) +
+  theme_map( base_size = 12) +
+  theme(plot.title=element_text( size = 16, margin=margin(b=10))) +
+  theme(plot.subtitle=element_text(size = 14, margin=margin(b=-20))) +
+  theme(plot.caption=element_text(size = 9, margin=margin(t=-15))) +
+  coord_proj(us_laea_proj) +   labs(title=&ldquo;&rdquo;,subtitle=&ldquo;&rdquo; ) +
+  scale_fill_viridis(name = &ldquo;&rdquo;, discrete=T,option=&ldquo;D&rdquo;,end=0.95 )+
+  theme(legend.position = &ldquo;top&rdquo;) +theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+  labs(title=&ldquo;House Prices in September 2016 relative to pre-2008 peak&rdquo;,
+             caption=&ldquo;@lenkiefer Source: Freddie Mac House Price Index (Not Seasonally adjusted)&ldquo;)
+{% endhighlight</p>
+
+<p><img src="/img/Rfig/unnamed-chunk-2-2.svg" alt="plot of chunk unnamed-chunk-2" /></p>
+
+<p>{% highlight r</p>
+
+<h1 id="state-annual-house-price-appreciation-rank-map">State annual house price appreciation rank map</h1>
+
+<p>ggplot() +
+    geom_map(data = smap, map = smap,
+             aes(x = long, y = lat, map_id = id),
+             color = &ldquo;#2b2b2b&rdquo;, size = 0.05, fill = NA) +
+    geom_map(data =subset(states@data,year&gt;2015 &amp; month==mm), map = smap,
+             aes( map_id = fips_state,fill=hparank),
+             color = &ldquo;gray&rdquo;, size = .25) +</p>
+
+<pre><code>theme_map( base_size = 12) + 
+theme(plot.title=element_text( size = 16, margin=margin(b=10))) +
+theme(plot.subtitle=element_text(size = 14, margin=margin(b=-20))) +
+theme(plot.caption=element_text(size = 9, margin=margin(t=-15))) +
+coord_proj(us_laea_proj) +   labs(title=&quot;&quot;,subtitle=&quot;&quot; ) +
+scale_fill_viridis(name = &quot;&quot;, discrete=F,option=&quot;D&quot;,end=0.95, 
+                   direction=-1)+
+theme(legend.position = &quot;top&quot;) +theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+labs(title=&quot;Rank for state + D.C. annual house price growth (1 to 51)&quot;,
+     subtitle=&quot;September of 2016&quot;,
+     caption=&quot;@lenkiefer Source: Freddie Mac House Price Index (Not Seasonally adjusted)&quot;)
+</code></pre>
+
+<p>{% endhighlight</p>
+
+<p><img src="/img/Rfig/unnamed-chunk-2-3.svg" alt="plot of chunk unnamed-chunk-2" /></p>
+
+<p>{% highlight r</p>
+
+<h1 id="state-annual-house-price-appreciation-rank-map-panel-2008-2016">State annual house price appreciation rank map, panel 2008-2016</h1>
+
+<p>ggplot() +
+    geom_map(data = smap, map = smap,
+             aes(x = long, y = lat, map_id = id),
+             color = &ldquo;#2b2b2b&rdquo;, size = 0.05, fill = NA) +
+    geom_map(data =subset(states@data,year&gt;2007 &amp; month==mm), map = smap,
+             aes( map_id = fips_state,fill=hparank),
+             color = &ldquo;gray&rdquo;, size = .25) +</p>
+
+<pre><code>theme_map( base_size = 12) + facet_wrap(~year,ncol=3)+
+theme(plot.title=element_text( size = 16, margin=margin(b=10))) +
+theme(plot.subtitle=element_text(size = 14, margin=margin(b=-20))) +
+theme(plot.caption=element_text(size = 9, margin=margin(t=-15))) +
+coord_proj(us_laea_proj) +   labs(title=&quot;&quot;,subtitle=&quot;&quot; ) +
+scale_fill_viridis(name = &quot;&quot;, discrete=F,option=&quot;D&quot;,end=0.95, 
+                   direction=-1 )+
+theme(legend.position = &quot;top&quot;) +theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+labs(title=&quot;Rank for state + D.C. annual house price growth (1 to 51)&quot;,
+     subtitle=&quot;September of year&quot;,
+     caption=&quot;@lenkiefer Source: Freddie Mac House Price Index (Not Seasonally adjusted)&quot;)
+</code></pre>
+
+<p>{% endhighlight</p>
+
+<p><img src="/img/Rfig/unnamed-chunk-2-4.svg" alt="plot of chunk unnamed-chunk-2" /></p>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2016/10/20/visualizing-the-history-of-u.s.-homeownership-rates/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2016/10/20/visualizing-the-history-of-u.s.-homeownership-rates/">Visualizing the history of U.S. homeownership rates</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="/2016/11/21/visualizing-recent-trends-in-consumer-prices/">Visualizing recent trends in consumer prices</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="/2016/11/21/visualizing-recent-trends-in-consumer-prices/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/dataviz/">dataviz</a>, 
+            
+                <a href="/tags/house-prices/">house prices</a>, 
+            
+                <a href="/tags/r/">R</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2016%2f11%2f03%2f2016-11-03-visual-meditations-on-house-prices-part6%2f&text=Visual%20meditations%20on%20house%20prices%2c%20Part%206%3a%20state%20recovery via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2016%2f11%2f03%2f2016-11-03-visual-meditations-on-house-prices-part6%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+

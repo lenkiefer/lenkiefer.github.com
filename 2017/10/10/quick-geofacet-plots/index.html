@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>quick geofacet plots &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="quick geofacet plots">
+    <meta property="og:description" content="WHILE I WAS TRYING TO MAKE TIME FOR TIBBLETIME yesterday I got distracted and made this plot:
+hey! here&#39;s a #dataviz: tile plot of U.S. state unemployment pic.twitter.com/vH8fSu63ve
+&mdash; Leonard Kiefer (@lenkiefer) October 10, 2017  In this post, let’s go over how to make this plot with R. And we’re going to make it quick.
+SetupIn order to create a plot like this we’ll need several packages, including the tidyverse, geofacet and the tidyquant package.">
+
+<div class="header">
+  <h1>quick geofacet plots</h1>
+  <h2></h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2017/10/10</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/data-wrangling">data wrangling</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <p>WHILE I WAS TRYING TO MAKE TIME FOR <a href="../../../../2017/10/09/what-time-is-it-time-for-tibbletime/">TIBBLETIME</a> yesterday I got distracted and made this plot:</p>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">hey! here&#39;s a <a href="https://twitter.com/hashtag/dataviz?src=hash&amp;ref_src=twsrc%5Etfw">#dataviz</a>: tile plot of U.S. state unemployment <a href="https://t.co/vH8fSu63ve">pic.twitter.com/vH8fSu63ve</a></p>&mdash; Leonard Kiefer (@lenkiefer) <a href="https://twitter.com/lenkiefer/status/917577227319103488?ref_src=twsrc%5Etfw">October 10, 2017</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+ 
+<p>In this post, let’s go over how to make this plot with <a href="https://www.r-project.org/">R</a>. And we’re going to make it quick.</p>
+<div id="setup" class="section level1">
+<h1>Setup</h1>
+<p>In order to create a plot like this we’ll need several packages, including the <a href="https://www.tidyverse.org/">tidyverse</a>, <a href="https://CRAN.R-project.org/package=geofacet">geofacet</a> and the <a href="https://CRAN.R-project.org/package=tidyquant">tidyquant</a> package. Be sure to check out <a href="../../../../2017/05/22/geo-my-facet/">this post</a> on geofacets and <a href="../../../../2017/09/18/a-tidyquant-um-of-solace/">this post</a> on using tidyquant.</p>
+<p>We’ll get our data from Saint Louis Federal Reserve’s <a href="https://fred.stlouisfed.org/">FRED</a> database. We can access these data easily from the tidyquant package.</p>
+<div id="do-you-even-fred-bro" class="section level3">
+<h3>Do you even FRED bro?</h3>
+<p>We’re also going to take advantage of the way FRED mnemonics are set up to extract a bunch of data all at once.</p>
+<p>When FRED has state level data they often set up their mnemonics following a pattern like {STATE}{MNEMONIC}, with STATE the two-letter state abbreviation and the MNEMONIC the variable mnemonic. For example, the unemployment rate’s MNEMONIC is <code>UR</code>, so if we wanted California’s unemployment rate we would look up <code>CAUR</code>.</p>
+<p>Now, if we could get a list of state abbreviations we could easily extract a bunch of state statistics using tidyquant. Fortunately, it’s easy to find one. There happens to be a list in the <code>geofacet</code> library. In the geofacet library there’s a data.frame called <code>us_state_grid3</code> that has a variable called code with the state codes.</p>
+<pre class="r"><code>#####################################################################################
+## Step 1: Load Libraries ##
+#####################################################################################
+library(tidyverse)
+library(tidyquant)
+library(tibbletime)
+library(geofacet)
+library(viridis)
+library(scales)
+
+#####################################################################################
+## Step 2: go get data ##
+#####################################################################################
+df &lt;- tq_get(paste0(us_state_grid3$code,      # get state abbreviations
+                    &quot;UR&quot;),                    # append UR
+             get=&quot;economic.data&quot;,             # use FRED
+             from=&quot;1990-01-01&quot;)               # go from 1990 forward
+
+df %&gt;% mutate(state=substr(symbol,1,2)        # create a state variable
+  ) -&gt; df
+
+#####################################################################################
+## Step 3: make awesome plot ##
+#####################################################################################
+  ggplot(data=df, 
+         aes(x=year(date),y=factor(month(date)),
+           fill=price))+
+  geom_tile()+
+  scale_fill_viridis(option=&quot;D&quot;,name=&quot;Unemployment Rate (%) &quot;)+
+  scale_y_discrete(breaks=c(1,12),labels=c(&quot;Jan&quot;,&quot;Dec&quot;))+
+  scale_x_continuous(breaks=c(1991,2017))+
+  facet_geo(~state, grid=&quot;us_state_grid3&quot;)+
+  labs(x=&quot;&quot;,y=&quot;&quot;,title=&quot;Unemployment Rate by State&quot;,
+       caption=paste0(&quot;@lenkiefer Source: U.S. Bureau of Labor Statistics,&quot;,
+                      &quot; Unemployment rate by state [XX]UR,\nretrieved from FRED, &quot;,
+                      &quot;Federal Reserve Bank of St. Louis;&quot;,
+                      &quot; https://fred.stlouisfed.org/series/[XX]UR, October 10, 2017.&quot;,
+                      &quot;\nwhere [XX] stands for state abbreviation (e.g. California==CA)&quot;))+
+  theme(plot.title=element_text(face=&quot;bold&quot;,size=18),
+        legend.position=&quot;top&quot;,
+        plot.subtitle=element_text(face=&quot;italic&quot;,size=14),
+        plot.caption=element_text(face=&quot;italic&quot;,size=9),
+        axis.text=element_text(size=6))</code></pre>
+<p><img src="/post/2017-10-10-quick-geofacet-plots_files/figure-html/10-10-27-plot-1-1.png" width="864" /></p>
+<p>Cool!</p>
+<p>What else can we do? Let’s make a plot of employment growth. The mnemonic for nonfarm employment in <code>NA</code>. Now you know what to do:</p>
+<pre class="r"><code>#####################################################################################
+## Get employment data ##
+#####################################################################################
+df &lt;- tq_get(paste0(us_state_grid3$code,&quot;NA&quot;),get=&quot;economic.data&quot;,from=&quot;1990-01-01&quot;)
+
+df %&gt;% 
+  mutate(state=substr(symbol,1,2)) %&gt;% 
+  group_by(state) %&gt;%
+  mutate(dy=Delt(price,k=12)) %&gt;%    # Use quantmod::Delt to compute k (12) period percent change
+  ungroup() %&gt;% 
+  as_tbl_time(index=date) -&gt;         # Turn into tibbletime object so we can filter
+  df
+
+
+#####################################################################################
+## Make awesome plot ##
+#####################################################################################
+g1&lt;-
+  ggplot(data=#time_filter(df,1991~2017),   
+          filter(df, year(date)&gt;1990, year(date)&lt;2018),
+         # tibbletime::time_filter() will save me many keystrokes
+         aes(
+           x=year(date),
+           y=factor(month(date)),
+           fill=dy
+         ))+
+  geom_tile()+
+  scale_fill_viridis(option=&quot;C&quot;,name=&quot;12-month percent change in employment &quot;,labels=percent)+
+  scale_y_discrete(breaks=c(1,12),labels=c(&quot;Jan&quot;,&quot;Dec&quot;))+
+  scale_x_continuous(breaks=c(1991,2017))+
+  facet_geo(~state, grid=&quot;us_state_grid3&quot;)+
+  labs(x=&quot;&quot;,y=&quot;&quot;,title=&quot;Employment growth by state&quot;,
+       subtitle=&quot;12-month percent change in nonfarm employment&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Bureau of Labor Statistics, All Employees: Total Nonfarm by state [XX]NA,\nretrieved from FRED, Federal Reserve Bank of St. Louis; https://fred.stlouisfed.org/series/[XX]NA, October 10, 2017.\nwhere [XX] stands for state abbreviation (e.g. California==CA)&quot;)+
+  theme(plot.title=element_text(face=&quot;bold&quot;,size=18),
+        legend.position=&quot;top&quot;,
+        plot.subtitle=element_text(face=&quot;italic&quot;,size=14),
+        plot.caption=element_text(face=&quot;italic&quot;,size=9),
+        axis.text=element_text(size=6))
+
+g1</code></pre>
+<p><img src="/post/2017-10-10-quick-geofacet-plots_files/figure-html/10-10-27-plot-2-1.png" width="864" /></p>
+<p>We can also plot a more traditional time series. Let’s plot permits for 1-unit properties by state. The data are noisy, so let’s use tibbletime to compute a 12 month rolling average.</p>
+<pre class="r"><code># The function to use at each step is `mean`.
+# The window size is 12 (months)
+rolling_mean &lt;- rollify(mean, window = 12)
+
+#####################################################################################
+## Get permits data (St Lousi FED seasonally adjustes the data for us) ##
+#####################################################################################
+df2 &lt;- tq_get(paste0(us_state_grid3$code,&quot;BP1FHSA&quot;),get=&quot;economic.data&quot;,from=&quot;1990-01-01&quot;)
+
+df2 %&gt;% 
+  mutate(state=substr(symbol,1,2)) %&gt;% 
+  group_by(state) %&gt;%
+  mutate(dy=rolling_mean(price)) %&gt;% 
+  ungroup() %&gt;% 
+  as_tbl_time(index=date) -&gt; 
+  df2
+
+#####################################################################################
+## Make awesome plot ##
+#####################################################################################
+g2&lt;-
+  ggplot(data=df2, aes(x=date,y=dy))+
+  geom_line()+
+  facet_geo(~state, grid=&quot;us_state_grid3&quot;,scales=&quot;free&quot;)+
+  labs(x=&quot;&quot;,y=&quot;&quot;,title=&quot;New Private Housing Units Authorized by Building Permits: 1-Unit Structures&quot;,
+       subtitle=&quot;12-month moving average, different y axis scale for each state&quot;,
+       caption=&quot;@lenkiefer Source: Federal Reserve Bank of St. Louis, New Private Housing Units Authorized by Building Permits: 1-Unit Structures by state [XX]NA,\nretrieved from FRED, Federal Reserve Bank of St. Louis; https://fred.stlouisfed.org/series/[XX]BP1FHSA, October 10, 2017.\nwhere [XX] stands for state abbreviation (e.g. California==CA)&quot;)+
+  theme(plot.title=element_text(face=&quot;bold&quot;,size=14),
+        legend.position=&quot;top&quot;,
+        panel.background=element_blank(),
+        panel.grid.major=element_line(color=&quot;lightgray&quot;),
+        plot.subtitle=element_text(face=&quot;italic&quot;,size=12),
+        plot.caption=element_text(face=&quot;italic&quot;,size=9),
+        axis.text=element_text(size=6))+
+  scale_x_date(breaks=c(min(df2$date),max(df2$date)),date_labels=&quot;%Y&quot;)
+g2</code></pre>
+<p><img src="/post/2017-10-10-quick-geofacet-plots_files/figure-html/10-10-27-plot-3-1.png" width="864" /></p>
+</div>
+</div>
+<div id="how-can-this-work-for-you" class="section level1">
+<h1>How can this work for you?</h1>
+<p>FRED has a lot of different data series available by state. So you can easily modify this code to extract those data and plot.</p>
+<p>Then if we had a list of variables we might be able to use <code>purrr::map</code> to do some interesting things. I have such a thing in mind for my tidyPowerPoint workflow I’m building.</p>
+<pre class="r"><code>#####################################################################################
+## A function might be useful ##
+#####################################################################################
+myplot &lt;- function( v=&quot;STHPI&quot;,
+                    yourtitle=&quot;House price index by state&quot;, 
+                    yoursub=&quot;Index 1980:Q1=100, Not Seasonally Adjusted&quot;,
+                    yourcaption=&quot;@lenkiefer Source U.S. Federal Housing Finance Agency, All-Transactions House Price Index by state [XXSTHPI],\nretrieved from FRED, Federal Reserve Bank of St. Louis; https://fred.stlouisfed.org/series/XXSTHPI, October 10, 2017.\nwhere [XX] stands for state abbreviation (e.g. California==CA)&quot;)
+  {
+  #####################################################################################
+  ## Get requested data ##
+  #####################################################################################
+  df &lt;- tq_get(paste0(us_state_grid3$code,v),get=&quot;economic.data&quot;,from=&quot;1990-01-01&quot;)
+  df %&gt;% 
+    mutate(state=substr(symbol,1,2)) %&gt;% 
+    group_by(state) %&gt;%
+    mutate(dy=Delt(price,k=12)) %&gt;% 
+    ungroup() %&gt;% 
+    as_tbl_time(index=date) -&gt; 
+    df
+  
+  g1&lt;-
+    ggplot(data=#time_filter(df,1991~2017),
+           filter(df, year(date)&gt;1990, year(date)&lt;2018),
+           # these time variables could also be function arguments
+           aes(
+             x=date,
+             y=price
+           ))+
+    geom_line()+
+    facet_geo(~state, grid=&quot;us_state_grid3&quot;)+
+    labs(x=&quot;&quot;,y=&quot;&quot;,title=yourtitle,
+         subtitle=yoursub,
+         caption=yourcaption)+
+    theme(plot.title=element_text(face=&quot;bold&quot;,size=18),
+          legend.position=&quot;top&quot;,
+          plot.subtitle=element_text(face=&quot;italic&quot;,size=14),
+          plot.caption=element_text(face=&quot;italic&quot;,size=9))+
+  geom_line()+
+  scale_x_date(breaks=c(min(df$date),max(df$date)),date_labels=&quot;%Y&quot;)
+  g1
+}
+
+myplot()</code></pre>
+<p><img src="/post/2017-10-10-quick-geofacet-plots_files/figure-html/10-10-27-plot-4-1.png" width="864" /></p>
+<p>Could this work for you? Because I know I’m going to use it.</p>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2017/10/09/what-time-is-it-time-for-tibbletime/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2017/10/09/what-time-is-it-time-for-tibbletime/">What time is it? Time for tibbletime!</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="/2017/10/11/bivariate-tilegridmaps-with-r/">Bivariate tilegridmaps with R</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="/2017/10/11/bivariate-tilegridmaps-with-r/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/data-wrangling/">data wrangling</a>, 
+            
+                <a href="/tags/dataviz/">dataviz</a>, 
+            
+                <a href="/tags/r/">R</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2017%2f10%2f10%2fquick-geofacet-plots%2f&text=quick%20geofacet%20plots via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2017%2f10%2f10%2fquick-geofacet-plots%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+

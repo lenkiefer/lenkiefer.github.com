@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>Industry-specific Beveridge Curves &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Industry-specific Beveridge Curves">
+    <meta property="og:description" content="IN MY PREVIOUS POST we looked at the Job Openings and Labor Turnover Survey (JOLTS) data and plotted a Beveridge Curve. In this post I want to add some more code that allows us to plot Beveridge Curves by industry.
+For more on the analysis of industry-specific Beveridge Curves, see this paper published in the June 2012 Monthly Labor Review that decomposes shifts in the Beveridge Curve and looks at it by industry.">
+
+<div class="header">
+  <h1>Industry-specific Beveridge Curves</h1>
+  <h2></h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2016/09/14</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/economy">economy</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/animation">animation</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/data-wrangling">data wrangling</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+
+<p>IN MY <a href="../../../../2016/09/10/job-openings-and-hires">PREVIOUS POST</a> we looked at the <a href="http://www.bls.gov/jlt/home.htm">Job Openings and Labor Turnover Survey (JOLTS)</a> data and plotted a <a href="https://en.wikipedia.org/wiki/Beveridge_curve">Beveridge Curve</a>. In this post I want to add some more code that allows us to plot Beveridge Curves by industry.</p>
+
+<p>For more on the analysis of industry-specific Beveridge Curves, see <a href="http://www.bls.gov/opub/mlr/2012/06/art2full.pdf">this paper</a> published in the June 2012 <a href="http://www.bls.gov/opub/mlr/about.htm">Monthly Labor Review</a> that decomposes shifts in the Beveridge Curve and looks at it by industry. Analyzing data through March 2012, the authors found that Construction alone shifted the total market Beveridge Curve by a full percentage point (see Table 4 in the paper).</p>
+
+<h2 id="the-data">The data</h2>
+
+<p>While the data is all available from the Bureau of Labor Statistics (BLS) <a href="bls.gov">webpage</a> it required some looking through the available files to find the right series. In the handy code I post below, we can grab the right data from BLS and produce our plots.</p>
+
+<p>We&rsquo;re going to pull our data from two sources, the JOLTS data, and the <a href="http://www.bls.gov/cps/">Current Population Survey (CPS)</a>.  You can access flat files from BLS <a href="http://download.bls.gov/pub/time.series/jt/">here for JOLTS</a> and <a href="http://download.bls.gov/pub/time.series/ln/">here for CPS</a>. Unfortunately the industry codes available in the flat files are not identical, but I hunted down (what I think are) the proper codes and combined them.  You can read more <a href="http://www.bls.gov/cps/cpsoccind.htm">here</a>.</p>
+
+<p>The relevant passages are quoted below</p>
+
+<h3 id="jolts">JOLTS</h3>
+
+<blockquote>
+<p>The Job Openings and Labor Turnover Survey (JOLTS) publishes industry estimates based on the 2012 North American Industry Classification System (NAICS). NAICS-based estimates are available for December 2000 to the present</p>
+</blockquote>
+
+<h3 id="cps">CPS</h3>
+
+<blockquote>
+<p>The Current Population Survey currently uses the 2010 Census occupational classification and, beginning with data for January 2014, the 2012 Census industry classification. These classifications were derived from the 2010 Standard Occupational Classification (SOC) and the 2012 North American Industry Classification System (NAICS), respectively, to meet the special classification needs of demographic household surveys. The Census classifications use the same basic structure as the SOC and NAICS, but are generally less detailed.</p>
+</blockquote>
+
+<p>A crosswalk between the codes are available <a href="http://www.bls.gov/cps/cenind2012.htm">here</a>. For example, construction has the Census code 0770 while the corresponding NAICS code is 23.</p>
+
+<p>I&rsquo;m going to rely on the fact that the industry names are identical in the BLS data and merge on the industry names rather than use the crosswalk. You can confirm this works by comparing <a href="http://www.bls.gov/news.release/jolts.t01.htm">this table</a> for JOLTS to <a href="http://www.bls.gov/news.release/empsit.t14.htm">this table</a> for the unemployment rate from CPS.</p>
+
+<h3 id="setup-files">Setup files</h3>
+
+<p>The code below merges the industry names and codes for JOLTS to (the same) industry name and (different) codes for CPS.</p>
+
+<p>{% highlight r</p>
+
+<h1 id="load-libraries">load libraries</h1>
+
+<p>library(ggplot2)
+library(animation)
+library(stringr)
+library(data.table)
+library(tweenr)
+library(purrr)
+library(dplyr)
+library(viridis)</p>
+
+<p>#get CPS codes</p>
+
+<h1 id="these-are-the-major-sectors-in-bls-table-14-http-www-bls-gov-news-release-empsit-t14-htm">These are the major sectors in BLS table 14: <a href="http://www.bls.gov/news.release/empsit.t14.htm">http://www.bls.gov/news.release/empsit.t14.htm</a></h1>
+
+<p>#i saved these in a .txt file called incodelu.txt</p>
+
+<p>#indy_code  indy_text</p>
+
+<h1 id="0000-all-industries">0000  All Industries</h1>
+
+<h1 id="0169-agriculture-forestry-fishing-and-hunting">0169  Agriculture, forestry, fishing, and hunting</h1>
+
+<h1 id="0368-nonagriculture-industries">0368  Nonagriculture industries</h1>
+
+<h1 id="0369-mining-quarrying-and-oil-and-gas-extraction">0369  Mining, quarrying, and oil and gas extraction</h1>
+
+<h1 id="0569-utilities">0569  Utilities</h1>
+
+<h1 id="0770-construction">0770  Construction</h1>
+
+<h1 id="1068-nondurable-goods-manufacturing">1068  Nondurable goods manufacturing</h1>
+
+<h1 id="2467-manufacturing">2467  Manufacturing</h1>
+
+<h1 id="2468-durable-goods-manufacturing">2468  Durable goods manufacturing</h1>
+
+<h1 id="4067-wholesale-and-retail-trade">4067  Wholesale and retail trade</h1>
+
+<h1 id="4068-wholesale-trade">4068  Wholesale trade</h1>
+
+<h1 id="4669-retail-trade">4669  Retail trade</h1>
+
+<h1 id="6068-transportation-and-utilities">6068  Transportation and utilities</h1>
+
+<h1 id="6069-transportation-and-warehousing">6069  Transportation and warehousing</h1>
+
+<h1 id="6468-information">6468  Information</h1>
+
+<h1 id="6469-publishing-except-internet">6469  Publishing, except Internet</h1>
+
+<h1 id="6569-motion-pictures-and-sound-recording-industries">6569  Motion pictures and sound recording industries</h1>
+
+<h1 id="6670-radio-and-television-broadcasting-and-cable-subscriptions-programming">6670  Radio and television broadcasting and cable subscriptions programming</h1>
+
+<h1 id="6679-telecommunications">6679  Telecommunications</h1>
+
+<h1 id="6769-other-information-services">6769  Other information services</h1>
+
+<h1 id="6867-financial-activities">6867  Financial activities</h1>
+
+<h1 id="6868-finance-and-insurance">6868  Finance and insurance</h1>
+
+<h1 id="6869-finance">6869  Finance</h1>
+
+<h1 id="6990-insurance-carriers-and-related-activities">6990  Insurance carriers and related activities</h1>
+
+<h1 id="7069-real-estate-and-rental-and-leasing">7069  Real estate and rental and leasing</h1>
+
+<h1 id="7268-professional-and-business-services">7268  Professional and business services</h1>
+
+<h1 id="7269-professional-and-technical-services">7269  Professional and technical services</h1>
+
+<h1 id="7569-management-administrative-and-waste-services">7569  Management, administrative, and waste services</h1>
+
+<h1 id="7858-education-and-health-services">7858  Education and health services</h1>
+
+<h1 id="7859-educational-services">7859  Educational services</h1>
+
+<h1 id="7968-health-care-and-social-assistance">7968  Health care and social assistance</h1>
+
+<h1 id="8558-leisure-and-hospitality">8558  Leisure and hospitality</h1>
+
+<h1 id="8559-arts-entertainment-and-recreation">8559  Arts, entertainment, and recreation</h1>
+
+<h1 id="8658-accommodation-and-food-services">8658  Accommodation and food services</h1>
+
+<h1 id="8659-accommodation">8659  Accommodation</h1>
+
+<h1 id="8679-food-services-and-drinking-places">8679  Food services and drinking places</h1>
+
+<h1 id="8767-other-services">8767  Other services</h1>
+
+<h1 id="8768-other-services-except-private-households">8768  Other services, except private households</h1>
+
+<h1 id="9290-other-services-private-households">9290  Other services, private households</h1>
+
+<p>#read file:
+my.indy&lt;-fread(&ldquo;data/indcodeslu.txt&rdquo;)</p>
+
+<p>#Get JOLTS codes
+#saved in a file  indcodesjolts.txt</p>
+
+<h1 id="industry-code-industry-text-display-level-selectable-sort-sequence-blank">industry_code industry_text   display_level   selectable  sort_sequence   blank</h1>
+
+<h1 id="000000-total-nonfarm-0-t-1">000000    Total nonfarm   0   T   1</h1>
+
+<h1 id="100000-total-private-1-t-2">100000    Total private   1   T   2</h1>
+
+<h1 id="110099-mining-and-logging-2-t-3">110099    Mining and logging  2   T   3</h1>
+
+<h1 id="230000-construction-2-t-4">230000    Construction    2   T   4</h1>
+
+<h1 id="300000-manufacturing-2-t-5">300000    Manufacturing   2   T   5</h1>
+
+<h1 id="320000-durable-goods-manufacturing-3-t-6">320000    Durable goods manufacturing 3   T   6</h1>
+
+<h1 id="340000-nondurable-goods-manufacturing-3-t-7">340000    Nondurable goods manufacturing  3   T   7</h1>
+
+<h1 id="400000-trade-transportation-and-utilities-2-t-8">400000    Trade, transportation, and utilities    2   T   8</h1>
+
+<h1 id="420000-wholesale-trade-3-t-9">420000    Wholesale trade 3   T   9</h1>
+
+<h1 id="440000-retail-trade-3-t-10">440000    Retail trade    3   T   10</h1>
+
+<h1 id="480099-transportation-warehousing-and-utilities-3-t-11">480099    Transportation, warehousing, and utilities  3   T   11</h1>
+
+<h1 id="510000-information-2-t-12">510000    Information 2   T   12</h1>
+
+<h1 id="510099-financial-activities-2-t-13">510099    Financial activities    2   T   13</h1>
+
+<h1 id="520000-finance-and-insurance-3-t-14">520000    Finance and insurance   3   T   14</h1>
+
+<h1 id="530000-real-estate-and-rental-and-leasing-3-t-15">530000    Real estate and rental and leasing  3   T   15</h1>
+
+<h1 id="540099-professional-and-business-services-2-t-16">540099    Professional and business services  2   T   16</h1>
+
+<h1 id="600000-education-and-health-services-2-t-17">600000    Education and health services   2   T   17</h1>
+
+<h1 id="610000-educational-services-3-t-18">610000    Educational services    3   T   18</h1>
+
+<h1 id="620000-health-care-and-social-assistance-3-t-19">620000    Health care and social assistance   3   T   19</h1>
+
+<h1 id="700000-leisure-and-hospitality-2-t-20">700000    Leisure and hospitality 2   T   20</h1>
+
+<h1 id="710000-arts-entertainment-and-recreation-3-t-21">710000    Arts, entertainment, and recreation 3   T   21</h1>
+
+<h1 id="720000-accommodation-and-food-services-3-t-22">720000    Accommodation and food services 3   T   22</h1>
+
+<h1 id="810000-other-services-2-t-23">810000    Other services  2   T   23</h1>
+
+<h1 id="900000-government-1-t-24">900000    Government  1   T   24</h1>
+
+<h1 id="910000-federal-2-t-25">910000    Federal 2   T   25</h1>
+
+<h1 id="920000-state-and-local-2-t-26">920000    State and local 2   T   26</h1>
+
+<h1 id="923000-state-and-local-government-education-3-t-27">923000    State and local government education    3   T   27</h1>
+
+<h1 id="929000-state-and-local-government-excluding-education-3-t-28">929000    State and local government, excluding education 3   T   28</h1>
+
+<p>my.indy2&lt;-fread(&ldquo;data/indcodesjolts.txt&rdquo;)</p>
+
+<p>#merge together industry names
+my.indy3&lt;-merge(my.indy2,my.indy,by.x=&ldquo;industry_text&rdquo;,by.y=&ldquo;indy_text&rdquo;)
+{% endhighlight</p>
+
+<h3 id="prepare-data">Prepare data</h3>
+
+<p>Now that we have the codes we can read the data from the BLS and use the industry codes to merge the data.</p>
+
+<p>{% highlight r</p>
+
+<h1 id="read-in-unemployment-rated">read in unemployment rated</h1>
+
+<p>ln.series&lt;-fread(&ldquo;<a href="http://download.bls.gov/pub/time.series/ln/ln.series&quot;">http://download.bls.gov/pub/time.series/ln/ln.series&quot;</a>)
+ln.data&lt;-fread(&ldquo;<a href="http://download.bls.gov/pub/time.series/ln/ln.data.1.AllData&quot;">http://download.bls.gov/pub/time.series/ln/ln.data.1.AllData&quot;</a>)
+ln.indy&lt;-fread(&ldquo;<a href="http://download.bls.gov/pub/time.series/ln/ln.indy&quot;">http://download.bls.gov/pub/time.series/ln/ln.indy&quot;</a>)</p>
+
+<h1 id="find-series-named-unemployment-rate">find series named unemployment rate:</h1>
+
+<p>my.series&lt;-ln.series[grepl(&ldquo;Unemployment Rate&rdquo;,series_title) &amp; indy_code !=0,]
+my.series&lt;-ln.series[(grepl(&ldquo;Unemployment Rate&rdquo;,series_title) &amp; indy_code !=0 &amp; indy_code %in% my.indy3$indy_code
+                     &amp; ages_code==0 &amp; periodicity_code==&ldquo;M&rdquo; &amp;  sexs_code==0) | series_id==&ldquo;LNU04000000&rdquo;,]</p>
+
+<p>ln.data2&lt;-ln.data[year&gt;1999 &amp; series_id %in% my.series$series_id,]
+ln.data2&lt;-merge(ln.data2,my.series[,list(series_id,indy_code)],by=&ldquo;series_id&rdquo;,all.x=T)
+ln.data2 &lt;-merge(ln.data2,my.indy3[,list(indy_code,industry_text),],by=&ldquo;indy_code&rdquo;,all.x=T)
+ln.data2&lt;-dplyr::rename(ln.data2,ur=value)</p>
+
+<p>#get jolts data</p>
+
+<p>jolts.dt&lt;-fread(&ldquo;<a href="http://download.bls.gov/pub/time.series/jt/jt.data.1.AllItems&quot;">http://download.bls.gov/pub/time.series/jt/jt.data.1.AllItems&quot;</a>)
+jolts.series&lt;-fread(&ldquo;<a href="http://download.bls.gov/pub/time.series/jt/jt.series&quot;">http://download.bls.gov/pub/time.series/jt/jt.series&quot;</a>)
+jolts.ind&lt;-fread(&ldquo;<a href="http://download.bls.gov/pub/time.series/jt/jt.industry&quot;">http://download.bls.gov/pub/time.series/jt/jt.industry&quot;</a>,
+                 col.names=c(&ldquo;industry_code&rdquo;,&ldquo;industry_text&rdquo;,   &ldquo;display_level&rdquo;,    &ldquo;selectable&rdquo;,&ldquo;sort_sequence&rdquo;,&ldquo;blank&rdquo;))
+jolts.element&lt;-fread(&ldquo;<a href="http://download.bls.gov/pub/time.series/jt/jt.dataelement&quot;">http://download.bls.gov/pub/time.series/jt/jt.dataelement&quot;</a>,
+                     col.names=c(&ldquo;dataelement_code&rdquo;,&ldquo;dataelement_text&rdquo;,&ldquo;display_level&rdquo;,&ldquo;selectable&rdquo;,&ldquo;sort_sequence&rdquo;,&ldquo;blank&rdquo;                     ))</p>
+
+<p>#we want job openeings: dataelement=JO, not seasonally adjusted, rates (ratelevel_code=R) and U.S. (region_code=00)</p>
+
+<h1 id="we-also-want-the-aggregate-series-whos-id-is-jtu00000000jor-i-found-it-manually">we also want the aggregate series, whos id is JTU00000000JOR (I found it manually)</h1>
+
+<p>my.series&lt;-jolts.series[( industry_code %in% my.indy3$industry_code &amp;
+                            dataelement_code==&ldquo;JO&rdquo; &amp;
+                            seasonal==&ldquo;U&rdquo;  &amp; ratelevel_code==&ldquo;R&rdquo; &amp; region_code==&ldquo;00&rdquo;) | series_id==&ldquo;JTU00000000JOR&rdquo;, ]</p>
+
+<p>jolts.dt2&lt;-jolts.dt[series_id %in% my.series$series_id,]
+jolts.dt2&lt;-merge(jolts.dt2,my.series[,list(series_id,industry_code),],by=&ldquo;series_id&rdquo;)
+jolts.dt2 &lt;-merge(jolts.dt2,my.indy3[,list(industry_code,industry_text),],by=&ldquo;industry_code&rdquo;,all.x=T)
+jolts.dt2&lt;-dplyr::rename(jolts.dt2,jo=value)</p>
+
+<p>all.dt&lt;-merge(ln.data2[,list(year,period,ur,industry_text,indy_code)],
+              jolts.dt2[,list(year,period,jo,industry_text,industry_code)],
+              by=c(&ldquo;year&rdquo;,&ldquo;period&rdquo;,&ldquo;industry_text&rdquo;))</p>
+
+<h1 id="merge-data">merge data:</h1>
+
+<p>all.dt$ur&lt;-as.numeric(all.dt$ur)
+all.dt[industry_code==0,industry_text:=&ldquo;All Industries&rdquo;]
+all.dt[,month:=as.numeric(substr(period,2,3))]
+all.dt[,date:= as.Date(ISOdate(year,month,1))]</p>
+
+<p>#We want to distinguish between recession and expansions using NBER recession dates</p>
+
+<p>#Turning Point Date Peak or Trough  Announcement Date with Link
+#June 2009  Trough  September 20, 2010
+#December 2007  Peak    December 1, 2008
+#March 2001 Peak    November 26, 2001</p>
+
+<p>#create recessions</p>
+
+<p>all.dt[, recession:=&ldquo;Expansion&rdquo;]
+all.dt[ (date&gt;&ldquo;2001-02-28&rdquo; &amp; date&lt;=&ldquo;2001-12-01&rdquo;) |
+        (date&gt;&ldquo;2007-10-31&rdquo; &amp; date&lt;=&ldquo;2009-06-30&rdquo;),
+        recession:=&ldquo;Recession&rdquo; ]
+{% endhighlight</p>
+
+<h3 id="check-data">Check Data</h3>
+
+<p>Now we should have data in a format that we can use.</p>
+
+<p>{% highlight r
+library(htmlTable) #make a table
+htmlTable(all.dt[ date==&ldquo;2016-07-01&rdquo;, list(year,period,industry_text,indy_code,industry_code,ur,jo)], col.rgroup = c(&ldquo;none&rdquo;, &ldquo;#F7F7F7&rdquo;),caption=&ldquo;Merged Table&rdquo;,
+           header = c(&ldquo;Year &ldquo;,&ldquo;Period &ldquo;,&ldquo;industry&rdquo;,&ldquo;Industry\ncode (CPS)&ldquo;,&ldquo;Industry\ncode (JOLTS)&ldquo;,&ldquo;Unemployment\nRate &ldquo;,&ldquo;Job Openings\nRate&rdquo;),
+          tfoot=&ldquo;Source: U.S. Bureau of Labor Statistics\ndata are not seasonally adjusted&rdquo;)
+{% endhighlight</p>
+
+<table class='gmisc_table' style='border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;' >
+<thead>
+<tr><td colspan='8' style='text-align: left;'>
+Merged Table</td></tr>
+<tr>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey;'> </th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>Year </th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>Period </th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>industry</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>Industry
+code (CPS)</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>Industry
+code (JOLTS)</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>Unemployment
+Rate </th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>Job Openings
+Rate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style='text-align: left;'>1</td>
+<td style='text-align: center;'>2016</td>
+<td style='text-align: center;'>M07</td>
+<td style='text-align: center;'>All Industries</td>
+<td style='text-align: center;'>0</td>
+<td style='text-align: center;'>0</td>
+<td style='text-align: center;'>5.1</td>
+<td style='text-align: center;'>4.1</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>2</td>
+<td style='background-color: #f7f7f7; text-align: center;'>2016</td>
+<td style='background-color: #f7f7f7; text-align: center;'>M07</td>
+<td style='background-color: #f7f7f7; text-align: center;'>Accommodation and food services</td>
+<td style='background-color: #f7f7f7; text-align: center;'>8658</td>
+<td style='background-color: #f7f7f7; text-align: center;'>720000</td>
+<td style='background-color: #f7f7f7; text-align: center;'>6.2</td>
+<td style='background-color: #f7f7f7; text-align: center;'>4.8</td>
+</tr>
+<tr>
+<td style='text-align: left;'>3</td>
+<td style='text-align: center;'>2016</td>
+<td style='text-align: center;'>M07</td>
+<td style='text-align: center;'>Arts, entertainment, and recreation</td>
+<td style='text-align: center;'>8559</td>
+<td style='text-align: center;'>710000</td>
+<td style='text-align: center;'>5.2</td>
+<td style='text-align: center;'>3.7</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>4</td>
+<td style='background-color: #f7f7f7; text-align: center;'>2016</td>
+<td style='background-color: #f7f7f7; text-align: center;'>M07</td>
+<td style='background-color: #f7f7f7; text-align: center;'>Construction</td>
+<td style='background-color: #f7f7f7; text-align: center;'>770</td>
+<td style='background-color: #f7f7f7; text-align: center;'>230000</td>
+<td style='background-color: #f7f7f7; text-align: center;'>4.5</td>
+<td style='background-color: #f7f7f7; text-align: center;'>3</td>
+</tr>
+<tr>
+<td style='text-align: left;'>5</td>
+<td style='text-align: center;'>2016</td>
+<td style='text-align: center;'>M07</td>
+<td style='text-align: center;'>Durable goods manufacturing</td>
+<td style='text-align: center;'>2468</td>
+<td style='text-align: center;'>320000</td>
+<td style='text-align: center;'>4.6</td>
+<td style='text-align: center;'>2.9</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>6</td>
+<td style='background-color: #f7f7f7; text-align: center;'>2016</td>
+<td style='background-color: #f7f7f7; text-align: center;'>M07</td>
+<td style='background-color: #f7f7f7; text-align: center;'>Education and health services</td>
+<td style='background-color: #f7f7f7; text-align: center;'>7858</td>
+<td style='background-color: #f7f7f7; text-align: center;'>600000</td>
+<td style='background-color: #f7f7f7; text-align: center;'>3.7</td>
+<td style='background-color: #f7f7f7; text-align: center;'>4.8</td>
+</tr>
+<tr>
+<td style='text-align: left;'>7</td>
+<td style='text-align: center;'>2016</td>
+<td style='text-align: center;'>M07</td>
+<td style='text-align: center;'>Educational services</td>
+<td style='text-align: center;'>7859</td>
+<td style='text-align: center;'>610000</td>
+<td style='text-align: center;'>5.7</td>
+<td style='text-align: center;'>3.5</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>8</td>
+<td style='background-color: #f7f7f7; text-align: center;'>2016</td>
+<td style='background-color: #f7f7f7; text-align: center;'>M07</td>
+<td style='background-color: #f7f7f7; text-align: center;'>Finance and insurance</td>
+<td style='background-color: #f7f7f7; text-align: center;'>6868</td>
+<td style='background-color: #f7f7f7; text-align: center;'>520000</td>
+<td style='background-color: #f7f7f7; text-align: center;'>2.3</td>
+<td style='background-color: #f7f7f7; text-align: center;'>3.9</td>
+</tr>
+<tr>
+<td style='text-align: left;'>9</td>
+<td style='text-align: center;'>2016</td>
+<td style='text-align: center;'>M07</td>
+<td style='text-align: center;'>Financial activities</td>
+<td style='text-align: center;'>6867</td>
+<td style='text-align: center;'>510099</td>
+<td style='text-align: center;'>2.4</td>
+<td style='text-align: center;'>3.8</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>10</td>
+<td style='background-color: #f7f7f7; text-align: center;'>2016</td>
+<td style='background-color: #f7f7f7; text-align: center;'>M07</td>
+<td style='background-color: #f7f7f7; text-align: center;'>Health care and social assistance</td>
+<td style='background-color: #f7f7f7; text-align: center;'>7968</td>
+<td style='background-color: #f7f7f7; text-align: center;'>620000</td>
+<td style='background-color: #f7f7f7; text-align: center;'>3.2</td>
+<td style='background-color: #f7f7f7; text-align: center;'>5</td>
+</tr>
+<tr>
+<td style='text-align: left;'>11</td>
+<td style='text-align: center;'>2016</td>
+<td style='text-align: center;'>M07</td>
+<td style='text-align: center;'>Information</td>
+<td style='text-align: center;'>6468</td>
+<td style='text-align: center;'>510000</td>
+<td style='text-align: center;'>5.7</td>
+<td style='text-align: center;'>2.7</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>12</td>
+<td style='background-color: #f7f7f7; text-align: center;'>2016</td>
+<td style='background-color: #f7f7f7; text-align: center;'>M07</td>
+<td style='background-color: #f7f7f7; text-align: center;'>Leisure and hospitality</td>
+<td style='background-color: #f7f7f7; text-align: center;'>8558</td>
+<td style='background-color: #f7f7f7; text-align: center;'>700000</td>
+<td style='background-color: #f7f7f7; text-align: center;'>6</td>
+<td style='background-color: #f7f7f7; text-align: center;'>4.7</td>
+</tr>
+<tr>
+<td style='text-align: left;'>13</td>
+<td style='text-align: center;'>2016</td>
+<td style='text-align: center;'>M07</td>
+<td style='text-align: center;'>Manufacturing</td>
+<td style='text-align: center;'>2467</td>
+<td style='text-align: center;'>300000</td>
+<td style='text-align: center;'>4.3</td>
+<td style='text-align: center;'>3</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>14</td>
+<td style='background-color: #f7f7f7; text-align: center;'>2016</td>
+<td style='background-color: #f7f7f7; text-align: center;'>M07</td>
+<td style='background-color: #f7f7f7; text-align: center;'>Nondurable goods manufacturing</td>
+<td style='background-color: #f7f7f7; text-align: center;'>1068</td>
+<td style='background-color: #f7f7f7; text-align: center;'>340000</td>
+<td style='background-color: #f7f7f7; text-align: center;'>3.6</td>
+<td style='background-color: #f7f7f7; text-align: center;'>3.2</td>
+</tr>
+<tr>
+<td style='text-align: left;'>15</td>
+<td style='text-align: center;'>2016</td>
+<td style='text-align: center;'>M07</td>
+<td style='text-align: center;'>Other services</td>
+<td style='text-align: center;'>8767</td>
+<td style='text-align: center;'>810000</td>
+<td style='text-align: center;'>4.4</td>
+<td style='text-align: center;'>3.5</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>16</td>
+<td style='background-color: #f7f7f7; text-align: center;'>2016</td>
+<td style='background-color: #f7f7f7; text-align: center;'>M07</td>
+<td style='background-color: #f7f7f7; text-align: center;'>Professional and business services</td>
+<td style='background-color: #f7f7f7; text-align: center;'>7268</td>
+<td style='background-color: #f7f7f7; text-align: center;'>540099</td>
+<td style='background-color: #f7f7f7; text-align: center;'>4.7</td>
+<td style='background-color: #f7f7f7; text-align: center;'>5.9</td>
+</tr>
+<tr>
+<td style='text-align: left;'>17</td>
+<td style='text-align: center;'>2016</td>
+<td style='text-align: center;'>M07</td>
+<td style='text-align: center;'>Real estate and rental and leasing</td>
+<td style='text-align: center;'>7069</td>
+<td style='text-align: center;'>530000</td>
+<td style='text-align: center;'>2.7</td>
+<td style='text-align: center;'>3.3</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>18</td>
+<td style='background-color: #f7f7f7; text-align: center;'>2016</td>
+<td style='background-color: #f7f7f7; text-align: center;'>M07</td>
+<td style='background-color: #f7f7f7; text-align: center;'>Retail trade</td>
+<td style='background-color: #f7f7f7; text-align: center;'>4669</td>
+<td style='background-color: #f7f7f7; text-align: center;'>440000</td>
+<td style='background-color: #f7f7f7; text-align: center;'>5.5</td>
+<td style='background-color: #f7f7f7; text-align: center;'>4.2</td>
+</tr>
+<tr>
+<td style='border-bottom: 2px solid grey; text-align: left;'>19</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>2016</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>M07</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>Wholesale trade</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>4068</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>420000</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>3.9</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>2.7</td>
+</tr>
+</tbody>
+<tfoot><tr><td colspan='8'>
+Source: U.S. Bureau of Labor Statistics<br>
+data are not seasonally adjusted</td></tr></tfoot>
+</table>
+
+<h3 id="create-panel-plot">Create Panel Plot</h3>
+
+<p>Now we can create a panel plot.</p>
+
+<p>{% highlight r</p>
+
+<h1 id="turn-industry-text-into-factors-so-we-can-get-all-industries-in-first-position">turn industry text into factors so we can get All industries in first position</h1>
+
+<p>all.dt$ind.textf&lt;-factor(all.dt$industry_text,levels=unique(all.dt$industry_text))</p>
+
+<p>ggplot(data=all.dt,aes(x=ur,y=jo,color=recession))+geom_point(alpha=0.25)+facet_wrap(~ind.textf,ncol=4)+
+  theme_minimal()+
+  theme(plot.caption=element_text(hjust=0,size=7))+
+  #put the legend down at the bottom right
+  theme(legend.position = c(0.85, 0.075) )+
+  #Let&rsquo;s circle the last available point:
+  geom_point(data=all.dt[ date==&ldquo;2016-07-01&rdquo;],shape=21,size=3,color=viridis(3)[1])+
+  geom_text(data=all.dt[  date==&ldquo;2016-07-01&rdquo;],size=2,color=viridis(3)[1],label=&ldquo;July, 2016\n\n&rdquo;)+
+   theme(strip.text.x = element_text(size = 7))+
+  scale_color_manual(name=&ldquo;Recession or\nExpansion&rdquo;,values=c(viridis(5)[4],magma(5)[3]))+
+  labs(x=&ldquo;Unemployment Rate (%, NSA)&rdquo;,y=&ldquo;Job Openings Rate (%, NSA)&rdquo;,
+       title=&ldquo;The Beveridge Curve&rdquo;,
+       subtitle=&ldquo;job openings rate vs unemployment rate (NSA)&rdquo;,
+       caption=&ldquo;@lenkiefer Source: U.S. Bureau of Labor Statistics, Current Population Survey and Job Openings and Labor Turnover Survey&rdquo;)
+{% endhighlight</p>
+
+<p><img src="/img/Rfig/fig-bv-grahp1-1.svg" alt="plot of chunk fig-bv-grahp1" /></p>
+
+<h3 id="add-animation">Add animation</h3>
+
+<p>If we wish, we can add animation through the following code.</p>
+
+<p><em>See my earlier <a href="../../../../2016/05/29/improving-R-animated-gifs-with-tweenr">post about tweenr</a> for an introduction to tweenr, and more examples <a href="../../../../2016/05/30/more-tweenr-animations">here</a> and <a href="../../../../2016/06/26/week-in-review">here</a>.</em></p>
+
+<p>{% highlight r
+#make a function to prepare data for tweening
+myf&lt;-function(m){
+  DT&lt;-copy(all.dt)
+  DT&lt;-DT[industry_text==m,]
+  DT %&gt;% map_if(is.character, as.factor) %&gt;% as.data.frame() -&gt;DT
+  as.data.frame(DT)}</p>
+
+<p>ind.list&lt;-unique(all.dt$industry_text) # get list of industries</p>
+
+<p>#the animation will loop through each industry and return to All Industries (ind.list[1]).
+my.list&lt;-lapply(c(ind.list,ind.list[1]),myf)</p>
+
+<p>tf &lt;- tween_states(my.list, tweenlength= 2, statelength=3, ease=rep(&lsquo;cubic-in-out&rsquo;,17),nframes=300)
+tf&lt;-data.table(tf)<br />
+N&lt;-max(tf$.frame)</p>
+
+<p>oopt = ani.options(interval = 0.2)
+saveGIF({for (i in 1:N) {
+  g&lt;-
+    ggplot(data=tf[.frame==i,],aes(x=ur,y=jo,color=recession,group=recession))+geom_point(alpha=0.65)+facet_wrap(~industry_text)+
+    theme_minimal()+
+    theme(plot.caption=element_text(hjust=0,size=9))+
+    geom_point(data=tf[.frame==i &amp; date==&ldquo;2016-07-01&rdquo;],shape=21,size=3,color=viridis(3)[1])+
+    geom_text(data=tf[.frame==i &amp; date==&ldquo;2016-07-01&rdquo;],color=viridis(3)[1],label=&ldquo;July, 2016\n\n&rdquo;)+
+    coord_cartesian(ylim=c(0,8),xlim=c(0,28))+
+    theme(legend.position=&ldquo;bottom&rdquo;)+
+    scale_color_manual(name=&ldquo;Recession or Expansion&rdquo;,values=c(viridis(5)[4],magma(5)[3]))+
+    labs(x=&ldquo;Unemployment Rate (%, NSA)&rdquo;,y=&ldquo;Job Openings Rate (%, NSA)&rdquo;,
+         title=&ldquo;The Beveridge Curve&rdquo;,
+         subtitle=&ldquo;job openings rate vs unemployment rate (NSA)&rdquo;,
+         caption=&ldquo;@lenkiefer Source: U.S. Bureau of Labor Statistics, Current Population Survey and Job Openings and Labor Turnover Survey&rdquo;)</p>
+
+<p>print(g)
+  ani.pause()
+  print(i) }
+},movie.name=&ldquo;bv tween3.gif&rdquo;,ani.width = 650, ani.height = 500)
+{% endhighlight</p>
+
+<p><img src="../../../../img/charts_sep_14_2016/bv tween3.gif" alt="animated beveridge curve"/></p>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2016/09/10/job-openings-and-hires/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2016/09/10/job-openings-and-hires/">JOLTS! Job openings and labor turnover trends</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="/2016/09/22/week-in-gif/">Data visualizations for the week of September 22, 2016</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="/2016/09/22/week-in-gif/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/dataviz/">dataviz</a>, 
+            
+                <a href="/tags/economy/">economy</a>, 
+            
+                <a href="/tags/r/">R</a>, 
+            
+                <a href="/tags/animation/">animation</a>, 
+            
+                <a href="/tags/data-wrangling/">data wrangling</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2016%2f09%2f14%2fbev-curves%2f&text=Industry-specific%20Beveridge%20Curves via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2016%2f09%2f14%2fbev-curves%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+

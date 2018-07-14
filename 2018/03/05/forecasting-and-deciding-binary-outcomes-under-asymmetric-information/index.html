@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="What&#39;s the best way for a forecaster to communicate when their payoff for a binary outcome differs from the decision maker? Guys, it&#39;s time for some game theory.">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>Forecasting and deciding binary outcomes under asymmetric information &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com//img/charts_mar_05_2018/03-05-2018-binary-2-1.png" >
+     
+    <meta property="og:title" content="Forecasting and deciding binary outcomes under asymmetric information">
+    <meta property="og:description" content="What&#39;s the best way for a forecaster to communicate when their payoff for a binary outcome differs from the decision maker? Guys, it&#39;s time for some game theory.">
+
+<div class="header">
+  <h1>Forecasting and deciding binary outcomes under asymmetric information</h1>
+  <h2>What&#39;s the best way for a forecaster to communicate when their payoff for a binary outcome differs from the decision maker? Guys, it&#39;s time for some game theory.</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/03/05</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/statistics">statistics</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/forecasting">forecasting</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <p>LAST WEEK IN THE WALL STREET JOURNAL an article <a href="https://www.wsj.com/articles/how-do-pundits-never-get-it-wrong-call-a-40-chance-1519662425">LINK</a> talked about how pundits can strategically make probabilistic forecasts. It seems 40% is a sort of magic number, where it’s high enough that if the event comes true you can claim credit as a forecaster, but if it doesn’t happen, you still gave it less than 50/50 odds.</p>
+<p>Since I’m often asked to make forecasts I’m interested in this problem. Under what conditions is a 40 percent probability an optimal forecast? Guys, it’s time for some game theory.</p>
+<div id="some-literature" class="section level1">
+<h1>Some literature</h1>
+<p>Per usual, there’s a literature on this topic. I’m going to point out two papers that I’ll draw from here.</p>
+<ul>
+<li><p>Elliott, G., Ghanem, D., &amp; Krüger, F. (2016). Forecasting conditional probabilities of binary outcomes under misspecification. Review of Economics and Statistics, 98(4), 742-755. <a href="https://www.mitpressjournals.org/doi/pdf/10.1162/REST_a_00564">LINK to pdf</a></p></li>
+<li><p>Elliott, G., &amp; Lieli, R. P. (2013). Predicting binary outcomes. Journal of Econometrics, 174(1), 15-26. <a href="https://www.sciencedirect.com/science/article/pii/S0304407613000171">Link to Journal of Econometrics</a>, <a href="http://econweb.ucsd.edu/~grelliott/BinPred.pdf">Link to Working Paper</a></p></li>
+</ul>
+<p>Those papers do much more complicated things that we’ll do here, but they provide the basic framework I’m going to describe here. They are also very good on their own so you might want to check them out.</p>
+<div id="setup" class="section level2">
+<h2>Setup</h2>
+<p>I’m considering the following stylized setup. There are two agents, a forecaster and a decision maker (decider). The forecaster has access to some information (technology, special domain knowledge, model) that allows them to produce superior estimates of the probability of a future binary (0/1) outcome. For example, the forecaster may know something about <a href="../../../../http://lenkiefer.com/2017/10/26/predicting-recessions-with-dynamic-model-averaging/">predicting recessions</a> or some other outcome of consequence. The decider has no special information, but has the ability to take a binary (0/1) action in response to the information provided by the forecaster. Both the forecaster and the decider get a payoff from the outcome and the action.</p>
+<p>Where things get interesting is that we might suppose that the decider and the forecaster have different payoff function. For example, the consequences of taking an action could differ in that the forecaster suffered more from taking no action when the outcome warranted it, while the decider suffered more by taking the wrong action.</p>
+<p>A graph might help:</p>
+<pre class="r"><code>#####################################################################################
+## Step 0: Load Libraries ##
+#####################################################################################
+library(tidyverse)
+library(cowplot)
+
+#####################################################################################
+## Step 1: Set up Parameters ##
+#####################################################################################
+
+# X variable (between 0 1)
+X&lt;-seq(0,1,.001)
+c1&lt;-0.25    # low cutoff
+c2&lt;-0.60    # high cutoff
+
+df&lt;-data.frame(x=X, 
+               y1=1*(X&gt;c1), 
+               y2=1*(X&gt;c2), 
+               z1=X*(X&lt;min(c1,c2))+
+                  max(c1,c2)*(X&gt;=min(c1,c2) &amp; X &lt;= max(c1,c2))+
+                 (X&gt;max(c1,c2))*X,
+               z2=
+                 X*(X&lt;min(c1,c2))+
+                 min(c1,c2)*(X&gt;=min(c1,c2) &amp; X &lt;= max(c1,c2))+
+                 (X&gt;max(c1,c2))*X
+               ) %&gt;% mutate(z=(c1&lt;c2)*z1+(c1&gt;=c2)*z2)
+
+# a payoff function: 
+PAYOFFS&lt;- data.frame (a=c(1,1,0,0), y=c(1,0,1,0), forecaster=c(0,-c1,-(1-c1),0), decider=c(0,-c2,-(1-c2),0)) %&gt;% gather(player,payoff, -a,-y)
+g.pd&lt;-
+  ggplot(data=filter(PAYOFFS,player==&quot;decider&quot;), aes(x=factor(a),y=factor(y),fill=payoff,label=payoff))+
+  geom_tile(color=&quot;black&quot;)+facet_wrap(~paste(player,&quot;payoff&quot;),ncol=1)+
+  scale_fill_distiller(palette=&quot;Reds&quot;)+geom_text(color=&quot;black&quot;)+theme(legend.position=&quot;none&quot;)+
+  labs(x=&quot;action (a)&quot;,y=&quot;outcome (Y)&quot;)
+
+g.pf&lt;-
+ggplot(data=filter(PAYOFFS,player==&quot;forecaster&quot;), aes(x=factor(a),y=factor(y),fill=payoff,label=payoff))+
+  geom_tile(color=&quot;black&quot;)+facet_wrap(~paste(player,&quot;payoff&quot;),ncol=1)+
+  scale_fill_distiller(palette=&quot;Blues&quot;)+geom_text(color=&quot;black&quot;)+theme(legend.position=&quot;none&quot;)+
+  labs(x=&quot;action (a)&quot;,y=&quot;outcome (Y)&quot;)
+
+
+plot_grid(g.pf,g.pd)</code></pre>
+<p><img src="/post/2018-03-05-forecasting-and-deciding-binary-outcomes-under-asymmetric-information_files/figure-html/03-05-2018-binary-1-1.png" width="672" /></p>
+<p>In this case the forecaster would prefer to take an action and not have the outcome Y occur than not to act and have the event occur. Alternatively, the decider suffers more when acting when the event does not occurr.</p>
+<p>Under this setup, what should the decisions funcitons look like if the agents could act independently?</p>
+<pre class="r"><code>g.s&lt;-
+  ggplot(data=df, aes(x=x, y=y1))+
+  geom_step(color=&quot;blue&quot;,size=1.1)+
+  geom_step(aes(y=y2), color=&quot;red&quot;,linetype=2,size=1.1)+
+  geom_line(aes(y=x),color=&quot;darkgray&quot;)+
+  geom_hline(yintercept=c1,color=&quot;blue&quot;,linetype=3)+geom_hline(yintercept=c2,color=&quot;red&quot;,linetype=3)+
+  scale_x_continuous(breaks=c(0,c1,c2,1), name=&quot;Probability (Y|X)&quot;)+
+  scale_y_continuous(breaks=c(0,c1,c2,1), name=&quot;Action (a)&quot;)+
+  labs(caption=&quot;Actions as a function of probability of outcome Y conditional on information X\nForecaster prefers blue line, decider prefers red&quot;)
+g.s+labs(title=&quot;Ideal actions as a function of Probability (Y|X)&quot;)</code></pre>
+<p><img src="/post/2018-03-05-forecasting-and-deciding-binary-outcomes-under-asymmetric-information_files/figure-html/03-05-2018-binary-2-1.png" width="672" /></p>
+<p>Here we see that the forecaster (in blue) would rather see action whenver the Probability (Y|X) &gt;= 0.25, while the decider would prefer to only act when Probability (Y|X) &gt;= 0.6.</p>
+<p>Sadly, under our setup only the decider can decide and the forecaster can know. If the forecaster can talk freely, giving a probabilitstic forecast say to the decider, what would he say? And how would the decider decide?</p>
+<pre class="r"><code>g.s2&lt;-
+ggplot(data=df, aes(x=x,y=x))+
+  geom_line(color=&quot;darkgray&quot;,linetype=3)+
+  geom_line(aes(y=z),color=&quot;blue&quot;,linetype=2,size=1.1)+
+  labs(y=&quot;Signal (Z = f(X,c1,c2)&quot;, x=&quot;Probability (Y|X)&quot;)+
+  scale_x_continuous(breaks=c(0,c1,c2,1), name=&quot;Probability (Y|X)&quot;)+
+  scale_y_continuous(breaks=c(0,c1,c2,1), name=&quot;Signal (Z = f(X,c1,c2)&quot;)+
+  labs(title=&quot;Forecaster signal as a function of observed probability (Y|X)&quot;,
+       caption=&quot;Forecaster observes probability (Y|X) and signals to the decider\nIf c1&lt;P(Y|X)&lt;c2 transmit c1, else if c2&gt;P(Y|X)&gt;c1 transmit c2, else transmit P(Y|X)&quot;)
+
+g.s2</code></pre>
+<p><img src="/post/2018-03-05-forecasting-and-deciding-binary-outcomes-under-asymmetric-information_files/figure-html/03-05-2018-binary-3-1.png" width="672" /></p>
+<p>In this case the forecaster would report honestly on the Probability (Y|X) when the probability was either very low or very high. But when the probability was between the value <code>c1</code> and <code>c2</code> the forecaster would opt to always report the high value, in the hope that the decider would act.</p>
+<p>The decider however is not naive, they just don’t have access to the information in X. If knowledge of the parameters <code>c1</code> and <code>c2</code> are common knowledge, how might decider act conditional on the forecaster’s signal? And could outcomes be improved if the forecaster could communicate more information than just a point estimate for the probability of the binary outcome? Could statements about uncertainty come into play? Do <a href="https://github.com/zonination/perceptions">perceptions of probability</a> matter?</p>
+<p>Let’s take a look at that in a future post.</p>
+</div>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2018/03/03/rock-that-dadbod-plot/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2018/03/03/rock-that-dadbod-plot/">Rock that dadbod plot!</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="/2018/03/11/charting-jobs-friday-with-r/">Charting Jobs Friday with R</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="/2018/03/11/charting-jobs-friday-with-r/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/statistics/">statistics</a>, 
+            
+                <a href="/tags/forecasting/">forecasting</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2018%2f03%2f05%2fforecasting-and-deciding-binary-outcomes-under-asymmetric-information%2f&text=Forecasting%20and%20deciding%20binary%20outcomes%20under%20asymmetric%20information via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2018%2f03%2f05%2fforecasting-and-deciding-binary-outcomes-under-asymmetric-information%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+

@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="COME AND MAKE A MAJESTIC MORTGAGE RATE PLOT WITH ME. We&#39;ll use R to make a fun plot showing just how low mortgage rates in the U.S. are relative to historical averages.">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>Majestic mortgage rate plot &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com//img/charts_nov_16_2017/joy.png" >
+     
+    <meta property="og:title" content="Majestic mortgage rate plot">
+    <meta property="og:description" content="COME AND MAKE A MAJESTIC MORTGAGE RATE PLOT WITH ME. We&#39;ll use R to make a fun plot showing just how low mortgage rates in the U.S. are relative to historical averages.">
+
+<div class="header">
+  <h1>Majestic mortgage rate plot</h1>
+  <h2>COME AND MAKE A MAJESTIC MORTGAGE RATE PLOT WITH ME. We&#39;ll use R to make a fun plot showing just how low mortgage rates in the U.S. are relative to historical averages.</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2017/11/16</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/mortgage">mortgage</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/fun">fun</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <p>COME AND MAKE A MAJESTIC MORTGAGE RATE PLOT WITH ME.</p>
+<p>We’ll use <a href="https://www.r-project.org/">R</a> to plot a few visualizations of mortgage rates.</p>
+<p>I recently gave a number of talks about the economic outlook and housing. One point I like to make is that <a href="../../../../2017/10/19/mortgage-rates-are-low/">mortgage rates are low</a>. I’ve shown this through a variety of visualizations. But one of my favorites looks like this:</p>
+<p><img src="../../../../img/charts_nov_16_2017/pmms_joy_nov_16_2017.gif"></p>
+<p>Let’s make it.</p>
+<div id="data" class="section level1">
+<h1>Data</h1>
+<p>We’ll plot mortgage rates using the <a href="http://www.freddiemac.com/pmms/">Freddie Mac Primary Mortgage Market Survey</a>.</p>
+<p>We’ll get the mortgage rates data via the Saint Louis Federal Reserve’s <a href="https://fred.stlouisfed.org/">FRED</a> database. If you followed <a href="../../../../2017/04/11/fred-plot">my post</a> from back in April you know what we can do if we combine FRED with the <a href="https://cran.r-project.org/web/packages/quantmod/index.html">quantmod</a> package. It gets even easier if we use <a href="https://CRAN.R-project.org/package=tidyquant">tidyquant</a> like we did <a href="../../../../2017/09/18/a-tidyquant-um-of-solace/">here</a>.</p>
+<pre class="r"><code>#####################################################################################
+## Load libraries ----  ##
+#####################################################################################
+library(tidyverse)
+library(readxl)
+library(tidyquant)
+library(tibbletime)
+library(ggridges)
+library(viridis)
+library(cowplot)
+library(ggbeeswarm)
+
+#####################################################################################
+## Get mortgage data ---- ##
+# Can also get direct here: http://www.freddiemac.com/pmms/docs/historicalweeklydata.xls
+#####################################################################################
+
+df&lt;- tq_get(&quot;MORTGAGE30US&quot;,get=&quot;economic.data&quot;,from=&quot;1971-04-01&quot;)
+knitr::kable(tail(df))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">date</th>
+<th align="right">price</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">2017-10-12</td>
+<td align="right">3.91</td>
+</tr>
+<tr class="even">
+<td align="left">2017-10-19</td>
+<td align="right">3.88</td>
+</tr>
+<tr class="odd">
+<td align="left">2017-10-26</td>
+<td align="right">3.94</td>
+</tr>
+<tr class="even">
+<td align="left">2017-11-02</td>
+<td align="right">3.94</td>
+</tr>
+<tr class="odd">
+<td align="left">2017-11-09</td>
+<td align="right">3.90</td>
+</tr>
+<tr class="even">
+<td align="left">2017-11-16</td>
+<td align="right">3.95</td>
+</tr>
+</tbody>
+</table>
+<p>Our data is quite simple, with the date stored in <code>date</code> and the U.S. weekly average 30-year fixed mortgage rate in the <code>price</code> variable.</p>
+</div>
+<div id="plots" class="section level1">
+<h1>Plots</h1>
+<p>In order to make this plot we’ll use the <a href="https://CRAN.R-project.org/package=ggridges">ggridges</a> (formerly known as ggjoy) and <a href="https://CRAN.R-project.org/package=ggbeeswarm">ggbeeswarm</a> package along with <a href="https://CRAN.R-project.org/package=viridis">viridis</a> for the colors.</p>
+<pre class="r"><code>df$year&lt;-year(df$date)
+df$yearf&lt;-as.factor(df$year)
+
+ggplot(data=filter(df, year(date)&gt;2009), 
+           aes(y=forcats::fct_reorder(yearf,-year),x=price,color=price,fill=..x..))+
+ 
+    geom_density_ridges_gradient(rel_min_height=0.01,alpha=0.75)  +
+    scale_fill_viridis(option=&quot;C&quot;,name=&quot;30-year fixed mortgage rate (%)&quot;)+
+    scale_color_viridis(option=&quot;C&quot;)+
+    guides(color=F)+
+    geom_quasirandom(color=&quot;white&quot;,alpha=0.5,shape=21,size=1.1, groupOnX=F)+
+    theme_ridges()+
+    theme(legend.position=&quot;top&quot;,
+          plot.caption=element_text(hjust=0),
+          legend.key.width=unit(1.25,&quot;cm&quot;))+
+    labs(x=&quot;30-year fixed mortgage rate&quot;,y=&quot;Year&quot;,
+         title=&quot;Distribution of U.S. average weekly mortgage rates&quot;,
+         subtitle=paste(&quot;through &quot;,as.character(max(df$date))),
+         caption=&quot;@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey&quot;)</code></pre>
+<p><img src="/post/2017-11-16-majestic-mortgage-rate-plot_files/figure-html/11-16-2017-plot-1-1.png" width="672" /></p>
+<p>This plot illustrates that by the standards of recent years, mortgage rates are low, but not super-low. However, if we zoom out and look at more history we will find rates are quite low.</p>
+<pre class="r"><code>ggplot(data=df, 
+           aes(y=forcats::fct_reorder(yearf,-year),x=price,color=price,fill=..x..))+
+    geom_density_ridges_gradient(rel_min_height=0.01,alpha=0.75)  +
+    scale_fill_viridis(option=&quot;C&quot;,name=&quot;30-year fixed mortgage rate (%)&quot;)+
+    scale_color_viridis(option=&quot;C&quot;)+
+    guides(color=F)+
+    geom_quasirandom(color=&quot;white&quot;,alpha=0.5,shape=21,size=1.1, groupOnX=F)+
+    theme_ridges(font_size=10)+
+    theme(legend.position=&quot;top&quot;,
+          plot.caption=element_text(hjust=0),
+          legend.key.width=unit(1.25,&quot;cm&quot;))+
+    labs(x=&quot;30-year fixed mortgage rate&quot;,y=&quot;Year&quot;,
+         title=&quot;Distribution of U.S. average weekly mortgage rates&quot;,
+         subtitle=paste(&quot;through &quot;,as.character(max(df$date))),
+         caption=&quot;@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey&quot;)</code></pre>
+<p><img src="/post/2017-11-16-majestic-mortgage-rate-plot_files/figure-html/11-16-2017-plot-2-1.png" width="672" /></p>
+<p>This plot helps to illustrate just how low recent mortgage rates are relative to historical averages. Though the U.S. weekly average 30-year fixed mortgage hasn’t been above 5 percent since 2011, rates are extremely low by historical standards.</p>
+</div>
+<div id="animate-it" class="section level1">
+<h1>Animate it</h1>
+<p>This post wouldn’t really be fun, or at least not fun enough, if we didn’t animate the plot.</p>
+<pre class="r"><code>mydir&lt;- YOURDIRECTORY # place you want to put images
+dlist&lt;-unique(df$date)  # list of dates
+N&lt;-length(dlist)        # length of dlist
+
+# Function for plotting images
+myf.joy &lt;- function(i, imax=N)
+{
+  file_path = paste0(mydir, &quot;plot-&quot;,5000+i ,&quot;.png&quot;)
+  i&lt;-min(i,imax)
+  g&lt;-
+    ggplot(data=df, 
+           aes(y=forcats::fct_reorder(yearf,-year),x=rate,color=rate,fill=..x..))+
+    geom_density_ridges_gradient(fill=NA,color=NA,alpha=0)+       # add transparent plot
+    geom_density_ridges_gradient(data=filter(df, date&lt;=dlist[i]), #filter data
+                                 rel_min_height=0.01,alpha=0.75)  +
+    scale_fill_viridis(option=&quot;C&quot;,name=&quot;30-year fixed mortgage rate (%)&quot;)+
+    scale_color_viridis(option=&quot;C&quot;)+
+    guides(color=F)+
+    geom_quasirandom(data=filter(df, date&lt;=dlist[i]),
+                     color=&quot;white&quot;,
+                     alpha=0.5,shape=21,size=1.1,
+                     groupOnX=F)+
+    theme_ridges()+
+    theme(legend.position=&quot;top&quot;,
+          plot.caption=element_text(hjust=0),
+          legend.key.width=unit(1.25,&quot;cm&quot;))+
+    labs(x=&quot;30-year fixed mortgage rate&quot;,y=&quot;Year&quot;,
+         title=&quot;Distribution of U.S. average weekly mortgage rates&quot;,
+         subtitle=paste(&quot;through &quot;,as.character(dlist[i])),
+         caption=&quot;@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey&quot;)
+    
+     ggsave(file_path, g, width = 8, height = 6 , units = &quot;cm&quot;,scale=2) 
+  return(g)
+}
+
+# animate, using (only using every 4th week here)
+purrr::map(c(seq(53,N,4), seq(N- N%%4,N), seq(N+1,N+10,1)), myf.joy)</code></pre>
+<p>If you run this code, you’ll have a bunch of <em>.png</em> files in <code>YOURDIRECTORY</code> (replace with path to real directory). Then you can navigate to <code>YOURDIRECTORY</code> and run <code>magick convert -delay 10 loop -0 *.png majestic.gif</code>. Note you’ll need to have <a href="http://imagemagick.org/script/index.php">IMAGEMAGICK</a> for this to work.</p>
+<p>The <a href="https://CRAN.R-project.org/package=magick">magick</a> package for R looks like it could help here, but I haven’t quite figure it out yet. If I figure it out I’ll add a post telling you about it.</p>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2017/11/08/tour-of-u-s-metro-area-house-price-trends/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2017/11/08/tour-of-u-s-metro-area-house-price-trends/">Tour of U.S. metro area house price trends</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="/2017/11/22/housing-market-dataviz-week-of-november-22-2017/">Housing market dataviz: week of November 22, 2017</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="/2017/11/22/housing-market-dataviz-week-of-november-22-2017/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/r/">R</a>, 
+            
+                <a href="/tags/dataviz/">dataviz</a>, 
+            
+                <a href="/tags/mortgage/">mortgage</a>, 
+            
+                <a href="/tags/fun/">fun</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2017%2f11%2f16%2fmajestic-mortgage-rate-plot%2f&text=Majestic%20mortgage%20rate%20plot via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2017%2f11%2f16%2fmajestic-mortgage-rate-plot%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+

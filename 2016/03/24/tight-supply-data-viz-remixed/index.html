@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>Tight Inventory: Data Viz Remixed &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Tight Inventory: Data Viz Remixed">
+    <meta property="og:description" content="Tight Inventory EARLIER THIS WEEK, Trulia published a post by Chief Economist Ralph McLaughlin called &ldquo;House Arrest: How Low Inventory Is Slowing Home Buying&rdquo;. The article analyzed trends in housing inventory.
+Trulia broke housing inventory into &ldquo;starter homes&rdquo;, &ldquo;move-up homes&rdquo;, and &ldquo;premium homes&rdquo;. They found that the inventory of available homes for-sale has shifted towards premium homes and away from starter homes that first time homebuyers would typically be buying.">
+
+<div class="header">
+  <h1>Tight Inventory: Data Viz Remixed</h1>
+  <h2></h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2016/03/24</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/economy">Economy</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/housing">Housing</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/remix">remix</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+
+<h2 id="tight-inventory">Tight Inventory</h2>
+
+<p>EARLIER THIS WEEK, Trulia published a post by <a href="http://www.trulia.com/blog/author/ralph/">Chief Economist Ralph McLaughlin</a> called <a href="http://www.trulia.com/blog/trends/inventory-price-watch-q116/">&ldquo;House Arrest: How Low Inventory Is Slowing Home Buying&rdquo;</a>. The article analyzed trends in housing inventory.</p>
+
+<p>Trulia broke housing inventory into &ldquo;starter homes&rdquo;, &ldquo;move-up homes&rdquo;, and &ldquo;premium homes&rdquo;.  They found that the inventory of available homes for-sale has shifted towards premium homes and away from starter homes that first time homebuyers would typically be buying. We&rsquo;re not here to talk housing inventory, but I recommend you take a look.</p>
+
+<p>No, this post is about Data Viz. This <a href="http://www.wsj.com/articles/widening-u-s-home-price-gap-makes-trading-up-harder-1458505659">Wall Street Journal</a> article referencing the Trulia analysis included this workmanlike bar graph on housing inventory based on the Trulia data.</p>
+
+<p><img src="../../../../img/charts_mar_24_2016/wsjbar.PNG" alt="WSJ Bars" style="width: 450px;"/></p>
+
+<p>This prompted @storywithdata to post this question:</p>
+
+<p><blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">Doesn&#39;t seem like the right graph&hellip;perhaps not even the right data for point being made. What/how would you show? <a href="https://t.co/jkpU1jopvr">https://t.co/jkpU1jopvr</a></p>&mdash; Cole Nussbaumer (@storywithdata) <a href="https://twitter.com/storywithdata/status/711976922792595460">March 21, 2016</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+
+<p>Because I have been thinking a lot about housing inventory this week, this question resonated with me. I&rsquo;ve recently put together a <a href="http://lenkiefer.com/2016/03/22/the-week-so-far-in-charts">few alternative ways</a> of looking at housing inventory data. Let&rsquo;s set aside the question of whether or not the data is appropriate for the point being made.  (I happen to think the data <em>is</em> the right data.)</p>
+
+<p>In this post I want to focus on the point of the bar chart and consider what alternatives might look like. The data can be easily downloaded from Trulia, though in this case we are only talking about 6 numbers so I just typed them into a spreadsheet. For this exercise I just opted to use Excel, though with a different tool you might be able to get an even better result.  I came up with two alternatives and one variation (link to excel workbook below.)</p>
+
+<h2 id="alternative-1-slopegraph">Alternative 1 Slopegraph</h2>
+
+<p>Since the focus of the article is the decline of inventory of homes, especially in the starter home category, a slopegraph immediately jumped to mind. The slopegraph lets us more easily compare the trends than the clustered bargraph:</p>
+
+<p><img src="../../../../img/charts_mar_24_2016/tight1.png" alt="tight1" style="width: 350px;"/></p>
+
+<p>The downside of this slopegraph is that it doesn&rsquo;t seem to support the main point that starter homes are special. To me, the slopgraph seems to suggest that both premium and starter categories experienced similar declines. If you look back at the bar chart you&rsquo;ll see that seems to be true with that graphic as well.</p>
+
+<h2 id="alternative-2-bar-chart">ALternative 2 Bar chart</h2>
+
+<p>The second alternative I considered was a bar chart. But instead of focusing on the absolute value of inventory (which probably only means something to housing geeks like myself) we focus on the percentage change from 2012 to 2016:</p>
+
+<p><img src="../../../../img/charts_mar_24_2016/tight2.png" alt="tight2" style="width: 350px;"/></p>
+
+<p>I think this chart tells the story better. We probably don&rsquo;t need to know the absolute values of housing inventory and the percentage changes are pretty clearly illustrated with the bars. You also can compress this graph pretty small and still get the point quickly:</p>
+
+<p><img src="../../../../img/charts_mar_24_2016/tight3.png" alt="tight3" style="width: 250px;"/></p>
+
+<p><span class="icon-file-excel" style="color:green;"></span>: <a href="../../../../img/charts_mar_24_2016/trulia inventory bars remix.xlsx"><em>download spreadsheet with charts</em></a></p>
+
+<h2 id="gridlines">Gridlines</h2>
+
+<p>Not sure about how you feel about gridlines and a vertical axis, but here&rsquo;s a version of the slopegraph with them:</p>
+
+<p><img src="../../../../img/charts_mar_24_2016/tight4.png" alt="tight4" style="width: 350px;"/></p>
+
+<hr />
+
+<p>{% include JB/setup</p>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2016/03/22/the-week-so-far-in-charts/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2016/03/22/the-week-so-far-in-charts/">The week (so far) in charts</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="/2016/03/30/real-house-prices-and-population-growth/">Real house prices and population growth</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="/2016/03/30/real-house-prices-and-population-growth/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/economy/">Economy</a>, 
+            
+                <a href="/tags/housing/">Housing</a>, 
+            
+                <a href="/tags/dataviz/">dataviz</a>, 
+            
+                <a href="/tags/remix/">remix</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2016%2f03%2f24%2ftight-supply-data-viz-remixed%2f&text=Tight%20Inventory%3a%20Data%20Viz%20Remixed via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2016%2f03%2f24%2ftight-supply-data-viz-remixed%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+

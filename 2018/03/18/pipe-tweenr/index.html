@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="In this post we make some animated data visualizations using R and tweenr. We try out some of the new features in the tweenr package.">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>Pipe Tweenr &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com//img/charts_mar_18_2018/pipe_tweenr.jpg" >
+     
+    <meta property="og:title" content="Pipe Tweenr">
+    <meta property="og:description" content="In this post we make some animated data visualizations using R and tweenr. We try out some of the new features in the tweenr package.">
+
+<div class="header">
+  <h1>Pipe Tweenr</h1>
+  <h2>In this post we make some animated data visualizations using R and tweenr. We try out some of the new features in the tweenr package.</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/03/18</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/animation">animation</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <p>I LIKE TO MAKE ANIMATIONS WITH <a href="https://www.r-project.org/">R</a>. Sometimes folks ask me how they add to understanding. They don’t always, but often, particularly when you are working with time series, I find they help visualize trends and understand the evolution of variables.</p>
+<p>I’ve written several posts on <a href="http://lenkiefer.com/tags/animation/">animation</a>, see particularly this recent post on <a href="../../../../2018/01/17/simple-animated-line-plot/">making a simple line plot</a> and <a href="%22../../../../2016/05/29/improving-R-animated-gifs-with-tweenr">this post</a> about improving animations with <a href="https://CRAN.R-project.org/package=tweenr">tweenr</a>.</p>
+<p>Tweenr is a handy package that lets you interpolate data and make smooth animations. The package author Thomas Lin Pedersen <a href="https://www.data-imaginist.com/">homepage</a> <span class="citation">[Twitter: @thomasp85]</span>(<a href="https://twitter.com/thomasp85" class="uri">https://twitter.com/thomasp85</a>) tweeted to me that he’s been developing some new functions.</p>
+<p>Thomas’s tween indicated that tweenr was now pipe friendly:</p>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Tweenr be pipe-friendly! <a href="https://twitter.com/lenkiefer?ref_src=twsrc%5Etfw">@lenkiefer</a>, as a certified tween-master can I get your opinion on tween_state() just added to GitHub?</p>&mdash; Thomas Lin Pedersen (@thomasp85) <a href="https://twitter.com/thomasp85/status/974779634050129925?ref_src=twsrc%5Etfw">March 16, 2018</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+ 
+<p>Let’s test it out. At least at time of writing, you’ll need to get the development version of tweenr from <a href="https://github.com/thomasp85/tweenr">github</a> in order to recreate all these animations.</p>
+<div id="some-sample-data" class="section level2">
+<h2>Some sample data</h2>
+<p>For today’s exercise I wanted to make visualizations of house prices. We’ll work with the Federal Housing Finance Agency’s <a href="https://www.fhfa.gov/DataTools/Downloads/pages/house-price-index.aspx">All Transactions House Price Index</a>, which is available quarterly for United States and the 50 states plus the District of Columbia.</p>
+<p>We’ll pull the data via the St Louis Federal Reserve Economic Database <a href="https://fred.stlouisfed.org/">FRED</a>. See <a href="../../../../2017/12/11/plotting-u-s-macroeconomic-trends-with-fred-and-r/">here</a> for more on using the <a href="https://CRAN.R-project.org/package=quantmod">quantmod</a> and <a href="https://CRAN.R-project.org/package=tidyquant">tidyquant</a> packages to work with FRED data.</p>
+<p>The following data will prepare our data (see how easy it is with tidyquant and the tidyverse).</p>
+<pre class="r"><code>#####################################################################################
+## Step 1: Load Libraries ##
+#####################################################################################
+library(tidyverse)
+library(tidyquant)
+library(geofacet)
+library(viridis)
+library(scales)
+library(tweenr)
+library(animation)
+library(dplyr)
+
+#####################################################################################
+## Step 2: go get data ##
+## FHFA&#39;s ALL-Transactions House Price Index for US and states (NSA) **
+#####################################################################################
+df &lt;- tq_get(c(&quot;USSTHPI&quot;,paste0(us_state_grid3$code,      # get state abbreviations
+                    &quot;STHPI&quot;)),                    # append STHPI
+             get=&quot;economic.data&quot;,             # use FRED
+             from=&quot;2000-01-01&quot;)               # go from 1990 forward
+
+df %&gt;% mutate(state=substr(symbol,1,2)        # create a state variable
+) -&gt; df
+
+
+df %&gt;% group_by(state) %&gt;% 
+  mutate(hpi=100*price/price[date==&quot;2000-01-01&quot;]) %&gt;% # rebenchmark index to 100 in Q1 2000
+    ungroup() %&gt;% 
+  map_if(is.character,as.factor) %&gt;%   # tweenr will try to interpolate characters, but will ignore factors
+  as.tibble() -&gt; df
+knitr::kable(head(df))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">symbol</th>
+<th align="left">date</th>
+<th align="right">price</th>
+<th align="left">state</th>
+<th align="right">hpi</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">USSTHPI</td>
+<td align="left">2000-01-01</td>
+<td align="right">228.82</td>
+<td align="left">US</td>
+<td align="right">100.0000</td>
+</tr>
+<tr class="even">
+<td align="left">USSTHPI</td>
+<td align="left">2000-04-01</td>
+<td align="right">232.55</td>
+<td align="left">US</td>
+<td align="right">101.6301</td>
+</tr>
+<tr class="odd">
+<td align="left">USSTHPI</td>
+<td align="left">2000-07-01</td>
+<td align="right">236.78</td>
+<td align="left">US</td>
+<td align="right">103.4787</td>
+</tr>
+<tr class="even">
+<td align="left">USSTHPI</td>
+<td align="left">2000-10-01</td>
+<td align="right">240.43</td>
+<td align="left">US</td>
+<td align="right">105.0739</td>
+</tr>
+<tr class="odd">
+<td align="left">USSTHPI</td>
+<td align="left">2001-01-01</td>
+<td align="right">246.35</td>
+<td align="left">US</td>
+<td align="right">107.6610</td>
+</tr>
+<tr class="even">
+<td align="left">USSTHPI</td>
+<td align="left">2001-04-01</td>
+<td align="right">250.48</td>
+<td align="left">US</td>
+<td align="right">109.4660</td>
+</tr>
+</tbody>
+</table>
+<p>Now we’ll have a simple data frame with columns corresponding to house prices (original indexed to 1980Q1 =100 and our revised index with 2000 Q1 = 100), state, and date.</p>
+</div>
+<div id="using-tween_element" class="section level1">
+<h1>Using tween_element</h1>
+<p>The new pip-friendly <code>tween_element</code> function allows us to <a href="http://magrittr.tidyverse.org/reference/pipe.html">pipe in commands</a>, which not only makes our code a little more readable, it also helps you construct an animation piece by piece.</p>
+<p>Consider this spaghetti plot:</p>
+<pre class="r"><code>dplyr::filter(df,state==&quot;CA&quot;) %&gt;% 
+    ggplot(aes(x=date, y=hpi))+
+    geom_line(data=df, aes(group=state),color=&quot;lightgray&quot;,alpha=0.5)+
+    geom_line(size=1.1,color=&quot;royalblue&quot;) + 
+    geom_line(data=dplyr::filter(df,state==&quot;US&quot;),color=&quot;black&quot;,linetype=2, alpha=0.85)+
+    geom_text(data=dplyr::filter(df,state==&quot;US&quot; &amp; date==max(df$date)), aes(label=state), nudge_y=0.01,fontface=&quot;bold&quot;,color=&quot;black&quot;,label=&quot;US&quot;)+
+    geom_text(data=df %&gt;% filter(state==&quot;CA&quot; &amp; date==max(df$date)), aes(label=state), nudge_y=0.01,fontface=&quot;bold&quot;,color=&quot;royalblue&quot;)+
+    # set axis labels
+    scale_y_log10(breaks=c(100,150,200,250,300),limits=c(85,300),sec.axis=dup_axis())+
+    labs(x=&quot;&quot;,y=&quot;House Price Index (2000 Q1=100, log scale NSA)&quot;,
+         title=&quot;House price trends by state&quot;,
+         subtitle=paste(&quot;Each gray line a state, highlighted state CA&quot;),
+         caption=&quot;@lenkiefer Source: U.S. Federal Housing Finance Agency, All-Transactions House Price Index for the United States [USSTHPI],\nretrieved from FRED, Federal Reserve Bank of St. Louis; https://fred.stlouisfed.org/series/USSTHPI, March 18, 2018.&quot;)+
+    theme(plot.subtitle=element_text(face=&quot;italic&quot;,size=14),
+          plot.title=element_text(color=&quot;royalblue&quot;,face=&quot;bold&quot;,size=18),
+          plot.caption=element_text(hjust=0))</code></pre>
+<p><img src="/post/2018-03-18-pipe-tweenr_files/figure-html/plot1-03-18-2018-1.png" width="672" /></p>
+<p>Here we show the US house price index and the California (CA) index. We also have the other states in faint gray lines.</p>
+<p>What if we wanted to cycle through several states? Something like this?</p>
+<p><img src="../../../../img/charts_mar_18_2018/hpi1.gif"></p>
+<p>Easy to do with tweenr. The following code will build this plot.</p>
+<pre class="r"><code># tween states
+# use keep_state to pause the animation for 10/15 frames
+
+data &lt;- dplyr::filter(df, state==&quot;US&quot;) %&gt;%
+  keep_state(10) %&gt;%
+  tween_state(dplyr::filter(df, state==&quot;CA&quot;), &#39;linear&#39;, 10) %&gt;%
+  keep_state(15) %&gt;%
+  tween_state(dplyr::filter(df, state==&quot;TX&quot;), &#39;linear&#39;, 10) %&gt;%
+  keep_state(15) %&gt;%
+  tween_state(dplyr::filter(df, state==&quot;FL&quot;), &#39;linear&#39;, 10) %&gt;%
+  keep_state(15) %&gt;%
+  tween_state(dplyr::filter(df, state==&quot;NY&quot;), &#39;linear&#39;, 10) %&gt;%
+  keep_state(15) %&gt;%
+  tween_state(dplyr::filter(df, state==&quot;OH&quot;), &#39;linear&#39;, 10) %&gt;%
+  keep_state(15) %&gt;%
+  tween_state(filter(df, state==&quot;US&quot;), &#39;linear&#39;,10) %&gt;%
+  keep_state(10)
+
+oopt = ani.options(interval = 1/10)
+saveGIF({for (i in 1:max(data$.frame)) {
+  df.plot&lt;-dplyr::filter(data,.frame==i)
+  p&lt;-df.plot %&gt;% 
+    ggplot(aes(x=date, y=hpi))+
+    geom_line(data=df, aes(group=state),color=&quot;lightgray&quot;,alpha=0.5)+
+    geom_line(size=1.1,color=&quot;royalblue&quot;) + 
+    geom_line(data=dplyr::filter(df,state==&quot;US&quot;),color=&quot;black&quot;,linetype=2, alpha=0.85)+
+    geom_text(data=dplyr::filter(df,state==&quot;US&quot; &amp; date==max(df.plot$date)), aes(label=state), nudge_y=0.01,fontface=&quot;bold&quot;,color=&quot;black&quot;,label=&quot;US&quot;)+
+    geom_text(data=df.plot %&gt;% filter(date==max(df.plot$date)), aes(label=state), nudge_y=0.01,fontface=&quot;bold&quot;,color=&quot;royalblue&quot;)+
+    # set axis labels
+    scale_y_log10(breaks=c(100,150,200,250,300),limits=c(85,300),sec.axis=dup_axis())+
+    labs(x=&quot;&quot;,y=&quot;House Price Index (2000 Q1=100, log scale NSA)&quot;,
+         title=&quot;House price trends by state&quot;,
+         subtitle=paste(&quot;Each gray line a state, highlighted state&quot;,head(df.plot,1)$state),
+         caption=&quot;@lenkiefer Source: U.S. Federal Housing Finance Agency, All-Transactions House Price Index for the United States [USSTHPI],\nretrieved from FRED, Federal Reserve Bank of St. Louis; https://fred.stlouisfed.org/series/USSTHPI, March 18, 2018.&quot;)+
+    theme(plot.subtitle=element_text(face=&quot;italic&quot;,size=14),
+          plot.title=element_text(color=&quot;royalblue&quot;,face=&quot;bold&quot;,size=18),
+          plot.caption=element_text(hjust=0))
+  print(p)
+
+  print(paste0(i, &quot; out of &quot;,max(data$.frame)))
+  
+  ani.pause()}
+},movie.name=&quot;YOURDIRECTORY/hpi1.gif&quot;,ani.width = 700, ani.height = 540) #replace YOURDIRECTORY with a place where you want to save the gif</code></pre>
+<p>There are two parts to this code. First, we take our data and use a combination of <code>tween_state</code> and <code>keep_state</code> to create the animation. The function <code>tween_state</code> interpolates between a beginning state (say the house price index for the U.S.) and an end state (say the house price index for CA). The function <code>keep_state</code> allows us to pause the animation.</p>
+<p>The second part is a loop using the <a href="https://CRAN.R-project.org/package=animation">animation</a> package’s <code>saveGIF</code> function along with some code to set up the plot.</p>
+</div>
+<div id="smooth-time-trend" class="section level1">
+<h1>Smooth time trend</h1>
+<p>We can also use tweenr to make a smooth animated line plot. Often for time series animations I won’t smooth them out, just letting the data reveal itselve frame-by-frame. And it works pretty well, see for example <a href="../../../../2018/01/17/simple-animated-line-plot/">this simple example for reproducible code</a>. But while updating my knowledge about tweenr, I ran across <a href="https://www.kaggle.com/dmi3kno/leaderboard-shakeup-storyline-chart/code">this nice example</a> of animating a smooth linke plot using tweenr. Let’s apply that example to these data.</p>
+<div id="code-for-smooth-plot" class="section level2">
+<h2>code for smooth plot</h2>
+<p>Here we’ll use a combination of <code>tween_appear</code> and <code>tween_states</code> to make the animation.</p>
+<pre class="r"><code># modified from: https://www.kaggle.com/dmi3kno/leaderboard-shakeup-storyline-chart/code
+df.us&lt;-dplyr::filter(df,state==&quot;US&quot;) %&gt;%  select(date,hpi) %&gt;% 
+  mutate(day=as.numeric(date-min(date)+1),ease=&quot;linear&quot;)
+
+plot_data_tween&lt;-tween_elements(df.us, time = &quot;day&quot;,  group=&quot;ease&quot;, ease=&quot;ease&quot;, nframes = nrow(df.us)*5)
+df_tween_appear &lt;- tween_appear(plot_data_tween, time=&#39;day&#39;, nframes = nrow(df.us)*5)
+
+# add pause at end of animation
+df_tween_appear&lt;- df_tween_appear %&gt;% keep_state(20)
+
+make_plot_appear &lt;- function(i){
+  plot_data &lt;- 
+    df_tween_appear %&gt;% filter(.frame==i, .age&gt; -3.5) 
+  p&lt;- plot_data %&gt;% 
+    ggplot()+
+    geom_line(aes(x=date, y=hpi),color=&quot;royalblue&quot;, size=1.3)+
+    geom_point(data=. %&gt;% filter(date==max(date)), mapping=aes(x=date, y=hpi), size=3,color=&quot;red&quot;,stroke=1.5)+
+    geom_point(data=. %&gt;% filter(date==max(date)), mapping=aes(x=date, y=hpi), color=&quot;white&quot;, size=2)+
+    geom_text(data=. %&gt;% filter(date==max(date)), mapping=aes(x=date, y=hpi,label=round(hpi,0)),color=&quot;red&quot;,nudge_x=7,hjust=-0.4,fontface=&quot;bold&quot;)+
+    geom_line(data=df.us, aes(x=date,y=hpi),alpha=0.1)+
+    theme_minimal(base_family = &quot;sans&quot;)+
+    scale_x_date(limits = c(as.Date(&quot;2000-01-01&quot;),as.Date(&quot;2018-04-30&quot;)),
+                     date_breaks = &quot;1 year&quot;,date_labels=&quot;%Y&quot;)  +
+    scale_y_continuous(sec.axis=dup_axis())+
+    theme(plot.subtitle=element_text(face=&quot;italic&quot;,size=14),
+          plot.title=element_text(color=&quot;royalblue&quot;,face=&quot;bold&quot;,size=18),
+          plot.caption=element_text(hjust=0),
+          panel.grid.major.x = element_line(color=&quot;lightgray&quot;),
+          panel.grid.minor.x = element_line(color=&quot;lightgray&quot;),
+          panel.grid.major.y = element_line(color=&quot;lightgray&quot;),
+          panel.grid.minor.y = element_line(color=&quot;lightgray&quot;))+
+    labs(x=&quot;&quot;,y=&quot;House Price Index (2000 Q1=100, log scale NSA)&quot;,
+         title=&quot;U.S. house price index&quot;,
+         subtitle=&quot;(2000 Q1 =1 100)&quot;,
+                 caption=&quot;@lenkiefer Source: U.S. Federal Housing Finance Agency, All-Transactions House Price Index for the United States [USSTHPI],\nretrieved from FRED, Federal Reserve Bank of St. Louis; https://fred.stlouisfed.org/series/USSTHPI, March 18, 2018.&quot;)
+  return(p)
+}
+
+oopt&lt;-ani.options(interval=1/20)
+saveGIF({for (i in 1:max(df_tween_appear$.frame)){
+  g&lt;-make_plot_appear(i)
+  print(g)
+  print(paste(i,&quot;out of&quot;,max(df_tween_appear$.frame)))
+  ani.pause()
+}
+},movie.name=&quot;YOURDIRECTORY/hpi2.gif&quot;,ani.width = 700, ani.height = 540)</code></pre>
+<p>Resulting in:</p>
+<p><img src="../../../../img/charts_mar_18_2018/hpi2.gif"></p>
+<p>We also might want to compare several states, so we can easily modify our code like so:</p>
+<pre class="r"><code># now compare US, CA and TX
+df.us2&lt;-dplyr::filter(df,state %in% c(&quot;TX&quot;,&quot;CA&quot;,&quot;US&quot;)) %&gt;%  select(date,state,hpi) %&gt;% 
+  mutate(day=as.numeric(date-min(date)+1),ease=&quot;linear&quot;)
+
+
+plot_data_tween2&lt;-tween_elements(df.us2, time = &quot;day&quot;,  group=&quot;state&quot;, ease=&quot;ease&quot;, nframes = nrow(df.us2))
+df_tween_appear2 &lt;- tween_appear(plot_data_tween2, time=&#39;day&#39;, nframes = nrow(df.us2))
+#df_tween_appear$date &lt;- as.POSIXct(as.Date(&quot;2000-01-01&quot;)+df_tween_appear$day)
+
+# add pause at end of animation
+df_tween_appear2&lt;- df_tween_appear2 %&gt;% keep_state(20)
+summary(df_tween_appear2)
+#filter(df_tween_appear, .frame==334 &amp; date&gt;&quot;2018-03-01&quot;)
+
+make_plot_appear2 &lt;- function(i){
+  plot_data &lt;- 
+    df_tween_appear2 %&gt;% filter(.frame==i, .age&gt; -3.5) 
+  p&lt;- plot_data %&gt;% 
+    ggplot()+
+    geom_line(aes(x=date, y=hpi, color=.group), size=1.3)+
+    geom_point(data=. %&gt;% filter(date==max(date)), mapping=aes(x=date, y=hpi,color=.group), size=3,stroke=1.5)+
+    geom_point(data=. %&gt;% filter(date==max(date)), mapping=aes(x=date, y=hpi,color=.group),  size=2)+
+    geom_text(data=. %&gt;% filter(date==max(date)), mapping=aes(x=date, y=hpi,label=.group, color=.group),nudge_x=7,hjust=-0.4,fontface=&quot;bold&quot;)+
+    geom_line(data=df.us2, aes(x=date,y=hpi, group=state),alpha=0.25,color=&quot;darkgray&quot;)+
+    theme_minimal(base_family = &quot;sans&quot;)+
+    scale_x_date(limits = c(as.Date(&quot;2000-01-01&quot;),as.Date(&quot;2018-04-30&quot;)),
+                 date_breaks = &quot;1 year&quot;,date_labels=&quot;%Y&quot;)  +
+    scale_y_continuous(sec.axis=dup_axis())+
+    theme(plot.subtitle=element_text(face=&quot;italic&quot;,size=14),
+          legend.position=&quot;none&quot;,
+          plot.title=element_text(color=&quot;royalblue&quot;,face=&quot;bold&quot;,size=18),
+          plot.caption=element_text(hjust=0),
+          panel.grid.major.x = element_line(color=&quot;lightgray&quot;),
+          panel.grid.minor.x = element_line(color=&quot;lightgray&quot;),
+          panel.grid.major.y = element_line(color=&quot;lightgray&quot;),
+          panel.grid.minor.y = element_line(color=&quot;lightgray&quot;))+
+    labs(x=&quot;&quot;,y=&quot;House Price Index (2000 Q1=100, log scale NSA)&quot;,
+         title=&quot;House price index&quot;,
+         subtitle=&quot;(2000 Q1 =1 100)&quot;,
+         caption=&quot;@lenkiefer Source: U.S. Federal Housing Finance Agency, All-Transactions House Price Index ,\nretrieved from FRED, Federal Reserve Bank of St. Louis; https://fred.stlouisfed.org/series/XXSTHPI, March 18, 2018. [XX= state code or US]&quot;)
+  return(p)
+}
+
+oopt&lt;-ani.options(interval=1/20)
+saveGIF({for (i in 1:max(df_tween_appear2$.frame)){
+  g&lt;-make_plot_appear2(i)
+  print(g)
+  print(paste(i,&quot;out of&quot;,max(df_tween_appear2$.frame)))
+  ani.pause()
+}
+},movie.name=&quot;YOURDIRECTORY/hpi3.gif&quot;,ani.width = 700, ani.height = 540)</code></pre>
+<p>to produce this plot.</p>
+<p><img src="../../../../img/charts_mar_18_2018/hpi3.gif"></p>
+</div>
+<div id="carnival-horse-race-plot" class="section level2">
+<h2>Carnival Horse Race Plot</h2>
+<p>Finally, we can recreate my horse race animated dotplot. This plot compares the level of the house price index by state over time.</p>
+<pre class="r"><code>df.state2 &lt;-df %&gt;% mutate(state=as.factor(state), date=as.factor(date)) %&gt;%   select(date,state,hpi) %&gt;% group_by(state) %&gt;% 
+  mutate(hpilag12=c(lag(hpi,4))) %&gt;% ungroup()
+
+myf&lt;-function(y=2012) {
+  filter(df.state2,year(date)==y &amp; month(date)==10) %&gt;% data.frame()
+}
+
+mylist&lt;-lapply(c(2000:2017,2000),myf)
+tween.df&lt;-tween_states(mylist,tweenlength=3,statelength=2, ease=rep(&#39;cubic-in-out&#39;,11), nframes=250)
+
+
+plotf3&lt;- function(i=1){
+  g&lt;-
+    tween.df %&gt;% filter(.frame==i) %&gt;%
+    ggplot(aes(x=hpi, y=state, label=state))+
+    geom_text(nudge_x = 0.025,color=&quot;royalblue&quot;)  +
+    geom_point(color=&quot;royalblue&quot;,size=3)+
+    scale_x_log10(limits=c(70,300), breaks=c(70,100,150,200,250,300))+
+    geom_segment(aes(xend=hpilag12,x=hpi,y=state,yend=state),alpha=0.7)+
+    theme_minimal()  +
+    labs(y=&quot;State&quot;, x=&quot;House price index (log scale, 2000 Q1 =100, NSA)&quot;,
+         title=&quot;State house price dynamics&quot;,
+         subtitle=paste0(&quot;Q4 of &quot;,as.character(as.Date( tail(tween.df  %&gt;% filter(.frame==i),1)$date), format=&quot;%Y&quot;),&quot; line 4-quarter lag\n&quot;),
+         caption=&quot;@lenkiefer Source: U.S. Federal Housing Finance Agency, All-Transactions House Price Index,\nretrieved from FRED, Federal Reserve Bank of St. Louis;\nhttps://fred.stlouisfed.org/series/XXSTHPI, March 18, 2018. [XX= state code or US]&quot;)+
+    theme(plot.title=element_text(size=18,color=&quot;royalblue&quot;,face=&quot;bold&quot;),
+          plot.subtitle=element_text(size=14,face=&quot;italic&quot;),
+          plot.caption=element_text(hjust=0,vjust=1),
+          axis.text.x=element_text(size=12),
+          legend.key.width=unit(1,&quot;cm&quot;),
+          legend.position=&quot;top&quot;,
+          axis.text.y=element_blank(),
+          axis.title.y=element_blank(),
+          panel.grid.major.y =element_blank())
+}
+
+saveGIF({for (i in 1:max(tween.df$.frame)){
+  #  saveGIF({for (i in 1:20){
+  g&lt;-plotf3(i)
+  print(g)
+  print(paste(i,&quot;out of&quot;,max(tween.df$.frame)))
+  ani.pause()
+}
+},movie.name=&quot;YOURDIRECTORY/hpi4.gif&quot;, ani.width=650, ani.height=800)</code></pre>
+<p><img src="../../../../img/charts_mar_18_2018/hpi4.gif"></p>
+</div>
+<div id="more-to-do" class="section level2">
+<h2>More to do</h2>
+<p>There’s stil more to do. The new <code>tween_state</code> function has <code>enter</code> and <code>exit</code> arguments that supposedly allow for d3.js-like entry and exit effects. But I haven’t been able to figure out exactly how to use them. When I do, perhaps it will be time for a follow-up post.</p>
+</div>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2018/03/12/forecasting-game/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2018/03/12/forecasting-game/">Forecasting Game</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="/2018/04/12/rate-cloud/">Rate Cloud</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="/2018/04/12/rate-cloud/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/animation/">animation</a>, 
+            
+                <a href="/tags/dataviz/">dataviz</a>, 
+            
+                <a href="/tags/r/">R</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2018%2f03%2f18%2fpipe-tweenr%2f&text=Pipe%20Tweenr via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2018%2f03%2f18%2fpipe-tweenr%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+

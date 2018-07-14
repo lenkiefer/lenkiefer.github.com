@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>Combining PowerPoint and R&#39;s tweenr for smooth animations &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Combining PowerPoint and R&#39;s tweenr for smooth animations">
+    <meta property="og:description" content="IN THIS POST I WANT SHARE A METHOD FOR MAKING SMOOTH POWERPOINT ANIMATIONS USING R.
+Also see other posts in this series:
+Crafting a PowerPoint Presentation with R LINKPURRRTY PowerPoint with R LINKPURRRtier PowerPoint with R LINKMotivationWhy would you want to do this? We’ve covered how to make an animated gif with R and that works pretty well. But there are a couple advantages with this approach.">
+
+<div class="header">
+  <h1>Combining PowerPoint and R&#39;s tweenr for smooth animations</h1>
+  <h2></h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2017/10/22</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/animation">animation</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/office">Office</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/slides">slides</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <p>IN THIS POST I WANT SHARE A METHOD FOR MAKING SMOOTH POWERPOINT ANIMATIONS USING <a href="https://www.r-project.org/">R</a>.</p>
+<p>Also see other posts in this series:</p>
+<ul>
+<li>Crafting a PowerPoint Presentation with R <a href="../../../../2017/09/23/crafting-a-powerpoint-presentation-with-r/">LINK</a></li>
+<li>PURRRTY PowerPoint with R <a href="../../../../2017/09/27/use-purrr/">LINK</a></li>
+<li>PURRRtier PowerPoint with R <a href="../../../../2017/10/21/purrrtier-powerpoint-with-r">LINK</a></li>
+</ul>
+<div id="motivation" class="section level2">
+<h2>Motivation</h2>
+<p>Why would you want to do this? We’ve covered how to make an <a href="../../../../2017/10/17/time-to-animate-with-tibbletime">animated gif with R</a> and that works pretty well. But there are a couple advantages with this approach. For one, you might prefer to to have an mp4 file format rather than a .gif format (for example if you prefer to have the pause ability that comes with mp4). Also, you might not have access to <a href="http://imagemagick.org/script/index.php">Imagemagick</a>. It might be more convenient to have everything in PowerPoint as vector graphics you can edit rather than static image files. You might also want to take your mp4 animation and stick it into another PowerPoint.</p>
+</div>
+<div id="strategy" class="section level2">
+<h2>Strategy</h2>
+<p>The strategy is pretty simple. We’ll apply the same approach as we did <a href="../../../../2017/10/17/time-to-animate-with-tibbletime">here</a> but instead of writing a bunch of image files (.png) we’ll use <a href="https://CRAN.R-project.org/package=officer">Officer</a> to write a bunch of PowerPoint slides. Then we’ll use PowerPoint to create our mp4 animated movie.</p>
+</div>
+<div id="animate-a-time-series" class="section level1">
+<h1>Animate a time series</h1>
+<p>Whether or not animation is a good idea or not is highly situational. See for example, discussion attached to this Twitter poll from <a href="https://twitter.com/acotgreave">Andy Cotgreave</a>.</p>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Animation in <a href="https://twitter.com/hashtag/dataviz?src=hash&amp;ref_src=twsrc%5Etfw">#dataviz</a>: good or bad? I left out &quot;It depends&quot; - no fence sitting on this one. (reply to this to elaborate on yr answer)</p>&mdash; Andy Cotgreave (@acotgreave) <a href="https://twitter.com/acotgreave/status/921381423369637893?ref_src=twsrc%5Etfw">October 20, 2017</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+ 
+<p>Often animation is unecessary or even couterproductive. But sometimes an animation can help with understanding. Time series data are one case where I think animation often is useful. A line chart shows a trend over time well, but adding a sequential reveal can help to reinforce the trend.</p>
+<p>As an example let’s make our <a href="../../../../2017/10/19/mortgage-rates-are-low">spooky mortgage rate chart</a>.</p>
+<div id="get-data-set-theme-and-make-chart" class="section level2">
+<h2>Get data, set theme and make chart</h2>
+<p>The basic chart is the same as the one we made in <a href="../../../../2017/10/19/mortgage-rates-are-low">this post</a>. The code is short, so I’ll include it below, but check out the post for more details.</p>
+<pre class="r"><code>#####################################################################################
+## Load libraries ##
+#####################################################################################
+library(tidyverse)
+library(readxl)
+library(tidyquant)
+library(tibbletime)
+library(ggridges)
+library(viridis)
+library(cowplot)
+library(ggbeeswarm)
+
+#####################################################################################
+## Get mortgage data ##
+# Can also get direct here: http://www.freddiemac.com/pmms/docs/historicalweeklydata.xls
+#####################################################################################
+
+df&lt;- tq_get(&quot;MORTGAGE30US&quot;,get=&quot;economic.data&quot;,from=&quot;1971-04-01&quot;)
+
+extrafont::loadfonts(device=&quot;win&quot;) # needed for fonts (on windows, not sure about unix/mac)
+
+#Create spooky dark theme:
+theme_spooky = function(base_size = 10, base_family = &quot;Chiller&quot;) {
+  
+  theme_grey(base_size = base_size, base_family = base_family) %+replace%
+    
+    theme(
+      # Specify axis options
+      axis.line = element_blank(),  
+      axis.text.x = element_text(size = base_size*0.8, color = &quot;white&quot;, lineheight = 0.9),  
+      axis.text.y = element_text(size = base_size*0.8, color = &quot;white&quot;, lineheight = 0.9),  
+      axis.ticks = element_line(color = &quot;white&quot;, size  =  0.2),  
+      axis.title.x = element_text(size = base_size, color = &quot;white&quot;, margin = margin(0, 10, 0, 0)),  
+      axis.title.y = element_text(size = base_size, color = &quot;white&quot;, angle = 90, margin = margin(0, 10, 0, 0)),  
+      axis.ticks.length = unit(0.3, &quot;lines&quot;),   
+      # Specify legend options
+      legend.background = element_rect(color = NA, fill = &quot; gray10&quot;),  
+      legend.key = element_rect(color = &quot;white&quot;,  fill = &quot; gray10&quot;),  
+      legend.key.size = unit(1.2, &quot;lines&quot;),  
+      legend.key.height = NULL,  
+      legend.key.width = NULL,      
+      legend.text = element_text(size = base_size*0.8, color = &quot;white&quot;),  
+      legend.title = element_text(size = base_size*0.8, face = &quot;bold&quot;, hjust = 0, color = &quot;white&quot;),  
+      legend.position = &quot;none&quot;,  
+      legend.text.align = NULL,  
+      legend.title.align = NULL,  
+      legend.direction = &quot;vertical&quot;,  
+      legend.box = NULL, 
+      # Specify panel options
+      panel.background = element_rect(fill = &quot; gray10&quot;, color  =  NA),  
+      #panel.border = element_rect(fill = NA, color = &quot;white&quot;),  
+      panel.border = element_blank(),
+      panel.grid.major = element_line(color = &quot;grey35&quot;),  
+      panel.grid.minor = element_line(color = &quot;grey20&quot;),  
+      panel.spacing = unit(0.5, &quot;lines&quot;),   
+      # Specify facetting options
+      strip.background = element_rect(fill = &quot;grey30&quot;, color = &quot;grey10&quot;),  
+      strip.text.x = element_text(size = base_size*0.8, color = &quot;white&quot;),  
+      strip.text.y = element_text(size = base_size*0.8, color = &quot;white&quot;,angle = -90),  
+      # Specify plot options
+      plot.background = element_rect(color = &quot; gray10&quot;, fill = &quot; gray10&quot;),  
+      plot.title = element_text(size = base_size*1.2, color = &quot;white&quot;,hjust=0,lineheight=1.25,
+                                margin=margin(2,2,2,2)),  
+      plot.subtitle = element_text(size = base_size*1, color = &quot;white&quot;,hjust=0,  margin=margin(2,2,2,2)),  
+      plot.caption = element_text(size = base_size*0.8, color = &quot;white&quot;,hjust=0),  
+      plot.margin = unit(rep(1, 4), &quot;lines&quot;)
+      
+    )
+  
+}
+
+# make plot
+ggplot(data=df[2015~2017], aes(x=date,y=price,fill=price))+
+  geom_point(data=df[2015~2017],size=2,color=&quot;gray&quot;,alpha=0.5,shape=21,fill=&quot;orange&quot;)+
+  geom_line(color=&quot;orange&quot;,size=0.5)+
+  #geom_step(color=&quot;orange&quot;, size=1.1)+
+  theme_spooky(base_family=&quot;Chiller&quot;,base_size=20)+
+  labs(x=&quot;&quot;, y=&quot;&quot;,
+       title=&quot;30-year Fixed Mortgage Rate (%)&quot;,
+       subtitle=&quot;U.S. weekly average rates&quot;,
+       caption=&quot;@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey&quot;)+
+  theme(plot.title=element_text(color=&quot;orange&quot;,face=&quot;bold&quot;,family=&quot;Chiller&quot;,size=24),
+        panel.border=element_blank(),
+        plot.subtitle=element_text(color=&quot;orange&quot;,face=&quot;italic&quot;,family=&quot;Chiller&quot;,size=20),
+        plot.caption=element_text(hjust=0,size=18))</code></pre>
+<p><img src="../../../../img/charts_oct_22_2017/spooky.png"></p>
+</div>
+<div id="save-to-powerpoint" class="section level2">
+<h2>Save to PowerPoint</h2>
+<p>Now that we have our spooky plot we can go ahead an write an animation. In this case the sequential reveal doesn’t really need smooth interpolation (more on that later), so we’ll just write one slide for each observation in our data (dot on the chart).</p>
+<p>What we’re going to do is write a bunch of image files (just like we do when we write a gif), but instead of using <a href="http://imagemagick.org/script/index.php">Imagemagick</a> to compose a gif out of them, we’ll write them to PowerPoint.</p>
+<pre class="r"><code>mydir&lt;-&#39;YOURDIRECTORY&#39;             # where you will save images
+
+dlist&lt;-unique(df[2016~2017]$date)  # get a list of dates
+N&lt;-length(dlist)                   # figure out how many poins we have
+myf &lt;- function(i)
+{
+  file_path = paste0(mydir, &quot;/ts/plot-&quot;,
+                     5000+i ,&quot;.png&quot;)
+  rmin&lt;-3.4                        # set a floor for the image
+  
+  g&lt;-
+    ggplot(data=df[2016~2017], aes(x=date,y=price,fill=price))+
+    geom_line(alpha=0)+                    # add an invisible line for the full time series
+    geom_point(data=filter(df[2016~2017],  # use tibbletime time filtes
+                        date&lt;=dlist[i]),   # plot up to point i
+               
+               size=1.2,color=&quot;gray&quot;,alpha=0.5,shape=21,fill=&quot;orange&quot;)+
+    geom_line(data=filter(df[2016~2017],
+                          date&lt;=dlist[i]),color=&quot;orange&quot;,size=0.5)+
+    theme_spooky(base_family=&quot;Chiller&quot;,base_size=10)+
+    labs(x=&quot;&quot;, y=&quot;&quot;,
+         title=&quot;30-year Fixed Mortgage Rate (%)&quot;,
+         subtitle=&quot;U.S. weekly average rates&quot;,
+         caption=&quot;@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey&quot;)+
+  # modify the theme to make the text a big smaller (experiment to get it right)
+    theme(plot.title=element_text(color=&quot;orange&quot;,face=&quot;bold&quot;,family=&quot;Chiller&quot;,size=14),
+          panel.border=element_blank(),
+          plot.subtitle=element_text(color=&quot;orange&quot;,face=&quot;italic&quot;,family=&quot;Chiller&quot;,size=12),
+          plot.caption=element_text(hjust=0,size=10))
+  # save image
+  ggsave(file_path, g, width = 7, height = 4, units = &quot;cm&quot;,scale=1.5) 
+  return(g)
+}
+
+lapply(1:N,myf)  # equivalent ot purrr::map(1:N, myf)
+g&lt;-myf(N)
+# Pause at end of the animation
+for (i in N:(N+10)) {
+  file_path = paste0(mydir, &quot;/plot-&quot;,5000+i ,&quot;.png&quot;)
+  g&lt;-myf(N)
+  ggsave(file_path, g, width = 7, height = 4 , units = &quot;cm&quot;,scale=1.5) 
+  
+}</code></pre>
+<p>After running through this we’ll have a bunch of images saved in <code>YOURDIRECTORY</code>. Now we can run officer to paste these images into a PowerPoint.</p>
+<pre class="r"><code>my_pres&lt;-read_pptx(&quot;data/blank.pptx&quot;)  #get a blank PowerPoint Template
+# you could make your own spooky-themed template if you like
+
+# function to write slides
+myp&lt;- function(i){
+my_pres %&gt;% 
+  add_slide(layout = &quot;Blank&quot;, master = &quot;Office Theme&quot;) %&gt;%
+  ph_with_img_at( src= paste0(mydir, &quot;/plot-&quot;,5000+i ,&quot;.png&quot;) , 0.1, 0.1, 9.8,7.3) -&gt;
+  my_pres
+  print(i)  # could add a counter if you want
+}
+# use purrr::walk to write slides
+walk(1:104,myp)
+# save your spooky slides:
+my_pres %&gt;%
+  print( target = &quot;WHEREYOUWANTYOURSLIDES/spooky.pptx&quot;) %&gt;% 
+  invisible()</code></pre>
+<div id="ok-so-now-you-want-an-animation" class="section level3">
+<h3>OK, so now you want an animation</h3>
+<p>We’ve now got a spooky PowerPoint with about 100 slides. You can use PowerPoint’s Export functionality to save to mp4 format (I’m using Office Professional Plus 2013 for Windows, might differ for you). Be sure to decrease the seconds spent on each slide to something like 0.02 seconds or you’ll have a very slow animation.</p>
+<p><img src="../../../../img/charts_oct_22_2017/save_img.png"></p>
+<p>Saving it will give you file like this <a href="../../../../img/charts_oct_22_2017/spooky.mp4">spooky.mp4</a>.</p>
+</div>
+</div>
+</div>
+<div id="using-tweenr-for-smooth-interpolations" class="section level1">
+<h1>Using tweenr for smooth interpolations</h1>
+<p>Let’s try another animation and use <a href="https://CRAN.R-project.org/package=tweenr">tweenr</a> to make smooth interpolations between states.</p>
+<p>For this example, let’s compare the distribution of mortgage loan sizes in 2016 for the states of California, Texas, and Ohio.</p>
+<p>We’ll use the <a href="https://www.ffiec.gov/hmda/">Home Mortgage Disclosure (HMDA)</a> data.</p>
+<p>These data provide the closest thing to a publicly-available comprehensive summary of U.S. mortgage market activity that we’ll get (for right now). The recently released data is for 2016 and provides a detailed view of mortgage market activity across the country.</p>
+<p>We can load our data from a .csv file we get from U.S. Consumer Financial Protection Bureau’s <a href="https://www.consumerfinance.gov/data-research/hmda/">website</a>. Using their filters, I restricted my data to first-lien mortgage loans originated in 2016 for home purchase and refinance of 1-4 family properties. That should give you just over 7.5 million records. This <a href="https://www.consumerfinance.gov/data-research/hmda/explore#!/as_of_year=2016&amp;property_type=1&amp;action_taken=1&amp;loan_purpose=1,3&amp;section=filters">link</a> will take you to the CFPB webpage page with the filters I used. If you go to that page and click download (could take a while) you’ll end up with a file called <code>hmda_lar.csv</code>, which I have saved in a data directory.</p>
+<div id="get-data-and-plot-static-plot" class="section level2">
+<h2>Get data and plot static plot</h2>
+<p>We can get data following the steps outlined in <a href="../../../../2017/10/08/analyzing-mortgage-data-with-r/">this post</a>. In that post we said:</p>
+<blockquote>
+<p>We can load our data from a .csv file we get from U.S. Consumer Financial Protection Bureau’s <a href="https://www.consumerfinance.gov/data-research/hmda/">website</a>. Using their filters, I restricted my data to first-lien mortgage loans originated in 2016 for home purchase and refinance of 1-4 family properties. That should give you just over 7.5 million records. This <a href="https://www.consumerfinance.gov/data-research/hmda/explore#!/as_of_year=2016&amp;property_type=1&amp;action_taken=1&amp;loan_purpose=1,3&amp;section=filters">link</a> will take you to the CFPB webpage page with the filters I used. If you go to that page and click download (could take a while) you’ll end up with a file called <code>hmda_lar.csv</code>, which I have saved in a data directory.</p>
+</blockquote>
+<p>Let’s assume we’ve followed along there and now have a data of first-lien home purchase and refinance mortgage loans on single-family properties in the <a href="https://www.ffiec.gov/hmda/">HMDA</a> data.</p>
+<p>What we want is a smooth animation that compare the distribution of loan sizes across these three states. First, let’s load the data and make a static plot.</p>
+<pre class="r"><code>mydata&lt;-fread(&quot;data/hmda_lar.csv&quot;)
+mydata&lt;-mydata[,list(state_name,state_abbr,county_name,owner_occupancy_name,
+                     loan_amount_000s,loan_purpose_name,loan_type_name, 
+                     agency_abbr,respondent_id,population, 
+                     applicant_income_000s,msamd_name)]
+
+mydata &lt;- mydata[,&quot;:=&quot;(upb=as.numeric(loan_amount_000s),
+                  inc=as.numeric(applicant_income_000s))]
+mydata&lt;- mydata[, ratio:=upb/inc]
+
+
+# Compute density estimates
+# for U.S.
+d.us&lt;-density(mydata$upb, n=100, from=0,to=2000)
+d.ca&lt;-density(mydata[state_abbr==&quot;CA&quot;,]$upb, n=100, from=0,to=2000)
+d.tx&lt;-density(mydata[state_abbr==&quot;TX&quot;,]$upb, n=100, from=0,to=2000)
+d.oh&lt;-density(mydata[state_abbr==&quot;OH&quot;,]$upb, n=100, from=0,to=2000)
+
+# make static plot
+ggplot(data=NULL)+
+  geom_polygon(aes(x=d.ca$x,y=d.ca$y, fill=&quot;CA&quot;),alpha=0.5)+
+  geom_polygon(aes(x=d.tx$x,y=d.tx$y, fill=&quot;TX&quot;),alpha=0.5)+
+  geom_polygon(aes(x=d.oh$x,y=d.oh$y, fill=&quot;OH&quot;),alpha=0.5)+
+  geom_polygon(aes(x=d.us$x,y=d.us$y, fill=&quot;US&quot;),alpha=0,color=&quot;black&quot;,linetype=2,fill=&quot;gray&quot;)+
+  scale_x_log10(breaks=c(50,100,200,500,1000))+
+  scale_fill_viridis(name=&quot;State&quot;,option=&quot;D&quot;,discrete=T)+
+  theme_minimal()+
+  labs(x=&quot;Mortgage loan size in 2016 (1000s $, log scale)&quot;,y=&quot;&quot;,
+       title=&quot;Distribution of mortgage loan size in 2016&quot;,
+       subtitle=&quot;dotted line U.S.&quot;)+
+  theme(legend.position=&quot;top&quot;)</code></pre>
+<p><img src="/post/2017-10-22-combining-powerpoint-and-tweenr-for-smooth-animations_files/figure-html/10-22-2017-hmda-2-1.png" width="672" /></p>
+<p>Now we can take these plots and craft an animation that compares the distribution. We’ll start with just the U.S. density and then morph it (leaving the dotted line behind) to each of our three states. To do so, we’ll use tweenr to more the distribution from on to another.</p>
+<pre class="r"><code># functions to subset data
+myf&lt;-function(s=&quot;ca&quot;){
+  switch(s,
+         us=d.us,
+         ca=d.ca,
+         tx=d.tx,
+         oh=d.oh)
+}
+
+tweenf&lt;-function(s=&quot;ca&quot;){
+  dd&lt;-myf(s)
+  df&lt;-data.frame(x=dd$x,y=dd$y,state=factor(s))
+  return(df)
+}
+my.list&lt;-lapply(c(&quot;us&quot;,&quot;oh&quot;,&quot;tx&quot;,&quot;ca&quot;,&quot;us&quot;),tweenf)  
+tf &lt;- tween_states(my.list, tweenlength= 2, statelength=3, 
+                   ease=rep(&#39;cubic-in-out&#39;,17),nframes=50)
+N&lt;-max(tf$.frame)  # number of animation frames
+
+plotf&lt;-function(i=N) {
+  g&lt;-
+    ggplot(data=filter(tf,.frame==i))+
+    geom_polygon(data=tweenf(&quot;oh&quot;),alpha=0,aes(x=x,y=y,fill=state))+
+    geom_polygon(data=tweenf(&quot;ca&quot;),alpha=0,aes(x=x,y=y,fill=state))+
+    geom_polygon(data=tweenf(&quot;tx&quot;),alpha=0,aes(x=x,y=y,fill=state))+
+    geom_polygon(data=tweenf(&quot;us&quot;),alpha=0,aes(x=x,y=y,fill=state))+
+    geom_polygon(aes(x=d.us$x,y=d.us$y, fill=&quot;US&quot;),alpha=0,color=&quot;black&quot;,linetype=2,fill=&quot;gray&quot;)+
+    geom_polygon(aes(x=x,y=y),fill=&quot;royalblue&quot;,alpha=0.5)+
+    scale_x_log10(breaks=c(50,100,200,500,1000))+
+    scale_fill_viridis(name=&quot;State&quot;,option=&quot;D&quot;,discrete=T)+
+    theme_minimal()+
+    labs(x=&quot;Mortgage loan size in 2016 (1000s $, log scale)&quot;,y=&quot;&quot;,
+         title=&quot;Distribution of mortgage loan size in 2016&quot;,
+         subtitle=paste(&quot;dotted line U.S., shaded area&quot;,head(filter(tf,.frame==i),1)$state),
+         caption=&quot;@lenkiefer Source: FFIEC, CFPB 2016 HMDA data&quot;)+
+    theme(legend.position=&quot;none&quot;,
+          plot.caption=element_text(hjust=0))
+}
+
+# Load blank.pptx, an empty powerpoint that serves as a template
+my_pres&lt;-read_pptx(&quot;data/blank.pptx&quot;)
+# function for adding slides
+myp&lt;- function(i){
+  my_pres %&gt;% 
+    add_slide(layout = &quot;Blank&quot;, master = &quot;Office Theme&quot;) %&gt;%
+    ph_with_vg_at( code=print(plotf(i)) , 0.1, 0.1, 9.8,7.3) -&gt;
+    my_pres
+  print(i)
+}
+
+# use purrr::walk() to write the files
+walk(1:N,myp)
+
+# save the .pptx file
+my_pres %&gt;%
+  print( target = paste0(mydir,&quot;/hmda_dens.pptx&quot;)) %&gt;% 
+  invisible()</code></pre>
+<p>Running this will give you a PowerPoint deck with a bunch of slides. You can watch it in PowerPoint as a slideshow or export as a movie. I’ve converted the mp4 file into a gif file you can see below:</p>
+<p><img src="../../../../img/charts_oct_22_2017/hmda_dens.gif"></p>
+</div>
+</div>
+<div id="animating-a-single-slide." class="section level1">
+<h1>Animating a single slide.</h1>
+<p>This can be fun. Remember our <a href="../../../../2017/07/27/kandinsky/">kandinsky plot</a> we made with the <a href="https://github.com/gsimchoni/kandinsky">kandinsky package</a>? We can make an animated one with PowerPoint. What we can do is save a single slide, but then animate it sequentially using PowerPoint’s animated reveal.</p>
+<pre class="r"><code>kandinsky::kandinsky(myx) #myx is some data.frame </code></pre>
+<p><img src="/post/2017-10-22-combining-powerpoint-and-tweenr-for-smooth-animations_files/figure-html/10-22-2017-make-kandinsky-1.png" width="672" /></p>
+<pre class="r"><code>my_pres&lt;-read_pptx(&quot;data/blank.pptx&quot;)
+my_pres %&gt;%
+  add_slide(&quot;Title and Content&quot;,&quot;Office Theme&quot;) %&gt;%
+  ph_with_text(type=&quot;title&quot;, str=&quot;...&quot;) %&gt;%
+  ph_with_vg(type=&quot;body&quot;,index=1,code= print(kandinsky::kandinsky(myx)) )%&gt;%
+  print( target = &quot;kandisnky.pptx&quot;) %&gt;% 
+  invisible()</code></pre>
+<p>Useful? Maybe not. But maybe kind of fun.</p>
+<p><img src="../../../../img/charts_oct_22_2017/kandinsky_oct_22_2017.gif"></p>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2017/10/21/purrrtier-powerpoint-with-r/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2017/10/21/purrrtier-powerpoint-with-r/">Purrrtier PowerPoint with R</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="/2017/10/23/sharing-is-caring/">Sharing is caring</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="/2017/10/23/sharing-is-caring/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/animation/">animation</a>, 
+            
+                <a href="/tags/dataviz/">dataviz</a>, 
+            
+                <a href="/tags/office/">Office</a>, 
+            
+                <a href="/tags/r/">R</a>, 
+            
+                <a href="/tags/slides/">slides</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2017%2f10%2f22%2fsmooth-animations-r-pptx%2f&text=Combining%20PowerPoint%20and%20R%27s%20tweenr%20for%20smooth%20animations via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2017%2f10%2f22%2fsmooth-animations-r-pptx%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+

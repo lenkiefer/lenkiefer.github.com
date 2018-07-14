@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>State house price growth trends: animated ribbon dataviz &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="State house price growth trends: animated ribbon dataviz">
+    <meta property="og:description" content="TIME FOR A NEW HOUSE PRICE VISUALIZATIONS.
+In this post I’ll new way to visualize recent house price trends with R.
+DataWe’re going to be visualizing the Freddie Mac House Price Index. We talked about these data earlier this month, see this post for some other visualizations.
+You can download the Excel spreadsheet with state house price index values here. Note that this code is based on the release with data through March, 2017, future releases may shift the exact location of the cells.">
+
+<div class="header">
+  <h1>State house price growth trends: animated ribbon dataviz</h1>
+  <h2></h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2017/05/18</time>
+  </div>
+
+  
+
+  
+
+  
+
+</div>
+
+  <p>TIME FOR A NEW HOUSE PRICE VISUALIZATIONS.</p>
+<p>In this post I’ll new way to visualize recent house price trends with <a href="https://www.r-project.org/">R</a>.</p>
+<div id="data" class="section level2">
+<h2>Data</h2>
+<p>We’re going to be visualizing the <a href="http://www.freddiemac.com/finance/house_price_index.html">Freddie Mac House Price Index</a>. We talked about these data earlier this month, see <a href="../../../../2017/05/02/house-price-viz">this post</a> for some other visualizations.</p>
+<p>You can download the Excel spreadsheet with state house price index values <a href="http://www.freddiemac.com/finance/fmhpi/current/excel/states.xls">here</a>. Note that this code is based on the release with data through March, 2017, future releases may shift the exact location of the cells. Using the <code>range</code> argument of readxl we can reach into the spreadsheet and get our data ready. Let’s try it:</p>
+<pre class="r"><code>library(zoo,quietly=T,warn.conflicts = F)      # used for rolling window operations
+library(readxl,quietly=T,warn.conflicts=F)
+library(purrr,quietly=T,warn.conflicts=F)
+library(animation,quietly=T,warn.conflicts=F)
+library(tweenr,quietly=T,warn.conflicts=F)
+library(ggplot2,quietly=T,warn.conflicts=F)
+library(tidyr,quietly=T,warn.conflicts=F)
+library(dplyr,quietly=T,warn.conflicts=F)
+library(lubridate,quietly=T,warn.conflicts=F)
+library(data.table,quietly=T,warn.conflicts=F) # for the shift function
+library(scales,quietly=T,warn.conflicts=F)    # for labels
+
+###############################################################################
+#### Read in HPI data  
+###############################################################################
+
+df&lt;-read_excel(&quot;data/states.xls&quot;, 
+               sheet = &quot;State Indices&quot;,  # name of sheet
+               range=&quot;B6:BB513&quot; )        # range where data lives
+
+###############################################################################
+#### Set up dates from January 1975 to March 2017
+###############################################################################
+
+df$date&lt;-seq.Date(as.Date(&quot;1975-01-01&quot;),as.Date(&quot;2017-03-01&quot;),by=&quot;1 month&quot;)
+df.state&lt;-df %&gt;% gather(geo,hpi,-date) %&gt;% mutate(type=&quot;state&quot;)</code></pre>
+<p>Now that our data is loaded we can do some manipulations. In particular, I want to append the national U.S. average index as a new variable in the data.</p>
+<pre class="r"><code>###############################################################################
+#### Transform data
+#### Needs library zoo for the rolling window operations
+###############################################################################
+df.state&lt;-
+  df.state %&gt;% group_by(geo) %&gt;% 
+  mutate(hpa=hpi/shift(hpi,12)-1,
+         hpilag12=shift(hpi,12,fill=NA),
+         hpimax12=zoo::rollmax(hpi,13,align=&quot;right&quot;,fill=NA),
+         hpimin12=-zoo::rollmax(-hpi,13,align=&quot;right&quot;,fill=NA)) %&gt;% ungroup()
+
+###############################################################################
+#### Transform data
+#### Add national variable as us.hpi, us.hpa variables
+###############################################################################
+
+df.state&lt;-df.state %&gt;% group_by(date) %&gt;% 
+  mutate(us.hpa=hpa[geo==&quot;United States not seasonally adjusted&quot;],
+         us.hpi=hpi[geo==&quot;United States not seasonally adjusted&quot;]) %&gt;%
+  mutate(up=ifelse(hpa&gt;us.hpa,hpa,us.hpa),
+         down=ifelse(hpa&lt;=us.hpa,hpa,us.hpa)) %&gt;% 
+  ungroup()</code></pre>
+</div>
+<div id="make-some-plots" class="section level2">
+<h2>Make some plots</h2>
+<p>Now with the data ready, let’s make a plot. First let’s remix a visualization we’ve made <a href="../../../../2017/01/18/workin-workout">back in January</a>. In that visualization we compare U.S. unemployment to state unemployment. Now let’s do it for state house prices. First, take a look:</p>
+<pre class="r"><code>###############################################################################
+#### Create a function to filter data on state
+###############################################################################
+myf&lt;-function(s){
+  df&lt;- filter(df.state,geo==s &amp; year(date)&gt;1990)
+  df %&gt;% map_if(is.character, as.factor) %&gt;% as_data_frame -&gt; df
+  return(df)
+}
+
+###############################################################################
+#### Create a function to plot the data
+###############################################################################
+
+myplotf&lt;-function(df){
+  g&lt;-
+    ggplot(data=df,
+         aes(x=date,y=hpa,fill=hpa))+
+    geom_line(linetype=2)+
+    geom_ribbon(color=NA,fill=&quot;#4575b4&quot;,alpha=0.5,aes(ymin=down,ymax=hpa))+
+    geom_ribbon(color=NA,fill=&quot;#d73027&quot;,alpha=0.5,aes(ymin=hpa,ymax=up))+
+    geom_rug(data=filter(df,hpa&gt;us.hpa),color=&quot;#4575b4&quot;,sides=&quot;b&quot;)+
+    geom_rug(data=filter(df,hpa&lt;us.hpa),color=&quot;#d73027&quot;,sides=&quot;b&quot;)+
+    facet_wrap(~geo,ncol=5)+
+    geom_hline(yintercept=0,linetype=1,color=&quot;darkgray&quot;)+
+    geom_line(aes(y=us.hpa),linetype=1,size=1.1)+
+    theme_minimal()+
+    scale_y_continuous(label=percent,limits=c(-0.4,0.4),breaks=seq(-0.4,.4,.1))+
+    labs(x=&quot;&quot;,y=&quot;&quot;,
+         title=&quot;House Price Appreciation (y/y %)&quot;,
+         subtitle=&quot;Solid line U.S., dotted line state, blue (red) indicates state above (below) U.S.&quot;,
+         caption=&quot;@lenkiefer Source: Freddie Mac House Price Index&quot;)+
+    theme(plot.caption=element_text(hjust=0),
+          plot.subtitle=element_text(face=&quot;italic&quot;),
+          legend.position=&quot;none&quot;)
+  return(g)
+}
+
+###############################################################################
+#### Plot California
+###############################################################################
+
+myplotf(myf(&quot;CA&quot;))</code></pre>
+<p><img src="/post/2017-05-18-state-hpa_files/figure-html/05-18-2017-readxl-plot2-1.png" width="672" /></p>
+<p>Now let’s try a small multiple:</p>
+<pre class="r"><code>myplotf(filter(df.state,year(date)&gt;1990  &amp;
+         !(geo %in%   c(&quot;United States not seasonally adjusted&quot;, 
+                           &quot;United States seasonally adjusted&quot;,&quot;DC&quot;))))</code></pre>
+<p><img src="/post/2017-05-18-state-hpa_files/figure-html/05-18-2017-readxl-plot3-1.png" width="672" /></p>
+<p>And add animation:</p>
+<pre class="r"><code>#### Create Animation ##############################################################################
+
+mylist&lt;-lapply(c(&quot;United States not seasonally adjusted&quot;,st.list,&quot;United States not seasonally adjusted&quot;),myf)
+
+
+tween.df&lt;-tween_states(mylist,tweenlength=1,statelength=2, 
+                       ease=rep(&#39;cubic-in-out&#39;,53), nframes=350)
+tween.df&lt;-data.table(tween.df)
+
+
+oopt = ani.options(interval = 0.15)
+saveGIF({for (i in 1:max(tween.df$.frame)) {
+  g&lt;-myplotf(filter(tween.df,.frame==i))
+  print(g)
+  print(i)
+  ani.pause()
+}
+},movie.name=&quot;state ribbon hpa tween 05 18 2017.gif&quot;,ani.width = 600, ani.height =400)</code></pre>
+<p><img src="../../../../img/charts_may_18_2017/state ribbon hpa tween 05 18 2017.gif" ></p>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2017/05/03/house-price-emp-trends/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2017/05/03/house-price-emp-trends/">House price growth and employment trends</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="/2017/05/21/consumer-prices-household-debt/">Consumer prices, household debt</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="/2017/05/21/consumer-prices-household-debt/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2017%2f05%2f18%2fstate-hpa%2f&text=State%20house%20price%20growth%20trends%3a%20animated%20ribbon%20dataviz via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2017%2f05%2f18%2fstate-hpa%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+

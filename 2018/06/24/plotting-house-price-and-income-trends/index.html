@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="In this post we will create some plots of house prices and incomes for the United States and individual states.  We will also try out the bea.R package to get data from the U.S. Bureau of Economic Analysis..">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>Plotting house price and income trends &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com//img/charts_jun_24_2018/combo_pti.png" >
+     
+    <meta property="og:title" content="Plotting house price and income trends">
+    <meta property="og:description" content="In this post we will create some plots of house prices and incomes for the United States and individual states.  We will also try out the bea.R package to get data from the U.S. Bureau of Economic Analysis..">
+
+<div class="header">
+  <h1>Plotting house price and income trends</h1>
+  <h2>In this post we will create some plots of house prices and incomes for the United States and individual states.  We will also try out the bea.R package to get data from the U.S. Bureau of Economic Analysis..</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/06/24</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/house-prices">house prices</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/data-wrangling">data wrangling</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <p>In this post we will create some plots of house prices and incomes for the United States and individual states. We will also try out the <a href="https://github.com/us-bea/bea.R">bea.R</a> package to get data from the U.S. Bureau of Economic Analysis.</p>
+<p>We’ll end up with something like this:</p>
+<p><img src="../../../../img/charts_jun_24_2018/spark6.gif"></p>
+<p>Per usual we’ll do it with <a href="https://www.r-project.org/">R</a> and I’ll include code so you can follow along.</p>
+<div id="data" class="section level1">
+<h1>Data</h1>
+<p>We’re going to use two sources of data. First, we’ll get the <a href="https://www.fhfa.gov/DataTools/Downloads/Pages/House-Price-Index.aspx">FHFA house price index</a> and then we’ll get per capita income estimates from the <a href="https://www.bea.gov">United States Bureau of Economic Analysis (BEA)</a>.</p>
+<p>We could get most of these data via the Saint Louis Federal Reserve’s <a href="https://fred.stlouisfed.org/">FRED</a>. While FRED is a great resource, as much as possible I like to go directly to the source for the data. This also gives us a chance to work with the <code>bea.R</code> package, <a href="https://CRAN.R-project.org/package=bea.R">available on CRAN</a>.</p>
+<p>Let’s get to wrestling the data.</p>
+<div id="house-price-index" class="section level2">
+<h2>House Price Index</h2>
+<p>The house price index data we want is available via a flat text file on the FHFA webpage (<a href="https://www.fhfa.gov/DataTools/Downloads/Documents/HPI/HPI_master.csv">large .csv file</a>). We can use the <a href="https://CRAN.R-project.org/package=data.table">data.table</a> function <code>data.table::fread()</code> to read the data in. Then we’ll filter the file down to the quarterly purchase-only house price index for states and the United States.</p>
+<pre class="r"><code># Load Libraries ---- 
+library(data.table)
+library(tidyverse)
+library(ggridges) #for gradient shading
+library(viridis)
+library(bea.R)
+library(tigris) # for maps
+library(cowplot)
+library(animation) #for animation
+library(ggthemes)
+
+# This gets all hpi data
+df.hpi&lt;-fread(&quot;https://www.fhfa.gov/DataTools/Downloads/Documents/HPI/HPI_master.csv&quot;)
+# Take a look
+knitr::kable(head(df.hpi))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">hpi_type</th>
+<th align="left">hpi_flavor</th>
+<th align="left">frequency</th>
+<th align="left">level</th>
+<th align="left">place_name</th>
+<th align="left">place_id</th>
+<th align="right">yr</th>
+<th align="right">period</th>
+<th align="right">index_nsa</th>
+<th align="right">index_sa</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">traditional</td>
+<td align="left">purchase-only</td>
+<td align="left">monthly</td>
+<td align="left">USA or Census Division</td>
+<td align="left">East North Central Division</td>
+<td align="left">DV_ENC</td>
+<td align="right">1991</td>
+<td align="right">1</td>
+<td align="right">100.00</td>
+<td align="right">100.00</td>
+</tr>
+<tr class="even">
+<td align="left">traditional</td>
+<td align="left">purchase-only</td>
+<td align="left">monthly</td>
+<td align="left">USA or Census Division</td>
+<td align="left">East North Central Division</td>
+<td align="left">DV_ENC</td>
+<td align="right">1991</td>
+<td align="right">2</td>
+<td align="right">100.99</td>
+<td align="right">101.09</td>
+</tr>
+<tr class="odd">
+<td align="left">traditional</td>
+<td align="left">purchase-only</td>
+<td align="left">monthly</td>
+<td align="left">USA or Census Division</td>
+<td align="left">East North Central Division</td>
+<td align="left">DV_ENC</td>
+<td align="right">1991</td>
+<td align="right">3</td>
+<td align="right">101.35</td>
+<td align="right">101.02</td>
+</tr>
+<tr class="even">
+<td align="left">traditional</td>
+<td align="left">purchase-only</td>
+<td align="left">monthly</td>
+<td align="left">USA or Census Division</td>
+<td align="left">East North Central Division</td>
+<td align="left">DV_ENC</td>
+<td align="right">1991</td>
+<td align="right">4</td>
+<td align="right">101.76</td>
+<td align="right">101.07</td>
+</tr>
+<tr class="odd">
+<td align="left">traditional</td>
+<td align="left">purchase-only</td>
+<td align="left">monthly</td>
+<td align="left">USA or Census Division</td>
+<td align="left">East North Central Division</td>
+<td align="left">DV_ENC</td>
+<td align="right">1991</td>
+<td align="right">5</td>
+<td align="right">102.38</td>
+<td align="right">101.45</td>
+</tr>
+<tr class="even">
+<td align="left">traditional</td>
+<td align="left">purchase-only</td>
+<td align="left">monthly</td>
+<td align="left">USA or Census Division</td>
+<td align="left">East North Central Division</td>
+<td align="left">DV_ENC</td>
+<td align="right">1991</td>
+<td align="right">6</td>
+<td align="right">102.80</td>
+<td align="right">101.56</td>
+</tr>
+</tbody>
+</table>
+<p>There are several files detailing information about the house price index. Additional details can be found <a href="https://www.fhfa.gov/DataTools/Downloads/Pages/House-Price-Index-Datasets.aspx#mpo">here</a>.</p>
+<p>We want to grab the <code>traditional</code> type, <code>purchase-only</code> flavor, quarterly <code>frequency</code>. We’ll set up two <code>data.frames</code> that are subsets of the large data. One for the United States and one for the states.</p>
+<pre class="r"><code># get quarterly purchase-only index for the United States
+df.usa &lt;-df.hpi[frequency==&quot;quarterly&quot; &amp; hpi_flavor==&quot;purchase-only&quot; &amp; place_name==  &quot;United States&quot;,][, hpa:=index_sa/shift(index_sa,4)-1][,date:=as.Date(ISOdate(yr,period*3,1))]
+
+# get quarterly purchase-only state indices
+df.st &lt;- df.hpi[frequency==&quot;quarterly&quot; &amp; hpi_flavor==&quot;purchase-only&quot; &amp; level==&quot;State&quot;,]
+df.st &lt;- df.st[,date:=as.Date(ISOdate(yr,period*3,1))]
+
+# Drop D.C.
+df.st &lt;- df.st[place_name !=&quot;District of Columbia&quot;,]
+df.st &lt;- df.st[, place_namef:=factor(place_name)]</code></pre>
+</div>
+<div id="bea-data" class="section level2">
+<h2>BEA data</h2>
+<p>Let’s set aside the house price data for now and go get income data from the BEA. We’ll use the <a href="https://github.com/us-bea/bea.R">bea.R</a> package. In order for this to work for you, make sure you get an API key as detailed in the bea.R documentation. Once you have a key, you’ll then need to figure out what table you need and how to use the API. This example could help.</p>
+<p>For example, per capita income estimates can be found in table <a href="https://www.bea.gov/iTable/iTableHtml.cfm?reqid=70&amp;step=30&amp;isuri=1&amp;7022=36&amp;7023=0&amp;7033=-1&amp;7024=non-industry&amp;7025=0&amp;7026=xx&amp;7027=2018&amp;7001=336&amp;7028=-1&amp;7031=0&amp;7040=-1&amp;7083=levels&amp;7029=36&amp;7090=70">SQ1</a>.</p>
+<p><img src="../../../../img/charts_jun_24_2018/bea.PNG"></p>
+<pre class="r"><code>beaKey  &lt;- &#39;YOUR-API-KEY&#39; #need a key from BEA
+# get annual data for US
+beaSpecs &lt;- list(
+  &#39;UserID&#39; = beaKey ,
+  &#39;Method&#39; = &#39;GetData&#39;,
+  &#39;datasetname&#39; = &#39;RegionalIncome&#39;,
+  &#39;GeoFIPS&#39; = &#39;00000&#39;,
+  &#39;TableName&#39; = &#39;SA1&#39;,
+  &#39;Frequency&#39; = &#39;A&#39;,
+  &#39;Year&#39; = &#39;ALL&#39;,   # All available years
+  &#39;ResultFormat&#39; = &#39;json&#39;,
+  &#39;LineCode&#39; = &#39;3&#39;  # variable, line 3 corresponds to per capita income
+)
+
+us.pcA &lt;- beaGet(beaSpecs, asWide=FALSE)   #query BEA, use a wide format
+us.pcA &lt;-  mutate(us.pcA, yr=substr(TimePeriod,1,4), qtr=2) %&gt;% mutate(date=as.Date(ISOdate(as.numeric(yr),as.numeric(qtr)*3,1)))
+
+# get quarterly data for US
+beaSpecs &lt;- list(
+  &#39;UserID&#39; = beaKey ,
+  &#39;Method&#39; = &#39;GetData&#39;,
+  &#39;datasetname&#39; = &#39;RegionalIncome&#39;,
+  &#39;GeoFIPS&#39; = &#39;00000&#39;, #US
+  &#39;TableName&#39; = &#39;SQ1&#39;,
+  &#39;Frequency&#39; = &#39;Q&#39;, # quarterly frequency
+  &#39;Year&#39; = &#39;ALL&#39;,
+  &#39;ResultFormat&#39; = &#39;json&#39;,
+  &#39;LineCode&#39; = &#39;3&#39;  # variable, line 3 corresponds to per capita income
+)
+us.pcQ &lt;- beaGet(beaSpecs, asWide=FALSE) %&gt;% filter(!is.na(DataValue))
+us.pcQ &lt;- mutate(us.pcQ, yr=substr(TimePeriod,1,4), qtr=substr(TimePeriod,6,6)) %&gt;% mutate(date=as.Date(ISOdate(as.numeric(yr),as.numeric(qtr)*3,1)))
+
+knitr::kable(tail(us.pcQ))  # prints header of table</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="left">Code</th>
+<th align="left">GeoFips</th>
+<th align="left">GeoName</th>
+<th align="left">TimePeriod</th>
+<th align="left">CL_UNIT</th>
+<th align="left">UNIT_MULT</th>
+<th align="right">DataValue</th>
+<th align="left">NoteRef</th>
+<th align="left">yr</th>
+<th align="left">qtr</th>
+<th align="left">date</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>28</td>
+<td align="left">SQ1-3</td>
+<td align="left">00000</td>
+<td align="left">United States</td>
+<td align="left">2016Q4</td>
+<td align="left">dollars</td>
+<td align="left">0</td>
+<td align="right">49350</td>
+<td align="left">NA</td>
+<td align="left">2016</td>
+<td align="left">4</td>
+<td align="left">2016-12-01</td>
+</tr>
+<tr class="even">
+<td>29</td>
+<td align="left">SQ1-3</td>
+<td align="left">00000</td>
+<td align="left">United States</td>
+<td align="left">2017Q1</td>
+<td align="left">dollars</td>
+<td align="left">0</td>
+<td align="right">49962</td>
+<td align="left">NA</td>
+<td align="left">2017</td>
+<td align="left">1</td>
+<td align="left">2017-03-01</td>
+</tr>
+<tr class="odd">
+<td>30</td>
+<td align="left">SQ1-3</td>
+<td align="left">00000</td>
+<td align="left">United States</td>
+<td align="left">2017Q2</td>
+<td align="left">dollars</td>
+<td align="left">0</td>
+<td align="right">50172</td>
+<td align="left">NA</td>
+<td align="left">2017</td>
+<td align="left">2</td>
+<td align="left">2017-06-01</td>
+</tr>
+<tr class="even">
+<td>31</td>
+<td align="left">SQ1-3</td>
+<td align="left">00000</td>
+<td align="left">United States</td>
+<td align="left">2017Q3</td>
+<td align="left">dollars</td>
+<td align="left">0</td>
+<td align="right">50463</td>
+<td align="left">NA</td>
+<td align="left">2017</td>
+<td align="left">3</td>
+<td align="left">2017-09-01</td>
+</tr>
+<tr class="odd">
+<td>32</td>
+<td align="left">SQ1-3</td>
+<td align="left">00000</td>
+<td align="left">United States</td>
+<td align="left">2017Q4</td>
+<td align="left">dollars</td>
+<td align="left">0</td>
+<td align="right">50951</td>
+<td align="left">NA</td>
+<td align="left">2017</td>
+<td align="left">4</td>
+<td align="left">2017-12-01</td>
+</tr>
+<tr class="even">
+<td>33</td>
+<td align="left">SQ1-3</td>
+<td align="left">00000</td>
+<td align="left">United States</td>
+<td align="left">2018Q1</td>
+<td align="left">dollars</td>
+<td align="left">0</td>
+<td align="right">51410</td>
+<td align="left">NA</td>
+<td align="left">2018</td>
+<td align="left">1</td>
+<td align="left">2018-03-01</td>
+</tr>
+</tbody>
+</table>
+<p>To get the states, we need a list of state <a href="https://en.wikipedia.org/wiki/Federal_Information_Processing_Standards">FIPS</a> codes. I happen to have a text file <a href="http://lenkiefer.com/img/charts_feb_20_2017/region.txt">here</a> that has states FIPS codes and regions. Unfortunately this file only has 2 digit FIPS codes formatted as numbers. We need 5 digit numbers (padded left with a leading zero if less than 10 and 3 trailing zeros).</p>
+<pre class="r"><code>region &lt;- fread(&quot;http://lenkiefer.com/img/charts_feb_20_2017/region.txt&quot;)
+knitr::kable(head(region))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">fips</th>
+<th align="left">statecode</th>
+<th align="left">statename</th>
+<th align="left">division</th>
+<th align="left">region</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">9</td>
+<td align="left">CT</td>
+<td align="left">Connecticut</td>
+<td align="left">New England Division</td>
+<td align="left">Northeast Region</td>
+</tr>
+<tr class="even">
+<td align="right">23</td>
+<td align="left">ME</td>
+<td align="left">Maine</td>
+<td align="left">New England Division</td>
+<td align="left">Northeast Region</td>
+</tr>
+<tr class="odd">
+<td align="right">25</td>
+<td align="left">MA</td>
+<td align="left">Massachusetts</td>
+<td align="left">New England Division</td>
+<td align="left">Northeast Region</td>
+</tr>
+<tr class="even">
+<td align="right">33</td>
+<td align="left">NH</td>
+<td align="left">New Hampshire</td>
+<td align="left">New England Division</td>
+<td align="left">Northeast Region</td>
+</tr>
+<tr class="odd">
+<td align="right">44</td>
+<td align="left">RI</td>
+<td align="left">Rhode Island</td>
+<td align="left">New England Division</td>
+<td align="left">Northeast Region</td>
+</tr>
+<tr class="even">
+<td align="right">50</td>
+<td align="left">VT</td>
+<td align="left">Vermont</td>
+<td align="left">New England Division</td>
+<td align="left">Northeast Region</td>
+</tr>
+</tbody>
+</table>
+<p>Now we can create a list and feed it to the <code>beaSpecs</code> list we created.</p>
+<pre class="r"><code>fips.list&lt;- str_pad(region$fips*1000,5,&quot;left&quot;,&quot;0&quot;)  #pad the fips numbers with leading and trailing zeros
+# get state annual data
+beaSpecs &lt;- list(
+  &#39;UserID&#39; = beaKey ,
+  &#39;Method&#39; = &#39;GetData&#39;,
+  &#39;datasetname&#39; = &#39;RegionalIncome&#39;,
+  &#39;GeoFIPS&#39; = paste(fips.list,collapse=&quot;, &quot;),  # convert our list into a coma separated string
+  &#39;TableName&#39; = &#39;SA1&#39;,
+  &#39;Frequency&#39; = &#39;A&#39;,
+  &#39;Year&#39; = &#39;ALL&#39;,
+  &#39;ResultFormat&#39; = &#39;json&#39;,
+  &#39;LineCode&#39; = &#39;3&#39;
+  
+)
+
+st.pcA &lt;- beaGet(beaSpecs, asWide=FALSE) 
+st.pcA &lt;-  mutate(st.pcA, yr=substr(TimePeriod,1,4), qtr=2) %&gt;% mutate(date=as.Date(ISOdate(as.numeric(yr),as.numeric(qtr)*3,1)))
+
+# if we wanted quarterly data we could go to table SQ1:
+# get state quarterly data
+beaSpecs &lt;- list(
+  &#39;UserID&#39; = beaKey ,
+  &#39;Method&#39; = &#39;GetData&#39;,
+  &#39;datasetname&#39; = &#39;RegionalIncome&#39;,
+  &#39;GeoFIPS&#39; = paste(fips.list,collapse=&quot;, &quot;),
+  &#39;TableName&#39; = &#39;SQ1&#39;,
+  &#39;Frequency&#39; = &#39;A&#39;,
+  &#39;Year&#39; = &#39;ALL&#39;,
+  &#39;ResultFormat&#39; = &#39;json&#39;,
+  &#39;LineCode&#39; = &#39;3&#39;
+  
+)
+
+st.pcQ &lt;- beaGet(beaSpecs, asWide=FALSE) %&gt;% filter(!is.na(DataValue))
+st.pcQ &lt;- mutate(st.pcQ, yr=substr(TimePeriod,1,4), qtr=substr(TimePeriod,6,6)) %&gt;% mutate(date=as.Date(ISOdate(as.numeric(yr),as.numeric(qtr)*3,1)))</code></pre>
+</div>
+<div id="merge-the-data" class="section level2">
+<h2>Merge the data</h2>
+<p>Now we’re ready to merge the data. But we have a problem. The house price index data is quarterly, but the quarterly income series only goes back to 2010. If we want a longer time series we either have to interpolate the income data or somehow aggregate the house price index data. I choose the latter. The annual per capita income estimates are midyear, so I’ll take the Q2 house price index data and merge it to the annual per capita income estimates.</p>
+<p>We also have a problem in that the state names have asterisks for Alaska and Hawaii. We’ll use <code>gsub</code> to get rid of the asterisks in the state names.</p>
+<pre class="r"><code># get rid of astericks from Alaska and Hawaii
+st.pcA$GeoName&lt;- gsub(&quot;[*].*$&quot;,&quot;&quot;,st.pcA$GeoName)
+st.pcQ$GeoName&lt;- gsub(&quot;[*].*$&quot;,&quot;&quot;,st.pcQ$GeoName)</code></pre>
+<p>And now we are ready to join the data. Using a left assignment <a href="https://twitter.com/lenkiefer/status/1010882595394129920">I might add</a>.</p>
+<pre class="r"><code># merge to df.usa q=2 for US data
+dt.us &lt;- left_join(filter(df.usa,period==2), select(us.pcA ,date,DataValue), by=&quot;date&quot;)  %&gt;%
+  mutate(hpi=index_sa/index_sa[yr==1991],
+         inc=DataValue/DataValue[yr==1991]) %&gt;% ungroup() %&gt;% data.table() 
+
+# for states join hpi (for Q2) with bea annual income
+df.combined &lt;- left_join(df.st %&gt;% filter(period==2), st.pcA %&gt;% select(Code,GeoName,GeoFips,CL_UNIT,date,DataValue), by=c(&quot;place_name&quot;=&quot;GeoName&quot;,&quot;date&quot;=&quot;date&quot;)) %&gt;% data.table()
+df.combined &lt;- left_join(df.combined, region ,by=c(&quot;place_id&quot;=&quot;statecode&quot;)) 
+
+# compute values relative to 1991 Q4: 
+
+df.combined %&gt;% group_by(place_id) %&gt;% mutate(hpi=index_sa/index_sa[yr==1991],
+                                              inc=DataValue/DataValue[yr==1991]) %&gt;%
+  ungroup() %&gt;% data.table() -&gt; dt</code></pre>
+</div>
+</div>
+<div id="charts" class="section level1">
+<h1>Charts</h1>
+<p>As I was making this post, I went down a very dark and twisted path. I eventually ended up trying to replicate <a href="https://ggplot2.tidyverse.org/reference/facet_grid.html">ggplot2</a> facets, using ggplot2! But we can skip most of that business and just use standard facets. You can see the results of that experiment on <a href="https://twitter.com/lenkiefer/status/1010639756798185477">Twitter</a>:</p>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/dataviz?src=hash&amp;ref_src=twsrc%5Etfw">#dataviz</a> experiment. little animated sparklines <a href="https://t.co/xkoNFCCsM7">pic.twitter.com/xkoNFCCsM7</a></p>&mdash; Leonard Kiefer (@lenkiefer) <a href="https://twitter.com/lenkiefer/status/1010639756798185477?ref_src=twsrc%5Etfw">June 23, 2018</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+ 
+<p>Let’s begin by comparing annual house prices and per capita income for the United States. It will be useful to construct a function.</p>
+<pre class="r"><code># list of dates
+dlist2 &lt;- unique(dt.us$date)
+
+
+gf2.us &lt;- function(i=27){
+  ggplot(data=dt.us[date&gt;=dlist2[1] &amp; date&lt;=dlist2[i], ],
+         aes(x=date,y=hpi,group=place_name))+
+    geom_line(aes(color=&quot;House Prices&quot;),size=1.05)+
+    geom_line(aes(color=&quot;Per capita income&quot;, y=inc),linetype=2,size=1.025)+
+    theme(strip.text.y = element_text(angle = 0, size=8))+
+    scale_color_manual(name=&quot;indicates: &quot;,values=c(&quot;#d73027&quot;,&quot;#4575b4&quot;))+
+    labs(y=&quot;&quot;,x=&quot;&quot;, title=&quot;U.S. House prices and per capita income: 1991-2017 (annual, indexed 1991=1)&quot;,
+         caption=&quot;@lenkiefer Sources: House prices: FHFA purchase-only house price index (SA), 2nd quarter of each year,\nIncome: BEA annual per capita income Table SA1, line 3&quot;)+
+    theme(legend.position=&quot;top&quot;)+
+    scale_x_date(limits=c(min(dt.us$date), max(dt.us$date)),date_breaks=&quot;1 year&quot;, date_labels=&quot;%y&quot;)+
+    scale_y_continuous(breaks=seq(0,2.5,0.5), limits=c(0.5,2.6))
+
+}
+
+gf2.us()</code></pre>
+<p><img src="/post/2018-06-24-plotting-house-price-and-income-trends_files/figure-html/06-24-2018-plot-7-1.png" width="672" /></p>
+<p>Next, we can construct the ratio of these two index values to see how much house prices have moved relative to incomes.</p>
+<pre class="r"><code>gf.us &lt;- function(i=27){
+  ggplot(data=dt.us[date&gt;=dlist2[1] &amp; date&lt;=dlist2[i], ],
+         aes(x=date,y=hpi/inc,group=place_name))+geom_line()+
+    theme_gray()+
+    theme(strip.text.y = element_text(angle = 0, size=8))+
+    geom_ridgeline_gradient(aes(fill=hpi/inc, height=hpi/inc-1,y=1), color=&quot;black&quot;, min_height= -1)   +
+    labs(y=&quot;&quot;,x=&quot;&quot;, title=&quot;Ratio U.S. House prices-to-per capita income\n1991-2017 (annual, indexed 1991=1)&quot;,
+         caption=&quot;@lenkiefer Sources: House prices: FHFA purchase-only house price index (SA), 2nd quarter of each year,\nIncome: BEA annual per capita income Table SA1, line 3&quot;)+
+    scale_fill_viridis(option=&quot;B&quot;, name=&quot;Ratio: 1991=1 &quot;,end=0.9,begin=0.1, limits=c(0,2))  +  
+    theme(legend.position=&quot;top&quot;)+
+    scale_x_date(limits=c(dlist2[1], dlist2[i]),breaks=c(dlist2[1], dlist2[i]), date_labels=&quot;%y&quot;)+
+    scale_y_continuous(breaks=seq(0,2.5,0.25), limits=c(0.5,1.5))
+  
+}
+gf.us()</code></pre>
+<p><img src="/post/2018-06-24-plotting-house-price-and-income-trends_files/figure-html/06-24-2018-plot-8-1.png" width="672" /></p>
+<p>It might be instructive to make a map. We’ll use the <a href="https://CRAN.R-project.org/package=tigris">tigris</a> package to construct a state map for the United States (excluding Alaska and Hawaii).</p>
+<pre class="r"><code>us_geo2 &lt;- states(cb=TRUE) 
+us_geo48 &lt;- us_geo2[! us_geo2@data$STUSPS %in% c(&quot;AK&quot;,&quot;PR&quot;,&quot;VI&quot;,&quot;HI&quot;,&quot;GU&quot;,&quot;MP&quot;,&quot;AS&quot;), ]
+us_geo48@data$id &lt;- rownames(us_geo48@data)
+us_geo48f &lt;- fortify(us_geo48)
+us_geo48f &lt;- left_join(us_geo48f,us_geo48@data, by=&quot;id&quot;)</code></pre>
+<p>Then we can create a map.</p>
+<pre class="r"><code>gmap.us &lt;- function(i=27){
+  df.map &lt;- left_join(us_geo48f,dt[date==dlist2[i],], by=c(&quot;NAME&quot;=&quot;place_name&quot;))
+  g.map &lt;-
+    ggplot(data=df.map,
+           aes(x=long,y=lat, map_id=id, group=group,
+               fill=hpi/inc))+
+    geom_polygon(color=&quot;white&quot;)+theme_map()+
+    scale_fill_viridis(option=&quot;B&quot;, name=&quot;Ratio: 1991=1 &quot;,  label=scales::percent, end=0.9,begin=0.1, limits=c(.5,2))+  
+    labs(title=paste0(&quot;Ratio in &quot;,as.character(dlist2[i],&quot;%Y&quot;)))+
+    theme(legend.position=&quot;none&quot;,
+          plot.caption=element_text(hjust=1),
+          plot.title=element_text(hjust=0,face=&quot;bold&quot;,size=14)) 
+  g.map
+}
+gmap.us()+
+  theme(legend.position=&quot;top&quot;)+
+  labs(title=&quot;House price-to-per capita income ratio in 2017 (1991=1)&quot;,caption=&quot;@lenkiefer Sources: House prices: FHFA purchase-only house price index (SA), 2nd quarter of each year,\nIncome: BEA annual per capita income Table SA1, line 3&quot;)</code></pre>
+<p><img src="/post/2018-06-24-plotting-house-price-and-income-trends_files/figure-html/06-24-2018-plot-9-1.png" width="672" /></p>
+<p>Now we can combine our timeline for the United States and map with a set of little timelines for the states.</p>
+<pre class="r"><code># create a factor
+dt &lt;- dt[, place_namef:=factor(place_name)]
+# reverse order of factor:
+df.st$place_namef&lt;- factor(df.st$place_namef, levels=rev(levels(df.st$place_namef)))
+
+gf &lt;- function(i,in.start,in.end){
+ggplot(data=dt[ place_namef %in% levels(dt$place_namef)[in.start:in.end] &amp;  date&gt;=dlist2[1] &amp; date&lt;=dlist2[i], ],
+       aes(x=date,y=hpi/inc,group=place_name))+geom_line()+facet_grid(place_name~.)+
+  theme(strip.text.y = element_text(angle = 0, size=8))+
+  geom_ridgeline_gradient(aes(fill=hpi/inc, height=hpi/inc-1,y=1), color=&quot;black&quot;, min_height= -1)   +
+  labs(y=&quot;&quot;,x=&quot;&quot;)+
+  scale_fill_viridis(option=&quot;B&quot;, name=&quot;Ratio: 1991=1 &quot;,  label=scales::percent,end=0.9,begin=0.1, limits=c(0,2))  +  
+  theme(legend.position=&quot;none&quot;, axis.text.y=element_blank())+
+  scale_x_date(limits=c(dlist2[start], dlist2[i]),breaks=c(dlist2[start], dlist2[i]), date_labels=&quot;%y&quot;)+
+  scale_y_continuous(breaks=1, limits=c(0.5,2))
+}
+
+myf6 &lt;- function(i=27){
+g.spark &lt;- cowplot::plot_grid(gf(i,41,50),gf(i,31,40),gf(i,21,30),gf(i,11,20),gf(i,1,10),ncol=5)
+cowplot::plot_grid(cowplot::plot_grid(gf.us(i),gmap.us(i),ncol=2),g.spark,ncol=1)
+}
+myf6()  </code></pre>
+<p><img src="../../../../img/charts_jun_24_2018/combo_pti.png"></p>
+<p>And then we can animate it. See <a href="http://lenkiefer.com/tags/animation/">here</a> for many posts on animating charts.</p>
+<pre class="r"><code>saveGIF({for (i in 1:length(dlist2)){
+
+  g&lt;-myf6(i)
+  print(g)
+  print(paste(i,&quot;out of&quot;,length(dlist2)))
+  ani.pause()
+}
+  for (ii in 1:10){
+    print(g)
+    ani.pause()
+    print(ii)
+  }
+  
+}, movie.name = &quot;spark6.gif&quot;, ani.width=840, ani.height=650)</code></pre>
+<p><img src="../../../../img/charts_jun_24_2018/spark6.gif"></p>
+<p>You could modify the code above to keep the axis fixed:</p>
+<p><img src="../../../../img/charts_jun_24_2018/sparkv4c.gif"></p>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2018/06/10/kalman-filter-for-a-dynamic-linear-model-in-r/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2018/06/10/kalman-filter-for-a-dynamic-linear-model-in-r/">Kalman Filter for a dynamic linear model in R</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="/2018/07/01/exploring-housing-data-with-r-and-ipums-usa/">Exploring housing data with R and IPUMS USA</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="/2018/07/01/exploring-housing-data-with-r-and-ipums-usa/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/r/">R</a>, 
+            
+                <a href="/tags/dataviz/">dataviz</a>, 
+            
+                <a href="/tags/house-prices/">house prices</a>, 
+            
+                <a href="/tags/data-wrangling/">data wrangling</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2018%2f06%2f24%2fplotting-house-price-and-income-trends%2f&text=Plotting%20house%20price%20and%20income%20trends via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2018%2f06%2f24%2fplotting-house-price-and-income-trends%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+

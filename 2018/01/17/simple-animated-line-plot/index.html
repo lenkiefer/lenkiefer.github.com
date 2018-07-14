@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Here is some simple code to make an animated line plot for a time series using R.">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>Simple animated line plot with R &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com//img/charts_jan_17_2018/cpi.png" >
+     
+    <meta property="og:title" content="Simple animated line plot with R">
+    <meta property="og:description" content="Here is some simple code to make an animated line plot for a time series using R.">
+
+<div class="header">
+  <h1>Simple animated line plot with R</h1>
+  <h2>Here is some simple code to make an animated line plot for a time series using R.</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/01/17</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <p>IN THIS POST I WANT TO SHARE <a href="https://www.r-project.org/">R</a> code for a simple animated line plot using <a href="http://ggplot2.tidyverse.org/">ggplot2</a>.</p>
+<p>In the past I’ve shared similar code, but over time my workflow has evolved. So I thought it would be good to post an updated bit of code. We’ll use economic data from the St. Louis Federal Reserve Economic Database (<a href="https://fred.stlouisfed.org/">FRED</a>). See for example <a href="../../../../2017/09/18/a-tidyquant-um-of-solace/">this post</a> for more on using FRED with the <a href="https://CRAN.R-project.org/package=tidyquant">tidyquant</a> package.</p>
+<div id="get-data" class="section level1">
+<h1>Get data</h1>
+<p>We’ll follow our earlier post and use tidyquant to download some economic data straight from FRED. For this example, we’ll plot the Consumer Price Index (CPI) (<a href="https://fred.stlouisfed.org/series/CPIAUCSL">see on FRED</a>) which comes from the <a href="https://www.bls.gov/cpi/">U.S. Bureau of Labor Statistics (BLS)</a>. In a <a href="../../../../2017/05/21/consumer-prices-household-debt/">post last year</a> we covered how to get CPI data straight from flat files on the BLS webpage.</p>
+<pre class="r"><code>#####################################################################################
+## Step 1: Load Libraries ###
+#####################################################################################
+library(tidyverse)
+library(tidyquant)
+library(scales)
+library(tibbletime)
+
+#####################################################################################
+## Step 2: get data from FRED ###
+#####################################################################################
+
+#####################################################################################
+## Step 2: go get data ###
+#####################################################################################
+
+# Set up tickers
+tickers&lt;- c(&quot;CPIAUCSL&quot;) # Consumer Price Index for All Urban Consumers: All Items (CPIAUCSL) 1982-1984 =100 
+
+# download data via FRED 
+df&lt;-tq_get(tickers,                         # get selected symbols
+            get=&quot;economic.data&quot;,             # use FRED
+            from=&quot;2007-01-01&quot;)               # go from 2007 forward</code></pre>
+<p>To make things easier, we will use the quantmod::Delt function to append the 12-month percent change in the index to our dataframe using <code>mutate</code> like so:</p>
+<pre class="r"><code># add 12-month percent change
+
+df&lt;- mutate(df, d12=quantmod::Delt(price, k=12)) %&gt;% filter(!is.na(d12)) # drop missing obs (first 12 months)</code></pre>
+<p>First, let’s just plot the 12-month percent change in the CPI. We’ll use ggplot2, see <a href="../../../../2017/08/29/low-key/">here</a> for making animations with base R.</p>
+<pre class="r"><code># Make plot
+
+ggplot(data=df,aes(x=date,y=d12))+ 
+  geom_line(color=&quot;royalblue&quot;) + 
+  scale_y_continuous(label=scales::percent, breaks=seq(-.04,.05,.01),
+                     sec.axis=dup_axis())+
+  scale_x_date(date_breaks=&quot;1 years&quot;,date_labels=&quot;%Y&quot;)+
+  theme_minimal()+
+  labs(x=&quot;&quot;,y=&quot;&quot;,title=&quot;U.S. Consumer Price Inflation&quot;,
+       subtitle=&quot;12-month percent change in Consumer Price Index for All Urban Consumer: All Items&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Bureau of Labor Statistics, Consumer Price Index for All Urban Consumers: All Items [CPIAUCSL],\nretrieved from FRED, Federal Reserve Bank of St. Louis; https://fred.stlouisfed.org/series/CPIAUCSL, January 17, 2018.&quot;)+
+  theme(plot.title=element_text(face=&quot;bold&quot;,size=16),
+        plot.subtitle=element_text(face=&quot;italic&quot;,size=12),
+        plot.caption=element_text(hjust=0,size=8))</code></pre>
+<p><img src="/post/2018-01-17-simple-animated-line-plot_files/figure-html/01-17-2018-plot-1-1.png" width="672" /></p>
+<p>Now let’s make a function to plot the 12-month percent change in the consumer price index up to a particular data. That date will be the input of our function. This will help with the animation step.</p>
+<pre class="r"><code>plotf&lt;-function(dd=max(df$date)){
+
+ggplot(data=filter(df, date&lt;=dd), # drop missing obs, only plot if date &lt;=dd
+       aes(x=date,y=d12))+ 
+   
+ #####################################################################################
+ ## This put invisible (alpha=0) layer on so axis stays fixed,
+ ## Alternatively you could manually fix the axis, or maybe let them expand (e.g. http://lenkiefer.com/2017/02/11/expanding-axis/)
+    geom_line(data=df,color=&quot;royalblue&quot;, alpha=0) +  
+ #####################################################################################
+   geom_line(data=filter(df, date&lt;=dd),color=&quot;royalblue&quot;) + 
+  scale_y_continuous(label=scales::percent, breaks=seq(-.04,.05,.01),
+                      sec.axis=dup_axis())+
+   scale_x_date(date_breaks=&quot;1 years&quot;,date_labels=&quot;%Y&quot;)+
+   theme_minimal()+
+   labs(x=&quot;&quot;,y=&quot;&quot;,title=&quot;U.S. Consumer Price Inflation&quot;,
+        subtitle=&quot;12-month percent change in Consumer Price Index for All Urban Consumer: All Items&quot;,
+        caption=&quot;@lenkiefer Source: U.S. Bureau of Labor Statistics, Consumer Price Index for All Urban Consumers: All Items [CPIAUCSL],\nretrieved from FRED, Federal Reserve Bank of St. Louis; https://fred.stlouisfed.org/series/CPIAUCSL, January 17, 2018.&quot;)+
+  theme(plot.title=element_text(face=&quot;bold&quot;,size=16),
+        plot.subtitle=element_text(face=&quot;italic&quot;,size=12),
+        plot.caption=element_text(hjust=0,size=8))
+  
+}</code></pre>
+<p>Now let’s test it out setting the input date (<code>dd</code>) to January 1, 2012:</p>
+<pre class="r"><code>plotf(&quot;2012-01-01&quot;)</code></pre>
+<p><img src="/post/2018-01-17-simple-animated-line-plot_files/figure-html/01-17-2018-plotf-test-1.png" width="672" /></p>
+</div>
+<div id="make-the-animation" class="section level1">
+<h1>Make the animation</h1>
+<p>Now we can make our animation. You might try <a href="https://github.com/dgrtwo/gganimate">gganimate</a> but I’m going to create it manually. I’m going to save a bunch of images into an image directory as .png files. Then I will call <a href="http://imagemagick.org/script/index.php">Imagemagick</a> from the command line (via <a href="https://support.rstudio.com/hc/en-us/articles/115010737148-Using-the-RStudio-Terminal">Rstudio Terminal</a>).</p>
+<pre class="r"><code># get a list of dates
+dlist&lt;-unique(df$date)
+N&lt;- length(dlist)
+
+mydir&lt;-&quot;YOURDIRECTORY&quot;
+#  Set YOURDIRECTORY equal to the place where you want to save image files
+
+# Loop through images
+#  could also use purrr::walk()
+for (i in 1:(N+10)) {
+  file_path = paste0(mydir, &quot;/plot-&quot;,4000+i ,&quot;.png&quot;)
+  g&lt;-plotf(dlist[min(i,length(dlist))])
+  ggsave(file_path, g, width = 10, height = 8, units = &quot;cm&quot;,scale=2) 
+
+  print(paste(i,&quot;out of&quot;,length(dlist)))
+}
+
+# Navigate to YOURDIRECTORY and run  the following to create gif 
+# (you need ImageMagick to run this)
+# magick convert -delay 10 loop -0 *.png  cpi.gif</code></pre>
+<p>Running this should give you something like this:</p>
+<p><img src="../../../../img/charts_jan_17_2018/cpi.gif"></p>
+</div>
+<div id="wrapping-up" class="section level1">
+<h1>Wrapping up</h1>
+<p>We’ve done all these things before in this space, but I thought it would be useful to post a relatively simple example showing my current workflow. I look at a lot of time series data, and sometimes animating a line plot can be helpful.</p>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2017/12/20/state-population-growth-and-house-prices/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2017/12/20/state-population-growth-and-house-prices/">State population growth and house prices</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="/2018/01/23/me-on-a-podcast/">Me on a podcast</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="/2018/01/23/me-on-a-podcast/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/dataviz/">dataviz</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2018%2f01%2f17%2fsimple-animated-line-plot%2f&text=Simple%20animated%20line%20plot%20with%20R via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2018%2f01%2f17%2fsimple-animated-line-plot%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+

@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Back we go into the vasty deep. In this post we look closer at using dynamic model averaging and dynamic logistic regression to forecast recessions.">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>A closer look at forecasting recessions with dynamic model averaging &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com//img/charts_oct_26_2017/dma-logistic-h12.png" >
+     
+    <meta property="og:title" content="A closer look at forecasting recessions with dynamic model averaging">
+    <meta property="og:description" content="Back we go into the vasty deep. In this post we look closer at using dynamic model averaging and dynamic logistic regression to forecast recessions.">
+
+<div class="header">
+  <h1>A closer look at forecasting recessions with dynamic model averaging</h1>
+  <h2>Back we go into the vasty deep. In this post we look closer at using dynamic model averaging and dynamic logistic regression to forecast recessions.</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2017/10/28</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/economy">economy</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/forecasting">forecasting</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/statistics">statistics</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <p>BACK WE GO INTO THE VASTY DEEP. <a href="../../../../2017/10/26/predicting-recessions-with-dynamic-model-averaging/">LAST TIME</a> we introduced the idea of using dynamic model averaging to forecast recessions. I was so excited about the new approach that I didn’t take the time to break down what was going on with it. In this post we’ll look more closely at what’s happening with the <a href="https://CRAN.R-project.org/package=dma">dma</a> packaged when we try to forecast recessions.</p>
+<p>Per usual we’ll do it with <a href="https://www.r-project.org/">R</a> and I’ll include code so you can follow along.</p>
+<div id="background" class="section level1">
+<h1>Background</h1>
+<p>In this section we’ll take a closer look at what’s going on with dynamic model averaging.</p>
+<div id="literature" class="section level2">
+<h2>Literature</h2>
+<p>Still not including a full lit review, but see these paper for background (<em>1 new addition since last time</em>).</p>
+<ol style="list-style-type: decimal">
+<li>See this <a href="https://www.federalreserve.gov/econresdata/notes/feds-notes/2016/which-market-indicators-best-forecast-recessions-20160802.html">FEDS Notes</a> on “Which market indicators best forecast recessions”</li>
+<li>See <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2895940/">this paper</a> <em>Online Prediction Under Model Uncertainty via Dynamic Model Averaging: Application to a Cold Rolling Mill</em></li>
+<li>See <a href="https://www.ncbi.nlm.nih.gov/pubmed/21838812">this paper</a> <em>Dynamic Logistic Regression and Dynamic Model Averaging for Binary Classification</em></li>
+<li>See <a href="http://onlinelibrary.wiley.com/doi/10.1111/j.1468-2354.2012.00704.x/pdf">this paper</a> <em>Forecasting Inflation Using Dynamic Model Averaging</em></li>
+</ol>
+</div>
+<div id="dynamic-model-averaging" class="section level2">
+<h2>Dynamic Model Averaging</h2>
+<p>In this post we’re going to focus on forecasting a binary outcome. In our case, we’re interested in knowing wheter or not the United States is in a recession. Specifically whether the National Bureau of Economic Research (NBER) has declared that a month <span class="math inline">\(t\)</span> falls in a recession. See <a href="http://www.nber.org/cycles.html">here for NBER business cycle dates</a>.</p>
+<p>We will make our forecast at horizon <span class="math inline">\(h\)</span> which is either 0 or 12 (for now). That is, we want to <a href="https://en.wikipedia.org/wiki/Nowcasting_(economics)">nowcast</a> whether current conditions indicate a recession and then see if we can forecast 1 year ahead. The case of <span class="math inline">\(h=0\)</span> isn’t trivial, because typically the NBER only declares a recession start after the fact. For example, though the Great Recession was dated to begin in December 2007, the <a href="http://money.cnn.com/2008/12/01/news/economy/recession/">announcement</a> wasn’t made until December 2008. The NBER announcement dates since 1980 are <a href="http://www.nber.org/cycles/US_Business_Cycle_Expansions_and_Contractions_20120423.pdf">here <em>pdf</em></a>.</p>
+<div id="statistical-models" class="section level3">
+<h3>Statistical model(s)</h3>
+<p>Let’s presume that the probability of the economy being in a recessions <span class="math inline">\(h\)</span> periods from now is given by:</p>
+<p><span class="math display">\[ \text Logit({P}\ (y_t=1\ | \ L_{t}=k,x_{t-h})) = x^{(k)&#39;}_{t-h}\theta^{(k)}_{t-h} \ \ \ \ \ (1)\]</span></p>
+<p>where <span class="math inline">\(\theta^{(k)}_{t-h}\)</span> is a (possibly) time varying parameter vector and <span class="math inline">\(x^{(k)&#39;}_{t-h}\)</span> is a vector of input variables. <span class="math inline">\(L_{t}=k\)</span> indicates that at time <span class="math inline">\(t\)</span> the probability is given by model indexed to <span class="math inline">\(k\)</span>. We suppose that the are <span class="math inline">\(K\)</span> possible models that could drive <span class="math inline">\(y\)</span>. The dimension of <span class="math inline">\(x\)</span> may vary across <span class="math inline">\(k\)</span>.</p>
+<p>Let’s start by assuming that <span class="math inline">\(K=1\)</span> and <span class="math inline">\(\theta^{(k)}_{t-h}=\boldsymbol{\bar{\theta}^{(k)}}\)</span> a constant. Also, we’ll assume that the parameter vector is a scalar (a single variable with no intercept).</p>
+<p>In this case we can estimate our model with a simple logistic regression (like we did last time). Let’s just take a look at how the likelihood of a recession varies for different values of <span class="math inline">\(x\)</span> and different <span class="math inline">\(\boldsymbol{\bar{\theta}}\)</span>.</p>
+<pre class="r"><code>library(tidyverse)
+library(boot)      # has useful inv.logit function
+mytheta &lt;- c(-2,-1,0,1,2) #Possible values of theta 
+
+
+df.m&lt;-expand.grid(x=seq(-3,3,.01),mytheta=mytheta) %&gt;% 
+  mutate(y=inv.logit(mytheta*x))
+
+ggplot(data=df.m, aes(x=x,y=y,color=factor(mytheta), group=mytheta  ))+
+  geom_line(size=1.05)+
+  #geom_text(data=filter(df.m,x==max(df.m$x)),size=5,fontface=&quot;bold&quot;)+
+  scale_color_discrete(name=expression(theta))+
+  theme_minimal()+theme(legend.position=&quot;top&quot;)+
+  labs(title=expression(paste(&quot;Probability Y=1 given different values of x and &quot;,theta)),
+       subtitle=expression(paste(&quot;Logit(P(Y = 1 | x)) = x&#39;&quot;,theta)),
+       y=&quot;P(Y = 1 | x)&quot;)</code></pre>
+<p><img src="/post/2017-10-28-a-closer-look-at-forecasting-recessions-with-dynamic-model-averaging_files/figure-html/10-28-2017-1.png" width="672" /></p>
+<p>We have a simple S curve generated by the logit that says if <span class="math inline">\(\theta\)</span> is positive (negative) the likelihood of <span class="math inline">\(y\)</span> is increasing (decreasing) in <span class="math inline">\(x\)</span>. We might imagine that the shape of the curve may vary over time, and we might also think that the <span class="math inline">\(x\)</span> variables relevant for determining the shape might also vary.</p>
+<p>Let’s imagine that there are two possible <span class="math inline">\(x\)</span>’s that might help predict <span class="math inline">\(y\)</span>. (In our application we consider payroll employment growth <span class="math inline">\(PAYEMS\)</span> and the slope of the yield curve <span class="math inline">\(SLOPE\)</span>.) But for now let’s just call them <span class="math inline">\(x_{1}\)</span> and <span class="math inline">\(x_{2}\)</span>. At any point in time, one of two models is relevant for predicting <span class="math inline">\(y\)</span>, one involving <span class="math inline">\(x_{1}\)</span> or one with <span class="math inline">\(x_{2}\)</span>:</p>
+<p><span class="math inline">\(Logit(P(y_{t}=1|x,L=1))= x_{1t}^{&#39;}\theta_{t}^{(1)}\)</span></p>
+<p>and</p>
+<p><span class="math inline">\(Logit(P(y_{t}=1|x,L=2))=x_{2t}^{&#39;}\theta_{t}^{(2)}\)</span>.</p>
+<p>Notice that I’ve added the <span class="math inline">\(t\)</span> subscript back to the <span class="math inline">\(\theta\)</span>s. Parameters might be unstable and drift over time. A simple model of drift would be:</p>
+<p><span class="math display">\[ \theta_{t}^{(k)}=\theta_{t-1}^{(k)}+\delta^{(k)}_{t},\ \ \ \delta^{(k)}_{t} \sim N(0,\sigma^{2}) \ \ \ \ \ (2) \]</span></p>
+<p>There are various ways to estimate time varying parameter equations like (2) above. The Dynamic Model Averaging (DMA) approach uses <em>forgetting factors</em>. Check out <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2895940/">Raferty et. al (2010)</a> and <a href="https://www.ncbi.nlm.nih.gov/pubmed/21838812">McCormick et. al (2012)</a> for details. Briefly, the DMA approach takes a standard Kalman filter for Time Varying Parameters but substitutes use a forgetting factor <span class="math inline">\(\lambda \leq1\)</span> into the prediction equation’s variance matrix, effectively imposing a window size of <span class="math inline">\(\frac{1}{1-\lambda}\)</span>. (Note this is similar to the rolling regression approach <a href="2017/10/26/predicting-recessions-with-dynamic-model-averaging/">we used last time</a>, but with current data weighted more heavily than older data).</p>
+<p>We can estimate both models conditionally (assuming that they are each in effect each period). But then how to combine the estimates?</p>
+<p>Both models are plausible and we aren’t sure which one is correct. One approach is to use Bayesian Model Averaging (BMA) or other ensemble methods to combine forecasts. Dynamic model averaging (DMA) is one such method.</p>
+<p>DMA maintains the assumption that the model probabilities evolve according to:</p>
+<p><span class="math display">\[ P(L_{t}=k | Y^{t-1})= \frac{P(L_{t-1}=k | Y^{t-1})^{\alpha} }{\sum_{j=1}^{K}P(L_{t-1}=j | Y^{t-1})^{\alpha}} \ \ \ \ \ \ (3)\]</span> Equation (3) above is critically important for DMA. Instead ofspecifying a full <span class="math inline">\(K \times K\)</span> transition Matrix P for model probabilities, probabilities are updated using <em>forgetting</em>, parameterized by <span class="math inline">\(\alpha\leq1\)</span>. In the special case where <span class="math inline">\(\alpha=1\)</span> and <span class="math inline">\(\lambda=1\)</span> the <span class="math inline">\(\theta\)</span>’s are constant DMA becomes BMA.</p>
+<p>There are several advantages of DMA. One is that it allows the weights on plausible models to shift over time. Another nice feature is that it is computationally efficient. We don’t have to do complicated and potentially expensive algorithms like Markov Chain Monte Carlo. Instead, we can arrive at answers analytically. That means it is fast and even my puny laptop can run it.</p>
+</div>
+<div id="forecasting-recessions" class="section level3">
+<h3>Forecasting recessions</h3>
+<p>Let’s go back to our example of forecasting recessions. Remember that we went to the Saint Louis Federal Reserve’s <a href="https://fred.stlouisfed.org/">FRED</a> database and pulled down four variables needed to construct our two indicators and the recession indicator. We have transformed the variables and start with a data frame <code>df3</code>. <em>Code for constructing this is <a href="2017/10/26/predicting-recessions-with-dynamic-model-averaging/">here</a>.</em></p>
+<pre class="r"><code>knitr::kable(rbind(head(df3),tail(df3)))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">date</th>
+<th align="right">DSPIC96</th>
+<th align="right">GS10</th>
+<th align="right">GS2</th>
+<th align="right">PAYEMS</th>
+<th align="right">PERMIT</th>
+<th align="right">TB3MS</th>
+<th align="right">USREC</th>
+<th align="right">SLOPE</th>
+<th align="right">CURVE</th>
+<th align="right">REC12</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1945-01-01</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">0.38</td>
+<td align="right">0</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">1945-02-01</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">0.38</td>
+<td align="right">0</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">1945-03-01</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">0.38</td>
+<td align="right">1</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">1945-04-01</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">-1.0836098</td>
+<td align="right">NA</td>
+<td align="right">0.38</td>
+<td align="right">1</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">1945-05-01</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">-1.4318442</td>
+<td align="right">NA</td>
+<td align="right">0.38</td>
+<td align="right">1</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">1945-06-01</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">-1.5479950</td>
+<td align="right">NA</td>
+<td align="right">0.38</td>
+<td align="right">1</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">2017-04-01</td>
+<td align="right">0.9107180</td>
+<td align="right">2.30</td>
+<td align="right">1.24</td>
+<td align="right">0.3359878</td>
+<td align="right">-5.5384615</td>
+<td align="right">0.80</td>
+<td align="right">0</td>
+<td align="right">1.50</td>
+<td align="right">-0.62</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="left">2017-05-01</td>
+<td align="right">1.0511115</td>
+<td align="right">2.30</td>
+<td align="right">1.30</td>
+<td align="right">0.2757712</td>
+<td align="right">-4.1837572</td>
+<td align="right">0.89</td>
+<td align="right">0</td>
+<td align="right">1.41</td>
+<td align="right">-0.59</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">2017-06-01</td>
+<td align="right">0.4748264</td>
+<td align="right">2.19</td>
+<td align="right">1.34</td>
+<td align="right">0.3853987</td>
+<td align="right">1.1904762</td>
+<td align="right">0.98</td>
+<td align="right">0</td>
+<td align="right">1.21</td>
+<td align="right">-0.49</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="left">2017-07-01</td>
+<td align="right">0.5713209</td>
+<td align="right">2.32</td>
+<td align="right">1.37</td>
+<td align="right">0.3376019</td>
+<td align="right">0.1628664</td>
+<td align="right">1.07</td>
+<td align="right">0</td>
+<td align="right">1.25</td>
+<td align="right">-0.65</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">2017-08-01</td>
+<td align="right">-0.0257702</td>
+<td align="right">2.21</td>
+<td align="right">1.34</td>
+<td align="right">0.3536857</td>
+<td align="right">8.9041096</td>
+<td align="right">1.01</td>
+<td align="right">0</td>
+<td align="right">1.20</td>
+<td align="right">-0.54</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="left">2017-09-01</td>
+<td align="right">NA</td>
+<td align="right">2.20</td>
+<td align="right">1.38</td>
+<td align="right">0.1871776</td>
+<td align="right">-3.9215686</td>
+<td align="right">1.03</td>
+<td align="right">0</td>
+<td align="right">1.17</td>
+<td align="right">-0.47</td>
+<td align="right">NA</td>
+</tr>
+</tbody>
+</table>
+<p>With data in hand we can proceed to estimate our model.</p>
+<p>Let’s estimate for <span class="math inline">\(h=0\)</span>. First, we need to filter out data where we have missing observations. We’ll start our data in 1956 and require that we have observations on the Recession indicator <span class="math inline">\(USREC\)</span>.</p>
+<pre class="r"><code># 
+df5 &lt;- filter(df3, year(date)&gt;1955 &amp; !is.na(USREC))
+
+# convert data to matrix
+xvar &lt;- as.matrix(df5 %&gt;% select(SLOPE,PAYEMS))
+yvar &lt;- as.matrix(df5$USREC)
+# design for models
+mmat&lt;- matrix(c(1,0,
+                0,1,
+                1,1),3,2,byrow=TRUE)
+print(mmat)</code></pre>
+<pre><code>##      [,1] [,2]
+## [1,]    1    0
+## [2,]    0    1
+## [3,]    1    1</code></pre>
+<p>The matrix <span class="math inline">\(mmat\)</span> is important because it tells <code>dma</code> what kind of models we want to fit. The rows correspond to the <span class="math inline">\(K\)</span> models we ask <code>dma</code> to fit (here 3) and the columns correspond to the variables for each model. A 1 (0) indicates that the variable is present (not present) in the model. So model 1 uses only the <span class="math inline">\(SLOPE\)</span>, model 2 uses only <span class="math inline">\(PAYEMS\)</span> and model 3 uses both variables. We can fit the model via:</p>
+<pre class="r"><code>dma.fit0&lt;- logistic.dma(unname(xvar), yvar, mmat, 
+                        lambda=0.99, 
+                        alpha=0.99,
+                       autotune=FALSE, # allow alpha to vary over time?
+                       initialsamp=120 # set initial sample to 10 years (used for initial values)
+                       )</code></pre>
+<p>Following the literature we set <code>lambda = 0.99</code>. Remember our effective window size is <span class="math inline">\(\frac{\lambda}{1-\lambda}\)</span>, or 99 months using monthly data and <span class="math inline">\(\lambda=0.99\)</span>. If we set <code>lambda = 0.95</code> the effective window size would shrink to just 19 months. Such a small value of lambda would only respond to very recent changes in the data.</p>
+<p>While the <code>dma</code> package is easy to use, the output isn’t exactly tidy. Let’s take a look at the structure with</p>
+<pre class="r"><code>str(dma.fit0)</code></pre>
+<pre><code>## List of 13
+##  $ x            : num [1:741, 1:2] 0.49 0.52 0.71 0.58 0.46 0.51 0.8 0.73 0.54 0.44 ...
+##  $ y            : num [1:741, 1] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ models       : num [1:3, 1:2] 1 0 1 0 1 1
+##  $ lambda       : num 0.99
+##  $ alpha        : num 0.99
+##  $ pmp          : num [1:3, 1:741] 0.333 0.333 0.333 0.333 0.333 ...
+##   ..- attr(*, &quot;dimnames&quot;)=List of 2
+##   .. ..$ : chr [1:3] &quot;model_1&quot; &quot;model_2&quot; &quot;model_3&quot;
+##   .. ..$ : chr [1:741] &quot;time_1&quot; &quot;time_2&quot; &quot;time_3&quot; &quot;time_4&quot; ...
+##  $ alpha.used   : num [1:741] 0.99 0.99 0.99 0.99 0.99 0.99 0.99 0.99 0.99 0.99 ...
+##  $ theta        : num [1:3, 1:741, 1:3] -3.18 -1.88 -2.22 -3.18 -1.88 ...
+##  $ vartheta     : num [1:3, 1:741, 1:3] 0.446 0.211 0.835 0.446 0.211 ...
+##  $ yhatdma      : Named num [1:741] 0.0276 0.0282 0.037 0.0347 0.0338 ...
+##   ..- attr(*, &quot;names&quot;)= chr [1:741] &quot;time_1&quot; &quot;time_2&quot; &quot;time_3&quot; &quot;time_4&quot; ...
+##  $ yhatmodel    : num [1:3, 1:741] 0.07601 0.00364 0.00318 0.079 0.00298 ...
+##  $ fitted.values: Named num [1:741] 0.0276 0.0282 0.037 0.0347 0.0338 ...
+##   ..- attr(*, &quot;names&quot;)= chr [1:741] &quot;time_1&quot; &quot;time_2&quot; &quot;time_3&quot; &quot;time_4&quot; ...
+##  $ residuals    : num [1:741, 1] -0.0276 -0.0282 -0.037 -0.0347 -0.0338 ...
+##  - attr(*, &quot;class&quot;)= chr &quot;logistic.dma&quot;</code></pre>
+<p>Okay, we have lists of lists and arrays. In <code>dma.fit0$theta</code> we have a <code>3x741x3</code> array of parameter estimates. If we select the first row we get results for model 1 etc. Let’s extract the parameter estimates for each variable and their variances which are contained in <code>dma.fit0$vartheta</code>.</p>
+<p>In order to tidy things up we’ll have to write a couple functions and rearrange things.</p>
+<pre class="r"><code># function to get coefficients out
+myf&lt;-function(j=1,                                     # model we extract
+              indf=dma.fit0,                           # dma output list
+              in.date=df5$date,                        # dates 
+              varnames=c(&quot;INTERCEPT&quot;,&quot;SLOPE&quot;,&quot;PAYEMS&quot;) # list of variable names
+              ){
+  out=data.frame(indf$theta[j,,]) # convert array to data frame
+  colnames(out)&lt;-varnames         # rename columns
+  out$date&lt;-in.date              # dates 
+  out$model&lt;-paste0(&quot;Model:&quot;,j)   # add model label
+  return(out)            }
+# function to get cofficient variances
+myfv&lt;-function(j=1,                                     # model we extract
+              indf=dma.fit0,                           # dma output list
+              varnames=c(&quot;INTERCEPTv&quot;,&quot;SLOPEv&quot;,&quot;PAYEMSv&quot;) # list of variable names (v inciates variance)
+
+){
+  out=data.frame(indf$vartheta[j,,]) # convert array to data frame
+  colnames(out)&lt;-varnames            # rename columns
+  out$model&lt;-paste0(&quot;Model:&quot;,j)     # add model label
+  return(out)
+              }
+
+#use purrr::map to stack up results
+
+data.frame(modeln=1:nrow(mmat)) %&gt;% 
+  mutate(theta  = map(modeln,myf),
+         thetav = map(modeln,myfv)) %&gt;%
+  unnest(theta,thetav) %&gt;% 
+  select(model,date,c(&quot;INTERCEPT&quot;,&quot;SLOPE&quot;,&quot;PAYEMS&quot;),
+         c(&quot;INTERCEPTv&quot;,&quot;SLOPEv&quot;,&quot;PAYEMSv&quot;)) -&gt; df.cv
+
+# get coefficients
+
+df.cv %&gt;% select(model,date,c(&quot;INTERCEPT&quot;,&quot;SLOPE&quot;,&quot;PAYEMS&quot;)) %&gt;%
+  gather(var,est,-date,-model) -&gt; df.coef
+
+# get variances
+df.cv %&gt;% select(model,date,c(&quot;INTERCEPTv&quot;,&quot;SLOPEv&quot;,&quot;PAYEMSv&quot;)) %&gt;%
+  gather(var,v,-date,-model) %&gt;%
+  mutate(var=substr(var,1,nchar(var)-1)) -&gt; df.var
+
+# merge back together
+df.plot&lt;-merge(df.coef,df.var,by=c(&quot;model&quot;,&quot;date&quot;,&quot;var&quot;))</code></pre>
+<p>We did all this business so we can construct a nice panel plot like so:</p>
+<pre class="r"><code># plot, but exclude first 15 years
+ggplot(data=filter(df.plot,date&gt;min(df.plot$date)+years(15)),
+       aes(x=date,y=est,color=var, fill=var))+
+  geom_hline(yintercept=0,color=&quot;black&quot;)+
+  geom_ribbon(aes(ymin=est-2*v, ymax=est+2*v),alpha=.1, color=NA)+
+  geom_ribbon(aes(ymin=est-1*v, ymax=est+1*v),alpha=.25, color=NA)+
+  geom_line(aes(y=est-2*v),linetype=2)+
+  geom_line(aes(y=est+2*v),linetype=2)+
+  geom_line()+
+  guides(color=F,fill=F)+
+  theme_minimal()+
+  facet_grid(var~model,scales=&quot;free_y&quot;)+
+  labs(x=&quot;date&quot;,y=expression(paste(&quot;Coefficient estimate&quot;,theta[t-h])),
+       title=&quot;Dynamic Logistic Regression (h=0)&quot;,
+       subtitle=expression(paste(&quot;Logit(P(Y = 1 | Model=k,x)) = &quot;,x[t-h],&quot;&#39;&quot;,theta[t-h])),
+        caption=&quot;@lenkiefer Dynamic logistic regression coefficients for three models.\nSolid line coefficient estimates, shaded area +/- 1 &amp; 2 standard errors.\nModel 1: Yield curve slope (10-year minus 3-month U.S. Treasury yield)\nModel 2: Employment change (3 month %)\nModel 3: Yield curve slope and employment change\nModel fit with dma: Tyler H. McCormick, Adrian Raftery and David Madigan (2017).\ndma: Dynamic Model Averaging. R package version 1.3-0. https://CRAN.R-project.org/package=dma&quot;)+
+  theme(plot.caption=element_text(hjust=0),
+        plot.subtitle=element_text(face=&quot;italic&quot;,size=9),
+        plot.title=element_text(face=&quot;bold&quot;,size=14))</code></pre>
+<p><img src="/post/2017-10-28-a-closer-look-at-forecasting-recessions-with-dynamic-model-averaging_files/figure-html/10-28-2017-dma-fit-h0-plot-1-1.png" width="672" /></p>
+<p>How well do each of these three models fit the data? The DMA routine includes an estimate of the model probabilites contained in <code>dma.fit0$pmp</code>. Let’s plot it:</p>
+<pre class="r"><code># plot model probabilities
+df.plot2&lt;-data.frame(t(dma.fit0$pmp), date=df5$date)
+
+ggplot(data=gather(df.plot2,Model,p,-date), aes(x=date,y=p,color=Model))+
+  geom_line()+theme_minimal()+
+  theme(plot.caption=element_text(hjust=0),legend.position=&quot;top&quot;,
+        plot.subtitle=element_text(face=&quot;italic&quot;,size=9),
+        plot.title=element_text(face=&quot;bold&quot;,size=14))+
+    labs(x=&quot;date&quot;,y=&quot;Model Probabilties&quot;,
+       title=&quot;Dynamic Logistic Regression (h=0)&quot;,
+       subtitle=&quot;Model Probabilities&quot;,
+        caption=&quot;@lenkiefer \nModel 1: Yield curve slope (10-year minus 3-month U.S. Treasury yield)\nModel 2: Employment change (3 month %)\nModel 3: Yield curve slope and employment change\nModel fit with dma: Tyler H. McCormick, Adrian Raftery and David Madigan (2017).\ndma: Dynamic Model Averaging. R package version 1.3-0. https://CRAN.R-project.org/package=dma&quot;)</code></pre>
+<p><img src="/post/2017-10-28-a-closer-look-at-forecasting-recessions-with-dynamic-model-averaging_files/figure-html/10-28-2017-dma-fit-h0-plot-2-1.png" width="672" /></p>
+<p>In this case, the model selection algorithm clearly favors model_3 that uses both variables.</p>
+<p>How about for <span class="math inline">\(h=12\)</span>?</p>
+<pre class="r"><code>df50 &lt;- df5 %&gt;% mutate(yhat0=dma.fit0$yhatdma)
+df5 &lt;- filter(df3, year(date)&gt;1955 &amp; !is.na(REC12))
+
+xvar &lt;- as.matrix(df5 %&gt;% select(SLOPE,PAYEMS))
+yvar &lt;- as.matrix(df5$REC12)
+
+mmat&lt;- matrix(c(1,0,
+                0,1,
+                1,1),3,2,byrow=TRUE)
+
+dma.fit12&lt;- logistic.dma(unname(xvar), yvar, mmat, lambda=0.99, alpha=0.99,
+                       autotune=TRUE, initialsamp=120)</code></pre>
+<p>And stack up the results as before.</p>
+<pre class="r"><code>#use purrr::map to stack up results
+df12 &lt;- filter(df3, year(date)&gt;1955 &amp; !is.na(REC12))
+data.frame(modeln=1:nrow(mmat)) %&gt;% 
+  mutate(theta  = map(modeln,myf,indf=dma.fit12,in.date=df12$date),
+         thetav = map(modeln,myfv,indf=dma.fit12)) %&gt;%
+  unnest(theta,thetav) %&gt;% 
+  select(model,date,c(&quot;INTERCEPT&quot;,&quot;SLOPE&quot;,&quot;PAYEMS&quot;),
+         c(&quot;INTERCEPTv&quot;,&quot;SLOPEv&quot;,&quot;PAYEMSv&quot;)) -&gt; df.cv12
+
+# get coefficients
+
+df.cv12 %&gt;% select(model,date,c(&quot;INTERCEPT&quot;,&quot;SLOPE&quot;,&quot;PAYEMS&quot;)) %&gt;%
+  gather(var,est,-date,-model) -&gt; df.coef12
+
+# get variances
+df.cv12 %&gt;% select(model,date,c(&quot;INTERCEPTv&quot;,&quot;SLOPEv&quot;,&quot;PAYEMSv&quot;)) %&gt;%
+  gather(var,v,-date,-model) %&gt;%
+  mutate(var=substr(var,1,nchar(var)-1)) -&gt; df.var12
+
+# merge back together
+df.plot12&lt;-merge(df.coef12,df.var12,by=c(&quot;model&quot;,&quot;date&quot;,&quot;var&quot;))</code></pre>
+<pre class="r"><code># plot, but exclude first 15 years
+ggplot(data=filter(df.plot12,date&gt;min(df.plot12$date)+years(15)),
+       aes(x=date,y=est,color=var, fill=var))+
+  geom_hline(yintercept=0,color=&quot;black&quot;)+
+  geom_ribbon(aes(ymin=est-2*v, ymax=est+2*v),alpha=.1, color=NA)+
+  geom_ribbon(aes(ymin=est-1*v, ymax=est+1*v),alpha=.25, color=NA)+
+  geom_line(aes(y=est-2*v),linetype=2)+
+  geom_line(aes(y=est+2*v),linetype=2)+
+  geom_line()+
+  guides(color=F,fill=F)+
+  theme_minimal()+
+  facet_grid(var~model,scales=&quot;free_y&quot;)+
+  labs(x=&quot;date&quot;,y=expression(paste(&quot;Coefficient estimate&quot;,theta[t-h])),
+       title=&quot;Dynamic Logistic Regression (h=12)&quot;,
+       subtitle=expression(paste(&quot;Logit(P(Y = 1 | Model=k,x)) = &quot;,x[t-h],&quot;&#39;&quot;,theta[t-h])),
+        caption=&quot;@lenkiefer Dynamic logistic regression coefficients for three models.\nSolid line coefficient estimates, shaded area +/- 1 &amp; 2 standard errors.\nModel 1: Yield curve slope (10-year minus 3-month U.S. Treasury yield)\nModel 2: Employment change (3 month %)\nModel 3: Yield curve slope and employment change\nModel fit with dma: Tyler H. McCormick, Adrian Raftery and David Madigan (2017).\ndma: Dynamic Model Averaging. R package version 1.3-0. https://CRAN.R-project.org/package=dma&quot;)+
+  theme(plot.caption=element_text(hjust=0),
+        plot.subtitle=element_text(face=&quot;italic&quot;,size=9),
+        plot.title=element_text(face=&quot;bold&quot;,size=14))</code></pre>
+<p><img src="/post/2017-10-28-a-closer-look-at-forecasting-recessions-with-dynamic-model-averaging_files/figure-html/10-28-2017-dma-fit-h12-plot-1-1.png" width="672" /></p>
+<p>With <span class="math inline">\(h=12\)</span> <span class="math inline">\(PAYEMS\)</span> doesn’t have much predictive power. The <span class="math inline">\(SLOPE\)</span> of the yield curve retains some predictive power even a year ahead.</p>
+<p>How do the model weight shift? Let’s take a look.</p>
+<pre class="r"><code># plot model probabilities
+df.plot12.2&lt;-data.frame(t(dma.fit12$pmp), date=df12$date)
+
+ggplot(data=gather(df.plot12.2,Model,p,-date), aes(x=date,y=p,color=Model))+
+  geom_line()+theme_minimal()+
+  theme(plot.caption=element_text(hjust=0),legend.position=&quot;top&quot;,
+        plot.subtitle=element_text(face=&quot;italic&quot;,size=9),
+        plot.title=element_text(face=&quot;bold&quot;,size=14))+
+    labs(x=&quot;date&quot;,y=&quot;Model Probabilties&quot;,
+       title=&quot;Dynamic Logistic Regression (h=12)&quot;,
+       subtitle=&quot;Model Probabilities&quot;,
+        caption=&quot;@lenkiefer \nModel 1: Yield curve slope (10-year minus 3-month U.S. Treasury yield)\nModel 2: Employment change (3 month %)\nModel 3: Yield curve slope and employment change\nModel fit with dma: Tyler H. McCormick, Adrian Raftery and David Madigan (2017).\ndma: Dynamic Model Averaging. R package version 1.3-0. https://CRAN.R-project.org/package=dma&quot;)</code></pre>
+<p><img src="/post/2017-10-28-a-closer-look-at-forecasting-recessions-with-dynamic-model-averaging_files/figure-html/10-28-2017-dma-fit-h12-plot-2-1.png" width="672" /></p>
+<p>In this case we see that <code>model_1</code> that only uses <span class="math inline">\(SLOPE\)</span> seems to to the best.</p>
+<p>Finally, we can combine the models to come up with predictions for <span class="math inline">\(h=0\)</span> and <span class="math inline">\(h=12\)</span> by taking a weighted average of the models:</p>
+<p><img src="/post/2017-10-28-a-closer-look-at-forecasting-recessions-with-dynamic-model-averaging_files/figure-html/10-27-2017-dma-plot-3-run-1.png" width="672" /></p>
+</div>
+</div>
+</div>
+<div id="discussion" class="section level1">
+<h1>Discussion</h1>
+<p>In this post we reviewed in more detail how to use the <code>dma</code> package to forecast recessions using dynamic logistic regression and dynamic model averaging. This approach allows the parameters of models to adjust over time and have the model probabilities also evolve. This example was relatively simple, but we can easily scale the number of models and number of parameters. In a follow up post, we’ll extend this analysis to include more predictors and look at forecasts over different horizons.</p>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2017/10/26/predicting-recessions-with-dynamic-model-averaging/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2017/10/26/predicting-recessions-with-dynamic-model-averaging/">Forecasting recessions with dynamic model averaging</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="/2017/10/30/dynamic-model-averaging-presentation-slides/">Dynamic Model Averaging Presentation Slides</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="/2017/10/30/dynamic-model-averaging-presentation-slides/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/economy/">economy</a>, 
+            
+                <a href="/tags/forecasting/">forecasting</a>, 
+            
+                <a href="/tags/r/">R</a>, 
+            
+                <a href="/tags/statistics/">statistics</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2017%2f10%2f28%2fdma-part-2%2f&text=A%20closer%20look%20at%20forecasting%20recessions%20with%20dynamic%20model%20averaging via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2017%2f10%2f28%2fdma-part-2%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+

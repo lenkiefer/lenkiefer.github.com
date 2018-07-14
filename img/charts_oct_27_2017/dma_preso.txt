@@ -1,0 +1,391 @@
+---
+title: "Forecasting Recessions with Dynamic Logistic Regression and Dynamic Model Averaging"
+subtitle: "preliminary analysis"
+author: "Len Kiefer"
+date: "2017/10/31"
+output:
+  xaringan::moon_reader:
+    yolo: FALSE
+    css: mycss.css
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE,message=F,warning=F}
+options(htmltools.dir.version = FALSE)
+library(tidyverse)
+library(boot)
+library(viridis)
+library(cowplot)
+library(stargazer)
+library(lubridate)
+```
+
+# Overview
+
+* Motivation
+* Statistical model(s)
+* Empirical Excercise
+* Discussion
+
+---
+class: inverse, center, middle
+
+# Motivation
+
+## Uncertainty and Ambiguity
+
+---
+class: left, top
+
+### Statistical model(s)
+
+Application of *Dynamic Logistic Regression and Dynamic Model Averaging for Binary Classification* [LINK](https://www.ncbi.nlm.nih.gov/pubmed/21838812)
+
+We want to predict a binary outcome: 
+
+$$y_{t}  \in (0,1)$$
+where 1 (0) indicates recession (no recession).
+
+$$y_{t}|L_{t}=k\sim Bernoulli(p_{t}^{(k)})$$
+
+$$Logit(p_{t}^{(k)}) = x^{(k)'}_{t-h}\theta^{(k)}_{t-h}$$
+with $k=1,2,\ldots,K$ possible models.
+
+---
+class: inverse, center, middle
+
+### Each model just your standard S curve
+
+```{r 10-28-2017,eval=T,echo=F,message=F,warning=F,fig.width=10}
+library(tidyverse)
+library(boot)      # has useful inv.logit function
+library(viridis)
+#extrafont::loadfonts(device="win") # needed for fonts (on windows, not sure about unix/mac)
+
+#Create spooky dark theme:
+theme_spooky = function(base_size = 10, base_family = "Chiller") {
+  
+  theme_grey(base_size = base_size, base_family = base_family) %+replace%
+    
+    theme(
+      # Specify axis options
+      axis.line = element_blank(),  
+      axis.text.x = element_text(size = base_size*0.8, color = "white", lineheight = 0.9),  
+      axis.text.y = element_text(size = base_size*0.8, color = "white", lineheight = 0.9),  
+      axis.ticks = element_line(color = "white", size  =  0.2),  
+      axis.title.x = element_text(size = base_size, color = "white", margin = margin(0, 10, 0, 0)),  
+      axis.title.y = element_text(size = base_size, color = "white", angle = 90, margin = margin(0, 10, 0, 0)),  
+      axis.ticks.length = unit(0.3, "lines"),   
+      # Specify legend options
+      legend.background = element_rect(color = NA, fill = " gray10"),  
+      legend.key = element_rect(color = "white",  fill = " gray10"),  
+      legend.key.size = unit(1.2, "lines"),  
+      legend.key.height = NULL,  
+      legend.key.width = NULL,      
+      legend.text = element_text(size = base_size*0.8, color = "white"),  
+      legend.title = element_text(size = base_size*0.8, face = "bold", hjust = 0, color = "white"),  
+      legend.position = "none",  
+      legend.text.align = NULL,  
+      legend.title.align = NULL,  
+      legend.direction = "vertical",  
+      legend.box = NULL, 
+      # Specify panel options
+      panel.background = element_rect(fill = " gray10", color  =  NA),  
+      #panel.border = element_rect(fill = NA, color = "white"),  
+      panel.border = element_blank(),
+      panel.grid.major = element_line(color = "grey35"),  
+      panel.grid.minor = element_line(color = "grey20"),  
+      panel.spacing = unit(0.5, "lines"),   
+      # Specify facetting options
+      strip.background = element_rect(fill = "grey30", color = "grey10"),  
+      strip.text.x = element_text(size = base_size*0.8, color = "white"),  
+      strip.text.y = element_text(size = base_size*0.8, color = "white",angle = -90),  
+      # Specify plot options
+      plot.background = element_rect(color = " gray10", fill = " gray10"),  
+      plot.title = element_text(size = base_size*1.2, color = "white",hjust=0,lineheight=1.25,
+                                margin=margin(2,2,2,2)),  
+      plot.subtitle = element_text(size = base_size*1, color = "white",hjust=0,  margin=margin(2,2,2,2)),  
+      plot.caption = element_text(size = base_size*0.8, color = "white",hjust=0),  
+      plot.margin = unit(rep(1, 4), "lines")
+      
+    )
+  
+}
+mytheta <- c(-2,-1,0,1,2) #Possible values of theta 
+
+
+df.m<-expand.grid(x=seq(-3,3,.01),mytheta=mytheta) %>% 
+  mutate(y=inv.logit(mytheta*x))
+
+ggplot(data=df.m, aes(x=x,y=y,color=factor(mytheta), group=mytheta  ))+
+  geom_line(size=1.05)+theme_spooky(base_family="Arial",base_size=20)+
+  #geom_text(data=filter(df.m,x==max(df.m$x)),size=5,fontface="bold")+
+  #scale_color_discrete(name=expression(theta))+
+  scale_color_viridis(discrete=T,option="C",name=expression(theta))+
+  theme(legend.position="top",legend.direction="horizontal")+
+  labs(title=expression(paste("Probability Y=1 given different values of x and ",theta)),
+       subtitle=expression(paste("Logit(P(Y = 1 | x)) = x'",theta)),
+       y="P(Y = 1 | x)")
+```
+
+---
+class: left, top
+### Suppose k=2
+
+$$Logit(P(y_{t}=1|x,L=1))= x_{1t}^{'}\theta_{t-h}^{(1)}$$
+
+and
+
+$$Logit(P(y_{t}=1|x,L=2))=x_{2t}^{'}\theta_{t-h}^{(2)}$$.
+
+Parameters might be unstable and drift over time.  A simple model of drift would be:
+
+$$\theta_{t}^{(k)}=\theta_{t-1}^{(k)}+\delta^{(k)}_{t},\ \ \ \delta^{(k)}_{t} \sim N(0,\sigma^{2})$$
+
+Suppose we have a way to estimate each model, how do we combine the results from $K$ potential models?
+
+---
+class: left, top
+### Doing in the hard way
+
+Specify:
+
+$$P(L_{t}=k|Y^{t-1}) = \sum_{\ell=1}^{K}p(L_{t-1}=\ell|Y^{t-1})p(L_{t}=k|L_{t-1}=\ell)$$
+
+but $p(L_{t}=k|L_{t-1}=\ell)$ requires a $K\times K$ transition matrix.
+
+---
+class: left, top
+### Generally a hard problem to solve so <span style="color:#00b0f0";>forget about it</span>
+
+- Simplify via *forgetting factors*
+
+  + See [this paper](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2895940/) *Online Prediction Under Model Uncertainty via Dynamic Model Averaging: Application to a Cold Rolling Mill*
+  
+  + See [this paper](https://www.ncbi.nlm.nih.gov/pubmed/21838812) *Dynamic Logistic Regression
+and Dynamic Model Averaging for Binary Classification*
+
+  + See [this paper](http://onlinelibrary.wiley.com/doi/10.1111/j.1468-2354.2012.00704.x/pdf) *Forecasting Inflation Using Dynamic Model Averaging*
+  
+  + [R](https://www.r-project.org/) package [dma](https://CRAN.R-project.org/package=dma)
+  
+---
+class: left, to 
+### Forgetting
+
+instead of this:
+
+$$p(L_{t}=k|L_{t-1}=\ell)$$
+
+use:
+
+$$P(L_{t}=k | Y^{t-1})= \frac{P(L_{t-1}=k | Y^{t-1})^{\alpha} }{\sum_{j=1}^{K}P(L_{t-1}=j | Y^{t-1})^{\alpha}}$$
+
+Instead of specifying a full $K \times K$ transition Matrix P for model probabilities, probabilities are updated using *forgetting*, parameterized by $0<\alpha\leq1$.
+
+The parameter $\alpha$ determines how much weight is put on recent models. With $\alpha=1$ there is no forgetting, but $\alpha<1$ puts less weight on observations in the distant past.
+
+---
+class: inverse, center, middle
+# Empirical example
+
+### Forecasting recessions
+
+---
+class: top, left
+### Forecasting recessions
+```{r 10-30-2017-plot-3,eval=T,echo=F,message=F,warning=F,fig.width=10}
+
+load("data/dma_oct2017.Rdata")
+
+# employment plot
+g.emp<-
+ggplot(data=df4, aes(x=date,y=PAYEMS))+
+  geom_rect(data=recessions.df, inherit.aes=FALSE,
+            aes(xmin=Peak, xmax=Trough, ymin=-Inf, ymax=+Inf), 
+            fill='lightblue', alpha=0.5)+theme_minimal()+geom_line(color="royalblue")+
+  labs(x="",y="",title="Employment growth",
+       subtitle="3-month % change",
+       caption="@lenkiefer Source: U.S. Bureau of Labor Statistics, Federal Reserve (H.15), shaded area NBER recessions.\nretrieved from FRED, Federal Reserve Bank of St. Louis, October 26, 2017.")+
+  geom_hline(yintercept=0,color="black")+
+  theme(plot.caption=element_text(hjust=0),
+        plot.subtitle=element_text(face="italic",size=9),
+        plot.title=element_text(face="bold",size=14))
+# yield curve plot
+g.slope<-
+  ggplot(data=df4, aes(x=date,y=SLOPE))+
+  geom_rect(data=recessions.df, inherit.aes=FALSE,
+            aes(xmin=Peak, xmax=Trough, ymin=-Inf, ymax=+Inf), 
+            fill='lightblue', alpha=0.5)+theme_minimal()+geom_line(color="royalblue")+
+  labs(x="",y="",title="Yield curve slope",
+       subtitle="10-year minus 3-month U.S. Treasury rates",
+       caption="")+
+  geom_hline(yintercept=0,color="black")+
+  theme(plot.caption=element_text(hjust=0),
+        plot.subtitle=element_text(face="italic",size=9),
+        plot.title=element_text(face="bold",size=14))
+# combined plot (uses cowplot::plot_grid)
+plot_grid(g.slope,g.emp,ncol=1)
+```
+
+---
+class: top, left
+### Static regression
+
+
+```{r 10-26-2017-reg-glm-1, echo=F,message=F,warning=F,results='asis'}
+# forecast contemporaneously (h=0)
+glm.h0<- glm(USREC ~ SLOPE + PAYEMS,family=binomial(link='logit'), data=df4)
+# forecast 12 months ahead (h=12)
+glm.h1<- glm(REC12 ~ SLOPE + PAYEMS,family=binomial(link='logit'), data=df4)
+
+stargazer::stargazer(glm.h0,glm.h1, title="Forecasting Recessions", type="html",
+                     dep.var.caption  = "Recession probability",
+                     dep.var.labels   = c("contemporaneous","forecast"),
+                     column.labels = c("(h=0)", "(h=12)"),
+                     notes.align="l",
+                     omit.stat=c("aic","ll"),
+                     notes="Dependent variable is a 0/1 recession indicator. PAYEMS is 3-month % change in payroll employment. SLOPE is the slope of the U.S. Treasury yield curve (10-year minus 3-month Treasury rates)."
+                     )
+
+```
+---
+class: left, middle
+### Dynamic regressions (h=0)
+```{r 10-30-2017-plot-h0-1,eval=T,echo=F,message=F,warning=F,fig.width=10}
+# plot, but exclude first 15 years
+ggplot(data=filter(df.plot,date>min(df.plot$date)+years(15)),
+       aes(x=date,y=est,color=var, fill=var))+
+  geom_hline(yintercept=0,color="black")+
+  geom_ribbon(aes(ymin=est-2*v, ymax=est+2*v),alpha=.1, color=NA)+
+  geom_ribbon(aes(ymin=est-1*v, ymax=est+1*v),alpha=.25, color=NA)+
+  geom_line(aes(y=est-2*v),linetype=2)+
+  geom_line(aes(y=est+2*v),linetype=2)+
+  geom_line()+
+  guides(color=F,fill=F)+
+  theme_minimal()+
+  facet_grid(var~model,scales="free_y")+
+  labs(x="date",y=expression(paste("Coefficient estimate",theta[t-h])),
+       title="Dynamic Logistic Regression (h=0)",
+       subtitle=expression(paste("Logit(P(Y = 1 | Model=k,x)) = ",x[t-h],"'",theta[t-h])),
+        caption="@lenkiefer Dynamic logistic regression coefficients for three models.\nSolid line coefficient estimates, shaded area +/- 1 & 2 standard errors.\nModel 1: Yield curve slope (10-year minus 3-month U.S. Treasury yield)\nModel 2: Employment change (3 month %)\nModel 3: Yield curve slope and employment change\nModel fit with dma: Tyler H. McCormick, Adrian Raftery and David Madigan (2017).\ndma: Dynamic Model Averaging. R package version 1.3-0. https://CRAN.R-project.org/package=dma")+
+  theme(plot.caption=element_text(hjust=0),
+        plot.subtitle=element_text(face="italic",size=9),
+        plot.title=element_text(face="bold",size=14))
+```
+
+---
+class: top, left
+### Model probabilties (h=0)
+
+```{r 10-30-2017-plot-h0-2,eval=T,echo=F,message=F,warning=F,fig.width=10}
+df.plot2<-data.frame(t(dma.fit0$pmp), date=df5$date)
+
+ggplot(data=gather(df.plot2,Model,p,-date), aes(x=date,y=p,color=Model))+
+  geom_line()+theme_minimal()+
+  theme(plot.caption=element_text(hjust=0),legend.position="top",
+        plot.subtitle=element_text(face="italic",size=9),
+        plot.title=element_text(face="bold",size=14))+
+    labs(x="date",y="Model Probabilties",
+       title="Dynamic Logistic Regression (h=0)",
+       subtitle="Model Probabilities",
+        caption="@lenkiefer \nModel 1: Yield curve slope (10-year minus 3-month U.S. Treasury yield)\nModel 2: Employment change (3 month %)\nModel 3: Yield curve slope and employment change\nModel fit with dma: Tyler H. McCormick, Adrian Raftery and David Madigan (2017).\ndma: Dynamic Model Averaging. R package version 1.3-0. https://CRAN.R-project.org/package=dma")
+
+```
+
+---
+class: left, middle
+### Dynamic regressions (h=12)
+
+```{r 10-30-2017-plot-h12-1,eval=T,echo=F,message=F,warning=F,fig.width=10}
+ggplot(data=filter(df.plot12,date>min(df.plot12$date)+years(15)),
+       aes(x=date,y=est,color=var, fill=var))+
+  geom_hline(yintercept=0,color="black")+
+  geom_ribbon(aes(ymin=est-2*v, ymax=est+2*v),alpha=.1, color=NA)+
+  geom_ribbon(aes(ymin=est-1*v, ymax=est+1*v),alpha=.25, color=NA)+
+  geom_line(aes(y=est-2*v),linetype=2)+
+  geom_line(aes(y=est+2*v),linetype=2)+
+  geom_line()+
+  guides(color=F,fill=F)+
+  theme_minimal()+
+  facet_grid(var~model,scales="free_y")+
+  labs(x="date",y=expression(paste("Coefficient estimate",theta[t-h])),
+       title="Dynamic Logistic Regression (h=12)",
+       subtitle=expression(paste("Logit(P(Y = 1 | Model=k,x)) = ",x[t-h],"'",theta[t-h])),
+        caption="@lenkiefer Dynamic logistic regression coefficients for three models.\nSolid line coefficient estimates, shaded area +/- 1 & 2 standard errors.\nModel 1: Yield curve slope (10-year minus 3-month U.S. Treasury yield)\nModel 2: Employment change (3 month %)\nModel 3: Yield curve slope and employment change\nModel fit with dma: Tyler H. McCormick, Adrian Raftery and David Madigan (2017).\ndma: Dynamic Model Averaging. R package version 1.3-0. https://CRAN.R-project.org/package=dma")+
+  theme(plot.caption=element_text(hjust=0),
+        plot.subtitle=element_text(face="italic",size=9),
+        plot.title=element_text(face="bold",size=14))
+```
+
+---
+class: top, left
+### Model probabilities (h=12)
+
+```{r 10-30-2017-plot-h12-2,eval=T,echo=F,message=F,warning=F,fig.width=10}
+# plot model probabilities
+df.plot12.2<-data.frame(t(dma.fit12$pmp), date=df12$date)
+
+ggplot(data=gather(df.plot12.2,Model,p,-date), aes(x=date,y=p,color=Model))+
+  geom_line()+theme_minimal()+
+  theme(plot.caption=element_text(hjust=0),legend.position="top",
+        plot.subtitle=element_text(face="italic",size=9),
+        plot.title=element_text(face="bold",size=14))+
+    labs(x="date",y="Model Probabilties",
+       title="Dynamic Logistic Regression (h=12)",
+       subtitle="Model Probabilities",
+        caption="@lenkiefer \nModel 1: Yield curve slope (10-year minus 3-month U.S. Treasury yield)\nModel 2: Employment change (3 month %)\nModel 3: Yield curve slope and employment change\nModel fit with dma: Tyler H. McCormick, Adrian Raftery and David Madigan (2017).\ndma: Dynamic Model Averaging. R package version 1.3-0. https://CRAN.R-project.org/package=dma")
+```
+
+---
+class: top, left
+### Combining forecasts
+```{r 10-30-2017-plot-end,eval=T,echo=F,message=F,warning=F,fig.width=10}
+
+g.12<-
+ggplot(data=df6, aes(x=date+months(12),y=yhat12))+
+  geom_rect(data=recessions.df, inherit.aes=FALSE,
+            aes(xmin=Peak, xmax=Trough, ymin=-Inf, ymax=+Inf), 
+            fill='lightblue', alpha=0.5)+theme_minimal()+
+  geom_hline(yintercept=0.5,color="black",linetype=2,size=0.75)+
+  geom_line(color="royalblue",size=1.05)+
+  scale_y_continuous(labels=scales::percent)+
+  labs(x="",y="recession probability",
+       title="Estimated U.S. recession probabilities given by dynamic model averaging",
+       subtitle="12 months ahead",
+       caption="@lenkiefer Recession probabilities based on dynamic model averaging of three models\nforecasting recession 0 and 12-months ahead.\nModel 1: Yield curve slope (10-year minus 3-month U.S. Treasury yield)\nModel 2: Employment change (3 month %)\nModel 3: Yield curve slope and employment change\nModel fit with dma: Tyler H. McCormick, Adrian Raftery and David Madigan (2017).\ndma: Dynamic Model Averaging. R package version 1.3-0. https://CRAN.R-project.org/package=dma")+
+
+  theme(plot.caption=element_text(hjust=0),
+        plot.subtitle=element_text(face="italic",size=9),
+        plot.title=element_text(face="bold",size=14))
+g.0<-
+  ggplot(data=df6, aes(x=date,y=yhat0))+
+  geom_rect(data=recessions.df, inherit.aes=FALSE,
+            aes(xmin=Peak, xmax=Trough, ymin=-Inf, ymax=+Inf), 
+            fill='lightblue', alpha=0.5)+theme_minimal()+
+  geom_hline(yintercept=0.5,color="black",linetype=2,size=0.75)+
+  geom_line(color="red",size=1.05)+
+  scale_y_continuous(labels=scales::percent)+
+  labs(x="",y="recession probability",
+       title="Estimated U.S. recession probabilities given by dynamic model averaging",
+       subtitle="0 months ahead",
+       caption="@lenkiefer Recession probabilities based on dynamic model averaging of three models\nforecasting recession 0 and 12-months ahead.\nModel 1: Yield curve slope (10-year minus 3-month U.S. Treasury yield)\nModel 2: Employment change (3 month %)\nModel 3: Yield curve slope and employment change\nModel fit with dma: Tyler H. McCormick, Adrian Raftery and David Madigan (2017).\ndma: Dynamic Model Averaging. R package version 1.3-0. https://CRAN.R-project.org/package=dma")+
+  theme(plot.caption=element_text(hjust=0),
+        plot.subtitle=element_text(face="italic",size=9),
+        plot.title=element_text(face="bold",size=14))
+
+g.rec<-
+plot_grid(g.0+labs(caption=""),g.12+labs(title=""),
+          ncol=1)
+g.rec
+```
+
+
+---
+class: inverse, middle,center
+# Discussion
+###<span style="color:#00b0f0";>How could we use this?</span>

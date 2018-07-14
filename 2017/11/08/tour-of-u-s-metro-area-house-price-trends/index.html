@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Let&#39;s take a tour of recent house price trends in the United States. We will build an awesome visualization with R and then export it to PowerPoint. From PowerPoint we will make a sweet video.">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>Tour of U.S. metro area house price trends &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com//img/charts_nov_08_2017/DC.png" >
+     
+    <meta property="og:title" content="Tour of U.S. metro area house price trends">
+    <meta property="og:description" content="Let&#39;s take a tour of recent house price trends in the United States. We will build an awesome visualization with R and then export it to PowerPoint. From PowerPoint we will make a sweet video.">
+
+<div class="header">
+  <h1>Tour of U.S. metro area house price trends</h1>
+  <h2>Let&#39;s take a tour of recent house price trends in the United States. We will build an awesome visualization with R and then export it to PowerPoint. From PowerPoint we will make a sweet video.</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2017/11/08</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/house-prices">house prices</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/housing">housing</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/office">Office</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <p>HEY! HERE IS A VIDEO SHOWING HOUSE PRICE TRENDS around the United States.</p>
+<video width="540" height="400" controls>
+<source src="../../../../img/charts_nov_08_2017/hpi50.mp4" type="video/mp4">
+</video>
+<p><a href="../../../../2017/02/20/house-price-tour/">Earlier this year</a> we looked at how to get the data and plot it using <a href="https://www.r-project.org/">R</a>.</p>
+<p>I made the video using the PowerPoint to .mp4 workflow I outlined <a href="../../../../2017/10/22/smooth-animations-r-pptx/">here</a>.</p>
+<p>Below I’ll review how to build this file.</p>
+<div id="get-data" class="section level2">
+<h2>Get data</h2>
+<p>We are going to use house price data from the publicly available <a href="http://www.freddiemac.com/finance/fmhpi/about.html">Freddie Mac House Price Index</a>.</p>
+<p>In order to make our map, we’ll want to merge on the latitude and longitude of the principal city for each metro.</p>
+<p>We are going to use the <em>us.cities</em> data that comes with the maps library. To get the cbsa locations, we need to merge on the principal city of each metro area to the <em>us.cities</em> data. The <em>us.cities</em> file has the latitude and longitude of many U.S. cities.</p>
+<p>The U.S. Census Bureau has convenient files <a href="https://www.census.gov/data/tables/2015/demo/popest/total-metro-and-micro-statistical-areas.html">here</a> that will allows us to map U.S. cities to metro areas. We can grab a mapping of principal cities to CBSA and merge to the <em>us.cities</em> data. I’ve also added metro population (in 2015), which will be useful for sorting later.</p>
+<p>In summary, we’ll need these two files:</p>
+<ul>
+<li><p>Excel file with house price data <a href="http://www.freddiemac.com/research/docs/msas_new.xls">msas_new.xls</a></p></li>
+<li><p>File with principal cities of CBSA along with metro pop <a href="../../../../img/charts_feb_20_2017/cbsa.city.txt">cbsa.city.txt</a></p></li>
+</ul>
+<div id="prep-house-price-data" class="section level3">
+<h3>Prep house price data</h3>
+<p>The house price data come in a spreadsheet with data in two worksheets. We’ll use <a href="https://CRAN.R-project.org/package=readxl">readxl</a> to munge the data and get it ready to go.</p>
+<pre class="r"><code>################################################
+## Step Load libraries ----
+# (just realized four dashes &quot;----&quot;
+#  helps with reading files in Rstudio)
+#################################################
+library(tidyverse)
+library(viridis)
+library(data.table)
+library(readxl)
+library(cowplot)
+library(ggthemes)
+library(scales)
+library(maps)
+library(albersusa)
+data(us.cities) # from the package maps
+
+###############################################################################
+#### Load metro data ----
+#### note i&#39;ve renamed the spreadsheet to msas_new17q3.xls to indicate 2017 Q3
+###############################################################################
+df2&lt;-read_excel(&quot;data/msas_new17q3.xls&quot;, 
+                sheet = &quot;MSA Indices A-L&quot;,
+                range=&quot;B6:HG519&quot; )
+# Create  a date
+df2$date&lt;-seq.Date(as.Date(&quot;1975-01-01&quot;),as.Date(&quot;2017-09-01&quot;),by=&quot;1 month&quot;)
+
+df3&lt;-read_excel(&quot;data/msas_new17q3.xls&quot;, 
+                sheet = &quot;MSA Indices M-Z&quot;,
+                range=&quot;B6:FM519&quot; )
+df3$date&lt;-seq.Date(as.Date(&quot;1975-01-01&quot;),as.Date(&quot;2017-09-01&quot;),by=&quot;1 month&quot;)
+
+###############################################################################
+#### merge worksheets ----
+###############################################################################
+
+dm &lt;- left_join(df2,df3,by=&quot;date&quot;) %&gt;% gather(geo,hpi,-date) %&gt;% mutate(type=&quot;metro&quot;) %&gt;%
+  mutate(state=substr(geo,nchar(geo)-1,nchar(geo))) %&gt;%
+  group_by(geo) %&gt;% 
+  mutate(hpa12=hpi/lag(hpi,12)-1,
+         month=month(date),
+         year=year(date)) %&gt;% ungroup() %&gt;% rename(metro=geo) %&gt;% 
+  data.table() </code></pre>
+<p>Now we can combine the metro data with the geo data.</p>
+<pre class="r"><code>################################################
+## load cbsa data ----
+################################################
+
+cbsa.data &lt;-fread(&quot;data/cbsa.city.txt&quot;)
+cbsa.metro&lt;-cbsa.data[metro.micro==&quot;Metropolitan Statistical Area&quot;]
+#create lowercase names
+cbsa.metro[,nameL:=tolower(name)]
+us.cities&lt;-data.table(us.cities)[,nameL:=tolower(name)]
+
+d&lt;-merge(cbsa.metro,us.cities,by=&quot;nameL&quot;)
+#get rid of duplicates
+# see: http://stackoverflow.com/questions/15776064/r-first-observation-by-group-using-data-table-self-join
+d&lt;-d[order(-pop)]
+d&lt;-d[d[,list(row1 = .I[1]), by = list(cbsa)][,row1]]
+
+################################################
+## merge house price and geo data ----
+################################################
+dm2&lt;-merge(dm,d,by.y=&quot;cbsa.name&quot;,by.x=&quot;metro&quot;,all.x=T)
+
+# Subset house price price data to just large metros
+df&lt;-subset(dm2,metro==d[order(-metro.pop)]$cbsa.name[1] &amp; year&gt;1999)
+
+# could maybe avoid this with simple features, but 
+# i&#39;m just going to roll with this for the maps now
+us &lt;- usa_composite()
+us_map &lt;- fortify(us, region=&quot;name&quot;)</code></pre>
+<p>And then…</p>
+<pre class="r"><code>################################################
+## Function for subsetting data ----
+################################################
+
+myf&lt;-function(i){
+  # i indicates ith largest metro (by population) per 2015 Census estimates
+  dt&lt;-subset(dm2,metro==d[order(-metro.pop)]$cbsa.name[i] &amp; year&gt;1999)
+  dt %&gt;% map_if(is.character, as.factor) %&gt;% as.data.frame -&gt; dt.out
+  return(dt.out)
+}
+
+
+################################################
+## Function for plotting data ----
+################################################
+
+myplot&lt;-function(df){
+  g.map&lt;-
+    ggplot(df, aes(x = long, y = lat)) +
+    borders(&quot;state&quot;,  colour = &quot;grey70&quot;,fill=&quot;lightgray&quot;,alpha=0.5)+
+    theme_void()+
+    theme(legend.position=&quot;none&quot;,
+          plot.title=element_text(face=&quot;bold&quot;,size=18,hjust=0))+
+    geom_point(alpha=0.82,color=&quot;black&quot;,size=3)+
+    labs(title=&quot;House price trends around the U.S.&quot;,
+         subtitle=head(df,1)$metro,
+         caption=&quot;@lenkiefer Source: Freddie Mac House Price Index through September 2017\n&quot;)+
+    theme(plot.caption=element_text(hjust=0))
+
+  g.line&lt;-
+    ggplot(data=df,aes(x=date,y=hpi))+geom_line()+
+    scale_y_log10(limits=c(60,260),breaks=c(75,100,125,seq(150,300,50)))+
+    theme_minimal()+
+    labs(x=&quot;&quot;,y=&quot;&quot;,
+         title=&quot;House Price Index, NSA&quot;,
+         subtitle=&quot;Dec 2000 = 100, log scale&quot;)+
+    geom_hline(data=tail(df,1),aes(yintercept=hpi),linetype=2)+
+    geom_point(data=tail(df,1),color=&quot;black&quot;,size=2.5,alpha=0.82)
+  
+  g.bar&lt;-
+    ggplot(data=df,aes(x=date,y=hpa12,fill=hpa12))+geom_col()+
+    theme_minimal()+
+    scale_y_continuous(label=percent,limits=c(-.45,.45),breaks=seq(-.45,.45,.15))+
+    scale_fill_viridis(option=&quot;B&quot;)+
+    geom_text(data=filter(df,date==max(df$date)), hjust=1,fontface=&quot;bold&quot;,
+                          aes(y=0.3,label=paste0(&quot;Sep 2017:&quot;,percent(round(hpa12,3)))))+
+    labs(x=&quot;&quot;,y=&quot;&quot;,
+         title=&quot;House Price Appreciation&quot;,
+         subtitle=&quot;year-over-year percent change in index&quot;)+
+    theme(plot.caption=element_text(hjust=0),
+          legend.position=&quot;none&quot;)
+  
+  # use nested cowplot::plot_grid to arrand plots
+  g&lt;-plot_grid(g.map+theme(legend.position=&quot;none&quot;,
+                           plot.title=element_text(face=&quot;bold&quot;,size=18,hjust=0)),
+               plot_grid(g.line,g.bar),ncol=1)
+  return(g)
+}</code></pre>
+<p>Finally, we can loop through the top 50 metro areas and write one PowerPoint Slide per metro.</p>
+<pre class="r"><code>################################################
+## Load Officr libraries ----
+#################################################
+library(officer)
+library(rvg)
+
+################################################
+## Write PowerPoint ----
+#################################################
+# Load blank.pptx, an empty powerpoint that serves as a template
+my_pres&lt;-read_pptx(&quot;data/blank.pptx&quot;)
+
+# function for adding slides
+myp&lt;- function(i){
+  my_pres %&gt;% 
+    add_slide(layout = &quot;Blank&quot;, master = &quot;Office Theme&quot;) %&gt;%
+    ph_with_vg_at( code=print(myplot(myf(i))) , 1.38, 0.1, 7.25,7.3) -&gt;
+    my_pres
+}
+
+# use purrr::walk() to write the files
+walk(1:50,myp)
+
+# save the .pptx file
+my_pres %&gt;%
+  print( target = &quot;hpi50.pptx&quot;) %&gt;% 
+  invisible()</code></pre>
+<p>You can download the deck <a href="../../../../img/charts_nov_08_2017/hpi50.pptx">here</a>. The images in the PowerPoint are vector graphics so the file is big. Below I’ve embedded a pdf version of the slidedeck.</p>
+<iframe src="../../../../img/charts_nov_08_2017/hpi50.pdf" height="550" width="775">
+</iframe>
+</div>
+<div id="making-a-movie" class="section level3">
+<h3>Making a movie</h3>
+<p>Finally, if you want to create a video you can follow the steps <a href="../../../../2017/10/22/smooth-animations-r-pptx/">outlined here</a> to convert the PowerPoint into an mp4 format.</p>
+</div>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2017/11/07/jolts-a-dataviz-trilogy/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2017/11/07/jolts-a-dataviz-trilogy/">JOLTS a dataviz trilogy</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="/2017/11/16/majestic-mortgage-rate-plot/">Majestic mortgage rate plot</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="/2017/11/16/majestic-mortgage-rate-plot/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/house-prices/">house prices</a>, 
+            
+                <a href="/tags/housing/">housing</a>, 
+            
+                <a href="/tags/dataviz/">dataviz</a>, 
+            
+                <a href="/tags/r/">R</a>, 
+            
+                <a href="/tags/office/">Office</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2017%2f11%2f08%2ftour-of-u-s-metro-area-house-price-trends%2f&text=Tour%20of%20U.S.%20metro%20area%20house%20price%20trends via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2017%2f11%2f08%2ftour-of-u-s-metro-area-house-price-trends%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+

@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>Mortgage rates are low! &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Mortgage rates are low!">
+    <meta property="og:description" content="MORTGAGE RATES ARE LOW IN THE UNITED STATES. How low? Let’s take a look.
+We’ll use R to plot a few visualizations of mortgage rates. We’ll also try out some of the nice features in the tibbletime package that help when working with time series data. For more on using tibbletime see this post and this one on making animated plots.
+Since I was already called out for alleged chartcrimes, I’m going to go ahead and let loose here.">
+
+<div class="header">
+  <h1>Mortgage rates are low!</h1>
+  <h2></h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2017/10/19</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/mortgage">mortgage</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <p>MORTGAGE RATES ARE LOW IN THE UNITED STATES. How low? Let’s take a look.</p>
+<p>We’ll use <a href="https://www.r-project.org/">R</a> to plot a few visualizations of mortgage rates. We’ll also try out some of the nice features in the <a href="https://CRAN.R-project.org/package=tibbletime">tibbletime</a> package that help when working with time series data. For more on using tibbletime see <a href="../../../../2017/10/09/what-time-is-it-time-for-tibbletime/">this post</a> and <a href="../../../../2017/10/17/time-to-animate-with-tibbletime/">this one</a> on making animated plots.</p>
+<p>Since I was already <a href="https://twitter.com/BarbarianCap/status/921022751040790529">called out</a> for alleged chartcrimes, I’m going to go ahead and let loose here. We’ll go back to my <a href="../../../../2017/04/14/after-dark/">dark theme</a>. Halloween is getting close, if we modify our dark theme suitably we can have a spooky graph like this:</p>
+<p><img src="../../../../img/charts_oct_19_2017/spooky_rates.gif"></p>
+<div id="data" class="section level1">
+<h1>Data</h1>
+<p>We’ll get our mortgage rates data via the Saint Louis Federal Reserve’s <a href="https://fred.stlouisfed.org/">FRED</a> database. And if you followed <a href="../../../../2017/04/11/fred-plot">my post</a> from back in April you know what we can do if we combine FRED with the <a href="https://cran.r-project.org/web/packages/quantmod/index.html">quantmod</a> package. It gets even easier if we use <a href="https://CRAN.R-project.org/package=tidyquant">tidyquant</a> like we did <a href="../../../../2017/09/18/a-tidyquant-um-of-solace/">here</a>.</p>
+<pre class="r"><code>#####################################################################################
+## Load libraries ##
+#####################################################################################
+library(tidyverse)
+library(readxl)
+library(tidyquant)
+library(tibbletime)
+library(ggridges)
+library(viridis)
+library(cowplot)
+library(ggbeeswarm)
+
+#####################################################################################
+## Get mortgage data ##
+# Can also get direct here: http://www.freddiemac.com/pmms/docs/historicalweeklydata.xls
+#####################################################################################
+
+df&lt;- tq_get(&quot;MORTGAGE30US&quot;,get=&quot;economic.data&quot;,from=&quot;1971-04-01&quot;)
+
+knitr::kable(tail(df))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">date</th>
+<th align="right">price</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">2017-09-14</td>
+<td align="right">3.78</td>
+</tr>
+<tr class="even">
+<td align="left">2017-09-21</td>
+<td align="right">3.83</td>
+</tr>
+<tr class="odd">
+<td align="left">2017-09-28</td>
+<td align="right">3.83</td>
+</tr>
+<tr class="even">
+<td align="left">2017-10-05</td>
+<td align="right">3.85</td>
+</tr>
+<tr class="odd">
+<td align="left">2017-10-12</td>
+<td align="right">3.91</td>
+</tr>
+<tr class="even">
+<td align="left">2017-10-19</td>
+<td align="right">3.88</td>
+</tr>
+</tbody>
+</table>
+<p>The variable <code>price</code> corresponds to the U.S. weekly average 30-year fixed mortgage rate in percentage points based on the <a href="http://www.freddiemac.com/pmms/">Primary Mortgage Market Survey</a>. <em>Note: I work on the survey but the reflections here only represent my own views.</em></p>
+<div id="time-aggregations-with-tibbletime" class="section level2">
+<h2>Time aggregations with tibbletime</h2>
+<p>Now that we have our data, let’s use <code>tibbletime</code> to wrangle a bit.</p>
+<pre class="r"><code>df &lt;- as_tbl_time(df,index=date) %&gt;% 
+  mutate(year=year(date),
+         decade=paste0(year -year %% 10,&quot;&#39;s&quot;) # make decade variable
+         )
+
+# summarize by month:
+df.month &lt;-
+  df %&gt;%  time_summarise(period = 1~m,
+                         price=mean(price))
+
+# summarize by year:
+df.year&lt;-
+  df %&gt;%  time_summarise(period = 1~y,
+                       price=mean(price))
+
+# summarize by decade:
+df.d&lt;-
+  df %&gt;%  mutate(d2=date) %&gt;%
+  time_summarise(period = 10~y,
+                 price=mean(price),
+                 range=paste(year(min(d2)),year(max(d2)),sep=&quot;-&quot;),
+                 start_date=&quot;1970-01-01&quot;)
+
+knitr::kable(df.d  %&gt;% mutate_if(is.numeric,round,2))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">date</th>
+<th align="right">price</th>
+<th align="left">range</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1979-12-28</td>
+<td align="right">8.90</td>
+<td align="left">1971-1979</td>
+</tr>
+<tr class="even">
+<td align="left">1989-12-29</td>
+<td align="right">12.71</td>
+<td align="left">1980-1989</td>
+</tr>
+<tr class="odd">
+<td align="left">1999-12-31</td>
+<td align="right">8.12</td>
+<td align="left">1990-1999</td>
+</tr>
+<tr class="even">
+<td align="left">2009-12-31</td>
+<td align="right">6.29</td>
+<td align="left">2000-2009</td>
+</tr>
+<tr class="odd">
+<td align="left">2017-10-19</td>
+<td align="right">4.06</td>
+<td align="left">2010-2017</td>
+</tr>
+</tbody>
+</table>
+<div id="dark-theme" class="section level3">
+<h3>Dark theme</h3>
+<p>Let’s set up our dark theme:</p>
+<pre class="r"><code>extrafont::loadfonts(device=&quot;win&quot;) # needed for fonts (on windows, not sure about unix/mac)
+theme_dark2 = function(base_size = 10, base_family = &quot;Courier New&quot;) {
+  
+  theme_grey(base_size = base_size, base_family = base_family) %+replace%
+    
+    theme(
+      # Specify axis options
+      axis.line = element_blank(),  
+      axis.text.x = element_text(size = base_size*0.8, color = &quot;white&quot;, lineheight = 0.9),  
+      axis.text.y = element_text(size = base_size*0.8, color = &quot;white&quot;, lineheight = 0.9),  
+      axis.ticks = element_line(color = &quot;white&quot;, size  =  0.2),  
+      axis.title.x = element_text(size = base_size, color = &quot;white&quot;, margin = margin(0, 10, 0, 0)),  
+      axis.title.y = element_text(size = base_size, color = &quot;white&quot;, angle = 90, margin = margin(0, 10, 0, 0)),  
+      axis.ticks.length = unit(0.3, &quot;lines&quot;),   
+      # Specify legend options
+      legend.background = element_rect(color = NA, fill = &quot; gray10&quot;),  
+      legend.key = element_rect(color = &quot;white&quot;,  fill = &quot; gray10&quot;),  
+      legend.key.size = unit(1.2, &quot;lines&quot;),  
+      legend.key.height = NULL,  
+      legend.key.width = NULL,      
+      legend.text = element_text(size = base_size*0.8, color = &quot;white&quot;),  
+      legend.title = element_text(size = base_size*0.8, face = &quot;bold&quot;, hjust = 0, color = &quot;white&quot;),  
+      legend.position = &quot;none&quot;,  
+      legend.text.align = NULL,  
+      legend.title.align = NULL,  
+      legend.direction = &quot;vertical&quot;,  
+      legend.box = NULL, 
+      # Specify panel options
+      panel.background = element_rect(fill = &quot; gray10&quot;, color  =  NA),  
+      #panel.border = element_rect(fill = NA, color = &quot;white&quot;),  
+      panel.border = element_blank(),
+      panel.grid.major = element_line(color = &quot;grey35&quot;),  
+      panel.grid.minor = element_line(color = &quot;grey20&quot;),  
+      panel.spacing = unit(0.5, &quot;lines&quot;),   
+      # Specify facetting options
+      strip.background = element_rect(fill = &quot;grey30&quot;, color = &quot;grey10&quot;),  
+      strip.text.x = element_text(size = base_size*0.8, color = &quot;white&quot;),  
+      strip.text.y = element_text(size = base_size*0.8, color = &quot;white&quot;,angle = -90),  
+      # Specify plot options
+      plot.background = element_rect(color = &quot; gray10&quot;, fill = &quot; gray10&quot;),  
+      plot.title = element_text(size = base_size*1.2, color = &quot;white&quot;,hjust=0,lineheight=1.25,
+                                margin=margin(2,2,2,2)),  
+      plot.subtitle = element_text(size = base_size*1, color = &quot;white&quot;,hjust=0,  margin=margin(2,2,2,2)),  
+      plot.caption = element_text(size = base_size*0.8, color = &quot;white&quot;,hjust=0),  
+      plot.margin = unit(rep(1, 4), &quot;lines&quot;)
+      
+    )
+  
+}</code></pre>
+<p>Now let’s make some simple bar charts.</p>
+<pre class="r"><code>ggplot(data=df.month, aes(x=date,y=price,fill=price))+
+  geom_col()+
+  scale_fill_viridis(option=&quot;C&quot;)+
+  theme_dark2()+
+  labs(x=&quot;&quot;,y=&quot;&quot;,title=&quot;U.S. monthly average 30-year fixed mortgage rate (%)&quot;,
+       caption=&quot;@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey through Oct 19, 2017&quot;)</code></pre>
+<p><img src="/post/2017-10-19-mortgage-rates-are-low_files/figure-html/10-19-2017-plots-1-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(data=df.year, aes(x=date,y=price,fill=price,label=round(price,1)))+
+  geom_col()+
+  scale_fill_viridis(option=&quot;C&quot;)+
+  theme_dark2()+
+  labs(x=&quot;&quot;,y=&quot;&quot;,title=&quot;U.S. yearly average 30-year fixed mortgage rate (%)&quot;,
+       caption=&quot;@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey through Oct 19, 2017&quot;)</code></pre>
+<p><img src="/post/2017-10-19-mortgage-rates-are-low_files/figure-html/10-19-2017-plots-1-2.png" width="672" /></p>
+<pre class="r"><code>ggplot(data=df.d, aes(x=range,y=price,fill=price,label=round(price,1)))+
+  geom_col()+
+  geom_text(color=&quot;white&quot;,size=6,vjust=0.9)+
+  scale_fill_viridis(option=&quot;C&quot;)+
+  theme_dark2()+
+  labs(x=&quot;&quot;,y=&quot;&quot;,title=&quot;U.S. decade average 30-year fixed mortgage rate (%)&quot;,
+       caption=&quot;@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey through Oct 19, 2017&quot;)</code></pre>
+<p><img src="/post/2017-10-19-mortgage-rates-are-low_files/figure-html/10-19-2017-plots-1-3.png" width="672" /></p>
+<p>We might also be interested in comparing the distribution of weekly rates by year or decade. Let’s do that with a more complex plot:</p>
+<pre class="r"><code># Compare distributions
+
+g.box&lt;-
+  ggplot(data=df, aes(x=decade,y=price,color=price))+
+  geom_quasirandom(size=1,alpha=0.5)+
+  geom_boxplot(color=&quot;white&quot;,fill=NA)+
+  guides(color=F)+
+  scale_color_viridis(option=&quot;C&quot;)+
+  theme_dark2()+
+  labs(x=&quot;By Decade&quot;,y=&quot;30-year fixed mortgage rate (%)&quot;,
+       title=&quot;\n&quot;)
+
+g.box2&lt;-
+  ggplot(data=df, aes(x=year,y=price,color=price,group=year))+
+  geom_quasirandom(size=1.2,alpha=0.75)+
+  geom_boxplot(color=&quot;gray&quot;,fill=NA)+
+  guides(color=F)+
+  scale_color_viridis(option=&quot;C&quot;)+
+  theme_dark2()+
+  labs(x=&quot;By Year&quot;,y=&quot;30-year fixed mortgage rate (%)&quot;,
+       title=&quot;30-year fixed mortgage rates&quot;)
+
+g.line&lt;-
+  ggplot(data=df, aes(x=date,y=price,color=price,group=year,fill=price))+
+  geom_point(size=1.5,color=&quot;gray&quot;,alpha=0.25,shape=21)+
+  geom_path(size=1.1)+
+  guides(color=F)+
+  scale_color_viridis(option=&quot;C&quot;)+
+  scale_fill_viridis(option=&quot;C&quot;,name=&quot;Rate (%)&quot;)+
+  theme_dark2()+
+  scale_x_date(date_breaks=&quot;5 years&quot;,date_labels=&quot;%Y&quot;)+
+  labs(x=&quot;By Week&quot;,y=&quot;30-year fixed mortgage rate (%)&quot;,
+       caption=&quot;@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey&quot;)+
+  theme(legend.position=&quot;none&quot;,plot.caption=element_text(hjust=0))
+
+plot_grid(plot_grid(g.box2,g.box),g.line,ncol=1)</code></pre>
+<p><img src="/post/2017-10-19-mortgage-rates-are-low_files/figure-html/10-19-2017-plots-2-1.png" width="864" /></p>
+</div>
+</div>
+</div>
+<div id="a-spooky-plot" class="section level1">
+<h1>A spooky plot</h1>
+<p>How about if we want our spooky plot? We just have to run the following. Note we can use the <a href="https://cran.r-project.org/web/packages/tibbletime/vignettes/TT-01-time-based-filtering.html">time-based filtering</a> tools from tibbletime to subset our data easiy. These utitlity functions have already saved me a lot of typing.</p>
+<pre class="r"><code>ggplot(data=df[2015~2017], aes(x=date,y=price,fill=price))+
+  geom_point(data=df[2015~2017],size=2,color=&quot;gray&quot;,alpha=0.5,shape=21,fill=&quot;orange&quot;)+
+  geom_line(color=&quot;orange&quot;,size=0.5)+
+  #geom_step(color=&quot;orange&quot;, size=1.1)+
+  theme_dark2(base_family=&quot;Chiller&quot;,base_size=20)+
+  labs(x=&quot;&quot;, y=&quot;&quot;,
+       title=&quot;30-year Fixed Mortgage Rate (%)&quot;,
+       subtitle=&quot;U.S. weekly average rates&quot;,
+       caption=&quot;@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey&quot;)+
+  theme(plot.title=element_text(color=&quot;orange&quot;,face=&quot;bold&quot;,family=&quot;Chiller&quot;,size=24),
+        panel.border=element_blank(),
+        plot.subtitle=element_text(color=&quot;orange&quot;,face=&quot;italic&quot;,family=&quot;Chiller&quot;,size=20),
+        plot.caption=element_text(hjust=0,size=18))</code></pre>
+<p><img src="/post/2017-10-19-mortgage-rates-are-low_files/figure-html/10-19-2017-spooky-plot-1.png" width="672" /></p>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2017/10/17/time-to-animate-with-tibbletime/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2017/10/17/time-to-animate-with-tibbletime/">Time to animate with tibbletime</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="/2017/10/21/purrrtier-powerpoint-with-r/">Purrrtier PowerPoint with R</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="/2017/10/21/purrrtier-powerpoint-with-r/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/r/">R</a>, 
+            
+                <a href="/tags/mortgage/">mortgage</a>, 
+            
+                <a href="/tags/dataviz/">dataviz</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2017%2f10%2f19%2fmortgage-rates-are-low%2f&text=Mortgage%20rates%20are%20low%21 via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2017%2f10%2f19%2fmortgage-rates-are-low%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+

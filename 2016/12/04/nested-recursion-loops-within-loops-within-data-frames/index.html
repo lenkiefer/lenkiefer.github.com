@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>Nested recursion: Loops within loops within data frames  &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Nested recursion: Loops within loops within data frames ">
+    <meta property="og:description" content="IntroductionI HAVE BEEN WATCHING SOME VIDEOS of Plotcon 2016. All of the videos I’ve watched are worth watching (check out the playlist), but I was particularly interested in this one from Hadley Wickham:
+Among other things Hadley talks about the idea of nesting data frames, models and model results within a data frame. That idea struck me as something that could be quite useful and not at all something that could lead to explosive increase in the size of data frames or unending loops.">
+
+<div class="header">
+  <h1>Nested recursion: Loops within loops within data frames </h1>
+  <h2></h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2016/12/04</time>
+  </div>
+
+  
+
+  
+
+  
+
+</div>
+
+  <div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>I HAVE BEEN WATCHING SOME VIDEOS of <a href="https://plotcon.plot.ly/">Plotcon 2016</a>. All of the videos I’ve watched are worth watching (<a href="https://www.youtube.com/playlist?list=PLR7d32uh__xbrzSdfzxxCxCEFQnt7BcOj">check out the playlist</a>), but I was particularly interested in this one from Hadley Wickham:</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/cU0-NrUxRw4?list=PLR7d32uh__xbrzSdfzxxCxCEFQnt7BcOj" frameborder="0" allowfullscreen>
+</iframe>
+<p>Among other things Hadley talks about the idea of nesting data frames, models and model results within a data frame. That idea struck me as something that could be quite useful and not at all something that could lead to explosive increase in the size of data frames or unending loops.</p>
+<p>We’ll try these ideas out in a simple, stylized forecasting exercise. We’ll use <a href="https://www.r-project.org/">R</a> to explore and model.</p>
+<div id="the-data" class="section level2">
+<h2>The data</h2>
+<p>I happen to have some data <a href="../../../../2016/12/03/visual-meditations-on-house-prices-part7">handy</a> that’s perfect for this exercise. It’s the <a href="http://www.freddiemac.com/finance/house_price_index.html">Freddie Mac House Price Index</a> I’ve been using for my series of <a href="../../../../2016/05/08/visual-meditations-on-house-prices">Visual Meditations on House Prices</a>.</p>
+<p>We’re going to use data house prices for the United States, each of the 50 states and the District of Columbia collected in the following file:</p>
+<ol style="list-style-type: decimal">
+<li><a href="%7B%7B%20site.url%20%7D%7D/img/charts_nov_3_2016/fmhpi2016q3.txt"><em>state and national called fmhpi2016q3.txt</em></a></li>
+</ol>
+<p><strong>Important note: Though I’m going to use house prices as an illustrative example, this shouldn’t be interpreted as my recommendation for a reasonable way to model house prices in any way. This is just for fun, and trying out some coding things.</strong></p>
+</div>
+<div id="the-strategy" class="section level2">
+<h2>The strategy</h2>
+<p>Here’s what we’re going to do. We’re going to take our house price data, a dataset with monthly observations on the house price index from January 1975 to September 2016, and construct a simple forecast for house price growth (year-over-year percent change) for each state rolling forward from 1985.</p>
+<p>To make things simple we’ll subset the data to just include observations in September of each (the last month available for 2016). That will reduce the number of observations and get rid of overlapping time series observations.</p>
+<p>We can apply the techniques outlined in Hadley’s Plotcon talk to organize our results in a single data frame.</p>
+<div id="the-old-way" class="section level3">
+<h3>The old way</h3>
+<p>What I would usually do in this situation, is construct a series of loops to iterate over each state and each time period. Something like this (where <em>forecast.function</em>, and <em>stack.data.function</em> are some functions that compute forecasts and organize the output data respectively):</p>
+<pre class="r"><code>for (i: 1:N.states){                                                    # iterate over states
+  for (t: 1:T.months){                                                  # iterate over time periods
+    newdata&lt;-filter(data, date&lt;=T &amp; state==i)                           # filter data, state=i, date &lt;= T
+    forecast.data&lt;-forecast.function(newdata)                           # forecast function
+    output.data&lt;-stack.data.function(output.data,forecast.data)         # organize data function
+    }
+  }</code></pre>
+</div>
+<div id="nest-with-map" class="section level3">
+<h3>Nest with map</h3>
+<p>Now we can avoid the loops by using the <em>map</em> or <em>map2</em> functions from the <a href="https://cran.r-project.org/web/packages/purrr/index.html">purrr</a> package. Instead of loops, we can take a dataframe with a list of states and dates and then use the <em>map2</em> function to store our model results in the same dataframe. Like so:</p>
+<pre class="r"><code>output.data&lt;- data %&gt;% mutate(mod=map2(state,date,forecast.function))</code></pre>
+<p>Besides being more efficient to write, this will result in a nice structure and we don’t have to worry about index numbers and aligning things if we want to add or subtract rows.</p>
+</div>
+</div>
+</div>
+<div id="example-using-house-prices" class="section level1">
+<h1>Example using house prices</h1>
+<p>Let’s load packages, import the data from the text file above, and do some data manipulations:</p>
+<pre class="r"><code>#load libraries
+library(data.table, warn.conflicts = FALSE, quietly=TRUE)
+library(ggplot2, warn.conflicts = FALSE, quietly=TRUE)
+library(dplyr, warn.conflicts = FALSE, quietly=TRUE)
+library(zoo, warn.conflicts = FALSE, quietly=TRUE)
+library(ggrepel, warn.conflicts = FALSE, quietly=TRUE)
+library(ggthemes, warn.conflicts = FALSE, quietly=TRUE)
+library(scales, warn.conflicts = FALSE, quietly=TRUE)
+library(tidyr, warn.conflicts = FALSE, quietly=TRUE)
+library(zoo,warn.conflicts=F,quietly=T)
+library(purrr,warn.conflicts=F,quietly=T)
+library(xts,warn.conflicts=F,quietly=T)
+library(lubridate,warn.conflicts=F,quietly=T)
+library(viridis,warn.conflicts = F,quietly = F) #for the colorz
+
+#load data from text file
+d.state &lt;- fread(&quot;data/fmhpi2016q3.txt&quot;)
+#set up date variable
+d.state$date&lt;-as.Date(d.state$date, format=&quot;%m/%d/%Y&quot;)
+#get list of states
+state.list&lt;-unique(d.state$state)
+
+# construct variable hpa12 which is 12-month percentage change in house price index
+# using data.table for convenience of rolling operations across groups
+d.state[,hpa12:=c(rep(NA,12),((1+diff(hpi,12)/hpi))^1)-1,by=state]</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.state, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 1).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.state, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 2).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.state, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 3).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.state, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 4).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.state, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 5).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.state, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 6).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.state, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 7).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.state, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 8).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.state, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 9).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.state, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 10).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.state, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 11).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.state, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 12).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.state, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 13).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.state, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 14).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.state, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 15).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.state, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 16).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.state, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 17).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.state, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 18).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.state, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 19).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.state, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 20).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.state, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 21).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.state, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 22).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.state, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 23).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.state, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 24).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.state, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 25).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.state, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 26).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.state, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 27).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.state, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 28).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.state, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 29).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.state, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 30).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.state, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 31).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.state, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 32).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.state, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 33).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.state, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 34).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.state, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 35).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.state, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 36).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.state, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 37).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.state, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 38).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.state, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 39).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.state, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 40).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.state, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 41).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.state, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 42).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.state, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 43).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.state, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 44).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.state, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 45).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.state, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 46).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.state, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 47).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.state, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 48).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.state, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 49).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.state, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 50).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.state, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 51).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.state, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 52).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre><code>## Warning in diff(hpi, 12)/hpi: longer object length is not a multiple of
+## shorter object length</code></pre>
+<pre><code>## Warning in `[.data.table`(d.state, , `:=`(hpa12, c(rep(NA, 12), ((1 +
+## diff(hpi, : RHS 1 is length 513 (greater than the size (501) of group 53).
+## The last 12 element(s) will be discarded.</code></pre>
+<pre class="r"><code>#subset so that year &gt;1975 and month ==9
+d.state&lt;-d.state[month==9 &amp; year&gt;1975]</code></pre>
+<p>Now that we have our data loaded let’s take a peek at the structure:</p>
+<pre class="r"><code>library(&quot;htmlTable&quot;)
+# make tables for viewing formatting dates with purr %&gt;% operations
+htmlTable(head(d.state %&gt;% map_if(is.Date, as.character,format=&quot;%b-%Y&quot;) %&gt;% map_if(is.numeric, round,3) %&gt;%as.data.frame() ,10), col.rgroup = c(&quot;none&quot;, &quot;#F7F7F7&quot;),caption=&quot;State House Price Data&quot;,
+          tfoot=&quot;Source: Freddie Mac House Price Index&quot;)</code></pre>
+<table class='gmisc_table' style='border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;' >
+<thead>
+<tr><td colspan='8' style='text-align: left;'>
+State House Price Data</td></tr>
+<tr>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey;'> </th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>date</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>state</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>hpi</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>year</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>month</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>type</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>hpa12</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style='text-align: left;'>1</td>
+<td style='text-align: center;'>Sep-1976</td>
+<td style='text-align: center;'>AK</td>
+<td style='text-align: center;'>41.953</td>
+<td style='text-align: center;'>1976</td>
+<td style='text-align: center;'>9</td>
+<td style='text-align: center;'>State</td>
+<td style='text-align: center;'>0.077</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>2</td>
+<td style='background-color: #f7f7f7; text-align: center;'>Sep-1976</td>
+<td style='background-color: #f7f7f7; text-align: center;'>AL</td>
+<td style='background-color: #f7f7f7; text-align: center;'>38.775</td>
+<td style='background-color: #f7f7f7; text-align: center;'>1976</td>
+<td style='background-color: #f7f7f7; text-align: center;'>9</td>
+<td style='background-color: #f7f7f7; text-align: center;'>State</td>
+<td style='background-color: #f7f7f7; text-align: center;'>0.073</td>
+</tr>
+<tr>
+<td style='text-align: left;'>3</td>
+<td style='text-align: center;'>Sep-1976</td>
+<td style='text-align: center;'>AR</td>
+<td style='text-align: center;'>41.717</td>
+<td style='text-align: center;'>1976</td>
+<td style='text-align: center;'>9</td>
+<td style='text-align: center;'>State</td>
+<td style='text-align: center;'>0.084</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>4</td>
+<td style='background-color: #f7f7f7; text-align: center;'>Sep-1976</td>
+<td style='background-color: #f7f7f7; text-align: center;'>AZ</td>
+<td style='background-color: #f7f7f7; text-align: center;'>30.269</td>
+<td style='background-color: #f7f7f7; text-align: center;'>1976</td>
+<td style='background-color: #f7f7f7; text-align: center;'>9</td>
+<td style='background-color: #f7f7f7; text-align: center;'>State</td>
+<td style='background-color: #f7f7f7; text-align: center;'>0.039</td>
+</tr>
+<tr>
+<td style='text-align: left;'>5</td>
+<td style='text-align: center;'>Sep-1976</td>
+<td style='text-align: center;'>CA</td>
+<td style='text-align: center;'>19.974</td>
+<td style='text-align: center;'>1976</td>
+<td style='text-align: center;'>9</td>
+<td style='text-align: center;'>State</td>
+<td style='text-align: center;'>0.162</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>6</td>
+<td style='background-color: #f7f7f7; text-align: center;'>Sep-1976</td>
+<td style='background-color: #f7f7f7; text-align: center;'>CO</td>
+<td style='background-color: #f7f7f7; text-align: center;'>22.027</td>
+<td style='background-color: #f7f7f7; text-align: center;'>1976</td>
+<td style='background-color: #f7f7f7; text-align: center;'>9</td>
+<td style='background-color: #f7f7f7; text-align: center;'>State</td>
+<td style='background-color: #f7f7f7; text-align: center;'>0.066</td>
+</tr>
+<tr>
+<td style='text-align: left;'>7</td>
+<td style='text-align: center;'>Sep-1976</td>
+<td style='text-align: center;'>CT</td>
+<td style='text-align: center;'>27.238</td>
+<td style='text-align: center;'>1976</td>
+<td style='text-align: center;'>9</td>
+<td style='text-align: center;'>State</td>
+<td style='text-align: center;'>0.06</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>8</td>
+<td style='background-color: #f7f7f7; text-align: center;'>Sep-1976</td>
+<td style='background-color: #f7f7f7; text-align: center;'>DC</td>
+<td style='background-color: #f7f7f7; text-align: center;'>22.244</td>
+<td style='background-color: #f7f7f7; text-align: center;'>1976</td>
+<td style='background-color: #f7f7f7; text-align: center;'>9</td>
+<td style='background-color: #f7f7f7; text-align: center;'>State</td>
+<td style='background-color: #f7f7f7; text-align: center;'>0.101</td>
+</tr>
+<tr>
+<td style='text-align: left;'>9</td>
+<td style='text-align: center;'>Sep-1976</td>
+<td style='text-align: center;'>DE</td>
+<td style='text-align: center;'>28.837</td>
+<td style='text-align: center;'>1976</td>
+<td style='text-align: center;'>9</td>
+<td style='text-align: center;'>State</td>
+<td style='text-align: center;'>0.011</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: left;'>10</td>
+<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>Sep-1976</td>
+<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>FL</td>
+<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>34.051</td>
+<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>1976</td>
+<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>9</td>
+<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>State</td>
+<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>0.036</td>
+</tr>
+</tbody>
+<tfoot><tr><td colspan='8'>
+Source: Freddie Mac House Price Index</td></tr></tfoot>
+</table>
+<p>What we want to do is forecast the house price appreciation (“hpa12”: year-over-year percent change in index) at different points in time.</p>
+<div id="working-on-a-single-state" class="section level3">
+<h3>Working on a single state</h3>
+<p>Before we get into the nesting business, let’s just do it for a single state, for a single month. Let’s extract the history of house price growth (hereafter HPA) in Virginia from 1976 through 2016 in September of each year:</p>
+<pre class="r"><code># just plot data for VA
+
+ggplot(data=d.state[state==&quot;VA&quot;,],aes(x=date,y=hpa12,label=paste(percent(hpa12))))+
+  geom_line(color=viridis(10)[1],size=1.1)+
+  geom_point(data=tail(d.state[state==&quot;VA&quot;,],1),color=viridis(10)[8],alpha=0.82,size=3)+
+  geom_text(data=tail(d.state[state==&quot;VA&quot;,],1),color=viridis(10)[8],alpha=0.82,size=3,hjust=0,vjust=-1)+
+  scale_y_continuous(label=percent)+
+  coord_cartesian(xlim=c(as.Date(&quot;1976-01-01&quot;),as.Date(&quot;2017-12-31&quot;)))+
+  theme_minimal()+labs(x=&quot;&quot;,y=&quot;&quot;,title=&quot;Annual percentage change in house prices&quot;,
+                       subtitle=&quot;Virginia in September&quot;,
+                       caption=&quot;@lenkiefer Source: Freddie Mac House Price Index&quot;)+
+  theme(plot.caption=element_text(hjust=0))</code></pre>
+<p><img src="/post/2016-12-04-recursion_files/figure-html/va-plot-recursion-dec4-2016,-1.png" width="528" /></p>
+<p>House prices in Virginia are growing by just under 3 percent year-over-year in September 2016, up from the lows of 2009, but below the middle part of last decade and also a bit below the long-run average.</p>
+<p>Let’s construct a simple times series forecasting model for house prices (see my note above, this is just for illustration) based onthe history of HPA. There are many models we could use, but one of the simplest is an Autoregressive Model.We can code this pretty easily in R, but working with dates can be tricky. I’ve tried a couple things, but <a href="https://cran.r-project.org/web/packages/xts/index.html">xts</a> works for me.</p>
+<p>We use a simple <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/ar.ols.html">autoregressive model</a> fit to up to two lags of HPA.</p>
+<pre class="r"><code>  df&lt;-d.state[state==&quot;VA&quot;,]                       #just get data for VA
+  va.ts&lt;-xts(df$hpa12,df$date)                    #create xts time series of hpa12 with data
+  va.out&lt;-ar.ols(va.ts,order.max=2)               #construct ar model
+  va.out</code></pre>
+<pre><code>## 
+## Call:
+## ar.ols(x = va.ts, order.max = 2)
+## 
+## Coefficients:
+##       1        2  
+##  0.9019  -0.2672  
+## 
+## Intercept: -0.0009794 (0.00611) 
+## 
+## Order selected 2  sigma^2 estimated as  0.001456</code></pre>
+<p>There’s quite a bit of persistence in the HPA series, reflected in the coefficients. We might be concerned about stationarity with this series. We can use some nice <a href="http://robjhyndman.com/hyndsight/arma-roots/">functions from Rob Hyndman</a> to check:</p>
+<pre class="r"><code>source(&quot;code/roots.R&quot;)  #load AR roots
+# see http://robjhyndman.com/hyndsight/arma-roots/ 
+# for code
+plot.armaroots(arroots(va.out))</code></pre>
+<p><img src="/post/2016-12-04-recursion_files/figure-html/va-ar-recursion-2-dec4-2016,-1.png" width="672" /></p>
+<p>Now we can use this simple AR model to forecast house prices. The code below will stack the predictions to the input data. Then we’ll make a simple forecast plot:</p>
+<pre class="r"><code>  va.p&lt;-predict(va.out, n.ahead = 4)              #forecasts from ar model
+  va.p.ts&lt;-xts(va.p$pred,
+                 seq(max(df$date)+years(1),
+                     max(df$date)+years(4),&quot;1 year&quot;))
+  va.ts&lt;-rbind(va.ts,va.p.ts)
+  f.data&lt;-data.frame(date=index(va.ts), 
+                     hpa12=coredata(va.ts))
+    f.data$f&lt;-ifelse(f.data$date&gt;max(df$date),&quot;forecast&quot;,&quot;actual&quot;)
+
+    #plot forecast:
+    ggplot(data=f.data,aes(x=date,y=hpa12,label=paste(percent(hpa12)),color=f,linetype=f))+
+      geom_line(size=1.1)+
+      scale_color_viridis(name=&quot;&quot;,discrete=T,end=0.75,direction=1)+
+      geom_point(data=tail(f.data,1),color=viridis(10)[8],alpha=0.82,size=3)+
+      geom_text(data=tail(f.data,1),color=viridis(10)[8],alpha=0.82,size=3,hjust=0,vjust=-1)+
+      scale_y_continuous(label=percent)+
+      coord_cartesian(xlim=c(as.Date(&quot;1976-01-01&quot;),as.Date(&quot;2021-12-31&quot;)))+
+      theme_minimal()+labs(x=&quot;&quot;,y=&quot;&quot;,title=&quot;Annual percentage change in house prices&quot;,
+                           subtitle=&quot;Virginia in September, dotted line forecast from AR(2) model&quot;,
+                           caption=&quot;@lenkiefer Source: Freddie Mac House Price Index&quot;)+
+      guides(linetype=F)+
+      theme(plot.caption=element_text(hjust=0),
+            legend.position=&quot;top&quot;)</code></pre>
+<p><img src="/post/2016-12-04-recursion_files/figure-html/va-ar-recursion-3-dec4-2016,-1.png" width="528" /></p>
+<p>Okay things look reasonable. These forecasts are sort of dumb, they don’t account for inflation or other factors, but based on the history of house prices they aren’t totally outlandish. What’s a little more interesting is to consider if we rolled back the clock, what these simple forecasts would have looked like.</p>
+<p>Again, just using Virginia as an example, we can go back for each year since 1985, fit a forecasting model on history up to that point in time, and then project forward a few years. We could do it with a loop, but instead we’ll use Hadley’s approach described in Plotcon and store the results of each estimate as a dataframe nested inside a data frame. This structure will be more compact, and also make plotting with ggplot quite simple, no explicit loops involved.</p>
+</div>
+<div id="build-a-function" class="section level3">
+<h3>Build a function</h3>
+<p>To get this to work we’re going to require a function with two inputs. First, it will take the name of state and second it will take a maximum date. Then it will construct the forecast for that state up to that time (as we did for Virginia above) and stack the forecasts.</p>
+<pre class="r"><code>fcst.d3&lt;-function(s,dmax) { 
+  #subset data based on state s and up to date dmax:
+  df&lt;-d.state[state==s &amp; date&lt;=dmax,c(&quot;state&quot;,&quot;date&quot;,&quot;hpa12&quot;),with=F]
+  test.ts&lt;-xts(df$hpa12,df$date)
+  test.out&lt;-ar(test.ts,order.max=2)
+  test.p&lt;-predict(test.out, n.ahead = 4)
+  test.p.ts&lt;-xts(test.p$pred,seq(max(df$date)+years(1),max(df$date)+years(4),&quot;1 year&quot;))
+  test.ts&lt;-rbind(tail(test.ts,1),test.p.ts)
+  f.data&lt;-data.frame(state=s,date=index(test.ts), hpa12=coredata(test.ts))
+  f.data$f&lt;-ifelse(f.data$date&gt;max(df$date),&quot;forecast&quot;,&quot;actual&quot;)
+  return(f.data)
+}</code></pre>
+<p>Let’s use this function by adding a forecast based on data up to September 2005 to our original plot for Virginia:</p>
+<pre class="r"><code># Examine forecast output
+htmlTable(fcst.d3(&quot;VA&quot;,&quot;2005-09-01&quot;) %&gt;% map_if(is.Date, as.character,format=&quot;%b-%Y&quot;) %&gt;% map_if(is.numeric, round,3) %&gt;%as.data.frame() , col.rgroup = c(&quot;none&quot;, &quot;#F7F7F7&quot;),caption=&quot;Virginia house price forecasts\nfrom simple AR(2) model&quot;,
+          tfoot=&quot;Source: Freddie Mac House Price Index\nAR(2) forecast fit on data through Sep 2005&quot;)</code></pre>
+<table class='gmisc_table' style='border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;' >
+<thead>
+<tr><td colspan='5' style='text-align: left;'>
+Virginia house price forecasts
+from simple AR(2) model</td></tr>
+<tr>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey;'> </th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>state</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>date</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>hpa12</th>
+<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>f</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style='text-align: left;'>1</td>
+<td style='text-align: center;'>VA</td>
+<td style='text-align: center;'>Sep-2005</td>
+<td style='text-align: center;'>0.179</td>
+<td style='text-align: center;'>actual</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>2</td>
+<td style='background-color: #f7f7f7; text-align: center;'>VA</td>
+<td style='background-color: #f7f7f7; text-align: center;'>Sep-2006</td>
+<td style='background-color: #f7f7f7; text-align: center;'>0.14</td>
+<td style='background-color: #f7f7f7; text-align: center;'>forecast</td>
+</tr>
+<tr>
+<td style='text-align: left;'>3</td>
+<td style='text-align: center;'>VA</td>
+<td style='text-align: center;'>Sep-2007</td>
+<td style='text-align: center;'>0.114</td>
+<td style='text-align: center;'>forecast</td>
+</tr>
+<tr style='background-color: #f7f7f7;'>
+<td style='background-color: #f7f7f7; text-align: left;'>4</td>
+<td style='background-color: #f7f7f7; text-align: center;'>VA</td>
+<td style='background-color: #f7f7f7; text-align: center;'>Sep-2008</td>
+<td style='background-color: #f7f7f7; text-align: center;'>0.097</td>
+<td style='background-color: #f7f7f7; text-align: center;'>forecast</td>
+</tr>
+<tr>
+<td style='border-bottom: 2px solid grey; text-align: left;'>5</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>VA</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>Sep-2009</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>0.086</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>forecast</td>
+</tr>
+</tbody>
+<tfoot><tr><td colspan='5'>
+Source: Freddie Mac House Price Index<br>
+AR(2) forecast fit on data through Sep 2005</td></tr></tfoot>
+</table>
+<pre class="r"><code># Create plot
+
+ggplot(data=d.state[state==&quot;VA&quot;,],aes(x=date,y=hpa12,label=paste(percent(hpa12))))+
+  geom_line(color=viridis(10)[1],size=1.1)+
+  geom_line(data=fcst.d3(&quot;VA&quot;,&quot;2005-09-01&quot;), #use forecast function data
+            linetype=2,color=viridis(10)[4],size=1.1)+
+  geom_point(data=tail(d.state[state==&quot;VA&quot;,],1),color=viridis(10)[1],alpha=0.82,size=3)+
+  geom_text(data=tail(d.state[state==&quot;VA&quot;,],1),color=viridis(10)[1],alpha=0.82,size=3,hjust=0,vjust=-1)+
+  scale_y_continuous(label=percent)+
+  coord_cartesian(xlim=c(as.Date(&quot;1976-01-01&quot;),as.Date(&quot;2017-12-31&quot;)))+
+  theme_minimal()+labs(x=&quot;&quot;,y=&quot;&quot;,title=&quot;Annual percentage change in house prices&quot;,
+                       subtitle=&quot;Virginia in September, dotted line forecast from AR(2) model fit on data through 2005&quot;,
+                       caption=&quot;@lenkiefer Source: Freddie Mac House Price Index&quot;)+
+  theme(plot.caption=element_text(hjust=0))</code></pre>
+<p><img src="/post/2016-12-04-recursion_files/figure-html/va-plot-recursion-5-dec4-2016,-1.png" width="528" /></p>
+<p>Here we can see that based on the history of hpa, a simple model would have expected some mean reversion back towards a long-run average, as depicted by the tentacle extending from the plot. What would it look like if we added a tentacle for each year? We could do that through a loop, or use the nesting described in Hadley’s talk. Let’s try that:</p>
+</div>
+<div id="nesting" class="section level3">
+<h3>Nesting</h3>
+<p>The function below will allow us to next each prediction in our dataframe. For now, we’ll restrict the data just to Virginia, but soon we’ll add in all 50 states plus D.C. Turns out it just takes a couple lines of code!</p>
+<pre class="r"><code>fcsts.va&lt;- d.state[year(date)&gt;1984 &amp; state==&quot;VA&quot;, c(&quot;date&quot;,&quot;state&quot;,&quot;hpa12&quot;),with=F] %&gt;% 
+           mutate(fcst=map2(state,date,fcst.d3))
+head(fcsts.va,5)</code></pre>
+<pre><code>##         date state      hpa12
+## 1 1985-09-01    VA 0.05019297
+## 2 1986-09-01    VA 0.06988367
+## 3 1987-09-01    VA 0.10303571
+## 4 1988-09-01    VA 0.09598973
+## 5 1989-09-01    VA 0.07379588
+##                                                                                                                                                                                              fcst
+## 1 1, 1, 1, 1, 1, 5722, 6087, 6452, 6818, 7183, 0.0501929690046294, 0.0673057256424662, 0.0673057256424662, 0.0673057256424662, 0.0673057256424662, actual, forecast, forecast, forecast, forecast
+## 2 1, 1, 1, 1, 1, 6087, 6452, 6818, 7183, 7548, 0.0698836679882848, 0.0675400840375406, 0.0675400840375406, 0.0675400840375406, 0.0675400840375406, actual, forecast, forecast, forecast, forecast
+## 3  1, 1, 1, 1, 1, 6452, 6818, 7183, 7548, 7913, 0.103035712535516, 0.0704980530790385, 0.0704980530790385, 0.0704980530790385, 0.0704980530790385, actual, forecast, forecast, forecast, forecast
+## 4 1, 1, 1, 1, 1, 6818, 7183, 7548, 7913, 8279, 0.0959897340392564, 0.0724589516144399, 0.0724589516144399, 0.0724589516144399, 0.0724589516144399, actual, forecast, forecast, forecast, forecast
+## 5 1, 1, 1, 1, 1, 7183, 7548, 7913, 8279, 8644, 0.0737958791316216, 0.0725544464370957, 0.0725544464370957, 0.0725544464370957, 0.0725544464370957, actual, forecast, forecast, forecast, forecast</code></pre>
+<p>Now we have a data frame with a set of data frames (one for each date) corresponding to forecasts beginning at the date and extending 4 years.</p>
+<p>Now we can easily construct our tentacle plot. We use the <em>unnest()</em> function to expand the data.</p>
+<pre class="r"><code>p.data&lt;-unnest(fcsts.va,fcst,.sep=&quot;.&quot;) #unnest the data for plotting
+ggplot()+  
+  geom_path(aes(x=fcst.date,y=fcst.hpa12,color=factor(year(date))),
+                     data=unnest(fcsts.va,fcst,.sep=&quot;.&quot;)
+            ,linetype=2 )    +
+  
+      geom_path(aes(x=date,y=hpa12),
+                data=d.state[year(date)&gt;1984 &amp; state==&quot;VA&quot;, c(&quot;date&quot;,&quot;state&quot;,&quot;hpa12&quot;),with=F]
+                ,size=1.05)+
+  theme_minimal()+theme(legend.position=&quot;none&quot;)+  scale_y_continuous(label=percent)+
+  labs(x=&quot;&quot;,y=&quot;&quot;,title=&quot;Annual percentage change in house prices&quot;,
+                       subtitle=&quot;Virginia in September, dotted lines forecast from AR(2) model fit&quot;,
+                       caption=&quot;@lenkiefer Source: Freddie Mac House Price Index\nAR(2) forecast fit on data up to point where solid line and dotted lines diverge&quot;)+
+  theme(plot.caption=element_text(hjust=0))+
+
+  coord_cartesian(xlim=c(as.Date(&quot;1985-01-01&quot;),max(p.data$fcst.date)),ylim=c(-.1,.2))</code></pre>
+<p><img src="/post/2016-12-04-recursion_files/figure-html/va-plot-recursion-7-dec4-2016,-1.png" width="672" /></p>
+<p>We can also roll over each state:</p>
+<pre class="r"><code>fcsts.st&lt;- d.state[year(date)&gt;1984, c(&quot;date&quot;,&quot;state&quot;,&quot;hpa12&quot;),with=F] %&gt;% 
+           mutate(fcst=map2(state,date,fcst.d3))
+           
+p.data2&lt;-unnest(fcsts.va,fcst,.sep=&quot;.&quot;)
+
+ggplot()+  
+  geom_path(aes(x=fcst.date,y=fcst.hpa12,color=factor(year(date))),
+                     data=unnest(filter(fcsts.st,! state %in% c(&quot;DC&quot;,&quot;US.NSA&quot;,&quot;US.SA&quot;)),fcst,.sep=&quot;.&quot;)
+            ,linetype=2,size=.75 )    +
+  
+      geom_path(aes(x=date,y=hpa12),
+                data=d.state[year(date)&gt;1984 &amp; ! state %in% c(&quot;DC&quot;,&quot;US.NSA&quot;,&quot;US.SA&quot;) , c(&quot;date&quot;,&quot;state&quot;,&quot;hpa12&quot;),with=F]
+                ,size=.85)+
+  theme_minimal()+theme(legend.position=&quot;none&quot;)+  scale_y_continuous(label=percent)+
+  labs(x=&quot;&quot;,y=&quot;&quot;,title=&quot;Annual percentage change in house prices&quot;,
+                       subtitle=&quot;Dotted lines forecast from AR(2) model fit&quot;,
+                       caption=&quot;@lenkiefer Source: Freddie Mac House Price Index\nAR(2) forecast fit on data up to point where solid line and dotted lines diverge&quot;)+
+  theme(plot.caption=element_text(hjust=0))+
+  facet_wrap(~state,ncol=5)</code></pre>
+<p><img src="/post/2016-12-04-recursion_files/figure-html/va-plot-recursion-8-dec4-2016,-1.png" width="864" /></p>
+<p>And we can make a gif looping through a few key states:</p>
+<p><img src="{{ site.url }}/img/charts_dec_4_2016/hpi tentacles.gif" alt="tentacle gifs"/></p>
+</div>
+</div>
+<div id="going-forward" class="section level1">
+<h1>Going forward</h1>
+<p>This type of approach could be quite useful for a number of other applications. The <em>map</em> functions from <em>purrr</em> have a lot of potential uses I’m looking forward to trying out in the future. So far, I haven’t blown up my computer with an endless loop. If I can keep it that way, I’ll follow up in this space with some other applications.</p>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2016/12/03/visual-meditations-on-house-prices-part7/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2016/12/03/visual-meditations-on-house-prices-part7/">Visual meditations on house prices, Part 7: Don&#39;t cross the streams!</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="/2016/12/08/10-ways-to-visualize-mortgage-rates/">10 ways to visualize mortgage rates </a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="/2016/12/08/10-ways-to-visualize-mortgage-rates/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2016%2f12%2f04%2fnested-recursion-loops-within-loops-within-data-frames%2f&text=Nested%20recursion%3a%20Loops%20within%20loops%20within%20data%20frames%20 via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2016%2f12%2f04%2fnested-recursion-loops-within-loops-within-data-frames%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+

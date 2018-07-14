@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Animation on Len Kiefer</title>
+    <link>/tags/animation/</link>
+    <description>Recent content in Animation on Len Kiefer</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2015-2018. All rights reserved.</copyright>
+    <lastBuildDate>Thu, 12 Apr 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/animation/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Rate Cloud</title>
+      <link>/2018/04/12/rate-cloud/</link>
+      <pubDate>Thu, 12 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/04/12/rate-cloud/</guid>
+      <description>TIME FOR A FUN NEW MORTGAGE RATE CHART.
+This one:
+We’ll use R to plot a new visualization of mortgage rates.
+Let’s make it.
+DataAs we did with our majestic mortgage rate plot post we’ll plot mortgage rates using the Freddie Mac Primary Mortgage Market Survey.
+We’ll get the mortgage rates data via the Saint Louis Federal Reserve’s FRED database. If you followed my post from back in April of last year you know what we can do if we combine FRED with the quantmod package.</description>
+    </item>
+    
+    <item>
+      <title>Pipe Tweenr</title>
+      <link>/2018/03/18/pipe-tweenr/</link>
+      <pubDate>Sun, 18 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/03/18/pipe-tweenr/</guid>
+      <description>I LIKE TO MAKE ANIMATIONS WITH R. Sometimes folks ask me how they add to understanding. They don’t always, but often, particularly when you are working with time series, I find they help visualize trends and understand the evolution of variables.
+I’ve written several posts on animation, see particularly this recent post on making a simple line plot and this post about improving animations with tweenr.
+Tweenr is a handy package that lets you interpolate data and make smooth animations.</description>
+    </item>
+    
+    <item>
+      <title>Recent House Price Trends: update through December 2017</title>
+      <link>/2018/02/18/recent-house-price-trends-update-through-december-2017/</link>
+      <pubDate>Sun, 18 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/02/18/recent-house-price-trends-update-through-december-2017/</guid>
+      <description>LAST YEAR WE TOURED recent house price trends Post. Let’s update the data visualizations with data through December 2017.
+We are going to show house price trends using data from the publicly available Freddie Mac House Price Index.
+Animation:
+Here’s an updated animation showing trends in the top 20 metro areas, based on population.
+Below, I’ll plot stills for each of the 20 metro areas. Later I’ll follow up with some additional visualizations and some commentary.</description>
+    </item>
+    
+    <item>
+      <title>Housing market dataviz: week of November 22, 2017</title>
+      <link>/2017/11/22/housing-market-dataviz-week-of-november-22-2017/</link>
+      <pubDate>Wed, 22 Nov 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/2017/11/22/housing-market-dataviz-week-of-november-22-2017/</guid>
+      <description>IT IS THANKSGIVING WEEK HERE IN THE UNITED STATES. I’m getting ready to go out for a nice casual drive down Interstate I-95. Should be fun.
+After I get back stuffed with turkey and whatnot, we’ll get back to data visualizations and analysis. But let me leave you a couple animated gifs showing recent housing and mortgage market trends.
+Mortgage rate trendsFirst, let’s just look at a line plot of trends in the 30-year fixed mortgage rate:</description>
+    </item>
+    
+    <item>
+      <title>Combining PowerPoint and R&#39;s tweenr for smooth animations</title>
+      <link>/2017/10/22/smooth-animations-r-pptx/</link>
+      <pubDate>Sun, 22 Oct 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/2017/10/22/smooth-animations-r-pptx/</guid>
+      <description>IN THIS POST I WANT SHARE A METHOD FOR MAKING SMOOTH POWERPOINT ANIMATIONS USING R.
+Also see other posts in this series:
+Crafting a PowerPoint Presentation with R LINKPURRRTY PowerPoint with R LINKPURRRtier PowerPoint with R LINKMotivationWhy would you want to do this? We’ve covered how to make an animated gif with R and that works pretty well. But there are a couple advantages with this approach.</description>
+    </item>
+    
+    <item>
+      <title>Time to animate with tibbletime</title>
+      <link>/2017/10/17/time-to-animate-with-tibbletime/</link>
+      <pubDate>Tue, 17 Oct 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/2017/10/17/time-to-animate-with-tibbletime/</guid>
+      <description>IN THIS POST I WANT TO SHARE SOME CODE TO CREATE AN ANIMATED CHART of housing starts.
+Per usual we’ll use R and we’ll also use the tibbletime package.
+Running the code below will generate:
+(see this post for more on animations with the R package tweenr)
+####################################################################################### Load libraries #######################################################################################library(tidyquant)library(tibbletime)library(tweenr)####################################################################################### Get housing starts data #######################################################################################df &amp;lt;- tq_get(&amp;quot;HOUST1F&amp;quot;,get=&amp;quot;economic.data&amp;quot;,from=&amp;quot;1959-01-01&amp;quot;)####################################################################################### function for rolling windows #######################################################################################mys &amp;lt;- function(win=12){rolling_mean &amp;lt;- rollify(mean, window = win) #function creates rolling average based on windf %&amp;gt;%mutate(dy=rolling_mean(price),w=as.</description>
+    </item>
+    
+    <item>
+      <title>Charting housing starts with R</title>
+      <link>/2017/09/25/charting-housing-starts/</link>
+      <pubDate>Mon, 25 Sep 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/2017/09/25/charting-housing-starts/</guid>
+      <description>IN THIS POST I WANT TO SHARE SOME R CODE to create charts of U.S. housing starts we studied last week.
+Get dataWe’ll use tidyquant (see e.g. this post for more) to go get our data from the St. Louis Federal Reserve Economic Database (FRED). We’ll also use cowplot to arrange multiple ggplot2 graphs on one page.
+Let’s load libraries and grab the data.
+####################################################################################### Step 0: Load Libraries #######################################################################################library(tidyquant)library(tidyverse)library(cowplot)library(lubridate)library(scales)library(ggridges) # replaces ggjoy####################################################################################### Step 1: Prepare for data #######################################################################################tickers=data.</description>
+    </item>
+    
+    <item>
+      <title>Housing market update September 2017</title>
+      <link>/2017/09/21/housing-market-update-september-2017/</link>
+      <pubDate>Thu, 21 Sep 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/2017/09/21/housing-market-update-september-2017/</guid>
+      <description>THIS WEEK WAS BUSY, with a lot of data releases. Earlier this week we talked about housing starts, but there were a bunch of other key releases. Let’s review some of them here.
+We’ll just do a quick description of the data and then follow up with a static chart and an animated gif.
+Mortgage rates are still super lowU.S. weekly average mortgage rates ticked up this week, but remain down from the start of the year.</description>
+    </item>
+    
+    <item>
+      <title>Housing starts grinding higher or grinding to a halt?</title>
+      <link>/2017/09/19/housing-starts-grinding-higher-or-to-a-halt/</link>
+      <pubDate>Tue, 19 Sep 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/2017/09/19/housing-starts-grinding-higher-or-to-a-halt/</guid>
+      <description>ARE HOUSING STARTS GRINDING HIGHER, OR GRINDING TO A HALT?
+Today the U.S. Census Bureau joint with the U.S. Department of Housing and Urban Development published updated estimates of housing starts through August of 2017. Per the report privately-owned housing starts in August were at a seasonally adjusted annual rate of 1.18 million, down 0.8 percent from July’s revised estimate and up 1.4 percent from a year ago. Neither the month-over-month or year-over-year changes were significant.</description>
+    </item>
+    
+    <item>
+      <title>Forecasting is hard (work)</title>
+      <link>/2017/08/27/forecast/</link>
+      <pubDate>Sun, 27 Aug 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/2017/08/27/forecast/</guid>
+      <description>IN THIS POST WE WILL STUDY FORECASTS OF US ECONOMIC CONDITIONS.
+Niels Bohr quipped:
+Prediction is very difficult, especially if it’s about the future.
+I’m a macroeconomist by training, and my day job sometimes requires me to forecast the future so I can relate. Predicting the future can be quite difficult.
+In this post, we’ll analyze forecasts of economic conditions from professional forecasters using R to wrangle the data and construct plots.</description>
+    </item>
+    
+    <item>
+      <title>Forecasting is hard (work)-bonus charts</title>
+      <link>/2017/08/27/forecast2-gifs/</link>
+      <pubDate>Sun, 27 Aug 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/2017/08/27/forecast2-gifs/</guid>
+      <description>THIS POST IS A QUICK FOLLOW UP to my previous post on forecasting.
+I’m not going to add any R code or commentary on graphics, instead I’m just going to leave a few extra graphs related to the prior post. Check out the earlier post for more details on the data and how to build the charts.
+Static plotsHere are some static images:
+GifsAnd here are associated animated gifs:</description>
+    </item>
+    
+    <item>
+      <title>Adding an animation progress bar</title>
+      <link>/2017/08/10/animation-progress/</link>
+      <pubDate>Thu, 10 Aug 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/2017/08/10/animation-progress/</guid>
+      <description>I LIKE TO MAKE ANIMATED GIFS with my data. But frankly, sometimes they can be confusing. I got a good suggestion via twitter in response to a gif I shared there:
+This is very cool. Has anyone added a visual “progress bar” to a gganimate loop to show the frame visually? It&#39;s hard to grasp time as text.— Jonathan Spring (@JustTheSpring) August 6, 2017Now it’s very likely that others have tried this, but I haven’t seen it.</description>
+    </item>
+    
+    <item>
+      <title>Animate a bivariate choropleth</title>
+      <link>/2017/04/25/bivariate-animate/</link>
+      <pubDate>Tue, 25 Apr 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/2017/04/25/bivariate-animate/</guid>
+      <description>IN THIS POST I WANT TO EXTEND ON yesterday’s post and build an animated bivariate choropleth.
+We’ll use the same data as yesterday and create a combined scatterplot with bivariate choropleth map and animate it with R.
+Let’s get right to it.
+Load dataWe’ll follow from yesterday and load our data and do some manipulations.
+In order for this to work we’ll need data from three sources:
+House Price Index Data in a .</description>
+    </item>
+    
+    <item>
+      <title>Simple tweenr animations with ggplot2 </title>
+      <link>/2016/12/19/more-tweenr-housing/</link>
+      <pubDate>Mon, 19 Dec 2016 00:00:00 +0000</pubDate>
+      
+      <guid>/2016/12/19/more-tweenr-housing/</guid>
+      <description>Animations with tweenrIN THIS POST WE ARE GOING TO CREATE TWO SIMPLE animated data visualizations using R ggplot2, animation, and tweenr packages.
+See this post about tweenr for an introduction to tweenr, and more examples here and here.
+Unlike those examples we are going to create visualizations using the data that ship with the tidyverse packages (mainly ggplot2). This will allow for easier replication.
+A simple stripped down example.</description>
+    </item>
+    
+    <item>
+      <title>Some animated gifs: Week of Oct 14, 2016</title>
+      <link>/2016/10/2016/10/14/gifs-10-14-2016/</link>
+      <pubDate>Fri, 14 Oct 2016 00:00:00 +0000</pubDate>
+      
+      <guid>/2016/10/2016/10/14/gifs-10-14-2016/</guid>
+      <description>A couple of views of mortgage rates:
+Mortgage Rates in 2016 This chart shows the weekly average for the 30-year fixed rate morrtgage.
+Comparing mortgage rates by week This viz compares weekly mortgage rates (30-year fixed rate mortgage) by year. Each line represents a different year. The x-axis display the week of the year (from 1 to 52).
+Homeownership gif A homeownership rate viz. This shows the U.S. homeownership rate and breaks it out by the age of householder:</description>
+    </item>
+    
+    <item>
+      <title>Data visualizations for the week of September 22, 2016</title>
+      <link>/2016/09/22/week-in-gif/</link>
+      <pubDate>Thu, 22 Sep 2016 00:00:00 +0000</pubDate>
+      
+      <guid>/2016/09/22/week-in-gif/</guid>
+      <description>IT WAS A BUSY WEEK FOR ECONOMIC AND HOUSING DATA this week. Below are some data visaulizations I made tracking key trends in economic and housing market data.
+Homeowner equity increases to $12.7 Trillion in the second quarter of 2016 With house prices rising by nearly 6 percent on a year-over-year basis, homeowners are building back equity. According to the Federal Reserve&amp;rsquo;s Flow of Funds, owners&amp;rsquo; equity in real estate was $12.</description>
+    </item>
+    
+    <item>
+      <title>Industry-specific Beveridge Curves</title>
+      <link>/2016/09/14/bev-curves/</link>
+      <pubDate>Wed, 14 Sep 2016 00:00:00 +0000</pubDate>
+      
+      <guid>/2016/09/14/bev-curves/</guid>
+      <description>IN MY PREVIOUS POST we looked at the Job Openings and Labor Turnover Survey (JOLTS) data and plotted a Beveridge Curve. In this post I want to add some more code that allows us to plot Beveridge Curves by industry.
+For more on the analysis of industry-specific Beveridge Curves, see this paper published in the June 2012 Monthly Labor Review that decomposes shifts in the Beveridge Curve and looks at it by industry.</description>
+    </item>
+    
+    <item>
+      <title>JOLTS! Job openings and labor turnover trends</title>
+      <link>/2016/09/10/job-openings-and-hires/</link>
+      <pubDate>Sat, 10 Sep 2016 00:00:00 +0000</pubDate>
+      
+      <guid>/2016/09/10/job-openings-and-hires/</guid>
+      <description>IN THIS POST WE&amp;rsquo;LL LOOK AT recent job openings and hires data from the Bureau of Labor Statistics Job Openings and Labor Turnover Survey (JOLTS).
+R code for selected graphs posted below
+Job openings and labor turnover Total nonfarm trends Let&amp;rsquo;s start by looking at aggregate national trends for total nonfarm sector. The plot below compares hires, job openings and separations (the sum of quits, layoffs and discharges, and other separations) over time.</description>
+    </item>
+    
+    <item>
+      <title>What we spend: Consumer Expenditures in 2015</title>
+      <link>/2016/09/02/consumer-spend/</link>
+      <pubDate>Fri, 02 Sep 2016 00:00:00 +0000</pubDate>
+      
+      <guid>/2016/09/02/consumer-spend/</guid>
+      <description>.showopt { background-color: #004c93; color: #FFFFFF; width: 100px; height: 20px; text-align: center; vertical-align: middle !important; float: right; font-family: sans-serif; border-radius: 8px; } .showopt:hover { background-color: #dfe4f2; color: #004c93; } pre.plot { background-color: white !important; }   EARLIER THIS WEEK THE U.S. BUREAU OF LABOR STATISTICS released data on consumer expenditures in 2015. In this post I want to examine these data and make a few visualizations. R code for graphs posted below</description>
+    </item>
+    
+    <item>
+      <title>Mortgage rate gifs: Week of Aug 19, 2016</title>
+      <link>/2016/08/19/mortgage-gif-8-19-2016/</link>
+      <pubDate>Fri, 19 Aug 2016 00:00:00 +0000</pubDate>
+      
+      <guid>/2016/08/19/mortgage-gif-8-19-2016/</guid>
+      <description> No code, just some gifs:
+Comparing mortgage rates by week (2014, 2015,2016) Annotated history of mortgage rates </description>
+    </item>
+    
+    <item>
+      <title>Consumer Credit Trends Part 2: Data doesn&#39;t drive, it&#39;s lucky to be in the car</title>
+      <link>/2016/08/15/trends-in-credit-part-2/</link>
+      <pubDate>Mon, 15 Aug 2016 00:00:00 +0000</pubDate>
+      
+      <guid>/2016/08/15/trends-in-credit-part-2/</guid>
+      <description>.col2 { columns: 2 200px; /* number of columns and width in pixels*/ -webkit-columns: 2 200px; /* chrome, safari */ -moz-columns: 2 200px; /* firefox */ } .col3 { columns: 3 100px; -webkit-columns: 3 100px; -moz-columns: 3 100px; }  A FEW DAYS AGO I POSTED on trends in household debt using data from the the New York Federal Reserve Bank&amp;rsquo;s Consumer Credit Panel. The post got many responses, some observing that while student debt has grown a lot the absolute level of it is small relative to mortgage debt.</description>
+    </item>
+    
+    <item>
+      <title>Consumer Credit Trends</title>
+      <link>/2016/08/09/trends-in-credit/</link>
+      <pubDate>Tue, 09 Aug 2016 00:00:00 +0000</pubDate>
+      
+      <guid>/2016/08/09/trends-in-credit/</guid>
+      <description>TODAY the NEW YORK FEDERAL RESERVE BANK released its Quarterly Report on Household Debt and Credit. These data come from the Center for Microeconomic Data based on credit records from Equifax.
+R code for the graphs are posted at bottom of page
+Trends in household debt balances One of the key statistics tracked in the report (full data can be found here) is household debt balances. They break debt balances out by loan type:</description>
+    </item>
+    
+    <item>
+      <title>Let&#39;s make a dot plot</title>
+      <link>/2016/06/22/make-a-dotplot/</link>
+      <pubDate>Wed, 22 Jun 2016 00:00:00 +0000</pubDate>
+      
+      <guid>/2016/06/22/make-a-dotplot/</guid>
+      <description>IN THIS POST WE&amp;rsquo;RE GOING to make an animated version of the famous Federal Reserve dot plot comparing the dots in March 2016 to June 2016. As far as celebrity charts go, the dot plot has to be up there. Check out how much &amp;ldquo;dot plot&amp;rdquo; has grown in search popularity since the Fed introduced their dot plot in 2012:
+Ultimately, it will look something like this:
+The dot plot is a special chart that shows the distribution of expectations of the Federal Open Market Committee (FOMC) for the federal funds rate.</description>
+    </item>
+    
+    <item>
+      <title>Dataviz Remix: Housing Trilemma</title>
+      <link>/2016/06/09/dataviz-remix-housing-trilemma/</link>
+      <pubDate>Thu, 09 Jun 2016 00:00:00 +0000</pubDate>
+      
+      <guid>/2016/06/09/dataviz-remix-housing-trilemma/</guid>
+      <description>A dataviz remix I came across some interesting analysis from Josh Lehner at the Oregon Office of Economic Analysis about the &amp;ldquo;Housing Trilemma&amp;rdquo;.
+The Housing Trilemma, captured in the chart below is based on the following claim:
+ Every city wants to have a strong local economy, high quality of life and housing affordability for its residents. Unfortunately these three dimensions represent the Housing Trilemma. A city can achieve success on two but not all three at the same time.</description>
+    </item>
+    
+    <item>
+      <title>Visualizing the U.S. housing stock</title>
+      <link>/2016/06/06/visualizing-the-us-housing-stock/</link>
+      <pubDate>Mon, 06 Jun 2016 00:00:00 +0000</pubDate>
+      
+      <guid>/2016/06/06/visualizing-the-us-housing-stock/</guid>
+      <description>IN THIS POST I wanted to share a few data visualizations I made using the American Housing Survey (AHS).
+For this exercise I used the metro summary tables which you can download from American Fact Finder.
+Distribution by year unit built Distribution by units in stucture Distribution by bedrooms in unit Distribution by square footage of units {% include JB/setup</description>
+    </item>
+    
+    <item>
+      <title>More tweenr animation examples</title>
+      <link>/2016/05/30/more-tweenr-animations/</link>
+      <pubDate>Mon, 30 May 2016 00:00:00 +0000</pubDate>
+      
+      <guid>/2016/05/30/more-tweenr-animations/</guid>
+      <description>IN THIS POST I WANT TO PROVIDE some additional examples of using tweenr and gganimate to create nice smooth transitions in an animated GIF. In this post we&amp;rsquo;ll look at an animated waterfall chart.
+For this data I&amp;rsquo;m going to use the National Income and Products Accounts from the U.S. Bureau of Economic Analysis (BEA). Specifically we&amp;rsquo;ll be looking at the contributions to growth in Real Gross Domstic Product, which you can find here.</description>
+    </item>
+    
+    <item>
+      <title>Improving R animated GIFs with tweenr</title>
+      <link>/2016/05/29/improving-r-animated-gifs-with-tweenr/</link>
+      <pubDate>Sun, 29 May 2016 00:00:00 +0000</pubDate>
+      
+      <guid>/2016/05/29/improving-r-animated-gifs-with-tweenr/</guid>
+      <description>.col2 { columns: 2 200px; /* number of columns and width in pixels*/ -webkit-columns: 2 200px; /* chrome, safari */ -moz-columns: 2 200px; /* firefox */ } .col3 { columns: 3 100px; -webkit-columns: 3 100px; -moz-columns: 3 100px; }  RECENTLY I HAVE MADE several animated GIFs, primarily using the animation package. These gifs usually work pretty well, coming out something like this (code here).
+Unfortunately, these gifs tend to come out rather choppy.</description>
+    </item>
+    
+    <item>
+      <title>Mortgage rates and the Fed Funds rate</title>
+      <link>/2016/05/19/mortgage-rates-and-the-fed-funds/</link>
+      <pubDate>Thu, 19 May 2016 00:00:00 +0000</pubDate>
+      
+      <guid>/2016/05/19/mortgage-rates-and-the-fed-funds/</guid>
+      <description>YESTERDAY THE FEDERAL RESERVE RELEASED minutes from their last Federal Open Market Committee (FOMC) meeting in April. The big news was that the FOMC still considered a June rate hike a possibility. How much does Fed policy impact mortgage rates? I put together a few gifs comparing the history of the 30-year mortgage rate, the Fed Funds rate and the 10-year constant maturity Treasury.
+{% include JB/setup</description>
+    </item>
+    
+    <item>
+      <title>Mortgage rates, some perspective</title>
+      <link>/2016/05/15/mortgage-rates-some-perspective/</link>
+      <pubDate>Sun, 15 May 2016 00:00:00 +0000</pubDate>
+      
+      <guid>/2016/05/15/mortgage-rates-some-perspective/</guid>
+      <description>Another mortgage rates animated gif IN THE PAST I&amp;rsquo;ve told you how I made my mortgage rates gif. In this post I&amp;rsquo;m make an extension that uses stop motion techniques to reverse course. We&amp;rsquo;ll end up with this:
+For reference, here&amp;rsquo;s the standard gif I share each Thursday after mortgage rates come out:
+Stop motion animation While thinking about the week-to-week movements in rates it&amp;rsquo;s easy to lose longer-term perspective.</description>
+    </item>
+    
+    <item>
+      <title>dot plots and distributions</title>
+      <link>/2016/04/06/dot-plots-and-distributions/</link>
+      <pubDate>Wed, 06 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>/2016/04/06/dot-plots-and-distributions/</guid>
+      <description>We&amp;rsquo;re going to make this chart (and talk about it)
+Wait, what is this?
+Let&amp;rsquo;s pause the animation and look at the last frame:
+This plot shows the distribution of metro area unemployment. These data are available here.
+Each dot represents a metro area with its unemployment rate depicted on the x axis. The data are bucketed into 0.25 percentage point buckets and stacked when more than one metro falls within that range.</description>
+    </item>
+    
+    <item>
+      <title>How I make my mortgage rates gif</title>
+      <link>/1/01/01/mortgage-rates-gif/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/1/01/01/mortgage-rates-gif/</guid>
+      <description>{% include JB/setup
+Making a data viz SOMETIMES ANIMATION CAN BE USEFUL, though it is often misused. I&amp;rsquo;ve been tracking the week-to-week changes in mortgage rates, and animating with a GIF.
+Example animated gif with mortgage rates from 1/1/2013 to 3/10/2016 I build my gif using the R statistical package.
+Perhaps I&amp;rsquo;ll explain more of the details later, but the R code below uses the ggplot2, ggthemes and animation packages to create the plots, style them, and save the animation.</description>
+    </item>
+    
+  </channel>
+</rss>
