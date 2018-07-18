@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Consistent estimation of the Linear Probability Model (LPM) is difficult and estimates are often biased. Despite these downsides might LPM still be worthwhile? We investigate.">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>How bad is a Linear Probability Model? &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com//img/charts_jul_17_2018/head.png" >
+     
+    <meta property="og:title" content="How bad is a Linear Probability Model?">
+    <meta property="og:description" content="Consistent estimation of the Linear Probability Model (LPM) is difficult and estimates are often biased. Despite these downsides might LPM still be worthwhile? We investigate.">
+
+<div class="header">
+  <h1>How bad is a Linear Probability Model?</h1>
+  <h2>Consistent estimation of the Linear Probability Model (LPM) is difficult and estimates are often biased. Despite these downsides might LPM still be worthwhile? We investigate.</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/07/17</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/statistics">statistics</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <p>I think a lot about predicting/forecasting binary outcomes. Will the economy head into a recession next year? What’s the likelihood of a loan defaulting over the next few years? Will my followers on social media abandon me if I tweet about my lunch?</p>
+<p>One often maligned, but seemingly irresitable approach to modeling binary ourcomes is the Linear Probability Model (LPM). As is known going back to before I was born, the Linear Probability Model has some issues. In particular, it is biased and inconsistent. But is it all that bad? Let’s take a look.</p>
+<p>Here are a couple of handy references.</p>
+<div id="references" class="section level3">
+<h3>References</h3>
+<p>Amemiya, T. (1977). Some theorems in the linear probability model. International Economic Review, 645-650. <a href="https://www.jstor.org/stable/2525953">JSTOR</a></p>
+<p>Horrace, W. C., &amp; Oaxaca, R. L. (2006). Results on the bias and inconsistency of ordinary least squares for the linear probability model. Economics Letters, 90(3), 321-327. <a href="https://surface.syr.edu/cgi/viewcontent.cgi?article=1138&amp;context=ecn">pdf</a></p>
+</div>
+<div id="setup" class="section level1">
+<h1>Setup</h1>
+<p>We’re going to keep things simple here and follow the setup in Horrace and Oaxaca. We have a binary (0,1) outcome <code>y</code> that depends on a single regressor <code>x</code>.</p>
+<p>The random variable <span class="math inline">\(x_i\beta\)</span>, our regressor times a coefficient falls in three intervals with the following probabilities:</p>
+<p><span class="math display">\[ \begin{cases} PR(x_i\beta&gt;1) = \pi,\\  PR(x_i\beta \in [0,1]) = \gamma,\\  PR(x_i\beta&gt;1) = \rho \end{cases}\]</span></p>
+<p>And the LPM is given by:</p>
+<p><span class="math display">\[ \begin{cases} Pr(y_i =1 | x_i\beta&gt;1) = 1, \\Pr(y_i=1|x_i\beta \in[0,1],= x_i\beta, \\Pr(y_i =1 | x_i\beta&lt;0)=0 \end{cases}\]</span></p>
+<p>Let’s draw a little picture using <a href="https://www.r-project.org/">R</a>.</p>
+<pre class="r"><code>library(tidyverse, quietly=T) 
+library(ggridges, quietly=T) 
+library(extrafont, quietly=T)
+c0       &lt;- 0  #intercept for process
+beta_hat &lt;- 0.4
+gamma_hat &lt;- pnorm((1-c0)/beta_hat) - pnorm(-c0/beta_hat)
+rho_hat &lt;- 1-pnorm((1-c0)/beta_hat)
+pi_hat &lt;- pnorm(-c0/beta_hat)
+
+
+df &lt;- 
+  data.frame(x=seq(-3,3,.01)) %&gt;%
+  mutate(p=pnorm(x/beta_hat+c0),
+         shade=ifelse( beta_hat*x &gt;= -1 &amp; beta_hat*x &lt;=1,p,NA))
+
+
+  ggplot(data=df, aes(x=x,y=dnorm(x), fill=&quot;2gamma&quot;))+
+    geom_line(linetype=2)+
+    geom_area(data= . %&gt;% filter(beta_hat*x +c0 &lt;=1, beta_hat*x + c0 &gt;= 0), linetype=2,alpha=0.5)+
+    scale_fill_manual(labels=c(expression(pi),expression(gamma),expression(rho)), name=&quot;region&quot;,
+                      values=c(rgb(103,180,75, maxColorValue = 256),&quot;#27408b&quot;,&quot;red&quot;))+
+    geom_area(data= . %&gt;% filter(beta_hat*x + c0 &lt;= 0), aes(y=dnorm(x), fill=&quot;1pi&quot;), alpha=0.5)+
+    geom_area(data= . %&gt;% filter(beta_hat*x + c0 &gt;= 1), aes(y=dnorm(x), fill=&quot;3rho&quot;), alpha=0.5)+
+    labs(x=&quot;X&quot;, y=&quot;Pr(X)&quot;, title=&quot;Likelihood of X&quot;,
+         subtitle=expression(paste(&quot;Given &quot;,beta,&quot; = 0.4&quot;)),
+         caption=bquote(paste(&quot;Pr(&quot;,pi,&quot;)=&quot;,.(round(pi_hat,3)),
+                              &quot;, Pr(&quot;,gamma,&quot;)=&quot;,.(round(gamma_hat,3)),
+                              &quot;, Pr(&quot;,rho,&quot;)=&quot;,.(round(rho_hat,3)))))+
+    theme_ridges(font_family=&quot;Roboto&quot;)</code></pre>
+<p><img src="/post/2018-07-17-how-bad-is-a-linear-probability-model_files/figure-html/07-17-2018-plot-1-1.png" width="672" /></p>
+<p>The way we’ve set it up, we have a very high likelihood of drawing an X value that is outside the <span class="math inline">\(\gamma\)</span> range. Let’s add an intercept.</p>
+<pre class="r"><code>c0       &lt;- 0.4  #intercept for process
+beta_hat &lt;- 0.4
+gamma_hat &lt;- pnorm((1-c0)/beta_hat) - pnorm(-c0/beta_hat)
+rho_hat &lt;- 1-pnorm((1-c0)/beta_hat)
+pi_hat &lt;- pnorm(-c0/beta_hat)
+
+
+df &lt;- 
+  data.frame(x=seq(-3,3,.01)) %&gt;%
+  mutate(p=pnorm(x/beta_hat+c0),
+         shade=ifelse( beta_hat*x &gt;= -1 &amp; beta_hat*x &lt;=1,p,NA))
+
+
+  ggplot(data=df, aes(x=x,y=dnorm(x), fill=&quot;2gamma&quot;))+
+    geom_line(linetype=2)+
+    geom_area(data= . %&gt;% filter(beta_hat*x +c0 &lt;=1, beta_hat*x + c0 &gt;= 0), linetype=2,alpha=0.5)+
+    scale_fill_manual(labels=c(expression(pi),expression(gamma),expression(rho)), name=&quot;region&quot;,
+                      values=c(rgb(103,180,75, maxColorValue = 256),&quot;#27408b&quot;,&quot;red&quot;))+
+    geom_area(data= . %&gt;% filter(beta_hat*x + c0 &lt;= 0), aes(y=dnorm(x), fill=&quot;1pi&quot;), alpha=0.5)+
+    geom_area(data= . %&gt;% filter(beta_hat*x + c0 &gt;= 1), aes(y=dnorm(x), fill=&quot;3rho&quot;), alpha=0.5)+
+    labs(x=&quot;X&quot;, y=&quot;Pr(X)&quot;, title=&quot;Likelihood of X&quot;,
+         subtitle=expression(paste(&quot;Given &quot;,beta,&quot; = 0.4, intercept=0.4&quot;)),
+         caption=bquote(paste(&quot;Pr(&quot;,pi,&quot;)=&quot;,.(round(pi_hat,3)),
+                              &quot;, Pr(&quot;,gamma,&quot;)=&quot;,.(round(gamma_hat,3)),
+                              &quot;, Pr(&quot;,rho,&quot;)=&quot;,.(round(rho_hat,3)))))+
+    theme_ridges(font_family=&quot;Roboto&quot;)</code></pre>
+<p><img src="/post/2018-07-17-how-bad-is-a-linear-probability-model_files/figure-html/07-17-2018-plot-2-1.png" width="672" /></p>
+<p>What happens if we simulate some data drawing from the process above and then estimate the LPM using Ordinary Least Squares (OLS)?</p>
+<div id="simple-simulation" class="section level3">
+<h3>Simple simulation</h3>
+<pre class="r"><code>  #helper function to truncate values at 0,1
+ myf&lt;- function(x){ case_when(
+    x &lt; 0  ~ 0,
+    x &gt;  1 ~ 1,
+    TRUE ~ x)}
+
+# Simulate under LPM
+set.seed(180717)  
+c0       &lt;- 0.4  #intercept for process
+  beta_hat &lt;- 0.4
+  N &lt;- 1000
+  X &lt;- rnorm(N)
+  z &lt;- c0+beta_hat*X
+  Z0 &lt;- myf(z) 
+  y &lt;-  rbinom(N, size=1, prob=Z0)
+  
+  df.reg &lt;- data.frame(y=y,x=X)
+  summary(lm(data=df.reg, formula= y~x))</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = y ~ x, data = df.reg)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.85239 -0.31453 -0.01109  0.30487  0.85901 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  0.42063    0.01212   34.70   &lt;2e-16 ***
+## x            0.31511    0.01222   25.79   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.3833 on 998 degrees of freedom
+## Multiple R-squared:  0.3999, Adjusted R-squared:  0.3993 
+## F-statistic: 665.1 on 1 and 998 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>The true parameter values were 0.4 for both the intercept and the slope <span class="math inline">\(\beta\)</span>. Maybe we got a bad draw? Let’s simulate a number of draws.</p>
+<p>We’ll create a helper function and use <code>purrr::map</code> and <code>broom::tidy</code> to help organize the results.</p>
+<pre class="r"><code>  myreg &lt;- function(N=10){
+    X &lt;- rnorm(N)
+    z &lt;- c0+beta_hat*X
+    Z0 &lt;- myf(z) 
+    y &lt;-  rbinom(N, size=1, prob=Z0)
+    df.reg &lt;- data.frame(y=y,x=X)
+    broom::tidy(lm(data=df.reg, formula= y~x))
+  }
+
+# create samples of size 10, 100 and 1000, 1000 draws of  each
+  
+reg.df &lt;- expand.grid(N=c(10,100,1000), trials=1:100)
+suppressMessages(suppressWarnings(  
+reg.out &lt;- 
+  reg.df  %&gt;% 
+  mutate(lm=map(N,myreg)) %&gt;% 
+  mutate(map(lm,broom::tidy)) %&gt;%
+  unnest(lm)   %&gt;%
+  select(N,trials,term,estimate)
+))
+#create summary table
+reg.out %&gt;% 
+  group_by(N,term) %&gt;% 
+  summarize(ols.mean=mean(estimate),
+            ols.median = median(estimate)) %&gt;%
+  mutate_if(is.numeric,round,3) %&gt;% 
+  mutate(true.parameter=0.4) %&gt;%
+  arrange(term) %&gt;%
+  htmlTable::htmlTable(caption=&quot;Mean/median over 100 trials of size N&quot;, css.cell = &quot;padding-left: .5em; padding-right: .2em;&quot;, rnames=FALSE)</code></pre>
+<table class="gmisc_table" style="border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;">
+<thead>
+<tr>
+<td colspan="5" style="text-align: left;">
+Mean/median over 100 trials of size N
+</td>
+</tr>
+<tr>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+N
+</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+term
+</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+ols.mean
+</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+ols.median
+</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+true.parameter
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="padding-left: .5em; padding-right: .2em; text-align: center;">
+10
+</td>
+<td style="padding-left: .5em; padding-right: .2em; text-align: center;">
+(Intercept)
+</td>
+<td style="padding-left: .5em; padding-right: .2em; text-align: center;">
+0.418
+</td>
+<td style="padding-left: .5em; padding-right: .2em; text-align: center;">
+0.41
+</td>
+<td style="padding-left: .5em; padding-right: .2em; text-align: center;">
+0.4
+</td>
+</tr>
+<tr>
+<td style="padding-left: .5em; padding-right: .2em; text-align: center;">
+100
+</td>
+<td style="padding-left: .5em; padding-right: .2em; text-align: center;">
+(Intercept)
+</td>
+<td style="padding-left: .5em; padding-right: .2em; text-align: center;">
+0.422
+</td>
+<td style="padding-left: .5em; padding-right: .2em; text-align: center;">
+0.422
+</td>
+<td style="padding-left: .5em; padding-right: .2em; text-align: center;">
+0.4
+</td>
+</tr>
+<tr>
+<td style="padding-left: .5em; padding-right: .2em; text-align: center;">
+1000
+</td>
+<td style="padding-left: .5em; padding-right: .2em; text-align: center;">
+(Intercept)
+</td>
+<td style="padding-left: .5em; padding-right: .2em; text-align: center;">
+0.421
+</td>
+<td style="padding-left: .5em; padding-right: .2em; text-align: center;">
+0.421
+</td>
+<td style="padding-left: .5em; padding-right: .2em; text-align: center;">
+0.4
+</td>
+</tr>
+<tr>
+<td style="padding-left: .5em; padding-right: .2em; text-align: center;">
+10
+</td>
+<td style="padding-left: .5em; padding-right: .2em; text-align: center;">
+x
+</td>
+<td style="padding-left: .5em; padding-right: .2em; text-align: center;">
+0.343
+</td>
+<td style="padding-left: .5em; padding-right: .2em; text-align: center;">
+0.342
+</td>
+<td style="padding-left: .5em; padding-right: .2em; text-align: center;">
+0.4
+</td>
+</tr>
+<tr>
+<td style="padding-left: .5em; padding-right: .2em; text-align: center;">
+100
+</td>
+<td style="padding-left: .5em; padding-right: .2em; text-align: center;">
+x
+</td>
+<td style="padding-left: .5em; padding-right: .2em; text-align: center;">
+0.309
+</td>
+<td style="padding-left: .5em; padding-right: .2em; text-align: center;">
+0.308
+</td>
+<td style="padding-left: .5em; padding-right: .2em; text-align: center;">
+0.4
+</td>
+</tr>
+<tr>
+<td style="padding-left: .5em; padding-right: .2em; border-bottom: 2px solid grey; text-align: center;">
+1000
+</td>
+<td style="padding-left: .5em; padding-right: .2em; border-bottom: 2px solid grey; text-align: center;">
+x
+</td>
+<td style="padding-left: .5em; padding-right: .2em; border-bottom: 2px solid grey; text-align: center;">
+0.311
+</td>
+<td style="padding-left: .5em; padding-right: .2em; border-bottom: 2px solid grey; text-align: center;">
+0.311
+</td>
+<td style="padding-left: .5em; padding-right: .2em; border-bottom: 2px solid grey; text-align: center;">
+0.4
+</td>
+</tr>
+</tbody>
+</table>
+<p><em>Mean/median over 1,000 trials of size N</em></p>
+<p>We see that the coefficients are quite biased, and as pointed out in Horrace and Oaxaca seem to get worse with larger sample size!</p>
+</div>
+<div id="trimming-the-estimates" class="section level2">
+<h2>Trimming the estimates</h2>
+<p>Horrace and Oaxaca point out that trimming the estimates, removing observations when <span class="math inline">\(x_i\beta\)</span> falls outside (0,1), may improve the estimates. Let’s give it a try.</p>
+<pre class="r"><code># Function for trimmed estimates
+
+  myreg.trim &lt;- function(N=10){
+    X &lt;- rnorm(N)
+    z &lt;- c0+beta_hat*X
+    Z0 &lt;- myf(z) 
+    y &lt;-  rbinom(N, size=1, prob=Z0)
+    df.reg &lt;- data.frame(y=y,x=X)
+    #first stage
+    out.lm &lt;- lm(data=df.reg, formula= y~x)
+    df.reg.trim &lt;- df.reg[(predict(out.lm)&gt;=0 &amp; predict(out.lm)&lt;=1 ),]
+    out &lt;-     broom::tidy(lm(data=df.reg.trim, formula= y~x))
+    out$N.trim &lt;- sum(predict(out.lm)&gt;=0 &amp; predict(out.lm)&lt;=1 )
+    return(out)
+  }
+
+ reg.df &lt;- expand.grid(N=c(10,100,1000), trials=1:100)
+ 
+suppressMessages(suppressWarnings(  
+  reg.out2 &lt;- reg.df  %&gt;% 
+    mutate(lm=map(N,myreg)) %&gt;% 
+    mutate(map(lm,broom::tidy)) %&gt;%
+    mutate(lm.trim=map(N,myreg.trim)) %&gt;% 
+    unnest(lm,lm.trim)   %&gt;%
+    select(N,trials,term,estimate, term1, estimate1)
+))  
+
+reg.out2 %&gt;% group_by(N,term) %&gt;% 
+    summarize(ols.mean=mean(estimate),
+              ols.median = median(estimate),
+              trimmed.mean=mean(estimate1),
+              trimmed.median = median(estimate1))%&gt;% 
+  mutate(true.parameter=0.4) %&gt;%
+  mutate_if(is.numeric,round,3) %&gt;% 
+  arrange(term) %&gt;%
+  htmlTable::htmlTable(caption=&quot;Mean/median over 100 trials of size N&quot;, css.cell = &quot;padding-left: .5em; padding-right: .2em;&quot;, rnames=FALSE)</code></pre>
+<table class="gmisc_table" style="border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;">
+<thead>
+<tr>
+<td colspan="7" style="text-align: left;">
+Mean/median over 100 trials of size N
+</td>
+</tr>
+<tr>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+N
+</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+term
+</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+ols.mean
+</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+ols.median
+</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+trimmed.mean
+</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+trimmed.median
+</th>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+true.parameter
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="padding-left: .5em; padding-right: .2em; text-align: center;">
+10
+</td>
+<td style="padding-left: .5em; padding-right: .2em; text-align: center;">
+(Intercept)
+</td>
+<td style="padding-left: .5em; padding-right: .2em; text-align: center;">
+0.412
+</td>
+<td style="padding-left: .5em; padding-right: .2em; text-align: center;">
+0.416
+</td>
+<td style="padding-left: .5em; padding-right: .2em; text-align: center;">
+0.39
+</td>
+<td style="padding-left: .5em; padding-right: .2em; text-align: center;">
+0.376
+</td>
+<td style="padding-left: .5em; padding-right: .2em; text-align: center;">
+0.4
+</td>
+</tr>
+<tr>
+<td style="padding-left: .5em; padding-right: .2em; text-align: center;">
+100
+</td>
+<td style="padding-left: .5em; padding-right: .2em; text-align: center;">
+(Intercept)
+</td>
+<td style="padding-left: .5em; padding-right: .2em; text-align: center;">
+0.419
+</td>
+<td style="padding-left: .5em; padding-right: .2em; text-align: center;">
+0.421
+</td>
+<td style="padding-left: .5em; padding-right: .2em; text-align: center;">
+0.398
+</td>
+<td style="padding-left: .5em; padding-right: .2em; text-align: center;">
+0.395
+</td>
+<td style="padding-left: .5em; padding-right: .2em; text-align: center;">
+0.4
+</td>
+</tr>
+<tr>
+<td style="padding-left: .5em; padding-right: .2em; text-align: center;">
+1000
+</td>
+<td style="padding-left: .5em; padding-right: .2em; text-align: center;">
+(Intercept)
+</td>
+<td style="padding-left: .5em; padding-right: .2em; text-align: center;">
+0.422
+</td>
+<td style="padding-left: .5em; padding-right: .2em; text-align: center;">
+0.422
+</td>
+<td style="padding-left: .5em; padding-right: .2em; text-align: center;">
+0.405
+</td>
+<td style="padding-left: .5em; padding-right: .2em; text-align: center;">
+0.406
+</td>
+<td style="padding-left: .5em; padding-right: .2em; text-align: center;">
+0.4
+</td>
+</tr>
+<tr>
+<td style="padding-left: .5em; padding-right: .2em; text-align: center;">
+10
+</td>
+<td style="padding-left: .5em; padding-right: .2em; text-align: center;">
+x
+</td>
+<td style="padding-left: .5em; padding-right: .2em; text-align: center;">
+0.321
+</td>
+<td style="padding-left: .5em; padding-right: .2em; text-align: center;">
+0.318
+</td>
+<td style="padding-left: .5em; padding-right: .2em; text-align: center;">
+0.483
+</td>
+<td style="padding-left: .5em; padding-right: .2em; text-align: center;">
+0.439
+</td>
+<td style="padding-left: .5em; padding-right: .2em; text-align: center;">
+0.4
+</td>
+</tr>
+<tr>
+<td style="padding-left: .5em; padding-right: .2em; text-align: center;">
+100
+</td>
+<td style="padding-left: .5em; padding-right: .2em; text-align: center;">
+x
+</td>
+<td style="padding-left: .5em; padding-right: .2em; text-align: center;">
+0.311
+</td>
+<td style="padding-left: .5em; padding-right: .2em; text-align: center;">
+0.308
+</td>
+<td style="padding-left: .5em; padding-right: .2em; text-align: center;">
+0.384
+</td>
+<td style="padding-left: .5em; padding-right: .2em; text-align: center;">
+0.38
+</td>
+<td style="padding-left: .5em; padding-right: .2em; text-align: center;">
+0.4
+</td>
+</tr>
+<tr>
+<td style="padding-left: .5em; padding-right: .2em; border-bottom: 2px solid grey; text-align: center;">
+1000
+</td>
+<td style="padding-left: .5em; padding-right: .2em; border-bottom: 2px solid grey; text-align: center;">
+x
+</td>
+<td style="padding-left: .5em; padding-right: .2em; border-bottom: 2px solid grey; text-align: center;">
+0.309
+</td>
+<td style="padding-left: .5em; padding-right: .2em; border-bottom: 2px solid grey; text-align: center;">
+0.309
+</td>
+<td style="padding-left: .5em; padding-right: .2em; border-bottom: 2px solid grey; text-align: center;">
+0.381
+</td>
+<td style="padding-left: .5em; padding-right: .2em; border-bottom: 2px solid grey; text-align: center;">
+0.381
+</td>
+<td style="padding-left: .5em; padding-right: .2em; border-bottom: 2px solid grey; text-align: center;">
+0.4
+</td>
+</tr>
+</tbody>
+</table>
+<p>Seems to work a little better.</p>
+<p>We’ll pick back up later with some additional analysis. In particular, I’m interested in studying how the bias changes given the distribution of X. If the likelihood of <span class="math inline">\(x_i\beta\)</span> falling outside of the (0,1) range is zero, then the bias goes away. I’m also interested in looking at how aggregations over the LPM model behave.</p>
+<p>Despite the defects in the LPM I still feel it has some strengths. Not only are the marginal effects more easily interpretable but it’s also easier to aggregate.</p>
+<p>Are those advantages enough to overcome the disadvantages? That’s going to depend on the context. Next time we’ll explore some cases where it might be worthwhile.</p>
+</div>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2018/07/14/housing-in-the-golden-state/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2018/07/14/housing-in-the-golden-state/">Housing in the Golden State</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/r/">R</a>, 
+            
+                <a href="/tags/statistics/">statistics</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2018%2f07%2f17%2fhow-bad-is-a-linear-probability-model%2f&text=How%20bad%20is%20a%20Linear%20Probability%20Model%3f via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2018%2f07%2f17%2fhow-bad-is-a-linear-probability-model%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+
