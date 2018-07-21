@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="The Linear Probability Model (LPM) might be bad, but is it all bad?  Let&#39;s look at some conditions where the LPM might not be so bad. We&#39;ll also look at some simple adjustments that might improve the performance of the LPM. We&#39;ll also compare the LPM to some common alternatives.">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>Maybe the Linear Probability Model isn&#39;t all bad &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com//img/charts_jul_21_2018/LPM2.png" >
+     
+    <meta property="og:title" content="Maybe the Linear Probability Model isn&#39;t all bad">
+    <meta property="og:description" content="The Linear Probability Model (LPM) might be bad, but is it all bad?  Let&#39;s look at some conditions where the LPM might not be so bad. We&#39;ll also look at some simple adjustments that might improve the performance of the LPM. We&#39;ll also compare the LPM to some common alternatives.">
+
+<div class="header">
+  <h1>Maybe the Linear Probability Model isn&#39;t all bad</h1>
+  <h2>The Linear Probability Model (LPM) might be bad, but is it all bad?  Let&#39;s look at some conditions where the LPM might not be so bad. We&#39;ll also look at some simple adjustments that might improve the performance of the LPM. We&#39;ll also compare the LPM to some common alternatives.</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/07/21</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/statistics">statistics</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <p>The Linear Probability Model (LPM) might <a href="../../../../2018/07/17/how-bad-is-a-linear-probability-model/">be bad</a>, but is it all bad? Let’s look at some conditions where the LPM might not be so bad. We’ll also look at some simple adjustments that might improve the performance of the LPM. We’ll also compare the LPM to some common alternatives.</p>
+<div id="setup" class="section level1">
+<h1>Setup</h1>
+<p>Throughout most of this post, we’re going to consider a world where the LPM model is the true model. That is:</p>
+<p><span class="math display">\[ \begin{cases} Pr(y_i =1 | x_i^T\beta&gt;1) = 1, \\Pr(y_i=1|x_i^T\beta \in[0,1],= x_i^T\beta, \\Pr(y_i =1 | x_i^T\beta&lt;0)=0 \end{cases}\]</span> To keep things simple, we’ll start with a single regressor and an intercept so that <span class="math inline">\(x_i^T=[1,x_{1,i}]\)</span>. Furthermore we’ll suppose that our regressor has a standard normal distribution <span class="math inline">\(x_{1,i} \sim N(0,1)\)</span>.</p>
+<p>With that, we’re ready to go. Throughout we’ll use <a href="https://www.r-project.org/">R</a> to simulate and draw pictures. Let’s start with a simple one describing our setup.</p>
+<p>First load required libraries.</p>
+<pre class="r"><code># load libraries ----
+suppressPackageStartupMessages({
+library(tidyverse)  # for pictures
+library(mfx)        # for marginal effects
+library(extrafont)  # for fonts
+library(ggridges)   # for theme_ridges
+library(broom)      # for model cleanup
+library(tidyr)      # keep things tidy
+})</code></pre>
+<div id="draw-a-picture" class="section level3">
+<h3>Draw a picture</h3>
+<pre class="r"><code># set up simulation  ----
+set.seed(20180721)  # seed for rng 
+beta_0  &lt;- 0.4      # intercept
+beta_x1 &lt;- 0.4      # coefficient on regressor
+Nsim    &lt;- 1000     # observations for simulations
+
+#helper function to truncate values at 0,1
+ myf&lt;- function(x){ case_when(
+    x &lt; 0  ~ 0,
+    x &gt;  1 ~ 1,
+    TRUE ~ x)}
+
+# draw picture
+
+df.sim &lt;- data.frame(x=seq(-2,2,.1)) %&gt;%
+  mutate( py=myf(beta_0+beta_x1*x))
+
+ggplot(data=df.sim, aes(x=x,y=py))+
+  geom_line(color=&quot;#27408b&quot;,size=1.1)+
+  theme_ridges(font_family=&quot;Roboto&quot;)+
+  scale_x_continuous(breaks=c(-1,0,1.5))+
+  labs(x=&quot;x&quot;,y=&quot;Pr(Y=1|x)&quot;,
+       title=&quot;Linear Probability Model&quot;,
+       subtitle=bquote(paste(&quot;Pr(Y=1|X) = &quot;,beta[0]+beta[x],&quot;x, &quot;,beta[0],&quot; = 0.4, &quot;, beta[x], &quot; = 0.4&quot;)))</code></pre>
+<p><img src="/post/2018-07-21-maybe-the-linear-probability-model-isn-t-all-bad_files/figure-html/07-21-2018-setup2-1.png" width="672" /></p>
+</div>
+<div id="bias-and-inconsistency-in-the-lpm" class="section level2">
+<h2>Bias and inconsistency in the LPM</h2>
+<p>As detailed in Horrace and Oaxaca (2006) the LPM is biased and inconsistent. <a href="../../../../2018/07/17/how-bad-is-a-linear-probability-model/">Last time</a> we replicated their results. Let’s look a little closer.</p>
+<p>We’ll draw a bunch of samples and compare the simple Ordinary Least Squares estimator for the LPM to a trimmed estimator. For the trimmed estimator, we’ll first run OLS and then re-run it using only the observations where <span class="math inline">\(x_i^T\hat{\beta} \in (0,1)\)</span>. Let’s do that for several possible values for <span class="math inline">\(\beta_x\)</span>, leaving the intercept fixed (<span class="math inline">\(\beta_0=0.4\)</span>).</p>
+<p>Let’s draw samples of various sizes and let <span class="math inline">\(\beta_x\)</span> range from -1 to 1.</p>
+<pre class="r"><code>reg.df &lt;- 
+  expand.grid(N=c(25,100,1000),       # samples of size 25, 100, 1000
+              beta_hat=seq(-1,1,.1),  # beta from -1 to 1
+              trials=1:100)           # we will estimate each model 100 times</code></pre>
+<p>We’ll also need to construct helper functions to estimate the OLS and the trimmed model.</p>
+<pre class="r"><code>  myreg &lt;- function(N=10,
+                    beta_x=0.4,
+                    beta_0=0.4)
+  {
+    X &lt;- rnorm(N)
+    z &lt;- beta_0+beta_x*X
+    Z0 &lt;- myf(z) 
+    y &lt;-  rbinom(N, size=1, prob=Z0)
+    df.reg &lt;- data.frame(y=y,x=X)
+    broom::tidy(lm(data=df.reg, formula= y~x))
+  }
+  
+  myreg.trim &lt;- function(N=10,beta_x=.04,beta_0=0.4){
+    X &lt;- rnorm(N)
+    z &lt;- beta_0+beta_x*X
+    Z0 &lt;- myf(z) 
+    y &lt;-  rbinom(N, size=1, prob=Z0)
+    df.reg &lt;- data.frame(y=y,x=X)
+    #first stage
+    out.lm &lt;- lm(data=df.reg, formula= y~x)
+    # trimmed estimator
+    N.trim &lt;- sum(predict(out.lm)&gt;=0 &amp; predict(out.lm)&lt;=1 )
+    df.reg.trim &lt;- df.reg[(predict(out.lm)&gt;=0 &amp; predict(out.lm)&lt;=1 ),]
+    out &lt;-     broom::tidy(lm(data=df.reg.trim, formula= y~x))
+    out$N.trim &lt;- N.trim  # count number of observations kept
+    return(out)
+  }</code></pre>
+<p>Now with things set up we can run our simulations.</p>
+<pre class="r"><code>  reg.out &lt;- reg.df  %&gt;% 
+  mutate(lm=map2(N,beta_hat,myreg)) %&gt;% 
+  mutate(lm.trim=map2(N,beta_hat,myreg.trim)) %&gt;% 
+  unnest(lm,lm.trim)   </code></pre>
+<p>Take a look at what we have:</p>
+<pre class="r"><code>str(reg.out)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    12600 obs. of  14 variables:
+##  $ N         : num  25 25 100 100 1000 1000 25 25 100 100 ...
+##  $ beta_hat  : num  -1 -1 -1 -1 -1 -1 -0.9 -0.9 -0.9 -0.9 ...
+##  $ trials    : int  1 1 1 1 1 1 1 1 1 1 ...
+##  $ term      : chr  &quot;(Intercept)&quot; &quot;x&quot; &quot;(Intercept)&quot; &quot;x&quot; ...
+##  $ estimate  : num  0.439 -0.586 0.484 -0.376 0.464 ...
+##  $ std.error : num  0.0589 0.0814 0.0314 0.0301 0.0104 ...
+##  $ statistic : num  7.46 -7.19 15.41 -12.5 44.46 ...
+##  $ p.value   : num  1.40e-07 2.52e-07 6.28e-28 5.27e-22 6.28e-239 ...
+##  $ term1     : chr  &quot;(Intercept)&quot; &quot;x&quot; &quot;(Intercept)&quot; &quot;x&quot; ...
+##  $ estimate1 : num  0.488 -0.634 0.39 -0.596 0.427 ...
+##  $ std.error1: num  0.086 0.1468 0.0346 0.0492 0.011 ...
+##  $ statistic1: num  5.67 -4.32 11.27 -12.11 38.82 ...
+##  $ p.value1  : num  3.45e-05 5.33e-04 4.88e-18 1.33e-19 2.77e-186 ...
+##  $ N.trim    : int  18 18 80 80 803 803 19 19 83 83 ...</code></pre>
+<pre class="r"><code>(head(reg.out))</code></pre>
+<pre><code>##      N beta_hat trials        term   estimate  std.error  statistic
+## 1   25       -1      1 (Intercept)  0.4390683 0.05886360   7.459079
+## 2   25       -1      1           x -0.5859318 0.08143720  -7.194892
+## 3  100       -1      1 (Intercept)  0.4835500 0.03138585  15.406626
+## 4  100       -1      1           x -0.3763385 0.03010846 -12.499429
+## 5 1000       -1      1 (Intercept)  0.4642779 0.01044219  44.461753
+## 6 1000       -1      1           x -0.3700670 0.01032677 -35.835717
+##         p.value       term1  estimate1 std.error1 statistic1      p.value1
+## 1  1.395294e-07 (Intercept)  0.4877908 0.08595734   5.674801  3.449042e-05
+## 2  2.517679e-07           x -0.6337525 0.14684597  -4.315763  5.328698e-04
+## 3  6.284317e-28 (Intercept)  0.3896831 0.03457798  11.269689  4.875296e-18
+## 4  5.269242e-22           x -0.5961138 0.04921946 -12.111342  1.332243e-19
+## 5 6.281201e-239 (Intercept)  0.4270474 0.01099933  38.824876 2.774408e-186
+## 6 1.881766e-181           x -0.5965633 0.01676596 -35.581812 4.587302e-167
+##   N.trim
+## 1     18
+## 2     18
+## 3     80
+## 4     80
+## 5    803
+## 6    803</code></pre>
+<p>We’ve stacked up estimates across 100 trials for ols (estimate) and trimmed ols (estimate1). Let’s summarize:</p>
+<pre class="r"><code>  reg.tab&lt;-
+    reg.out %&gt;% group_by(N,beta_hat,term) %&gt;% 
+    summarize(ols.mean=mean(estimate),
+              trimmed.ols.mean=mean(estimate1),
+              ols.median= median(estimate),
+              ols.trim.median = median(estimate1),
+              N.trim=mean(N.trim))
+
+(reg.tab %&gt;% filter(term==&quot;x&quot;) %&gt;% mutate_if(is.numeric,round,3))</code></pre>
+<pre><code>## # A tibble: 63 x 8
+## # Groups:   N, beta_hat [63]
+##        N beta_hat term  ols.mean trimmed.ols.mean ols.median
+##    &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt;            &lt;dbl&gt;      &lt;dbl&gt;
+##  1    25   -1     x       -0.398           -0.618     -0.388
+##  2    25   -0.9   x       -0.388           -0.59      -0.376
+##  3    25   -0.8   x       -0.389           -0.571     -0.377
+##  4    25   -0.7   x       -0.385           -0.555     -0.38 
+##  5    25   -0.6   x       -0.363           -0.517     -0.363
+##  6    25   -0.5   x       -0.349           -0.478     -0.348
+##  7    25   -0.400 x       -0.306           -0.392     -0.309
+##  8    25   -0.300 x       -0.277           -0.331     -0.286
+##  9    25   -0.200 x       -0.195           -0.208     -0.205
+## 10    25   -0.100 x       -0.1             -0.08      -0.11 
+## # ... with 53 more rows, and 2 more variables: ols.trim.median &lt;dbl&gt;,
+## #   N.trim &lt;dbl&gt;</code></pre>
+<p>A few graphs might help us understand what we have:</p>
+<pre class="r"><code>g1&lt;-
+  ggplot(data=filter(reg.tab,term==&quot;x&quot;), 
+         aes(x=beta_hat,y=abs(ols.median-beta_hat),
+             color=factor(N),
+             shape=factor(N)))+
+  geom_path()+
+  geom_point()+
+  theme_ridges(font_family=&quot;Roboto&quot;)+
+  scale_color_manual(values=c(&quot;#27408b&quot;,rgb(103,180,75, maxColorValue = 256),&quot;#f37735&quot;),name=&quot;Sample size &quot;)+
+  scale_shape_manual(name=&quot;Sample size &quot;,values=c(16,21,17))+
+  theme(legend.position=&quot;top&quot;)+
+  facet_wrap(~term,ncol=1)+
+  labs(x=bquote(beta[x]),y=bquote(paste(&quot;absolute error: abs(&quot;,hat(beta[ols]),&quot; - &quot;,beta[x],&quot;)&quot;)),
+       title=&quot;Mean Absolute Error: Estimating LPM with OLS (n=100 trials)&quot;,
+       subtitle=bquote(paste(&quot;Pr(Y=1|X) = &quot;,beta[0]+beta[x],&quot;x, &quot;,beta[0],&quot; = 0.4&quot;)))
+g1</code></pre>
+<p><img src="/post/2018-07-21-maybe-the-linear-probability-model-isn-t-all-bad_files/figure-html/07-21-2018-sim-1-plot-1-1.png" width="672" /></p>
+<pre class="r"><code>g2&lt;-
+  ggplot(data=filter(reg.tab,term==&quot;x&quot;), 
+         aes(x=beta_hat,y=abs(ols.trim.median -beta_hat),
+             color=factor(N),group=N,shape=factor(N)))+
+  geom_path()+
+  geom_point()  +
+  theme_ridges(font_family=&quot;Roboto&quot;)+
+  scale_color_manual(values=c(&quot;#27408b&quot;,rgb(103,180,75, maxColorValue = 256),&quot;#f37735&quot;),name=&quot;Sample size &quot;)+
+  scale_shape_manual(name=&quot;Sample size &quot;,values=c(16,21,17))+
+  theme(legend.position=&quot;top&quot;)+
+  facet_wrap(~term,ncol=1)+
+  labs(x=bquote(beta[x]),y=bquote(paste(&quot;absolute error: abs(&quot;,hat(beta[ols.trim]),&quot; - &quot;,beta[x],&quot;)&quot;)),
+       title=&quot;Mean Absolute Error: Estimating LPM with trimmed OLS (n=100 trials)&quot;,
+       subtitle=bquote(paste(&quot;Pr(Y=1|X) = &quot;,beta[0]+beta[x],&quot;x, &quot;,beta[0],&quot; = 0.4&quot;)))
+g2</code></pre>
+<p><img src="/post/2018-07-21-maybe-the-linear-probability-model-isn-t-all-bad_files/figure-html/07-21-2018-sim-1-plot-1-2.png" width="672" /></p>
+<p>These plots show that as <span class="math inline">\(\beta_x\)</span> gets larger in absolute value the mean absolute error increases for both OLS and trimmed OLS. Trimmed OLS does better by a rather large margin:</p>
+<pre class="r"><code># organize data, keep only medians
+  pdata&lt;-
+  filter(reg.tab,term==&quot;x&quot;) %&gt;%     
+  dplyr::select(N,beta_hat,ols.median,ols.trim.median) %&gt;% 
+  group_by(N,beta_hat) %&gt;% 
+  gather(type,est,-N,-beta_hat) %&gt;% 
+  ungroup() %&gt;%
+  # compute probabilities of observing xbeta &lt;0 (pi_hat), &gt;1 (rho_hat), in (0,1) (gamma_hat)
+  mutate(rho_hat = 1-pnorm(1-beta_0,0,abs(beta_hat)),
+         pi_hat = pnorm(-beta_0,0,abs(beta_hat)),
+         gamma_hat = 1-rho_hat-pi_hat)
+  
+
+  ggplot(data=pdata, aes(x=beta_hat, y=abs(beta_hat-est), color=type, shape=type))+ 
+    geom_point()  +
+    facet_wrap(~forcats::fct_reorder(paste0(&quot;N = &quot;,N),N),ncol=1)+
+    geom_path(alpha=0.75)+
+    theme_ridges(font_family=&quot;Roboto&quot;)+
+    scale_color_manual(values=c(&quot;#27408b&quot;,rgb(103,180,75, maxColorValue = 256),&quot;#f37735&quot;),labels=c(&quot;OLS&quot;,&quot;Trimmed OLS&quot;))+
+    scale_shape_manual(labels=c(&quot;OLS&quot;,&quot;Trimmed OLS&quot;),values=c(16,21))+
+    theme(legend.position=&quot;top&quot;)+
+    labs(x=bquote(beta[x]),y=bquote(paste(&quot;absolute error: abs(&quot;,hat(beta[x]),&quot; - &quot;,beta[x],&quot;)&quot;)),
+       title=&quot;Mean Absolute Error: Estimating LPM with OLS (n=100 trials)&quot;,
+       subtitle=bquote(paste(&quot;Pr(Y=1|X) = &quot;,beta[0]+beta[x],&quot;x, &quot;,beta[0],&quot; = 0.4&quot;)))</code></pre>
+<p><img src="/post/2018-07-21-maybe-the-linear-probability-model-isn-t-all-bad_files/figure-html/07-21-2018-sim-1-plot-2-1.png" width="672" /></p>
+<p>Another way of looking at these results is to compare the mean absolute errror to the likelihood of observing <span class="math inline">\(x^T\beta \in (0,1) = \gamma\)</span> (using the notation we borrowed from Horrace and Oaxaca).</p>
+<pre class="r"><code>  ggplot(data=filter(pdata,beta_hat&gt;0),  #restrict to beta_hat &gt; 0 (symmetric, so beta_hat&lt;0 gives similar results)
+         aes(x=gamma_hat, y=abs(beta_hat-est)/abs(beta_hat), color=type))+ 
+  geom_point()  +
+  facet_wrap(~forcats::fct_reorder(paste0(&quot;Sample size = &quot;,N),N))+
+  geom_path(alpha=0.75)+
+   theme_ridges(font_family=&quot;Roboto&quot;)+
+    scale_color_manual(values=c(&quot;#27408b&quot;,rgb(103,180,75, maxColorValue = 256),&quot;#f37735&quot;),labels=c(&quot;OLS&quot;,&quot;Trimmed OLS&quot;))+
+    scale_shape_manual(labels=c(&quot;OLS&quot;,&quot;Trimmed OLS&quot;),values=c(16,21))+
+    theme(legend.position=&quot;top&quot;)+
+    labs(x=bquote(paste(gamma, &quot;= Pr(&quot;,x^T, beta,&quot; in (0,1))&quot;)),y=bquote(paste(&quot;absolute error: abs(&quot;,hat(beta[x]),&quot; - &quot;,beta[x],&quot;)&quot;)),
+       title=&quot;Mean Absolute Error: Estimating LPM with (trimmed) OLS (n=100 trials)&quot;,
+       subtitle=bquote(paste(&quot;Pr(Y=1|X) = &quot;,beta[0]+beta[x],&quot;x, &quot;,beta[0],&quot; = 0.4, &quot;,beta[x],&quot; &gt; 0, X ~ N(0,1)&quot;)))</code></pre>
+<p><img src="/post/2018-07-21-maybe-the-linear-probability-model-isn-t-all-bad_files/figure-html/07-21-2018-sim-1-plot-3-1.png" width="672" /></p>
+<p>We can see that the trimmed estimator does much better than regular OLS, especially as the likelihood of getting a value outside of the (0,1) range increases.</p>
+</div>
+</div>
+<div id="alternative-estimators" class="section level1">
+<h1>Alternative estimators</h1>
+<p>Many times when you have binary outcomes researchers will use a <a href="https://en.wikipedia.org/wiki/Probit_model">probit</a> or <a href="https://en.wikipedia.org/wiki/Logit_model">logit</a> model.</p>
+<p>What if we applied these approaches when the true model was a LPM? In reality we don’t know which model our data came from, but let’s just roll with this for a while.</p>
+<p>We can easily fit a probit or logit model using <code>glm</code>.</p>
+<pre class="r"><code># Simulate under LPM ----
+  
+# draw some Xs
+  X &lt;- rnorm(Nsim)  
+  z &lt;- beta_0+beta_x1*X
+  Z0 &lt;- myf(z) 
+  y &lt;-  rbinom(Nsim, size=1, prob=Z0)
+  df.reg &lt;- data.frame(y=y,x=X)
+
+  # Fit Probit and Logit
+  out.probit &lt;- glm(data=df.reg, formula= y~x, family = binomial(link = &quot;probit&quot;))
+  out.logit &lt;- glm(data=df.reg, formula= y~x, family = binomial(link =&quot;logit&quot;))
+  
+  my.probit &lt;- function(in.x=0.5, in.model=out.probit){
+    predict(in.model, newdata=list(x=in.x),type=&quot;response&quot;)
+  }
+  
+  my.logit&lt;- function(in.x=0.5, in.model=out.logit){
+    predict(in.model, newdata=list(x=in.x),type=&quot;response&quot;)
+  }
+  
+  
+
+  df.test &lt;- 
+    data.frame(x=seq(-2,2.5,.1)) %&gt;%   # select so mean(x) =0.25 where Pr(Y|X =0.5)
+    mutate(lpm=beta_0+beta_x1*x, 
+           probit=unlist(map(x,my.probit)),
+           logit=unlist(map(x,my.logit))) 
+  
+  ggplot(data=df.test, aes(x=x,y=probit, color=&quot;probit&quot;))+
+    geom_point()+
+    geom_path()+
+    geom_path(aes(color=&quot;logit&quot;,y=logit),linetype=3)+
+    geom_point(aes(color=&quot;logit&quot;,y=logit),shape=21)+
+    geom_path(linetype=2, alpha=0.75, aes(y=myf(lpm),color=&quot; LPM&quot;),size=1.1)+
+    scale_x_continuous(breaks=c(-1,0,0.25,1.5))+
+    theme_ridges(font_family=&quot;Roboto&quot;)+
+    scale_color_manual(name=&quot;&quot;,values=c(&quot;#27408b&quot;,rgb(103,180,75, maxColorValue = 256),&quot;#f37735&quot;))+
+    scale_shape_manual(name=&quot;&quot;,values=c(16,21))+
+    theme(legend.position=&quot;top&quot;)+
+    labs(x=&quot;X&quot;,y=&quot;Pr(Y=1 |X) &quot;,
+       title=paste0(&quot;Linear Probability Model\nestimated response using logit and probit (N=&quot;,Nsim,&quot;)&quot;),
+       subtitle=bquote(paste(&quot;Pr(Y=1|X) = &quot;,beta[0]+beta[x],&quot;x, &quot;,beta[0],&quot; = 0.4, &quot;, beta[x], &quot; = 0.4&quot;)))</code></pre>
+<p><img src="/post/2018-07-21-maybe-the-linear-probability-model-isn-t-all-bad_files/figure-html/07-21-2018-sim-2-1.png" width="672" /></p>
+<p>The logit and probit fit a classical S curve and do a reasonable job of picking up the shape of the “true” LPM, though the slope of the S curves tend to be a little steeper around the midpoint (X=0.25 using our example).</p>
+<p>We can see this using the <code>mfx</code> package to compute marginal effects.</p>
+<pre class="r"><code># Logit marginal effects (at mean of x)
+logitmfx(formula = y~x, data = df.reg, atmean = TRUE)</code></pre>
+<pre><code>## Call:
+## logitmfx(formula = y ~ x, data = df.reg, atmean = TRUE)
+## 
+## Marginal Effects:
+##      dF/dx Std. Err.      z     P&gt;|z|    
+## x 0.475369  0.029605 16.057 &lt; 2.2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code># Probit marginal effects (at mean of x)
+
+probitmfx(formula = y~x, data = df.reg, atmean = TRUE)</code></pre>
+<pre><code>## Call:
+## probitmfx(formula = y ~ x, data = df.reg, atmean = TRUE)
+## 
+## Marginal Effects:
+##      dF/dx Std. Err.      z     P&gt;|z|    
+## x 0.464814  0.026505 17.537 &lt; 2.2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>The estimated marginal effects are larger than the true marginal effect of 0.4. Do the models get it right on average? Let’s compute the average partial effects by setting <code>atmean=False</code>.</p>
+<pre class="r"><code># Logit average marginal effects
+logitmfx(formula = y~x, data = df.reg, atmean = FALSE)</code></pre>
+<pre><code>## Call:
+## logitmfx(formula = y ~ x, data = df.reg, atmean = FALSE)
+## 
+## Marginal Effects:
+##     dF/dx Std. Err.      z     P&gt;|z|    
+## x 0.30175   0.03145 9.5949 &lt; 2.2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code># Probit average marginal effects
+
+probitmfx(formula = y~x, data = df.reg, atmean = FALSE)</code></pre>
+<pre><code>## Call:
+## probitmfx(formula = y ~ x, data = df.reg, atmean = FALSE)
+## 
+## Marginal Effects:
+##       dF/dx Std. Err.      z     P&gt;|z|    
+## x 0.3057193 0.0073981 41.324 &lt; 2.2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>These tables show what the chart above shows visually. The logit and probit are steeper at the middle (around X=0.25) but are on average flatter than the “true” LPM.</p>
+<div id="turn-it-around" class="section level3">
+<h3>Turn it around</h3>
+<p>How about if we turn it around? Suppose the probit was the true model, but we estimated a LPM on it. Let’s see what we get.</p>
+<p>We’ll use the estimated coefficients from the probit above to simulate data.</p>
+<pre class="r"><code>beta_probit &lt;- tidy(out.probit)$estimate
+
+ystar &lt;- beta_probit[1]+beta_probit[2]*X
+
+y.probit &lt;- ifelse(beta_probit[1]+beta_probit[2]*X-rnorm(Nsim,0,1)&gt;0,1,0)
+
+df.sim3 &lt;- data.frame(x=X,y=y.probit)
+
+# OLS
+(lpm.sim3 &lt;- lm(data=df.sim3, formula=y~x))</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = y ~ x, data = df.sim3)
+## 
+## Coefficients:
+## (Intercept)            x  
+##      0.4253       0.2968</code></pre>
+<pre class="r"><code># Trimmed OLS
+df.sim3.trim &lt;- df.sim3[(predict(lpm.sim3)&gt;=0 &amp; predict(lpm.sim3 )&lt;=1 ),]
+
+(lpm.sim3.trim &lt;-lm(data=df.sim3.trim, formula= y~x))</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = y ~ x, data = df.sim3.trim)
+## 
+## Coefficients:
+## (Intercept)            x  
+##      0.4124       0.3593</code></pre>
+<pre class="r"><code>  my.lpm&lt;- function(in.x=0.5, in.model=lpm.sim3){
+    predict(in.model, newdata=list(x=in.x),type=&quot;response&quot;)
+  }
+
+  
+  df.test3 &lt;- 
+    data.frame(x=seq(-2,2.5,.1)) %&gt;%   # select so mean(x) =0.25 where Pr(Y|X =0.5)
+    mutate(lpm=unlist(map(x,my.lpm)),
+           lpm.trim=unlist(x,my.lpm,lpm.sim3.trim), 
+           probit=unlist(map(x,my.probit))
+    )
+  
+  ggplot(data=df.test3, aes(x=x,y=probit, color=&quot;Probit&quot;,shape=&quot;Probit&quot;))+
+    geom_point()+
+    geom_path()+
+    geom_path(linetype=3, alpha=0.75, aes(y=myf(lpm.trim),color=&quot; LPM Trimmed&quot;),size=1.1)+
+    geom_point(aes(y=myf(lpm.trim),color=&quot; LPM Trimmed&quot;, shape=&quot; LPM Trimmed&quot;))+
+    geom_path(linetype=2, alpha=0.75, aes(y=myf(lpm),color=&quot; LPM&quot;),size=1.1)+
+    geom_point(aes(y=myf(lpm),color=&quot; LPM&quot;, shape=&quot; LPM&quot;))+
+    theme_ridges(font_family=&quot;Roboto&quot;)+
+    scale_color_manual(name=&quot;&quot;,values=c(&quot;#27408b&quot;,rgb(103,180,75, maxColorValue = 256),&quot;#f37735&quot;))+
+    scale_shape_manual(name=&quot;&quot;,values=c(16,21,17))+
+    theme(legend.position=&quot;top&quot;)+
+    labs(x=&quot;X&quot;,y=&quot;Pr(Y=1 |X) &quot;,
+       title=paste0(&quot;Probit Model\nestimated response using LPM (N=&quot;,Nsim,&quot;)&quot;),
+       subtitle=bquote(paste(&quot;Pr(Y=1|X) = &quot;,Phi(beta[0]+beta[x]*X),&quot;, &quot;,beta[0],&quot; = &quot;,  .(round(beta_probit[1],3)) , &quot;, &quot;, beta[x],&quot; = &quot;, .(round(beta_probit[2],3)))))</code></pre>
+<p><img src="/post/2018-07-21-maybe-the-linear-probability-model-isn-t-all-bad_files/figure-html/07-21-2018-sim-3-plot-1-1.png" width="672" /></p>
+<p>So the LPM looks like it’s “in the ballpark” of where the “true” model is. Though now the LPM is estimating too flat of a slope near the mean and too steep of a slope on average. However, the trimmed OLS estimator looks terrible.</p>
+<p>Let’s add something to the plot to help see what’s going on:</p>
+<pre class="r"><code>  ggplot(data=df.test3, aes(x=x,y=probit, color=&quot;Probit&quot;,shape=&quot;Probit&quot;))+
+    geom_point()+
+    geom_path()+
+    geom_path(linetype=3, alpha=0.75, aes(y=myf(lpm.trim),color=&quot; LPM Trimmed&quot;),size=1.1)+
+    geom_point(aes(y=myf(lpm.trim),color=&quot; LPM Trimmed&quot;, shape=&quot; LPM Trimmed&quot;))+
+    geom_path(linetype=2, alpha=0.75, aes(y=myf(lpm),color=&quot; LPM&quot;),size=1.1)+
+    geom_point(aes(y=myf(lpm),color=&quot; LPM&quot;, shape=&quot; LPM&quot;))+
+    geom_rug(data=df.sim3,color=&quot;#27408b&quot;,inherit.aes=F, aes(x=x),sides=&quot;b&quot;,size=0.5,alpha=0.5)+
+    geom_rug(data=df.sim3.trim,color=rgb(103,180,75, maxColorValue = 256),inherit.aes=F, aes(x=x),sides=&quot;t&quot;,size=0.5,alpha=0.5)+
+    theme_ridges(font_family=&quot;Roboto&quot;)+
+    scale_color_manual(name=&quot;&quot;,values=c(&quot;#27408b&quot;,rgb(103,180,75, maxColorValue = 256),&quot;#f37735&quot;))+
+    scale_shape_manual(name=&quot;&quot;,values=c(16,21,17))+
+    theme(legend.position=&quot;top&quot;)+
+    labs(x=&quot;X&quot;,y=&quot;Pr(Y=1 |X) &quot;,
+       title=paste0(&quot;Probit Model\nestimated response using LPM (N=&quot;,Nsim,&quot;)&quot;),
+       subtitle=bquote(paste(&quot;Pr(Y=1|X) = &quot;,Phi(beta[0]+beta[x]*X),&quot;, &quot;,beta[0],&quot; = &quot;,  .(round(beta_probit[1],3)) , &quot;, &quot;, beta[x],&quot; = &quot;, .(round(beta_probit[2],3)))),
+       caption=&quot;Strip at top shows Xs used by trimmed estimater\nStrip at bottom shows full sample&quot;)</code></pre>
+<p><img src="/post/2018-07-21-maybe-the-linear-probability-model-isn-t-all-bad_files/figure-html/07-21-2018-sim-3-plot-2-1.png" width="672" /></p>
+<p>Let’s convert the discrete Y values into something continuous by bucketing the Xs and computing averages.</p>
+<pre class="r"><code>  df.s &lt;-
+  df.sim3 %&gt;% 
+    mutate(xb=cut(x,seq(-3,3,.25))) %&gt;%
+    group_by(xb) %&gt;% 
+    summarize(x=mean(x),
+              ybar=mean(y)) %&gt;%
+    mutate(
+      lpm=unlist(map(x,my.lpm)),
+      lpm.trim=unlist(x,my.lpm,lpm.sim3.trim),
+      y.probit=unlist(map(x,my.probit)))
+
+  
+  ggplot(data=df.s %&gt;% arrange(x), aes(x=x,y=y.probit, color=&quot;Probit&quot;,shape=&quot;Probit&quot;))+
+    geom_point()+
+    geom_path()+
+    geom_path(linetype=2, alpha=0.95, aes(y=ybar,color=&quot;Sample Average&quot;))+
+    geom_point(alpha=0.95, aes(y=ybar,color=&quot;Sample Average&quot;, shape=&quot;Sample Average&quot;))+
+    geom_path(linetype=3, alpha=0.75, aes(y=myf(lpm.trim),color=&quot; LPM Trimmed&quot;),size=1.1)+
+    geom_point(aes(y=myf(lpm.trim),color=&quot; LPM Trimmed&quot;, shape=&quot; LPM Trimmed&quot;))+
+    geom_path(linetype=2, alpha=0.75, aes(y=myf(lpm),color=&quot; LPM&quot;),size=1.1)+
+    geom_point(aes(y=myf(lpm),color=&quot; LPM&quot;, shape=&quot; LPM&quot;))+
+        theme_ridges(font_family=&quot;Roboto&quot;)+
+    scale_color_manual(name=&quot;&quot;,values=c(&quot;#27408b&quot;,rgb(103,180,75, maxColorValue = 256),&quot;#f37735&quot;,&quot;black&quot;))+
+    scale_shape_manual(name=&quot;&quot;,values=c(16,21,17,5))+
+    theme(legend.position=&quot;top&quot;)+
+    labs(x=&quot;X&quot;,y=&quot;Pr(Y=1 |X) &quot;,
+       title=paste0(&quot;Probit Model\nestimated response using LPM (N=&quot;,Nsim,&quot;)&quot;),
+       subtitle=bquote(paste(&quot;Pr(Y=1|X) = &quot;,Phi(beta[0]+beta[x]*X),&quot;, &quot;,beta[0],&quot; = &quot;,  .(round(beta_probit[1],3)) , &quot;, &quot;, beta[x],&quot; = &quot;, .(round(beta_probit[2],3)))),
+       caption=&quot;Sample averages computed using X&#39;s binned by 0.25 increments&quot;)</code></pre>
+<p><img src="/post/2018-07-21-maybe-the-linear-probability-model-isn-t-all-bad_files/figure-html/07-21-2018-sim-3-plot-3-1.png" width="672" /></p>
+</div>
+</div>
+<div id="summary" class="section level1">
+<h1>Summary</h1>
+<p>We saw that when the true model is a LPM, trimming can significantly improve the estimator by reducing bias. When the true model is not a LPM, but something else, the benefits of trimming aren’t as apparent. In our case, when the true model was a probit, the trimmed OLS estimator didn’t do so well.</p>
+<p>How might these approaches work when faced with actual data? We’ll take a look next time.</p>
+<div id="references" class="section level3">
+<h3>References</h3>
+<p>Earlier Post: “How bad is a Linear Probability Model?” <a href="../../../../2018/07/17/how-bad-is-a-linear-probability-model/">LINK</a></p>
+<p>Amemiya, T. (1977). Some theorems in the linear probability model. International Economic Review, 645-650. <a href="https://www.jstor.org/stable/2525953">JSTOR</a></p>
+<p>Horrace, W. C., &amp; Oaxaca, R. L. (2006). Results on the bias and inconsistency of ordinary least squares for the linear probability model. Economics Letters, 90(3), 321-327. <a href="https://surface.syr.edu/cgi/viewcontent.cgi?article=1138&amp;context=ecn">pdf</a></p>
+</div>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2018/07/18/u-s-housing-starts-are-still-super-low/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2018/07/18/u-s-housing-starts-are-still-super-low/">U.S. housing starts are still super low</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/r/">R</a>, 
+            
+                <a href="/tags/statistics/">statistics</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2018%2f07%2f21%2fmaybe-the-linear-probability-model-isn-t-all-bad%2f&text=Maybe%20the%20Linear%20Probability%20Model%20isn%27t%20all%20bad via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2018%2f07%2f21%2fmaybe-the-linear-probability-model-isn-t-all-bad%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+
