@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Why stop at a 2-d connected scatterplot when you could go to 3-d?">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>Connected scatterplot &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com//img/charts_jul_21_2018/scatter.jpg" >
+     
+    <meta property="og:title" content="Connected scatterplot">
+    <meta property="og:description" content="Why stop at a 2-d connected scatterplot when you could go to 3-d?">
+
+<div class="header">
+  <h1>Connected scatterplot</h1>
+  <h2>Why stop at a 2-d connected scatterplot when you could go to 3-d?</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/07/21</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/fun">fun</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <p>On Twitter <a href="Claus%20Wilke">Claus Wilke</a> asks:</p>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Dear Lazyweb: Is there an accepted name for a plot showing a two-variable time series as a path in the x-y plane? <a href="https://twitter.com/hashtag/dataviz?src=hash&amp;ref_src=twsrc%5Etfw">#dataviz</a><a href="https://twitter.com/Elijah_Meeks?ref_src=twsrc%5Etfw">@Elijah_Meeks</a> <a href="https://twitter.com/albertocairo?ref_src=twsrc%5Etfw">@albertocairo</a> <a href="https://twitter.com/lenkiefer?ref_src=twsrc%5Etfw">@lenkiefer</a> <a href="https://twitter.com/sharoz?ref_src=twsrc%5Etfw">@sharoz</a> <a href="https://twitter.com/dataandme?ref_src=twsrc%5Etfw">@dataandme</a> <a href="https://t.co/N8Edmf8qii">pic.twitter.com/N8Edmf8qii</a></p>&mdash; Claus Wilke (@ClausWilke) <a href="https://twitter.com/ClausWilke/status/1020768223216709632?ref_src=twsrc%5Etfw">July 21, 2018</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>I call them connected scatterplots, and we’ve made a few here. See for example <a href="../../../../2018/02/26/employment-growth-and-house-price-trends/">this post</a>.</p>
+<p>But we can intensify things and make a plot like this:</p>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">hey <a href="https://twitter.com/ClausWilke?ref_src=twsrc%5Etfw">@ClausWilke</a> why stop at a 2-d connected scatterplot* when you could go to 3-d<br>*or meandering plot etc <a href="https://t.co/D7l8CQewZb">pic.twitter.com/D7l8CQewZb</a></p>&mdash; Leonard Kiefer (@lenkiefer) <a href="https://twitter.com/lenkiefer/status/1020827335917015040?ref_src=twsrc%5Etfw">July 22, 2018</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p><a href="https://www.r-project.org/">R</a> code to follow.</p>
+<pre class="r"><code>suppressPackageStartupMessages({
+library(tidyquant)
+library(tidyverse)
+library(lubridate)
+library(ggridges)
+library(cowplot)
+  library(extrafont)
+})</code></pre>
+<p>And then get some data via <a href="https://fred.stlouisfed.org/">FRED</a>.</p>
+<pre class="r"><code>tickers &lt;- data.frame(symbol=c(&quot;PCEPI&quot;,&quot;UNRATE&quot;,&quot;FEDFUNDS&quot;),varname=c(&quot;pce.level&quot;,&quot;ur&quot;,&quot;fedfunds&quot;))
+
+df &lt;- tidyquant::tq_get(c(&quot;PCEPI&quot;,&quot;UNRATE&quot;,&quot;FEDFUNDS&quot;),get=&quot;economic.data&quot;, from=&quot;1959-01-01&quot;) 
+
+df &lt;- left_join(df,tickers, by=&quot;symbol&quot;)
+
+df %&gt;% dplyr::select(date,price,varname) %&gt;% 
+  spread(varname,price) %&gt;% 
+  mutate(pce =100*(pce.level/lag(pce.level,12)) -100) %&gt;%
+  filter(!is.na(pce)) -&gt; dfq</code></pre>
+<p>To make our plot, we’ll use a custom color palette defined below (I really should make a package for this I think).</p>
+<p>Now, make our plot. It’s going to need to be large to fit all the detail. Link to <a href="../../../../img/charts_jul_21_2018/scatter.jpg">chart</a>.</p>
+<pre class="r"><code>#add decade
+dfq &lt;- mutate(dfq, decade=paste0(10*floor(year(date)/10),&quot;&#39;s&quot;))
+
+g1 &lt;- ggplot(data=dfq, aes(x=pce,y=fedfunds,color=decade))+geom_point()+ theme_ridges(font_family=&quot;Roboto&quot;)+geom_path()+scale_color_mycol(&quot;mixed6&quot;)+theme(legend.position=&quot;left&quot;)
+g2 &lt;- ggplot(data=dfq, aes(x=ur,y=pce,color=decade))+geom_point()+  theme_ridges(font_family=&quot;Roboto&quot;)+geom_path()+scale_color_mycol(&quot;mixed6&quot;)+theme(legend.position=&quot;none&quot;)
+g3 &lt;- ggplot(data=dfq, aes(x=ur,y=fedfunds,color=decade))+geom_point()+  theme_ridges(font_family=&quot;Roboto&quot;)+geom_path()+scale_color_mycol(&quot;mixed6&quot;)+theme(legend.position=&quot;none&quot;)
+
+g1ts &lt;- ggplot(data=dfq, aes(x=date,y=fedfunds,color=decade))+geom_line()+  theme_ridges(font_family=&quot;Roboto&quot;)+scale_color_mycol(&quot;mixed6&quot;)+theme(legend.position=&quot;none&quot;)
+g2ts &lt;- ggplot(data=dfq, aes(x=date,y=pce,color=decade))+geom_line()+  theme_ridges(font_family=&quot;Roboto&quot;)+scale_color_mycol(&quot;mixed6&quot;)+theme(legend.position=&quot;none&quot;)
+g3ts &lt;- ggplot(data=dfq, aes(x=date,y=ur,color=decade))+geom_line()+  theme_ridges(font_family=&quot;Roboto&quot;)+scale_color_mycol(&quot;mixed6&quot;)+theme(legend.position=&quot;none&quot;)
+
+g.ts &lt;- plot_grid(g1ts,g2ts,
+                  g3ts,
+                  ncol=1)
+
+g&lt;- plot_grid(g1,g3,g.ts,g2,ncol=2)
+
+plot_grid( g,ggplot(data=NULL)+
+             labs(title=&quot; @lenkiefer Notes: pce= 12-month percent change in PCE price index, ur= unemployment rate, \n fedfunds= effective federal funds rate\n retrieved from FRED, Federal Reserve Bank of St. Louis; https://fred.stlouisfed.org/series/FEDFUNDS, July 21, 2018&quot;)+
+             theme_ridges(font_family=&quot;Roboto&quot;)+theme(plot.title=element_text(hjust=0,size=12,face=&quot;italic&quot;)),
+           rel_heights=c(10,1),ncol=1)</code></pre>
+<p><img src="/post/2018-07-21-connected-scatterplot_files/figure-html/07-21-2018-setup-scatter-4-1.png" width="864" /></p>
+<p>Code for color scale.</p>
+<pre class="r"><code># Function for colors ----
+#####################################################################################
+## Make Color Scale ----  ##
+#####################################################################################
+my_colors &lt;- c(
+  &quot;green&quot;      = rgb(103,180,75, maxColorValue = 256),
+  &quot;green2&quot;      = rgb(147,198,44, maxColorValue = 256),
+  &quot;lightblue&quot;  =  rgb(9, 177,240, maxColorValue = 256),
+  &quot;lightblue2&quot; = rgb(173,216,230, maxColorValue = 256),
+  &#39;blue&#39;       = &quot;#00aedb&quot;,
+  &#39;red&#39;        = &quot;#d11141&quot;,
+  &#39;orange&#39;     = &quot;#f37735&quot;,
+  &#39;yellow&#39;     = &quot;#ffc425&quot;,
+  &#39;gold&#39;       = &quot;#FFD700&quot;,
+  &#39;light grey&#39; = &quot;#cccccc&quot;,
+  &#39;purple&#39;     = &quot;#551A8B&quot;,
+  &#39;dark grey&#39;  = &quot;#8c8c8c&quot;)
+
+
+my_cols &lt;- function(...) {
+  cols &lt;- c(...)
+  if (is.null(cols))
+    return (my_colors)
+  my_colors[cols]
+}
+
+
+my_palettes &lt;- list(
+  `main`  = my_cols(&quot;blue&quot;, &quot;green&quot;, &quot;yellow&quot;),
+  `cool`  = my_cols(&quot;blue&quot;, &quot;green&quot;),
+  `hot`   = my_cols(&quot;yellow&quot;, &quot;orange&quot;, &quot;red&quot;),
+  `mixed` = my_cols(&quot;lightblue&quot;, &quot;green&quot;, &quot;yellow&quot;, &quot;orange&quot;, &quot;red&quot;),
+  `mixed2` = my_cols(&quot;lightblue2&quot;,&quot;lightblue&quot;, &quot;green&quot;, &quot;green2&quot;,&quot;yellow&quot;,&quot;gold&quot;, &quot;orange&quot;, &quot;red&quot;),
+  `mixed3` = my_cols(&quot;lightblue2&quot;,&quot;lightblue&quot;, &quot;green&quot;, &quot;yellow&quot;,&quot;gold&quot;, &quot;orange&quot;, &quot;red&quot;),
+  `mixed4` = my_cols(&quot;lightblue2&quot;,&quot;lightblue&quot;, &quot;green&quot;, &quot;green2&quot;,&quot;yellow&quot;,&quot;gold&quot;, &quot;orange&quot;, &quot;red&quot;,&quot;purple&quot;),
+  `mixed5` = my_cols(&quot;lightblue&quot;,&quot;green&quot;, &quot;green2&quot;,&quot;yellow&quot;,&quot;gold&quot;, &quot;orange&quot;, &quot;red&quot;,&quot;purple&quot;,&quot;blue&quot;),
+  `mixed6` = my_cols(&quot;green&quot;, &quot;gold&quot;, &quot;orange&quot;, &quot;red&quot;,&quot;purple&quot;,&quot;blue&quot;),
+  `grey`  = my_cols(&quot;light grey&quot;, &quot;dark grey&quot;)
+)
+
+
+my_pal &lt;- function(palette = &quot;main&quot;, reverse = FALSE, ...) {
+  pal &lt;- my_palettes[[palette]]
+  
+  if (reverse) pal &lt;- rev(pal)
+  
+  colorRampPalette(pal, ...)
+}
+
+
+scale_color_mycol &lt;- function(palette = &quot;main&quot;, discrete = TRUE, reverse = FALSE, ...) {
+  pal &lt;- my_pal(palette = palette, reverse = reverse)
+  
+  if (discrete) {
+    discrete_scale(&quot;colour&quot;, paste0(&quot;my_&quot;, palette), palette = pal, ...)
+  } else {
+    scale_color_gradientn(colours = pal(256), ...)
+  }
+}
+
+
+
+scale_fill_mycol &lt;- function(palette = &quot;main&quot;, discrete = TRUE, reverse = FALSE, ...) {
+  pal &lt;- my_pal(palette = palette, reverse = reverse)
+  
+  if (discrete) {
+    discrete_scale(&quot;fill&quot;, paste0(&quot;my_&quot;, palette), palette = pal, ...)
+  } else {
+    scale_fill_gradientn(colours = pal(256), ...)
+  }
+}</code></pre>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2018/07/21/maybe-the-linear-probability-model-isn-t-all-bad/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2018/07/21/maybe-the-linear-probability-model-isn-t-all-bad/">Maybe the Linear Probability Model isn&#39;t all bad</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/r/">R</a>, 
+            
+                <a href="/tags/dataviz/">dataviz</a>, 
+            
+                <a href="/tags/fun/">fun</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2018%2f07%2f21%2fconnected-scatterplot%2f&text=Connected%20scatterplot via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2018%2f07%2f21%2fconnected-scatterplot%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+
