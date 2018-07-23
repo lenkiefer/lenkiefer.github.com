@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="We make an animated house price gif with a new R package called gifski.">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>House price gifski &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="House price gifski">
+    <meta property="og:description" content="We make an animated house price gif with a new R package called gifski.">
+
+<div class="header">
+  <h1>House price gifski</h1>
+  <h2>We make an animated house price gif with a new R package called gifski.</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/07/22</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/animation">animation</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/house-prices">house prices</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <p>I saw today, via <a href="https://ropensci.org/">Ropensci</a> a <a href="https://ropensci.org/technotes/2018/07/23/gifski-release/">blog post</a> about a new package for making animated gifs with R called <a href="https://CRAN.R-project.org/package=gifski">gifski</a> now available on CRAN.</p>
+<p>Let’s adapt the code we shared <a href="../../../../2018/07/14/housing-in-the-golden-state/">last week</a> to use the gifski package. See that post for additional details.</p>
+<p>If we run the <a href="https://www.r-project.org/">R</a> code below we’ll generate this animated plot:</p>
+<p><img src="../../../../img/charts_jul_22_2018/hpa2.gif"></p>
+<p>This plot shows the evolution of house prices in three states.</p>
+<p>The new thing is that the code below swaps out the <a href="https://CRAN.R-project.org/package=animation">animation</a> package <code>saveGIF()</code> call for <code>gifski::save_gif</code>. It seems gifski does save some time, though in this example the gains are relatively small. In future I’ll try it out with some of <a href="../../../../tags/animation/">my more complex animations</a>.</p>
+<pre class="r"><code># load libraries ----
+library(data.table)
+library(gifski)
+library(tweenr)
+library(tidyverse)
+library(lubridate)
+library(tweenr)
+library(ggridges)
+
+# get house price data
+df.hpi&lt;-fread(&quot;https://www.fhfa.gov/DataTools/Downloads/Documents/HPI/HPI_master.csv&quot;)
+
+df.hpi &lt;- mutate(df.hpi,date=as.Date(ISOdate(yr,period*3,1)))
+
+df.us &lt;- filter(df.hpi, place_name==&quot;United States&quot;, 
+                hpi_type==&quot;traditional&quot;,
+                hpi_flavor==&quot;purchase-only&quot;, 
+                frequency==&quot;quarterly&quot;)
+
+df.state &lt;- filter(df.hpi, level==&quot;State&quot;,  
+                   hpi_type==&quot;traditional&quot;, 
+                   hpi_flavor==&quot;purchase-only&quot;, 
+                   frequency==&quot;quarterly&quot;)
+
+df.stack &lt;- bind_rows(df.us,df.state)
+
+
+dfp &lt;- 
+  filter(df.stack,year(date)&gt;1991) %&gt;% 
+  select(date,level,place_id,index_sa) %&gt;%
+  group_by(level,place_id) %&gt;% 
+  mutate(day=1+(row_number()-1), ease=&quot;linear&quot;, 
+         rate_label=as.factor(as.character(round(index_sa,0)))) %&gt;%
+  ungroup() %&gt;%
+  mutate_if(is.character, as.factor)
+
+# restrict to three plots
+dfp2 &lt;- filter(dfp, place_id %in% c(&quot;USA&quot;,&quot;TX&quot;,&quot;CA&quot;))
+
+dfp2 &lt;- 
+  dfp2 %&gt;% 
+  select(date,place_id,index_sa) %&gt;% 
+  spread(place_id,index_sa) %&gt;%
+  mutate(day=1+(row_number()-1), ease=&quot;linear&quot;)
+
+# use tweener::tween_elements and tweener::tween_appear for a smooth interpolation between time points.
+plot_data_tween&lt;-
+  tween_elements(dfp2,
+                 time = &quot;day&quot;,  group=&quot;ease&quot;,
+                 ease=&quot;ease&quot;, nframes = nrow(dfp2)*3)
+
+df_tween_appear &lt;- tween_appear(plot_data_tween, time=&#39;day&#39;, nframes = nrow(dfp2)*3)
+N &lt;- max(df_tween_appear$.frame)
+
+make_plot_appear &lt;- function(i){
+  p &lt;-
+    ggplot(data=df_tween_appear, aes(x=date,y=USA))+
+    geom_line(alpha=0)+
+    # code here is a bit dense, 
+    geom_line(data=   .%&gt;% filter(.frame==i, .age&gt; -3.5) , aes(color=&quot;USA&quot;),size=1.05) +
+    geom_line(data=   .%&gt;% filter(.frame==i, .age&gt; -3.5) , aes(y=CA ,color=&quot; CA&quot;),size=1.05) +
+    geom_line(data=   .%&gt;% filter(.frame==i, .age&gt; -3.5), aes(y=TX,color=&quot; TX&quot;),size=1.05 ) +
+    geom_point(data=  .%&gt;% filter(.frame==i, .age&gt; -3.5) %&gt;% tail(1), size=3, alpha=0.5, aes(color=&quot;USA&quot;))+
+    geom_point(data=  .%&gt;% filter(.frame==i, .age&gt; -3.5) %&gt;% tail(1), size=3, alpha=0.5 , aes(y=CA ,color=&quot; CA&quot;))+
+    geom_point(data=  .%&gt;% filter(.frame==i, .age&gt; -3.5) %&gt;% tail(1),  size=3, alpha=0.5, aes(y=TX,color= &quot; TX&quot;))+
+    geom_text(data=   .%&gt;% filter(.frame==i, .age&gt; -3.5) %&gt;% tail(1), size=5, alpha=0.95, aes(label=&quot;USA&quot;,color=&quot;USA&quot;),nudge_y=5)+
+    geom_text(data=   .%&gt;% filter(.frame==i, .age&gt; -3.5) %&gt;% tail(1),  size=5, alpha=0.95 , aes(y=CA ,label=&quot;CA&quot;,color=&quot; CA&quot;),nudge_y=5)+
+    geom_text(data=   .%&gt;% filter(.frame==i, .age&gt; -3.5) %&gt;% tail(1),  size=5, alpha=0.95, aes(y=TX,label=&quot;TX&quot;,color=&quot; TX&quot;),nudge_y=5)+
+    theme_ridges(font_family=&quot;Roboto&quot;)+
+    scale_color_manual(name=&quot;&quot;,values=c(rgb(103,180,75, maxColorValue = 256),&quot;#f37735&quot;,&quot;#27408b&quot;))+
+    theme(text = element_text(color = &quot;#27408b&quot;))+
+    labs(y=&quot;House Price Index (SA)&quot;,x=&quot;date (quarterly)&quot;,
+         title=&quot;House price trends: CA, TX, and USA&quot;,
+         subtitle=&quot;House price index by state&quot;,
+         caption=&quot;@lenkiefer Source: FHFA purchase-only house price index, SA&quot;)
+  
+  return(p)
+}
+
+# to test plot, could run: 
+# make_plot_appear(max(df_tween_appear$.frame))
+
+# Set to your directory
+mydir&lt;-&quot;YOURDIRECTORY&quot;
+
+t1 &lt;-Sys.time()
+gif_file &lt;- save_gif({for (i in seq((1):N)){  
+  g&lt;- make_plot_appear(i)
+  print(g)
+  print(paste(i,&quot;out of&quot;,N))
+  }
+  for (ii in 1:30){
+    print(g)
+    print(paste(ii,&quot;out of&quot;,30))
+  }
+}, gif_file= paste0(mydir,&quot;/hpa2.gif&quot;),width = 620, height = 400, res = 92, delay=1/20)
+t2 &lt;- Sys.time()
+t2-t1</code></pre>
+<p>Lots more to try with this!</p>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2018/07/21/connected-scatterplot/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2018/07/21/connected-scatterplot/">Connected scatterplot</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/animation/">animation</a>, 
+            
+                <a href="/tags/dataviz/">dataviz</a>, 
+            
+                <a href="/tags/r/">R</a>, 
+            
+                <a href="/tags/house-prices/">house prices</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2018%2f07%2f22%2fhouse-price-gifski%2f&text=House%20price%20gifski via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2018%2f07%2f22%2fhouse-price-gifski%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+
