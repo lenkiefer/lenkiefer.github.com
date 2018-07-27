@@ -253,7 +253,8 @@
 <p>Per usual, we’ll analyze the data with <a href="https://www.r-project.org/">R</a> and I’ll post code as we go along.</p>
 <div id="data" class="section level1">
 <h1>Data</h1>
-<p>Data for new home sales come from the U.S. Census Bureau joint with the U.S. Department of Housing and Urban Development. The <a href="https://www.census.gov/construction/nrs/about_the_surveys/index.html">data are collected</a> through the Survey of Construction. The data on new residential sales are widely watched as they provide insight into residential investment. For example, the Federal Reserve Bank of Atlanta’s <a href="https://www.frbatlanta.org/cqer/research/gdpnow.aspx?panel=fa9ccf1bede04c3b8a3ac751883e58a92">GDPNow</a> estimate uses the home sales report to adjust their estimates. The release of June 2018 new home sales data caused the GDPNow estimate for 2018Q2 GDP growth to decline by 0.1 percentage points and reduced the estimated growth in residential investment from -0.4 to -2.3 percent. <a href="https://www.frbatlanta.org/-/media/documents/cqer/researchcq/gdpnow/RealGDPTrackingSlides.pdf">Detail in linked pdf.</a></p>
+<p>Data for new home sales come from the U.S. Census Bureau joint with the U.S. Department of Housing and Urban Development. The <a href="https://www.census.gov/construction/nrs/about_the_surveys/index.html">data are collected</a> through the Survey of Construction.</p>
+<p>The data on new residential sales are widely watched as they provide insight into residential investment. For example, the Federal Reserve Bank of Atlanta’s <a href="https://www.frbatlanta.org/cqer/research/gdpnow.aspx?panel=fa9ccf1bede04c3b8a3ac751883e58a92">GDPNow</a> estimate uses the home sales report to adjust their estimates. The release of June 2018 new home sales data caused the GDPNow estimate for 2018Q2 GDP growth to decline by 0.1 percentage points and reduced the estimated growth in residential investment from -0.4 to -2.3 percent. <a href="https://www.frbatlanta.org/-/media/documents/cqer/researchcq/gdpnow/RealGDPTrackingSlides.pdf">Detail in linked pdf.</a></p>
 <div>
 <p>GDPNow’s response to home sales data <img src="../../../../img/charts_jul_26_2018/GDPNow.png", height=535, width=700></p>
 </div>
@@ -301,8 +302,13 @@ df&lt;- left_join(dt, df.dates, by=&quot;per_idx&quot;)</code></pre>
 <div id="uncertain-housing-data" class="section level1">
 <h1>Uncertain housing data</h1>
 <p>Let’s plot a trend for new home sales, but include a band to show uncertainty around the estimate. The Census provides a relative standard error, expressed as a percent of the point estimate. We can use a normal approximation to construct a band around the monthly estimate.</p>
-<p>Let’s first do it for the United States (<code>geo_idx==1</code>) and total (<code>dt_idx==</code>) monthly home sales at a seasonally adjusted annual rate (<code>cat_idx==2</code>). After we extract the point estimates, we’ll extract the error <code>et_idx</code> and then combine to plot:</p>
-<pre class="r"><code>df2 &lt;- filter(df, cat_idx==2, dt_idx==1,geo_idx==1)
+<p>Let’s first do it for the United States (<code>geo_idx==1</code>) and total (<code>dt_idx==</code>) monthly home sales at a seasonally adjusted annual rate (<code>cat_idx==2</code>). After we extract the point estimates, we’ll extract the error <code>et_idx</code> and then combine to plot.</p>
+<p>The <code>et_idx</code> variable is the relative standard error for estimated home sales. To convert to a confidence interval we’ll use the <code>qnorm</code> function to compute the perentiles assuming a normal distribution centered at the estimate with standard error equal to the estimate times the <code>et_idx</code> value divided by 100. <em>Note that Census rounds values so our estimates may differ slightly from the reported estimates</em>.</p>
+<pre class="r"><code>df2 &lt;- filter(df, 
+              cat_idx==2,  # NSA home sales
+              dt_idx==1,   # All houses
+              geo_idx==1   # Just usa
+              )
 
 # extract errors.
 df.err &lt;- filter(df, et_idx==1, cat_idx==2,geo_idx==1)
@@ -331,16 +337,21 @@ ggplot(data=filter(df3,year(date)&gt;2014), aes(x=date, y=val, fill=&quot;5th to
 <p>Here we can see that though the estimate for June ticked down, it’s hard to say for sure that home sales have done much of anything since 2017. Yes, the general tends seems up, but there’s a wide confidence interval.</p>
 <div id="regional-trends" class="section level3">
 <h3>Regional trends</h3>
-<p>We can also apply the same techniques to examine regional trends. We’ll use <code>case_when</code> too. See <span class="citation">@hrbrmstr</span> on <a href="https://rud.is/b/2017/03/10/making-a-case-for-case_when/">case_when in this post</a>.</p>
+<p>We can also apply the same techniques to examine regional trends. We’ll use the <code>case_when</code> function. See <span class="citation">@hrbrmstr</span> on <a href="https://rud.is/b/2017/03/10/making-a-case-for-case_when/">case_when in this post</a>.</p>
 <pre class="r"><code># regional with intervals
 
-df2.r &lt;- filter(df, cat_idx==2, dt_idx==1,! geo_idx==1)
+df2.r &lt;- filter(df, 
+                cat_idx==2,   # NSA home sales
+                dt_idx==1,    # All houses
+                ! geo_idx ==1 # not region =1 (excludes US)
+                )
 
-df.err.r &lt;- filter(df, et_idx==1, cat_idx==2,! geo_idx==1)
+# note: corrected to merge on geo_idx and date
+df.err.r &lt;- filter(df, et_idx==1, cat_idx==2,! geo_idx ==1)
 
-df3.r &lt;- data.frame(date=df.err.r$date,err=df.err.r$val)
+df3.r &lt;- data.frame(date=df.err.r$date,err=df.err.r$val,geo_idx=df.err.r$geo_idx)
 
-df3.r &lt;- left_join(df3.r, df2.r, by=&quot;date&quot;) 
+df3.r &lt;- left_join(df3.r, df2.r, by=c(&quot;date&quot;,&quot;geo_idx&quot;)) 
 
 df3.r &lt;- 
   df3.r %&gt;%
