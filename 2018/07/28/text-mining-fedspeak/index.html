@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="We apply tidytext techniques to analyze the annual Federal Reserve Monetary Policy Report.">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>Text Mining Fedspeak &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com//img/charts_jul_28_2018/word_corr.png" >
+     
+    <meta property="og:title" content="Text Mining Fedspeak">
+    <meta property="og:description" content="We apply tidytext techniques to analyze the annual Federal Reserve Monetary Policy Report.">
+
+<div class="header">
+  <h1>Text Mining Fedspeak</h1>
+  <h2>We apply tidytext techniques to analyze the annual Federal Reserve Monetary Policy Report.</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/07/28</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/data-wrangling">data wrangling</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/textmining">textmining</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <p>Textmining is an exciting topic. There is tremendous potential to gain insights from textual analysis. See for example Gentzko, Kelly and Taddy’s <a href="https://web.stanford.edu/~gentzkow/research/text-as-data.pdf">Text as Data</a>. While text mining may be quite advanced in other fields, in finance and economics the application of these techniques is still in its infancy.</p>
+<p>In order to take advantage of text as data, economists and financial analysts need tools to help them. Fortunately, there is a great resource: <a href="https://www.tidytextmining.com/">Text Mining with R</a> by Julia Silge (<a href="https://juliasilge.com/">blog</a> and on Twitter <a href="https://twitter.com/juliasilge">atjuliasilge</a>) and David Robinson (<a href="http://varianceexplained.org/">blog</a> and <a href="https://twitter.com/drob">on Twitter atdrob</a>). This text provides an excellent overview and examples using their <a href="https://CRAN.R-project.org/package=tidytext">tidytext</a> package for <a href="https://www.r-project.org/">R</a>.</p>
+<p>I was fortunate to have run into Julia at a R meetup in Salt Lake City a few weeks ago. Julia graciously shared some time with me and we talked about text mining. I left excited about applying tidytext principles to some applications.</p>
+<p>Unfortunately I ran into a wall. I didn’t have data set up to get going. Many of the examples in Text Mining with R use already cleaned and organized data. This makes sense for their text so that they can demonstrate their powerful tools. But as is often the case, getting data ready for analysis was a significant barrier. But earlier this week a spark from across the internet re-ignited my interest in this topic.</p>
+<p>In this post I want to share some experience I had applying the techniques in Text Mining with R (a joy!) and some of the strategies I used to begin to wrangle data in the wild into suitable form (not a joy!). We will look at a series of reports from the Board of Governors of the Federal Reserve and apply text mining techniques to them.</p>
+<div id="wrangle" class="section level1">
+<h1>Wrangle</h1>
+<p>Once again the internet came through with an unexpected boon. In response to a tweet of mine on <a href="https://twitter.com/lenkiefer/status/1022327261964496896">new home sales</a> a user <a href="https://twitter.com/isbrutussick">atisbrutussick</a> shared a link to <a href="https://verbumdata.netlify.com/2018/07/26/r-vs-new-home-sales-margin-of-error/">this post</a>. In the post, the <a href="https://CRAN.R-project.org/package=pdftools">pdftools</a> package was used to extract data from pdf files.</p>
+<p>Yes! This is exactly what we need. We can use pdftools and a few other tricks to get the report data into R and in a form where we can start to apply tidytext tools.</p>
+<div id="data-format" class="section level2">
+<h2>Data format</h2>
+<p>The Federal Reserve is a natural target of text mining for economists. The Federal Open Market Committee (FOMC) monetary policy statement is parsed and prodded each time the FOMC announces a change (or no change at all). For example, the Wall Street Journal provides a <a href="https://projects.wsj.com/fed-statement-tracker-embed/">Fed Statement Tracker</a> which allows you to compare changes from one FOMC statement to another. Narasimhan Jegadeesh and Di Wu have a paper “Deciphering Fedspeak: The Information Content of FOMC Meetings” <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2939937">paper on ssrn</a> that uses text mining techniques on <a href="https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm">FOMC meeting minutes</a>.</p>
+<p>Researchers have also looked at the <a href="https://www.federalreserve.gov/monetarypolicy/fomc_historical.htm">transcripts</a> for FOMC meetings. San Cannon has a paper “Sentiment of the FOMC Unscripted” <a href="https://www.kansascityfed.org/~/media/files/publicat/econrev/econrevarchive/2015/4q15cannon.pdf">pdf</a> that applies text minging tools to FOMC transcripts.</p>
+<p>We’ll look at the Federal Reserve’s semi-annual <a href="https://www.federalreserve.gov/monetarypolicy/mpr_default.htm">Monetary Policy Report</a>. This report is typically issued in February and July, with the latest report for July 2018 released on July 13. We can download pdf files for each July report from 1996 through 2018, though the url form has changed slightly. <em>The 2016 report was issued on June 21, 2016, but I’m going to label it July 2016 for consistency</em>.</p>
+<div id="import-a-single-pdf" class="section level3">
+<h3>Import a single pdf</h3>
+<p>Let’s first load in a single report for July 2018 available at <a href="https://www.federalreserve.gov/monetarypolicy/files/20180713_mprfullreport.pdf" class="uri">https://www.federalreserve.gov/monetarypolicy/files/20180713_mprfullreport.pdf</a>.</p>
+<p>We’ll need several libraries, which can all be downloaded from <a href="https://cran.r-project.org">CRAN</a> by running <code>install.packages(&quot;packagename&quot;)</code>.</p>
+<pre class="r"><code># load libraries ----
+suppressPackageStartupMessages({
+library(extrafont)
+library(ggraph)
+library(ggridges)
+library(pdftools)
+library(tidyverse)
+library(tidytext)
+library(forcats)
+library(reshape2)
+library(tidyr)
+library(igraph)
+library(widyr)
+library(viridis)}
+
+)</code></pre>
+<p>We’ll use pdftools to import the pdf file.</p>
+<pre class="r"><code>fed_import1 &lt;- pdf_text(&quot;https://www.federalreserve.gov/monetarypolicy/files/20180713_mprfullreport.pdf&quot;)
+str(fed_import1)</code></pre>
+<pre><code>##  chr [1:71] &quot;&quot; &quot;&quot; ...</code></pre>
+<p>Uh oh. We’ve downloaded the pdf file as a a list of strings, one for each page (there are 71 pages in the report).</p>
+<p>Let’s take a look at page 7’s first 500 characters.</p>
+<pre class="r"><code>substr(fed_import1[7],1,500)</code></pre>
+<pre><code>## [1] &quot;                                                                                                 1\r\nSummary\r\nEconomic activity increased at a solid pace     a sizable increase in consumer energy prices.\r\nover the first half of 2018, and the labor      The 12-month measure of inflation that\r\nmarket has continued to strengthen. Inflation   excludes food and energy items (so-called core\r\nhas moved up, and in May, the most recent       inflation), which historically has been a better\r\nperiod for whi&quot;</code></pre>
+<p>Oh yuck! We’ve got a bunch of spaces and special characters <code>\r</code> and <code>\n</code> indicating linebreaks.</p>
+<p>We can deal with this by splitting on <code>\r</code> with <code>strsplit()</code> and removing <code>\n</code> with <code>gsub()</code>. <em>I have to look up regular expression every time I use them.</em></p>
+<pre class="r"><code>fed_text_raw &lt;- 
+  data.frame(text=unlist(strsplit(fed_import1,&quot;\r&quot;))) %&gt;% 
+  mutate(report=&quot;July2018&quot;, 
+         line=row_number(),
+         text=gsub(&quot;\n&quot;,&quot;&quot;,text))
+head(fed_text_raw)</code></pre>
+<pre><code>##                                          text   report line
+## 1                       Letter of Transmittal July2018    1
+## 2                   Board of Governors of the July2018    2
+## 3                      Federal Reserve System July2018    3
+## 4             Washington, D.C., July 13, 2018 July2018    4
+## 5                 The President of the Senate July2018    5
+## 6 The Speaker of the House of Representatives July2018    6</code></pre>
+<p>Now we’re about ready to rock!</p>
+<p><details> <summary>Data Note</summary> <em>We still have a lot of filler like Letters of Transmittal, appendices with acronyms and other superfluous material. Unfortunately removing them requires examination of the document (front matter is different length in different reports). For today, we’ll ignore this and save more careful wrangling for future. </em> </details></p>
+</div>
+</div>
+</div>
+<div id="text-mining" class="section level1">
+<h1>Text mining</h1>
+<p>Now we can begin to apply the tidytext mining technqiues outlined in <a href="https://www.tidytextmining.com/">Text Mining with R</a>. I took these data and walked pretty much step by step through the book and learned a lot. Let me share some highlights.</p>
+<pre class="r"><code>fed_text &lt;- 
+  fed_text_raw %&gt;% 
+  as_tibble() %&gt;%
+  unnest_tokens(word,text)
+fed_text</code></pre>
+<pre><code>## # A tibble: 30,264 x 3
+##    report    line word       
+##    &lt;chr&gt;    &lt;int&gt; &lt;chr&gt;      
+##  1 July2018     1 letter     
+##  2 July2018     1 of         
+##  3 July2018     1 transmittal
+##  4 July2018     2 board      
+##  5 July2018     2 of         
+##  6 July2018     2 governors  
+##  7 July2018     2 of         
+##  8 July2018     2 the        
+##  9 July2018     3 federal    
+## 10 July2018     3 reserve    
+## # ... with 30,254 more rows</code></pre>
+<p>Let’s count up words:</p>
+<pre class="r"><code>fed_text  %&gt;%
+  count(word, sort = TRUE) </code></pre>
+<pre><code>## # A tibble: 3,030 x 2
+##    word        n
+##    &lt;chr&gt;   &lt;int&gt;
+##  1 the      2036
+##  2 of       1174
+##  3 in        778
+##  4 and       725
+##  5 to        525
+##  6 for       407
+##  7 rate      309
+##  8 a         287
+##  9 federal   268
+## 10 on        230
+## # ... with 3,020 more rows</code></pre>
+<p>Oops! We have a lot of common words like “the”,“of”,and “in”. In text mining these words are called “stop words”. We can remove them by using <code>anit-join</code> and the stop_words list that comes in tidytext package.</p>
+<pre class="r"><code>fed_text  %&gt;%
+  anti_join(stop_words)%&gt;%
+  count(word, sort = TRUE) </code></pre>
+<pre><code>## Joining, by = &quot;word&quot;</code></pre>
+<pre><code>## # A tibble: 2,653 x 2
+##    word            n
+##    &lt;chr&gt;       &lt;int&gt;
+##  1 rate          309
+##  2 federal       268
+##  3 2018          229
+##  4 policy        206
+##  5 percent       188
+##  6 projections   168
+##  7 economic      161
+##  8 2             157
+##  9 inflation     154
+## 10 monetary      141
+## # ... with 2,643 more rows</code></pre>
+<p>Getting better! The Fed sures does like to talk about rates. But we also have some numbers in the text. The year 2018 appears a lot. And the number 2, associated with the Fed’s 2 percent inflation target, shows up a lot.</p>
+<p>Let’s drop numbers from the text. In older reports, they liked to use fractions with special characters, so we’ll take a heavy-handed approach and only keep alphabetic characters.</p>
+<pre class="r"><code>fed_text2 &lt;- 
+  fed_text %&gt;% 
+  mutate(word = gsub(&quot;[^A-Za-z ]&quot;,&quot;&quot;,word)) %&gt;%
+  filter(word != &quot;&quot;)
+
+fed_text2  %&gt;%
+  anti_join(stop_words)%&gt;%
+  count(word, sort = TRUE) </code></pre>
+<pre><code>## Joining, by = &quot;word&quot;</code></pre>
+<pre><code>## # A tibble: 2,323 x 2
+##    word             n
+##    &lt;chr&gt;        &lt;int&gt;
+##  1 rate           309
+##  2 federal        268
+##  3 policy         206
+##  4 percent        188
+##  5 projections    168
+##  6 economic       161
+##  7 inflation      155
+##  8 monetary       141
+##  9 funds          132
+## 10 participants   129
+## # ... with 2,313 more rows</code></pre>
+<p>What’s the overall sentiment of the report? Text mining allows us to try to score text, or portions of text for sentiment. We can apply one of the sentiments datasets supplied by tidytext to score the report. For right now we’ll use the <code>bing</code> library based on <a href="https://www.cs.uic.edu/~liub/FBS/sentiment-analysis.html.">Bing Liu and collaborators</a></p>
+<p>Let’s see what the most frequently used negative and positive words are based on the bing lexicon.</p>
+<pre class="r"><code>fed_text2 %&gt;%
+  inner_join(get_sentiments(&quot;bing&quot;)) %&gt;%
+    count(word, sentiment, sort = TRUE)</code></pre>
+<pre><code>## Joining, by = &quot;word&quot;</code></pre>
+<pre><code>## # A tibble: 239 x 3
+##    word        sentiment     n
+##    &lt;chr&gt;       &lt;chr&gt;     &lt;int&gt;
+##  1 risks       negative     50
+##  2 appropriate positive     39
+##  3 confidence  positive     37
+##  4 debt        negative     26
+##  5 strong      positive     25
+##  6 balanced    positive     24
+##  7 gross       negative     24
+##  8 decline     negative     23
+##  9 errors      negative     23
+## 10 well        positive     23
+## # ... with 229 more rows</code></pre>
+<p>So risks a negative word is used 50 times in the report. Appropriate, a positive word, is used 39. But hey! Wait a second.</p>
+<p>Debt is the fourth most frequent word in the list, considered negative. But in a economic report debt might be more descriptive than positive/negative.</p>
+<p>Also, “gross” is probably associated with “Gross Domestic Product” rather than expressions of disgust. Let’s investigate.</p>
+<div id="ewww-gross-exploring-with-bigrams" class="section level2">
+<h2>ewww gross! exploring with bigrams</h2>
+<p>We can apply tidytext principles to single words, like above. But we can also apply them to consecutive sequences of words, called n-grams. Two words together are called bigrams.</p>
+<pre class="r"><code>fed_bigrams &lt;-   
+  fed_text_raw %&gt;%
+  unnest_tokens(bigram, text, token = &quot;ngrams&quot;, n = 2) %&gt;%
+  as_tibble()
+
+fed_bigrams</code></pre>
+<pre><code>## # A tibble: 27,533 x 3
+##    report    line bigram         
+##    &lt;chr&gt;    &lt;int&gt; &lt;chr&gt;          
+##  1 July2018     1 letter of      
+##  2 July2018     1 of transmittal 
+##  3 July2018     2 board of       
+##  4 July2018     2 of governors   
+##  5 July2018     2 governors of   
+##  6 July2018     2 of the         
+##  7 July2018     3 federal reserve
+##  8 July2018     3 reserve system 
+##  9 July2018     4 washington d.c 
+## 10 July2018     4 d.c july       
+## # ... with 27,523 more rows</code></pre>
+<p>Now we can count up bigrams:</p>
+<pre class="r"><code>fed_bigrams %&gt;%
+  count(bigram, sort = TRUE)</code></pre>
+<pre><code>## # A tibble: 13,458 x 2
+##    bigram              n
+##    &lt;chr&gt;           &lt;int&gt;
+##  1 &lt;NA&gt;              603
+##  2 of the            308
+##  3 in the            259
+##  4 the federal       171
+##  5 monetary policy   115
+##  6 federal funds     109
+##  7 funds rate        106
+##  8 for the           100
+##  9 federal reserve    79
+## 10 to the             76
+## # ... with 13,448 more rows</code></pre>
+<p>As Silge and Robinson point out, many of these bigrams are uninteresing. Let’s filter out uninteresing bigrams that contain stop words.</p>
+<pre class="r"><code>bigrams_separated &lt;- fed_bigrams %&gt;%
+  separate(bigram, c(&quot;word1&quot;, &quot;word2&quot;), sep = &quot; &quot;)
+
+bigrams_filtered &lt;- bigrams_separated %&gt;%
+  filter(!word1 %in% stop_words$word) %&gt;%
+  filter(!word2 %in% stop_words$word)
+
+bigram_counts &lt;- bigrams_filtered %&gt;% 
+  count(word1, word2, sort = TRUE)
+
+bigram_counts</code></pre>
+<pre><code>## # A tibble: 4,662 x 3
+##    word1        word2       n
+##    &lt;chr&gt;        &lt;chr&gt;   &lt;int&gt;
+##  1 &lt;NA&gt;         &lt;NA&gt;      603
+##  2 monetary     policy    115
+##  3 federal      funds     109
+##  4 funds        rate      106
+##  5 federal      reserve    79
+##  6 2            percent    46
+##  7 unemployment rate       46
+##  8 labor        force      43
+##  9 target       range      40
+## 10 prime        age        36
+## # ... with 4,652 more rows</code></pre>
+<pre class="r"><code># unite them
+
+bigrams_united &lt;- bigrams_filtered %&gt;%
+  unite(bigram, word1, word2, sep = &quot; &quot;) 
+
+bigrams_united</code></pre>
+<pre><code>## # A tibble: 9,366 x 3
+##    report    line bigram         
+##    &lt;chr&gt;    &lt;int&gt; &lt;chr&gt;          
+##  1 July2018     3 federal reserve
+##  2 July2018     3 reserve system 
+##  3 July2018     4 washington d.c 
+##  4 July2018     4 d.c july       
+##  5 July2018     4 july 13        
+##  6 July2018     4 13 2018        
+##  7 July2018     7 monetary policy
+##  8 July2018     7 policy report  
+##  9 July2018     7 report pursuant
+## 10 July2018     8 section 2b     
+## # ... with 9,356 more rows</code></pre>
+<p>Now let’s find out if the Fed got grossed out and disgusted by something, or as I suspect they were talking GDP most of the time when they used the word “gross”.</p>
+<pre class="r"><code>bigrams_filtered %&gt;%
+  filter(word1 == &quot;gross&quot;) %&gt;%
+  count( word2, sort = TRUE)</code></pre>
+<pre><code>## # A tibble: 5 x 2
+##   word2        n
+##   &lt;chr&gt;    &lt;int&gt;
+## 1 domestic    18
+## 2 federal      1
+## 3 gdp          1
+## 4 issuance     1
+## 5 real         1</code></pre>
+<p>Yep, we’ll probably want to drop terms like “gross” from the sentiment score.</p>
+</div>
+<div id="revised-sentiment" class="section level2">
+<h2>Revised sentiment</h2>
+<p>I analyzed the report word frequencies and came up with a list of words that probably aren’t negative in the usual sense. The word “crude” for example is associated with oil.</p>
+<p>There’s another lexicon “loughran” that’s more tuned to financials, but as discussed in Cannon (2015), this lexicon might be too restrictive for Fedspeak.</p>
+<p>Instead I took the bing list and added some custom words. We can bind a list of custom words to our stop_words dataset and filter. Following Silge and Robinson we can use the <code>%/%</code> operator to break the text up into 80 line sections (about 3 pages of text).</p>
+<pre class="r"><code>custom_stop_words2 &lt;- 
+  bind_rows(data_frame(word = c(&quot;debt&quot;,
+                                &quot;gross&quot;,
+                                &quot;crude&quot;,
+                                &quot;well&quot;,
+                                &quot;maturity&quot;,
+                                &quot;work&quot;,
+                                &quot;marginally&quot;,
+                                &quot;leverage&quot;), 
+                       lexicon = c(&quot;custom&quot;)), 
+            stop_words)
+
+
+fed_sentiment &lt;-
+  fed_text %&gt;%
+  anti_join(custom_stop_words2) %&gt;%
+  inner_join(get_sentiments(&quot;bing&quot;)) %&gt;%
+  count(report, index = line %/% 80, sentiment) %&gt;%
+  spread(sentiment, n, fill = 0) %&gt;%
+  mutate(sentiment = positive - negative)</code></pre>
+<pre><code>## Joining, by = &quot;word&quot;
+## Joining, by = &quot;word&quot;</code></pre>
+<pre class="r"><code>ggplot(fed_sentiment,  aes(index, sentiment, fill = sentiment&gt;0)) +
+  geom_col(show.legend = FALSE) +
+    scale_fill_manual(values=c(&quot;red&quot;,&quot;#27408b&quot;))+
+  facet_wrap(~report, ncol = 5, scales = &quot;free_x&quot;)+
+  theme_ridges(font_family=&quot;Roboto&quot;)+
+  labs(x=&quot;index (approximately 3 pages per unit)&quot;,y=&quot;sentiment&quot;,
+       title=&quot;Sentiment through Federal Reserve Monetary Polic Report&quot;,
+       subtitle=&quot;customized bing lexicon&quot;,
+       caption=&quot;@lenkiefer\nSource: https://www.federalreserve.gov/monetarypolicy/files/20180713_mprfullreport.pdf&quot;)</code></pre>
+<p><img src="/post/2018-07-28-text-mining-fedspeak_files/figure-html/07-28-2018-tidytext-10-1.png" width="672" /></p>
+<p>This trend tell an interesting story. The text began positive, dropped off but then surged in the middle. Around the last third of the text, near part 3: Summary of Economic Projections sentiment turns negative as the text describes forecasts and risks.</p>
+</div>
+</div>
+<div id="comparing-multiple-reports" class="section level1">
+<h1>Comparing multiple reports</h1>
+<p>Let’s expand our analysis by capturing the text of each Monetary Policy Report for July from 1996 through 2018. We’ll compare the relative frequency of words and topics and see how sentiment (as we captured it above) varies across reports. <em>The 2016 report was issued on June 21, 2016, but I’m going to label it July 2016 for consistency</em>.</p>
+<p>Unfortunately the links to the various reports follow a changing pattern, but fortunately for you I have gone and found the URL for each July report. The following code will collect the pdf files and get it ready for tidytext mining.</p>
+<pre class="r"><code># list of reports, comments indicate important events around release of report
+fed.links=c(&quot;https://www.federalreserve.gov/monetarypolicy/files/20180713_mprfullreport.pdf&quot;,  
+            &quot;https://www.federalreserve.gov/monetarypolicy/files/20170707_mprfullreport.pdf&quot;,
+            &quot;https://www.federalreserve.gov/monetarypolicy/files/20160621_mprfullreport.pdf&quot;,            # released in jun 2016, but we&#39;ll label it July
+            &quot;https://www.federalreserve.gov/monetarypolicy/files/20150715_mprfullreport.pdf&quot;,            # July 2015  ( before lift off)
+            &quot;https://www.federalreserve.gov/monetarypolicy/files/20140715_mprfullreport.pdf&quot;,
+            &quot;https://www.federalreserve.gov/monetarypolicy/files/20130717_mprfullreport.pdf&quot;,            # July 2013  ( after Taper Tantrum)
+            &quot;https://www.federalreserve.gov/monetarypolicy/files/20120717_mprfullreport.pdf&quot;,
+            &quot;https://www.federalreserve.gov/monetarypolicy/files/20110713_mprfullreport.pdf&quot;,            # July 2011  ( early recovery)
+            &quot;https://www.federalreserve.gov/monetarypolicy/files/20100721_mprfullreport.pdf&quot;,
+            &quot;https://www.federalreserve.gov/monetarypolicy/files/20090721_mprfullreport.pdf&quot;,            # July 2009  ( end of Great Recession)
+            &quot;https://www.federalreserve.gov/monetarypolicy/files/20080715_mprfullreport.pdf&quot;,
+            &quot;https://www.federalreserve.gov/monetarypolicy/files/20070718_mprfullreport.pdf&quot; ,           # July 2007  ( eve of  Great Recession)
+            &quot;https://www.federalreserve.gov/boarddocs/hh/2006/july/fullreport.pdf&quot;,
+            &quot;https://www.federalreserve.gov/boarddocs/hh/2005/july/fullreport.pdf&quot;,                      # July 2005  ( housing boom)
+            &quot;https://www.federalreserve.gov/boarddocs/hh/2004/july/fullreport.pdf&quot;,
+            &quot;https://www.federalreserve.gov/boarddocs/hh/2003/july/FullReport.pdf&quot; ,                     # July 2003  ( deflation fears)
+            &quot;https://www.federalreserve.gov/boarddocs/hh/2002/july/FullReport.pdf&quot;,
+            &quot;https://www.federalreserve.gov/boarddocs/hh/2001/july/FullReport.pdf&quot;,                      # July 2001  ( dot come Recession)
+            &quot;https://www.federalreserve.gov/boarddocs/hh/2000/July/FullReport.pdf&quot;,
+            &quot;https://www.federalreserve.gov/boarddocs/hh/1999/July/FullReport.pdf&quot;,                      # July 1999  ( eve of dotcom Recession)
+            &quot;https://www.federalreserve.gov/boarddocs/hh/1998/july/FullReport.pdf&quot;,
+            &quot;https://www.federalreserve.gov/boarddocs/hh/1997/july/FullReport.pdf&quot;,                       # July 1997 ( irrational exhuberance)
+            &quot;https://www.federalreserve.gov/boarddocs/hh/1996/july/FullReport.pdf&quot;
+            )
+
+
+df_fed &lt;- 
+  data.frame(report=c(&quot;Jul2018&quot;,paste0(&quot;Jul&quot;,seq(2017,1996,-1))),stringsAsFactors = FALSE) %&gt;%
+  mutate(text= map(fed.links,pdf_text)) %&gt;% unnest(text) %&gt;% 
+  group_by(report) %&gt;% mutate(page=row_number()) %&gt;%
+  ungroup() %&gt;% mutate(text=strsplit(text,&quot;\r&quot;)) %&gt;% unnest(text) %&gt;% mutate(text=gsub(&quot;\n&quot;,&quot;&quot;,text)) %&gt;%
+  group_by(report) %&gt;% mutate(line=row_number()) %&gt;% ungroup() %&gt;% select(report,line,page,text)</code></pre>
+<div id="basic-text-statistics" class="section level2">
+<h2>Basic text statistics</h2>
+<p>Let’s see what we have by computing some basic text statistics.</p>
+<div id="compare-word-counts" class="section level3">
+<h3>Compare word counts</h3>
+<p>Let’s start with just the number of words per report.</p>
+<pre class="r"><code>fed_words &lt;- df_fed %&gt;%
+  unnest_tokens(word, text) %&gt;%
+  count(report, word, sort = TRUE) %&gt;%
+  ungroup()
+
+total_words &lt;- fed_words %&gt;% 
+  group_by(report) %&gt;% 
+  summarize(total = sum(n))
+
+# total words per report
+
+ggplot(data=total_words, aes(x=seq(1996,2018),y=total))+
+  geom_line(color=&quot;#27408b&quot;)+
+  geom_point(shape=21,fill=&quot;white&quot;,color=&quot;#27408b&quot;,size=3,stroke=1.1)+
+  scale_y_continuous(labels=scales::comma)+
+  theme_ridges(font_family=&quot;Roboto&quot;)+
+  labs(x=&quot;year&quot;,y=&quot;number of words&quot;,
+       title=&quot;Number of words in Federal Reserve Monetary Polic Report&quot;,
+       subtitle=&quot;July of each year 1996-2018&quot;,
+       caption=&quot;@lenkiefer Source: Federal Reserve Board Monetary Policy Reports&quot;)</code></pre>
+<p><img src="/post/2018-07-28-text-mining-fedspeak_files/figure-html/07-28-2018-tidytext-11-1.png" width="672" /></p>
+<p>So the 2018 report at over 30,000 words is one of the longer reports. We also can see a pretty clear break at the end of the Greenspan tenure in 2005 as the reports got substantially longer.</p>
+</div>
+<div id="what-were-they-talking-about" class="section level3">
+<h3>What were they talking about?</h3>
+<p>Let’s compile a list of most frequently used words in each report. As before, we’ll omit stop words.</p>
+<pre class="r"><code>fed_text &lt;- 
+  df_fed %&gt;% 
+  select(report,page,line,text) %&gt;%
+  unnest_tokens(word,text)
+
+fed_text %&gt;% 
+  mutate(word = gsub(&quot;[^A-Za-z ]&quot;,&quot;&quot;,word)) %&gt;%  # keep only letters (drop numbers and special symbols)
+  filter(word != &quot;&quot;) %&gt;%
+  anti_join(stop_words) %&gt;%
+  group_by(report) %&gt;%
+  count(word,sort=TRUE) %&gt;% 
+  mutate(rank=row_number()) %&gt;%
+  ungroup() %&gt;% 
+  arrange(rank,report) %&gt;%
+  filter(rank&lt;11) %&gt;% 
+  ggplot(aes(y=n,x=fct_reorder(word,n))) +
+  geom_col(fill=&quot;#27408b&quot;)+
+  facet_wrap(~report,scales=&quot;free&quot;, ncol=5)+
+  coord_flip()+
+  theme_ridges(font_family=&quot;Roboto&quot;, font_size=10)+
+  labs(x=&quot;&quot;,y=&quot;&quot;,
+       title=&quot;Most Frequent Words Federal Reserve Monetary Polic Report&quot;,
+       subtitle=&quot;Excluding stop words and numbers.&quot;,
+       caption=&quot;@lenkiefer Source: Federal Reserve Board Monetary Policy Reports&quot;)</code></pre>
+<pre><code>## Joining, by = &quot;word&quot;</code></pre>
+<p><img src="/post/2018-07-28-text-mining-fedspeak_files/figure-html/07-28-2018-tidytext-12-1.png" width="960" /></p>
+<p>Lots of talking about rates. Let’s see if we can get something more informative out of these data.</p>
+<p>Following Silge and Robinson we can use the <code>bind_tf_idf</code> function to bind the term frequency and inverse document frequency to our tidy text dataset. This statistic will decrease the weight on very common words and increase the weight on words that only appear in a few documents. In essence, we extract what’s special about each report. The Monetary Policy Report is always going to talk a lot about interest rates and the general economy, but the tf-idf statistic can tell us something about what’s different in each report.</p>
+<p>We’ll also clean out some additional terms that the pdftools picked up (like month abberviations) by augmenting our stop word list. This list also include word fragments like ‘ing’ that result from words spanning columns.</p>
+<pre class="r"><code># Custom stop words 
+custom_stop_words &lt;- 
+  bind_rows(data_frame(word = c(tolower(month.abb), &quot;one&quot;,&quot;two&quot;,&quot;three&quot;,&quot;four&quot;,&quot;five&quot;,&quot;six&quot;,
+                                &quot;seven&quot;,&quot;eight&quot;,&quot;nine&quot;,&quot;ten&quot;,&quot;eleven&quot;,&quot;twelve&quot;,&quot;mam&quot;,&quot;ered&quot;,
+                                &quot;produc&quot;,&quot;ing&quot;,&quot;quar&quot;,&quot;ters&quot;,&quot;sug&quot;,&quot;quar&quot;,&#39;fmam&#39;,&quot;sug&quot;,
+                                &quot;cient&quot;,&quot;thirty&quot;,&quot;pter&quot;,
+                                &quot;pants&quot;,&quot;ter&quot;,&quot;ening&quot;,&quot;ances&quot;,&quot;www.federalreserve.gov&quot;,
+                                &quot;tion&quot;,&quot;fig&quot;,&quot;ure&quot;,&quot;figure&quot;,&quot;src&quot;), 
+                       lexicon = c(&quot;custom&quot;)), 
+            stop_words)
+
+
+fed_textb &lt;- 
+  fed_text %&gt;%
+
+  mutate(word = gsub(&quot;[^A-Za-z ]&quot;,&quot;&quot;,word)) %&gt;%  # keep only letters (drop numbers and special symbols)
+  filter(word != &quot;&quot;) %&gt;%
+  count(report,word,sort=TRUE) %&gt;%
+  bind_tf_idf(word, report, n) %&gt;%
+  arrange(desc(tf_idf))
+
+fed_textb %&gt;% 
+    anti_join(custom_stop_words, by=&quot;word&quot;) %&gt;%
+  mutate(word = factor(word, levels = rev(unique(word)))) %&gt;% 
+  group_by(report) %&gt;%
+  mutate(id=row_number()) %&gt;%
+  ungroup() %&gt;%
+  filter(id&lt;11) %&gt;%
+  ggplot(aes(word, tf_idf, fill = report)) +
+  geom_col(show.legend = FALSE) +
+  labs(x = NULL, y = &quot;tf-idf&quot;) +
+  facet_wrap(~report,scales=&quot;free&quot;, ncol=5)+
+  coord_flip()+
+  theme_ridges(font_family=&quot;Roboto&quot;, font_size=10)+
+  theme(axis.text.x=element_blank())+
+  labs(x=&quot;&quot;,y =&quot;tf-idf&quot;,
+       title=&quot;Highest tf-idf words in each Federal Reserve Monetary Polic Report: 1996-2018&quot;,
+       subtitle=&quot;Top 10 terms by tf-idf statistic: term frequncy and inverse document frequency&quot;,
+       caption=&quot;@lenkiefer Source: Federal Reserve Board Monetary Policy Reports\nNote: omits stop words, date abbreviations and numbers.&quot;)</code></pre>
+<p><img src="/post/2018-07-28-text-mining-fedspeak_files/figure-html/07-28-2018-tidytext-13-1.png" width="1056" /></p>
+<p>This chart tells a fascinating story. We can see the emergence of certain acronyms like <a href="https://en.wikipedia.org/wiki/Jobs_and_Growth_Tax_Relief_Reconciliation_Act_of_2003">JGTRRA (Jobs and Growth Tax Relief Reconciliation Act)</a>, <a href="https://www.federalreserve.gov/monetarypolicy/talf.htm">TALF (Term Asset-Basked Securities Loan Facility)</a> or lfpr (labor force participation rate). You can also see terms such as terrorism (2002) and war (2003) associated with major geopolitical events.</p>
+<p>The Monetary Policy Report also often contains a special topic, and you can see signs of them in some of the reports. For example, the 2016 report had a special topic: “Have the Gains of the Economic Expansion Been Widely Shared?” that discussed economic trends across demographic groups. You can see evidence of that with the prevalence of terms like “hispanic”,“race”,“black”, and “white” in the 2016 report.</p>
+</div>
+<div id="comparing-sentiment-across-reports" class="section level3">
+<h3>Comparing sentiment across reports</h3>
+<p>How did sentiment vary across reports? Let’s use the approach we used above for the 2018 report and apply it to each report.</p>
+<pre class="r"><code>fed_sentiment &lt;-
+  fed_text %&gt;%
+  anti_join(custom_stop_words2) %&gt;%
+  inner_join(get_sentiments(&quot;bing&quot;)) %&gt;%
+  count(report, index = line %/% 80, sentiment) %&gt;%
+  spread(sentiment, n, fill = 0) %&gt;%
+  mutate(sentiment = positive - negative)</code></pre>
+<pre><code>## Joining, by = &quot;word&quot;
+## Joining, by = &quot;word&quot;</code></pre>
+<pre class="r"><code>ggplot(fed_sentiment,  aes(index, sentiment, fill = sentiment&gt;0)) +
+  geom_col(show.legend = FALSE) +
+  scale_fill_manual(values=c(&quot;red&quot;,&quot;#27408b&quot;))+
+  facet_wrap(~report, ncol = 5, scales = &quot;free_x&quot;)+
+  theme_ridges(font_family=&quot;Roboto&quot;)+
+  labs(x=&quot;index (approximately 3 pages per unit)&quot;,y=&quot;sentiment&quot;,
+       title=&quot;Sentiment through Federal Reserve Monetary Polic Report&quot;,
+       subtitle=&quot;customized bing lexicon&quot;,
+       caption=&quot;@lenkiefer Source: Federal Reserve Board Monetary Policy Reports&quot;)</code></pre>
+<p><img src="/post/2018-07-28-text-mining-fedspeak_files/figure-html/07-28-2018-tidytext-14-1.png" width="1056" /></p>
+<p>This result shows that sentiment tended to be negative in 2001-2003 and 2008-2009, which were right around the last two recessions.</p>
+<p>Let’s compute total sentiment by report.</p>
+<pre class="r"><code>fed_sentiment2 &lt;-
+  fed_text %&gt;%
+  anti_join(custom_stop_words2) %&gt;%
+  inner_join(get_sentiments(&quot;bing&quot;)) %&gt;%
+  count(report, sentiment) %&gt;%
+  spread(sentiment, n, fill = 0) %&gt;%
+  mutate(sentiment = positive - negative)</code></pre>
+<pre><code>## Joining, by = &quot;word&quot;
+## Joining, by = &quot;word&quot;</code></pre>
+<pre class="r"><code>ggplot(fed_sentiment2,  aes(factor(1996:2018), sentiment/(negative+positive), fill = sentiment)) +
+  geom_col(show.legend = FALSE) +scale_fill_viridis_c(option=&quot;C&quot;)+
+    theme_ridges(font_family=&quot;Roboto&quot;,font_size=10)+
+  labs(x=&quot;report for July of each year&quot;,y=&quot;Sentiment (&gt;0 positive, &lt;0 negtaive)&quot;,
+       title=&quot;Sentiment of Federal Reserve Monetary Polic Report: 1996-2018&quot;,
+       subtitle=&quot;customized bing lexicon&quot;,
+       caption=&quot;@lenkiefer Source: Federal Reserve Board Monetary Policy Reports&quot;)</code></pre>
+<p><img src="/post/2018-07-28-text-mining-fedspeak_files/figure-html/07-28-2018-tidytext-15-1.png" width="672" /></p>
+</div>
+</div>
+</div>
+<div id="visualizing-word-correlations" class="section level1">
+<h1>Visualizing word correlations</h1>
+<p>We can follow Silge and Robinson and construct a graph to visualize word correlations and clusters of words. We’ll compute pairwise word correlations and then construct a graph using <a href="https://cran.r-project.org/package=ggraph.">ggraph</a> to represent those correlations. See <a href="https://www.tidytextmining.com/ngrams.html#counting-and-correlating-pairs-of-words-with-the-widyr-package">section 4.2 of theText Mining with R</a> as this follows precisly what’s presented there.</p>
+<pre class="r"><code>word_cors &lt;- 
+  fed_text2 %&gt;% 
+  mutate(section = row_number() %/% 10) %&gt;%
+  filter(section &gt; 0) %&gt;%
+  filter(!word %in% stop_words$word) %&gt;%
+  group_by(word) %&gt;%
+  filter(n() &gt;= 20) %&gt;%
+  pairwise_cor(word, section, sort = TRUE)
+
+word_cors %&gt;%
+  filter(correlation &gt; .15) %&gt;%
+  graph_from_data_frame() %&gt;%
+  ggraph(layout = &quot;fr&quot;) +
+  geom_edge_link(aes(edge_alpha = correlation), show.legend = FALSE) +
+  geom_node_point(color =&quot;#27408b&quot;, size = 5) +
+  geom_node_text(aes(label = name), repel = TRUE) +
+  theme_void(base_family=&quot;Roboto&quot;)+
+  labs(title=&quot;  Pairs of words in Federal Reserve Monetary Policy Reports that show at\n  least a 0.15 correlation of appearing within the same 10-line section&quot;, caption=&quot;  @lenkiefer Source: July Federal Reserve Board Monetary Policy Reports 1996-2018    \n&quot;)</code></pre>
+<p><img src="/post/2018-07-28-text-mining-fedspeak_files/figure-html/07-28-2018-tidytext-16-1.png" width="864" /></p>
+</div>
+<div id="conclusion" class="section level1">
+<h1>Conclusion</h1>
+<p>That’s all for today. I’m continuing to explore these techniques. So far I find them quite promising. In near future I’d like to explore Topic Modeling and other text mining techniques. On the front end, there’s still some additional work to do on the data wrangling front. I’ve added a new <a href="../../../../tags/textmining/">tag for textmining</a> where you’ll see additional posts as I explore text mining.</p>
+</div>
+<div id="references" class="section level1">
+<h1>References</h1>
+<p>Cannon, S. (2015). Sentiment of the FOMC: Unscripted. Economic Review-Federal Reserve Bank of Kansas City, 5. <a href="https://www.kansascityfed.org/~/media/files/publicat/econrev/econrevarchive/2015/4q15cannon.pdf">pdf</a></p>
+<p>Gentzkow, M., Kelly, B. T., &amp; Taddy, M. (2017). Text as data (No. w23276). National Bureau of Economic Research. <a href="(https://web.stanford.edu/~gentzkow/research/text-as-data.pdf)">pdf</a></p>
+<p>Jegadeesh, N., &amp; Wu, D. A. (2017). Deciphering fedspeak: The information content of fomc meetings. <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2939937">paper on ssrn</a></p>
+<p>Silge, J., &amp; Robinson, D. (2016). tidytext: Text mining and analysis using tidy data principles in r. The Journal of Open Source Software, 1(3), 37.</p>
+<p>Silge, J., &amp; Robinson, D. (2017). Text mining with R: A tidy approach. &quot; O’Reilly Media, Inc.“. <a href="https://www.tidytextmining.com/">ebook</a>, <a href="http://shop.oreilly.com/product/0636920067153.do?cmp=af-strata-books-video-product_cj_0636920067153_4428796">O’Reilly</a></p>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2018/07/26/getting-animated-about-new-home-sales/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2018/07/26/getting-animated-about-new-home-sales/">Getting animated about new home sales</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/data-wrangling/">data wrangling</a>, 
+            
+                <a href="/tags/r/">R</a>, 
+            
+                <a href="/tags/textmining/">textmining</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2018%2f07%2f28%2ftext-mining-fedspeak%2f&text=Text%20Mining%20Fedspeak via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2018%2f07%2f28%2ftext-mining-fedspeak%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+
