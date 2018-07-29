@@ -543,7 +543,7 @@ fed_sentiment &lt;-
   facet_wrap(~report, ncol = 5, scales = &quot;free_x&quot;)+
   theme_ridges(font_family=&quot;Roboto&quot;)+
   labs(x=&quot;index (approximately 3 pages per unit)&quot;,y=&quot;sentiment&quot;,
-       title=&quot;Sentiment through Federal Reserve Monetary Polic Report&quot;,
+       title=&quot;Sentiment through Federal Reserve Monetary Policy Report&quot;,
        subtitle=&quot;customized bing lexicon&quot;,
        caption=&quot;@lenkiefer\nSource: https://www.federalreserve.gov/monetarypolicy/files/20180713_mprfullreport.pdf&quot;)</code></pre>
 <p><img src="/post/2018-07-28-text-mining-fedspeak_files/figure-html/07-28-2018-tidytext-10-1.png" width="672" /></p>
@@ -610,7 +610,7 @@ ggplot(data=total_words, aes(x=seq(1996,2018),y=total))+
   scale_y_continuous(labels=scales::comma)+
   theme_ridges(font_family=&quot;Roboto&quot;)+
   labs(x=&quot;year&quot;,y=&quot;number of words&quot;,
-       title=&quot;Number of words in Federal Reserve Monetary Polic Report&quot;,
+       title=&quot;Number of words in Federal Reserve Monetary Policy Report&quot;,
        subtitle=&quot;July of each year 1996-2018&quot;,
        caption=&quot;@lenkiefer Source: Federal Reserve Board Monetary Policy Reports&quot;)</code></pre>
 <p><img src="/post/2018-07-28-text-mining-fedspeak_files/figure-html/07-28-2018-tidytext-11-1.png" width="672" /></p>
@@ -640,7 +640,7 @@ fed_text %&gt;%
   coord_flip()+
   theme_ridges(font_family=&quot;Roboto&quot;, font_size=10)+
   labs(x=&quot;&quot;,y=&quot;&quot;,
-       title=&quot;Most Frequent Words Federal Reserve Monetary Polic Report&quot;,
+       title=&quot;Most Frequent Words Federal Reserve Monetary Policy Report&quot;,
        subtitle=&quot;Excluding stop words and numbers.&quot;,
        caption=&quot;@lenkiefer Source: Federal Reserve Board Monetary Policy Reports&quot;)</code></pre>
 <pre><code>## Joining, by = &quot;word&quot;</code></pre>
@@ -684,7 +684,7 @@ fed_textb %&gt;%
   theme_ridges(font_family=&quot;Roboto&quot;, font_size=10)+
   theme(axis.text.x=element_blank())+
   labs(x=&quot;&quot;,y =&quot;tf-idf&quot;,
-       title=&quot;Highest tf-idf words in each Federal Reserve Monetary Polic Report: 1996-2018&quot;,
+       title=&quot;Highest tf-idf words in each Federal Reserve Monetary Policy Report: 1996-2018&quot;,
        subtitle=&quot;Top 10 terms by tf-idf statistic: term frequncy and inverse document frequency&quot;,
        caption=&quot;@lenkiefer Source: Federal Reserve Board Monetary Policy Reports\nNote: omits stop words, date abbreviations and numbers.&quot;)</code></pre>
 <p><img src="/post/2018-07-28-text-mining-fedspeak_files/figure-html/07-28-2018-tidytext-13-1.png" width="1056" /></p>
@@ -709,7 +709,7 @@ fed_textb %&gt;%
   facet_wrap(~report, ncol = 5, scales = &quot;free_x&quot;)+
   theme_ridges(font_family=&quot;Roboto&quot;)+
   labs(x=&quot;index (approximately 3 pages per unit)&quot;,y=&quot;sentiment&quot;,
-       title=&quot;Sentiment through Federal Reserve Monetary Polic Report&quot;,
+       title=&quot;Sentiment through Federal Reserve Monetary Policy Report&quot;,
        subtitle=&quot;customized bing lexicon&quot;,
        caption=&quot;@lenkiefer Source: Federal Reserve Board Monetary Policy Reports&quot;)</code></pre>
 <p><img src="/post/2018-07-28-text-mining-fedspeak_files/figure-html/07-28-2018-tidytext-14-1.png" width="1056" /></p>
@@ -728,7 +728,7 @@ fed_textb %&gt;%
   geom_col(show.legend = FALSE) +scale_fill_viridis_c(option=&quot;C&quot;)+
     theme_ridges(font_family=&quot;Roboto&quot;,font_size=10)+
   labs(x=&quot;report for July of each year&quot;,y=&quot;Sentiment (&gt;0 positive, &lt;0 negtaive)&quot;,
-       title=&quot;Sentiment of Federal Reserve Monetary Polic Report: 1996-2018&quot;,
+       title=&quot;Sentiment of Federal Reserve Monetary Policy Report: 1996-2018&quot;,
        subtitle=&quot;customized bing lexicon&quot;,
        caption=&quot;@lenkiefer Source: Federal Reserve Board Monetary Policy Reports&quot;)</code></pre>
 <p><img src="/post/2018-07-28-text-mining-fedspeak_files/figure-html/07-28-2018-tidytext-15-1.png" width="672" /></p>
