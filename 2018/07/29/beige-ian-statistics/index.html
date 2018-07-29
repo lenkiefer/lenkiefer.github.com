@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Text mining the Fed Beige Book.">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>Beige-ian Statistics &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com//img/charts_jul_28_2018/cover29.png" >
+     
+    <meta property="og:title" content="Beige-ian Statistics">
+    <meta property="og:description" content="Text mining the Fed Beige Book.">
+
+<div class="header">
+  <h1>Beige-ian Statistics</h1>
+  <h2>Text mining the Fed Beige Book.</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/07/29</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/textmining">textmining</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/data-wrangling">data wrangling</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/statistics">statistics</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <p>Let’s pick up where we left off <a href="../../../../2018/07/28/text-mining-fedspeak/">yesterday</a> and do some more exploration with text mining.</p>
+<p>Like yesterday we’ll use the <a href="https://CRAN.R-project.org/package=tidytext">tidytext</a> package for <a href="https://www.r-project.org/">R</a>. And we’ll lean heavily on Julie Silge and David Robinson’s <a href="https://www.tidytextmining.com/">Text Mining with R</a>.</p>
+<div id="data" class="section level1">
+<h1>Data</h1>
+<p>We’ll turn again to the Federal Reserve for our text data. But today we’ll explore the <a href="https://www.federalreserve.gov/monetarypolicy/beige-book-default.htm">Beige Book</a>, which gathers anecdotal information on current economic conditions across the Federal Reserve Districts. As these reports collect anedotes from various business across the country they seem ideal for ext analysis.</p>
+<p>Once again we’ll use <a href="https://CRAN.R-project.org/package=pdftools">pdftools</a> to extract the data from pdf files.</p>
+<div id="getting-ready" class="section level2">
+<h2>Getting ready</h2>
+<p>I’m going to try to hide repetitive code within an expandable section. Just click the arrow and you shoudl be able to see the details. I know it <a href="https://www.w3schools.com/tags/tag_details.asp">doesn’t work</a> on Internet Explorer (the code should just all appear), but it seems to work on Chrome. <em>Code tip via <span class="citation">@_ColinFay</span> via <a href="https://twitter.com/_ColinFay/status/1022836135452663809">Twitter</a>.</em></p>
+<p><details> <summary>Load Libraries</summary></p>
+<pre class="r"><code># load libraries ----
+suppressPackageStartupMessages({
+library(extrafont)
+library(ggraph)
+library(ggridges)
+library(pdftools)
+library(tidyverse)
+library(tidytext)
+library(forcats)
+library(reshape2)
+library(tidyr)
+library(igraph)
+library(widyr)
+library(lubridate)
+library(ggrepel)
+library(viridis)}
+)</code></pre>
+<p></details></p>
+<div id="import-data" class="section level3">
+<h3>Import data</h3>
+<p>Our data import follows similar to how we did it yesterday.</p>
+<p><details> <Summary>Code for importing data </Summary></p>
+<pre class="r"><code># get all data ----
+# links to pdf ----
+beige.links.all&lt;-
+  tibble::tribble(
+    ~url,   ~report, ~report.date,
+    &quot;https://www.federalreserve.gov/monetarypolicy/files/BeigeBook_20180117.pdf&quot;, 20180117L, &quot;2018-01-17&quot;,
+    &quot;https://www.federalreserve.gov/monetarypolicy/files/BeigeBook_20180307.pdf&quot;, 20180307L, &quot;2018-03-07&quot;,
+    &quot;https://www.federalreserve.gov/monetarypolicy/files/BeigeBook_20180418.pdf&quot;, 20180418L, &quot;2018-04-18&quot;,
+    &quot;https://www.federalreserve.gov/monetarypolicy/files/BeigeBook_20180530.pdf&quot;, 20180530L, &quot;2018-05-30&quot;,
+    &quot;https://www.federalreserve.gov/monetarypolicy/files/BeigeBook_20180718.pdf&quot;, 20180718L, &quot;2018-07-18&quot;,
+    &quot;https://www.federalreserve.gov/monetarypolicy/beigebook/files/Beigebook_20170118.pdf&quot;, 20170118L, &quot;2017-01-18&quot;,
+    &quot;https://www.federalreserve.gov/monetarypolicy/files/Beigebook_20170301.pdf&quot;, 20170301L, &quot;2017-03-01&quot;,
+    &quot;https://www.federalreserve.gov/monetarypolicy/files/Beigebook_20170419.pdf&quot;, 20170419L, &quot;2017-04-19&quot;,
+    &quot;https://www.federalreserve.gov/monetarypolicy/files/BeigeBook_20170531.pdf&quot;, 20170531L, &quot;2017-05-31&quot;,
+    &quot;https://www.federalreserve.gov/monetarypolicy/files/BeigeBook_20170712.pdf&quot;, 20170712L, &quot;2017-07-12&quot;,
+    &quot;https://www.federalreserve.gov/monetarypolicy/files/Beigebook_20170906.pdf&quot;, 20170906L, &quot;2017-09-06&quot;,
+    &quot;https://www.federalreserve.gov/monetarypolicy/files/BeigeBook_20171018.pdf&quot;, 20171018L, &quot;2017-10-18&quot;,
+    &quot;https://www.federalreserve.gov/monetarypolicy/files/BeigeBook_20171129.pdf&quot;, 20171129L, &quot;2017-11-29&quot;,
+    &quot;https://www.federalreserve.gov/monetarypolicy/beigebook/files/Beigebook_20160113.pdf&quot;, 20160113L, &quot;2016-01-13&quot;,
+    &quot;https://www.federalreserve.gov/monetarypolicy/beigebook/files/Beigebook_20160302.pdf&quot;, 20160302L, &quot;2016-03-02&quot;,
+    &quot;https://www.federalreserve.gov/monetarypolicy/beigebook/files/Beigebook_20160413.pdf&quot;, 20160413L, &quot;2016-04-13&quot;,
+    &quot;https://www.federalreserve.gov/monetarypolicy/beigebook/files/Beigebook_20160601.pdf&quot;, 20160601L, &quot;2016-06-01&quot;,
+    &quot;https://www.federalreserve.gov/monetarypolicy/beigebook/files/Beigebook_20160713.pdf&quot;, 20160713L, &quot;2016-07-13&quot;,
+    &quot;https://www.federalreserve.gov/monetarypolicy/beigebook/files/Beigebook_20160907.pdf&quot;, 20160907L, &quot;2016-09-07&quot;,
+    &quot;https://www.federalreserve.gov/monetarypolicy/beigebook/files/Beigebook_20161019.pdf&quot;, 20161019L, &quot;2016-10-19&quot;,
+    &quot;https://www.federalreserve.gov/monetarypolicy/beigebook/files/Beigebook_20161130.pdf&quot;, 20161130L, &quot;2016-11-30&quot;,
+    &quot;https://www.federalreserve.gov/monetarypolicy/beigebook/files/BeigeBook_20150114.pdf&quot;, 20150114L, &quot;2015-01-14&quot;,
+    &quot;https://www.federalreserve.gov/monetarypolicy/beigebook/files/BeigeBook_20150304.pdf&quot;, 20150304L, &quot;2015-03-04&quot;,
+    &quot;https://www.federalreserve.gov/monetarypolicy/beigebook/files/BeigeBook_20150415.pdf&quot;, 20150415L, &quot;2015-04-15&quot;,
+    &quot;https://www.federalreserve.gov/monetarypolicy/beigebook/files/BeigeBook_20150603.pdf&quot;, 20150603L, &quot;2015-06-03&quot;,
+    &quot;https://www.federalreserve.gov/monetarypolicy/beigebook/files/BeigeBook_20150715.pdf&quot;, 20150715L, &quot;2015-07-15&quot;,
+    &quot;https://www.federalreserve.gov/monetarypolicy/beigebook/files/BeigeBook_20150902.pdf&quot;, 20150902L, &quot;2015-09-02&quot;,
+    &quot;https://www.federalreserve.gov/monetarypolicy/beigebook/files/Beigebook_20151202.pdf&quot;, 20151202L, &quot;2015-12-02&quot;,
+    &quot;https://www.federalreserve.gov/monetarypolicy/beigebook/files/Beigebook_20140115.pdf&quot;, 20140115L, &quot;2014-01-15&quot;,
+    &quot;https://www.federalreserve.gov/monetarypolicy/beigebook/files/Beigebook_20140305.pdf&quot;, 20140305L, &quot;2014-03-05&quot;,
+    &quot;https://www.federalreserve.gov/monetarypolicy/beigebook/files/BeigeBook_20140416.pdf&quot;, 20140416L, &quot;2014-04-16&quot;,
+    &quot;https://www.federalreserve.gov/monetarypolicy/beigebook/files/BeigeBook_20140604.pdf&quot;, 20140604L, &quot;2014-06-04&quot;,
+    &quot;https://www.federalreserve.gov/monetarypolicy/beigebook/files/Beigebook_20140716.pdf&quot;, 20140716L, &quot;2014-07-16&quot;,
+    &quot;https://www.federalreserve.gov/monetarypolicy/beigebook/files/BeigeBook_20140903.pdf&quot;, 20140903L, &quot;2014-09-03&quot;,
+    &quot;https://www.federalreserve.gov/monetarypolicy/beigebook/files/BeigeBook_20141015.pdf&quot;, 20141015L, &quot;2014-10-15&quot;,
+    &quot;https://www.federalreserve.gov/monetarypolicy/beigebook/files/BeigeBook_20141203.pdf&quot;, 20141203L, &quot;2014-12-03&quot;,
+    &quot;https://www.federalreserve.gov/monetarypolicy/beigebook/files/Beigebook_20130116.pdf&quot;, 20130116L, &quot;2013-01-16&quot;,
+    &quot;https://www.federalreserve.gov/monetarypolicy/beigebook/files/Beigebook_20130306.pdf&quot;, 20130306L, &quot;2013-03-06&quot;,
+    &quot;https://www.federalreserve.gov/monetarypolicy/beigebook/files/Beigebook_20130417.pdf&quot;, 20130417L, &quot;2013-04-17&quot;,
+    &quot;https://www.federalreserve.gov/monetarypolicy/beigebook/files/Beigebook_20130605.pdf&quot;, 20130605L, &quot;2013-06-05&quot;,
+    &quot;https://www.federalreserve.gov/monetarypolicy/beigebook/files/Beigebook_20130717.pdf&quot;, 20130717L, &quot;2013-07-17&quot;,
+    &quot;https://www.federalreserve.gov/monetarypolicy/beigebook/files/Beigebook_20130904.pdf&quot;, 20130904L, &quot;2013-09-04&quot;,
+    &quot;https://www.federalreserve.gov/monetarypolicy/beigebook/files/BeigeBook_20131016.pdf&quot;, 20131016L, &quot;2013-10-16&quot;,
+    &quot;https://www.federalreserve.gov/monetarypolicy/beigebook/files/Beigebook_20131204.pdf&quot;, 20131204L, &quot;2013-12-04&quot;,
+    &quot;https://www.federalreserve.gov/monetarypolicy/beigebook/files/fullreport20120111.pdf&quot;, 20120111L, &quot;2012-01-11&quot;,
+    &quot;https://www.federalreserve.gov/monetarypolicy/beigebook/files/fullreport20120229.pdf&quot;, 20120229L, &quot;2012-02-29&quot;,
+    &quot;https://www.federalreserve.gov/monetarypolicy/beigebook/files/fullreport20120411.pdf&quot;, 20120411L, &quot;2012-04-11&quot;,
+    &quot;https://www.federalreserve.gov/monetarypolicy/beigebook/files/Beigebook_20120606.pdf&quot;, 20120606L, &quot;2012-06-06&quot;,
+    &quot;https://www.federalreserve.gov/monetarypolicy/beigebook/files/Beigebook_20120718.pdf&quot;, 20120718L, &quot;2012-07-18&quot;,
+    &quot;https://www.federalreserve.gov/monetarypolicy/beigebook/files/Beigebook_20120829.pdf&quot;, 20120829L, &quot;2012-08-29&quot;,
+    &quot;https://www.federalreserve.gov/monetarypolicy/beigebook/files/Beigebook_20121010.pdf&quot;, 20121010L, &quot;2012-10-10&quot;,
+    &quot;https://www.federalreserve.gov/monetarypolicy/beigebook/files/Beigebook_20121128.pdf&quot;, 20121128L, &quot;2012-11-28&quot;,
+    &quot;https://www.federalreserve.gov/monetarypolicy/beigebook/files/fullreport20110112.pdf&quot;, 20110112L, &quot;2011-01-12&quot;,
+    &quot;https://www.federalreserve.gov/monetarypolicy/beigebook/files/fullreport20110302.pdf&quot;, 20110302L, &quot;2011-03-02&quot;,
+    &quot;https://www.federalreserve.gov/monetarypolicy/beigebook/files/fullreport20110413.pdf&quot;, 20110413L, &quot;2011-04-13&quot;,
+    &quot;https://www.federalreserve.gov/monetarypolicy/beigebook/files/fullreport20110608.pdf&quot;, 20110608L, &quot;2011-06-08&quot;,
+    &quot;https://www.federalreserve.gov/monetarypolicy/beigebook/files/fullreport20110727.pdf&quot;, 20110727L, &quot;2011-07-27&quot;,
+    &quot;https://www.federalreserve.gov/monetarypolicy/beigebook/files/fullreport20110907.pdf&quot;, 20110907L, &quot;2011-09-07&quot;,
+    &quot;https://www.federalreserve.gov/monetarypolicy/beigebook/files/fullreport20111019.pdf&quot;, 20111019L, &quot;2011-10-19&quot;,
+    &quot;https://www.federalreserve.gov/monetarypolicy/beigebook/files/fullreport20111130.pdf&quot;, 20111130L, &quot;2011-11-30&quot;,
+    &quot;https://www.federalreserve.gov/fomc/beigebook/2010/20100113/fullreport20100113.pdf&quot;, 20100113L, &quot;2010-01-13&quot;,
+    &quot;https://www.federalreserve.gov/fomc/beigebook/2010/20100303/fullreport20100303.pdf&quot;, 20100303L, &quot;2010-03-03&quot;,
+    &quot;https://www.federalreserve.gov/fomc/beigebook/2010/20100414/fullreport20100414.pdf&quot;, 20100414L, &quot;2010-04-14&quot;,
+    &quot;https://www.federalreserve.gov/fomc/beigebook/2010/20100609/fullreport20100609.pdf&quot;, 20100609L, &quot;2010-06-09&quot;,
+    &quot;https://www.federalreserve.gov/fomc/beigebook/2010/20100728/fullreport20100728.pdf&quot;, 20100728L, &quot;2010-07-28&quot;,
+    &quot;https://www.federalreserve.gov/fomc/beigebook/2010/20100908/fullreport20100908.pdf&quot;, 20100908L, &quot;2010-09-08&quot;,
+    &quot;https://www.federalreserve.gov/fomc/beigebook/2010/20101020/fullreport20101020.pdf&quot;, 20101020L, &quot;2010-10-20&quot;,
+    &quot;https://www.federalreserve.gov/fomc/beigebook/2010/20101201/fullreport20101201.pdf&quot;, 20101201L, &quot;2010-12-01&quot;,
+    &quot;https://www.federalreserve.gov/fomc/beigebook/2009/20090114/fullreport20090114.pdf&quot;, 20090114L, &quot;2009-01-14&quot;,
+    &quot;https://www.federalreserve.gov/fomc/beigebook/2009/20090304/fullreport20090304.pdf&quot;, 20090304L, &quot;2009-03-04&quot;,
+    &quot;https://www.federalreserve.gov/fomc/beigebook/2009/20090415/fullreport20090415.pdf&quot;, 20090415L, &quot;2009-04-15&quot;,
+    &quot;https://www.federalreserve.gov/fomc/beigebook/2009/20090610/fullreport20090610.pdf&quot;, 20090610L, &quot;2009-06-10&quot;,
+    &quot;https://www.federalreserve.gov/fomc/beigebook/2009/20090729/fullreport20090729.pdf&quot;, 20090729L, &quot;2009-07-29&quot;,
+    &quot;https://www.federalreserve.gov/fomc/beigebook/2009/20090909/fullreport20090909.pdf&quot;, 20090909L, &quot;2009-09-09&quot;,
+    &quot;https://www.federalreserve.gov/fomc/beigebook/2009/20091021/fullreport20091021.pdf&quot;, 20091021L, &quot;2009-10-21&quot;,
+    &quot;https://www.federalreserve.gov/fomc/beigebook/2009/20091202/fullreport20091202.pdf&quot;, 20091202L, &quot;2009-12-02&quot;,
+    &quot;https://www.federalreserve.gov/fomc/beigebook/2008/20080305/fullreport20080305.pdf&quot;, 20080305L, &quot;2008-03-05&quot;,
+    &quot;https://www.federalreserve.gov/fomc/beigebook/2008/20080416/fullreport20080416.pdf&quot;, 20080416L, &quot;2008-04-16&quot;,
+    &quot;https://www.federalreserve.gov/fomc/beigebook/2008/20080611/fullreport20080611.pdf&quot;, 20080611L, &quot;2008-06-11&quot;,
+    &quot;https://www.federalreserve.gov/fomc/beigebook/2008/20080723/fullreport20080723.pdf&quot;, 20080723L, &quot;2008-07-23&quot;,
+    &quot;https://www.federalreserve.gov/fomc/beigebook/2008/20080903/fullreport20080903.pdf&quot;, 20080903L, &quot;2008-09-03&quot;,
+    &quot;https://www.federalreserve.gov/fomc/beigebook/2008/20081015/fullreport20081015.pdf&quot;, 20081015L, &quot;2008-10-15&quot;,
+    &quot;https://www.federalreserve.gov/fomc/beigebook/2008/20081203/fullreport20081203.pdf&quot;, 20081203L, &quot;2008-12-03&quot;
+  )
+
+# get data ----
+fed_text_raw &lt;-
+  beige.links.all %&gt;%
+  mutate(text= map(url,pdf_text))  %&gt;% 
+  unnest(text) %&gt;% 
+  group_by(report) %&gt;%
+  # create a page number indicator
+  mutate(page=row_number()) %&gt;% 
+  ungroup() </code></pre>
+<p></details></p>
+<p>The pdf files are layed out with columns. So in order to identify continuous blocks of text we need to split the columns. (We should have done this yesterday). The column breaks appear in the text string as a block fo spaces. We can search for two or more spaces in the text and split using that. We can do that through the <code>\\s\\s+</code> bit in the code below.</p>
+<p>We create a column id, and because we sometimes don’t have mutiple columns we’ll end up with duplicated text. We use <code>distinct</code> to remove those duplicates.</p>
+<pre class="r"><code>fed_text_raw &lt;-
+  fed_text_raw %&gt;% 
+  mutate(text=strsplit(text,&quot;\r&quot;)) %&gt;% unnest(text) %&gt;%
+  mutate(
+    line=row_number(),
+    text=gsub(&quot;\n&quot;,&quot;&quot;,text)) %&gt;%
+  mutate(ctext =strsplit(text, &quot;\\s\\s+&quot;)) %&gt;% unnest(ctext) %&gt;% 
+  group_by(report,line) %&gt;% mutate(col.id=row_number()) %&gt;%
+  arrange(col.id,line) %&gt;%
+  group_by(page,line) %&gt;% 
+  distinct(ctext, .keep_all=TRUE) %&gt;%
+  mutate(rdate= as.Date(as.character(report),&quot;%Y%m%d&quot;)) %&gt;%   #create report data
+  ungroup()  </code></pre>
+</div>
+</div>
+</div>
+<div id="beige-ian-statistics" class="section level1">
+<h1>Beige-ian Statistics</h1>
+<p>Let’s analyze these text. First, let’s construct an estimate of sentiment for each report.</p>
+<p><details> <Summary>Code for sentiment plot </Summary></p>
+<pre class="r"><code>fed_text &lt;- 
+  fed_text_raw %&gt;% 
+  select(report,rdate,page,line,col.id,ctext) %&gt;%
+  as_tibble() %&gt;%
+  unnest_tokens(word,ctext)
+
+custom_stop_words2 &lt;- 
+  bind_rows(data_frame(word = c(&quot;debt&quot;,
+                                &quot;gross&quot;,
+                                &quot;crude&quot;,
+                                &quot;well&quot;,
+                                &quot;maturity&quot;,
+                                &quot;work&quot;,
+                                &quot;marginally&quot;,
+                                &quot;leverage&quot;), 
+                       lexicon = c(&quot;custom&quot;)), 
+            stop_words)
+
+fed_sentiment &lt;-
+  fed_text %&gt;%
+  anti_join(custom_stop_words2) %&gt;%
+  inner_join(get_sentiments(&quot;bing&quot;)) %&gt;%
+  count(rdate, sentiment) %&gt;%
+  spread(sentiment, n, fill = 0) %&gt;%
+  mutate(sentiment = (positive - negative)/(positive+negative))
+
+g1 &lt;-
+ggplot(fed_sentiment,  aes(rdate, sentiment, fill = sentiment&gt;0)) +
+  geom_col(show.legend = FALSE) +
+  scale_fill_manual(values=c(&quot;red&quot;,&quot;#27408b&quot;))+
+  #facet_wrap(~report, ncol = 8, scales = &quot;free_x&quot;)+
+  theme_ridges(font_family=&quot;Roboto&quot;)+
+  labs(x=&quot;report (~8 per year)&quot;,y=&quot;sentiment&quot;,
+       title=&quot;Sentiment in Federal Reserve Beige Book&quot;,
+       subtitle=&quot;customized bing lexicon\nsentiment = (positive-negative)/(positive+negative)&quot;,
+       caption=&quot;@lenkiefer\nSource: Beige Book March 2008 - July 2018&quot;)</code></pre>
+<p></details></p>
+<p><img src="/post/2018-07-29-beige-ian-statistics_files/figure-html/07-29-2018-plot-1-show-1.png" width="672" /></p>
+<p>We see that sentiment was quite negative in 2008 and 2009 during the Great Recession, but has remained consistently positive over the past few years.</p>
+<p>What have the reports been about? Let’s look.</p>
+<div id="tf-idf-terms-across-books" class="section level3">
+<h3>tf-idf terms across books</h3>
+<p>We can use the term frequency and inverse document frequency analysis to gauge what terms are important in each report.</p>
+<p>First let’s compare the July report for each year.</p>
+<p>We’ll need to drop some extra terms. These are word fragments or state abbreviations. I’d like to be able to fix the word splitting, but for now we’ll just drop those terms.</p>
+<p><details> <Summary>Words to ignore in tf-idf analysis </Summary></p>
+<pre class="r"><code>custom_stop_words3 &lt;- 
+  bind_rows(data_frame(word = c(tolower(month.abb), &quot;one&quot;,&quot;two&quot;,&quot;three&quot;,&quot;four&quot;,&quot;five&quot;,&quot;six&quot;,
+                                &quot;seven&quot;,&quot;eight&quot;,&quot;nine&quot;,&quot;ten&quot;,&quot;eleven&quot;,&quot;twelve&quot;,&quot;mam&quot;,&quot;ered&quot;,
+                                &quot;produc&quot;,&quot;ing&quot;,&quot;quar&quot;,&quot;ters&quot;,&quot;sug&quot;,&quot;quar&quot;,&#39;fmam&#39;,&quot;sug&quot;,
+                                &quot;cient&quot;,&quot;thirty&quot;,&quot;pter&quot;,
+                                # new &#39;words&#39; fragments
+                                &quot;ty&quot;,&quot;manufactur&quot;,&quot;estly&quot;,&quot;increas&quot;,&quot;tinued&quot;,&quot;transporta&quot;,
+                                &quot;sc&quot;,&quot;md&quot;,&quot;struction&quot;,&quot;cial&quot;,&quot;manufac&quot;,&quot;crease&quot;,&quot;wva&quot;,&quot;mercial&quot;,
+                                &quot;ness&quot;,&quot;commer&quot;,&quot;al&quot;,&quot;indus&quot;,&quot;dis&quot;,&quot;creases&quot;,&quot;ported&quot;,&quot;idential&quot;,
+                                &quot;er&quot;,&quot;es&quot;,&quot;ers&quot;,&quot;ii&quot;,&quot;ued&quot;,&quot;de&quot;,&quot;mand&quot;,&quot;ment&quot;,&quot;moder&quot;,&quot;contin&quot;,
+                                &quot;con&quot;,&quot;tacts&quot;, &quot;manu&quot;,&quot;ments&quot;,&quot;construc&quot;,&quot;creased&quot;,&quot;busi&quot;,
+                                &quot;mod&quot;,&quot;tions&quot;,&quot;mained&quot;,&quot;ed&quot;,&quot;va&quot;,&quot;nc&quot;,&quot;tive&quot;,&quot;ly&quot;,
+                                &quot;charlottesville&quot;,&quot;vermont&quot;,&quot;oregon&quot;,&quot;antic&quot;,&quot;condi&quot;,
+                                &quot;antici&quot;,&quot;pres&quot;,&quot;facturing&quot;,&quot;tial&quot;,&quot;pro&quot;,&quot;confi&quot;,&quot;activi&quot;,&quot;als&quot;,
+                                # end new words
+                                &quot;pants&quot;,&quot;ter&quot;,&quot;ening&quot;,&quot;ances&quot;,&quot;www.federalreserve.gov&quot;,
+                                &quot;tion&quot;,&quot;fig&quot;,&quot;ure&quot;,&quot;figure&quot;,&quot;src&quot;), 
+                       lexicon = c(&quot;custom&quot;)), 
+            stop_words)</code></pre>
+<p></details></p>
+<p><details> <Summary>Code for tf-idf plot </Summary></p>
+<pre class="r"><code>fed_text_by_month &lt;- 
+  fed_text %&gt;%
+  filter(lubridate::month(rdate)==7) %&gt;% 
+  mutate(word = gsub(&quot;[^A-Za-z ]&quot;,&quot;&quot;,word)) %&gt;%  # keep only letters (drop numbers and special symbols)
+  filter(word != &quot;&quot;) %&gt;%
+  count(report=as.character(rdate,format=&quot;%b%Y&quot;),word,sort=TRUE) %&gt;%
+  bind_tf_idf(word, report, n) %&gt;%
+  arrange(desc(tf_idf))
+
+g2&lt;-
+fed_text_by_month %&gt;% 
+  anti_join(custom_stop_words3, by=&quot;word&quot;) %&gt;%
+  mutate(word = factor(word, levels = rev(unique(word)))) %&gt;% 
+  group_by(report) %&gt;%
+  mutate(id=row_number()) %&gt;%
+  ungroup() %&gt;%
+  filter(id&lt;11) %&gt;%
+  ggplot(aes(word, tf_idf, fill = report)) +
+  geom_col(show.legend = FALSE) +
+  labs(x = NULL, y = &quot;tf-idf&quot;) +
+  facet_wrap(~report,scales=&quot;free&quot;, ncol=4)+
+  coord_flip()+
+  theme_ridges(font_family=&quot;Roboto&quot;, font_size=10)+
+  theme(axis.text.x=element_blank())+
+  labs(x=&quot;&quot;,y =&quot;tf-idf&quot;,
+       title=&quot;Highest tf-idf words in July Federal Beige Book: 2008-2018&quot;,
+       subtitle=&quot;Top 10 terms by tf-idf statistic: term frequncy and inverse document frequency&quot;,
+       caption=&quot;@lenkiefer Source: Federal Reserve Board Beige Book \nNote: omits stop words, date abbreviations and numbers.&quot;)</code></pre>
+<p></details></p>
+<pre class="r"><code>g2</code></pre>
+<p><img src="/post/2018-07-29-beige-ian-statistics_files/figure-html/07-29-2018-plot-2-show-1.png" width="1056" /></p>
+<p>Let’s group the Beige Book reports by calendar year.</p>
+<p><details> <Summary>Code for tf-idf plot </Summary></p>
+<pre class="r"><code>fed_text_by_year &lt;- 
+  fed_text %&gt;%
+  mutate(word = gsub(&quot;[^A-Za-z ]&quot;,&quot;&quot;,word)) %&gt;%  # keep only letters (drop numbers and special symbols)
+  filter(word != &quot;&quot;) %&gt;%
+  count(report=as.character(rdate,format=&quot;%Y&quot;),word,sort=TRUE) %&gt;%
+  bind_tf_idf(word, report, n) %&gt;%
+  arrange(desc(tf_idf)) %&gt;%
+  anti_join(custom_stop_words3, by=&quot;word&quot;) %&gt;%
+  mutate(word = factor(word, levels = rev(unique(word)))) %&gt;% 
+  group_by(report) %&gt;%
+  mutate(id=row_number()) %&gt;%
+  ungroup() %&gt;%
+  filter(id&lt;11)
+
+g3&lt;-
+fed_text_by_year %&gt;% 
+
+  ggplot(aes(word, tf_idf, fill = report)) +
+  geom_col(show.legend = FALSE) +
+  labs(x = NULL, y = &quot;tf-idf&quot;) +
+  facet_wrap(~report,scales=&quot;free&quot;, ncol=4)+
+  coord_flip()+
+  theme_ridges(font_family=&quot;Roboto&quot;, font_size=10)+
+  theme(axis.text.x=element_blank())+
+  labs(x=&quot;&quot;,y =&quot;tf-idf&quot;,
+       title=&quot;Highest tf-idf words by year for Federal Beige Book: 2008-2018&quot;,
+       subtitle=&quot;Top 10 terms by tf-idf statistic: term frequncy and inverse document frequency&quot;,
+       caption=&quot;@lenkiefer Source: Federal Reserve Board Beige Book \nNote: omits stop words, date abbreviations and numbers.&quot;)</code></pre>
+<p></details></p>
+<pre class="r"><code>g3</code></pre>
+<p><img src="/post/2018-07-29-beige-ian-statistics_files/figure-html/07-29-2018-plot-3-show-1.png" width="1056" /></p>
+</div>
+<div id="word-clouds" class="section level2">
+<h2>Word clouds</h2>
+<p>Let’s make some word clouds. We will follow <a href="http://mhairihmcneill.com/blog/2016/04/05/wordclouds-in-ggplot.html">this post</a> and make them with <a href="https://CRAN.R-project.org/package=ggplot2">ggplot2</a> with help from <a href="https://CRAN.R-project.org/package=ggrepel">ggrepel</a> rather than <a href="https://CRAN.R-project.org/package=wordcloud">wordcloud</a> so we have greater control over aesthetics.</p>
+<p>First let’s make a word cloud for the high tf-idf terms in each report.</p>
+<p><details> <Summary>Word cloud code</Summary></p>
+<pre class="r"><code>g4 &lt;-
+  fed_text_by_year %&gt;% 
+  filter(id&lt;6) %&gt;%
+  ggplot +
+  aes(x = 1, y = 1, size = tf_idf, label = word, color=tf_idf) +
+  geom_text_repel(segment.size = 0, force = 100,segment.color = &#39;transparent&#39;) +
+  scale_size(range = c(2, 15), guide = FALSE) +
+  scale_y_continuous(breaks = NULL) +
+  scale_x_continuous(breaks = NULL) +
+  scale_color_viridis_c(option=&quot;C&quot;,end=0.85 )+
+  guides(color=F)+
+    theme_ridges(font_family=&quot;Roboto&quot;, font_size=10)+
+  labs(x = &#39;&#39;, y = &#39;&#39;) +
+  facet_wrap(~report)+
+  labs(x=&quot;&quot;,y =&quot;tf-idf&quot;,
+       title=&quot;Highest tf-idf words by year for Federal Beige Book: 2008-2018&quot;,
+       subtitle=&quot;Top 5 terms by tf-idf statistic: term frequncy and inverse document frequency&quot;,
+       caption=&quot;@lenkiefer Source: Federal Reserve Board Beige Book \nNote: omits stop words, date abbreviations and numbers.&quot;)</code></pre>
+<p></details></p>
+<pre class="r"><code>g4</code></pre>
+<p><img src="/post/2018-07-29-beige-ian-statistics_files/figure-html/07-29-2018-plot-4-show-1.png" width="672" /></p>
+</div>
+</div>
+<div id="keyword-trends" class="section level1">
+<h1>Keyword trends</h1>
+<p>Let’s examine the change in word frequency by keyword. Let us count how many times the term “inflation” shows up in each Beige Book report:</p>
+<p><details> <Summary>Inflation frequency code</Summary></p>
+<pre class="r"><code>#count words per report
+beige_words &lt;- 
+  
+  fed_text %&gt;% 
+  mutate(word = gsub(&quot;[^A-Za-z ]&quot;,&quot;&quot;,word)) %&gt;%  # keep only letters (drop numbers and special symbols)
+  filter(word != &quot;&quot;) %&gt;%
+  anti_join(stop_words) %&gt;%
+  group_by(rdate) %&gt;%
+  count(word,sort=TRUE) %&gt;% 
+  mutate(rank=row_number())
+
+g5 &lt;-
+beige_words %&gt;%
+  filter(word==&quot;inflation&quot;) %&gt;%
+  ggplot(aes(x=rdate,y=n))+
+  geom_line(color=&quot;#27408b&quot;)+
+  geom_point(shape=21,fill=&quot;white&quot;,color=&quot;#27408b&quot;,size=3,stroke=1.1)+
+  scale_y_continuous(labels=scales::comma)+
+  theme_ridges(font_family=&quot;Roboto&quot;)+
+  labs(x=&quot;report date&quot;,y=&quot;number of appearances&quot;,
+       title=&#39;Number of times &quot;inflation&quot; appears in report&#39;,
+       subtitle=&quot;Beige Book Mar 2008-July 2018&quot;,
+       caption=&quot;@lenkiefer Source: Federal Reserve Board Beige Book&quot;)</code></pre>
+<p></details></p>
+<pre class="r"><code>g5</code></pre>
+<p><img src="/post/2018-07-29-beige-ian-statistics_files/figure-html/07-29-2018-plot-5-show-1.png" width="672" /></p>
+<p>Hmm, looks like reports of inflation are increasing. How about some other terms?</p>
+<p><details> <Summary>Show/Hide code</Summary></p>
+<pre class="r"><code>#count words per report
+beige_words &lt;- 
+  
+  fed_text %&gt;% 
+  mutate(word = gsub(&quot;[^A-Za-z ]&quot;,&quot;&quot;,word)) %&gt;%  # keep only letters (drop numbers and special symbols)
+  filter(word != &quot;&quot;) %&gt;%
+  anti_join(stop_words) %&gt;%
+  group_by(rdate) %&gt;%
+  count(word,sort=TRUE) %&gt;% 
+  mutate(rank=row_number())
+
+g6 &lt;-
+beige_words %&gt;%
+  filter(word %in% c(&quot;inflation&quot;,&quot;tax&quot;,&quot;vacancy&quot;,&quot;shortages&quot;)) %&gt;%
+  ggplot(aes(x=rdate,y=n))+
+  geom_line(color=&quot;#27408b&quot;)+
+  facet_wrap(~word)+
+  theme_ridges(font_family=&quot;Roboto&quot;)+
+  labs(x=&quot;report date&quot;,y=&quot;number of appearances&quot;,
+       title=&quot;Number of times term appears in Beige Book&quot;,
+       subtitle=&quot;Beige Book Mar 2008-July 2018&quot;,
+       caption=&quot;@lenkiefer Source: Federal Reserve Board Beige Book&quot;)</code></pre>
+<p></details></p>
+<pre class="r"><code>g6</code></pre>
+<p><img src="/post/2018-07-29-beige-ian-statistics_files/figure-html/07-29-2018-plot-6-show-1.png" width="672" /></p>
+<p>Interesting. Let’s use bigrams to see what other words are associated with these terms.</p>
+<p>Let’s examine the term “shortages”. By using bigrams we can see which words either precede or follow that term.</p>
+<p><details> <Summary>Show/Hide bigram code</Summary></p>
+<pre class="r"><code>fed_bigrams &lt;-   
+  fed_text_raw %&gt;%
+  unnest_tokens(bigram, text, token = &quot;ngrams&quot;, n = 2) %&gt;%
+  as_tibble()
+
+bigrams_separated &lt;- fed_bigrams %&gt;%
+  separate(bigram, c(&quot;word1&quot;, &quot;word2&quot;), sep = &quot; &quot;)
+
+bigrams_filtered &lt;- bigrams_separated %&gt;%
+  filter(!word1 %in% stop_words$word) %&gt;%
+  filter(!word2 %in% stop_words$word)
+
+bigram_counts &lt;- bigrams_filtered %&gt;% 
+  count(word1, word2, sort = TRUE)</code></pre>
+<p></details></p>
+<pre class="r"><code># terms associatd with shortgages----
+
+# second word shortage
+bigrams_filtered %&gt;%
+  filter(word2 == &quot;shortages&quot;) %&gt;%
+  count( word1, sort = TRUE)</code></pre>
+<pre><code>## # A tibble: 91 x 2
+##    word1          n
+##    &lt;chr&gt;      &lt;int&gt;
+##  1 labor        195
+##  2 worker        22
+##  3 inventory     18
+##  4 driver        17
+##  5 supply        17
+##  6 reported      11
+##  7 noted          9
+##  8 report         9
+##  9 continued      6
+## 10 experience     5
+## # ... with 81 more rows</code></pre>
+<pre class="r"><code># first word shortage
+bigrams_filtered %&gt;%
+  filter(word1 == &quot;shortages&quot;) %&gt;%
+  count( word2, sort = TRUE)</code></pre>
+<pre><code>## # A tibble: 60 x 2
+##    word2          n
+##    &lt;chr&gt;      &lt;int&gt;
+##  1 continued     12
+##  2 persisted      5
+##  3 increases      4
+##  4 resulting      4
+##  5 contacts       3
+##  6 persist        3
+##  7 remained       3
+##  8 retail         3
+##  9 affect         2
+## 10 businesses     2
+## # ... with 50 more rows</code></pre>
+<p>Seems like the term “labor shortages” is driving&quot; the use of the term. Given the <a href="../../../../2018/05/04/jobs-friday-may-2018/">strong labor market</a> that makes sense.</p>
+</div>
+<div id="network-visualizations" class="section level1">
+<h1>Network visualizations</h1>
+<p>Let’s conclude with some network visualizations.</p>
+<p><details> <Summary>Show/Hide nework diagram code 1</Summary></p>
+<pre class="r"><code>word_cors &lt;- 
+  fed_text %&gt;% 
+  mutate(word = gsub(&quot;[^A-Za-z ]&quot;,&quot;&quot;,word)) %&gt;%
+  filter(word != &quot;&quot;) %&gt;%
+  filter(report==20180718) %&gt;%
+  mutate(section = row_number() %/% 10) %&gt;%
+  filter(section &gt; 0) %&gt;%
+  filter(!word %in% stop_words$word) %&gt;%
+  group_by(word) %&gt;%
+  filter(n() &gt;= 20) %&gt;%
+  pairwise_cor(word, section, sort = TRUE)
+
+
+g7 &lt;- 
+  word_cors %&gt;%
+  filter(correlation &gt; .1) %&gt;%
+  graph_from_data_frame() %&gt;%
+  ggraph(layout = &quot;fr&quot;) +
+  geom_edge_link(aes(edge_alpha = correlation), edge_colour = &quot;#27408b&quot;,show.legend=FALSE) +
+  geom_node_point(color =&quot;#27408b&quot;, size = 5) +
+  geom_node_text(aes(label = name), repel = TRUE) +
+  theme_void(base_family=&quot;Roboto&quot;)+
+  theme(plot.margin = unit(c(rep(.5,4)), &quot;cm&quot;))+
+  labs(title=&quot;  Pairs of words in Federal Reserve Beige Book that show at\n  least a 0.1 correlation of appearing within the same 10-line section&quot;, caption=&quot;  @lenkiefer Source: Federal Reserve Board Beige Book July 2018    \n&quot;)</code></pre>
+<p></details></p>
+<pre class="r"><code>g7</code></pre>
+<p><img src="/post/2018-07-29-beige-ian-statistics_files/figure-html/07-29-2018-plot-7-show-1.png" width="864" /></p>
+<p>We can also plot a network diagram that shows counts of co-occurring words (see <a href="https://www.tidytextmining.com/nasa.html#word-co-ocurrences-and-correlations">section 8.2</a>).</p>
+<p></details></p>
+<pre class="r"><code>g8</code></pre>
+<p><img src="/post/2018-07-29-beige-ian-statistics_files/figure-html/07-29-2018-plot-8-show-1.png" width="672" /></p>
+<p>The thickness of the line represents how many times the word paris show up in the report.</p>
+<p>Compare the July 2018 report above to the July 2008 report:</p>
+<p><img src="/post/2018-07-29-beige-ian-statistics_files/figure-html/07-29-2018-network-code-3-1.png" width="864" /><img src="/post/2018-07-29-beige-ian-statistics_files/figure-html/07-29-2018-network-code-3-2.png" width="864" /></p>
+<p>Or we could stack them together:</p>
+<p><img src="/post/2018-07-29-beige-ian-statistics_files/figure-html/07-29-2017-network-4-1.png" width="864" /><img src="/post/2018-07-29-beige-ian-statistics_files/figure-html/07-29-2017-network-4-2.png" width="864" /></p>
+</div>
+<div id="thats-all-for-now" class="section level1">
+<h1>That’s all for now</h1>
+<p>These Beige-ian statistics are quite interesting. The sentiment index is a potentially useful summary of the anecdotal data. How useful is an open question. The Beige Book is <a href="https://www.minneapolisfed.org/publications/the-region/the-federal-reserves-beige-book-a-better-mirror-than-crystal-ball">more a mirror than a crystal ball</a>. Still, these text mining explorations are quite promising.</p>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2018/07/28/text-mining-fedspeak/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2018/07/28/text-mining-fedspeak/">Text Mining Fedspeak</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/r/">R</a>, 
+            
+                <a href="/tags/textmining/">textmining</a>, 
+            
+                <a href="/tags/data-wrangling/">data wrangling</a>, 
+            
+                <a href="/tags/statistics/">statistics</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2018%2f07%2f29%2fbeige-ian-statistics%2f&text=Beige-ian%20Statistics via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2018%2f07%2f29%2fbeige-ian-statistics%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+
