@@ -308,6 +308,7 @@ beige.links.all&lt;-
     &quot;https://www.federalreserve.gov/monetarypolicy/beigebook/files/BeigeBook_20150603.pdf&quot;, 20150603L, &quot;2015-06-03&quot;,
     &quot;https://www.federalreserve.gov/monetarypolicy/beigebook/files/BeigeBook_20150715.pdf&quot;, 20150715L, &quot;2015-07-15&quot;,
     &quot;https://www.federalreserve.gov/monetarypolicy/beigebook/files/BeigeBook_20150902.pdf&quot;, 20150902L, &quot;2015-09-02&quot;,
+    &quot;https://www.federalreserve.gov/monetarypolicy/beigebook/files/Beigebook_20151014.pdf&quot;, 20151014L, &quot;2015-10-14&quot;,
     &quot;https://www.federalreserve.gov/monetarypolicy/beigebook/files/Beigebook_20151202.pdf&quot;, 20151202L, &quot;2015-12-02&quot;,
     &quot;https://www.federalreserve.gov/monetarypolicy/beigebook/files/Beigebook_20140115.pdf&quot;, 20140115L, &quot;2014-01-15&quot;,
     &quot;https://www.federalreserve.gov/monetarypolicy/beigebook/files/Beigebook_20140305.pdf&quot;, 20140305L, &quot;2014-03-05&quot;,
@@ -639,38 +640,38 @@ bigram_counts &lt;- bigrams_filtered %&gt;%
 bigrams_filtered %&gt;%
   filter(word2 == &quot;shortages&quot;) %&gt;%
   count( word1, sort = TRUE)</code></pre>
-<pre><code>## # A tibble: 91 x 2
+<pre><code>## # A tibble: 92 x 2
 ##    word1          n
 ##    &lt;chr&gt;      &lt;int&gt;
-##  1 labor        195
+##  1 labor        203
 ##  2 worker        22
 ##  3 inventory     18
 ##  4 driver        17
 ##  5 supply        17
 ##  6 reported      11
-##  7 noted          9
-##  8 report         9
+##  7 report        10
+##  8 noted          9
 ##  9 continued      6
 ## 10 experience     5
-## # ... with 81 more rows</code></pre>
+## # ... with 82 more rows</code></pre>
 <pre class="r"><code># first word shortage
 bigrams_filtered %&gt;%
   filter(word1 == &quot;shortages&quot;) %&gt;%
   count( word2, sort = TRUE)</code></pre>
-<pre><code>## # A tibble: 60 x 2
+<pre><code>## # A tibble: 62 x 2
 ##    word2          n
 ##    &lt;chr&gt;      &lt;int&gt;
 ##  1 continued     12
 ##  2 persisted      5
-##  3 increases      4
-##  4 resulting      4
-##  5 contacts       3
+##  3 contacts       4
+##  4 increases      4
+##  5 resulting      4
 ##  6 persist        3
 ##  7 remained       3
 ##  8 retail         3
 ##  9 affect         2
 ## 10 businesses     2
-## # ... with 50 more rows</code></pre>
+## # ... with 52 more rows</code></pre>
 <p>Seems like the term “labor shortages” is driving&quot; the use of the term. Given the <a href="../../../../2018/05/04/jobs-friday-may-2018/">strong labor market</a> that makes sense.</p>
 </div>
 <div id="network-visualizations" class="section level1">

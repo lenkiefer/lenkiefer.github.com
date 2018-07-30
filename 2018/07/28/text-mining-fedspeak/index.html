@@ -343,7 +343,7 @@ fed_text</code></pre>
 ##  9 federal   268
 ## 10 on        230
 ## # ... with 3,020 more rows</code></pre>
-<p>Oops! We have a lot of common words like “the”,“of”,and “in”. In text mining these words are called “stop words”. We can remove them by using <code>anit-join</code> and the stop_words list that comes in tidytext package.</p>
+<p>Oops! We have a lot of common words like “the”,“of”,and “in”. In text mining these words are called “stop words”. We can remove them by using <code>anti-join</code> and the stop_words list that comes in tidytext package.</p>
 <pre class="r"><code>fed_text  %&gt;%
   anti_join(stop_words)%&gt;%
   count(word, sort = TRUE) </code></pre>
