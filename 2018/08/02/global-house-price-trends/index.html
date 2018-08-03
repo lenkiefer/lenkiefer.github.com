@@ -244,8 +244,8 @@
 
 </div>
 
-  <p>In this post I want to share updated plots comparing house price trends around the world. Our view will be somewhat limited, based on data, but will at least allow us to see how U.S. house prices compare to a few other countries.</p>
-<p>The details behind these plots are explained in more detail in <a href="../../../../2017/04/20/global-hpi-readxl/">this post</a>, but some of the images were lost due to my blog transition. No worries, I’ll post updated code and a few animated gif here.</p>
+  <p>In this post I want to share updated plots comparing house price trends around the world. Or at least part of the world. Our view will be somewhat limited, based on data, but will at least allow us to see how U.S. house prices compare to a few other countries.</p>
+<p>The details behind these plots are explained in more detail in <a href="../../../../2017/04/20/global-hpi-readxl/">this post</a>, but some of the images were lost due to my blog transition. No worries, I’ll post updated code and a few animated gifs here.</p>
 <p>Data come from the Federal Reserve Bank of Dallas’s <a href="../../../../">International House Price Database</a>. Read the <a href="https://www.dallasfed.org/institute/houseprice#tab3">methodology</a> there for details on the data.</p>
 <p>First some plots:</p>
 <p><img src="../../../../img/charts_aug_02_2018/global2018Q1_real.gif" width="60%" height="60%"></p>
@@ -254,22 +254,20 @@
 <p>You can get the data via the Dallas Fed. It comes as an Excel spreadsheet <a href="https://www.dallasfed.org/~/media/documents/institute/houseprice/hp1801.xlsx">hp1801.xls</a> file. I saved it in my data directory and the proceeded from there following the steps outlined in more detail <a href="../../../../2017/04/20/global-hpi-readxl/">here</a>.</p>
 <p><details> <Summary>Load &amp; Prepare Data Details </Summary></p>
 <pre class="r"><code># libraries
-
 suppressPackageStartupMessages({
   library(tidyverse)
-library(readxl)
-library(gifski)
-library(data.table)
-library(ggthemes)
-library(lubridate)
-library(stringr)}
-
-)
+  library(readxl)
+  library(gifski)
+  library(data.table)
+  library(ggthemes)
+  library(lubridate)
+  library(stringr)
+  })
 
 # load data (spreadsheet saved in data folder)
 # can get via Dallas Fed at https://www.dallasfed.org/~/media/documents/institute/houseprice/hp1801.xlsx
-###############################################################################
-#### Read in HPI data  ##########################################
+
+#### Read in HPI data ----
 df&lt;-read_excel(&quot;data/hp1801.xlsx&quot;, sheet = &quot;HPI&quot;)
 colnames(df)[1]&lt;-&quot;cycle&quot;  # rename first column
 df$year&lt;-substr(df$cycle,1,4) #create a year
@@ -277,10 +275,8 @@ df$month&lt;-as.numeric(substr(df$cycle,7,7))*3 #create a
 df$date&lt;-as.Date(ISOdate(df$year,df$month,1))
 df %&gt;% select(-X__2,-cycle,-year,-month) %&gt;% 
   gather(country,hpi,-date) -&gt;hpi.df
-###############################################################################
 
-###############################################################################
-#### Read in Real HPI data  ##########################################
+#### Read in Real HPI data  ----
 df&lt;-read_excel(&quot;data/hp1801.xlsx&quot;, sheet = &quot;RHPI&quot;)
 colnames(df)[1]&lt;-&quot;cycle&quot;
 df$year&lt;-substr(df$cycle,1,4)
@@ -288,10 +284,8 @@ df$month&lt;-as.numeric(substr(df$cycle,7,7))*3
 df$date&lt;-as.Date(ISOdate(df$year,df$month,1))
 df %&gt;% select(-X__2,-cycle,-year,-month) %&gt;% 
   gather(country,rhpi,-date) -&gt;rhpi.df
-###############################################################################
 
-###############################################################################
-#### Read in Disposable Income data  ############################
+#### Read in Disposable Income data  ----
 df&lt;-read_excel(&quot;data/hp1801.xlsx&quot;, sheet = &quot;PDI&quot;)
 colnames(df)[1]&lt;-&quot;cycle&quot;
 df$year&lt;-substr(df$cycle,1,4)
@@ -299,10 +293,8 @@ df$month&lt;-as.numeric(substr(df$cycle,7,7))*3
 df$date&lt;-as.Date(ISOdate(df$year,df$month,1))
 df %&gt;% select(-X__2,-cycle,-year,-month) %&gt;% 
   gather(country,pdi,-date) -&gt;pdi.df
-###############################################################################
 
-###############################################################################
-#### Read in Rea Disposable Income data  ############################
+#### Read in Rea Disposable Income data  ----
 df&lt;-read_excel(&quot;data/hp1801.xlsx&quot;, sheet = &quot;RPDI&quot;)
 colnames(df)[1]&lt;-&quot;cycle&quot;
 df$year&lt;-substr(df$cycle,1,4)
@@ -310,17 +302,14 @@ df$month&lt;-as.numeric(substr(df$cycle,7,7))*3
 df$date&lt;-as.Date(ISOdate(df$year,df$month,1))
 df %&gt;% select(-X__2,-cycle,-year,-month) %&gt;% 
   gather(country,rpdi,-date) -&gt;rpdi.df
-###############################################################################
 
-###############################################################################
-#### Merge data together data  ############################
-###  Requires data.table() package ************************
+#### Merge data together data  ----
+#  Requires data.table() package 
+
 dt&lt;-merge(hpi.df,rhpi.df,by=c(&quot;date&quot;,&quot;country&quot;))
 dt&lt;-merge(dt,pdi.df,by=c(&quot;date&quot;,&quot;country&quot;))
 dt&lt;-merge(dt,rpdi.df,by=c(&quot;date&quot;,&quot;country&quot;))
 dt&lt;-data.table(dt)[year(date)&gt;0,]
-###############################################################################
-
 df3&lt;-dt
 
 #create a caption for attribution to source
@@ -396,6 +385,7 @@ rhpi.plot(N)</code></pre>
 <pre class="r"><code>hpi.plot(N)</code></pre>
 <p><img src="/post/2018-08-02-global-house-price-trends_files/figure-html/08-02-2018-plot-1-2-2.png" width="672" /></p>
 <p>Finally, if we wanted to make the gifs above, we can use <a href="https://CRAN.R-project.org/package=gifski">gifski</a> and the following code.</p>
+<p><details> <Summary>Code for gif</Summary></p>
 <pre class="r"><code># set mydir to a place to save gif
 mydir &lt;- PATH_TO_YOUR_DIRECTORY #change
 
@@ -423,6 +413,26 @@ gif_file &lt;- save_gif({for (i in seq(1,N)){
   }
 }, gif_file= paste0(mydir,&quot;/global2018Q1_v2.gif&quot;),width = 1200, height = 800, res = 144, delay=1/10)
 utils::browseURL(gif_file)</code></pre>
+<p></details></p>
+<div id="altenative-data-wrangling" class="section level1">
+<h1>Altenative Data Wrangling</h1>
+<p>We could have skipped some of the steps above by using this code. However, my plots were already set up to use the longer approach so I kept it. But this is a handy bit of code that could come in handy if you have a spreadsheet with data in multiple sheets (it happens).</p>
+<p><details> <Summary>Alternative data wrangling code</Summary></p>
+<pre class="r"><code># blink and you might miss it:
+
+df &lt;- c(&quot;HPI&quot;,&quot;RHPI&quot;,&quot;PDI&quot;,&quot;RPDI&quot;) %&gt;%   #iterate over four sheets ----
+  set_names() %&gt;% 
+  
+  # Now for something magical!
+  
+  map_df(~ read_excel(path = path, sheet = .x), .id = &quot;sheet&quot;)
+
+df$year&lt;-substr(df$X__1,1,4)
+df$month&lt;-substr(df$X__1,7,7)
+#quarterly data so multiply month by 3
+df$date&lt;-as.Date(ISOdate(df$year,as.numeric(df$month)*3,1)) </code></pre>
+<p></details></p>
+</div>
 
 
   
