@@ -281,7 +281,7 @@ df_ur &lt;- filter(ln_data, series_id ==&quot;LNS14000000&quot;) %&gt;% mutate(v
   geom_hline(yintercept=3.9,linetype=2,size=1.1)+
   labs(x=&quot;&quot;,y=&quot;Unemployment Rate (%)&quot;, title=&quot;U.S. Unemployment rate was 3.9% in July 2018&quot;,
        subtitle=&quot;dotted line at 3.9%&quot;,
-       caption=&quot;@lenkiefer Source: U.S. Buereau of Labor Statistics&quot;)
+       caption=&quot;@lenkiefer Source: U.S. Bureau of Labor Statistics&quot;)
 g1</code></pre>
 <p><img src="/post/2018-08-05-charts-within-charts_files/figure-html/08-05-2018-plot-1-1.png" width="672" /></p>
 <p>But uh-oh. The y axis doesn’t go all the way to 0! Some might not like that!</p>
@@ -294,7 +294,7 @@ ggplot(data=df_ur, aes(x=date,y=value, fill=value-3.9))+
   geom_hline(yintercept=3.9,linetype=2,size=1.1)+
   labs(x=&quot;&quot;,y=&quot;Unemployment Rate (%)&quot;, title=&quot;U.S. Unemployment rate was 3.9% in July 2018&quot;,
        subtitle=&quot;dotted line at 3.9%&quot;,
-       caption=&quot;@lenkiefer Source: U.S. Buereau of Labor Statistics&quot;)
+       caption=&quot;@lenkiefer Source: U.S. Bureau of Labor Statistics&quot;)
 g2</code></pre>
 <p><img src="/post/2018-08-05-charts-within-charts_files/figure-html/08-05-2018-plot-2-1.png" width="672" /></p>
 <p>There, that’s (maybe) better. But now we have all that white space. What could we do with it?</p>
@@ -304,7 +304,8 @@ g2</code></pre>
   labs(subtitle=&quot;dotted line at 3.9%, ticks at bottom when rate &lt; 4%&quot;)
 
 g3</code></pre>
-<p><img src="/post/2018-08-05-charts-within-charts_files/figure-html/08-05-2018-plot-3-1.png" width="672" /> All right. What if we increased their size and added color? We could try playing with the aesethetics in <code>geom_rug</code>, or we could add a little column chart at the bottom. We can also use <code>ggridges::geom_ridgeline_gradient</code> to add a shaded area effect.</p>
+<p><img src="/post/2018-08-05-charts-within-charts_files/figure-html/08-05-2018-plot-3-1.png" width="672" /></p>
+<p>All right. What if we increased their size and added color? We could try playing with the aesethetics in <code>geom_rug</code>, or we could add a little column chart at the bottom. We can also use <code>ggridges::geom_ridgeline_gradient</code> to add a shaded area effect.</p>
 <pre class="r"><code>g4 &lt;- 
   ggplot(data=df_ur, aes(x=date,y=value, fill=value-3.9))+
   geom_ridgeline_gradient(aes(y=3.9, height=value-3.9), min_height= - 10, alpha=0.75)+ 
@@ -318,7 +319,7 @@ g3</code></pre>
   geom_hline(yintercept=3.9,linetype=2,size=1.1)+
   labs(x=&quot;&quot;,y=&quot;Unemployment Rate (%)&quot;, title=&quot;U.S. Unemployment rate was 3.9% in July 2018&quot;,
        subtitle=&quot;dotted line at 3.9%&quot;,
-       caption=&quot;@lenkiefer Source: U.S. Buereau of Labor Statistics&quot;)
+       caption=&quot;@lenkiefer Source: U.S. Bureau of Labor Statistics&quot;)
 
 g4</code></pre>
 <p><img src="/post/2018-08-05-charts-within-charts_files/figure-html/08-05-2018-plot-4-1.png" width="672" /></p>
@@ -335,7 +336,7 @@ g4</code></pre>
   scale_fill_manual(values= c(&quot;royalblue&quot;,&quot;lightblue&quot;), name=&quot;Unemployment Rate &gt; 3.9%&quot;)+
   theme_ridges()+
   theme(legend.position=&quot;top&quot;)+
-    labs(x=&quot;Month&quot;,y=&quot;Year&quot;, title=&quot;When was the U.S. Unemployment rate as low as it was in July 2018?&quot;,
+    labs(x=&quot;Month&quot;,y=&quot;Year&quot;, title=&quot;When was the U.S. Unemployment rate as low as in July 2018?&quot;,
        subtitle=&quot;Months when rate was 3.9% or less&quot;,
        caption=&quot;@lenkiefer Source: U.S. Buereau of Labor Statistics&quot;)</code></pre>
 <p><img src="/post/2018-08-05-charts-within-charts_files/figure-html/08-05-2018-plot-5-1.png" width="672" /></p>
