@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Filling in chart whitespace with another chart">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>Charts within charts &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com//img/charts_aug_05_2018/ur.png" >
+     
+    <meta property="og:title" content="Charts within charts">
+    <meta property="og:description" content="Filling in chart whitespace with another chart">
+
+<div class="header">
+  <h1>Charts within charts</h1>
+  <h2>Filling in chart whitespace with another chart</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/08/05</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <p>Maybe you are of the opinion that charts should have their y axis extend all the way down to 0, even if the data live far away from zero. I’m not sure if that’s always the right thing to do. But if you are strict about this, how can you use the space?</p>
+<p>One thing I experimented with in my <a href="../../../../2018/07/07/mortgage-rates-in-the-21st-century/">Mortgage rates in the 21st century</a> post was filling the area under a line with progressively fainter area. That had a need effect, but didn’t provide much additional information. What if we tried to pack in some extra data?</p>
+<p><a href="https://en.wikipedia.org/wiki/Rug_plot">Rug plots</a> are useful. They add little ticks at the bottom or side of a plot to give you a sense of the distribution. They are designed to tack up a little space, but what if we have a lot of space?</p>
+<p>Let’s try a quick modification. Per usual, we’ll make our charts with <a href="https://www.r-project.org/">R</a>.</p>
+<div id="get-data" class="section level1">
+<h1>Get data</h1>
+<p>Last week the U.S. Bureau of Labor Statistics (BLS) released their <a href="https://www.bls.gov/news.release/empsit.nr0.htm">employment situation</a> report. The BLS reported that the U.S. unemployment rate was back down to 3.9 percent in July. This is the lowest level it has been in many years.</p>
+<p>We can get the data directly from the BLS via a flat text file they provide. We’ll read it in and filter it using the <a href="">data.table</a> package. Note that as this file has a lot of extra information in it it’s quite big (I was doing some other stuff with data in it). You could alternatively get this file from <a href="https://fred.stlouisfed.org/series/UNRATE">FRED</a> or other places on the BLS website.</p>
+<p>First load libraries:</p>
+<pre class="r"><code>suppressPackageStartupMessages({
+library(data.table)
+library(tidyverse)
+library(extrafont)
+library(ggridges)
+library(cowplot)
+})</code></pre>
+<p>Then get data from BLS:</p>
+<p><details> <Summary>Code for data</SUmmary></p>
+<pre class="r"><code>ln_series &lt;- fread(&quot;https://download.bls.gov/pub/time.series/ln/ln.series&quot;)
+# this is a really big file.
+# alternativley can get from FRED VIA:
+#  quantmod::getSymbols(&quot;UNRATE&quot;,src=&#39;FRED&#39;)
+# df_ur &lt;-  data.frame(date=zoo::index(UNRATE), value= zoo::coredata(UNRATE))
+
+ln_data &lt;- fread(&quot;https://download.bls.gov/pub/time.series/ln/ln.data.1.AllData&quot;)
+# create dates ----
+ln_data[,month:=as.numeric(substr(ln_data$period,2,3))]
+ln_data$date&lt;- as.Date(ISOdate(ln_data$year,ln_data$month,1) ) #set up date variable
+df_ur &lt;- filter(ln_data, series_id ==&quot;LNS14000000&quot;) %&gt;% mutate(value=as.numeric(value))</code></pre>
+<p></details></p>
+<div id="make-a-deceptively-simple-line-plot" class="section level2">
+<h2>Make a deceptively simple line plot</h2>
+<p>Let’s make a line plot with our data.</p>
+<pre class="r"><code>g1 &lt;- 
+  ggplot(data=df_ur, 
+       aes(x=date,y=value))+
+  geom_line()+
+  theme_ridges(font_family=&quot;Roboto&quot;)+
+  geom_hline(yintercept=3.9,linetype=2,size=1.1)+
+  labs(x=&quot;&quot;,y=&quot;Unemployment Rate (%)&quot;, title=&quot;U.S. Unemployment rate was 3.9% in July 2018&quot;,
+       subtitle=&quot;dotted line at 3.9%&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Buereau of Labor Statistics&quot;)
+g1</code></pre>
+<p><img src="/post/2018-08-05-charts-within-charts_files/figure-html/08-05-2018-plot-1-1.png" width="672" /></p>
+<p>But uh-oh. The y axis doesn’t go all the way to 0! Some might not like that!</p>
+<p>We could fix it.</p>
+<pre class="r"><code>g2&lt;-
+ggplot(data=df_ur, aes(x=date,y=value, fill=value-3.9))+
+  geom_line()+
+  scale_y_continuous(limits=c(0,11),breaks=seq(0,10,2), expand=c(0,0))+
+  theme_ridges(font_family=&quot;Roboto&quot;)+
+  geom_hline(yintercept=3.9,linetype=2,size=1.1)+
+  labs(x=&quot;&quot;,y=&quot;Unemployment Rate (%)&quot;, title=&quot;U.S. Unemployment rate was 3.9% in July 2018&quot;,
+       subtitle=&quot;dotted line at 3.9%&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Buereau of Labor Statistics&quot;)
+g2</code></pre>
+<p><img src="/post/2018-08-05-charts-within-charts_files/figure-html/08-05-2018-plot-2-1.png" width="672" /></p>
+<p>There, that’s (maybe) better. But now we have all that white space. What could we do with it?</p>
+<p>One thing we might want to emphasize in this plot is the fact that the U.S. unemployment rate below 4 percent is a relatively rare event. We could try to add ticks using a <code>geom_rug</code> call in <a href="https://ggplot2.tidyverse.org/reference/geom_rug.html">ggplot2</a>.</p>
+<pre class="r"><code>g3 &lt;- g2 + 
+  geom_rug(data= .%&gt;% filter(value&lt;4), sides=&quot;b&quot;)+ 
+  labs(subtitle=&quot;dotted line at 3.9%, ticks at bottom when rate &lt; 4%&quot;)
+
+g3</code></pre>
+<p><img src="/post/2018-08-05-charts-within-charts_files/figure-html/08-05-2018-plot-3-1.png" width="672" /> All right. What if we increased their size and added color? We could try playing with the aesethetics in <code>geom_rug</code>, or we could add a little column chart at the bottom. We can also use <code>ggridges::geom_ridgeline_gradient</code> to add a shaded area effect.</p>
+<pre class="r"><code>g4 &lt;- 
+  ggplot(data=df_ur, aes(x=date,y=value, fill=value-3.9))+
+  geom_ridgeline_gradient(aes(y=3.9, height=value-3.9), min_height= - 10, alpha=0.75)+ 
+  scale_fill_viridis_c(breaks=seq(-2,6,2), labels=3.9+seq(-2,6,2), name=&quot;Unemployment Rate (%)&quot;, option=&quot;B&quot;)+
+  theme_ridges(font_family=&quot;Roboto&quot;)+
+  theme(legend.position= &quot;bottom&quot;,legend.key.width=unit(2,&quot;cm&quot;)) + 
+  scale_y_continuous(limits=c(0,11),breaks=seq(0,10,2), expand=c(0,0))+
+  labs(x=&quot;&quot;,y=&quot;&quot;)+ 
+  geom_col(aes(y= 1),width=100)+
+  scale_x_date(date_breaks=&quot;5 years&quot;, date_labels=&quot;%Y&quot;)+
+  geom_hline(yintercept=3.9,linetype=2,size=1.1)+
+  labs(x=&quot;&quot;,y=&quot;Unemployment Rate (%)&quot;, title=&quot;U.S. Unemployment rate was 3.9% in July 2018&quot;,
+       subtitle=&quot;dotted line at 3.9%&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Buereau of Labor Statistics&quot;)
+
+g4</code></pre>
+<p><img src="/post/2018-08-05-charts-within-charts_files/figure-html/08-05-2018-plot-4-1.png" width="672" /></p>
+<p>Better? Maybe. I like the use of the color to emphasize points.</p>
+</div>
+</div>
+<div id="an-alternative-plot" class="section level1">
+<h1>An alternative plot</h1>
+<p>We also could try a tile chart.</p>
+<pre class="r"><code>ggplot(data=df_ur, aes(y=year,x=month, fill=value&gt;3.9))+
+  geom_tile(color=&quot;gray&quot;)+ 
+  scale_y_reverse(expand=c(0,0), breaks =c(1948,seq(1950,2015,5),2018))+
+  scale_x_continuous(labels=month.abb, breaks=1:12, expand=c(0,0))+
+  scale_fill_manual(values= c(&quot;royalblue&quot;,&quot;lightblue&quot;), name=&quot;Unemployment Rate &gt; 3.9%&quot;)+
+  theme_ridges()+
+  theme(legend.position=&quot;top&quot;)+
+    labs(x=&quot;Month&quot;,y=&quot;Year&quot;, title=&quot;When was the U.S. Unemployment rate as low as it was in July 2018?&quot;,
+       subtitle=&quot;Months when rate was 3.9% or less&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Buereau of Labor Statistics&quot;)</code></pre>
+<p><img src="/post/2018-08-05-charts-within-charts_files/figure-html/08-05-2018-plot-5-1.png" width="672" /></p>
+</div>
+<div id="jobs-friday-recap" class="section level1">
+<h1>Jobs Friday Recap</h1>
+<p>For more on these data, check out my Jobs Friday threads over on Twitter. You may notice some versions of these plots (+ more!) showing up.</p>
+<p><blockquote class="twitter-tweet"><p lang="en" dir="ltr">94 consecutive months of job gains <a href="https://t.co/Ddwik3DvVL">pic.twitter.com/Ddwik3DvVL</a></p>&mdash; Leonard Kiefer (@lenkiefer) <a href="https://twitter.com/lenkiefer/status/1025372812943536128?ref_src=twsrc%5Etfw">August 3, 2018</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">U.S. labor force participation, still down for prime working age (25-54) population since Great Recession, but gradually working higher <a href="https://t.co/gzYpV92Q6k">pic.twitter.com/gzYpV92Q6k</a></p>&mdash; Leonard Kiefer (@lenkiefer) <a href="https://twitter.com/lenkiefer/status/1025387232801243136?ref_src=twsrc%5Etfw">August 3, 2018</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">The U.S. unemployment rate was 3.9% in July.  When has it been that low?  <br>Not often: <a href="https://t.co/tzIaf1cWT9">pic.twitter.com/tzIaf1cWT9</a></p>&mdash; Leonard Kiefer (@lenkiefer) <a href="https://twitter.com/lenkiefer/status/1025417571196129285?ref_src=twsrc%5Etfw">August 3, 2018</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</p>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2018/08/02/global-house-price-trends/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2018/08/02/global-house-price-trends/">Global house price trends</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/dataviz/">dataviz</a>, 
+            
+                <a href="/tags/r/">R</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2018%2f08%2f05%2fcharts-within-charts%2f&text=Charts%20within%20charts via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2018%2f08%2f05%2fcharts-within-charts%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+
