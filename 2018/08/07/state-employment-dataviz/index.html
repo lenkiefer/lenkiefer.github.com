@@ -310,7 +310,7 @@ dt.plot &lt;-
   mutate(
     value=as.numeric(value),
     yoy=value/lag(value,12)-1,
-    v2001=100*value/value[date==&quot;2001-01-01&quot;],  # indexed to January 2001
+    v2001=100*value/value[date==&quot;2001-06-01&quot;],  # indexed to June 2001
     vlag=lag(v2001,12)                          # index value lagged 12 months
     ) %&gt;%
   data.table()</code></pre>
@@ -490,7 +490,7 @@ plotf2 &lt;- function(i, tween_df=tween.df){
           axis.text.y=element_blank(),
           axis.ticks.y=element_blank(),
           panel.grid.major.y=element_blank())+
-    labs(x=&quot;State payroll employment (index June 2000=100, seaonally adjusted)&quot;,
+    labs(x=&quot;State payroll employment (index June 2001=100, seaonally adjusted)&quot;,
          title=&quot;State payroll employment trends&quot;,
          subtitle=paste0(&quot;Dots latest value, open circle value 12-months prior\nLatest value: June &quot;,yy),
          y=&quot;&quot;)
