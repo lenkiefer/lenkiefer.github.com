@@ -247,7 +247,7 @@
 <div id="get-data" class="section level1">
 <h1>Get data</h1>
 <p>Last week the U.S. Bureau of Labor Statistics (BLS) released their <a href="https://www.bls.gov/news.release/empsit.nr0.htm">employment situation</a> report. The BLS reported that the U.S. unemployment rate was back down to 3.9 percent in July. This is the lowest level it has been in many years.</p>
-<p>We can get the data directly from the BLS via a flat text file they provide. We’ll read it in and filter it using the <a href="">data.table</a> package. Note that as this file has a lot of extra information in it it’s quite big (I was doing some other stuff with data in it). You could alternatively get this file from <a href="https://fred.stlouisfed.org/series/UNRATE">FRED</a> or other places on the BLS website.</p>
+<p>We can get the data directly from the BLS via a flat text file they provide. We’ll read it in and filter it using the <a href="https://CRAN.R-project.org/package=data.table">data.table</a> package. Note that as this file has a lot of extra information in it it’s quite big (I was doing some other stuff with data in it). You could alternatively get this file from <a href="https://fred.stlouisfed.org/series/UNRATE">FRED</a> or other places on the BLS website.</p>
 <p>First load libraries:</p>
 <pre class="r"><code>suppressPackageStartupMessages({
 library(data.table)
@@ -257,7 +257,7 @@ library(ggridges)
 library(cowplot)
 })</code></pre>
 <p>Then get data from BLS:</p>
-<p><details> <Summary>Code for data</SUmmary></p>
+<p><details> <Summary>Code for data</Summary></p>
 <pre class="r"><code>ln_series &lt;- fread(&quot;https://download.bls.gov/pub/time.series/ln/ln.series&quot;)
 # this is a really big file.
 # alternativley can get from FRED VIA:
@@ -373,8 +373,14 @@ g4</code></pre>
   </div>
   <div class="pure-u-10-24">
     
+    <nav class="next">
+      <a href="/2018/08/07/state-employment-dataviz/">State employment dataviz</a>
+    </nav>
+    
   </div>
   <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="/2018/08/07/state-employment-dataviz/"><i class="fa fa-chevron-right"></i></a>
     
   </div>
 </div>
