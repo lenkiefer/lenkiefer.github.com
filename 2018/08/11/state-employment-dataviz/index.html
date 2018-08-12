@@ -234,9 +234,7 @@
     
       <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
     
-      <a class="post-taxonomy-tag" href="/tags/economy">economy</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="/tags/maps">maps</a>
+      <a class="post-taxonomy-tag" href="/tags/economy">economy</a>
     
   </div>
   
@@ -299,7 +297,7 @@ make_plot_appear &lt;- function(i, maxi=N){
     theme(text = element_text(color = &quot;#27408b&quot;))+
     labs(y=&quot;y/y%&quot;,x=&quot;date (monthly)&quot;,
          title=&quot;Core Consumer Price Inflation&quot;,
-         subtitle=&quot;12-month percent change in CPI: All items less shelter&quot;,
+         subtitle=&quot;12-month percent change in CPI: All items less food and energy&quot;,
          caption=&quot;@lenkiefer Source: U.S. Bureau of Labor Statistics\nretrieved from FRED, Federal Reserve Bank of St. Louis;\n https://fred.stlouisfed.org/series/CPILFESL, August 11, 2018.&quot;)
   g.progress&lt;-
     ggplot(data=data.frame(x=&quot;progress&quot;,y=i/maxi),
@@ -336,6 +334,7 @@ gif_file &lt;- save_gif({for (i in seq(1,N)){
 utils::browseURL(gif_file)</code></pre>
 <p></details></p>
 <p>Note that this code can be easily adapted to your data. Just swap in the variable <code>p12</code> for your variable in the code above. Season to taste with theme, colors, etc.</p>
+<p><em>Code was originally posted with the wrong label on the chart. I corrected it to indicate the index was for All items less food and energy and not All items less shelter. (2018-08-12).</em></p>
 
 
   
@@ -378,9 +377,7 @@ utils::browseURL(gif_file)</code></pre>
             
                 <a href="/tags/r/">R</a>, 
             
-                <a href="/tags/economy/">economy</a>, 
-            
-                <a href="/tags/maps/">maps</a>
+                <a href="/tags/economy/">economy</a>
             
         </p>
     
