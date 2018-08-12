@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Inflation dataviz">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>Core Inflation Viz with Progress Bar &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com//img/charts_aug_11_2018/cpi.png" >
+     
+    <meta property="og:title" content="Core Inflation Viz with Progress Bar">
+    <meta property="og:description" content="Inflation dataviz">
+
+<div class="header">
+  <h1>Core Inflation Viz with Progress Bar</h1>
+  <h2>Inflation dataviz</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/08/11</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/economy">economy</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/maps">maps</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <p>About a year ago <a href="../../../../2017/08/10/animation-progress/">I shared code</a> for a dataviz with a progress bar.</p>
+<p>Let’s update that <a href="https://www.r-project.org/">R</a> code using <a href="https://CRAN.R-project.org/package=gifski">gifski</a> and <a href="https://CRAN.R-project.org/package=tweenr">tweener</a>.</p>
+<p>The code below will generate this animated gif:</p>
+<p><img src="../../../../img/charts_aug_11_2018/cpi_aug2018.gif" width="75%" height="75%"></p>
+<p><details> <Summary>Gif code. Click for details. </Summary></p>
+<pre class="r"><code># CPI VIz with progress bar----
+# set up your directory
+mydir &lt;- &quot;PATH_TO_YOUR_DIRECTORY&quot;
+
+# libraries ----
+library(data.table)
+library(tidyverse)
+library(tweenr)
+library(gifski)
+library(ggridges)
+library(extrafont)
+library(scales)
+library(cowplot)
+
+# make plots ----
+
+# Get data-----
+# CPILFESL is FRED mnemonic for CPI: All Items Less Food and Energy
+# https://fred.stlouisfed.org/series/CPILFESL
+df &lt;- tidyquant::tq_get(&quot;CPILFESL&quot;, get = &quot;economic.data&quot;, from=&quot;2000-01-01&quot;)
+
+# creat3 12-month inflation rate #
+df &lt;- mutate(df,p12=price/lag(price,12)-1)
+
+# prepare for animation
+
+dfp2 &lt;- filter(df,year(date)&gt;2007)%&gt;% mutate(day=1+(row_number()-1)*7, ease=&quot;linear&quot;)
+plot_data_tween&lt;-
+  tween_elements(dfp2,
+                 time = &quot;day&quot;,  group=&quot;ease&quot;,
+                 ease=&quot;ease&quot;, nframes = nrow(dfp2)*3)
+
+df_tween_appear &lt;- tween_appear(plot_data_tween, time=&#39;day&#39;, nframes = nrow(dfp2)*3)
+N &lt;- max(df_tween_appear$.frame)
+
+# Function for plots -----
+make_plot_appear &lt;- function(i, maxi=N){
+  g.plot &lt;-
+    ggplot(data=df_tween_appear, aes(x=date,y=p12,label=scales::percent(round(p12,3))))+
+    geom_line(alpha=0)+
+    geom_line(data= .%&gt;% filter(.frame==i, .age&gt; -3.5) , color=&quot;#27408b&quot;,size=1.05) +
+    geom_text(data=  .%&gt;% filter(.frame==i, .age&gt; -3.5) %&gt;% tail(1),  size=5, alpha=0.95,,color=&quot;#27408b&quot;,nudge_y=.0005)+
+    geom_point(data=  .%&gt;% filter(.frame==i, .age&gt; -3.5) %&gt;% tail(1),  size=3, alpha=.82,color=&quot;#27408b&quot;)+
+    geom_hline(data=  .%&gt;% filter(.frame==i, .age&gt; -3.5) %&gt;% tail(1),  aes(yintercept=p12),alpha=0.95, linetype=2,color=&quot;#27408b&quot;)+
+    theme_ridges(font_family=&quot;Roboto&quot;)+
+    scale_y_continuous(labels=scales::percent)+
+    scale_color_manual(name=&quot;&quot;,values=c(rgb(103,180,75, maxColorValue = 256),&quot;#f37735&quot;,&quot;#27408b&quot;))+
+    theme(text = element_text(color = &quot;#27408b&quot;))+
+    labs(y=&quot;y/y%&quot;,x=&quot;date (monthly)&quot;,
+         title=&quot;Core Consumer Price Inflation&quot;,
+         subtitle=&quot;12-month percent change in CPI: All items less shelter&quot;,
+         caption=&quot;@lenkiefer Source: U.S. Bureau of Labor Statistics\nretrieved from FRED, Federal Reserve Bank of St. Louis;\n https://fred.stlouisfed.org/series/CPILFESL, August 11, 2018.&quot;)
+  g.progress&lt;-
+    ggplot(data=data.frame(x=&quot;progress&quot;,y=i/maxi),
+           aes(x=x,y=y))+geom_bar(stat=&quot;identity&quot;,color=NA,fill=&quot;#0033a0&quot;,alpha=0.82)+
+      geom_bar(stat=&quot;identity&quot;, data=data.frame(x=&quot;progress&quot;,y=1),
+               color=&quot;black&quot;,fill=NA)+
+      theme_void()+scale_y_continuous(limits=c(0,1))+
+      theme(plot.title=element_text(size=8,hjust=0.1))+
+      labs(title=&quot;Animation progress&quot;)+
+      coord_flip()
+    
+    plot_grid(g.plot,g.progress, rel_heights=c(5,1),ncol=1)
+}
+
+# test function (uncomment)
+# make_plot_appear(max(df_tween_appear$.frame))
+
+# write giff ----
+gif_file &lt;- save_gif({for (i in seq(1,N)){  
+  g&lt;- make_plot_appear(i)
+  print(g)
+  print(paste(i,&quot;out of&quot;,N))
+}
+  for (ii in 1:30){
+    print(g)
+    print(paste(ii,&quot;out of&quot;,30))
+  }
+}, gif_file= paste0(mydir,&quot;/cpi_aug2018.gif&quot;),width = 1200, height = 1000, res = 144, delay=1/15)
+
+
+# setting res to a higher number will increase image resolution (and file size)
+
+# Check it out!
+utils::browseURL(gif_file)</code></pre>
+<p></details></p>
+<p>Note that this code can be easily adapted to your data. Just swap in the variable <code>p12</code> for your variable in the code above. Season to taste with theme, colors, etc.</p>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2018/08/07/state-employment-dataviz/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2018/08/07/state-employment-dataviz/">State employment dataviz</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/dataviz/">dataviz</a>, 
+            
+                <a href="/tags/r/">R</a>, 
+            
+                <a href="/tags/economy/">economy</a>, 
+            
+                <a href="/tags/maps/">maps</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2018%2f08%2f11%2fstate-employment-dataviz%2f&text=Core%20Inflation%20Viz%20with%20Progress%20Bar via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2018%2f08%2f11%2fstate-employment-dataviz%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+
