@@ -7,10 +7,29 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2015-2018. All rights reserved.</copyright>
-    <lastBuildDate>Sat, 11 Aug 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 16 Aug 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Everything is spiraling out of control!</title>
+      <link>/2018/08/16/everything-is-spiraling-out-of-control/</link>
+      <pubDate>Thu, 16 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/08/16/everything-is-spiraling-out-of-control/</guid>
+      <description>I saw this fun bit of R code in a tweet by user aschinchon.
+df &amp;lt;- data.frame(x=0, y=0)
+for (i in 2:500)
+{
+df[i,1] &amp;lt;- df[i-1,1]+((0.98)^i)*cos(i)
+df[i,2] &amp;lt;- df[i-1,2]+((0.98)^i)*sin(i) }
+ggplot2::ggplot(df, aes(x,y)) + geom_polygon()+
+theme_void()#rstats pic.twitter.com/cgNjyk405f
+&amp;mdash; Antonio S. Chinchón (@aschinchon) August 16, 2018  Let’s remix it to make a fun animation.
+  Click for R code
+suppressPackageStartupMessages({library(tidyverse)library(tweenr)library(gifski)library(viridis)})df &amp;lt;- data.frame(x=0, y=0)for (i in 2:500){df[i,1] &amp;lt;- df[i-1,1]+((0.</description>
+    </item>
     
     <item>
       <title>Core Inflation Viz with Progress Bar</title>

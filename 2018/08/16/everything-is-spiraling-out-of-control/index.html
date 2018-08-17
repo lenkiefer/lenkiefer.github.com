@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Making a fun spiral dataviz with R.">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>Everything is spiraling out of control! &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com//img/charts_aug_16_2018/spriral.png" >
+     
+    <meta property="og:title" content="Everything is spiraling out of control!">
+    <meta property="og:description" content="Making a fun spiral dataviz with R.">
+
+<div class="header">
+  <h1>Everything is spiraling out of control!</h1>
+  <h2>Making a fun spiral dataviz with R.</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/08/16</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/fun">fun</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/animation">animation</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <p>I saw this fun bit of <a href="https://www.r-project.org/">R</a> code in a tweet by user <a href="https://twitter.com/aschinchon">aschinchon</a>.</p>
+<blockquote class="twitter-tweet"><p lang="sv" dir="ltr">df &lt;- data.frame(x=0, y=0)<br><br>for (i in 2:500)<br>{<br>  df[i,1] &lt;- df[i-1,1]+((0.98)^i)*cos(i)<br>  df[i,2] &lt;- df[i-1,2]+((0.98)^i)*sin(i)   <br>}<br><br>ggplot2::ggplot(df, aes(x,y)) + <br>  geom_polygon()+<br>  theme_void()<a href="https://twitter.com/hashtag/rstats?src=hash&amp;ref_src=twsrc%5Etfw">#rstats</a> <a href="https://t.co/cgNjyk405f">pic.twitter.com/cgNjyk405f</a></p>&mdash; Antonio S. Chinchón (@aschinchon) <a href="https://twitter.com/aschinchon/status/1030103605003603968?ref_src=twsrc%5Etfw">August 16, 2018</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>Let’s remix it to make a fun animation.</p>
+<p><details> <Summary> Click for R code</Summary></p>
+<pre class="r"><code>suppressPackageStartupMessages({
+library(tidyverse)
+library(tweenr)
+library(gifski)
+library(viridis)
+})
+
+df &lt;- data.frame(x=0, y=0)
+
+for (i in 2:500)
+{
+  df[i,1] &lt;- df[i-1,1]+((0.98)^i)*cos(i)
+  df[i,2] &lt;- df[i-1,2]+((0.98)^i)*sin(i)   
+}
+
+# function to make code
+myf &lt;- function(rr, fill=&quot;#0D0887FF&quot;){
+  df &lt;- data.frame(x=0, y=0)
+  
+  for (i in 2:500){
+    df[i,1] &lt;- df[i-1,1]+((rr)^i)*cos(i)
+    df[i,2] &lt;- df[i-1,2]+((rr)^i)*sin(i)   
+  }
+  df$fill &lt;- fill
+  return(df)
+}
+
+
+
+# plot
+
+g&lt;- 
+  ggplot(myf(0.98), aes(x,y,fill=fill)) + 
+  geom_polygon()+
+  scale_fill_identity()+
+  theme_void()+
+      labs(caption=&quot;@lenkiefer Inspired by R code in tweet from @aschinchon&quot;)</code></pre>
+<p></details></p>
+<pre class="r"><code>g</code></pre>
+<p><img src="/post/2018-08-16-everything-is-spiraling-out-of-control_files/figure-html/2018-08-16-viz-2-1.png" width="672" /></p>
+<div id="animate-it" class="section level1">
+<h1>Animate it</h1>
+<p>We can animate it with <a href="https://CRAN.R-project.org/package=gifski">gifski</a> and <a href="https://CRAN.R-project.org/package=tweenr">tweenr</a> with the following code.</p>
+<p><details> <Summary> Click for R code</Summary></p>
+<pre class="r"><code># change this
+# Set to your directory
+mydir&lt;-&quot;YOUR_DIRECTORY&quot;
+
+# Create a set of data frames to tween
+
+mylist&lt;-list(myf(.970, viridis(8)[1]),
+             myf(.975, viridis(8)[2]),
+             myf(.980, viridis(8)[3]),
+             myf(.985, viridis(8)[4]),
+             myf(.990, viridis(8)[5]),
+             myf(.985, viridis(8)[6]),
+             myf(.980, viridis(8)[7]),
+             myf(.975, viridis(8)[8]),
+             myf(.970, viridis(8)[1])
+             )
+
+tween.df&lt;-tween_states(mylist,tweenlength=5,statelength=0, ease=rep(&#39;cubic-in-out&#39;,20), nframes=50)
+N &lt;- max(tween.df$.frame)
+
+gif_file &lt;- save_gif({for (i in seq(1:N)){  
+  g&lt;-
+    ggplot(data=filter(tween.df,.frame==i), aes(x,y,fill=fill)) + 
+    geom_polygon()+
+    scale_fill_identity()+
+    theme_void()+
+    coord_cartesian(xlim=c(-1.5,-0.5), ylim=c(-0.25,0.5))+   # zooom in
+    labs(caption=&quot;@lenkiefer Inspired by R code in tweet from @aschinchon&quot;)
+  
+  print(g)
+  print(paste(i,&quot;out of&quot;,N))
+}
+}, gif_file= paste0(mydir,&quot;/spiral.gif&quot;),width = 620, height = 400, res = 92, delay=1/20)</code></pre>
+<p></details></p>
+<p>Running the code yields:</p>
+<p><img src="../../../../img/charts_aug_16_2018/spiral.gif"></p>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2018/08/11/state-employment-dataviz/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2018/08/11/state-employment-dataviz/">Core Inflation Viz with Progress Bar</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/r/">R</a>, 
+            
+                <a href="/tags/fun/">fun</a>, 
+            
+                <a href="/tags/animation/">animation</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2018%2f08%2f16%2feverything-is-spiraling-out-of-control%2f&text=Everything%20is%20spiraling%20out%20of%20control%21 via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2018%2f08%2f16%2feverything-is-spiraling-out-of-control%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+

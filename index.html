@@ -218,6 +218,63 @@
   
     <article>
   <header>
+    <h2><a href="/2018/08/16/everything-is-spiraling-out-of-control/">Everything is spiraling out of control!</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/08/16</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/fun">fun</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/animation">animation</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  I saw this fun bit of R code in a tweet by user aschinchon.
+df &lt;- data.frame(x=0, y=0)
+for (i in 2:500)
+{
+df[i,1] &lt;- df[i-1,1]+((0.98)^i)*cos(i)
+df[i,2] &lt;- df[i-1,2]+((0.98)^i)*sin(i) }
+ggplot2::ggplot(df, aes(x,y)) + geom_polygon()+
+theme_void()#rstats pic.twitter.com/cgNjyk405f
+&mdash; Antonio S. Chinchón (@aschinchon) August 16, 2018  Let’s remix it to make a fun animation.
+  Click for R code
+suppressPackageStartupMessages({library(tidyverse)library(tweenr)library(gifski)library(viridis)})df &lt;- data.frame(x=0, y=0)for (i in 2:500){df[i,1] &lt;- df[i-1,1]+((0.
+  </p>
+
+  
+  <footer>
+    <a href="/2018/08/16/everything-is-spiraling-out-of-control/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
     <h2><a href="/2018/08/11/state-employment-dataviz/">Core Inflation Viz with Progress Bar</a></h2>
 
     <div class="post-meta">
@@ -665,57 +722,6 @@ This plot shows the evolution of house prices in two states, California (CA) and
   
   <footer>
     <a href="/2018/07/22/house-price-gifski/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
-  </footer>
-  
-</article>
-
-  
-    <article>
-  <header>
-    <h2><a href="/2018/07/21/connected-scatterplot/">Connected scatterplot</a></h2>
-
-    <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>2018/07/21</time>
-  </div>
-
-  
-
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="/tags/fun">fun</a>
-    
-  </div>
-  
-  
-
-</div>
-
-  </header>
-
-  <p>
-  On Twitter Claus Wilke asks:
-Dear Lazyweb: Is there an accepted name for a plot showing a two-variable time series as a path in the x-y plane? #dataviz@Elijah_Meeks @albertocairo @lenkiefer @sharoz @dataandme pic.twitter.com/N8Edmf8qii
-&mdash; Claus Wilke (@ClausWilke) July 21, 2018  I call them connected scatterplots, and we’ve made a few here. See for example this post.
-But we can intensify things and make a plot like this:
-hey @ClausWilke why stop at a 2-d connected scatterplot* when you could go to 3-d
-  </p>
-
-  
-  <footer>
-    <a href="/2018/07/21/connected-scatterplot/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
   </footer>
   
 </article>
