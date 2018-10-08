@@ -1,0 +1,349 @@
+<p>title: U.S. housing supply and demand author: Len Kiefer date: ‘2018-10-07’ slug: u-s-housing-supply-and-demand categories: - Housing tags: - housing - economics - maps - house prices - demographics - R description: ‘We explore population and housing unit growth by county and compare it to house price trends.’ twitterImg: /img/charts_oct_07_2018/lines.png —</p>
+<p>In this post I want review some trends in U.S. housing supply and demand. Specifically I want to look at county level trends in population, housing supply (the total number of housing units) and house prices. We’ll uncover some interesting trends.</p>
+<p>Per usual we will make our graphics with <a href="https://www.r-project.org/">R</a>. Preparing the data required several steps that I will outline in a follow up post. For now we’ll just proceed with the data I’ve put together. In a future post I may review the data wrangling to assemble these data.</p>
+<div id="data" class="section level1">
+<h1>Data</h1>
+<p>The data we are going to use are estimates of U.S. county level <a href="https://www.census.gov/programs-surveys/popest/data/tables.html">population and housing units</a> by year from the U.S. Census Bureau and house prices by county and metro area from the <a href="https://www.fhfa.gov/DataTools/Downloads/Pages/House-Price-Index-Datasets.aspx#mpo">Federal Housing Finance Agency (FHFA)</a>.</p>
+<p>I have combined estimates using the Census’s intercensal tables from 2000 to 2010 (<a href="https://www.census.gov/data/tables/time-series/demo/popest/intercensal-2000-2010-counties.html">population</a> and <a href="https://www.census.gov/data/tables/time-series/demo/popest/intercensal-2000-2010-housing-units.html">housing units</a> ) and then the latest table from 2010 to 2017 (<a href="https://www.census.gov/data/tables/2017/demo/popest/counties-detail.html">population</a> and <a href="https://www.census.gov/data/tables/2017/demo/popest/total-housing-units.html">housing units</a>).</p>
+<p>I’ve also brought in house price data from the FHFA. See <a href="https://www.fhfa.gov/PolicyProgramsResearch/Research/Pages/wp1601.aspx">this paper</a> by Alexander N. Bogin, William M. Doerner, and William D. Larson. I’ve also brought in the house price index for metro areas <a href="https://www.fhfa.gov/DataTools/Downloads/Documents/HPI/HPI_AT_metro.csv">link to .csv</a>. For the metro data I used the annual average of the quarterly non-seasonally adjusted all-transactions house price index. I combined these data with the county data using a file you can find <a href="https://www.census.gov/geographies/reference-files/time-series/demo/metro-micro/delineation-files.html">here</a>.</p>
+<p>Let us take a look:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="right">YEAR</th>
+<th align="left">FIPS</th>
+<th align="left">state_name</th>
+<th align="left">county_name</th>
+<th align="right">msa_code</th>
+<th align="left">msa_name</th>
+<th align="right">POP</th>
+<th align="right">HU</th>
+<th align="right">POP2000</th>
+<th align="right">HU2000</th>
+<th align="right">county_hpi</th>
+<th align="right">metro_hpi</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">2000</td>
+<td align="left">01001</td>
+<td align="left">AL</td>
+<td align="left">Autauga</td>
+<td align="right">33860</td>
+<td align="left">Montgomery, AL</td>
+<td align="right">44021</td>
+<td align="right">17845</td>
+<td align="right">100</td>
+<td align="right">100</td>
+<td align="right">100</td>
+<td align="right">100</td>
+</tr>
+<tr class="even">
+<td align="right">2000</td>
+<td align="left">01003</td>
+<td align="left">AL</td>
+<td align="left">Baldwin</td>
+<td align="right">19300</td>
+<td align="left">Daphne-Fairhope-Foley, AL</td>
+<td align="right">141342</td>
+<td align="right">74907</td>
+<td align="right">100</td>
+<td align="right">100</td>
+<td align="right">100</td>
+<td align="right">100</td>
+</tr>
+<tr class="odd">
+<td align="right">2000</td>
+<td align="left">01005</td>
+<td align="left">AL</td>
+<td align="left">Barbour</td>
+<td align="right">21640</td>
+<td align="left">Eufaula, AL-GA</td>
+<td align="right">29015</td>
+<td align="right">12481</td>
+<td align="right">100</td>
+<td align="right">100</td>
+<td align="right">100</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="right">2000</td>
+<td align="left">01007</td>
+<td align="left">AL</td>
+<td align="left">Bibb</td>
+<td align="right">13820</td>
+<td align="left">Birmingham-Hoover, AL</td>
+<td align="right">19913</td>
+<td align="right">8362</td>
+<td align="right">100</td>
+<td align="right">100</td>
+<td align="right">100</td>
+<td align="right">100</td>
+</tr>
+<tr class="odd">
+<td align="right">2000</td>
+<td align="left">01009</td>
+<td align="left">AL</td>
+<td align="left">Blount</td>
+<td align="right">13820</td>
+<td align="left">Birmingham-Hoover, AL</td>
+<td align="right">51107</td>
+<td align="right">21235</td>
+<td align="right">100</td>
+<td align="right">100</td>
+<td align="right">100</td>
+<td align="right">100</td>
+</tr>
+<tr class="even">
+<td align="right">2000</td>
+<td align="left">01013</td>
+<td align="left">AL</td>
+<td align="left">Butler</td>
+<td align="right">NA</td>
+<td align="left">Non-metro</td>
+<td align="right">21325</td>
+<td align="right">9991</td>
+<td align="right">100</td>
+<td align="right">100</td>
+<td align="right">100</td>
+<td align="right">NA</td>
+</tr>
+</tbody>
+</table>
+<p>The data are arranged with year, and geographic identifiers and then the county population (POP) and housing units (HU) along with population and housing units indexed so the year 2000 =100 and then county and metro house price index also indexed so that 2000 = 100. I have saved these data in a dataframe called <code>df</code>.</p>
+</div>
+<div id="high-level-summaries" class="section level1">
+<h1>High level summaries</h1>
+<p>Let’s first consider some high level summaries. Which areas had the most population growth from 2000 to 2017? Which areas added the most housing units during that time And how did house prices trend during this time?</p>
+<pre class="r"><code>library(tidyverse)
+library(ggrepel)
+library(scales)
+library(ggthemes)
+# comput population and housing unit growth 2000 to YEAR
+df2 &lt;- 
+  df %&gt;% 
+  mutate(name=paste0(county_name,&quot;, &quot;,state_name),
+    pc = POP - 100*POP/POP2000,
+    hc = HU  - 100*HU/HU2000) %&gt;% 
+  arrange(desc(YEAR),desc(pc))
+
+ggplot(data= filter(df2, YEAR==2017) %&gt;% head(10), aes(x=fct_reorder(name,pc), y=pc, fill=POP2000/100-1))+
+  geom_col()+coord_flip()+
+  theme_minimal()+
+  scale_x_discrete(expand=c(0,0))+
+  scale_y_continuous(expand=c(0,0), labels=comma)+
+  scale_fill_viridis_c(option=&quot;C&quot;,name=&quot;Population Growth (%)&quot;,label=percent)+
+    theme(legend.position=&quot;top&quot;,
+        legend.key.width=unit(1.5, &quot;cm&quot;))+
+  labs(title=&quot;U.S. counties with the greatest population gain 2000 to 2017&quot;,
+       y=&quot;Population growth 2000 to 2017&quot;,x=&quot;&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Census Bureau \n&quot;)</code></pre>
+<p><img src="/post/2018-10-07-u-s-housing-supply-and-demand_files/figure-html/10-07-2018-charts-1-1.png" width="864" /></p>
+<pre class="r"><code>ggplot(data= filter(df2, YEAR==2017) %&gt;% arrange(desc(hc)) %&gt;% head(10), aes(x=fct_reorder(name,hc), y=hc, fill=HU2000/100-1))+
+  geom_col()+coord_flip()+
+  theme_minimal()+
+  scale_x_discrete(expand=c(0,0))+
+  scale_y_continuous(expand=c(0,0), labels=comma)+
+  scale_fill_viridis_c(option=&quot;C&quot;,name=&quot;Housing Unit Growth (%)&quot;,label=percent)+
+    theme(legend.position=&quot;top&quot;,
+        legend.key.width=unit(1.5, &quot;cm&quot;))+
+  labs(title=&quot;U.S. counties with greatest housing unit gain 2000 to 2017&quot;,
+       y=&quot;Housing unit growth 2000 to 2017&quot;,x=&quot;&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Census Bureau \n&quot;)</code></pre>
+<p><img src="/post/2018-10-07-u-s-housing-supply-and-demand_files/figure-html/10-07-2018-charts-1-2.png" width="864" /></p>
+<pre class="r"><code>ggplot(data= filter(df2, YEAR==2017) %&gt;% arrange(desc(county_hpi)) %&gt;% head(10), aes(x=fct_reorder(name,county_hpi), y=county_hpi/100-1, fill=county_hpi/100-1))+
+
+  geom_col()+coord_flip()+
+  theme_minimal()+
+  scale_x_discrete(expand=c(0,0))+
+  scale_y_continuous(expand=c(0,0), labels=percent)+
+  scale_fill_viridis_c(option=&quot;C&quot;,name=&quot;Housing Price Growth (%)&quot;,label=percent)+
+    theme(legend.position=&quot;top&quot;,
+        legend.key.width=unit(1.5, &quot;cm&quot;))+
+  labs(title=&quot;U.S. counties with greatest house price growth2000 to 2017&quot;,
+       y=&quot;House price growth(%) 2000 to 2017&quot;,x=&quot;&quot;,
+       caption=&quot;@lenkiefer Source: FHFA \n&quot;)</code></pre>
+<p><img src="/post/2018-10-07-u-s-housing-supply-and-demand_files/figure-html/10-07-2018-charts-1-3.png" width="864" /></p>
+<p>Are these variables related? Let’s construct some scatter plots to examine correlation.</p>
+<pre class="r"><code>ggplot(data=filter(df2, YEAR==2017, !is.na(county_hpi)), aes(x=POP2000/100-1, y=HU2000/100-1, color=county_hpi/100-1))+
+  geom_point()+
+  theme_minimal()+
+  scale_x_continuous(labels=percent)+scale_y_continuous(labels=percent)+
+  scale_color_viridis_c(option=&quot;C&quot;,name=&quot;Housing Price Growth (%)&quot;,label=percent)+
+  stat_smooth(linetype=2, color=&quot;darkgray&quot;,fill=NA,method=&quot;lm&quot;, aes(y=POP2000/100-1), fullrange=T)+
+    theme(legend.position=&quot;top&quot;,
+        legend.key.width=unit(1.5, &quot;cm&quot;))+
+  labs(title=&quot;A growing population requires an expanded housing stock&quot;,
+       subtitle=&quot;Population and housing unit growth 2000 to 2017\neach dot a county, dotted line a 45 degree line (x=y)&quot;,
+       x=&quot;Population growth 2000 to 2017&quot;,
+        y=&quot;Housing unit growth 2000 to 2017&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Census Bureau, FHFA \n&quot;)</code></pre>
+<p><img src="/post/2018-10-07-u-s-housing-supply-and-demand_files/figure-html/10-07-2018-charts-2-1.png" width="864" /></p>
+<p>This chart is more interesting than it may appear. I have charted population growth from 2000 to 2017 versus housing unit growth. In percentage terms, the two statistics are nearly on top of one another (the points cluster very close to the 45 degree line). However, the relationship doesn’t hold as well when population shrinks. Absent major demolitions the housing stock tends not to shrink, so the housing unit growth remains generally above 0.</p>
+<p>Let’s look a bit closer:</p>
+<pre class="r"><code>ggplot(data=filter(df2, YEAR==2017, !is.na(county_hpi)), aes(x=POP2000/100-1, y=HU2000/100-1, color=county_hpi/100-1))+
+  geom_point()+
+  theme_minimal()+
+  scale_x_continuous(labels=percent)+scale_y_continuous(labels=percent)+
+  scale_color_viridis_c(option=&quot;C&quot;,name=&quot;Housing Price Growth (%)&quot;,label=percent)+
+  stat_smooth(linetype=2, color=&quot;darkgray&quot;,fill=NA,method=&quot;lm&quot;, aes(y=POP2000/100-1), fullrange=T)+
+    theme(legend.position=&quot;top&quot;,
+        legend.key.width=unit(1.5, &quot;cm&quot;))+
+  labs(title=&quot;A growing population requires an expanded housing stock&quot;,
+       subtitle=&quot;Population and housing unit growth 2000 to 2017\neach dot a county, dotted line a 45 degree line (x=y)&quot;,
+       x=&quot;Population growth 2000 to 2017&quot;,
+        y=&quot;Housing unit growth 2000 to 2017&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Census Bureau, FHFA \n&quot;)+
+  facet_wrap(~paste0(&quot;Population Growth &gt;0? &quot;,(POP2000&gt;100)), scales=&quot;free&quot;)</code></pre>
+<p><img src="/post/2018-10-07-u-s-housing-supply-and-demand_files/figure-html/10-07-2018-charts-3-1.png" width="864" /></p>
+<pre class="r"><code>ggplot(data=filter(df2, YEAR==2017, !is.na(county_hpi)), aes(x=POP2000/HU2000-1,  y=county_hpi/100-1))+
+  geom_point()+
+  theme_minimal()+
+  scale_x_continuous(labels=percent)+scale_y_continuous(labels=percent)+
+  scale_color_viridis_c(option=&quot;C&quot;,name=&quot;Housing Price Growth (%)&quot;,label=percent)+
+  stat_smooth(linetype=2, color=&quot;darkgray&quot;,fill=NA,method=&quot;lm&quot;,  fullrange=T)+
+    theme(legend.position=&quot;top&quot;,
+        legend.key.width=unit(1.5, &quot;cm&quot;))+
+  labs(title=&quot;Population per housing unit growth and house prices&quot;,
+       subtitle=&quot;2000 to 2017, each dot a county&quot;,
+       x=&quot;Population/Housing Unit growth 2000 to 2017&quot;,
+        y=&quot;House Price Growth&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Census Bureau, FHFA \n&quot;)</code></pre>
+<p><img src="/post/2018-10-07-u-s-housing-supply-and-demand_files/figure-html/10-07-2018-charts-4-1.png" width="864" /></p>
+<p>There seems to be some relationship, but it’s noisy and hard to see what is going on exactly with so many points. Let’s look closer.</p>
+</div>
+<div id="looking-local" class="section level1">
+<h1>Looking local</h1>
+<p>Let’s look at how population and housing units have grown in the Washington D.C. metro area (msa codes 47894 and 43524).</p>
+<div id="prepare-map" class="section level2">
+<h2>Prepare map</h2>
+<p>We can use the <a href="https://CRAN.R-project.org/package=tigris">tigris</a> package to make a map.</p>
+<pre class="r"><code>library(tigris)
+
+us_geoc &lt;- counties(cb=TRUE)
+us_geoc$id &lt;- rownames(us_geoc@data)
+us_geocf &lt;- fortify(us_geoc)
+us_geocf     &lt;- left_join(us_geocf,us_geoc@data, by=&quot;id&quot;)
+# drop outside long(-125,67)  &amp; lat(24,49)
+us_geocf48&lt;- filter(us_geocf, long &gt; -125 &amp; long &lt; 67 &amp; lat &gt; 25 &amp; lat &lt; 50))</code></pre>
+<pre class="r"><code>mdata &lt;- left_join(filter(df, msa_code %in% c(47894,43524),YEAR==2017), us_geocf48, by=c(&quot;FIPS&quot;=&quot;GEOID&quot;))
+
+ggplot(data=mdata , 
+       aes(x=long,y=lat, map_id=id, group=group))+
+  geom_polygon(color=&quot;white&quot;, aes(fill=POP/HU))+theme_map()+
+  geom_text_repel(data=mdata %&gt;% group_by(group,id,FIPS, county_name,state_name) %&gt;% 
+                    summarize(lat=median(lat),long=median(long)),
+                  aes(label=paste0(county_name,&quot;, &quot;,state_name, &quot; &quot;)), size=3)+
+  scale_fill_viridis_c(name=&quot;Population per housing unit&quot;)+
+  theme(legend.position=&quot;top&quot;,
+        legend.key.width=unit(1.75, &quot;cm&quot;))+
+  labs(title=&quot;Population per housing unit in the Washington D.C. Metro area&quot;,
+       subtitle=&quot;2017 \n&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Census Bureau \n&quot;)</code></pre>
+<p><img src="/post/2018-10-07-u-s-housing-supply-and-demand_files/figure-html/10-07-2018-map-dc-1-1.png" width="864" /></p>
+<p>Then:</p>
+<pre class="r"><code>mdata &lt;- left_join(filter(df, msa_code %in% c(47894,43524),YEAR==2017), us_geocf48, by=c(&quot;FIPS&quot;=&quot;GEOID&quot;))
+
+ggplot(data=mdata , 
+       aes(x=long,y=lat, map_id=id, group=group))+
+  geom_polygon(color=&quot;white&quot;, aes(fill=POP2000/100-1))+theme_map()+
+  geom_text_repel(data=mdata %&gt;% group_by(group,id,FIPS, county_name,state_name) %&gt;% 
+                    summarize(lat=median(lat),long=median(long)),
+                  aes(label=paste0(county_name,&quot;, &quot;,state_name, &quot; &quot;)), size=3)+
+  scale_fill_viridis_c(name=&quot;Population Growth 2000 to 2017 (%)&quot;,labels=scales::percent)+
+  theme(legend.position=&quot;top&quot;,
+        legend.key.width=unit(1.75, &quot;cm&quot;))+
+  labs(title=&quot;County Population Growth in the Washington D.C. Metro area\n&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Census Bureau \n&quot;)</code></pre>
+<p><img src="/post/2018-10-07-u-s-housing-supply-and-demand_files/figure-html/10-07-2018-map-dc-2-1.png" width="864" /></p>
+<p>Loudon County has the most population growth over this period. Did the housing stock keep pace? Let’s chart the growth rate of population relative to the growth in housing units.</p>
+<pre class="r"><code>ggplot(data=mdata , 
+       aes(x=long,y=lat, map_id=id, group=group))+
+  geom_polygon(color=&quot;white&quot;, aes(fill=POP2000/HU2000-1))+theme_map()+
+  geom_text_repel(data=mdata %&gt;% group_by(group,id,FIPS, county_name,state_name) %&gt;% 
+                    summarize(lat=median(lat),long=median(long)),
+                  aes(label=paste0(county_name,&quot;, &quot;,state_name, &quot; &quot;)), size=3)+
+  scale_fill_viridis_c(name=&quot;Ratio: Population Growth to\nHousing Unit Growth\n2000 to 2017 (%)&quot;,labels=scales::percent)+
+  theme(legend.position=&quot;top&quot;,
+        legend.key.width=unit(1.75, &quot;cm&quot;))+
+  labs(title=&quot;Where did the population grow faster than housing supply?&quot;,
+    subtitle=&quot;County population per housing Unit growth in the Washington D.C. Metro area\nAreas in yellow(purple) had more (less) population growth than housing unit growth\n&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Census Bureau \n&quot;)</code></pre>
+<p><img src="/post/2018-10-07-u-s-housing-supply-and-demand_files/figure-html/10-07-2018-map-dc-3-1.png" width="864" /></p>
+<p>And house prices?</p>
+<pre class="r"><code>ggplot(data=mdata , 
+       aes(x=long,y=lat, map_id=id, group=group))+
+  geom_polygon(color=&quot;white&quot;, aes(fill=county_hpi/100-1))+theme_map()+
+  geom_text_repel(data=mdata %&gt;% group_by(group,id,FIPS, county_name,state_name) %&gt;% 
+                    summarize(lat=median(lat),long=median(long)),
+                  aes(label=paste0(county_name,&quot;, &quot;,state_name, &quot; &quot;)), size=3)+
+  scale_fill_viridis_c(name=&quot;House Price Growth 2000 to 2017 (%)&quot;,labels=scales::percent)+
+  theme(legend.position=&quot;top&quot;,
+        legend.key.width=unit(1.75, &quot;cm&quot;))+
+  labs(title=&quot;House Price Growth 2000 to 2017 in Washington D.C. Metro Area\n&quot;,
+
+       caption=&quot;@lenkiefer Source: FHFA \n&quot;)</code></pre>
+<p><img src="/post/2018-10-07-u-s-housing-supply-and-demand_files/figure-html/10-07-2018-map-dc-4-1.png" width="864" /></p>
+<p>Now let’s build a scatterplot comparing house prices to growth in the ratio of population per housing unit.</p>
+<pre class="r"><code>ggplot(data=filter(df2, YEAR==2017,  msa_code %in% c(47894,43524)), aes(x=POP2000/HU2000-1,  y=county_hpi/100-1))+
+  geom_point()+
+  theme_minimal()+
+  scale_x_continuous(labels=percent)+scale_y_continuous(labels=percent)+
+  scale_color_viridis_c(option=&quot;C&quot;,name=&quot;Housing Price Growth (%)&quot;,label=percent)+
+  stat_smooth(linetype=2, color=&quot;darkgray&quot;,fill=NA,method=&quot;lm&quot;,  fullrange=T)+
+    theme(legend.position=&quot;top&quot;,
+        legend.key.width=unit(1.5, &quot;cm&quot;))+
+  labs(title=&quot;Population per housing unit growth and house prices&quot;,
+       subtitle=&quot;Washington D.C. metro area, 2000 to 2017, each dot a county&quot;,
+       x=&quot;Population/Housing Unit growth 2000 to 2017&quot;,
+        y=&quot;House Price Growth&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Census Bureau, FHFA \n&quot;)+
+    geom_text_repel(aes(label=county_name))</code></pre>
+<p><img src="/post/2018-10-07-u-s-housing-supply-and-demand_files/figure-html/10-07-2018-charts-5-1.png" width="864" /></p>
+<p>For the most part, the counties lie along the regression line, with the District of Columbia being a notable exception.</p>
+</div>
+</div>
+<div id="tracing-the-time-path" class="section level1">
+<h1>Tracing the time path</h1>
+<p>I think it’s very interesting to trace a time path of the relationship between population, housing units and house prices. We can do that by drawing a connected scatterplot for each county.</p>
+<p>First, just for the District of Columbia:</p>
+<pre class="r"><code>ggplot(data=filter(df2,   msa_code %in% c(47894,43524), 
+                   
+                   county_name %in% c(&quot;District of Columbia&quot;) ),
+       aes(x=POP2000/HU2000-1,  y=county_hpi/100-1, group=county_name))+
+  geom_path()+
+  geom_point(shape=21, fill=&quot;white&quot;,size=2)+
+  theme_minimal()+
+  scale_x_continuous(labels=percent)+scale_y_continuous(labels=percent)+
+  theme(legend.position=&quot;none&quot;)+
+  labs(title=&quot;Population per housing unit growth and house prices&quot;,
+       subtitle=&quot;Washington D.C. metro area 2000 to 2017\neach dot a year, lines trace pace from 2000 to 2017&quot;,
+       x=&quot;Population/Housing Unit growth 2000 to 2017&quot;,
+       y=&quot;House Price Growth&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Census Bureau, FHFA \n&quot;)+
+    geom_point(data=. %&gt;% filter(YEAR==2017), color=&quot;red&quot;,size=3)+
+      geom_point(data=. %&gt;% filter(YEAR==2000), color=&quot;black&quot;,size=3)+
+  geom_text_repel(data=. %&gt;% filter(YEAR %in% c(2000,2017)),
+                  aes(label=YEAR))</code></pre>
+<p><img src="/post/2018-10-07-u-s-housing-supply-and-demand_files/figure-html/10-07-2018-charts-6-1.png" width="864" /></p>
+<p>Now let’s do it for a few counties in the Washington D.C. metro area.</p>
+<pre class="r"><code>ggplot(data=filter(df2,   msa_code %in% c(47894,43524), 
+                   
+                   county_name %in% c(&quot;Arlington&quot;, &quot;Alexandria City&quot;, &quot;Falls Church City&quot;, &quot;Fairfax&quot;,&quot;District of Columbia&quot;,&quot;Montgomery&quot;,&quot;Loudoun&quot;,&quot;Prince Georges&quot;) ),
+       aes(x=POP2000/HU2000-1,  y=county_hpi/100-1, group=county_name, color=county_name))+
+  geom_path()+
+  theme_minimal()+
+  scale_x_continuous(labels=percent)+scale_y_continuous(labels=percent)+
+  theme(legend.position=&quot;none&quot;)+
+  labs(title=&quot;Population per housing unit growth and house prices&quot;,
+       subtitle=&quot;Washington D.C. metro area 2000 to 2017\nlines trace pace from 2000 to 2017&quot;,
+       x=&quot;Population/Housing Unit growth 2000 to 2017&quot;,
+       y=&quot;House Price Growth&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Census Bureau, FHFA \n&quot;)+
+  geom_text_repel(data=. %&gt;% filter(YEAR==2017),
+                  aes(label=county_name))+
+  geom_point(data=. %&gt;% filter(YEAR==2017))</code></pre>
+<p><img src="/post/2018-10-07-u-s-housing-supply-and-demand_files/figure-html/10-07-2018-charts-7-1.png" width="864" /></p>
+<p>Lots going on here. We’ll explore more next time.</p>
+</div>
