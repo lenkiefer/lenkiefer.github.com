@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="We explore population and housing unit growth by county and compare it to house price trends.">
+  <meta name="generator" content="Hugo 0.27.1" />
+
+  <title>A Flatter Phillips Curve &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com//img/charts_oct_09_2018/phillips.png" >
+     
+    <meta property="og:title" content="A Flatter Phillips Curve">
+    <meta property="og:description" content="We explore population and housing unit growth by county and compare it to house price trends.">
+
+<div class="header">
+  <h1>A Flatter Phillips Curve</h1>
+  <h2>We explore population and housing unit growth by county and compare it to house price trends.</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/10/09</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/economics">economics</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <p>Supply and demand, isoquants, indifference, the lists goes on. Economists love curves. One attracting extra attention these days is the <a href="https://en.wikipedia.org/wiki/Phillips_curve">Phillips curve</a>. Last week I was in Boston for the <a href="https://nabe.com/NABE/Events/AM18/AM_2018_Main_Page.aspx?WebsiteKey=91b9e16d-e6fe-4f31-a4af-02c194225c32&amp;hkey=0d7be8aa-c6c8-437f-a103-8a0bf415c875&amp;New_ContentCollectionOrganizerCommon=3#tuesday">annual meeting</a> of the <a href="https://nabe.com/nabe">National Association of Business Economists (NABE)</a>. The overall conference was quite good, and certainly one of the highlights was a lunchtime speech by Federal Reserve Chairman Jerome Powell.</p>
+<p>You can find the speech <a href="https://www.federalreserve.gov/newsevents/speech/files/powell20181002a.pdf">here (pdf)</a>.</p>
+<p>In this post I want to replicate Powell’s Figure 5, which presents evidence of the evolution of the Phillips Curve. Per usual we will make our graphics with <a href="https://www.r-project.org/">R</a>.</p>
+<div id="the-phillips-curve" class="section level1">
+<h1>The Phillips Curve</h1>
+<p>The Phillips curve captures the relationship between the rate of inflation (typically a core measure stripping away volatile food and energy) and a measure of slack (often an unemployment rate gap). Because the Phillips curve may represent possible policy tradeoffs, say for example inflation and unemployment, it attracts a lot of attention.</p>
+<p>There’s been a lot of debate about the flattening of the Phillips curve or a reduced sensitivity of inflation to unemployment. Let’s take a look. We are replicating Powell (2018) who specified the Phillips curve as:</p>
+<p><span class="math display">\[Inflation(t)=-B Slack(t) + C Inflation(t-1) + Other(t)\]</span> Inflation is a core measure and the Slack term is the unemployment gap, the difference between the unemployment rate and an estimate (the Congressional Budget Office (CBO) here) of the natural rate of unemployment. We plotted the unemployment gap <a href="../../../../2018/03/11/charting-jobs-friday-with-r/">in this post</a>.</p>
+</div>
+<div id="get-data" class="section level1">
+<h1>Get data</h1>
+<p>We’ll get data via the Federal Reserve Bank of St. Louis <a href="https://fred.stlouisfed.org/">FRED</a> database. See for example <a href="../../../../2017/12/11/plotting-u-s-macroeconomic-trends-with-fred-and-r/">this post</a> for more on using FRED with R. We’ll also create a little dataframe by hand to capture <a href="http://www.nber.org/cycles.html">NBER Recession Date</a>.</p>
+<pre class="r"><code>## Step 1: Load Libraries ----
+library(tidyverse)
+library(tidyquant)
+library(scales)
+library(tibbletime)
+library(cowplot)
+
+
+## Step 2: go get data ----
+
+
+# Recession indicators via NBER http://www.nber.org/cycles.html
+
+recessions.df = read.table(textConnection(
+  &quot;Peak, Trough
+  1948-11-01, 1949-10-01
+  1953-07-01, 1954-05-01
+  1957-08-01, 1958-04-01
+  1960-04-01, 1961-02-01
+  1969-12-01, 1970-11-01
+  1973-11-01, 1975-03-01
+  1980-01-01, 1980-07-01
+  1981-07-01, 1982-11-01
+  1990-07-01, 1991-03-01
+  2001-03-01, 2001-11-01
+  2007-12-01, 2009-06-01&quot;), sep=&#39;,&#39;,
+  colClasses=c(&#39;Date&#39;, &#39;Date&#39;), header=TRUE)
+
+
+# Set up tickers
+tickers&lt;- c(&quot;PCEPILFE&quot;, # core pce
+            &quot;UNRATE&quot;, # unemployment rate
+            &quot;EMRATIO&quot;, # employment-to-population ratio
+            &quot;LNS12300060&quot;, # prime (25-54) employment-to-population ratio
+            &quot;NROU&quot;  ) # estimate of natural rate of unemployment from U.S. Congressional Budget Office
+mynames &lt;- c(&quot;Core PCE&quot;,
+             &quot;Unemploymen Rate&quot;,
+             &quot;Employment-to-Population Ratio&quot;,
+             &quot;Prime Working Age Employment-to-Population Ratio&quot;,
+             &quot;Natural Rate of Unemployment&quot;)
+
+mytickers&lt;- data.frame(symbol=tickers,varname=mynames,  stringsAsFactors =FALSE)
+
+
+# download data via FRED 
+df&lt;-tq_get(tickers,                         # get selected symbols
+           get=&quot;economic.data&quot;,             # use FRED
+           from=&quot;1958-01-01&quot;)               # go from 1954 forward
+
+df &lt;- left_join(df, mytickers, by=&quot;symbol&quot;)</code></pre>
+<p>Now that we have a our data we can do some data preparation, converting the data to quarterly and making some transformations:</p>
+<pre class="r"><code>## Step 3: get data ready for analysis----
+
+df %&gt;% select(-varname) %&gt;% 
+  spread(symbol,price) -&gt; df2
+
+
+# Convert monthly to quarterly data
+dfq &lt;- 
+  df2 %&gt;% 
+  mutate(month=month(date), 
+         qr=(month+2) %/% 3, #quarter
+         yr= year(date) ) %&gt;%
+  group_by(yr,qr) %&gt;%
+  summarize(
+    date=first(date),  # first month of quarter
+    epop=mean(LNS12300060),
+    nrou=mean(NROU,na.rm=T),
+    unrate=mean(UNRATE,na.rm=T),
+    pce=mean(PCEPILFE,na.rm=T)
+    ) %&gt;%
+  ungroup() %&gt;%
+  mutate(pce_inf= 100*(pce/lag(pce,n=4)-1),  # 4-quarter core inflation rate
+         slack= unrate-nrou,                  # unemployment gap 
+         pce_lag= lag(pce_inf,n=4),
+         slack_lag=lag(slack,n=4))</code></pre>
+<p>Let’s start by (mostly) replicating Figure 3 in Powell (2018). This shows trends in core inflation and the slack measure (unemployment gap).</p>
+<pre class="r"><code>g1&lt;- 
+ggplot(data=filter(dfq,yr&lt;1985,yr&gt;1959), aes(x=date,y=slack))+theme_gray()+
+  geom_rect(data=filter(recessions.df,year(Peak)&gt;1959, year(Peak)&lt;1985),
+            inherit.aes=F, aes(xmin=Peak, xmax=Trough, ymin=-Inf, ymax=+Inf), fill=&#39;darkgray&#39;, alpha=0.5) +
+  geom_line(color=&quot;blue&quot;)+
+  geom_line(color=&quot;red&quot;,linetype=2,aes(y=pce_inf))+
+  geom_text(data= .%&gt;% filter(date==&quot;1973-01-01&quot;), color=&quot;blue&quot;,aes(label=&quot;Slack&quot;))+
+  geom_text(data= .%&gt;% filter(date==&quot;1973-01-01&quot;), color=&quot;red&quot;,aes(label=&quot;Inflation&quot;,y=pce_inf))+
+
+  theme(plot.caption=element_text(hjust=0))+
+  labs(x=&quot;date (quarterly)&quot;,
+       y=&quot;percent&quot;,
+       title=&quot;Labor Market Slack and Core Inflation Rate&quot;,
+       subtitle=&quot;1960-1984&quot;,
+       caption=&quot;@lenkiefer Note: Labor market slack is unemployment rate gap: the difference between the U.S. unemployment rate and the \nCBO estimate of the natural rate. \nCore Inflation is the four-quarter percent change in the price index fore consumption expenditures(PCE) less food and energy.\nshaded areas are NBER recession dates \nretrieved from FRED, Federal Reserve Bank of St. Louis; https://fred.stlouisfed.org October 8, 2018.&quot;)
+
+g2&lt;-
+ggplot(data=filter(dfq,yr&gt;1995), aes(x=date,y=slack))+
+  theme_gray()+
+  geom_rect(data=filter(recessions.df,year(Peak)&gt;1994),
+            inherit.aes=F, aes(xmin=Peak, xmax=Trough, ymin=-Inf, ymax=+Inf), fill=&#39;darkgray&#39;, alpha=0.5) +
+  geom_line(color=&quot;blue&quot;)+
+  geom_line(color=&quot;red&quot;,linetype=2,aes(y=pce_inf))+scale_y_continuous(limits=c(-3,12))+
+  geom_text(data= .%&gt;% filter(date==&quot;2000-01-01&quot;), color=&quot;blue&quot;,aes(label=&quot;Slack&quot;))+
+  geom_text(data= .%&gt;% filter(date==&quot;2000-01-01&quot;), color=&quot;red&quot;,aes(label=&quot;Inflation&quot;,y=pce_inf))+
+
+  theme(plot.caption=element_text(hjust=0))+
+  labs(x=&quot;date (quarterly)&quot;,
+       y=&quot;percent&quot;,
+       title=&quot;Labor Market Slack and Core Inflation Rate&quot;,
+       subtitle=&quot;1995-2018&quot;,
+       caption=&quot;@lenkiefer Note: Labor market slack is unemployment rate gap: the difference between the U.S. unemployment rate and the \nCBO estimate of the natural rate. \nCore Inflation is the four-quarter percent change in the price index fore consumption expenditures(PCE) less food and energy.\nshaded areas are NBER recession dates \nretrieved from FRED, Federal Reserve Bank of St. Louis; https://fred.stlouisfed.org October 8, 2018.&quot;)
+
+
+
+g1</code></pre>
+<p><img src="/post/2018-10-09-a-flatter-phillips-curve_files/figure-html/10-09-2018-plot-1-1.png" width="864" /></p>
+<pre class="r"><code>g2</code></pre>
+<p><img src="/post/2018-10-09-a-flatter-phillips-curve_files/figure-html/10-09-2018-plot-1-2.png" width="864" /></p>
+<p>To replicate Figure 5 in Powell (2018) we need to run a rolling regression. We can do that with the rollify function from the <a href="https://CRAN.R-project.org/package=tibbletime">tibbletime</a> package, see <a href="https://cran.rstudio.com/web/packages/tibbletime/vignettes/TT-03-rollify-for-rolling-analysis.html">this vignette</a>. Also see <a href="../../../../2016/12/04/nested-recursion-loops-within-loops-within-data-frames/">this post</a> for other rolling regressions.</p>
+<pre class="r"><code>rolling_lm &lt;- rollify(.f = function(pce_inf,slack,pce_lag ){
+  lm(pce_inf ~ pce_lag + I(-slack))
+}, 
+window = 80, 
+unlist = FALSE)
+
+df_reg &lt;- 
+  mutate(dfq, roll_lm=rolling_lm(pce_inf,slack,pce_lag ))%&gt;%
+  filter(!is.na(roll_lm)) %&gt;%
+  mutate(tidied = purrr::map(roll_lm, broom::tidy, conf.int = TRUE)) %&gt;%
+  unnest(tidied) %&gt;%
+  select(date, term, estimate, std.error, statistic, p.value, conf.low,conf.high)
+
+df_reg$termf &lt;- factor(df_reg$term)
+levels(df_reg$termf)=c(
+  &quot;Intercept&quot;,
+  &quot;Slope of the Phillips Curve&quot; ,
+  &quot;Persistence of Inflation&quot;
+ )
+
+
+
+ggplot(data=filter(df_reg,term != &quot;(Intercept)&quot;), aes(x=date,y=estimate))+
+  geom_ribbon(aes(ymin=conf.low,ymax=conf.high), alpha=0.25)+
+  geom_line(color=&quot;black&quot;)+
+  facet_wrap(~termf,ncol=2)+
+  theme_gray()+
+  theme(plot.caption=element_text(hjust=0))+
+  labs(x=&quot;date (quarterly)&quot;,
+       y=&quot;&quot;,
+       title=&quot;Evolution of Estimates of the Slope and Persistence Parameters of the Phillips Curve&quot;,
+       caption=&quot;@lenkiefer Note Panels show estimate of the coefficients of B and C from the equation\nInflation(t) = -B slack(t) + C Inflation(t-1) + Other(t)\nwhere Inflation is core (pce) inflation and Slack in the unemployment gap.\nReplication (using quarterly instead of annual data) of Powell (2018) Figure 5:\n https://www.federalreserve.gov/newsevents/speech/files/powell20181002a.pdf&quot;)</code></pre>
+<p><img src="/post/2018-10-09-a-flatter-phillips-curve_files/figure-html/10-09-2018-plot-2-1.png" width="864" /></p>
+<p>We can see just what Powell remarked on in his speech. Using this specification of the Phillips curve the coefficient on slack is nearly zero. In recent data the correlation between the unemployment gap and inflation is basically nonexistant. Another way of seeing it is to draw a scatterplot.</p>
+<pre class="r"><code>ggplot(data=dfq, aes(x=slack, y=pce_inf, color=year(date)&lt;1985))+
+  geom_point()+theme_gray()+
+  scale_color_viridis_d(option=&quot;C&quot;,name=&quot;Before 1984?&quot;, begin=0.15, end=0.85)+
+  stat_smooth(linetype=2, fill=NA, method=&quot;lm&quot;)+
+    theme(plot.caption=element_text(hjust=0))+
+  labs(x=&quot;Slack: Unemployment Gap (percent)&quot;,
+       y=&quot;Core Inflation (4-quarter percent change price index)&quot;,
+       title=&quot;A Flatter Phillips Curve?&quot;,
+       subtitle=&quot;Relationship between slack and inflation in two periods (each dot a quarterly observation)&quot;,
+              caption=&quot;@lenkiefer Note: Labor market slack is unemployment rate gap: the difference between the U.S. unemployment rate and the \nCBO estimate of the natural rate. \nCore Inflation is the four-quarter percent change in the price index fore consumption expenditures(PCE) less food and energy.\nretrieved from FRED, Federal Reserve Bank of St. Louis; https://fred.stlouisfed.org October 8, 2018.&quot;)</code></pre>
+<p><img src="/post/2018-10-09-a-flatter-phillips-curve_files/figure-html/10-09-2018-plot-3-1.png" width="864" /></p>
+<p>There are of course, many interpretations for what is going on here.One interesting suggestion at the NABE conference was by <a href="http://economics.weinberg.northwestern.edu/robert-gordon/">Robert Gordon</a> who suggested a revenge of the Phillips curve (Powell’s term not Gordon’s) type scenario where inflation accelerates in the near future effectively implying a steepening of the Phillips curve. In particular Gordon said (see presentation <a href="https://nabe.com/NABE/Events/AM18/AM_2018_Main_Page.aspx?WebsiteKey=91b9e16d-e6fe-4f31-a4af-02c194225c32&amp;hkey=0d7be8aa-c6c8-437f-a103-8a0bf415c875&amp;New_ContentCollectionOrganizerCommon=3#monday">here under Gordon</a>) “Inflation has been quiescent but it’s not dead yet.”</p>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2018/10/07/u-s-housing-supply-and-demand/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2018/10/07/u-s-housing-supply-and-demand/">U.S. housing supply and demand</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/r/">R</a>, 
+            
+                <a href="/tags/economics/">economics</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2018%2f10%2f09%2fa-flatter-phillips-curve%2f&text=A%20Flatter%20Phillips%20Curve via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2018%2f10%2f09%2fa-flatter-phillips-curve%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+
