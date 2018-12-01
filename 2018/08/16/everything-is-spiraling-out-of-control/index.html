@@ -5,7 +5,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Making a fun spiral dataviz with R.">
-  <meta name="generator" content="Hugo 0.27.1" />
+  <meta name="generator" content="Hugo 0.52" />
 
   <title>Everything is spiraling out of control! &middot; Len Kiefer</title>
 
@@ -242,7 +242,10 @@
 
 </div>
 
-  <p>I saw this fun bit of <a href="https://www.r-project.org/">R</a> code in a tweet by user <a href="https://twitter.com/aschinchon">aschinchon</a>.</p>
+  
+
+
+<p>I saw this fun bit of <a href="https://www.r-project.org/">R</a> code in a tweet by user <a href="https://twitter.com/aschinchon">aschinchon</a>.</p>
 <blockquote class="twitter-tweet"><p lang="sv" dir="ltr">df &lt;- data.frame(x=0, y=0)<br><br>for (i in 2:500)<br>{<br>  df[i,1] &lt;- df[i-1,1]+((0.98)^i)*cos(i)<br>  df[i,2] &lt;- df[i-1,2]+((0.98)^i)*sin(i)   <br>}<br><br>ggplot2::ggplot(df, aes(x,y)) + <br>  geom_polygon()+<br>  theme_void()<a href="https://twitter.com/hashtag/rstats?src=hash&amp;ref_src=twsrc%5Etfw">#rstats</a> <a href="https://t.co/cgNjyk405f">pic.twitter.com/cgNjyk405f</a></p>&mdash; Antonio S. Chinchón (@aschinchon) <a href="https://twitter.com/aschinchon/status/1030103605003603968?ref_src=twsrc%5Etfw">August 16, 2018</a></blockquote>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 

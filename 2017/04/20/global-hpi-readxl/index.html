@@ -5,7 +5,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
-  <meta name="generator" content="Hugo 0.27.1" />
+  <meta name="generator" content="Hugo 0.52" />
 
   <title>Gather round and spread the word: Wrangling global house price data &middot; Len Kiefer</title>
 
@@ -247,7 +247,10 @@ In last year’s post I did some data manipulation by hand and mouse in Excel be
 
 </div>
 
-  <p>IN THIS POST I WANT TO SHARE SOME <a href="https://www.r-project.org/">R</a> data wrangling strategy and use it to prepare an update to some global house price plots I shared <a href="../../../../2016/12/10/global-house-price-trends">last year</a>.</p>
+  
+
+
+<p>IN THIS POST I WANT TO SHARE SOME <a href="https://www.r-project.org/">R</a> data wrangling strategy and use it to prepare an update to some global house price plots I shared <a href="../../../../2016/12/10/global-house-price-trends">last year</a>.</p>
 <p>In last year’s post I did some data manipulation by hand and mouse in Excel before getting into R. In this post I’m going to use the newly updated <a href="http://readxl.tidyverse.org/index.html">readxl</a> library to do the data manipulations entirely in R. If you follow along, then you should be able to use this code to recreate my graphs.</p>
 <p>This should prove to be a major improvement over my previous workflows. Because of the realities of my <a href="https://www.linkedin.com/in/leonard-kiefer-51175331/">professional life</a> I cannot escape Excel. Actually, I probably wouldn’t want to escape it even if I could. Despite its limitations and frequent misuse it is still my favorite application.</p>
 <p>However, while I’ve gotten pretty fast at doing some fairly complex manipulations in Excel (see <a href="../../../../2016/05/08/visual-meditations-on-house-prices-part1">this post</a> from last year for an example) it isn’t exactly reproducible. Using a scripting language in R should help with making the workflow more reproducible. Also, by using a scripting language you can automate tasks and easily scale to larger problems. I often encounter situations where I would need to work with hundreds of workbooks/worksheets.</p>

@@ -5,7 +5,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="U.S. housing starts have stalled in recent months. The current level of housing construction is quite low by historical standards. How low? Let me draw a picture for you.">
-  <meta name="generator" content="Hugo 0.27.1" />
+  <meta name="generator" content="Hugo 0.52" />
 
   <title>Housing Starts Stall &middot; Len Kiefer</title>
 
@@ -242,7 +242,10 @@
 
 </div>
 
-  <p>U.S. housing markets have slowed down in 2018. Housing construction, which is still running well below both historical averages and what the U.S. currently needs to meet rising demand has stalled out this year.</p>
+  
+
+
+<p>U.S. housing markets have slowed down in 2018. Housing construction, which is still running well below both historical averages and what the U.S. currently needs to meet rising demand has stalled out this year.</p>
 <p>The current level of housing construction is close to the level we’ve seen in recession periods. And the historical comparison stretching back decades is comparing a nation with significantly fewer households. Total U.S. households for example, in 1970 were about 1/2 (63 million) of what they were in 2017 (126 million) <a href="https://fred.stlouisfed.org/series/TTLHH">FRED chart</a>.</p>
 <p>Consider the graphic below.</p>
 <p><img src="../../../../img/charts_nov_20_2018/starts.png" width="740"></p>
@@ -251,25 +254,10 @@
 <p><a href="https://www.r-project.org/">R</a> code for this plot (including data wrangling) is below the fold. This presumes you have downloaded the .csv file ReSCONST-mf.csv that you can get from the U.S. Census Bureau <a href="https://www.census.gov/econ/currentdata/dbsearch?program=RESCONST&amp;startYear=1959&amp;endYear=2018&amp;categories=APERMITS&amp;dataType=TOTAL&amp;geoLevel=US&amp;adjusted=1&amp;notAdjusted=0&amp;errorData=0">here</a>. Note that the specific row numbers will change as Census updates data and add data points, this code is specific for data through October 2018 data. See comments in code for how to adjust if you are in the future reading this on your jetpack.</p>
 <p>See <a href="../../../../2018/07/26/getting-animated-about-new-home-sales/">post</a> for more discussion of the data.</p>
 <p><details> <Summary> Click for R code: data wrangling</Summary></p>
-<pre class="r"><code>library(data.table)</code></pre>
-<pre><code>## Warning: package &#39;data.table&#39; was built under R version 3.6.0</code></pre>
-<pre class="r"><code>library(tidyverse)</code></pre>
-<pre><code>## Warning: package &#39;tidyverse&#39; was built under R version 3.5.1</code></pre>
-<pre><code>## -- Attaching packages ----------------------------------------------------------------------------------------------------------------------------------- tidyverse 1.2.1 --</code></pre>
-<pre><code>## v ggplot2 3.0.0     v purrr   0.2.5
-## v tibble  1.4.2     v dplyr   0.7.6
-## v tidyr   0.8.0     v stringr 1.3.1
-## v readr   1.1.1     v forcats 0.3.0</code></pre>
-<pre><code>## Warning: package &#39;purrr&#39; was built under R version 3.5.1</code></pre>
-<pre><code>## Warning: package &#39;stringr&#39; was built under R version 3.5.1</code></pre>
-<pre><code>## -- Conflicts -------------------------------------------------------------------------------------------------------------------------------------- tidyverse_conflicts() --
-## x dplyr::between()   masks data.table::between()
-## x dplyr::filter()    masks stats::filter()
-## x dplyr::first()     masks data.table::first()
-## x dplyr::lag()       masks stats::lag()
-## x dplyr::last()      masks data.table::last()
-## x purrr::transpose() masks data.table::transpose()</code></pre>
-<pre class="r"><code># load residential construction data
+<pre class="r"><code>library(data.table)
+library(tidyverse)
+
+# load residential construction data
 # https://www.census.gov/econ/currentdata/dbsearch?program=RESCONST
 
 # data frame with all residential construction
@@ -355,7 +343,7 @@ dt_decade &lt;- dt [, list(vbar=mean(val,na.rm=T)), by = c(&quot;decade&quot;,&q
         plot.caption=element_text(hjust=0))+
     scale_fill_viridis_d(option=&quot;C&quot;, end=0.85)+ facet_wrap(~geo_desc)+
   labs(y=&quot;&quot;,subtitle=&quot;Average annual rate for housing units completed (1000s, SAAR)&quot;,
-       title=&quot;U.S. Housing completions in this decade well below hisotircal average&quot;,
+       title=&quot;U.S. Housing completions in this decade well below historical average&quot;,
        caption=&quot;@lenkiefer Source: U.S. Census Bureau and U.S. Department of Housing and Urban Development&quot;)</code></pre>
 <p><img src="/post/2018-11-20-housing-starts-stall_files/figure-html/2018-10-16-plot-1-1.png" width="672" /></p>
 <pre class="r"><code>ggplot(data=dt_decade[dt_idx==1 &amp; cat_idx==7 &amp; geo_idx==1 &amp; et_idx==0,], aes(x=decade, y=vbar,group=geo_desc, color=geo_desc))+
