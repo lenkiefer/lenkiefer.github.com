@@ -767,30 +767,30 @@ df4p &lt;- filter(df4, par!=&quot;error&quot;) %&gt;% mutate(data=map(par,myp))
 
 g.dens&lt;-
   ggplot(data=df4p %&gt;%
-         select(date,data) %&gt;% unnest(data),
-       aes(x=exp(x),y=d,group=date))+
+           select(date,data) %&gt;% unnest(data),
+         aes(x=x,y=d,group=date))+
   geom_line(alpha=0.2,color=&quot;gray&quot;)+
   theme_minimal()+
   theme(text = element_text(color = &quot;#27408b&quot;))+
   theme(plot.caption=element_text(hjust=0),
         axis.text.y=element_blank())+
   geom_line(data= .%&gt;% filter( date==max(date) %m+% years(-1)), color=&quot;blue&quot;)+
-   geom_text(data= .%&gt;% filter( date==max(date)%m+% years(-1)) %&gt;% 
-               filter(d==max(d)), color=&quot;blue&quot;,
+  geom_text(data= .%&gt;% filter( date==max(date)%m+% years(-1)) %&gt;% 
+              filter(d==max(d)), color=&quot;blue&quot;,
             label=&quot;2017Q4&quot;,nudge_y=0.15)+
   
   geom_line(data= .%&gt;% filter( date==max(date)), color=&quot;purple&quot;)+
   geom_text(data= .%&gt;% filter( date==max(date)) %&gt;% filter(d==max(d)), color=&quot;purple&quot;,
             label=&quot;2018Q4&quot;,nudge_y=0.15)+
-  geom_vline(xintercept=tail(df$HSN1F,1),linetype=2)+
-  geom_text(data=tail(df,1), aes(x=HSN1F),y=6, label=&quot;  October 2018 value&quot;, hjust = 0)+
-
-  labs(x=&quot;4-quarter ahead new home sales forecast&quot;,y=&quot;density&quot;,
+  geom_vline(xintercept=tail(df$lsales,1),linetype=2)+
+  geom_text(data=tail(df,1), aes(x=lsales),y=6, label=&quot;  October 2018 value&quot;, hjust = 0)+
+  
+  labs(x=&quot;4-quarter ahead new home sales forecast (1000s, log)&quot;,y=&quot;density&quot;,
        title=&quot;Forecasted 4-quarter ahead new single-family home sales distribution&quot;,
        subtitle=&quot;Gray lines all in-sample forecasts 1963Q1:2018Q4&quot;,
-       caption=&quot;@lenkiefer Skewed t distribution fit to quantile regression results, following approach outlined in Adrian, Boyarchenko and Giannone (2016) Vulnerable Growth\nData and methodology described in blog post: Vulnerable Housing http://lenkiefer.com/2018/12/12/vulnerable-housing/&quot;)</code></pre>
+       caption=&quot;@lenkiefer Skewed t distribution fit to quantile regression results,\nfollowing approach outlined in Adrian, Boyarchenko and Giannone (2016) Vulnerable Growth\nData and methodology described in blog post: Vulnerable Housing http://lenkiefer.com/2018/12/12/vulnerable-housing/&quot;)</code></pre>
 <p></details></p>
-<p><img src="/post/2018-12-12-vulnerable-housing_files/figure-html/2018-12-12-call-dens-plot-1.png" width="672" /></p>
+<p><img src="/post/2018-12-12-vulnerable-housing_files/figure-html/2018-12-12-call-dens-plot-1.png" width="768" /></p>
 <p>The plot above shows that the forecast distribution for new home sales has shifted negatively since 2017Q4. Based on this (relatively) simply model, home sales are forecasted to decline into 2018. Note, a more sophiticated approach might arrive at an alternative forecast. This post is just applying the Vulnerable Growth approach to housing.</p>
 <p>But based on this model we can say more about how the distributions are shifted. We can compute the <a href="https://en.wikipedia.org/wiki/Expected_shortfall">expected shortfall</a> of new home sales. In our case the expected shortfall for home sales would be the average number of new single-family home sales in the worst 5% of outcomes.</p>
 <p>By analyzing trends in the expected shortfall we can quantify how downside risks to the forecast may have evolved.</p>
@@ -816,17 +816,16 @@ df4_es &lt;-
   unnest(es) %&gt;%
   select(date,es)</code></pre>
 <pre class="r"><code>g.sf &lt;-
-  ggplot(data=df4_es, aes(x=date,y=exp(-es)))+
+  ggplot(data=df4_es, aes(x=date,y=-es))+
   geom_rect(data=recessions.df,inherit.aes=FALSE, aes(xmin=Peak, xmax=Trough, ymin=-Inf, ymax=+Inf), fill=&#39;gray&#39;, alpha=0.4)+
   geom_line(color=&quot;#27408b&quot;)+
   theme_minimal()+
   theme(text = element_text(color = &quot;#27408b&quot;))+
   scale_y_continuous(sec.axis=dup_axis())+
   scale_x_date(date_breaks=&quot;5 years&quot;,date_labels=&quot;%Y&quot;)+
-  theme(plot.caption=element_text(hjust=0),
-        axis.text.y=element_blank())+    
+  theme(plot.caption=element_text(hjust=0))+    
   labs(x=&quot;date (quarterly)&quot;,
-       y=&quot;&quot;,
+       y=&quot;log new home sales&quot;,
        title=&quot;4-quarter ahead expected shortfall in new home sales&quot;,
        subtitle=&quot;expected number of sales in worst 5% of outcomes&quot;,
        caption=&quot;@lenkiefer Methodology described in post Vulnerable Housing http://lenkiefer.com/2018/12/12/vulnerable-housing/ \nbased on Adrian, Boyarchenko and Giannone (2016) Vulnerable Growth&quot;)</code></pre>
