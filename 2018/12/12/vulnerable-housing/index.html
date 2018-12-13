@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Will the U.S. housing market get back on track in 2019? I think so, but risks are weighted to the downside. I use some statistical analysis to put some meat on that phrase">
+  <meta name="generator" content="Hugo 0.52" />
+
+  <title>Vulnerable Housing &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Vulnerable Housing">
+    <meta property="og:description" content="Will the U.S. housing market get back on track in 2019? I think so, but risks are weighted to the downside. I use some statistical analysis to put some meat on that phrase">
+
+<div class="header">
+  <h1>Vulnerable Housing</h1>
+  <h2>Will the U.S. housing market get back on track in 2019? I think so, but risks are weighted to the downside. I use some statistical analysis to put some meat on that phrase</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/12/12</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/housing">housing</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/economy">economy</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/statistics">statistics</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/forecasting">forecasting</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+
+
+<p>My recent economic and housing market talks <a href="../../../../2018/11/29/housing-market-outlook/">see for example here</a> have been titled: “Will the U.S. housing market get back on track in 2019?”. My general conclusion has been cautiously optimistic. There is enough strength in the broader economy and enough of a tailwind from demographic forces to push the U.S. housing market to modest growth next year.</p>
+<p>I still think that’s true, but as I have said in my talks, risks are weighted to the downside. But what does that economisty phrase <strong>weighted to the downside</strong> mean? Can we make sense of it? In this post I want to lay out some analysis that suggests this term has a lot of salience, particularly at this point in time.</p>
+<div id="vulnerable-growth" class="section level1">
+<h1>Vulnerable Growth</h1>
+<p>In this post I’m going to base my analysis on the techniques laid out in the forthcoming American Economic Review paper Vulnerable Growth by Adrian, Boyarchenko and Giannone. You can find a blog post summarizing the key results on the New York Fed’s Liberty Street blog <a href="https://libertystreeteconomics.newyorkfed.org/2018/04/vulnerable-growth.html">here</a> and a working paper version of the text <a href="https://www.newyorkfed.org/medialibrary/media/research/staff_reports/sr794.pdf?la=en">(pdf) here</a>.</p>
+<p>We’ll then apply some of those techniques to housing data using <a href="https://www.r-project.org/">R</a>.</p>
+<div id="application-to-housing-data" class="section level2">
+<h2>Application to Housing Data</h2>
+<p>We will use housing data to walk through an application of the vulnerable growth approach.</p>
+<p>In 2018, U.S. housing market activity softened. After a strong start to the year, housing starts, home sales, and the growth rate of single-family house prices all declined. The decline in activity has persisted into the fall.</p>
+<p>In this post, I’m going to focus on new single-family houses sold in the United States. Data for new home sales can be found on the U.S. Census Bureau’s webpage <a href="https://www.census.gov/construction/nrs/index.html">here</a> though in this case I will be using the Federal Reserve Bank of Saint Louis’s <a href="https://fred.stlouisfed.org/">FRED</a> because I want to grab a couple other variables that are conveniently available on FRED.</p>
+<div id="getting-data-summarizing-data" class="section level3">
+<h3>Getting data, summarizing data</h3>
+<p>Throughout the post (in most browsers) I will hide the R code in an expandable window like so:</p>
+<p><details> <Summary> Click </Summary> <em>CODE WILL BE IN HERE</em> </details></p>
+<p>Here is the setup code we’ll need along with grabbing the data we will need from FRED.</p>
+<p><details> <Summary> Click </Summary></p>
+<pre class="r"><code># standard libraries for data manipulation and plotting
+library(tidyquant)
+library(tidyverse)
+library(ggridges)
+library(extrafont)
+# other libraries we will use, will explain in text
+library(quantreg)
+library(sn)
+library(cvar)
+
+tickers &lt;- c(&quot;HSN1F&quot;,        # US new single-family home sales (1000s, SAAR)
+             &quot;HNFSEPUSSA&quot;,   # number of new single-family homes for sale (1000s, SAAR)
+             &quot;MSACSR&quot;,       # Months supply of new single-family homes for sale
+             &quot;HOUST1F&quot;,      # single-family housing starts
+             &quot;TB3MS&quot;,        # 3-month US Treasury Rate
+             &quot;GS10&quot;          # 10-year US Treasury Yield
+             )
+
+df_in &lt;- tq_get(tickers, get=&quot;economic.data&quot;,from=&quot;1963-01-01&quot;)
+
+# convert to quarterly data
+df2q &lt;-
+  df_in %&gt;%
+  mutate(year=year(date), q=(month(date)-1) %/% 3 + 1) %&gt;%
+  group_by(year,q, symbol) %&gt;%
+  summarize(val=mean(price,na.rm=T)) %&gt;%
+  ungroup() %&gt;%
+  mutate(date=as.Date(ISOdate(year,q*3,1))) %&gt;%
+  group_by(date) %&gt;% spread(symbol, val) %&gt;%
+  ungroup() %&gt;%
+  # make some transformations
+  mutate(
+    lsales          = log(HSN1F),
+    lsales_lag4     = lag(lsales,4),
+    lstarts         = log(HOUST1F),
+    lstarts_lag4    = lag(lstarts,4),
+    slope           = GS10 - TB3MS,
+    slope_lag1      = lag(slope),
+    slope_lag4      = lag(slope,4),
+    msupply_lag4   = lag(MSACSR,4)
+  )
+
+# only keep complete cases (no missing data allowed)
+df &lt;- df2q[complete.cases(df2q),]</code></pre>
+<p></details></p>
+<p>In the code above we converted the data from monthly to quarterly averages. In addition to data on single-family home sales, months supply and single-family starts we also grabbed the U.S. Treasury 3-month and 10-year constant maturity yields. This will allow us to construct a measure of the slope of the yield curve.</p>
+<p>First, let’s make some simple time series plots of our data. <details> <Summary> Code for plots </Summary></p>
+<pre class="r"><code># code for graphs
+
+# recession indicators
+
+recessions.df = read.table(textConnection(
+&quot;Peak, Trough
+1969-12-01, 1970-11-01
+1973-11-01, 1975-03-01
+1980-01-01, 1980-07-01
+1981-07-01, 1982-11-01
+1990-07-01, 1991-03-01
+2001-03-01, 2001-11-01
+2007-12-01, 2009-06-01&quot;), sep=&#39;,&#39;,
+colClasses=c(&#39;Date&#39;, &#39;Date&#39;), header=TRUE)
+
+g.sales &lt;-
+    ggplot(data=df, aes(x=date,y=HSN1F))+
+    geom_rect(data=recessions.df,inherit.aes=FALSE, aes(xmin=Peak, xmax=Trough, ymin=-Inf, ymax=+Inf), fill=&#39;gray&#39;, alpha=0.4)+
+  geom_line(color = &quot;#27408b&quot;)+
+  scale_y_continuous(sec.axis=dup_axis())+
+  theme_minimal()+
+  theme(plot.caption=element_text(hjust=0))+
+  scale_x_date(date_breaks=&quot;5 years&quot;,date_labels=&quot;%Y&quot;)+
+  theme(text = element_text(color = &quot;#27408b&quot;))+
+  labs(y=&quot;&quot;,x=&quot;date (quarterly average of monthly estimates)&quot;,
+       title=&quot;New single-family homes sold&quot;,
+       subtitle=&quot;1000s, seasonally adjusted annual rate&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Census Bureau and U.S. Department of Housing and Urban Development\nretrieved from FRED, Federal Reserve Bank of St. Louis;\nhttps://fred.stlouisfed.org December 12, 2018.\nShaded bar NBER recessions&quot;)
+
+# close up of sales 2016-2018
+
+g.sales2 &lt;-
+    ggplot(data=filter(df,year(date)&gt;2011), aes(x=date,y=HSN1F))+
+  geom_line(color = &quot;#27408b&quot;)+
+  scale_y_continuous(sec.axis=dup_axis())+
+  theme_minimal()+
+  theme(plot.caption=element_text(hjust=0))+
+  scale_x_date(date_breaks=&quot;1 years&quot;,date_labels=&quot;%Y&quot;)+
+  theme(text = element_text(color = &quot;#27408b&quot;))+
+  labs(y=&quot;&quot;,x=&quot;date (quarterly average of monthly estimates)&quot;,
+       title=&quot;New single-family homes sold,\nFalling in 2018 after years of recovery&quot;,
+       subtitle=&quot;1000s, seasonally adjusted annual rate&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Census Bureau and U.S. Department of Housing and Urban Development\nretrieved from FRED, Federal Reserve Bank of St. Louis;\nhttps://fred.stlouisfed.org December 12, 2018.\nShaded bar NBER recessions&quot;)
+
+
+g.supply &lt;-
+    ggplot(data=df, aes(x=date,y=MSACSR))+
+      geom_rect(data=recessions.df,inherit.aes=FALSE, aes(xmin=Peak, xmax=Trough, ymin=-Inf, ymax=+Inf), fill=&#39;gray&#39;, alpha=0.4)+
+  geom_line(color = &quot;#27408b&quot;)+
+  scale_y_continuous(sec.axis=dup_axis())+
+  theme_minimal()+
+  theme(plot.caption=element_text(hjust=0))+
+  scale_x_date(date_breaks=&quot;5 years&quot;,date_labels=&quot;%Y&quot;)+
+  theme(text = element_text(color = &quot;#27408b&quot;))+
+  labs(y=&quot;&quot;,x=&quot;date (quarterly average of monthly estimates)&quot;,
+       title=&quot;Months&#39; supply of new single-family homes&quot;,
+       subtitle=&quot;Months (Houses for sale/houses sold per month)&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Census Bureau and U.S. Department of Housing and Urban Development\nretrieved from FRED, Federal Reserve Bank of St. Louis;\nhttps://fred.stlouisfed.org December 12, 2018.&quot;)
+
+g.supply2 &lt;-
+    ggplot(data=filter(df,year(date)&gt;2011), aes(x=date,y=MSACSR))+
+  geom_line(color = &quot;#27408b&quot;)+
+  scale_y_continuous(sec.axis=dup_axis())+
+  theme_minimal()+
+  theme(plot.caption=element_text(hjust=0))+
+  scale_x_date(date_breaks=&quot;1 years&quot;,date_labels=&quot;%Y&quot;)+
+  theme(text = element_text(color = &quot;#27408b&quot;))+
+  labs(y=&quot;&quot;,x=&quot;date (quarterly average of monthly estimates)&quot;,
+       title=&quot;Months&#39; supply of new single-family homes\nRising in 2018&quot;,
+       subtitle=&quot;Months (Houses for sale/houses sold per month)&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Census Bureau and U.S. Department of Housing and Urban Development\nretrieved from FRED, Federal Reserve Bank of St. Louis;\nhttps://fred.stlouisfed.org December 12, 2018.&quot;)
+
+
+g.scatter &lt;-
+  ggplot(data=df, aes(x=HNFSEPUSSA, y=HSN1F))+
+  geom_point(alpha=0.25)+
+  # hight 2005-2006 in blue, 20018 in purple
+  geom_point(data = .%&gt;% filter(year(date) %in% c(2005,2006)), color=&quot;red&quot;)+               
+  geom_path(data = .%&gt;% filter(year(date) %in% c(2005,2006)), color=&quot;red&quot;,alpha=0.25)+       
+  geom_text(data = .%&gt;% filter(year(date) %in% c(2005,2006)) %&gt;% head(1), color=&quot;red&quot;, label=&quot;2005Q1&quot;)+
+  geom_text(data = .%&gt;% filter(year(date) %in% c(2005,2006)) %&gt;% tail(1), color=&quot;red&quot;, label=&quot;2006Q4&quot;)+
+  
+  
+  geom_point(data = .%&gt;% filter(year(date) %in% c(2018)), color=&quot;purple&quot;)+               
+  geom_path(data = .%&gt;% filter(year(date) %in% c(2018)), color=&quot;purple&quot;,alpha=0.25)+  
+    geom_text(data = .%&gt;% filter(year(date) %in% c(2018)) %&gt;% head(1), color=&quot;purple&quot;, label=&quot;2018Q1&quot;)+
+  geom_text(data = .%&gt;% filter(year(date) %in% c(2018)) %&gt;% tail(1), color=&quot;purple&quot;, label=&quot;2018Q4&quot;)+
+  
+  theme_minimal()+
+  theme(plot.caption=element_text(hjust=0))+
+  theme(text = element_text(color = &quot;#27408b&quot;))+
+  labs(y=&quot;New single-family homes sold&quot;,x=&quot;New single-family homes for sale&quot;,
+       title=&quot;New homes for sale and homes sold&quot;,
+       subtitle=&quot;(each dot a quarterly average of monthly estimates 1963Q1:2018Q4)&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Census Bureau and U.S. Department of Housing and Urban Development\nretrieved from FRED, Federal Reserve Bank of St. Louis;\nhttps://fred.stlouisfed.org December 12, 2018.\n2018Q4 uses data through October 2018&quot;)
+
+g.starts &lt;-
+    ggplot(data=df, aes(x=date,y=HOUST1F))+
+      geom_rect(data=recessions.df,inherit.aes=FALSE, aes(xmin=Peak, xmax=Trough, ymin=-Inf, ymax=+Inf), fill=&#39;gray&#39;, alpha=0.4)+
+  geom_line(color = &quot;#27408b&quot;)+
+  scale_y_continuous(sec.axis=dup_axis())+
+  theme_minimal()+
+  theme(plot.caption=element_text(hjust=0))+
+  scale_x_date(date_breaks=&quot;5 years&quot;,date_labels=&quot;%Y&quot;,expand=c(0,0))+
+  theme(text = element_text(color = &quot;#27408b&quot;))+
+  labs(y=&quot;&quot;,x=&quot;date (quarterly average of monthly estimates)&quot;,
+       title=&quot;Single-family housing starts (1-unit structures)&quot;,
+       subtitle=&quot;1000s, seasonally adjusted annual rate&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Census Bureau and U.S. Department of Housing and Urban Development\nretrieved from FRED, Federal Reserve Bank of St. Louis;\nhttps://fred.stlouisfed.org December 12, 2018.&quot;)
+
+g.slope &lt;-
+  ggplot(data=df, aes(x=date,y=slope))+
+      geom_rect(data=recessions.df,inherit.aes=FALSE, aes(xmin=Peak, xmax=Trough, ymin=-Inf, ymax=+Inf), fill=&#39;gray&#39;, alpha=0.4)+
+  geom_area(color=NA,fill=&quot;#27408b&quot;,alpha=0.25)+
+  geom_line(color = &quot;#27408b&quot;)+
+  scale_y_continuous(sec.axis=dup_axis())+
+  theme_minimal()+
+  theme(plot.caption=element_text(hjust=0))+
+  scale_x_date(date_breaks=&quot;5 years&quot;,date_labels=&quot;%Y&quot;)+
+  theme(text = element_text(color = &quot;#27408b&quot;))+
+    labs(y=&quot;percent&quot;,x=&quot;date (quarterly average of monthly estimates)&quot;,
+         title=&quot;Slope of U.S. Treasury Yield Curve (10-year minus 3-month yield)&quot;,
+         subtitle=&quot;difference in yields (percentage points,quarterly average)&quot;,
+         caption=&quot;@lenkiefer Source: Board of Governors of the Federal Reserve System (US) H.15 series\nretrieved from FRED, Federal Reserve Bank of St. Louis;\nhttps://fred.stlouisfed.org December 12, 2018.&quot;)</code></pre>
+<p></details></p>
+<p>Let’s first consider what is happening in with new home sales, new home construction and housing supply measured by the months’ supply (new homes for sale / new homes sold per month).</p>
+<p><img src="/post/2018-12-12-vulnerable-housing_files/figure-html/12-12-2018-show-plots-1-1.png" width="672" /><img src="/post/2018-12-12-vulnerable-housing_files/figure-html/12-12-2018-show-plots-1-2.png" width="672" /><img src="/post/2018-12-12-vulnerable-housing_files/figure-html/12-12-2018-show-plots-1-3.png" width="672" /></p>
+<p>The charts show that new home sales and new home construction have been trending higher since 2010, but have reversed course in 2018. New home sales fell faster than construction, so the inventory of unsold homes has increased. The months’ supply measure is now over 7 months, which is a high rate.</p>
+<p>Let’s zoom in on new home sales and months’ supply:</p>
+<p><img src="/post/2018-12-12-vulnerable-housing_files/figure-html/12-12-2018-show-plots-2-1.png" width="672" /><img src="/post/2018-12-12-vulnerable-housing_files/figure-html/12-12-2018-show-plots-2-2.png" width="672" /></p>
+<p>What is going on? Well, a lot. In general home sales and homes for sale (the numerator in the month’s supply measure) move together. Their correlation is positive. But in periods where the correlation becomes negative, as highlighted in the scatterplot below… that’s not a great sign for the housing market.</p>
+<p><img src="/post/2018-12-12-vulnerable-housing_files/figure-html/12-12-2018-show-plots-3-1.png" width="672" /></p>
+<p>That negative slope between inventory of for sale homes and homes sold we saw from 2005-2006 and 2018 is not the only negative sign we are seeing. The slope of the U.S. Treasury Yield curve has flattened considerably. Here’s one way to look at it:</p>
+<p><img src="/post/2018-12-12-vulnerable-housing_files/figure-html/12-12-2018-show-plots-4-1.png" width="672" /></p>
+<p>While the yield curve slope (as measured by the 10-year minus the 3-month yield) is still positive, it is trending sharply down. This is a signal that risks may be rising.</p>
+<p>Let’s try to apply the vulnerable growth approach to these data to see what they might say about future housing market activity.</p>
+<p><strong>Note: This exercise is for fun and learning, not meant to be a true serious forecast. There’s no guarantee any of what follows would be suitable for anything.</strong></p>
+</div>
+</div>
+</div>
+<div id="forecasts-and-characterizing-risks" class="section level1">
+<h1>Forecasts and characterizing risks</h1>
+<p>Let’s start with some simple forecasts. From here on out we’re going to take as our target the (log) level of home sales 4 quarters ahead. We’re going to try a set of simple models to characterize both the expectation of future home sales, and the distribution around that approach.</p>
+<div id="ols-and-discussion" class="section level3">
+<h3>OLS and Discussion</h3>
+<p>First a simple linear regression (OLS):</p>
+<pre class="r"><code>lm(data=df, formula= lsales ~ lsales_lag4 +msupply_lag4 + slope_lag4 ) %&gt;% 
+      stargazer::stargazer(type=&quot;html&quot;,
+                           covariate.labels=c(&quot;Log of New Home Sales (lagged 4Q)&quot;,
+                                              &quot;Months&#39; Supply (lagged 4Q)&quot;,
+                                              &quot;Yield Curve Slope (lagged 4Q)&quot;),
+                           dep.var.labels=(&quot;Log of New Home Sales&quot;),
+                           dep.var.caption=(&quot;1964Q4:2018Q4&quot;),
+                           title=&quot;Linear Regression New Home Sales 4-quarters ahead&quot;
+                           )</code></pre>
+<table style="text-align:center">
+<caption>
+<strong>Linear Regression New Home Sales 4-quarters ahead</strong>
+</caption>
+<tr>
+<td colspan="2" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+1964Q4:2018Q4
+</td>
+</tr>
+<tr>
+<td>
+</td>
+<td colspan="1" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+Log of New Home Sales
+</td>
+</tr>
+<tr>
+<td colspan="2" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Log of New Home Sales (lagged 4Q)
+</td>
+<td>
+0.739<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.040)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Months’ Supply (lagged 4Q)
+</td>
+<td>
+-0.036<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.008)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Yield Curve Slope (lagged 4Q)
+</td>
+<td>
+0.045<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.009)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Constant
+</td>
+<td>
+1.827<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.286)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td colspan="2" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Observations
+</td>
+<td>
+220
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+R<sup>2</sup>
+</td>
+<td>
+0.744
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Adjusted R<sup>2</sup>
+</td>
+<td>
+0.740
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Residual Std. Error
+</td>
+<td>
+0.164 (df = 216)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+F Statistic
+</td>
+<td>
+208.872<sup>***</sup> (df = 3; 216)
+</td>
+</tr>
+<tr>
+<td colspan="2" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+<em>Note:</em>
+</td>
+<td style="text-align:right">
+<sup><em></sup>p&lt;0.1; <sup><strong></sup>p&lt;0.05; <sup></strong></em></sup>p&lt;0.01
+</td>
+</tr>
+</table>
+<p>These results tell us that 4-quarter ahead new home sales are quite sensitive to both Months’ Supply and the Yield Curve Slope. If Months’ supply of new home sales increases 1 month this quarter, then new home sales 4 quarters from now tend to decline 3.6% (in logs). If the yield curve slope increases 100 basis points (1 percentage point) then new home sales tend to increase 4.5 percent.</p>
+<p>So maybe we are done. One way to explain the “risks are to the downside” would be to say that while the yield curve isn’t inverted today, there’s an increased chance that it would invert (lowering the yield curve slope) and home sales would decline.</p>
+<p>But there’s much more to explore.</p>
+<p>We want to talk about distributions. One way to do it is to apply a quantile regression (see Koenker and Hallock 2001).</p>
+<p>We can use the <a href="https://CRAN.R-project.org/package=quantreg">quantreg</a> package to estimate quantile regressions of the same form as above. This is what Adrian, Boyarchenko and Giannone (2016) do with their vulnerable growth analysis. We’ll apply it to housing.</p>
+</div>
+</div>
+<div id="vulnerable-housing" class="section level1">
+<h1>Vulnerable Housing</h1>
+<div id="quantile-regressions" class="section level2">
+<h2>Quantile regressions</h2>
+<p>I’ve developed a compact way of generating useful quantile regression plots using quantreg and <a href="https://CRAN.R-project.org/package=magrittr">magrittr</a> pipes and <code>broom::tidy</code>. <details> <Summary> Code for plot </Summary></p>
+<pre class="r"><code>g.qr&lt;-
+rq(data=df,
+   tau= seq(0.1,0.9,0.1),
+   formula = lsales ~ lsales_lag4 +msupply_lag4 + slope_lag4 ) %&gt;% 
+  broom::tidy() %&gt;% 
+  filter(term!=&quot;(Intercept)&quot;) %&gt;%
+  ggplot(aes(x=tau,y=estimate))+
+  geom_point(color=&quot;#27408b&quot;)+ 
+  geom_ribbon(aes(ymin=conf.low,ymax=conf.high),alpha=0.25, fill=&quot;#27408b&quot;)+
+  geom_line(color=&quot;#27408b&quot;)+
+  theme_minimal()+
+    theme(text = element_text(color = &quot;#27408b&quot;))+
+  theme(plot.caption=element_text(hjust=0))+
+  facet_wrap(~term,scales=&quot;free_y&quot;,ncol=1)+
+  labs(x=&quot;tau = quantile&quot;, y=&quot;coefficient&quot;, 
+       title=&quot;Quantile Regression Results:\nlsales ~ lsales_lag4 +msupply_lag4 + slope_lag4&quot;,
+       caption=&quot;@lenkiefer Note: Quantile regresion coefficients for (log) new home sales regressed on 4-quarter lags of \n(log) sales, months&#39; supply, and the slope of the U.S. Treasury yield curve (10-year minus 3 month).\nData is quarterly 1964Q1:2018Q4 (using Oct 2018 for 2018Q4). \nBands are confidence intervals around estimates. Sources described above.&quot;)</code></pre>
+<p></details></p>
+<pre class="r"><code>g.qr</code></pre>
+<p><img src="/post/2018-12-12-vulnerable-housing_files/figure-html/2018-12-12-show-qr-plot-1.png" width="672" /></p>
+<p>The graphs shows an asymmetric response in terms of months’ supply and to a lesser degree the slope of the yield curve. This implies that when months’ supply is high, the likelihood of a very bad outcome has increased.</p>
+<p>Following Adrian, Boyarchenko and Giannone (2016) we can use the estimated coefficients from the quantile regression to a skewed t distribution (using the <a href="https://CRAN.R-project.org/package=sn">sn</a> package), to analyze how downside risks have evolved given the trends in home sales, months’s supply, and the slope of the yield curve.</p>
+</div>
+<div id="fitting-the-quantile-regression-results-to-a-skewed-t-distribution" class="section level2">
+<h2>Fitting the quantile regression results to a skewed t distribution</h2>
+<p>Follwing Adrian, Boyarchenko and Giannone (2016) we are going to take estimated conditional quantile for each quarter and fit a skewed t distribution for each quarter. We’re going to need 4 parameters, so we’ll used 4 quantiles (the 5th, 25th, 75th, and 95th). Then we’ll use the <code>optim</code> function to minimize a squared loss between the estimated quantile (based on the quantile regression coefficients and the observed variables) and the skewed t distribution.</p>
+<p>To do this, we’ll use some custom functios and a liberal dose of <code>purrr::map</code>.</p>
+<p>First, let’s construct conditional quantiles for each quarter in our data.<br />
+<details> <Summary> Code detail</Summary></p>
+<pre class="r"><code># run quantile regression, save results
+
+df_quant &lt;- rq(data=df, 
+               tau= c(0.05,0.25, 0.75, 0.95),
+               formula = lsales ~ lsales_lag4 +msupply_lag4 + slope_lag4 )
+
+# get conditional quantiles for each period 
+# we&#39;re going to slide everything 4 quarters ahead
+df_predict &lt;- 
+  dplyr::select(df,date,lsales,lstarts,slope,MSACSR) %&gt;%
+  # going to rename my current quarter variables as lagged 4 quarter variables for prediction
+  rename(lsales_lag4  = lsales,
+         lstarts_lag4 = lstarts,
+         slope_lag4   = slope,
+         msupply_lag4 = MSACSR)
+
+dfp &lt;- predict(df_quant, 
+               newdata=df_predict, 
+               interval=&quot;none&quot;
+               ) 
+# plot results
+g.cq &lt;- 
+  data.frame(date=df$date,p5=dfp[,1], p25=dfp[,2],p75=dfp[,3],p95=dfp[,4]) %&gt;%
+  ggplot(aes(x=date, ymin=p25,ymax=p75))+
+  geom_ribbon(alpha=0.15,aes(ymin=p5,ymax=p95), fill=&quot;#27408b&quot;)+
+  geom_ribbon(alpha=0.25, fill=&quot;#27408b&quot;)+
+  geom_line(aes(x=date,y=df$lsales),color=&quot;#27408b&quot;)+
+  theme_minimal()+
+  theme(text = element_text(color = &quot;#27408b&quot;))+
+  theme(plot.caption=element_text(hjust=0))+
+
+  labs(x=&quot;date (quarterly)&quot;, y=&quot;log new home sales&quot;, 
+       title=&quot;Quantile Regression Results:\nshaded area conditional quantiles&quot;,
+       subtitle=&quot;(5th/95th and 25/75th) for 4-quarter ahead forecast of (log) new home sales\nsolid line realized new home sales estimate&quot;,
+       caption=&quot;@lenkiefer Note: Quantile regression for (log) new home sales regressed on 4-quarter lags of \n(log) sales, months&#39; supply, and the slope of the U.S. Treasury yield curve (10-year minus 3 month).\nData is quarterly 1964Q1:2018Q4 (using Oct 2018 for 2018Q4). \nBands are confidence intervals around estimates. Sources described above.&quot;)</code></pre>
+<p></details></p>
+<pre class="r"><code>g.cq</code></pre>
+<p><img src="/post/2018-12-12-vulnerable-housing_files/figure-html/12-12-2018-conditional-quantile-plot-1.png" width="672" /></p>
+<p>Next, we’ll need a loss function. This function will penalize our parameters by giving us quantiles far away from ones we plotted above.</p>
+<p><details> <Summary> Code detail</Summary></p>
+<pre class="r"><code>myloss &lt;- function(par, x){
+  myq = qst(p=c(0.05,0.25, 0.75, 0.95),
+            xi=par[1],
+            omega=par[2],
+            alpha=par[3],
+            nu=par[4]
+  )
+  loss= sum((myq-x)**2)
+}
+
+# intialize parameters
+# use unconditional mean and sd of log sales for xi and omega, set alpha to 0 and nu at 30
+par_init=c(xi=mean(df$lsales),omega=sd(df$lsales),alpha=0,nu=30)
+
+# function which takes a date as an input and estimates 
+myf &lt;- function(dd=min(df$date),par0=par_init){
+  i=which(df$date==dd)
+  p1 &lt;- optim( par0, myloss, x=dfp[i,])$par
+}
+
+possible_myf &lt;- possibly(myf, otherwise=&quot;error&quot;)
+
+# map over each quarter, fitting the skewed t distribution by minimizing loss
+# (you don&#39;t want to know about df2, df3 or their cousins df2a, df2b, ... , df3x5)
+df4 &lt;-
+  df %&gt;%
+  mutate(par=map(date,possible_myf))</code></pre>
+<p></details></p>
+<p>With these results in hand, we can draw the distributions for each quarter and compare how they have shifted over time.</p>
+<p>Below I’m going to create a function that draws the skew t distribution for each quarter. I’ll draw (prettily) 200 values of (log) sales and the distribution using our fitted parameters. I’ll also use extendrange so that the distribution extends beyond the historical range of estimates.</p>
+<p><details> <Summary> Code detail</Summary></p>
+<pre class="r"><code>myp &lt;- function(par){
+  par0 &lt;- unlist(par)
+  data.frame(x=pretty(extendrange(df$lsales,f=c(.5,.1)),200),
+             d=sn::dst(pretty(extendrange(df$lsales,f=c(.5,.1)),200),
+                    xi=par0[1],
+                    omega=par0[2], 
+                    alpha=par0[3],
+                    nu=par0[4]))
+}
+
+df4p &lt;- filter(df4, par!=&quot;error&quot;) %&gt;% mutate(data=map(par,myp))
+
+g.dens&lt;-
+  ggplot(data=df4p %&gt;%
+         select(date,data) %&gt;% unnest(data),
+       aes(x=exp(x),y=d,group=date))+
+  geom_line(alpha=0.2,color=&quot;gray&quot;)+
+  theme_minimal()+
+  theme(text = element_text(color = &quot;#27408b&quot;))+
+  theme(plot.caption=element_text(hjust=0),
+        axis.text.y=element_blank())+
+  geom_line(data= .%&gt;% filter( date==max(date) %m+% years(-1)), color=&quot;blue&quot;)+
+   geom_text(data= .%&gt;% filter( date==max(date)%m+% years(-1)) %&gt;% 
+               filter(d==max(d)), color=&quot;blue&quot;,
+            label=&quot;2017Q4&quot;,nudge_y=0.15)+
+  
+  geom_line(data= .%&gt;% filter( date==max(date)), color=&quot;purple&quot;)+
+  geom_text(data= .%&gt;% filter( date==max(date)) %&gt;% filter(d==max(d)), color=&quot;purple&quot;,
+            label=&quot;2018Q4&quot;,nudge_y=0.15)+
+  geom_vline(xintercept=tail(df$HSN1F,1),linetype=2)+
+  geom_text(data=tail(df,1), aes(x=HSN1F),y=6, label=&quot;  October 2018 value&quot;, hjust = 0)+
+
+  labs(x=&quot;4-quarter ahead new home sales forecast&quot;,y=&quot;density&quot;,
+       title=&quot;Forecasted 4-quarter ahead new single-family home sales distribution&quot;,
+       subtitle=&quot;Gray lines all in-sample forecasts 1963Q1:2018Q4&quot;,
+       caption=&quot;@lenkiefer Skewed t distribution fit to quantile regression results, following approach outlined in Adrian, Boyarchenko and Giannone (2016) Vulnerable Growth\nData and methodology described in blog post: Vulnerable Housing http://lenkiefer.com/2018/12/12/vulnerable-housing/&quot;)</code></pre>
+<p></details></p>
+<p><img src="/post/2018-12-12-vulnerable-housing_files/figure-html/2018-12-12-call-dens-plot-1.png" width="672" /></p>
+<p>The plot above shows that the forecast distribution for new home sales has shifted negatively since 2017Q4. Based on this (relatively) simply model, home sales are forecasted to decline into 2018. Note, a more sophiticated approach might arrive at an alternative forecast. This post is just applying the Vulnerable Growth approach to housing.</p>
+<p>But based on this model we can say more about how the distributions are shifted. We can compute the <a href="https://en.wikipedia.org/wiki/Expected_shortfall">expected shortfall</a> of new home sales. In our case the expected shortfall for home sales would be the average number of new single-family home sales in the worst 5% of outcomes.</p>
+<p>By analyzing trends in the expected shortfall we can quantify how downside risks to the forecast may have evolved.</p>
+</div>
+<div id="expected-shortfall-in-r" class="section level2">
+<h2>Expected shortfall in R</h2>
+<p>There’s a variety of packages that can compute the expected shortfall given our estimated skew t distribution. I found the <a href="https://CRAN.R-project.org/package=cvar">cvar package</a> to be useful here. Feeding the estimated skew t distribution into cvar, we can compute the expected shortfall for each period. Once again we’ll use a heavy dose of <code>purrr::map</code>.</p>
+<p><details> <Summary>Expected shortfall calculations </Summary></p>
+<pre class="r"><code>my_es &lt;- function(par){
+  cvar::ES(qst, x=0.05,xi=par[1],omega=par[2],alpha=par[3],nu=par[4])
+}
+
+my_es2 &lt;- function(dd){
+  par0&lt;-unlist(filter(df4,date==dd)$par)
+  my_es(par0)
+}
+
+
+df4_es &lt;- 
+  filter(df4, par!=&quot;error&quot;) %&gt;% 
+  select(date,par) %&gt;%
+  mutate(es=map(date,my_es2)) %&gt;%
+  unnest(es) %&gt;%
+  select(date,es)</code></pre>
+<pre class="r"><code>g.sf &lt;-
+  ggplot(data=df4_es, aes(x=date,y=exp(-es)))+
+  geom_rect(data=recessions.df,inherit.aes=FALSE, aes(xmin=Peak, xmax=Trough, ymin=-Inf, ymax=+Inf), fill=&#39;gray&#39;, alpha=0.4)+
+  geom_line(color=&quot;#27408b&quot;)+
+  theme_minimal()+
+  theme(text = element_text(color = &quot;#27408b&quot;))+
+  scale_y_continuous(sec.axis=dup_axis())+
+  scale_x_date(date_breaks=&quot;5 years&quot;,date_labels=&quot;%Y&quot;)+
+  theme(plot.caption=element_text(hjust=0),
+        axis.text.y=element_blank())+    
+  labs(x=&quot;date (quarterly)&quot;,
+       y=&quot;&quot;,
+       title=&quot;4-quarter ahead expected shortfall in new home sales&quot;,
+       subtitle=&quot;expected number of sales in worst 5% of outcomes&quot;,
+       caption=&quot;@lenkiefer Methodology described in post Vulnerable Housing http://lenkiefer.com/2018/12/12/vulnerable-housing/ \nbased on Adrian, Boyarchenko and Giannone (2016) Vulnerable Growth&quot;)</code></pre>
+<p></details></p>
+<p>Then we can plot it against realized home sales:</p>
+<p><img src="/post/2018-12-12-vulnerable-housing_files/figure-html/2018-12-12-shortfall-plot-1.png" width="672" /></p>
+<p>With the new home sales slacking, the slope of the yield curve falling and months’ supply of new homes for sale increasing in recent months, the expected shortfall in the 4th quarter of 2018 has declined 31% relative to the value in 2017Q4. Using the same quantile regression based forecasting model, the median (50th percentile) forecast for new home sales has only declined 22%. So indeed, this modeling approach shows the risks to the downside have increased.</p>
+</div>
+</div>
+<div id="some-thoughts" class="section level1">
+<h1>Some thoughts</h1>
+<p>This is a (very rough) look at what I think could be a useful modeling approach. I wouldn’t take the particular model forecast results too seriously. I tried to restrict myself to a relatively simple model specification. The goal here wasn’t to produce the best forecast, but rather to try to characterize the shifting distribution. And to that end I think this is an excellent start.</p>
+<p>I look forward to exploring these techniques more in future.</p>
+</div>
+<div id="references" class="section level1">
+<h1>References</h1>
+<p>Adrian, T., Boyarchenko, N., &amp; Giannone, D. (2016). Vulnerable growth. <a href="https://www.newyorkfed.org/medialibrary/media/research/staff_reports/sr794.pdf?la=en">link to working paper pdf</a></p>
+<p>Azzalini, A. (2018). The R package ‘sn’: The Skew-Normal and Related Distributions such as the Skew-t (version 1.5-3). URL <a href="http://azzalini.stat.unipd.it/SN" class="uri">http://azzalini.stat.unipd.it/SN</a></p>
+<p>Georgi N. Boshnakov (2018). cvar: Compute Expected Shortfall and Value at Risk for Continuous Distributions. R package version 0.3-0. <a href="https://CRAN.R-project.org/package=cvar" class="uri">https://CRAN.R-project.org/package=cvar</a></p>
+<p>Koenker, R., &amp; Hallock, K. F. (2001). Quantile regression. Journal of economic perspectives, 15(4), 143-156. <a href="http://pubs.aeaweb.org/doi/pdfplus/10.1257/jep.15.4.143">Link to pdf</a></p>
+<p>Roger Koenker (2018). quantreg: Quantile Regression. R package version 5.36. <a href="https://CRAN.R-project.org/package=quantreg" class="uri">https://CRAN.R-project.org/package=quantreg</a></p>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2018/11/29/housing-market-outlook/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2018/11/29/housing-market-outlook/">Housing Market Outlook</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/housing/">housing</a>, 
+            
+                <a href="/tags/economy/">economy</a>, 
+            
+                <a href="/tags/statistics/">statistics</a>, 
+            
+                <a href="/tags/r/">R</a>, 
+            
+                <a href="/tags/forecasting/">forecasting</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2018%2f12%2f12%2fvulnerable-housing%2f&text=Vulnerable%20Housing via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2018%2f12%2f12%2fvulnerable-housing%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+
