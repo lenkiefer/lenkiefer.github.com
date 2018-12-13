@@ -720,7 +720,7 @@ g.cq &lt;-
 <p></details></p>
 <pre class="r"><code>g.cq</code></pre>
 <p><img src="/post/2018-12-12-vulnerable-housing_files/figure-html/12-12-2018-conditional-quantile-plot-1.png" width="672" /></p>
-<p>Next, we’ll need a loss function. This function will penalize our parameters by giving us quantiles far away from ones we plotted above.</p>
+<p>Next, we’ll need a loss function. This function will penalize our parameters by giving us quantiles far away from ones we plotted above. Then we will feed this loss function into the <code>optim</code> function to seek a minimum. We’ll use <code>purrr::possibly</code> to have the function skip cases where they routine doesn’t find a minimum. Then we’ll solve the optimization step for each date, fitting a different distribution to the conditional quantile for each period.</p>
 <p><details> <Summary> Code detail</Summary></p>
 <pre class="r"><code>myloss &lt;- function(par, x){
   myq = qst(p=c(0.05,0.25, 0.75, 0.95),
@@ -738,7 +738,10 @@ par_init=c(xi=mean(df$lsales),omega=sd(df$lsales),alpha=0,nu=30)
 
 # function which takes a date as an input and estimates 
 myf &lt;- function(dd=min(df$date),par0=par_init){
+  # find date
   i=which(df$date==dd)
+  # solve best fit to skew-t distrubtion
+  # do this for row i (corresponding to date dd) of predicted quantiles
   p1 &lt;- optim( par0, myloss, x=dfp[i,])$par
 }
 
