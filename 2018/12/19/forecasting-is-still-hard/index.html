@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Checking to see if forecasting is still hard.">
+  <meta name="generator" content="Hugo 0.52" />
+
+  <title>Forecasting is still hard &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com//img/charts_dec_19_2018/Tbond.png" >
+     
+    <meta property="og:title" content="Forecasting is still hard">
+    <meta property="og:description" content="Checking to see if forecasting is still hard.">
+
+<div class="header">
+  <h1>Forecasting is still hard</h1>
+  <h2>Checking to see if forecasting is still hard.</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/12/19</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/forecasting">forecasting</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+
+
+<p>It’s the time of the year where everybody is dusting off their crystal balls and peering into the future. There’s even still time to send out your <a href="https://www.bloomberg.com/news/articles/2018-12-11/-winter-is-coming-for-sell-side-s-game-of-thrones-references">“Winter is Coming” newsletter</a>.</p>
+<p>Let’s take a step back and look at how forecasts of U.S. macro variables have evolved. Is forecasting still hard?</p>
+<p>Last year we looked at historical forecasts of economic conditions in the post <a href="../../../../2017/08/27/forecast">forecasting is hard</a>. Let’s update it. Per usual, we’ll wrangle data and produce charts with <a href="https://www.r-project.org/">R</a>.</p>
+<div id="about-data" class="section level2">
+<h2>About data</h2>
+<p>Professional economists and analysts routinely make forecasts of economic conditions. There are several services that collect, aggregate and reproduce a variety of economic forecasts. For today’s exercise, we’ll look at forecasts collected in the <a href="https://www.philadelphiafed.org/research-and-data/real-time-center/survey-of-professional-forecasters">Survey of Professional Forecasters</a>.</p>
+<p>he forecasts for the Survey of Professional Forecasters are currently provided by the Federal Reserve Bank of Philadelphia. The quarterly survey, formerly conducted by the American Statistical Association (ASA) and the National Bureau of Economic Research (NBER), began in 1968:Q4 and was taken over by the Philadelphia Fed in 1990:Q2. For more on the Survey, see the <a href="https://www.philadelphiafed.org/-/media/research-and-data/real-time-center/survey-of-professional-forecasters/spf-documentation.pdf?la=en">documentation</a> provided by the Federal Reserve Bank of Philadelphia.</p>
+<p>This survey is nice, because it is freely available, goes back to the 1960s for some variables, and is relatively easily accessible in files provided by the Federal Reserve Bank of Philadelphia on their webpage.</p>
+<p>Below are descriptions and R code for the data, copied over from my previous post.</p>
+</div>
+<div id="getting-the-raw-data" class="section level2">
+<h2>Getting the raw data</h2>
+<p><details> <Summary>Click for R code to get data </Summary></p>
+<p>The data are available in a variety of spreadsheets. You can download the variables one at a time if you are only interested in a subset. For example, <a href="https://www.philadelphiafed.org/research-and-data/real-time-center/survey-of-professional-forecasters/data-files/housing">here is a link</a> to just housing starts forecasts. Alternatively, you can download all the survey responses. Because I am interested in both aggregates (like median and mean forecasts) and the cross sectional distribution of forecasts, I have chosen to download all invidual responses. <strong>GIVE ME MOAR DATA</strong></p>
+<p>You can get those data <a href="https://www.philadelphiafed.org/research-and-data/real-time-center/survey-of-professional-forecasters/historical-data/individual-forecasts">here</a>.</p>
+<ul>
+<li>Surveys 1968:4-1979:4 <a href="https://www.philadelphiafed.org/-/media/research-and-data/real-time-center/survey-of-professional-forecasters/historical-data/micro1.xlsx?la=en">Excel spreadsheet</a></li>
+<li>Surveys 1980:1-1989:4 <a href="https://www.philadelphiafed.org/-/media/research-and-data/real-time-center/survey-of-professional-forecasters/historical-data/micro2.xlsx?la=en">Excel spreadsheet</a></li>
+<li>Surveys 1990:1-1999:4 <a href="https://www.philadelphiafed.org/-/media/research-and-data/real-time-center/survey-of-professional-forecasters/historical-data/micro3.xlsx?la=en">Excel spreadsheet</a></li>
+<li>Surveys 2000:1-2009:4 <a href="https://www.philadelphiafed.org/-/media/research-and-data/real-time-center/survey-of-professional-forecasters/historical-data/micro4.xlsx?la=en">Excel spreadsheet</a></li>
+<li>Surveys 2010:1-present <a href="https://www.philadelphiafed.org/-/media/research-and-data/real-time-center/survey-of-professional-forecasters/historical-data/micro5.xlsx?la=en">Excel spreadsheet</a> </details></li>
+</ul>
+</div>
+<div id="about-the-data" class="section level2">
+<h2>About the data</h2>
+<p><details> <Summary> Click for data details, copied from earlier post </Summary></p>
+<p>Each of those links will allow you to download a spreadsheet names <em>micro1.xlsx</em> through <em>micro5.xlsx</em>. We can read these data into R and do some wrangling.</p>
+<p>Before we do, let’s go back and read the documentation to better understand how the data are set up. <strong>Hurray for all the people who write clear documentation! You are real heros.</strong></p>
+<p>The data are stored in Excel spreadsheets, with data for each variable stored in a separate worksheet named after the mnemonic for that variable. Housing starts for example, are stored in a worksheet called <em>HOUSING</em>. For today, let’s focus on a subset of variables. They are listed below:</p>
+<ul>
+<li><strong>HOUSING</strong> U.S. Housing Starts</li>
+<li><strong>TBOND</strong> 10-year U.S. Treasury Bond rate</li>
+<li><strong>TBILL</strong> 3-month U.S&gt; Treasury Bill rate</li>
+<li><strong>EMP</strong> U.S. Nonfarm Payroll Employment</li>
+<li><strong>UNEMP</strong> U.S. Unemployment Rate</li>
+<li><strong>CPI</strong> U.S. Consumer Price Index Inflation Rate</li>
+<li><strong>CORECPI</strong> Core Consumer Price Index Inflation Rate</li>
+<li><strong>PCE</strong> PCE Inflation Rate</li>
+<li><strong>COREPCE</strong> Core PCE Inflation Rate</li>
+</ul>
+<p>Within each worksheet there are 12 columns. The first four are:</p>
+<ol style="list-style-type: decimal">
+<li>YEAR</li>
+<li>QUARTER</li>
+<li>ID</li>
+<li>INDUSTRY</li>
+</ol>
+<p>corresponding to the year and quarter when the forecast is made, the survey respondent ID, and the industry for the survey respondent. We won’t be using the <em>ID</em> or <em>INDUSTRY</em> column for anything today. <em>YEAR</em> and <em>QUARTER</em> will let us construct a date variable.</p>
+<p>The next 6 columns are numbered <em>X1</em>-<em>X6</em> and the final two are <em>XA</em> and <em>XB</em>, where <em>X</em> is the mnemonic for the variable. It’s important to understand what each of these columns is measuring.</p>
+<p>Each row identified by <em>YEAR</em> and <em>QUARTER</em> tells us when the forecast was made. Say for example we are looking at <em>YEAR=2017</em> and <em>QUARTER=3</em>. That means the forecast is recorded in the 3rd quarter of 2017. <em>X1</em> would record the respondent’s estimate of <em>X</em> in the prior quarter, so 2017:Q2 in our example. <em>X2</em> is the forecast for the current quarter, and <em>X3</em> through <em>X6</em> for each of the next 4 quarters (<em>X6</em> is the forecast for 4 quarters in the future, or 2018:Q3 in our example). The variables <em>XA</em> and <em>XB</em> represent the respondents forecasts for the current calendar year and the next calendar year (2017 and 2018 in our example).</p>
+<p>We’re going to have to be careful about this because we are going to be dealing with two time dimensions. We are going to have a vintage corresponding to when the forecast was made. We are also going to have a period for the forecast itself. Because economic data is often only available with a lag and forecasts are made in the middle of a quarter, the forecaster will have to nowcast the current quarter. Indeed, though the prior quarter’s estimates are usually available when the forecast is made, not all respondents report the same number for <em>X1</em>. </details></p>
+</div>
+<div id="wrangle-data" class="section level2">
+<h2>Wrangle Data</h2>
+<p><details> <Summary>Click for R code to wrangle data </Summary></p>
+<p>Make sure you have downloaded the excel files linked above in your data directory. Then the following code should will get your data ready.</p>
+<pre class="r"><code>#####################################################################################
+## Load Libraries ##
+#####################################################################################
+library(tidyverse)
+library(readxl)
+library(data.table)
+library(tidyverse)
+library(cowplot)
+library(viridis)
+
+#####################################################################################
+
+#####################################################################################
+# Import data
+#####################################################################################
+
+
+################################################################
+# List of spreadsheets we&#39;ll import
+################################################################
+p.list &lt;- c(
+  &quot;data/micro1.xlsx&quot;, &quot;data/micro2.xlsx&quot;, &quot;data/micro3.xlsx&quot;,
+  &quot;data/micro4.xlsx&quot;, &quot;data/micro5.xlsx&quot;
+)
+
+################################################################
+# List of variables we want (corresponds to worksheet names)
+# If you want MOAR variables, adjust the list
+################################################################
+vlist &lt;- c(
+  &quot;HOUSING&quot;, &quot;TBOND&quot;, &quot;EMP&quot;, &quot;TBILL&quot;, &quot;UNEMP&quot;, &quot;RGDP&quot;,
+  &quot;CPI&quot;, &quot;CORECPI&quot;, &quot;PCE&quot;, &quot;COREPCE&quot;
+)
+
+################################################################
+# Import data function
+my.import2 &lt;-
+  function(path = &quot;data/micro1.xlsx&quot;) {
+    vlist %&gt;%
+      set_names() %&gt;%
+      map_df(~ read_excel(path = path, sheet = .x), .id = &quot;sheet&quot;)
+  }
+################################################################
+
+
+################################################################
+# we probably could use purrr better here,
+# but four copy + paste isn&#39;t so bad
+################################################################
+df1 &lt;- my.import2(p.list[1])
+df2 &lt;- my.import2(p.list[2])
+df3 &lt;- my.import2(p.list[3])
+df4 &lt;- my.import2(p.list[4])
+df5 &lt;- my.import2(p.list[5])
+# stack the data
+df.all &lt;- rbind(df1, df2, df3, df4, df5)
+#####################################################################################
+
+################################################################
+# Tidy the data
+################################################################
+
+df.all %&gt;%
+  filter(YEAR &gt; 1989) %&gt;% # restrict to just 1989
+  gather(var, value, -1, -2, -3, -4, -5) %&gt;% # gather variables starting in column 6
+  mutate(
+    horizon = as.numeric(str_sub(var, start = -1)), # we&#39;ll explain below
+    value = as.numeric(value), # turn values into numbers
+    date = as.Date(ISOdate(YEAR, QUARTER * 3, 1)), # dates
+    ydate = date + months(horizon * 3 - 6) # we&#39;ll explain below
+  ) %&gt;%
+  select(date, ydate, horizon, everything()) %&gt;% # i like date to be on the left
+  filter(!is.na(horizon)) -&gt; df.all2 # get rid of annual forecasts
+
+
+################################################################
+# Summarize by medians
+################################################################
+df.median &lt;-
+  df.all2 %&gt;%
+  group_by(YEAR, QUARTER, sheet, horizon) %&gt;%
+  dplyr::summarize(
+    value.sd = sd(value, na.rm = T),
+    value.iqr = quantile(value, 0.75, na.rm = T) - quantile(value, 0.25, na.rm = T),
+    value = median(value, na.rm = T)
+  ) %&gt;%
+  mutate(
+    date = as.Date(ISOdate(YEAR, QUARTER * 3, 1)),
+    ydate = date + months(horizon * 3 - 6)
+  )</code></pre>
+<p></details></p>
+</div>
+<div id="make-plot" class="section level2">
+<h2>Make Plot</h2>
+<p><details> <Summary> R code for making plots </Summary></p>
+<pre class="r"><code>################################################################
+# Create a function to compare forecasts to actuals
+################################################################
+
+f.plot &lt;- function(s = &quot;HOUSING&quot;, h = 6, ymin = 1999) {
+  df.p &lt;- filter(df.all2, YEAR &gt;= ymin &amp; sheet == s &amp; horizon == h &amp; !is.na(value))
+  g &lt;-
+    ggplot(data = df.p, aes(x = ydate, y = value)) +
+    geom_boxplot(aes(group = ydate), outlier.size = 0.5) +
+    geom_point(alpha = 0.15, size = 0.9) + guides(color = F) +
+    theme_minimal() +
+    scale_color_viridis(discrete = T, end = 0.85) +
+    geom_path(
+      data = filter(df.median, YEAR &gt;= ymin &amp; sheet == s &amp;
+        horizon == 1 &amp; !is.na(value)),
+      aes(x = ydate), size = 1.05, color = &quot;red&quot;
+    ) +
+    labs(x = &quot;&quot;, y = &quot;&quot;)
+  return(g)
+}
+
+################################################################
+# Gonna use these for annotations
+################################################################
+df.p &lt;- filter(df.all2, YEAR &gt;= 1999 &amp; sheet == &quot;HOUSING&quot; &amp; horizon == 1 &amp; !is.na(value))
+
+# this will give us the red line actual
+dfps &lt;- filter(df.median, date == median(df.p$date) &amp; sheet == &quot;HOUSING&quot; &amp; horizon == 1)
+
+# this will give us the dots/box
+dfb &lt;- filter(df.p, date == median(df.p$ydate) - months(24) &amp;
+  sheet == &quot;HOUSING&quot; &amp; horizon == 6)
+
+# Combine plot with annotations
+g1 &lt;-
+  f.plot(s = &quot;HOUSING&quot;) +
+  annotate(
+    geom = &quot;text&quot;, x = median((df.p$date)) - months(24), hjust = 1,
+    y = 0.75, label = &quot;actual estimates\nas observed in real time\n(without
+           revisions)&quot;,
+    color = &quot;red&quot;
+  ) +
+  geom_segment(
+    data = dfps,
+    aes(
+      x = ydate, xend = ydate - months(24),
+      yend = 0.8, y = value
+    ), color = &quot;red&quot;, linetype = 2
+  ) +
+  geom_segment(aes(
+    x = median(dfb$ydate), xend = median(dfb$ydate) + months(24),
+    y = median(dfb$value), yend = 1.8
+  ), linetype = 3) +
+  annotate(
+    geom = &quot;text&quot;, x = median((df.p$date)) + months(24), hjust = 0,
+    y = 1.82, label = &quot;boxplots show\ndistribution of 4-quarter\nahead forecasts&quot;,
+    color = &quot;black&quot;
+  ) +
+  labs(
+    x = &quot;&quot;,
+    y = &quot;Housing starts\n(quarterly average of monthly estimates in millions, SAAR)&quot;,
+    title = &quot;4-quarter ahead forecasts for U.S. Housing Starts&quot;,
+    subtitle = &quot;Solid line historical esimates of housing starts (without revisions), dots individual forecasts&quot;,
+    caption = &quot;@lenkiefer Source: U.S. Census Bureau and Department of Housing and Urban Development\nForecasts from Survey of Professional Forecasters\nhttps://www.philadelphiafed.org/research-and-data/real-time-center/survey-of-professional-forecasters&quot;
+  ) +
+  theme(
+    plot.caption = element_text(hjust = 0),
+    plot.subtitle = element_text(face = &quot;italic&quot;)
+  )</code></pre>
+<p></details></p>
+<p>The code above allows us to make the following annotated plot of forecasts for housing starts.</p>
+<pre class="r"><code>g1</code></pre>
+<p><img src="/post/2018-12-19-forecasting-is-still-hard_files/figure-html/12-19-2018-plot-2-1.png" width="672" /></p>
+<p>The black dots represent what each forecaster in the panel believes housing starts will be four quarters in the future. A dot at 2017:Q4 corresponds to what an individual forecaster though housing starts would be in 2017:Q4 as of 2016Q4. The boxes summarize the distribution of black dots, with the box capturing the 25th to 75th percentile of forecasts and the line indicating the median forecast.</p>
+<p>The red line is the median estimate from the panel the quarter after the data released. Since the data is available to forecasters at that time the red line should match the historical vintage estimate. Again using our example of 2017:Q2: the red line at 2017:Q2 represents the median estimate for 2017:Q2 housing starts as of 2017:Q3.</p>
+<p>By comparing the red line to the black line, we can get a sense of what forecaster expected to see for housing starts (the dots/box) and then what they subsequently saw. In the early to mid- 2000s the red line was above the dots, meaning that forecasts were on average too low. During the Great Recession housing starts fell more than expected (the red line is below most of the dots) and the recovery was slower than expected.</p>
+<p>The last four boxes, where there is no red line, are the four-quarter ahead forecasts for 2019 (the 2018Q1 forecast of 2019Q1, the 2018Q2 forecasts for 2019Q2, the 2018Q3 forecasts for 2019Q3 and the 2018Q4 forecasts for 2019Q4). The boxes are up, indicating expectations are for increases housing starts, but outlook as of 2018Q4 has dimmed a bit.</p>
+<p>Another plot might be easier to digest. Let’s compare the median forecasts to the actual estimates.</p>
+<p><details> <Summary> R code for plot </Summary></p>
+<pre class="r"><code>################################################################
+# Create a function to compare forecasts to actuals
+################################################################
+f.plot2 &lt;- function(s = &quot;HOUSING&quot;, ymin = 1999) {
+  df.p &lt;- filter(df.median, YEAR &gt;= ymin &amp; sheet == s &amp; !is.na(value))
+  g &lt;-
+    ggplot(data = df.p, aes(x = ydate, y = value, group = date, color = factor(date))) +
+    geom_line(alpha = 0.75, linetype = 2, size = 1.02) +
+    guides(color = F) +
+    theme_minimal() +
+    geom_path(
+      data = filter(df.median, YEAR &gt;= ymin &amp; sheet == s &amp; horizon == 1 &amp; !
+      is.na(value)),
+      aes(x = ydate, group = &quot;actual&quot;), size = 1.05, color = &quot;black&quot;
+    ) +
+    labs(x = &quot;&quot;, y = &quot;&quot;)
+  return(g)
+}
+
+################################################################
+# Make a plot
+################################################################
+g2 &lt;-
+  f.plot2() +
+  labs(
+    x = &quot;&quot;, y = &quot;Housing Starts(millions, SAAR)&quot;,
+    title = &quot;4-quarter ahead forecasts for U.S. Housing Starts&quot;,
+    subtitle = &quot;Solid line historical esimates of housing starts (without revisions), dotted lines median forecast&quot;,
+    caption = &quot;@lenkiefer Source: U.S. Census Bureau and Department of Housing and Urban Development\nForecasts median forecasts from Survey of Professional Forecasters\nhttps://www.philadelphiafed.org/research-and-data/real-time-center/survey-of-professional-forecasters&quot;
+  ) +
+  theme(
+    plot.caption = element_text(hjust = 0),
+    plot.subtitle = element_text(face = &quot;italic&quot;)
+  )
+
+g3 &lt;-
+  f.plot2(s = &quot;TBOND&quot;) +
+  labs(
+    x = &quot;&quot;, y = &quot;Yield (%)&quot;,
+    title = &quot;4-quarter ahead forecasts for 10-Year Treasury Bond Rate (%)&quot;,
+    subtitle = &quot;Solid line historical esimates of housing starts (without revisions), dotted lines median forecast&quot;, caption = &quot;@lenkiefer black line historical real time estimates (without revisions),\ndotted lines median 1- to 4-quarter ahead forecasts\nSource: Forecasts from Survey of Professional Forecasters\nhttps://www.philadelphiafed.org/research-and-data/real-time-center/survey-of-professional-forecasters&quot;
+  ) +
+  theme(
+    plot.caption = element_text(hjust = 0),
+    plot.subtitle = element_text(face = &quot;italic&quot;)
+  )</code></pre>
+<p></details></p>
+<pre class="r"><code>g2</code></pre>
+<p><img src="/post/2018-12-19-forecasting-is-still-hard_files/figure-html/12-19-2018-plot-3-1.png" width="672" /></p>
+<p>We can see that from the early- to mid-2000s forecasters were expecting housing starts to decrease. Then during the Great Recession and the collapse of housing starts, forecasters tended to overestimate 4-quarter ahead starts. Once the recover began, forecasters also tended to overestimate starts. Early in the recovery, the tentacles have a greater slope, indicating forecasters anticipated a strong recovery. Over time, the slope of the forecast line started to flatten and line up with the data. In recent quarters forecasts still call for growth in starts, but at a slower pace, consistent with observations from <a href="../../../../2018/12/12/vulnerable-housing/">Vulnerable Housing</a>.</p>
+<p>How about forecasts of some other variables? Let’s look at forecasts of the 10-year U.S. Treasury Yield.</p>
+<pre class="r"><code>g3</code></pre>
+<p><img src="/post/2018-12-19-forecasting-is-still-hard_files/figure-html/12-19-2018-plot-3-TBOND-1.png" width="672" /></p>
+<p>Here the story is pretty clear. For almost 20 years forecasters have been calling for long-term interest rates to rise and for the most part they have fallen. The forecast lines pretty much all for interest rates to increase by about one percentage point four quarters for now, but that has rarely been the case. Though perhaps this time is different. The forecasts from 2016 forward have been pretty accurate. Luck, or maybe they are on to something?</p>
+<p>The SPF has multiple series. We can build a panel plot to compare forecasts for several variables:</p>
+<p><details> <Summary> R code for panel plots </Summary></p>
+<pre class="r"><code>################################################################
+# Make panel plots
+################################################################
+
+
+g_panel_box &lt;-
+  plot_grid(f.plot(s = &quot;HOUSING&quot;) + labs(title = &quot;Houing Starts (millions SAAR)&quot;),
+    f.plot(s = &quot;UNEMP&quot;) + labs(title = &quot;Unemployment Rate (%)&quot;),
+    f.plot(s = &quot;TBILL&quot;) +
+      labs(
+        title = &quot;3-Month Treasury Bill Rate (%)&quot;,
+        caption = &quot;@lenkiefer solid line historical real time estimates (without revisions), dots 4-quarter ahead forecasts\nSource: Forecasts from Survey of Professional Forecasters\nhttps://www.philadelphiafed.org/research-and-data/real-time-center/survey-of-professional-forecasters&quot;
+      ) +
+      theme(plot.caption = element_text(hjust = 0)),
+    f.plot(s = &quot;TBOND&quot;) +
+      labs(title = &quot;10-Year Treasury Bond Rate (%)&quot;),
+    align = &quot;hv&quot;
+  )
+
+g_panel_line &lt;-
+  plot_grid(f.plot2(s = &quot;HOUSING&quot;) + labs(title = &quot;Housing Starts (millions SAAR)&quot;),
+    f.plot2(s = &quot;UNEMP&quot;) + labs(title = &quot;Unemployment Rate (%)&quot;),
+    f.plot2(s = &quot;TBILL&quot;) +
+      labs(
+        title = &quot;3-Month Treasury Bill Rate (%)&quot;,
+        caption = &quot;@lenkiefer black line historical real time estimates (without revisions),\ndotted lines median 1- to 4-quarter ahead forecasts\nSource: Forecasts from Survey of Professional Forecasters\nhttps://www.philadelphiafed.org/research-and-data/real-time-center/survey-of-professional-forecasters&quot;
+      ) +
+      theme(plot.caption = element_text(hjust = 0)),
+    f.plot2(s = &quot;TBOND&quot;) + labs(title = &quot;10-Year Treasury Bond Rate (%)&quot;),
+    align = &quot;hv&quot;
+  )</code></pre>
+<p>Forecasters have done a bit better forecasting short-term rates (3-month Treasury) and the unemployment rate.</p>
+<p></details></p>
+<pre class="r"><code>g_panel_box</code></pre>
+<p><img src="/post/2018-12-19-forecasting-is-still-hard_files/figure-html/12-19-2018-panel-plots-1.png" width="672" /></p>
+<pre class="r"><code>g_panel_line</code></pre>
+<p><img src="/post/2018-12-19-forecasting-is-still-hard_files/figure-html/12-19-2018-panel-plots-2.png" width="672" /></p>
+<p>Let’s take a closer look at the 3-month Treasury:</p>
+<p><img src="/post/2018-12-19-forecasting-is-still-hard_files/figure-html/12-19-2018-3-month-1.png" width="672" /></p>
+<p>The 3-month Treasury follows the Federal Funds rate closely. As the Fed held short term rates near zero for many year, forecasting short-term rates was relatively easy. In recent years, as the Fed has started to gradually tighten forecast dispersion has increased. In 2015 year-ahead forecasts were too high, but in recent years the year-ahead forecasts have been a bit too low. Where are rates headed in 2019? Forecasts are for continued increases though the dispersion across forecasts has widened a bit.</p>
+</div>
+<div id="animation" class="section level1">
+<h1>Animation</h1>
+<p>It’s also fun to animate these plots. We’ll update our old code to use <a href="https://CRAN.R-project.org/package=gifski">gifski</a>. See this post for details on using gifski <a href="../../../../2018/07/22/house-price-gifski/">House Price gifski</a>.</p>
+<p><details> <Summary> R code for plotting functions </Summary></p>
+<p>We’ll create some functions to enable us to make plots.</p>
+<pre class="r"><code>library(gifski)
+mydir &lt;- &quot;WHERE YOU SAVE YOUR FILES&quot;
+
+dlist &lt;- unique(filter(df.median, YEAR &gt;= 1999)$date)
+N &lt;- length(dlist)
+
+# static plot
+f.plot3 &lt;- function(i = N, s = &quot;HOUSING&quot;, ymin = 1999) {
+  df.p &lt;- filter(df.median, date &lt;= dlist[i], YEAR &gt;= ymin &amp; sheet == s &amp; !is.na(value))
+  g &lt;-
+    ggplot(data = df.p, aes(x = ydate, y = value, group = date, color = factor(date))) +
+    geom_line(alpha = 0.75, linetype = 2, size = 1.02) +
+    guides(color = F) +
+    theme_minimal() +
+    geom_path(
+      data = filter(df.median, date &lt;= dlist[i], YEAR &gt;= ymin &amp; sheet == s &amp; horizon == 1 &amp; !
+      is.na(value)), alpha = 0.75,
+      aes(x = ydate, group = &quot;actual&quot;), size = 1.05, color = &quot;black&quot;
+    ) +
+    labs(x = &quot;&quot;, y = &quot;&quot;) +
+    scale_x_date(limits = c(min(dlist), max(df.median$ydate)), date_breaks = &quot;2 year&quot;, date_labels = &quot;%Y&quot;) +
+    scale_y_continuous(limits = c(0, 7), sec.axis = dup_axis(), breaks = 1:7) +
+    labs(
+      title = &quot;Forecasting is hard&quot;,
+      subtitle = &quot;10-Year Treasury Bond Rate (%)&quot;,
+      caption = &quot;@lenkiefer black line historical real time estimates (without revisions), dotted lines median 1- to 4-quarter ahead forecasts\nSource: Forecasts from Survey of Professional Forecasters\nhttps://www.philadelphiafed.org/research-and-data/real-time-center/survey-of-professional-forecasters&quot;
+    ) +
+    theme(plot.caption = element_text(hjust = 0))
+  return(g)
+}
+
+# plot for Treasury Bond
+f.plot3(N, s = &quot;TBOND&quot;)</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_path).
+
+## Warning: Removed 1 rows containing missing values (geom_path).</code></pre>
+<p><img src="/post/2018-12-19-forecasting-is-still-hard_files/figure-html/12-19-2018-gif-1-1.png" width="672" /></p>
+<p>Loop to make the gif:</p>
+<pre class="r"><code>t1 &lt;- Sys.time()
+gif_file &lt;- save_gif({
+  for (i in seq(1, N)) {
+    g &lt;- f.plot3(i, s = &quot;TBOND&quot;)
+    print(g)
+    print(paste(i, &quot;out of&quot;, N))
+  }
+  for (ii in 1:30) {
+    print(g)
+    print(paste(ii, &quot;out of&quot;, 30))
+  }
+}, gif_file = paste0(mydir, &quot;/fcst_cmt10y.gif&quot;), width = 620, height = 400, res = 92, delay = 1 / 10)
+t2 &lt;- Sys.time()
+t2 - t1
+utils::browseURL(gif_file)</code></pre>
+<p></details></p>
+<p>Running the code above with labels adjusted gives you the following plots:</p>
+<p><img src="../../../../img/charts_dec_19_2018/fcst_cmt10y.gif" ></p>
+<p><img src="../../../../img/charts_dec_19_2018/fcst_starts.gif" ></p>
+</div>
+<div id="forecasting-is-still-hard" class="section level1">
+<h1>Forecasting is still hard</h1>
+<p>Forecasting is still hard. Moving toward probabilistic statements might be a better approach, though that requires a sophisticated audience and <a href="../../../../2017/04/26/housing-data-uncertainty/">better communication tools</a>.</p>
+<p>More research into the practical communication and use of probabilistic forecasts is greatly needed.</p>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2018/12/12/vulnerable-housing/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2018/12/12/vulnerable-housing/">Vulnerable Housing</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/forecasting/">forecasting</a>, 
+            
+                <a href="/tags/r/">R</a>, 
+            
+                <a href="/tags/dataviz/">dataviz</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2018%2f12%2f19%2fforecasting-is-still-hard%2f&text=Forecasting%20is%20still%20hard via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2018%2f12%2f19%2fforecasting-is-still-hard%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+
