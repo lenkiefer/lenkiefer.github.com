@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Using gganimate to visualize housing and mortgage data.">
+  <meta name="generator" content="Hugo 0.52" />
+
+  <title>Go Go Animate! &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com//img/charts_jan_13_2019/hpi.png" >
+     
+    <meta property="og:title" content="Go Go Animate!">
+    <meta property="og:description" content="Using gganimate to visualize housing and mortgage data.">
+
+<div class="header">
+  <h1>Go Go Animate!</h1>
+  <h2>Using gganimate to visualize housing and mortgage data.</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2019/01/13</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/animation">animation</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+
+
+<p>At the start of the year, the <a href="https://www.r-project.org/">R</a> package <a href="https://CRAN.R-project.org/package=gganimate">gganimate</a> hit CRAN. See <a href="https://www.data-imaginist.com/2019/gganimate-has-transitioned-to-a-state-of-release/">this announcement blog post</a> with some examples.</p>
+<p>In this space, I’ve shared several posts on animation <a href="http://lenkiefer.com/tags/animation/">see tags</a>. But I haven’t been using gganimate. Instead, I took a more direct approach building the animations via loops and trying to tween directly if I wanted a smooth animation. This level of control is nice, but frankly the defaults in gganimate work better than many of my attempts to hand craft it. They also run faster than the code I’ve shared.</p>
+<p>As described in the Data Imaginist blog post above, the new version of gganimate makes several changes in how the package aworks, establishing a grammar of animation. I think this approach is great, but the fact that gganimate was for a long time only available on Github prevented me from using it. Now that it’s on CRAN I have an easier time making sure I have the same version on all my machines.</p>
+<p>I’ve been enjoying the new package and wanted to share a few simple examples here for housing and mortgage market data. Let’s give it a try.</p>
+<div id="household-debt-balances" class="section level1">
+<h1>Household debt balances</h1>
+<p>Earlier today I tweeted:</p>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Household debt balances (excluding mortgages) <a href="https://t.co/gJbL5WIv05">pic.twitter.com/gJbL5WIv05</a></p>&mdash; Leonard Kiefer (@lenkiefer) <a href="https://twitter.com/lenkiefer/status/1084450545295917056?ref_src=twsrc%5Etfw">January 13, 2019</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>Let’s make this animation.</p>
+<div id="data" class="section level3">
+<h3>Data</h3>
+<p>This was a remake of a chart we’ve made a couple times, <a href="../../../../2016/08/09/trends-in-credit/">for example here, (note the images in that post are lost due to a blog conversion)</a>.</p>
+<p>We will use data from the New York Fed’s Quarterly Report on Household Debt and Credit. These data come from the Center for Microeconomic Data based on credit records from Equifax and are available through the <a href="https://www.newyorkfed.org/microeconomics/ccp.html">Center for Microeconomic Data</a>.</p>
+<p>The data can be downloaded via <a href="https://www.newyorkfed.org/medialibrary/interactives/householdcredit/data/xls/HHD_C_Report_2018Q3.xlsx">spreadsheet here</a>. But I recently got a new computer, and I haven’t decided to opt into Excel yet. So I’m going to use <a href="https://github.com/MilesMcBain/datapasta">datapasta</a> to copy the data straight into my R code. These data were downloaded on January 13, 2019, so they may not reflect future revisions.</p>
+<p>Using datapasta, I copied the data direct from the spreadsheet into a data fram like so:</p>
+<p><details> <Summary>Click for R code to wrangle data </Summary></p>
+<pre class="r"><code># Load libraries ----
+library(tidyverse)
+library(gganimate)
+library(ggrepel)
+
+# load data via data pasta
+df &lt;- 
+  tibble::tribble(
+             ~V1, ~V2, ~V3,   ~V4,   ~V5,   ~V6,   ~V7,   ~V8,   ~V9,  ~V10,  ~V11,  ~V12,  ~V13,  ~V14,   ~V15,   ~V16,   ~V17,   ~V18,   ~V19,   ~V20,   ~V21,   ~V22,   ~V23,   ~V24,   ~V25,   ~V26,   ~V27,   ~V28,   ~V29,   ~V30,   ~V31,   ~V32,   ~V33,   ~V34,   ~V35,   ~V36,   ~V37,   ~V38,   ~V39,   ~V40,   ~V41,   ~V42,   ~V43,   ~V44,   ~V45,   ~V46,   ~V47,   ~V48,   ~V49,   ~V50,   ~V51,   ~V52,   ~V53,   ~V54,   ~V55,   ~V56,   ~V57,   ~V58,   ~V59,   ~V60,   ~V61,   ~V62,   ~V63,   ~V64,   ~V65,   ~V66,
+      &quot;Mortgage&quot;,  NA,  NA, 4.942,  5.08, 5.183,  5.66,  5.84, 5.967,  6.21,  6.36, 6.512, 6.696, 6.906,  7.102,  7.436,   7.76,  8.045,  8.234,  8.422,  8.706,  8.925,  9.101,  9.234,  9.273,  9.294,  9.257,  9.135,  9.063,  8.944,  8.843,  8.834,  8.703,  8.609,  8.452,  8.544,  8.516,  8.402,  8.268,  8.187,  8.147,  8.028,  8.033,  7.932,  7.841,  7.897,  8.049,  8.165,  8.096,  8.131,   8.17,  8.171,  8.116,   8.26,  8.249,  8.369,  8.362,   8.35,   8.48,  8.627,  8.691,  8.743,  8.882,  8.939,  8.999,   9.14,
+  &quot;HE Revolving&quot;,  NA,  NA, 0.242,  0.26, 0.269, 0.302, 0.328, 0.367, 0.426, 0.468, 0.502, 0.528, 0.541,  0.565,  0.582,   0.59,  0.603,  0.604,  0.605,  0.619,  0.631,  0.647,  0.663,  0.679,  0.692,  0.705,  0.714,  0.713,  0.708,  0.706,  0.695,  0.683,  0.673,  0.668,  0.641,  0.625,  0.639,  0.627,  0.612,  0.589,  0.573,  0.563,  0.552,   0.54,  0.535,  0.529,  0.526,  0.521,  0.512,   0.51,   0.51,  0.499,  0.492,  0.487,  0.485,  0.478,  0.472,  0.473,  0.456,  0.452,  0.448,  0.444,  0.436,  0.432,  0.422,
+     &quot;Auto Loan&quot;,  NA,  NA, 0.641, 0.622, 0.684, 0.704,  0.72, 0.743, 0.751, 0.728, 0.725, 0.774,  0.83,  0.792,  0.788,  0.796,  0.821,  0.821,  0.794,  0.807,  0.818,  0.815,  0.808,   0.81,  0.809,  0.791,  0.766,  0.743,  0.739,  0.722,  0.705,  0.702,   0.71,  0.711,  0.706,  0.713,   0.73,  0.734,  0.737,   0.75,  0.768,  0.783,  0.794,  0.814,  0.845,  0.863,  0.875,  0.905,  0.934,  0.955,  0.968,  1.006,  1.045,  1.064,  1.071,  1.103,  1.135,  1.157,  1.167,   1.19,  1.213,  1.221,  1.229,  1.238,  1.265,
+   &quot;Credit Card&quot;,  NA,  NA, 0.688, 0.693, 0.693, 0.698, 0.695, 0.697, 0.706, 0.717,  0.71, 0.717, 0.732,  0.736,  0.723,  0.739,  0.754,  0.767,  0.764,  0.796,  0.817,  0.839,  0.837,   0.85,  0.858,  0.866,  0.843,  0.824,  0.812,  0.795,  0.762,  0.744,  0.731,   0.73,  0.696,  0.694,  0.693,  0.704,  0.679,  0.672,  0.674,  0.679,   0.66,  0.668,  0.672,  0.683,  0.659,  0.669,   0.68,    0.7,  0.684,  0.703,  0.714,  0.733,  0.712,  0.729,  0.747,  0.779,  0.764,  0.784,  0.808,  0.834,  0.815,  0.829,  0.844,
+  &quot;Student Loan&quot;,  NA,  NA, 0.241, 0.243, 0.249, 0.253,  0.26, 0.263,  0.33, 0.346, 0.364, 0.374, 0.378,  0.392,  0.435,  0.439,  0.447,  0.482,  0.506,  0.514,  0.529,  0.548,  0.579,  0.586,  0.611,  0.639,  0.663,  0.675,  0.695,  0.721,  0.758,  0.762,  0.778,  0.812,  0.839,  0.851,   0.87,  0.874,  0.904,  0.914,  0.956,  0.966,  0.986,  0.994,  1.027,   1.08,  1.111,  1.118,  1.126,  1.157,  1.189,   1.19,  1.203,  1.232,  1.261,  1.259,  1.279,   1.31,  1.344,  1.344,  1.357,  1.378,  1.407,  1.405,  1.442,
+         &quot;Other&quot;,  NA,  NA, 0.478, 0.486, 0.477, 0.449, 0.447, 0.423,  0.41, 0.423, 0.394, 0.402, 0.405,  0.416,  0.418,  0.423,  0.442,  0.406,  0.404,  0.408,  0.413,  0.422,  0.415,  0.401,  0.412,  0.412,  0.409,  0.389,  0.382,  0.379,  0.363,  0.349,  0.343,  0.341,  0.329,   0.33,  0.327,   0.33,  0.319,  0.312,  0.311,  0.317,  0.307,  0.296,  0.304,  0.317,  0.314,  0.323,  0.327,  0.335,  0.329,  0.339,  0.351,  0.351,  0.354,  0.356,  0.367,  0.377,  0.367,  0.378,  0.386,  0.389,  0.385,   0.39,  0.399,
+         &quot;Total&quot;,  NA,  NA, 7.231, 7.384, 7.555, 8.066, 8.289,  8.46, 8.833, 9.042, 9.207, 9.492, 9.792, 10.002, 10.382, 10.747, 11.111, 11.313, 11.495,  11.85, 12.133, 12.372, 12.537, 12.599, 12.675,  12.67,  12.53, 12.407, 12.279, 12.166, 12.117, 11.943, 11.844, 11.713, 11.754,  11.73, 11.661, 11.537, 11.436, 11.384,  11.31, 11.341, 11.231, 11.153,  11.28, 11.521,  11.65, 11.632,  11.71, 11.827, 11.851, 11.853, 12.065, 12.116, 12.252, 12.287,  12.35, 12.576, 12.725, 12.839, 12.955, 13.148, 13.211, 13.293, 13.512
+  )
+
+df2 &lt;- df %&gt;% group_by(V1) %&gt;% gather(var,value,-V1) %&gt;% filter(! var %in% c(&quot;V2&quot;,&quot;V3&quot;)) %&gt;%
+  mutate(date=seq.Date(as.Date(&quot;2003-01-01&quot;),as.Date(&quot;2018-09-01&quot;),by=&quot;3 months&quot;))
+
+# take a look
+knitr::kable(head(df2))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">V1</th>
+<th align="left">var</th>
+<th align="right">value</th>
+<th align="left">date</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Mortgage</td>
+<td align="left">V4</td>
+<td align="right">4.942</td>
+<td align="left">2003-01-01</td>
+</tr>
+<tr class="even">
+<td align="left">HE Revolving</td>
+<td align="left">V4</td>
+<td align="right">0.242</td>
+<td align="left">2003-01-01</td>
+</tr>
+<tr class="odd">
+<td align="left">Auto Loan</td>
+<td align="left">V4</td>
+<td align="right">0.641</td>
+<td align="left">2003-01-01</td>
+</tr>
+<tr class="even">
+<td align="left">Credit Card</td>
+<td align="left">V4</td>
+<td align="right">0.688</td>
+<td align="left">2003-01-01</td>
+</tr>
+<tr class="odd">
+<td align="left">Student Loan</td>
+<td align="left">V4</td>
+<td align="right">0.241</td>
+<td align="left">2003-01-01</td>
+</tr>
+<tr class="even">
+<td align="left">Other</td>
+<td align="left">V4</td>
+<td align="right">0.478</td>
+<td align="left">2003-01-01</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
+<p>Now we can make a static image:</p>
+<pre class="r"><code>ggplot(data=df2 %&gt;% filter(!V1 %in% c(&quot;Mortgage&quot;,&quot;Total&quot;)), aes(x=date,y=value,color=V1,label=V1))+
+  geom_line()+
+  # put label at end of line
+  geom_text_repel(data=. %&gt;% filter(date==max(date)), size=5)+
+  theme_minimal(base_size=16)+ #use minimal theme from ggthemes library
+  scale_y_continuous(limits=c(0,1.5),breaks=seq(0,1.5,.25))+
+  theme(plot.title=element_text())+theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+  theme(plot.margin=unit(c(0.25,0.25,0.25,0.25),&quot;cm&quot;))+
+  scale_x_date(date_breaks=&quot;2 years&quot;,date_labels=&quot;%Y&quot;)+
+  coord_cartesian(xlim=c(as.Date(&quot;2003-01-01&quot;),as.Date(&quot;2018-12-31&quot;)))+
+  theme(legend.position=&quot;none&quot;)+
+  labs(title=&quot;Household debt balances&quot;,
+       subtitle=&quot;Trillions of Dollars&quot;,
+       x=&quot;&quot;,y=&quot;&quot;,caption=&quot;@lenkiefer Source: FRBNY Consumer Credit Panel/Equifax through 2018Q3&quot;) </code></pre>
+<p><img src="/post/2019-01-13-go-go-animate_files/figure-html/2019-01-13-plot-01-1.png" width="672" /></p>
+<p>To animate it, we need to make some slight tweaks. I want the image to gradually reveal each data point on the line and have the label at the endpoint. To do so, we put a label on each data point, but gganimate will only show the last.</p>
+<p>The following code will animate our line plot. <details> <Summary>Click for R code to animate plot </Summary></p>
+<pre class="r"><code>anim &lt;- 
+  ggplot(data=df2 %&gt;% filter(!V1 %in% c(&quot;Mortgage&quot;,&quot;Total&quot;)), aes(x=date,y=value,color=V1,label=V1))+
+  geom_line()+
+  geom_text(size=5)+
+  theme_minimal(base_size=20)+ #use minimal theme from ggthemes library
+  
+  theme(plot.title=element_text())+theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+  theme(plot.margin=unit(c(0.25,0.25,0.25,0.25),&quot;cm&quot;))+
+  scale_x_date(date_breaks=&quot;2 years&quot;,date_labels=&quot;%Y&quot;)+
+  coord_cartesian(xlim=c(as.Date(&quot;2003-01-01&quot;),as.Date(&quot;2018-12-31&quot;)))+
+  scale_y_continuous(limits=c(0,1.5),breaks=seq(0,1.5,.25))+
+  theme(legend.position=&quot;none&quot;)+
+  labs(title=&quot;Household debt balances&quot;,
+       subtitle=&quot;Trillions of Dollars&quot;,
+       x=&quot;&quot;,y=&quot;&quot;,caption=&quot;@lenkiefer Source: FRBNY Consumer Credit Panel/Equifax through 2018Q3&quot;)  +
+  transition_reveal(date)
+
+# use end_pause=20 to hold last frame for 20 frames (~2 seconds)
+animate(anim, end_pause=20,width=800,height=600)
+anim_save(file=&quot;credit18Q3.gif&quot;, animation = last_animation())</code></pre>
+<p></details></p>
+<p><img src="../../../../img/charts_jan_13_2019/credit18Q3.gif"></p>
+</div>
+</div>
+<div id="house-price-animation" class="section level1">
+<h1>House price animation</h1>
+<p>Another animation I like is this one of house prices:</p>
+<blockquote class="twitter-tweet"><p lang="und" dir="ltr">👀👀👀<br>📉🏠📈<br>👀👀👀 <a href="https://t.co/9EbA94zO8K">pic.twitter.com/9EbA94zO8K</a></p>&mdash; Leonard Kiefer (@lenkiefer) <a href="https://twitter.com/lenkiefer/status/1083096906165899267?ref_src=twsrc%5Etfw">January 9, 2019</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<div id="get-data" class="section level2">
+<h2>Get data</h2>
+<p>The data I use for this animation is from the <a href="http://www.freddiemac.com/research/indices/house-price-index.html">Freddie Mac House Price Index</a>. I convinced my colleagues to post a master file as .csv that you can more easily read into your computer. That <a href="http://www.freddiemac.com/research/docs/fmhpi_master_file.csv">file is here (.csv)</a>. It contains the seasonally adjusted and non-seasonally adjusted house price index for the U.S., all 50 states plus the District of Columbia and over 300 metropolitan statistical areas (MSA).</p>
+<p>For this animation we’ll look at state values. I“m also going to use <code>data.table::fread</code> to read in the file, and use some <code>data.table</code> syntax to filter the data.</p>
+<p><details> <Summary>Click for R code to get house price data </Summary></p>
+<pre class="r"><code># get house price data
+library(data.table)
+dt &lt;- fread(&quot;http://www.freddiemac.com/research/docs/fmhpi_master_file.csv&quot;)
+knitr::kable(head(dt))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">Year</th>
+<th align="right">Month</th>
+<th align="left">GEO_Type</th>
+<th align="left">GEO_Name</th>
+<th align="left">GEO_Code</th>
+<th align="right">Index_NSA</th>
+<th align="right">Index_SA</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1975</td>
+<td align="right">1</td>
+<td align="left">State</td>
+<td align="left">AK</td>
+<td align="left">.</td>
+<td align="right">34.43294</td>
+<td align="right">34.63120</td>
+</tr>
+<tr class="even">
+<td align="right">1975</td>
+<td align="right">2</td>
+<td align="left">State</td>
+<td align="left">AK</td>
+<td align="left">.</td>
+<td align="right">34.93477</td>
+<td align="right">35.10387</td>
+</tr>
+<tr class="odd">
+<td align="right">1975</td>
+<td align="right">3</td>
+<td align="left">State</td>
+<td align="left">AK</td>
+<td align="left">.</td>
+<td align="right">35.44898</td>
+<td align="right">35.49146</td>
+</tr>
+<tr class="even">
+<td align="right">1975</td>
+<td align="right">4</td>
+<td align="left">State</td>
+<td align="left">AK</td>
+<td align="left">.</td>
+<td align="right">35.98482</td>
+<td align="right">35.87223</td>
+</tr>
+<tr class="odd">
+<td align="right">1975</td>
+<td align="right">5</td>
+<td align="left">State</td>
+<td align="left">AK</td>
+<td align="left">.</td>
+<td align="right">36.56992</td>
+<td align="right">36.28356</td>
+</tr>
+<tr class="even">
+<td align="right">1975</td>
+<td align="right">6</td>
+<td align="left">State</td>
+<td align="left">AK</td>
+<td align="left">.</td>
+<td align="right">37.19824</td>
+<td align="right">36.70189</td>
+</tr>
+</tbody>
+</table>
+<p>As described in <a href="http://www.freddiemac.com/research/docs/fmhpi.txt">the FMHPI documentation</a>, GEO_Type determines the geogrpahy level (US, State, CBSA). We want to filter on states, and only use data from 2001 forward. We’ll also create a date variable from Year and Month.</p>
+<p>The lastest available data is for November 2018, and I want to focus on yearly changes in the index, so we’ll filter on <code>Month==11</code> and reindex so November 2001=100. We could inclue all months, but that would greatly increase the required number of frames for our animation (and make the filesize larger).</p>
+<p>Finally, I’m going to create a lagged hpi that is the index value 1 year ago.</p>
+<pre class="r"><code># filter on GEO_Type=State Year &gt;=2000
+dt2 &lt;- dt[GEO_Type==&quot;State&quot;&amp; Year&gt;=2000,][ , date:=as.Date(ISOdate(Year,Month,1))]
+# create new index (Index_SA Nov 2001 = 100)
+dt3 &lt;- dt2[Month==11,][ , hpi:=100*Index_SA/Index_SA[Year==2001],by=&quot;GEO_Name&quot;][order(date),]
+dt3 &lt;- dt3[, hpi_lag:=lag(hpi), by=&quot;GEO_Name&quot;][Year&gt;2000,]
+knitr::kable(head(dt3))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">Year</th>
+<th align="right">Month</th>
+<th align="left">GEO_Type</th>
+<th align="left">GEO_Name</th>
+<th align="left">GEO_Code</th>
+<th align="right">Index_NSA</th>
+<th align="right">Index_SA</th>
+<th align="left">date</th>
+<th align="right">hpi</th>
+<th align="right">hpi_lag</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">2001</td>
+<td align="right">11</td>
+<td align="left">State</td>
+<td align="left">AK</td>
+<td align="left">.</td>
+<td align="right">106.1025</td>
+<td align="right">105.8216</td>
+<td align="left">2001-11-01</td>
+<td align="right">100</td>
+<td align="right">94.00168</td>
+</tr>
+<tr class="even">
+<td align="right">2001</td>
+<td align="right">11</td>
+<td align="left">State</td>
+<td align="left">AL</td>
+<td align="left">.</td>
+<td align="right">102.0308</td>
+<td align="right">101.8477</td>
+<td align="left">2001-11-01</td>
+<td align="right">100</td>
+<td align="right">98.02521</td>
+</tr>
+<tr class="odd">
+<td align="right">2001</td>
+<td align="right">11</td>
+<td align="left">State</td>
+<td align="left">AR</td>
+<td align="left">.</td>
+<td align="right">103.1882</td>
+<td align="right">103.0103</td>
+<td align="left">2001-11-01</td>
+<td align="right">100</td>
+<td align="right">96.73593</td>
+</tr>
+<tr class="even">
+<td align="right">2001</td>
+<td align="right">11</td>
+<td align="left">State</td>
+<td align="left">AZ</td>
+<td align="left">.</td>
+<td align="right">105.0108</td>
+<td align="right">104.6923</td>
+<td align="left">2001-11-01</td>
+<td align="right">100</td>
+<td align="right">95.04149</td>
+</tr>
+<tr class="odd">
+<td align="right">2001</td>
+<td align="right">11</td>
+<td align="left">State</td>
+<td align="left">CA</td>
+<td align="left">.</td>
+<td align="right">109.2943</td>
+<td align="right">108.8226</td>
+<td align="left">2001-11-01</td>
+<td align="right">100</td>
+<td align="right">90.84298</td>
+</tr>
+<tr class="even">
+<td align="right">2001</td>
+<td align="right">11</td>
+<td align="left">State</td>
+<td align="left">CO</td>
+<td align="left">.</td>
+<td align="right">105.7688</td>
+<td align="right">105.4673</td>
+<td align="left">2001-11-01</td>
+<td align="right">100</td>
+<td align="right">94.28430</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
+<p>Now we can make a static version of our plot for November 2018.</p>
+<pre class="r"><code>ggplot(data=dt3%&gt;% filter(Year==2018), 
+       aes(x=hpi, 
+           label=paste0(&quot; &quot;,GEO_Name,&quot; &quot;),
+           color=log(hpi),
+           # have labels on left right depending on trend
+           hjust=ifelse(hpi&gt;hpi_lag,0,1),
+           y=fct_reorder(GEO_Name,hpi,last),
+           yend=fct_reorder(GEO_Name,hpi,last)))+
+  scale_color_viridis_c(name=&quot;House Price Index &quot;,
+    option=&quot;C&quot;,
+    limits=c(log(70),log(350)),
+    breaks=c(log(75),log(100),log(200),log(350)),
+                       labels=c(75,100,200,350)
+                       )+
+  geom_segment(alpha=0.8,linetype=2, aes(xend=100))+
+  geom_segment(aes(xend=hpi_lag))+
+  geom_point()+
+  geom_text()+
+  scale_x_log10(limits=c(70,350),breaks=seq(75,350,25))+
+  theme_minimal()+
+  labs(x=&quot;House Price Index (log scale, Nov 2001 = 100)&quot;,
+       y=&quot;&quot;,
+       title=&quot;State House Price Trends&quot;,
+       subtitle=&quot;November 2018&quot;,
+       caption=&quot;@lenkiefer Source Freddie Mac House Price Index (seasonally adjusted)\nDot monthly value, solid line extends to 1 year prior, dotted line back to November 2001 value (= 100)&quot; )+
+  theme(plot.caption=element_text(hjust=0),
+        legend.key.width=unit(2,&quot;cm&quot;),
+        legend.position=&quot;top&quot;)</code></pre>
+<p><img src="/post/2019-01-13-go-go-animate_files/figure-html/2019-01-13-hpi-graph-1-1.png" width="672" /></p>
+<div id="animate-it" class="section level3">
+<h3>Animate it</h3>
+<p>To animate the code run this:</p>
+<p><details> <Summary>Click for R code to animate chart </Summary></p>
+<pre class="r"><code>anim &lt;- 
+ggplot(data=dt3, 
+       aes(x=hpi, 
+           label=paste0(&quot; &quot;,GEO_Name,&quot; &quot;),
+           color=log(hpi),
+           # have labels on left right depending on trend
+           hjust=ifelse(hpi&gt;hpi_lag,0,1),
+           y=fct_reorder(GEO_Name,hpi,last),
+           yend=fct_reorder(GEO_Name,hpi,last)))+
+  scale_color_viridis_c(name=&quot;House Price Index &quot;,
+                        option=&quot;C&quot;,
+                        limits=c(log(70),log(350)),
+                        breaks=c(log(75),log(100),log(200),log(350)),
+                        labels=c(75,100,200,350)
+  )+
+  geom_segment(alpha=0.8,linetype=2, aes(xend=100))+
+  geom_segment(aes(xend=hpi_lag))+
+  geom_point()+
+  geom_text()+
+  scale_x_log10(limits=c(70,350),breaks=seq(75,350,25))+
+  theme_minimal()+
+  labs(x=&quot;House Price Index (log scale, Nov 2001 = 100)&quot;,
+       y=&quot;&quot;,
+       title=&quot;State House Price Trends&quot;,
+       subtitle=&quot;Through November {frame_along}&quot;,
+       caption=&quot;@lenkiefer Source Freddie Mac House Price Index (seasonally adjusted)\nDot monthly value, solid line extends to 1 year prior, dotted line back to November 2001 value (= 100)&quot; )+
+  theme(plot.caption=element_text(hjust=0),
+        legend.key.width=unit(2,&quot;cm&quot;),
+        legend.position=&quot;top&quot;)+
+  transition_reveal(Year) 
+
+animate(anim,start_pause=10, end_pause=20,width=600,height=800,nframes=130)
+anim_save(file=&quot;hpi_state_nov2018.gif&quot;, animation = last_animation())</code></pre>
+<p></details></p>
+<p><img src="../../../../img/charts_jan_13_2019/hpi_state_nov2018.gif"></p>
+</div>
+</div>
+</div>
+<div id="thoughts" class="section level1">
+<h1>Thoughts</h1>
+<p>Animation can be a powerful data visualization tool. And gganimate makes opens up a lot of possiblities. I’ve seen a lot of really cool stuff recently.</p>
+<p>Next week I’m headed to Austin for the <a href="https://www.rstudio.com/conference/">Rstudio::conf</a>. I’m going to share some housing and economics stuff during the poster session. Hope to say hello if I see you there. There should be a lot to learn, and maybe I’ll discover some new animation ideas to try out.</p>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2018/12/19/forecasting-is-still-hard/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2018/12/19/forecasting-is-still-hard/">Forecasting is still hard</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/animation/">animation</a>, 
+            
+                <a href="/tags/dataviz/">dataviz</a>, 
+            
+                <a href="/tags/r/">R</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2019%2f01%2f13%2fgo-go-animate%2f&text=Go%20Go%20Animate%21 via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2019%2f01%2f13%2fgo-go-animate%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+
