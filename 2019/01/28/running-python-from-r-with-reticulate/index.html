@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Boom">
+  <meta name="generator" content="Hugo 0.52" />
+
+  <title>Running Python from R with Reticulate &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com//img/charts_jan_15_2019/r_python.jpg" >
+     
+    <meta property="og:title" content="Running Python from R with Reticulate">
+    <meta property="og:description" content="Boom">
+
+<div class="header">
+  <h1>Running Python from R with Reticulate</h1>
+  <h2>Boom</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2019/01/28</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/python">python</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+
+
+<p>Because <em>reasons</em> I’ve been interested in picking up some Python. But I like the <a href="https://www.rstudio.com/">Rstudio</a> IDE, so it sure would be nice if I could just run Python from R. Fortunately, that’s possible using the <a href="https://rstudio.github.io/reticulate/index.html">reticulate</a> package. Let’s give it a try.</p>
+<p>Our strategy will be to use <a href="https://www.r-project.org/">R</a> to do the data wrangling and then pass the data to Python to make a plot. Is this a good idea? No, probably not. But it will help to bridge the gap between the familiar (R for me) and the unfamiliar (Python for me).</p>
+<div id="setup" class="section level1">
+<h1>Setup</h1>
+<p>In order for this to work, you’ll need to have a few things, including</p>
+<ul>
+<li>A working version of R
+<ul>
+<li>required packages for plots <strong>(tidyverse, tidyquant)</strong></li>
+<li>the <a href="https://rstudio.github.io/reticulate/index.html">reticulate</a> package</li>
+</ul></li>
+<li>A working version of Python
+<ul>
+<li>required modules for plots <strong>(matplotlib, pandas, numpy)</strong></li>
+<li><a href="https://rpy2.readthedocs.io/en/version_2.8.x/index.html">rpy2 module</a></li>
+</ul></li>
+</ul>
+<p>Now unfortunately, installation of <code>rpy2</code> is a little tricky on Windows. For many python packages you can type something like <code>python -m pip install datetime</code> from the cmd line and install the module (<code>datetime</code> in this example), much like you can run <code>install.packages(ggplot2)</code> from R. But for <code>rpy2</code> this doesn’t work. Windows users could get binaries for rpy2 from an unofficial source maintained by Christoph Gohlke <a href="http://www.lfd.uci.edu/~gohlke/pythonlibs/" class="uri">http://www.lfd.uci.edu/~gohlke/pythonlibs/</a>. But the files are stored as <code>.whl</code> files, so tracking through Stackoverflow I found this helpful answer on installing correctly: <a href="https://stackoverflow.com/questions/27885397/how-do-i-install-a-python-package-with-a-whl-file" class="uri">https://stackoverflow.com/questions/27885397/how-do-i-install-a-python-package-with-a-whl-file</a>.</p>
+<p>Once you have that set up, you should be okay to go. I’m sure there are other things you’ll want to do to get started more seriously with Python, but this worked for me today. Which is all right considering where I was this morning:</p>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/rstats?src=hash&amp;ref_src=twsrc%5Etfw">#rstats</a> user here, i guess i could give python a try.<br>shouldn&#39;t be confusing at all, apparently I just have to relearn how to count <a href="https://t.co/uADamGrwSh">pic.twitter.com/uADamGrwSh</a></p>&mdash; Leonard Kiefer (@lenkiefer) <a href="https://twitter.com/lenkiefer/status/1089923710818099200?ref_src=twsrc%5Etfw">January 28, 2019</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<div id="get-data" class="section level2">
+<h2>Get Data</h2>
+<p>We’ll keep our data simple and grab the U.S. unemployment rate via <a href="https://fred.stlouisfed.org/">FRED</a> as we did <a href="../../../../2018/03/11/charting-jobs-friday-with-r/">in this post</a>.</p>
+<div id="some-r-code-for-data-wrangling" class="section level3">
+<h3>Some R code for data wrangling</h3>
+<p>This code generates a simple data frame with a date variable called <code>date</code> and another column with the U.S. unemployment rate called <code>price</code> (tidyquant syntax).</p>
+<pre class="r"><code># get data in R
+#####################################################################################
+## Step 1: Load Libraries ###
+#####################################################################################
+library(tidyverse)
+library(tidyquant)
+
+#####################################################################################
+## Step 2: go get data ###
+#####################################################################################
+
+# Set up tickers
+tickers&lt;- c(&quot;UNRATE&quot;)  # unemployment rate from BLS
+               
+
+# download data via FRED 
+df2&lt;-tq_get(tickers,                         # get selected symbols
+            get=&quot;economic.data&quot;,             # use FRED
+            from=&quot;1954-01-01&quot;)               # go from 1954 forward</code></pre>
+<p>Now print the head of the data with R.</p>
+<pre class="r"><code>head(df2)</code></pre>
+<pre><code>## # A tibble: 6 x 2
+##   date       price
+##   &lt;date&gt;     &lt;dbl&gt;
+## 1 1954-01-01   4.9
+## 2 1954-02-01   5.2
+## 3 1954-03-01   5.7
+## 4 1954-04-01   5.9
+## 5 1954-05-01   5.9
+## 6 1954-06-01   5.6</code></pre>
+<p>Now make R run python by using reticulate::use_python to point to Python.</p>
+<pre class="r"><code>library(reticulate)
+use_python(&quot;path_to_python&quot;,required=TRUE) #set path_to_python to something like C:/Python/Python37/python.exe</code></pre>
+<p>Now we can pass the data in dataframe <code>df</code> to Python using <code>r.df2</code>. <strong>Note that at present, you won’t be able to see the results in Rstudio (running chunks throw an error), but if you compile the document the results show up.</strong></p>
+<pre class="python"><code>import numpy
+print(r.df2.head())</code></pre>
+<pre><code>##         date  price
+## 0 1954-01-01    4.9
+## 1 1954-02-01    5.2
+## 2 1954-03-01    5.7
+## 3 1954-04-01    5.9
+## 4 1954-05-01    5.9</code></pre>
+</div>
+</div>
+</div>
+<div id="plot-with-r" class="section level1">
+<h1>Plot with R</h1>
+<p>Let’s make a standard R plot</p>
+<pre class="r"><code>ggplot(data=df2, aes(x=date,y=price))+geom_line()+
+  labs(
+    y=&#39;U.S. Unemployment Rate (%)&#39;,
+    x=&quot;date (monthly)&quot;,
+    title=&quot;An R Graph&quot;)</code></pre>
+<div class="figure"><span id="fig:2019-01-28-ggplot1"></span>
+<img src="/post/2019-01-28-running-python-from-r-with-reticulate_files/figure-html/2019-01-28-ggplot1-1.png" alt="\label{fig:figs}Made with R ggplot2. Data Source: U.S. Bureau of Labor Statistics, Civilian Unemployment Rate [UNRATE], retrieved from FRED, Federal Reserve Bank of St. Louis; https://fred.stlouisfed.org/series/UNRATE, January 28, 2019." width="672" />
+<p class="caption">
+Figure 1: Made with R ggplot2. Data Source: U.S. Bureau of Labor Statistics, Civilian Unemployment Rate [UNRATE], retrieved from FRED, Federal Reserve Bank of St. Louis; <a href="https://fred.stlouisfed.org/series/UNRATE" class="uri">https://fred.stlouisfed.org/series/UNRATE</a>, January 28, 2019.
+</p>
+</div>
+</div>
+<div id="a-python-plot" class="section level1">
+<h1>A Python Plot</h1>
+<p>Now we can replicate the R plot with Python:</p>
+<pre class="python"><code>import matplotlib.pyplot as plt
+plt.style.use(&#39;ggplot&#39;)
+r.df2.plot(x=&quot;date&quot;,y=&quot;price&quot;,color=&quot;black&quot;)
+plt.gca().get_legend().remove()
+plt.title(&#39;Not an R Graph&#39;)
+plt.xlabel(&#39;date (monthly)&#39;)
+plt.ylabel(&#39;U.S. Unemployment Rate (%)&#39;)
+plt.show()</code></pre>
+<div class="figure"><span id="fig:2019-01-28-python-ggplot1"></span>
+<img src="/post/2019-01-28-running-python-from-r-with-reticulate_files/figure-html/2019-01-28-python-ggplot1-1.png" alt="\label{fig:figs}Made with Python matplotlib. Data Source: U.S. Bureau of Labor Statistics, Civilian Unemployment Rate [UNRATE], retrieved from FRED, Federal Reserve Bank of St. Louis; https://fred.stlouisfed.org/series/UNRATE, January 28, 2019." width="672" />
+<p class="caption">
+Figure 2: Made with Python matplotlib. Data Source: U.S. Bureau of Labor Statistics, Civilian Unemployment Rate [UNRATE], retrieved from FRED, Federal Reserve Bank of St. Louis; <a href="https://fred.stlouisfed.org/series/UNRATE" class="uri">https://fred.stlouisfed.org/series/UNRATE</a>, January 28, 2019.
+</p>
+</div>
+</div>
+<div id="more-to-learn" class="section level1">
+<h1>More to learn</h1>
+<p>Where are we going? I’m not sure exactly, but I added a <a href="../../../../tags/">Python tag</a> where we can collect visualizations and analysis we do with Python.</p>
+<p>There are some interesting visualizations for Python, for example <a href="https://matplotlib.org/gallery.html">matplotlib gallery</a> and <a href="https://python-graph-gallery.com/category/seaborn/">seaborn gallery</a>. Those might be fun to try out.</p>
+<p>Right now it’s baby steps for me as I learn Python as an R user.</p>
+<p>I found many helpful suggestions in this thread, thanks to all who responded with some useful links. Check the replies.</p>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">What&#39;s the closest Python equivalent of R for Data Science?<br><br>Such a thing must exist.</p>&mdash; Leonard Kiefer (@lenkiefer) <a href="https://twitter.com/lenkiefer/status/1090014499166478336?ref_src=twsrc%5Etfw">January 28, 2019</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<style type="text/css">
+.caption {
+    font-style: italic;
+}
+</style>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2019/01/16/masters-in-business/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2019/01/16/masters-in-business/">Masters in Business</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/r/">R</a>, 
+            
+                <a href="/tags/python/">python</a>, 
+            
+                <a href="/tags/dataviz/">dataviz</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2019%2f01%2f28%2frunning-python-from-r-with-reticulate%2f&text=Running%20Python%20from%20R%20with%20Reticulate via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2019%2f01%2f28%2frunning-python-from-r-with-reticulate%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+
