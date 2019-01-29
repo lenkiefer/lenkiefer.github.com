@@ -289,11 +289,11 @@ tickers&lt;- c(&quot;UNRATE&quot;)  # unemployment rate from BLS
                
 
 # download data via FRED 
-df2&lt;-tq_get(tickers,                         # get selected symbols
+df&lt;-tq_get(tickers,                         # get selected symbols
             get=&quot;economic.data&quot;,             # use FRED
             from=&quot;1954-01-01&quot;)               # go from 1954 forward</code></pre>
 <p>Now print the head of the data with R.</p>
-<pre class="r"><code>head(df2)</code></pre>
+<pre class="r"><code>head(df)</code></pre>
 <pre><code>## # A tibble: 6 x 2
 ##   date       price
 ##   &lt;date&gt;     &lt;dbl&gt;
@@ -306,9 +306,9 @@ df2&lt;-tq_get(tickers,                         # get selected symbols
 <p>Now make R run python by using reticulate::use_python to point to Python.</p>
 <pre class="r"><code>library(reticulate)
 use_python(&quot;path_to_python&quot;,required=TRUE) #set path_to_python to something like C:/Python/Python37/python.exe</code></pre>
-<p>Now we can pass the data in dataframe <code>df</code> to Python using <code>r.df2</code>. <strong>Note that at present, you won’t be able to see the results in Rstudio (running chunks throw an error), but if you compile the document the results show up.</strong></p>
+<p>Now we can pass the data in dataframe <code>df</code> to Python using <code>r.df</code>. <strong>Note that at present, you won’t be able to see the results in Rstudio (running chunks throw an error), but if you compile the document the results show up.</strong></p>
 <pre class="python"><code>import numpy
-print(r.df2.head())</code></pre>
+print(r.df.head())</code></pre>
 <pre><code>##         date  price
 ## 0 1954-01-01    4.9
 ## 1 1954-02-01    5.2
@@ -321,7 +321,7 @@ print(r.df2.head())</code></pre>
 <div id="plot-with-r" class="section level1">
 <h1>Plot with R</h1>
 <p>Let’s make a standard R plot</p>
-<pre class="r"><code>ggplot(data=df2, aes(x=date,y=price))+geom_line()+
+<pre class="r"><code>ggplot(data=df, aes(x=date,y=price))+geom_line()+
   labs(
     y=&#39;U.S. Unemployment Rate (%)&#39;,
     x=&quot;date (monthly)&quot;,
@@ -338,7 +338,7 @@ Figure 1: Made with R ggplot2. Data Source: U.S. Bureau of Labor Statistics, Civ
 <p>Now we can replicate the R plot with Python:</p>
 <pre class="python"><code>import matplotlib.pyplot as plt
 plt.style.use(&#39;ggplot&#39;)
-r.df2.plot(x=&quot;date&quot;,y=&quot;price&quot;,color=&quot;black&quot;)
+r.df.plot(x=&quot;date&quot;,y=&quot;price&quot;,color=&quot;black&quot;)
 plt.gca().get_legend().remove()
 plt.title(&#39;Not an R Graph&#39;)
 plt.xlabel(&#39;date (monthly)&#39;)
