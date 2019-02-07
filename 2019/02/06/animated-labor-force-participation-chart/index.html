@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Make an animated labor force participation chart with R">
+  <meta name="generator" content="Hugo 0.52" />
+
+  <title>Animated Labor Force Participation Chart &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com//img/charts_feb_06_2019/lfp.png" >
+     
+    <meta property="og:title" content="Animated Labor Force Participation Chart">
+    <meta property="og:description" content="Make an animated labor force participation chart with R">
+
+<div class="header">
+  <h1>Animated Labor Force Participation Chart</h1>
+  <h2>Make an animated labor force participation chart with R</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2019/02/06</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/animation">animation</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+
+
+<p>Here’s some <a href="https://www.r-project.org/">R</a> code for an animated chart of the U.S. prime working age (25-54) labor force participation rate. I tweeted it out last Friday:</p>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Labor force participation rate <a href="https://twitter.com/hashtag/dataviz?src=hash&amp;ref_src=twsrc%5Etfw">#dataviz</a> made with <a href="https://twitter.com/hashtag/rstats?src=hash&amp;ref_src=twsrc%5Etfw">#rstats</a> <a href="https://twitter.com/hashtag/gganimate?src=hash&amp;ref_src=twsrc%5Etfw">#gganimate</a> <a href="https://t.co/uSICoLjbIf">pic.twitter.com/uSICoLjbIf</a></p>&mdash; Leonard Kiefer (@lenkiefer) <a href="https://twitter.com/lenkiefer/status/1091352582776410113?ref_src=twsrc%5Etfw">February 1, 2019</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>We can go to the U.S. Bureau of Labor Statistics (BLS) webpage (<a href="https://www.bls.gov/" class="uri">https://www.bls.gov/</a>) and get these data. For more details see my post <a href="../../../../2018/03/11/charting-jobs-friday-with-r/">Charting Jobs Friday with R</a>.</p>
+<p>For an interesting analysis of what might have been behind the trends in this chart, see this paper <a href="https://t.co/XcGkRIfOPj">The Rise of Working Mothers and the 1975 Earned Income Tax Credit</a> that Jacob Bastian (on Twitter <a href="https://twitter.com/JacobBastian25">atJacobBastian25</a>) shared in response to my tweet.</p>
+<div id="get-data" class="section level2">
+<h2>Get data</h2>
+<p><details> <Summary>Click for R code to wrangle data </Summary></p>
+<pre class="r"><code># load libraries ----
+library(data.table)
+library(tidyverse)
+library(gganimate)
+
+# create a data frame for recessions ----
+recessions.df = read.table(textConnection(
+  &quot;Peak, Trough
+  1948-11-01, 1949-10-01
+  1953-07-01, 1954-05-01
+  1957-08-01, 1958-04-01
+  1960-04-01, 1961-02-01
+  1969-12-01, 1970-11-01
+  1973-11-01, 1975-03-01
+  1980-01-01, 1980-07-01
+  1981-07-01, 1982-11-01
+  1990-07-01, 1991-03-01
+  2001-03-01, 2001-11-01
+  2007-12-01, 2009-06-01&quot;), sep=&#39;,&#39;,
+  colClasses=c(&#39;Date&#39;, &#39;Date&#39;), header=TRUE)
+
+# get data from bls (with data.table::fread)
+dfs&lt;-fread(&quot;https://download.bls.gov/pub/time.series/ln/ln.series&quot;)
+
+codes&lt;-dfs[grepl(&quot;Participation Rate&quot;, series_title) &amp;   # use regular expression
+             ages_code==33 &amp;                             # only ags 25 to 54
+             periodicity_code ==&quot;M&quot; &amp;                    # only monthly frequence
+             seasonal==&quot;S&quot;                               # only Seasonally adjusted
+           ]
+codes$var &lt;- c(&quot;All&quot;,&quot;Men&quot;,&quot;Women&quot;)
+codes &lt;- select(codes, series_id, series_title, var)
+
+# get all data (large file)
+df.all&lt;-fread(&quot;https://download.bls.gov/pub/time.series/ln/ln.data.1.AllData&quot;)
+
+# filter data
+dfp&lt;-df.all[series_id %in% codes$series_id,]
+#create date variable
+dfp[,month:=as.numeric(substr(dfp$period,2,3))]
+dfp$date&lt;- as.Date(ISOdate(dfp$year,dfp$month,1) ) #set up date variable
+
+dfp$v&lt;-as.numeric(dfp$value)
+# join on variable names, drop unused variables, convert to data.table
+
+dfp &lt;- 
+left_join(dfp, select(codes, series_id,series_title,var), by=&quot;series_id&quot;) %&gt;%  
+  select(series_id,series_title,var,date,v) %&gt;% data.table() </code></pre>
+<p></details></p>
+</div>
+<div id="make-a-static-plot" class="section level2">
+<h2>Make a static plot</h2>
+<p><details> <Summary>Click for R code to make plot </Summary></p>
+<pre class="r"><code>g_lfp0 &lt;- 
+  ggplot(data=dfp, aes(x=date,y=v,color=var, label=var))+
+  geom_rect(data=recessions.df, inherit.aes=F, 
+            aes(xmin=Peak, xmax=Trough, ymin=-Inf, ymax=+Inf), fill=&#39;darkgray&#39;, alpha=0.5) +
+  geom_line(size=1.05)+theme_minimal()+
+  geom_point(data=filter(dfp,date==max(dfp$date)),size=2,alpha=0.75)+
+  geom_text(data=filter(dfp,date==max(dfp$date)),fontface=&quot;bold&quot;,size=4,nudge_y=2)+
+  scale_color_viridis_d(end=0.9)+
+  scale_x_date(date_breaks=&quot;5 years&quot;,date_labels=&quot;%Y&quot;)+
+  scale_y_continuous(sec.axis=dup_axis())+
+  theme(legend.position=&quot;none&quot;,
+        plot.caption=element_text(hjust=0),
+        plot.subtitle=element_text(face=&quot;italic&quot;),
+        plot.title=element_text(size=16,face=&quot;bold&quot;))+
+  labs(x=&quot;&quot;,y=&quot;&quot;,title=&quot;Labor Force Participation Rate: Prime Working Age (25-54)&quot;,
+       subtitle=&quot;in percentage points (seasonally adjusted)&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Bureau of Labor Statistics, shaded bars NBER Recessions&quot;)</code></pre>
+<p></details></p>
+<pre class="r"><code>g_lfp0</code></pre>
+<p><img src="/post/2019-02-06-animated-labor-force-participation-chart_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+</div>
+<div id="animate" class="section level2">
+<h2>Animate</h2>
+<p>Finally, the following code will turn our static plot (with a minor tweak) into an animated gif. See my post <a href="../../../../2019/01/13/go-go-animate/">Go Go Animate!</a> for more on making animations with the <a href="https://CRAN.R-project.org/package=gganimate">gganimate</a> package.</p>
+<p><details> <Summary>Click for R code to make animation </Summary></p>
+<pre class="r"><code>g_lfp &lt;-
+  
+  ggplot(data=dfp, aes(x=date,y=v,color=var, label=var))+
+  geom_rect(data=recessions.df, inherit.aes=F, 
+            aes(xmin=Peak, xmax=Trough, ymin=-Inf, ymax=+Inf), fill=&#39;darkgray&#39;, alpha=0.5) +
+  geom_line(size=1.05)+theme_minimal()+
+  scale_color_viridis_d(end=0.9)+
+  # note to get the labels to show up we remove the filter from the data part of geom_point/geom_text
+  geom_point(size=2,alpha=0.75)+
+  geom_text(fontface=&quot;bold&quot;,size=4,nudge_y=2)+
+  scale_x_date(date_breaks=&quot;5 years&quot;,date_labels=&quot;%Y&quot;)+
+  scale_y_continuous(sec.axis=dup_axis())+
+  theme(legend.position=&quot;none&quot;,
+        plot.caption=element_text(hjust=0),
+        plot.subtitle=element_text(face=&quot;italic&quot;),
+        plot.title=element_text(size=16,face=&quot;bold&quot;))+
+  labs(x=&quot;&quot;,y=&quot;&quot;,title=&quot;Labor Force Participation Rate: Prime Working Age (25-54)&quot;,
+       subtitle=&quot;in percentage points (seasonally adjusted)&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Bureau of Labor Statistics, shaded bars NBER Recessions&quot;)
+
+anim_save(file=&quot;PATH_TO_YOUR_DIRECTORY/lfp2.gif&quot;, 
+          animation = animate(g_lfp+transition_reveal(date),
+                              height=800,width=600,
+                              
+                              end_pause=25,nframes=125))</code></pre>
+<p></details></p>
+<p>Running the code above yields:</p>
+<p><img src="../../../../img/charts_feb_06_2019/lfp2.gif"></p>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2019/01/28/running-python-from-r-with-reticulate/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2019/01/28/running-python-from-r-with-reticulate/">Running Python from R with Reticulate</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/dataviz/">dataviz</a>, 
+            
+                <a href="/tags/animation/">animation</a>, 
+            
+                <a href="/tags/r/">R</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2019%2f02%2f06%2fanimated-labor-force-participation-chart%2f&text=Animated%20Labor%20Force%20Participation%20Chart via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2019%2f02%2f06%2fanimated-labor-force-participation-chart%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+
