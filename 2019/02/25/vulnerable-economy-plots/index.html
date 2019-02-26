@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="R code for plots from my speech: Forecasting in a Vulnerable Economy">
+  <meta name="generator" content="Hugo 0.52" />
+
+  <title>Vulnerable Economy Plots &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com//img/charts_feb_25_2019/vulnerable_summary.png" >
+     
+    <meta property="og:title" content="Vulnerable Economy Plots">
+    <meta property="og:description" content="R code for plots from my speech: Forecasting in a Vulnerable Economy">
+
+<div class="header">
+  <h1>Vulnerable Economy Plots</h1>
+  <h2>R code for plots from my speech: Forecasting in a Vulnerable Economy</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2019/02/25</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/animation">animation</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/economy">economy</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/presentation">presentation</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+
+
+<p>Last week I gave a speech in Cincinnati, Ohio at the UC/PNC Economic Outlook program. My speech was titled “Forecasting in a Vulnerable Economy”. You can find slides and detailed notes over on LinkedIn: <a href="https://www.linkedin.com/pulse/forecasting-vulnerable-economy-leonard-kiefer/" class="uri">https://www.linkedin.com/pulse/forecasting-vulnerable-economy-leonard-kiefer/</a>.</p>
+<p>In this post I want to share <a href="https://www.r-project.org/">R</a> code for the first three plots on the Vulnerable Economy.</p>
+<p>We’ll get the data via the <a href="https://fred.stlouisfed.org/">St Louis Fed’s FRED</a>. We’re going to grab the Fed Funds rate <code>FEDFUNDS</code>, the Unemployment Rate <code>UNRATE</code> the Congressional Budget Office’s estimate of the long-run natural rate of unemployment <code>NROU</code> and the spread between the 10-year and 2-year U.S. Treasury <code>T10Y2Y</code>. All but the last two are monthly data. The <code>NROU</code> variable is quarterly, so we’ll fill down to make it monthly, while the <code>T10Y2Y</code> is daily, so we’ll pull it down withe a separate call to <code>tidyquant::get</code>.</p>
+<p><details> <Summary>Click for R code to wrangle data </Summary></p>
+<pre class="r"><code># load libraries 
+library(tidyverse)
+library(sqldf)
+library(lubridate)
+
+# load data ----
+df &lt;- tidyquant::tq_get(c(&quot;FEDFUNDS&quot;,&quot;UNRATE&quot;,&quot;NROU&quot;),
+                        get=&quot;economic.data&quot;,
+                        from=&quot;1960-01-01&quot;)
+
+
+# spread out data and fill down
+df2 &lt;- spread(df, symbol,price)
+
+df2 &lt;- 
+  df2 %&gt;%
+  mutate(NROU2=zoo::na.locf(NROU,na.rm=F)) %&gt;%
+  mutate(UGAP2 = UNRATE-NROU2,
+         dff=c(NA,diff(FEDFUNDS)),
+         up=ifelse(UNRATE&gt;NROU2, UNRATE,NROU2),
+         down=ifelse(UNRATE&lt;NROU2, UNRATE,NROU2),
+         id=row_number(),
+         dc=lead(date))
+
+
+df_slope &lt;- tidyquant::tq_get(&quot;T10Y2Y&quot;,
+                              get=&quot;economic.data&quot;,
+                              from=&quot;1960-01-01&quot;) %&gt;%
+  mutate(         up=ifelse(price&gt;0, price,0),
+                  down=ifelse(price&lt;0, price,0))
+
+# recession data frame based on NBER dates
+
+recessions.df = read.table(textConnection(
+  &quot;Peak, Trough
+  1960-04-01, 1961-02-01
+  1969-12-01, 1970-11-01
+  1973-11-01, 1975-03-01
+  1980-01-01, 1980-07-01
+  1981-07-01, 1982-11-01
+  1990-07-01, 1991-03-01
+  2001-03-01, 2001-11-01
+  2007-12-01, 2009-06-01&quot;), sep=&#39;,&#39;,
+  colClasses=c(&#39;Date&#39;, &#39;Date&#39;), header=TRUE)
+
+
+# spread out data and fill down
+df2 &lt;- spread(df, symbol,price)
+
+df2 &lt;- 
+  df2 %&gt;%
+  mutate(NROU2=zoo::na.locf(NROU,na.rm=F)) %&gt;%
+  mutate(UGAP2 = UNRATE-NROU2,
+         dff=c(NA,diff(FEDFUNDS)),
+         up=ifelse(UNRATE&gt;NROU2, UNRATE,NROU2),
+         down=ifelse(UNRATE&lt;NROU2, UNRATE,NROU2),
+         id=row_number(),
+         dc=lead(date))</code></pre>
+<p></details></p>
+<div id="yield-curve-slope-chart" class="section level2">
+<h2>Yield curve slope chart</h2>
+<p>This one is pretty simple:</p>
+<pre class="r"><code>#slope chart ----
+
+ggplot(data=filter(df_slope,!is.na(price)), aes(x=date,y=price))+
+  geom_rect(data=filter(recessions.df,year(Peak)&gt;1976), inherit.aes=F, 
+            aes(xmin=Peak, xmax=Trough, ymin=-Inf, ymax=+Inf), fill=&#39;darkgray&#39;, alpha=0.5) +
+  geom_line(color=&quot;black&quot;)+
+  geom_ribbon(aes(ymin=0,ymax=down),fill=&quot;#d73027&quot;,alpha=0.5)+
+  geom_ribbon(aes(ymin=0,ymax=up),fill=&quot;#4575b4&quot;,alpha=0.5)  +
+  theme_minimal(base_size=8)+
+  theme(legend.position=&quot;top&quot;,
+        plot.caption=element_text(hjust=0),
+        plot.subtitle=element_text(face=&quot;italic&quot;),
+        plot.title=element_text(size=16,face=&quot;bold&quot;))+
+  labs(x=&quot;&quot;,y=&quot;&quot;,
+       caption=&quot;@lenkiefer Source: Federal Reserve (H.15), sahded area NBER recessions.\nretrieve from FRED, Federal Reserve Bank of St Louis, Feb 25, 2019&quot;,
+       title=&quot;Slope of Yield Curve:\n10-year minus 2-year Constant Maturity Treasuy Yields&quot;,
+       subtitle=&quot;Difference in percentage points, daily&quot;)+
+  geom_rug(aes(color=ifelse(price&lt;=0 ,&quot;&lt;=0 &quot;,&quot;&gt;0&quot;)),sides=&quot;b&quot;)+
+  scale_color_manual(values=c(&quot;#d73027&quot;,&quot;#4575b4&quot;),name=&quot;Slope:  &quot;)</code></pre>
+<p><img src="/post/2019-02-25-vulnerable-economy-plots_files/figure-html/2019-02-25-yield-slope-plot-1.png" width="672" /></p>
+</div>
+<div id="unemployment-rate-chart" class="section level2">
+<h2>Unemployment Rate Chart</h2>
+<pre class="r"><code>#ugap chart----
+
+
+ggplot(data=filter(df2,!is.na(NROU2)),aes(x=date,y=UNRATE))+
+  geom_rect(data=recessions.df, inherit.aes=F, aes(xmin=Peak, xmax=Trough, ymin=-Inf, ymax=+Inf), fill=&#39;darkgray&#39;, alpha=0.5) +
+  geom_line(color=&quot;black&quot;)+
+  geom_line(linetype=2,aes(y=NROU2))+
+  geom_ribbon(aes(ymin=UNRATE,ymax=down),fill=&quot;#d73027&quot;,alpha=0.5)+
+  geom_ribbon(aes(ymin=UNRATE,ymax=up),fill=&quot;#4575b4&quot;,alpha=0.5)  +
+  scale_x_date(date_breaks=&quot;5 years&quot;,date_labels=&quot;%Y&quot;)+
+  scale_y_continuous(sec.axis=dup_axis())+
+  theme_minimal(base_size=8)+
+  theme(legend.position=&quot;top&quot;,
+        plot.caption=element_text(hjust=0),
+        plot.subtitle=element_text(face=&quot;italic&quot;),
+        plot.title=element_text(size=16,face=&quot;bold&quot;))+
+  labs(x=&quot;&quot;,y=&quot;Percent&quot;,
+       title=&quot;U.S. Unemployment Rate vs Natural Rate of Unemployment&quot;,
+       subtitle=&quot;Solid line Unemployment Rate, dotted line Long-term Natural Rate of Unemployment&quot;,
+       caption=&quot;@lenkiefer Data Source: U.S. Bureau of Labor Statistics, U.S. Congressional Budget Office,shaded bars NBER Recessions\nNatural Rate of Unemployment (Long-Term) retrieved from FRED,\nFederal Reserve Bank of St. Louis; https://fred.stlouisfed.org/series/NROU, Feb 25, 2019&quot;)+
+  geom_rug(aes(color=ifelse(UNRATE&lt;=NROU2,&quot;Below or Equal&quot;,&quot;Above&quot;)),sides=&quot;b&quot;)+
+  scale_color_manual(values=c(&quot;#d73027&quot;,&quot;#4575b4&quot;),name=&quot;Unemployment Rate Above/Below Natural Rate &quot;)</code></pre>
+<p><img src="/post/2019-02-25-vulnerable-economy-plots_files/figure-html/2019-02-25-ugap-plot-1.png" width="672" /></p>
+</div>
+<div id="fed-funds-chart" class="section level2">
+<h2>Fed Funds Chart</h2>
+<p>This chart is new for me. For this chart I wanted to count how many months between the Fed hiking rates and the next cut (or vice versa). You can get a list of historical monetary policy announcments and open market operations here <a href="https://www.federalreserve.gov/monetarypolicy/openmarket.htm" class="uri">https://www.federalreserve.gov/monetarypolicy/openmarket.htm</a>. By inspecting the data I was able to identify the periods when the FOMC shifted from cutting rates to hike (or vice versa).</p>
+<pre class="r"><code># fedfunds chart ----
+df7 &lt;-
+  data.frame(
+    date2=as.Date(
+      # date when policy changed
+      c(&quot;1993-02-04&quot;,
+        &quot;1995-07-06&quot;,
+        &quot;1997-03-25&quot;,
+        &quot;1998-09-29&quot;,
+        &quot;1999-06-30&quot;,
+        &quot;2001-01-03&quot;,
+        &quot;2004-06-30&quot;,
+        &quot;2007-09-18&quot;,
+        &quot;2015-12-17&quot;,
+        &quot;2025-01-01&quot;)   # last date is a placeholder
+                  ),
+    dlag=as.Date(
+      # date of prior policy
+      c(&quot;1990-01-01&quot;,   # first date is a placeholder
+        &quot;1993-02-04&quot;,
+        &quot;1995-07-06&quot;,
+        &quot;1997-03-25&quot;,
+        &quot;1998-09-29&quot;,
+        &quot;1999-06-30&quot;,
+        &quot;2001-01-03&quot;,
+        &quot;2004-06-30&quot;,
+        &quot;2007-09-18&quot;,
+        &quot;2015-12-17&quot;)
+                           )
+             ) %&gt;%
+  mutate(id2=row_number(),
+         type=ifelse(id2 %% 2 ==1, &quot;rate_cut&quot;,&quot;rate_hike&quot;))
+
+knitr::kable(df7)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">date2</th>
+<th align="left">dlag</th>
+<th align="right">id2</th>
+<th align="left">type</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1993-02-04</td>
+<td align="left">1990-01-01</td>
+<td align="right">1</td>
+<td align="left">rate_cut</td>
+</tr>
+<tr class="even">
+<td align="left">1995-07-06</td>
+<td align="left">1993-02-04</td>
+<td align="right">2</td>
+<td align="left">rate_hike</td>
+</tr>
+<tr class="odd">
+<td align="left">1997-03-25</td>
+<td align="left">1995-07-06</td>
+<td align="right">3</td>
+<td align="left">rate_cut</td>
+</tr>
+<tr class="even">
+<td align="left">1998-09-29</td>
+<td align="left">1997-03-25</td>
+<td align="right">4</td>
+<td align="left">rate_hike</td>
+</tr>
+<tr class="odd">
+<td align="left">1999-06-30</td>
+<td align="left">1998-09-29</td>
+<td align="right">5</td>
+<td align="left">rate_cut</td>
+</tr>
+<tr class="even">
+<td align="left">2001-01-03</td>
+<td align="left">1999-06-30</td>
+<td align="right">6</td>
+<td align="left">rate_hike</td>
+</tr>
+<tr class="odd">
+<td align="left">2004-06-30</td>
+<td align="left">2001-01-03</td>
+<td align="right">7</td>
+<td align="left">rate_cut</td>
+</tr>
+<tr class="even">
+<td align="left">2007-09-18</td>
+<td align="left">2004-06-30</td>
+<td align="right">8</td>
+<td align="left">rate_hike</td>
+</tr>
+<tr class="odd">
+<td align="left">2015-12-17</td>
+<td align="left">2007-09-18</td>
+<td align="right">9</td>
+<td align="left">rate_cut</td>
+</tr>
+<tr class="even">
+<td align="left">2025-01-01</td>
+<td align="left">2015-12-17</td>
+<td align="right">10</td>
+<td align="left">rate_hike</td>
+</tr>
+</tbody>
+</table>
+<p>This table shows that prior to the most recent hiking cycle, which began on December 12, 2015 rates had been cut (or held constant) from September 18, 2007.</p>
+<p>Now, let’s use <a href="https://CRAN.R-project.org/package=sqldf">sqldf</a> and some SQL to merge back on the Fed policy action dates to our full data and then make a plot.</p>
+<pre class="r"><code>output &lt;- sqldf(&quot;select * from df2 left join df7
+                on (df2.date&gt;=df7.dlag and df2.date&lt;=df7.date2)&quot;) %&gt;%
+  filter(!is.na(dlag)|year(date)&gt;2015) %&gt;%
+  mutate(dur=interval(dlag,date) %/% months(1)+1)
+
+g1&lt;-
+ggplot(filter(output, year(date)&gt;1990), aes(x=date,y=ifelse(type==&quot;rate_cut&quot;,-dur, dur)/50, color=type, group=date2))+
+  geom_line()+
+  geom_rug(sides=&quot;b&quot;)+
+  geom_label(data=output %&gt;% group_by(type,date2) %&gt;% summarize(date=max(date),dur=max(dur),FEDFUNDS=last(FEDFUNDS)),aes(label=dur),show.legend=FALSE)+
+  geom_line(aes(x=date,y=FEDFUNDS),inherit.aes=FALSE)+
+  theme_gray(base_size=16) +
+  scale_color_manual(values=c(&quot;red&quot;,&quot;blue&quot;), name=&quot;Month since first: &quot;)+
+  theme(plot.caption=element_text(hjust=0),
+        plot.subtitle=element_text(size=rel(0.8),face=&quot;italic&quot;))+
+  labs(x=&quot;date (monthly)&quot;, y=&quot;&quot;,
+       title=&quot;Effective Federal Funds Rate and \nMonths Since Switching from Hikes/Cuts&quot;,
+       subtitle=&quot;Black line is effective federal funds rate,\ncolors indicate if last move was hike/cut and \nnumber of months between switching from hikes to cuts (or vice versa)&quot;,
+       caption=&quot;@lenkiefer Source: Board of Governors of the Federal Reserve System&quot;)
+g1</code></pre>
+<p><img src="/post/2019-02-25-vulnerable-economy-plots_files/figure-html/2019-02-25-fedfunds-plot-1.png" width="816" /></p>
+<p>And if we want to animate with <a href="https://CRAN.R-project.org/package=gganimate">gganimate</a> we need to make a slight tweak (for labels)</p>
+<pre class="r"><code>g2&lt;-
+ggplot(filter(output, year(date)&gt;1990), aes(x=date,y=ifelse(type==&quot;rate_cut&quot;,-dur, dur)/50, color=type, group=date2))+
+  geom_line()+
+  geom_rug(sides=&quot;b&quot;)+
+  geom_label(aes(label=dur),show.legend=FALSE)+
+  geom_line(aes(x=date,y=FEDFUNDS),inherit.aes=FALSE)+
+  theme_gray(base_size=16) +
+  scale_color_manual(values=c(&quot;red&quot;,&quot;blue&quot;), name=&quot;Month since first: &quot;)+
+  theme(plot.caption=element_text(hjust=0),
+        plot.subtitle=element_text(size=rel(0.8),face=&quot;italic&quot;))+
+  labs(x=&quot;date (monthly)&quot;, y=&quot;&quot;,
+       title=&quot;Effective Federal Funds Rate and \nMonths Since Switching from Hikes/Cuts&quot;,
+       subtitle=&quot;Black line is effective federal funds rate,\ncolors indicate if last move was hike/cut and \nnumber of months between switching from hikes to cuts (or vice versa)&quot;,
+       caption=&quot;@lenkiefer Source: Board of Governors of the Federal Reserve System&quot;)
+library(gganimate)
+anim_save(file=&quot;fed_cuts.gif&quot;, 
+          animation = animate(g2+gganimate::transition_reveal(date),height=800,width=1200,end_pause=25,nframes=180))</code></pre>
+<p><img src="../../../../img/charts_feb_25_2019/fed_cuts.gif", width=80%></p>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2019/02/06/animated-labor-force-participation-chart/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2019/02/06/animated-labor-force-participation-chart/">Animated Labor Force Participation Chart</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/dataviz/">dataviz</a>, 
+            
+                <a href="/tags/animation/">animation</a>, 
+            
+                <a href="/tags/economy/">economy</a>, 
+            
+                <a href="/tags/presentation/">presentation</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2019%2f02%2f25%2fvulnerable-economy-plots%2f&text=Vulnerable%20Economy%20Plots via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2019%2f02%2f25%2fvulnerable-economy-plots%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+
