@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="We take a look at recent trends in mortgage rate and housing construciton. Also make some animations with R and gganimate">
+  <meta name="generator" content="Hugo 0.52" />
+
+  <title>Mortgage rates and housing construction &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com//img/charts_mar_03_2019/summary.png" >
+     
+    <meta property="og:title" content="Mortgage rates and housing construction">
+    <meta property="og:description" content="We take a look at recent trends in mortgage rate and housing construciton. Also make some animations with R and gganimate">
+
+<div class="header">
+  <h1>Mortgage rates and housing construction</h1>
+  <h2>We take a look at recent trends in mortgage rate and housing construciton. Also make some animations with R and gganimate</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2019/03/03</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/housing">housing</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/mortgage">mortgage</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/animation">animation</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+
+
+<p>The U.S. housing market stalled out a bit in 2018 and we aren’t building enough homes to match demand. See my <a href="https://www.linkedin.com/pulse/forecasting-vulnerable-economy-leonard-kiefer/">recent speech</a> for details on what’s going on. Abbreviated version: in 2018 mortgage interest rates slowed housing activity, but demographic forces support housing demand and should provide a lift in years to come. Together with a recent moderation in mortgage rates there’s reason to be optimistic about housing market activity in 2019.</p>
+<p>Let’s make a few graphs to explore. Per usual we will use <a href="https://www.r-project.org/">R</a>. In this post we’ll make some animations using the <a href="https://CRAN.R-project.org/package=gganimate">gganimate</a> package. Also see <a href="../../../../2019/01/13/go-go-animate/">Go Go Animate!</a> and <a href="../../../../2019/02/06/animated-labor-force-participation-chart/">Animated Labor Force Participation Chart</a> for some additional examples.</p>
+<div id="get-data" class="section level2">
+<h2>Get data</h2>
+<p>We’re going to get weekly mortgage rates from Freddie Mac’s <a href="http://www.freddiemac.com/pmms/">Primary Mortgage Market Survey</a> and housing construction data from the <a href="https://www.census.gov/construction/nrc/index.html">U.S. Census Bureau’s New Residential Construction</a>.</p>
+<p>We could get the data direct from the primary sources, for example as in <a href="2018/11/20/housing-starts-stall/">this post</a>, but for convenience we’ll get the data via the <a href="https://fred.stlouisfed.org/">St Louis Fed’s FRED</a>.</p>
+<p><details> <Summary>Click for R code to wrangle data </Summary></p>
+<pre class="r"><code>library(tidyverse)
+library(lubridate)
+library(gganimate)
+
+
+tickers &lt;- c(&quot;MORTGAGE30US&quot;, 
+            &quot;HOUSTNSA&quot;,
+            &quot;HOUST1FNSA&quot;, 
+            &quot;HSN1FNSA&quot;,
+            &quot;COMPUTNSA&quot;)
+
+names &lt;- c(&quot;30-year Mortgage&quot;,
+           &quot;Housing Starts&quot;,
+           &quot;1-unit Housing Starts&quot;,
+           &quot;New Home Sales&quot;,
+           &quot;Housing Completions&quot;
+           )
+
+df_names &lt;- data.frame(symbol=tickers,name=names)
+
+
+# load data ----
+df &lt;- tidyquant::tq_get(tickers,
+                        get=&quot;economic.data&quot;,
+                        from=&quot;1960-01-01&quot;) %&gt;% 
+  mutate(month=month(date), 
+         monthf=factor(month, labels=month.abb),
+         year=year(date),
+         yearc=as.character(year)) %&gt;%
+  left_join(df_names,by=&quot;symbol&quot;)</code></pre>
+<p></details></p>
+</div>
+<div id="not-building-enough-housing" class="section level1">
+<h1>Not building enough housing</h1>
+<p>THe U.S. is not building enough housing. After the 2018 residential construction data was published I tweeted out:</p>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">U.S. not building enough <a href="https://twitter.com/hashtag/housing?src=hash&amp;ref_src=twsrc%5Etfw">#housing</a><br>If you look over the 40 years from 1968 to 2007 there were only two years when the U.S. added fewer gross units (homes/apartments/manufactured housing) than it did in 2018 <a href="https://t.co/yRsU34iFPd">pic.twitter.com/yRsU34iFPd</a></p>&mdash; Leonard Kiefer (@lenkiefer) <a href="https://twitter.com/lenkiefer/status/1100427458782916608?ref_src=twsrc%5Etfw">February 26, 2019</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>Let’s recreate this chart</p>
+<p>For this chart we will also need annual manufactured home shipments. That data wasn’t in FRED that I could see, but it is available from Census <a href="https://www.census.gov/data/tables/time-series/econ/mhs/shipments.html">here</a>. I’ve entered the data directly into R via <a href="https://github.com/MilesMcBain/datapasta">datapasta</a> copy + paste magic.</p>
+<p><details> <Summary>Click for R code to wrangle data </Summary></p>
+<pre class="r"><code>#data via  https://www.census.gov/data/tables/time-series/econ/mhs/shipments.html
+# warning! I copied this in by hand, best to review data from Census above is you want to use it!
+
+df_ship &lt;- 
+  data.frame(
+          year = c(2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010, 2009,
+                   2008, 2007, 2006, 2005, 2004, 2003, 2002, 2001, 2000, 1999,
+                   1998, 1997, 1996, 1995, 1994, 1993, 1992, 1991, 1990, 1989,
+                   1988, 1987, 1986, 1985, 1984, 1983, 1982, 1981, 1980, 1979,
+                   1978, 1977, 1976, 1975, 1974, 1973, 1972, 1971, 1970, 1969, 1968,
+                   1967, 1966, 1965, 1964, 1963, 1962, 1961, 1960, 1959),
+     shipments = c(96.6, 92.9, 81.1, 70.5, 64.3, 60.2, 51.6, 51.6, 50, 49.8,
+                   81.9, 95.7, 117.3, 146.8, 130.7, 130.8, 168.5, 193.1, 250.4,
+                   348.1, 373.1, 353.7, 363.3, 339.9, 303.9, 254.3, 210.5,
+                   170.9, 188.3, 198.1, 218.3, 232.8, 244.3, 283.5, 295.4, 295.8,
+                   239.5, 240.9, 221.6, 277.4, 275.7, 265.6, 246.1, 212.7, 338.3,
+                   579.9, 575.9, 491.7, 401.2, 412.7, 318, 240.4, 217.3, 216.5,
+                   191.3, 150.8, 118, 90.2, 103.7, 120.5)
+  )</code></pre>
+<p>Now we want to combine this data with annual housing completions (single-family homes and multifamily structures).</p>
+<pre class="r"><code># create annual completions data
+df_comp &lt;- filter(df, symbol==&quot;COMPUTNSA&quot;) %&gt;% group_by(year) %&gt;% summarize(comp=sum(price)) %&gt;%
+  # join with shipments data
+  left_join(df_ship, by=&quot;year&quot;) %&gt;%
+  mutate(total=comp+shipments)</code></pre>
+<p></details></p>
+<p>Finally, make our plot.</p>
+<pre class="r"><code>ggplot(data=df_comp, aes(x=year,y=total, fill=ifelse(total  &lt; last(total),&quot;&lt;2018&quot;,&quot;&gt;=2018&quot;)))+
+  geom_col()+
+  scale_fill_manual(name=&quot;Gross Housing Added &quot;, values= c(&quot;#d73027&quot;,&quot;#4575b4&quot;))+
+  labs(title=&quot;U.S. added fewer growss housing units than in 2018 in only two years prior to 2008&quot;,
+       subtitle=&quot;U.S. annual housing completions and manufactured home shipments (thousands)&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Census Bureau and Department of Housing and Urban Development, Institute for Building Technology and Safety\ndotted line at 2018 value&quot;,
+       x=&quot;&quot;,y=&quot;&quot;)+
+  scale_x_continuous(breaks=c(1968,1982,1991,2018),expand=c(0.01,0.01))+
+  scale_y_continuous(sec.axis=dup_axis(),breaks=seq(0,2500,500),limits=c(0,2750),expand=c(0,0.01))+
+  geom_hline(aes(yintercept=last(total)),linetype=2)+
+  theme_gray(base_size=14)+
+  theme(legend.position=&quot;top&quot;,
+    plot.title=element_text(face=&quot;bold&quot;),
+        plot.subtitle=element_text(face=&quot;italic&quot;),
+        plot.caption=element_text(hjust=0))</code></pre>
+<p><img src="/post/2019-03-03-mortgage-rates-and-housing-construction_files/figure-html/2019-03-03-completions-plot-1.png" width="1056" /></p>
+</div>
+<div id="popular-mortgage-rate-animation" class="section level1">
+<h1>Popular mortgage rate animation</h1>
+<p>Every week I tweet out this (or a slight variation):</p>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">At the end of February 2019, the U.S. weekly average 30-year fixed mortgage was 4.35%, down from 0.59 percentage points from its peak last fall <a href="https://t.co/WFVbDvU0Se">pic.twitter.com/WFVbDvU0Se</a></p>&mdash; Leonard Kiefer (@lenkiefer) <a href="https://twitter.com/lenkiefer/status/1102219887739654144?ref_src=twsrc%5Etfw">March 3, 2019</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>Let’s make one.</p>
+<div id="static-plot" class="section level2">
+<h2>Static plot</h2>
+<p>First a static plot, then we will make slight modifications to get the desired animation.</p>
+<pre class="r"><code>df_rate &lt;- filter(df, symbol==&quot;MORTGAGE30US&quot;)
+
+ggplot(data=filter(df_rate,year&gt;2016),
+       aes(x=date,y=price))+
+  geom_path(color=&quot;royalblue&quot;,size=1.05)+
+  geom_point(data= . %&gt;% tail(1), size=3,color=&quot;royalblue&quot;,shape=21,fill=&quot;white&quot;)+
+  geom_text(data= .%&gt;% tail(1), aes(label=price),nudge_x=8,color=&quot;royalblue&quot;,hjust=0,size=5)+
+  scale_x_date(limits=as.Date(c(&quot;2017-01-1&quot;,&quot;2019-05-31&quot;), date_breaks=&quot;6 months&quot;))+
+  scale_y_continuous(sec.axis=dup_axis())+
+  theme_gray(base_size=12)+
+  theme(text=element_text(color=&quot;royalblue&quot;),
+        plot.caption=element_text(hjust=0)
+        )+
+  labs(x=&quot;&quot;,y=&quot;&quot;,
+       title=&quot;Mortgage Rate Trends&quot;,
+       subtitle=&quot;U.S. weekly average 30-year fixed mortgage rate (percent)&quot;,
+       caption=&quot;@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey through February 28, 2019&quot;)</code></pre>
+<p><img src="/post/2019-03-03-mortgage-rates-and-housing-construction_files/figure-html/2019-03-03-mtg-plot-1-1.png" width="672" /></p>
+<p>And to animate:</p>
+<p><details> <Summary>Click for R code to animate </Summary></p>
+<pre class="r"><code>g_rate &lt;- 
+ggplot(data=filter(df_rate,year&gt;2016),
+       aes(x=date,y=price))+
+  geom_path(color=&quot;royalblue&quot;,size=1.05)+
+  geom_point(size=3,color=&quot;royalblue&quot;,shape=21,fill=&quot;white&quot;)+
+  geom_text(aes(label=price),nudge_x=8,color=&quot;royalblue&quot;,hjust=0,size=5)+
+  scale_x_date(limits=as.Date(c(&quot;2017-01-1&quot;,&quot;2019-05-31&quot;), date_breaks=&quot;6 months&quot;))+
+  transition_reveal(date)+
+  scale_y_continuous(sec.axis=dup_axis())+
+  theme_gray(base_size=18)+
+  theme(text=element_text(color=&quot;royalblue&quot;),
+        plot.caption=element_text(hjust=0)
+        )+
+  labs(x=&quot;&quot;,y=&quot;&quot;,
+       title=&quot;Mortgage Rate Trends&quot;,
+       subtitle=&quot;U.S. weekly average 30-year fixed mortgage rate (percent)&quot;,
+       caption=&quot;@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey through February 28, 2019&quot;)
+
+animate(g_rate, end_pause=25,nframes=125,width=800,height=600)
+
+anim_save(file=&quot;PATH_TO_YOUR_DIRECTORY/pmms_03_03_2019.gif&quot;, 
+          animation = last_animation())</code></pre>
+<p></details></p>
+<p>Yields:</p>
+<p><img src="../../../../img/charts_mar_03_2019/pmms_03_03_2019.gif"></p>
+</div>
+</div>
+<div id="housing-starts-animation" class="section level1">
+<h1>Housing starts animation</h1>
+<p>Here’s another fun one:</p>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">U.S. single-family <a href="https://twitter.com/hashtag/housing?src=hash&amp;ref_src=twsrc%5Etfw">#housing</a> construction lags historical averages <br>comparing 1-unit starts by year &amp; month 1960-2018 <a href="https://t.co/ZyQe0sFntz">pic.twitter.com/ZyQe0sFntz</a></p>&mdash; Leonard Kiefer (@lenkiefer) <a href="https://twitter.com/lenkiefer/status/1102274364995719169?ref_src=twsrc%5Etfw">March 3, 2019</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>We have the data we need to create this plot.</p>
+<p><details> <Summary>Click for R code for static plot </Summary></p>
+<pre class="r"><code>df_starts1 &lt;- 
+  filter(df, symbol==&quot;HOUST1FNSA&quot;)
+
+# only go from year 2001 forward
+g1 &lt;- 
+ggplot(data=filter(df_starts1,year&gt;2000), aes(x=month, y=price, color=price))+
+  geom_line(size=1.05)+
+  geom_point(size=4, shape=21, fill=&quot;white&quot;,stroke=2)+
+  scale_color_viridis_c(option=&quot;B&quot;,end=0.85, name=&quot;Monthly starts (1000s, NSA) &quot;)+
+  geom_text(hjust=1, data=.%&gt;% filter(month==1), nudge_x=-0.25, aes(label=yearc),size=5)+
+  geom_text(hjust=0, data=.%&gt;% filter(month==12), nudge_x= 0.25, aes(label=yearc),size=5)+
+  scale_x_continuous(limits=c(0,13),breaks=1:12, labels=month.abb)+
+  theme_gray(base_size=18)+
+  theme(legend.position=&quot;top&quot;)+
+    theme(plot.caption=element_text(hjust=0,size=rel(0.5)))+
+  labs(subtitle=&quot;{closest_state}&quot;,y=&quot;Housing starts (1000s, NSA)&quot;,
+       title=&quot;U.S. single-family housing starts by year&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Bureau of the Census and U.S. Department of Housing and Urban Development,\nPrivately Owned Housing Starts: 1-Unit Structures [HOUST1FNSA],\nretrieved from FRED, Federal Reserve Bank of St. Louis; https://fred.stlouisfed.org/series/HOUST1FNSA, March 3, 2019&quot;)</code></pre>
+<p></details></p>
+<p>Let’s take a look</p>
+<pre class="r"><code>g1</code></pre>
+<p><img src="/post/2019-03-03-mortgage-rates-and-housing-construction_files/figure-html/2019-03-03-starts-plot-1-static-show-1.png" width="1056" /></p>
+<p>That doesn’t look good at all! However, it’s like we want it. If we use <code>gganimate::transition_states()</code> we’ll get the desired results:</p>
+<pre class="r"><code>anim&lt;-
+  g1+transition_states(year)+shadow_mark(alpha=0.25)
+
+animate(anim, end_pause=25,nframes=125,width=1000,height=800)
+
+anim_save(file=&quot;PATH_TO_YOUR_DIRECTORY/starts1_line_anim_mar2019_v4.gif&quot;, 
+          animation = last_animation())</code></pre>
+<p><img src="../../../../img/charts_mar_03_2019/starts1_line_anim_mar2019_v4.gif"></p>
+</div>
+<div id="polar-plot" class="section level1">
+<h1>Polar plot</h1>
+<p>Let’s take the same animation, but use polar coordinates to have it wrap around.</p>
+<p><details> <Summary>Click for R code for animated polar plot </Summary></p>
+<pre class="r"><code>g1b &lt;- 
+  ggplot(data=filter(df_starts1,year&gt;2000), aes(x=month, y=price, color=price))+
+  geom_line(size=1.05)+
+  geom_point(size=4, shape=21, fill=&quot;white&quot;,stroke=1)+
+  scale_color_viridis_c(option=&quot;B&quot;,end=0.85, name=&quot;Monthly starts (1000s, NSA) &quot;)+
+  geom_text(hjust=1, data=.%&gt;% filter(month==1), nudge_y=10, aes(label=yearc),size=7,fontface=&quot;bold&quot;)+
+  scale_x_continuous(limits=c(1,12),breaks=1:12, labels=month.abb)+
+  scale_y_continuous(limits=c(0,180),breaks=seq(0,175,25))+
+  theme_gray(base_size=18)+
+  theme(legend.position=&quot;top&quot;,
+        plot.caption=element_text(hjust=0))
+
+anim&lt;-
+g1b+coord_polar()+transition_states(year)+shadow_mark(alpha=0.25)+
+  labs(subtitle=&quot;{closest_state}&quot;,y=&quot;Housing starts (1000s, NSA)&quot;,
+       title=&quot;U.S. single-family housing starts by year&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Bureau of the Census and U.S. Department of Housing and Urban Development,\nPrivately Owned Housing Starts: 1-Unit Structures [HOUST1FNSA],\nretrieved from FRED, Federal Reserve Bank of St. Louis; https://fred.stlouisfed.org/series/HOUST1FNSA, March 3, 2019&quot;)
+
+animate(anim, end_pause=25,nframes=200,width=1000,height=1000)
+
+anim_save(file=&quot;PATH_TO_YOUR_DIRECTORY/starts_anim_mar2019_v3.gif&quot;, 
+          animation = last_animation())</code></pre>
+<p></details></p>
+<p><img src="../../../../img/charts_mar_03_2019/starts_anim_mar2019_v3.gif"></p>
+<p>I also think a static small multiple is interesting. One strategy I like to use with small multiples is to include grayed out faint lines for all data as a reference in each multiple.</p>
+<pre class="r"><code>ggplot(data=filter(df_starts1,year&gt;2000), aes(x=month, y=price, color=price))+
+  scale_color_viridis_c(option=&quot;B&quot;,end=0.85, name=&quot;Monthly starts (1000s, NSA) &quot;)+
+  scale_x_continuous(limits=c(1,12),breaks=1:12, labels=month.abb)+
+  scale_y_continuous(limits=c(0,180),breaks=seq(0,175,25))+
+  theme_minimal(base_size=12)+
+  theme(legend.position=&quot;top&quot;,
+        plot.caption=element_text(hjust=0))+
+  labs(y=&quot;Housing starts (1000s, NSA)&quot;,
+       title=&quot;U.S. single-family housing starts by year&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Bureau of the Census and U.S. Department of Housing and Urban Development,\nPrivately Owned Housing Starts: 1-Unit Structures [HOUST1FNSA],\nretrieved from FRED, Federal Reserve Bank of St. Louis; https://fred.stlouisfed.org/series/HOUST1FNSA, March 3, 2019\ngray lines all years&quot;)+
+  # drop the facet variable (setting NULL) and to include grayed out shadows in each facet
+  geom_path(data= . %&gt;% mutate(yearc=NULL), color=&quot;darkgray&quot;,linetype=1,alpha=0.5, aes(group=year))+
+  facet_wrap(~yearc,ncol=6)+
+  geom_line(size=1.05)+
+  geom_point(size=1, shape=21, fill=&quot;white&quot;,stroke=1)+
+  coord_polar()</code></pre>
+<p><img src="/post/2019-03-03-mortgage-rates-and-housing-construction_files/figure-html/2019-03-03-polar-sm-tree-1.png" width="1056" /></p>
+<p>We could think about animating that, but that might be getting a little intense and overdoing it.</p>
+<p>Eh, let’s go for it!</p>
+<pre class="r"><code>g_sm&lt;-
+ggplot(data=filter(df_starts1,year&gt;2000), aes(x=month, y=price, color=price))+
+  scale_color_viridis_c(option=&quot;B&quot;,end=0.85, name=&quot;Monthly starts (1000s, NSA) &quot;)+
+  scale_x_continuous(limits=c(1,12),breaks=1:12, labels=month.abb)+
+  scale_y_continuous(limits=c(0,180),breaks=seq(0,175,25))+
+  theme_minimal(base_size=14)+
+  theme(legend.position=&quot;top&quot;,
+        plot.caption=element_text(hjust=0))+
+  labs(
+    y=&quot;Housing starts (1000s, NSA)&quot;,
+    title=&quot;U.S. single-family housing starts by year&quot;,
+    caption=&quot;@lenkiefer Source: U.S. Bureau of the Census and U.S. Department of Housing and Urban Development,\nPrivately Owned Housing Starts: 1-Unit Structures [HOUST1FNSA],\nretrieved from FRED, Federal Reserve Bank of St. Louis; https://fred.stlouisfed.org/series/HOUST1FNSA, March 3, 2019\ngray lines all years&quot;)+
+  geom_path(data= . %&gt;% mutate(yearc=NULL), color=&quot;darkgray&quot;,linetype=1,alpha=0.5, aes(group=year))+
+  facet_wrap(~yearc,ncol=6)+
+  geom_line(size=1.05)+
+  geom_point(size=1, shape=21, fill=&quot;white&quot;,stroke=1)+
+  coord_polar()
+
+animate(g_sm+transition_reveal(date), end_pause=25,nframes=200,width=1000,height=1000)
+anim_save(file=&quot;PATH_TO_YOUR_DIRECTORY/polar_sm.gif&quot;, 
+          animation = last_animation())</code></pre>
+<p><img src="../../../../img/charts_mar_03_2019/polar_sm.gif"></p>
+</div>
+<div id="alternative-version" class="section level1">
+<h1>Alternative version</h1>
+<p>I’ve found a small issue with gganimate (not sure if it’s an actual issue or just my misunderstanding). With <code>transition_states()</code> you tend to end the animation back at the first observation. Notice the line plot above snaps back to 2001. I want to emphasize 2018, so I found a workaround:</p>
+<pre class="r"><code># add back 2018, but set year to 18 so it shows up first
+df_starts2 &lt;-bind_rows(df_starts1, filter(df_starts1, year==2018) %&gt;% mutate(year=18))
+
+# proceed as above
+g3 &lt;- 
+  ggplot(data=filter(df_starts2), aes(x=month, y=price, color=price))+
+  geom_line(size=1.05)+
+  geom_point(size=4, shape=21, fill=&quot;white&quot;,stroke=2)+
+  scale_color_viridis_c(option=&quot;B&quot;,end=0.85, name=&quot;Monthly starts (1000s, NSA) &quot;)+
+  geom_text(hjust=1, data=.%&gt;% filter(month==1), nudge_x=-0.25, aes(label=yearc),size=5)+
+  geom_text(hjust=0, data=.%&gt;% filter(month==12), nudge_x= 0.25, aes(label=yearc),size=5)+
+  scale_x_continuous(limits=c(0,13),breaks=1:12, labels=month.abb)+
+  theme_gray(base_size=18)+
+  theme(legend.position=&quot;top&quot;)
+
+anim3 &lt;-
+  g3+transition_states(year)+shadow_mark(alpha=0.25)+
+  theme(plot.caption=element_text(hjust=0))+
+  labs(subtitle=&quot;{closest_state}&quot;,y=&quot;Housing starts (1000s, NSA)&quot;,
+       title=&quot;U.S. single-family housing starts by year&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Bureau of the Census and U.S. Department of Housing and Urban Development,\nPrivately Owned Housing Starts: 1-Unit Structures [HOUST1FNSA],\nretrieved from FRED, Federal Reserve Bank of St. Louis; https://fred.stlouisfed.org/series/HOUST1FNSA, March 3, 2019&quot;)
+
+animate(anim3, end_pause=25,nframes=350,width=1000,height=800)
+
+anim_save(file=&quot;PATH_TO_YOUR_DIRECTORY/starts1_line_anim_mar2019_v5_long.gif&quot;, 
+          animation = last_animation())</code></pre>
+<p><img src="../../../../img/charts_mar_03_2019/starts1_line_anim_mar2019_v5_long.gif"></p>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2019/02/25/vulnerable-economy-plots/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2019/02/25/vulnerable-economy-plots/">Vulnerable Economy Plots</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/r/">R</a>, 
+            
+                <a href="/tags/dataviz/">dataviz</a>, 
+            
+                <a href="/tags/housing/">housing</a>, 
+            
+                <a href="/tags/mortgage/">mortgage</a>, 
+            
+                <a href="/tags/animation/">animation</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2019%2f03%2f03%2fmortgage-rates-and-housing-construction%2f&text=Mortgage%20rates%20and%20housing%20construction via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2019%2f03%2f03%2fmortgage-rates-and-housing-construction%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+
