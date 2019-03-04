@@ -327,7 +327,7 @@ df_comp &lt;- filter(df, symbol==&quot;COMPUTNSA&quot;) %&gt;% group_by(year) %&
 <pre class="r"><code>ggplot(data=df_comp, aes(x=year,y=total, fill=ifelse(total  &lt; last(total),&quot;&lt;2018&quot;,&quot;&gt;=2018&quot;)))+
   geom_col()+
   scale_fill_manual(name=&quot;Gross Housing Added &quot;, values= c(&quot;#d73027&quot;,&quot;#4575b4&quot;))+
-  labs(title=&quot;U.S. added fewer growss housing units than in 2018 in only two years prior to 2008&quot;,
+  labs(title=&quot;U.S. added fewer gross housing units than in 2018 in only two years prior to 2008&quot;,
        subtitle=&quot;U.S. annual housing completions and manufactured home shipments (thousands)&quot;,
        caption=&quot;@lenkiefer Source: U.S. Census Bureau and Department of Housing and Urban Development, Institute for Building Technology and Safety\ndotted line at 2018 value&quot;,
        x=&quot;&quot;,y=&quot;&quot;)+
@@ -539,6 +539,12 @@ animate(anim3, end_pause=25,nframes=350,width=1000,height=800)
 anim_save(file=&quot;PATH_TO_YOUR_DIRECTORY/starts1_line_anim_mar2019_v5_long.gif&quot;, 
           animation = last_animation())</code></pre>
 <p><img src="../../../../img/charts_mar_03_2019/starts1_line_anim_mar2019_v5_long.gif"></p>
+<div id="update" class="section level3">
+<h3>Update</h3>
+<p>Turns out it may just be me. Thomas Lin Pedersen <a href="https://twitter.com/thomasp85/status/1102318990339293188">pointed out</a> that you can skip this business in the last example by setting <code>WRAP=FALSE</code>. However, when I applied it to the example above, I got an error if I run this.</p>
+<pre class="r"><code>g3+transition_states(year,transition_length=1, state_length=1, wrap=FALSE)</code></pre>
+<p><code>wrap=FALSE</code> does seem to work in simpler animations, so I’m not sure what exactly causes this error. If I can figure out a minimal reprex I may file an issue, but for now I’ll used my workaround above. But for you own application using <code>wrap=FALSE</code> may be a good solution.</p>
+</div>
 </div>
 
 
