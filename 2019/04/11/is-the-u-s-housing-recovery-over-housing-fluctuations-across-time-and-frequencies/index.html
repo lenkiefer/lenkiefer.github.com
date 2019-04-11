@@ -1,0 +1,2044 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="We analyze fluctuations in housing market indicators across time and frequencies using wavelets">
+  <meta name="generator" content="Hugo 0.52" />
+
+  <title>Is the U.S. housing recovery over? Housing fluctuations across time and frequencies &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com//img/charts_apr_11_2019/2019-04-11-wavelet-plot-1-1.png" >
+     
+    <meta property="og:title" content="Is the U.S. housing recovery over? Housing fluctuations across time and frequencies">
+    <meta property="og:description" content="We analyze fluctuations in housing market indicators across time and frequencies using wavelets">
+
+<div class="header">
+  <h1>Is the U.S. housing recovery over? Housing fluctuations across time and frequencies</h1>
+  <h2>We analyze fluctuations in housing market indicators across time and frequencies using wavelets</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2019/04/11</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/economics">economics</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/statistics">statistics</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/housing">housing</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+<script src="/rmarkdown-libs/kePrint/kePrint.js"></script>
+
+
+<p>The current economic expansion is set to enter it’s tenth year this summer. Assuming we make it to June, this will become the longest U.S. economic expansion in recorded history stretching back to the 19th century. But how is the housing market doing? After a decade of recovery housing market activity still has room for improvement, but trends in 2018 were negative. Home sales, housing construction and house price growth all declined in 2018. Is the housing market recovery over? Or will we bounce back in 2019?</p>
+<p>Earlier this year, see <a href="../../../../2019/03/03/mortgage-rates-and-housing-construction/">mortgage rates and housing construction</a>, I discussed how higher mortgage interest rates may have been behind the decline in housing market activity. Fortunately, mortgage interest rates are on the way back down:</p>
+<p><img src="../../../../img/charts_apr_11_2019/pmms_2019-04-11.gif", height="400"></p>
+<p>Will that decline in rates be enough to boost the housing market, or has the housing market permanently lost steam?</p>
+<div id="decomposing-fluctuations" class="section level1">
+<h1>Decomposing fluctuations</h1>
+<p>To help answer this question we can apply a technique described in a new working paper:</p>
+<ul>
+<li>Matthes, C., Lubik, T. A., &amp; Verona, F. (2019). ‘Assessing US Aggregate Fluctuations Across Time and Frequencies’ Richmond Fed Working Paper (No. 19-6). <a href="https://www.richmondfed.org/publications/research/working_papers/2019/wp_19-06">LINK to Working Paper</a></li>
+</ul>
+<p>This technique was described at a high level in this brief <a href="https://www.richmondfed.org/-/media/richmondfedorg/publications/research/economic_brief/2019/pdf/eb_19-04.pdf">pdf LINK</a>.</p>
+<p>The authors present a novel application of a decomposition technique called wavelets to analyze fluctuations in economic indicators. By applying the wavelets to macroeconomic data they can decompose the time series between fluctuations at different frequencies.</p>
+<p>A bit more formally (check the paper for details, the following are equations 1-3) a time series <span class="math inline">\(X_t\)</span> can be decomposed into a scale component <span class="math inline">\(S_{j,t}\)</span> and <span class="math inline">\(J\)</span> detail components <span class="math inline">\(D_{j,t}\)</span>:</p>
+<p><span class="math inline">\(\begin{align} X_t = \sum^J_{j=1}D_{j,t}+ S_{j,t}, \end{align} (1)\)</span></p>
+<p>with:</p>
+<p><span class="math inline">\(\begin{align} D_{j,t} = \frac{1}{2^J} \big( \sum^{2^{j-1}-1}_{i=0} X_{t-i} - \sum^{2^{j-1}-1}_{i=2^{j-1}} X_{t-i} \big),\end{align} (2)\)</span></p>
+<p><span class="math inline">\(\begin{align} S_{j,t} = \frac{1}{2^J} \sum^{2^{j-1}-1}_{i=0} X_{t-i}. \end{align} (3)\)</span></p>
+<p>Wavelets are not new but have recently seen more widespread use in finance and economics. There are of course <a href="https://www.r-project.org/">R</a> packages for them.</p>
+<p>As is our wont, we can apply these techniques to housing data and using <a href="https://www.r-project.org/">R</a>.</p>
+<div id="r-packages-for-wavelets" class="section level3">
+<h3>R packages for wavelets</h3>
+<p>There are many R packages for wavelets. I have found the <a href="https://CRAN.R-project.org/package=wavelets">wavelets</a> package to be useful, and the <a href="https://CRAN.R-project.org/package=wmtsa">wmtsa</a> package also has some useful functions, though I won’t use that one here.</p>
+</div>
+</div>
+<div id="an-application-to-housing-data" class="section level1">
+<h1>An application to housing data</h1>
+<p>For our exercise here we’ll replicate some of the results in Matthes, Lubik and Verona (2019) for macroeconomic variables (to be sure we’re on the right track) and then apply those techniques to housing variables. We’ll learn some interesting things. Buckle up.</p>
+<div id="get-data" class="section level2">
+<h2>Get data</h2>
+<p>We’re going to use standard economic data for the U.S. so we can conveniently get them via the <a href="https://fred.stlouisfed.org/">St Louis Fed’s FRED</a>. To replicate Matthes, Lubik and Verona (2019) we’ll grab several macro variables including the Unemployment Rate, the Federal Funds Rate and Treasury yields. Then to address the question about housing we’ll look at several housing market variables.</p>
+<p><details> <Summary>Click for R code to wrangle data </Summary></p>
+<p>First load required packages.</p>
+<pre class="r"><code>library(tidyverse)
+library(lubridate)
+library(wavelets)
+library(forecast)
+library(tidyquant)
+library(data.table)
+library(knitr)
+library(kableExtra)
+# not needed but could be useful
+#library(wmtsa)</code></pre>
+<p>Our data will come in three flavors. First we’ll create a small dataframe of <a href="https://www.nber.org/cycles.html">NBER business cycle dates</a> by hand, then we’ll grab some monthly time series and finally we’ll grab some quarterly time series. The wavelets are a bit more intuitive at quarterly frequency, so we’ll create quarterly averages of the monthly data. Note that this will create some slight differences between our results and Matthes, Lubik and Verona (2019) because they aggregated daily data into quarterly data for the interest rate series. Subsequent data revisions and different time periods should explain most of the other (very small) differences in what we’re about to produce.</p>
+<p><em>Data pulled on April 11, 2019</em></p>
+<pre class="r"><code># recession data ----
+
+recessions.df = read.table(textConnection(
+  &quot;Peak, Trough
+  1948-11-01, 1949-10-01
+  1953-07-01, 1954-05-01
+  1957-08-01, 1958-04-01
+  1960-04-01, 1961-02-01
+  1969-12-01, 1970-11-01
+  1973-11-01, 1975-03-01
+  1980-01-01, 1980-07-01
+  1981-07-01, 1982-11-01
+  1990-07-01, 1991-03-01
+  2001-03-01, 2001-11-01
+  2007-12-01, 2009-06-01&quot;), sep=&#39;,&#39;,
+  colClasses=c(&#39;Date&#39;, &#39;Date&#39;), header=TRUE)%&gt;%
+  # these dates at numbers will be helpful with ts() plots laters
+  mutate(Peakt = year(Peak)+(month(Peak)-1)/12,
+         Trought = year(Trough)+(month(Trough)-1)/12)
+
+
+
+
+# fred data ----
+
+# monthly data----
+
+# FRED tickers
+tickers=c(&quot;UNRATE&quot;,&quot;FEDFUNDS&quot;,&quot;GS10&quot;,
+          &quot;HSN1F&quot;,&quot;MSACSR&quot;,
+          &quot;HOUST&quot;,&quot;HOUST1F&quot;,
+          &quot;HOUST5F&quot;, &quot;TTLHHM156N&quot;) 
+
+# Human readable descriptions
+lookup_1 &lt;- c(&quot;Unemployment Rate (%)&quot;,
+              &quot;Federal Funds Effective Rate (%)&quot;,
+              &quot;10-Year Treasury Constant Maturity Rate (%)&quot;,
+              &quot;New One Family Houses Sold (1000s SAAR)&quot;,
+              &quot;Monthly Supply of New Houses for Sale (Months)&quot;,
+              &quot;Housing Starts (total, 1000s SAAR)&quot;,
+              &quot;Housing Starts (1-unit structures, 1000s SAAR)&quot;,
+              &quot;Housing Starts: (5-Unit Structures or More, 1000s SAAR)&quot;, 
+              &quot;Household Estimates (Thousands)&quot;
+              )
+
+
+dfm &lt;- tidyquant::tq_get(tickers,get=&quot;economic.data&quot;,from=&quot;1954-01-01&quot;)
+
+# convert monthly data to quarter data
+dfq &lt;- 
+  dfm %&gt;% mutate(year=year(date), quarter=(month(date)-1) %/% 3 + 1) %&gt;%
+  group_by(symbol,year,quarter) %&gt;%
+  summarize(vq=mean(price),
+            date=first(date)) %&gt;%
+  ungroup()
+
+# spread it out (wide is more convenient than tidy below)
+
+dfq2 &lt;- dfq %&gt;% select(symbol,vq,date) %&gt;% group_by(date) %&gt;% spread(symbol,vq)
+
+# quarterly data ----
+
+# FRED tickers
+
+tickers2 &lt;- c(&quot;RRVRUSQ156N&quot;,
+              &quot;RHVRUSQ156N&quot;,
+              &quot;USSTHPI&quot;,
+              &quot;PRFI&quot;,  
+              &quot;A011RL1Q225SBEA&quot;,
+              &quot;A011RY2Q224SBEA&quot;
+       
+)
+
+# Human readable descriptions
+lookup_2 &lt;- c( 
+  &quot;Rental Vacancy Rate for the United States (%)&quot;,
+  &quot;Homeowner Vacancy Rate for the United States (%) &quot;,
+  &quot;FHFA All-Transactions House Price Index for the United States (Index 1980 Q1 = 100)&quot;,
+  &quot;Nominal private residential fixed investment ($ Billions, SAAR)&quot;,
+  &quot;Percent change in real private residential fixed investment (%)&quot;,
+  &quot;Contribution to GDP growth real private residential fixed investment (%)&quot;)
+
+# lookup table (tickers and series_name)
+df_lookup=data.frame(series=c(tickers,tickers2), series_name=c(lookup_1,lookup_2), stringsAsFactors = FALSE)
+
+# quarterly
+# spread it out (wide is more convenient than tidy below)
+dfq3&lt;- tidyquant::tq_get(tickers2,get=&quot;economic.data&quot;,from=&quot;1947-01-01&quot;) %&gt;% group_by(date) %&gt;% spread(symbol,price)
+
+
+dfq4 &lt;- merge(dfq2, dfq3, all=&quot;TRUE&quot;, by=&quot;date&quot;) %&gt;% mutate(tt=year(date)+ (month(date)-1)/12) %&gt;% ungroup()
+
+# create quarerly growth in households, house prices
+
+dfq4 &lt;- mutate(dfq4, 
+               HPA= log(USSTHPI)-lag(log(USSTHPI)),
+               HHG = log(TTLHHM156N)- lag(log(TTLHHM156N))
+               )
+
+# adjust lookup for new transformed variables
+df_lookup = rbind(df_lookup, data.frame(series=c(&quot;HPA&quot;,&quot;HHG&quot;),
+                                        series_name=c(&quot;Quarterly House Price Growth (%)&quot;,&quot;Quarterly Household Growth (%)&quot;),
+                                        stringsAsFactors = FALSE))</code></pre>
+<p></details></p>
+<p>Now that we have our data, let’s first take a look. I’ve been doing a lot of time series stuff lately, so I’m going to take advantage of the <a href="https://CRAN.R-project.org/package=forecast">forecast package</a> <code>autoplot</code> function that lets you plot time series objects with less code. We’ll also use some bang bang (!!) with a function to pass variable names to a function. It will be useful later on.</p>
+<p>We have to do a little trick to get the recession shading behind the lines if we use autoplot. See code.</p>
+<p><details> <Summary>Code for plotting ts() </Summary></p>
+<pre class="r"><code>f_ts &lt;- function(invar=&quot;GS10&quot;){
+  invar &lt;- enquo(invar)
+  df &lt;- select(dfq4, tt,!!invar)
+  df &lt;- df[complete.cases(df),]
+  yts &lt;- ts(df[,2], start=min(df$tt), frequency=4)
+}
+
+g &lt;- 
+autoplot(f_ts(&quot;HOUST&quot;))+
+  labs(x=&quot;date (quarterly)&quot;,y=&quot;&quot;, title=&quot;U.S. Housing Starts (1000s, SAAR)&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Census Bureau and U.S. Department of Housing and Urban Development, Housing Starts: Total: New Privately Owned Housing Units Started [HOUST],\nretrieved from FRED, Federal Reserve Bank of St. Louis; https://fred.stlouisfed.org/series/HOUST, April 11, 2019.&quot;) +
+  theme(plot.caption=element_text(hjust=0))
+
+# add recession shading
+
+gbox &lt;- 
+  geom_rect(data=filter(recessions.df,Peakt&gt;1954), inherit.aes=F, 
+            aes(xmin=Peakt, xmax=Trought, ymin=-Inf, ymax=+Inf), fill=&#39;darkgray&#39;, alpha=0.5)
+
+# we want to move the box in front of the autoplot, so we ce rearrange like so
+# see: https://stackoverflow.com/questions/20249653/insert-layer-underneath-existing-layers-in-ggplot2-object
+g$layers &lt;- c(gbox, g$layers)</code></pre>
+<p></details></p>
+<p>So here’s housing starts:</p>
+<pre class="r"><code>g</code></pre>
+<div class="figure"><span id="fig:2019-04-11-plot-1"></span>
+<img src="/post/2019-04-11-is-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies_files/figure-html/2019-04-11-plot-1-1.png" alt="Housing Starts Time Series" width="672" />
+<p class="caption">
+Figure 1: Housing Starts Time Series
+</p>
+</div>
+<p>Following Matthes, Lubik and Verona (2019) we want to decompose this time series into fluctuations at different frequencies. If we could do that we could see how much business cycle fluctuations contribute to the overall fluctuations in the time series.</p>
+<p>Fortunately, we can use the wavelets package to estimate the coefficients in equations 1-3 above.</p>
+<p><details> <Summary>Code for plotting ts() </Summary> We’ll create a function that selects a column of our data and analyzes using wavelets, outputting the decomposed series along with a variance decomposition.</p>
+<p>There are many options for the wavelets, but following Matthes, Lubik and Verona (2019) we will use the Haar wavelet filter with 6 levels. That will break the variation up between 2-4 quarters, 4-8 quarters, 8-16 quarters, 16-32 quarters, 32-64 quarters, 64-128 quarters and the long-term trend. We will call the first 2 groups “Short Term” the next two “Business Cycle”,and the next 2 “Medium Term”.</p>
+<pre class="r"><code># function to analyze wavelets
+myf &lt;- function(invar){
+  invar &lt;- enquo(invar)
+  df &lt;- select(dfq4, tt,!!invar)
+  df &lt;- df[complete.cases(df),]
+  yts &lt;- ts(df[,2], start=min(df$tt), frequency=4)
+  w2 &lt;- modwt(yts, filter=&quot;haar&quot;, n.levels=6, boundary=&quot;periodic&quot;, fast=TRUE)
+  Wdf &lt;- data.frame(w2@W)
+  var_decomp &lt;-  c(round(100*colSums(Wdf**2)/(nrow(Wdf)-1)/ var(yts),1), 
+                   long_term=round(100*(1-sum(colSums(Wdf**2)/(nrow(Wdf)-1)/ var(yts))),1))
+
+  Sj &lt;- yts-rowSums(Wdf)
+  tWdf &lt;- ts(Wdf, start=min(df$tt), frequency=4)
+  D12 &lt;- ts(rowSums(Wdf[,1:2]), start=min(df$tt), frequency=4)
+  D34 &lt;- ts(rowSums(Wdf[,3:4]), start=min(df$tt), frequency=4)
+  D56 &lt;- ts(rowSums(Wdf[,5:6]), start=min(df$tt), frequency=4)
+  return(list(vd=var_decomp,out_ts=ts.union(D12,D34,D56,Sj),mod=w2))
+}
+
+# function to plot retults
+
+my_plotf &lt;- function(invar=&quot;A011RL1Q225SBEA&quot;){
+  plot_subtitle &lt;- df_lookup[df_lookup$series==invar,&quot;series_name&quot;]
+  invar &lt;- enquo(invar)
+  out &lt;- myf(!!invar)
+  ss&lt;- min(time(f_ts(!!invar)))+ 2
+  plot_ts2 &lt;- window(f_ts(!!invar), start=ss)
+  plot_ts &lt;- window(out$out_ts, start=ss)
+  plot_df &lt;- data.frame(tt=time(plot_ts), plot_ts)  %&gt;% 
+    gather(series,val,-tt) %&gt;%
+    # labels for series
+    mutate( series_id = case_when(series==&quot;D12&quot; ~ &quot;a) Short Term: 2-8 Quarters&quot;,
+                                  series==&quot;D34&quot; ~ &quot;b) Business cycle: 16-32 Quarters&quot;,
+                                  series==&quot;D56&quot; ~ &quot;c) Medium Term: 64-128 Quarters&quot;,
+                                  T ~ &quot;d) Long Term: &gt;128 Quarters&quot;
+    ))
+  
+  plot_df2 &lt;- data.frame(tt=time(plot_ts2), plot_ts2)
+  
+  ggplot(data=plot_df, aes(x=tt, y=val))+
+    facet_wrap(~series_id, ncol=1, scales=&quot;free_y&quot;)+
+    geom_hline(aes(yintercept=ifelse(series==&quot;Sj&quot;,NA,0)), linetype=2)+
+    geom_rect(data=filter(recessions.df,Peakt&gt;ss-1), inherit.aes=F, 
+              aes(xmin=Peakt, xmax=Trought, ymin=-Inf, ymax=+Inf), fill=&#39;darkgray&#39;, alpha=0.5) +
+    geom_line(size=1.05)+
+    scale_y_continuous(sec.axis=dup_axis())+
+    labs(subtitle=plot_subtitle,
+         title=&quot;Wavelet Decomposition&quot;,
+         x=&quot;date&quot;,
+         y=&quot;Variation due to fluctuations at frequency:&quot;,
+         caption=&quot;@lenkiefer Based on decomposition described in Matthes, C., Lubik, T. A., &amp; Verona, F. (2019). \n&#39;Assessing US Aggregate Fluctuations Across Time and Frequencies&#39; Richmond Fed Working Paper (No. 19-6).\nData retrieved from FRED, Federal Reserve Bank of St. Louis; https://fred.stlouisfed.org/\nGray bars NBER Recessions&quot;)+
+    theme(plot.caption=element_text(hjust=0))
+}</code></pre>
+<p></details></p>
+<p>Apply the function defined above to housing starts:</p>
+<pre class="r"><code>my_plotf(&quot;HOUST&quot;)</code></pre>
+<div class="figure"><span id="fig:2019-04-11-wavelet-plot-1"></span>
+<img src="/post/2019-04-11-is-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies_files/figure-html/2019-04-11-wavelet-plot-1-1.png" alt="Variance decomposition of housing starts" width="672" />
+<p class="caption">
+Figure 2: Variance decomposition of housing starts
+</p>
+</div>
+<div id="discussion" class="section level3">
+<h3>Discussion</h3>
+<p>The plot above is quite interesting. It breaks down the variation in the housing starts time series across various frequencies. The bottom panel shows very low frequency (&gt;128 quarter or over 32 years) movements in housing starts. From the 1960 through the 1980s, housing starts were gradually trending higher until they hit over 1.6 million units per year. By the early 2000s the trend was a bit lower, rising until 2007, but then collapsing in the Great Recession. There has been no recovery.</p>
+<p>The medium term (64 to 128 quarters or 8 -32 years ) has been showing a lot of movement. The medium term trend was generally moving down until the late 1990s, when it reversed and picked up. We can see that it has been recovering since 2009, but has only very recently gotten back to zero as housing construction grinds higher.</p>
+<p>The business cycle frequency (16-32 quarters or 4-8 years) component closely mimics the national business cycle as you can see it turn negative before most U.S. recession (gray bars). This cyclical component had been positive, but has been trending lower. This trend took place well before mortgage rates increased in 2018 and reflects a gradual slowdown in the rate of increase. Most recently it has been about zero.</p>
+<p>The short term component is highly noisy reflecting noise in the estimates and other very short-term economic shocks.</p>
+<p>The slowdown at business cycle frequencies is somewhat alarming. However, the business cycle trend has not turned negative yet and like the 1990s, we may experience a modest slowdown and re-acceleration if interest rates remain low and the labor market keeps creating jobs.</p>
+</div>
+<div id="variance-decomposition" class="section level3">
+<h3>Variance decomposition</h3>
+<p>A useful calculation is the variance decomposition. This attributes the total variation in the time series to various frequencies.</p>
+<p>Let’s run it for housing starts. This calculation is the same as in Matthes, Lubik and Verona (2019) Table 1 as we will confirm below.</p>
+<pre class="r"><code>invar1 &lt;- &quot;HOUST&quot;
+v1 &lt;- data.frame(t(myf(invar1)$vd))
+rownames(v1)&lt;- df_lookup[df_lookup$series==invar1,&quot;series_name&quot;]
+colnames(v1) &lt;- c(&quot;D1: 2-4Q&quot;, &quot;D2: 4-8Q&quot;,&quot;D3: 8-16Q&quot;,&quot;D4: 16-31Q&quot;,&quot;D5: 32-64Q&quot;,&quot;D6: 64-128Q&quot;, &quot;S6: &gt;128Q&quot;)
+
+kable(v1, 
+       font_size = 8, 
+       row.names=TRUE, 
+       caption=&quot; Variance Decomposition for U.S. Housing Starts (quarterly)&quot;) %&gt;%
+   add_header_above(c(&quot; &quot; = 1, &quot;Short Term&quot; = 2, &quot;Business Cycle&quot; = 2, &quot;Medium Term&quot; = 2, &quot;Long Term&quot; =1 )) </code></pre>
+<table>
+<caption>
+<span id="tab:2019-04-11-table-1">Table 1: </span> Variance Decomposition for U.S. Housing Starts (quarterly)
+</caption>
+<thead>
+<tr>
+<th style="border-bottom:hidden" colspan="1">
+</th>
+<th style="border-bottom:hidden; padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; " colspan="2">
+<div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">
+Short Term
+</div>
+</th>
+<th style="border-bottom:hidden; padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; " colspan="2">
+<div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">
+Business Cycle
+</div>
+</th>
+<th style="border-bottom:hidden; padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; " colspan="2">
+<div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">
+Medium Term
+</div>
+</th>
+<th style="border-bottom:hidden; padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; " colspan="1">
+<div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">
+Long Term
+</div>
+</th>
+</tr>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+D1: 2-4Q
+</th>
+<th style="text-align:right;">
+D2: 4-8Q
+</th>
+<th style="text-align:right;">
+D3: 8-16Q
+</th>
+<th style="text-align:right;">
+D4: 16-31Q
+</th>
+<th style="text-align:right;">
+D5: 32-64Q
+</th>
+<th style="text-align:right;">
+D6: 64-128Q
+</th>
+<th style="text-align:right;">
+S6: &gt;128Q
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Housing Starts (total, 1000s SAAR)
+</td>
+<td style="text-align:right;">
+2.3
+</td>
+<td style="text-align:right;">
+4.5
+</td>
+<td style="text-align:right;">
+10.2
+</td>
+<td style="text-align:right;">
+20.5
+</td>
+<td style="text-align:right;">
+23.7
+</td>
+<td style="text-align:right;">
+21.1
+</td>
+<td style="text-align:right;">
+17.7
+</td>
+</tr>
+</tbody>
+</table>
+<p>For housing starts, a significant portion of the variation is due to Medium Term and Long Term trends. The Long Term trend accounts for a 17.7 percent of the total variation, while the Medium Term trend accounts for another 45 percent. Business cycle frequencies account for around 30 percent of the variation in housing starts.</p>
+<p>This result isn’t too surprising because population growth and household formation are key drivers of housing construction. With the U.S. population growth rate slowing, the longer term needs for new housing construction have been declining.</p>
+</div>
+</div>
+<div id="house-price-decomposition" class="section level2">
+<h2>House price decomposition</h2>
+<p>It is interesting to decompose house prices. Because we know that house prices trend higher with inflation, it might be more interesting to look at the quarterly change (in natural logarithms).</p>
+<pre class="r"><code>my_plotf(&quot;HPA&quot;)</code></pre>
+<div class="figure"><span id="fig:2019-04-11-wavelet-plot-3-hpa"></span>
+<img src="/post/2019-04-11-is-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies_files/figure-html/2019-04-11-wavelet-plot-3-hpa-1.png" alt="Variance decomposition of house price index" width="672" />
+<p class="caption">
+Figure 3: Variance decomposition of house price index
+</p>
+</div>
+<pre class="r"><code>invar1 &lt;- &quot;HPA&quot;
+v1 &lt;- data.frame(t(myf(invar1)$vd))
+rownames(v1)&lt;- df_lookup[df_lookup$series==invar1,&quot;series_name&quot;]
+colnames(v1) &lt;- c(&quot;D1: 2-4Q&quot;, &quot;D2: 4-8Q&quot;,&quot;D3: 8-16Q&quot;,&quot;D4: 16-31Q&quot;,&quot;D5: 32-64Q&quot;,&quot;D6: 64-128Q&quot;, &quot;S6: &gt;128Q&quot;)
+
+kable(v1, 
+       font_size = 8, 
+       row.names=TRUE, 
+       caption=&quot; Variance Decomposition for House Price Growth (Quarterly Percent Change)&quot;) %&gt;%
+   add_header_above(c(&quot; &quot; = 1, &quot;Short Term&quot; = 2, &quot;Business Cycle&quot; = 2, &quot;Medium Term&quot; = 2, &quot;Long Term&quot; =1 )) </code></pre>
+<table>
+<caption>
+<span id="tab:2019-04-11-table-3-hpa">Table 2: </span> Variance Decomposition for House Price Growth (Quarterly Percent Change)
+</caption>
+<thead>
+<tr>
+<th style="border-bottom:hidden" colspan="1">
+</th>
+<th style="border-bottom:hidden; padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; " colspan="2">
+<div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">
+Short Term
+</div>
+</th>
+<th style="border-bottom:hidden; padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; " colspan="2">
+<div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">
+Business Cycle
+</div>
+</th>
+<th style="border-bottom:hidden; padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; " colspan="2">
+<div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">
+Medium Term
+</div>
+</th>
+<th style="border-bottom:hidden; padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; " colspan="1">
+<div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">
+Long Term
+</div>
+</th>
+</tr>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+D1: 2-4Q
+</th>
+<th style="text-align:right;">
+D2: 4-8Q
+</th>
+<th style="text-align:right;">
+D3: 8-16Q
+</th>
+<th style="text-align:right;">
+D4: 16-31Q
+</th>
+<th style="text-align:right;">
+D5: 32-64Q
+</th>
+<th style="text-align:right;">
+D6: 64-128Q
+</th>
+<th style="text-align:right;">
+S6: &gt;128Q
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Quarterly House Price Growth (%)
+</td>
+<td style="text-align:right;">
+16.9
+</td>
+<td style="text-align:right;">
+12.2
+</td>
+<td style="text-align:right;">
+6.8
+</td>
+<td style="text-align:right;">
+14.2
+</td>
+<td style="text-align:right;">
+22.5
+</td>
+<td style="text-align:right;">
+20.1
+</td>
+<td style="text-align:right;">
+7.4
+</td>
+</tr>
+</tbody>
+</table>
+<p>Like with housing starts, we see an interesting pattern in the house price growth decomposition. For house prices, only about 7 percent of the variation is due to the long term trend. And additional 42 percent is due to the medium term trend. Because this house price index is only available since 1975 our ability to distinguish between a trend of 32 years and a longer-term trend is probably limited. I’m pretty sure others have explored how wavelets can distinguish such trends, but it might be interesting to probe more in the context of economic/housing data. <em>(filed for possible future to do)</em>.</p>
+<p>Even if about half of the variation is due to longer term trends about half of the variation is due to shorter-term trends. The 29 percent that is due to short-term fluctuations is probably a mix of noise in the estimates (would be interesting to compare against other indices) and short-term economic trends.</p>
+<p>About 21 percent of the variation in house price growth is due to fluctuations at the business cycle frequency. A significant amount of that is due to one cycle: the Great Recession. However, there is also a rather large fluctuation around the recessions in the early 1980s. Because inflation was so volatile in this period, it might be interesting to look at real (inflation-adjusted) house price growth during this period. <em>(filed for possible future to do)</em></p>
+</div>
+<div id="variance-decomposition-for-all-variables" class="section level2">
+<h2>Variance decomposition for all variables</h2>
+<p>Let’s look at the variance decomposition for all the variables we downloaded.</p>
+<p><details> <Summary>Code for plotting ts() </Summary></p>
+<pre class="r"><code>myf2 &lt;- function(invar1=&quot;HOUST&quot;){
+  invar2 &lt;- enquo(invar1)
+  v1 &lt;- data.frame(t(myf(!!invar2)$vd))
+  return(v1)
+}
+
+# custom labels for table
+
+df_table &lt;- df_lookup %&gt;% mutate(v=map(series,myf2)) %&gt;% unnest(v) %&gt;% select(-series) 
+colnames(df_table) &lt;- c(&quot;Series&quot;,&quot;D1:  2-4Q&quot;, &quot;D2:  4-8Q&quot;,&quot;D3:  8-16Q&quot;,&quot;D4:  16-31Q&quot;,&quot;D5  32-64Q&quot;,&quot;D6:  64-128Q&quot;, &quot;S6: &gt;128Q&quot;)
+# reorganize table
+df_table$id &lt;- c(1,1,1, 2,2,3,3,3,4,5,5,6,2,2,2,6,4)
+df_table &lt;- arrange(df_table,id)
+df_table$id &lt;- NULL</code></pre>
+<p></details></p>
+<p>Using <a href="https://CRAN.R-project.org/package=kableExtra">kableExtra</a> we can make a nicely formatted table:</p>
+<p><details> <Summary> Big table </Summary></p>
+<pre class="r"><code>kable(df_table, 
+      font_size = 8, 
+      row.names=FALSE, 
+      caption=&quot; Variance Decomposition for U.S. Macroeconomic and Housing Market Indicators (quarterly data)&quot;) %&gt;%
+  kable_styling(&quot;striped&quot;) %&gt;%
+  add_header_above(c(&quot; &quot; = 1, &quot;Short Term&quot; = 2, &quot;Business Cycle&quot; = 2, &quot;Medium Term&quot; = 2, &quot;Long Term&quot; =1 ))%&gt;%
+  pack_rows(index = c( &quot;Macro Variables &quot; = 3, 
+                       &quot;New Home Sales&quot; = 2, 
+                       &quot;Housing Investment&quot;= 3, 
+                       &quot;Housing Construction&quot;=3, 
+                       &quot;Households&quot;=2,
+                       &quot;Vacancy Rates&quot;=2, 
+                       &quot;House Prices&quot; = 2)) %&gt;%
+  footnote(general=&quot;@lenkiefer Based on decomposition described in Matthes, C., Lubik, T. A., &amp; Verona, F. (2019). \n&#39;Assessing US Aggregate Fluctuations Across Time and Frequencies&#39; Richmond Fed Working Paper (No. 19-6).\nData retrieved from FRED, Federal Reserve Bank of St. Louis; https://fred.stlouisfed.org/\nSeries length varies by series, maximum available quarters selected&quot;,
+           number=&quot;Data Retrieved on April 11, 2019&quot;) </code></pre>
+<table class="table table-striped" style="margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:2019-04-11-wavelet-table-print">Table 3: </span> Variance Decomposition for U.S. Macroeconomic and Housing Market Indicators (quarterly data)
+</caption>
+<thead>
+<tr>
+<th style="border-bottom:hidden" colspan="1">
+</th>
+<th style="border-bottom:hidden; padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; " colspan="2">
+<div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">
+Short Term
+</div>
+</th>
+<th style="border-bottom:hidden; padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; " colspan="2">
+<div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">
+Business Cycle
+</div>
+</th>
+<th style="border-bottom:hidden; padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; " colspan="2">
+<div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">
+Medium Term
+</div>
+</th>
+<th style="border-bottom:hidden; padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; " colspan="1">
+<div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">
+Long Term
+</div>
+</th>
+</tr>
+<tr>
+<th style="text-align:left;">
+Series
+</th>
+<th style="text-align:right;">
+D1: 2-4Q
+</th>
+<th style="text-align:right;">
+D2: 4-8Q
+</th>
+<th style="text-align:right;">
+D3: 8-16Q
+</th>
+<th style="text-align:right;">
+D4: 16-31Q
+</th>
+<th style="text-align:right;">
+D5 32-64Q
+</th>
+<th style="text-align:right;">
+D6: 64-128Q
+</th>
+<th style="text-align:right;">
+S6: &gt;128Q
+</th>
+</tr>
+</thead>
+<tbody>
+<tr grouplength="3">
+<td colspan="8" style="border-bottom: 1px solid;">
+<strong>Macro Variables</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Unemployment Rate (%)
+</td>
+<td style="text-align:right;">
+1.3
+</td>
+<td style="text-align:right;">
+3.9
+</td>
+<td style="text-align:right;">
+9.5
+</td>
+<td style="text-align:right;">
+18.0
+</td>
+<td style="text-align:right;">
+25.0
+</td>
+<td style="text-align:right;">
+23.3
+</td>
+<td style="text-align:right;">
+19.0
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Federal Funds Effective Rate (%)
+</td>
+<td style="text-align:right;">
+1.5
+</td>
+<td style="text-align:right;">
+2.8
+</td>
+<td style="text-align:right;">
+5.6
+</td>
+<td style="text-align:right;">
+10.0
+</td>
+<td style="text-align:right;">
+10.6
+</td>
+<td style="text-align:right;">
+13.2
+</td>
+<td style="text-align:right;">
+56.3
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+10-Year Treasury Constant Maturity Rate (%)
+</td>
+<td style="text-align:right;">
+0.6
+</td>
+<td style="text-align:right;">
+1.2
+</td>
+<td style="text-align:right;">
+2.4
+</td>
+<td style="text-align:right;">
+3.9
+</td>
+<td style="text-align:right;">
+7.3
+</td>
+<td style="text-align:right;">
+15.2
+</td>
+<td style="text-align:right;">
+69.3
+</td>
+</tr>
+<tr grouplength="2">
+<td colspan="8" style="border-bottom: 1px solid;">
+<strong>New Home Sales</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+New One Family Houses Sold (1000s SAAR)
+</td>
+<td style="text-align:right;">
+1.5
+</td>
+<td style="text-align:right;">
+2.4
+</td>
+<td style="text-align:right;">
+5.7
+</td>
+<td style="text-align:right;">
+14.1
+</td>
+<td style="text-align:right;">
+24.6
+</td>
+<td style="text-align:right;">
+26.5
+</td>
+<td style="text-align:right;">
+25.2
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Monthly Supply of New Houses for Sale (Months)
+</td>
+<td style="text-align:right;">
+3.4
+</td>
+<td style="text-align:right;">
+6.2
+</td>
+<td style="text-align:right;">
+11.9
+</td>
+<td style="text-align:right;">
+21.3
+</td>
+<td style="text-align:right;">
+25.6
+</td>
+<td style="text-align:right;">
+19.6
+</td>
+<td style="text-align:right;">
+12.1
+</td>
+</tr>
+<tr grouplength="3">
+<td colspan="8" style="border-bottom: 1px solid;">
+<strong>Housing Investment</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Nominal private residential fixed investment ($ Billions, SAAR)
+</td>
+<td style="text-align:right;">
+1.0
+</td>
+<td style="text-align:right;">
+1.6
+</td>
+<td style="text-align:right;">
+3.2
+</td>
+<td style="text-align:right;">
+6.8
+</td>
+<td style="text-align:right;">
+12.0
+</td>
+<td style="text-align:right;">
+14.3
+</td>
+<td style="text-align:right;">
+61.2
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Percent change in real private residential fixed investment (%)
+</td>
+<td style="text-align:right;">
+24.1
+</td>
+<td style="text-align:right;">
+24.3
+</td>
+<td style="text-align:right;">
+25.9
+</td>
+<td style="text-align:right;">
+14.5
+</td>
+<td style="text-align:right;">
+7.2
+</td>
+<td style="text-align:right;">
+2.6
+</td>
+<td style="text-align:right;">
+1.3
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Contribution to GDP growth real private residential fixed investment (%)
+</td>
+<td style="text-align:right;">
+22.9
+</td>
+<td style="text-align:right;">
+24.4
+</td>
+<td style="text-align:right;">
+26.8
+</td>
+<td style="text-align:right;">
+15.0
+</td>
+<td style="text-align:right;">
+7.3
+</td>
+<td style="text-align:right;">
+2.6
+</td>
+<td style="text-align:right;">
+1.1
+</td>
+</tr>
+<tr grouplength="3">
+<td colspan="8" style="border-bottom: 1px solid;">
+<strong>Housing Construction</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Housing Starts (total, 1000s SAAR)
+</td>
+<td style="text-align:right;">
+2.3
+</td>
+<td style="text-align:right;">
+4.5
+</td>
+<td style="text-align:right;">
+10.2
+</td>
+<td style="text-align:right;">
+20.5
+</td>
+<td style="text-align:right;">
+23.7
+</td>
+<td style="text-align:right;">
+21.1
+</td>
+<td style="text-align:right;">
+17.7
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Housing Starts (1-unit structures, 1000s SAAR)
+</td>
+<td style="text-align:right;">
+2.1
+</td>
+<td style="text-align:right;">
+3.8
+</td>
+<td style="text-align:right;">
+8.4
+</td>
+<td style="text-align:right;">
+17.6
+</td>
+<td style="text-align:right;">
+24.9
+</td>
+<td style="text-align:right;">
+25.2
+</td>
+<td style="text-align:right;">
+18.0
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Housing Starts: (5-Unit Structures or More, 1000s SAAR)
+</td>
+<td style="text-align:right;">
+2.1
+</td>
+<td style="text-align:right;">
+3.8
+</td>
+<td style="text-align:right;">
+9.2
+</td>
+<td style="text-align:right;">
+18.7
+</td>
+<td style="text-align:right;">
+21.3
+</td>
+<td style="text-align:right;">
+15.7
+</td>
+<td style="text-align:right;">
+29.2
+</td>
+</tr>
+<tr grouplength="2">
+<td colspan="8" style="border-bottom: 1px solid;">
+<strong>Households</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Household Estimates (Thousands)
+</td>
+<td style="text-align:right;">
+1.1
+</td>
+<td style="text-align:right;">
+1.6
+</td>
+<td style="text-align:right;">
+2.9
+</td>
+<td style="text-align:right;">
+5.6
+</td>
+<td style="text-align:right;">
+10.6
+</td>
+<td style="text-align:right;">
+19.7
+</td>
+<td style="text-align:right;">
+58.4
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Quarterly Household Growth (%)
+</td>
+<td style="text-align:right;">
+54.7
+</td>
+<td style="text-align:right;">
+22.6
+</td>
+<td style="text-align:right;">
+6.7
+</td>
+<td style="text-align:right;">
+3.3
+</td>
+<td style="text-align:right;">
+2.1
+</td>
+<td style="text-align:right;">
+2.1
+</td>
+<td style="text-align:right;">
+8.6
+</td>
+</tr>
+<tr grouplength="2">
+<td colspan="8" style="border-bottom: 1px solid;">
+<strong>Vacancy Rates</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Rental Vacancy Rate for the United States (%)
+</td>
+<td style="text-align:right;">
+1.1
+</td>
+<td style="text-align:right;">
+1.2
+</td>
+<td style="text-align:right;">
+2.3
+</td>
+<td style="text-align:right;">
+6.1
+</td>
+<td style="text-align:right;">
+13.4
+</td>
+<td style="text-align:right;">
+22.6
+</td>
+<td style="text-align:right;">
+53.2
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Homeowner Vacancy Rate for the United States (%)
+</td>
+<td style="text-align:right;">
+1.6
+</td>
+<td style="text-align:right;">
+2.0
+</td>
+<td style="text-align:right;">
+3.1
+</td>
+<td style="text-align:right;">
+7.0
+</td>
+<td style="text-align:right;">
+14.9
+</td>
+<td style="text-align:right;">
+24.5
+</td>
+<td style="text-align:right;">
+46.8
+</td>
+</tr>
+<tr grouplength="2">
+<td colspan="8" style="border-bottom: 1px solid;">
+<strong>House Prices</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+FHFA All-Transactions House Price Index for the United States (Index 1980 Q1 = 100)
+</td>
+<td style="text-align:right;">
+1.8
+</td>
+<td style="text-align:right;">
+2.7
+</td>
+<td style="text-align:right;">
+4.9
+</td>
+<td style="text-align:right;">
+9.1
+</td>
+<td style="text-align:right;">
+15.2
+</td>
+<td style="text-align:right;">
+23.4
+</td>
+<td style="text-align:right;">
+42.7
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Quarterly House Price Growth (%)
+</td>
+<td style="text-align:right;">
+16.9
+</td>
+<td style="text-align:right;">
+12.2
+</td>
+<td style="text-align:right;">
+6.8
+</td>
+<td style="text-align:right;">
+14.2
+</td>
+<td style="text-align:right;">
+22.5
+</td>
+<td style="text-align:right;">
+20.1
+</td>
+<td style="text-align:right;">
+7.4
+</td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td style="padding: 0; border: 0;" colspan="100%">
+<span style="font-style: italic;">Note: </span>
+</td>
+</tr>
+<tr>
+<td style="padding: 0; border: 0;" colspan="100%">
+<sup></sup> <span class="citation">@lenkiefer</span> Based on decomposition described in Matthes, C., Lubik, T. A., &amp; Verona, F. (2019). <br>‘Assessing US Aggregate Fluctuations Across Time and Frequencies’ Richmond Fed Working Paper (No. 19-6).<br>Data retrieved from FRED, Federal Reserve Bank of St. Louis; <a href="https://fred.stlouisfed.org/" class="uri">https://fred.stlouisfed.org/</a><br>Series length varies by series, maximum available quarters selected
+</td>
+</tr>
+<tr>
+<td style="padding: 0; border: 0;" colspan="100%">
+<sup>1</sup> Data Retrieved on April 11, 2019
+</td>
+</tr>
+</tfoot>
+</table>
+<p></details></p>
+<p>If we want it more compact we can make it scroll-able.</p>
+<pre class="r"><code>kable(df_table, 
+      font_size = 8, 
+      row.names=FALSE, 
+      caption=&quot; Variance Decomposition for US Macroeconomic and Housing Market Indicators (quarterly data)&quot;) %&gt;%
+  kable_styling(&quot;striped&quot;) %&gt;%
+  add_header_above(c(&quot; &quot; = 1, &quot;Short Term&quot; = 2, &quot;Business Cycle&quot; = 2, &quot;Medium Term&quot; = 2, &quot;Long Term&quot; =1 ))%&gt;%
+  pack_rows(index = c( &quot;Macro Variables &quot; = 3, 
+                       &quot;New Home Sales&quot; = 2, 
+                       &quot;Housing Investment&quot;= 3, 
+                       &quot;Housing Construction&quot;=3, 
+                       &quot;Households&quot;=2,
+                       &quot;Vacancy Rates&quot;=2, 
+                       &quot;House Prices&quot; = 2)) %&gt;%
+  footnote(general=&quot;@lenkiefer Based on decomposition described in Matthes, C., Lubik, T. A., &amp; Verona, F. (2019). \n&#39;Assessing US Aggregate Fluctuations Across Time and Frequencies&#39; Richmond Fed Working Paper (No. 19-6).\nData retrieved from FRED, Federal Reserve Bank of St. Louis; https://fred.stlouisfed.org/\nSeries length varies by series, maximum available quarters selected&quot;,
+           number=&quot;Data Retrieved on April 11, 2019&quot;) %&gt;%
+  scroll_box(width = &quot;100%&quot;, height = &quot;450px&quot;)</code></pre>
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:450px; overflow-x: scroll; width:100%; ">
+<table class="table table-striped" style="margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:2019-04-11-wavelet-table-print-2">Table 4: </span> Variance Decomposition for US Macroeconomic and Housing Market Indicators (quarterly data)
+</caption>
+<thead>
+<tr>
+<th style="border-bottom:hiddenposition: sticky; top:0; background-color: #FFFFFF;" colspan="1">
+</th>
+<th style="border-bottom:hidden; padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; position: sticky; top:0; background-color: #FFFFFF;" colspan="2">
+<div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">
+Short Term
+</div>
+</th>
+<th style="border-bottom:hidden; padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; position: sticky; top:0; background-color: #FFFFFF;" colspan="2">
+<div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">
+Business Cycle
+</div>
+</th>
+<th style="border-bottom:hidden; padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; position: sticky; top:0; background-color: #FFFFFF;" colspan="2">
+<div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">
+Medium Term
+</div>
+</th>
+<th style="border-bottom:hidden; padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; position: sticky; top:0; background-color: #FFFFFF;" colspan="1">
+<div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">
+Long Term
+</div>
+</th>
+</tr>
+<tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+Series
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+D1: 2-4Q
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+D2: 4-8Q
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+D3: 8-16Q
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+D4: 16-31Q
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+D5 32-64Q
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+D6: 64-128Q
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+S6: &gt;128Q
+</th>
+</tr>
+</thead>
+<tbody>
+<tr grouplength="3">
+<td colspan="8" style="border-bottom: 1px solid;">
+<strong>Macro Variables</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Unemployment Rate (%)
+</td>
+<td style="text-align:right;">
+1.3
+</td>
+<td style="text-align:right;">
+3.9
+</td>
+<td style="text-align:right;">
+9.5
+</td>
+<td style="text-align:right;">
+18.0
+</td>
+<td style="text-align:right;">
+25.0
+</td>
+<td style="text-align:right;">
+23.3
+</td>
+<td style="text-align:right;">
+19.0
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Federal Funds Effective Rate (%)
+</td>
+<td style="text-align:right;">
+1.5
+</td>
+<td style="text-align:right;">
+2.8
+</td>
+<td style="text-align:right;">
+5.6
+</td>
+<td style="text-align:right;">
+10.0
+</td>
+<td style="text-align:right;">
+10.6
+</td>
+<td style="text-align:right;">
+13.2
+</td>
+<td style="text-align:right;">
+56.3
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+10-Year Treasury Constant Maturity Rate (%)
+</td>
+<td style="text-align:right;">
+0.6
+</td>
+<td style="text-align:right;">
+1.2
+</td>
+<td style="text-align:right;">
+2.4
+</td>
+<td style="text-align:right;">
+3.9
+</td>
+<td style="text-align:right;">
+7.3
+</td>
+<td style="text-align:right;">
+15.2
+</td>
+<td style="text-align:right;">
+69.3
+</td>
+</tr>
+<tr grouplength="2">
+<td colspan="8" style="border-bottom: 1px solid;">
+<strong>New Home Sales</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+New One Family Houses Sold (1000s SAAR)
+</td>
+<td style="text-align:right;">
+1.5
+</td>
+<td style="text-align:right;">
+2.4
+</td>
+<td style="text-align:right;">
+5.7
+</td>
+<td style="text-align:right;">
+14.1
+</td>
+<td style="text-align:right;">
+24.6
+</td>
+<td style="text-align:right;">
+26.5
+</td>
+<td style="text-align:right;">
+25.2
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Monthly Supply of New Houses for Sale (Months)
+</td>
+<td style="text-align:right;">
+3.4
+</td>
+<td style="text-align:right;">
+6.2
+</td>
+<td style="text-align:right;">
+11.9
+</td>
+<td style="text-align:right;">
+21.3
+</td>
+<td style="text-align:right;">
+25.6
+</td>
+<td style="text-align:right;">
+19.6
+</td>
+<td style="text-align:right;">
+12.1
+</td>
+</tr>
+<tr grouplength="3">
+<td colspan="8" style="border-bottom: 1px solid;">
+<strong>Housing Investment</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Nominal private residential fixed investment ($ Billions, SAAR)
+</td>
+<td style="text-align:right;">
+1.0
+</td>
+<td style="text-align:right;">
+1.6
+</td>
+<td style="text-align:right;">
+3.2
+</td>
+<td style="text-align:right;">
+6.8
+</td>
+<td style="text-align:right;">
+12.0
+</td>
+<td style="text-align:right;">
+14.3
+</td>
+<td style="text-align:right;">
+61.2
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Percent change in real private residential fixed investment (%)
+</td>
+<td style="text-align:right;">
+24.1
+</td>
+<td style="text-align:right;">
+24.3
+</td>
+<td style="text-align:right;">
+25.9
+</td>
+<td style="text-align:right;">
+14.5
+</td>
+<td style="text-align:right;">
+7.2
+</td>
+<td style="text-align:right;">
+2.6
+</td>
+<td style="text-align:right;">
+1.3
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Contribution to GDP growth real private residential fixed investment (%)
+</td>
+<td style="text-align:right;">
+22.9
+</td>
+<td style="text-align:right;">
+24.4
+</td>
+<td style="text-align:right;">
+26.8
+</td>
+<td style="text-align:right;">
+15.0
+</td>
+<td style="text-align:right;">
+7.3
+</td>
+<td style="text-align:right;">
+2.6
+</td>
+<td style="text-align:right;">
+1.1
+</td>
+</tr>
+<tr grouplength="3">
+<td colspan="8" style="border-bottom: 1px solid;">
+<strong>Housing Construction</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Housing Starts (total, 1000s SAAR)
+</td>
+<td style="text-align:right;">
+2.3
+</td>
+<td style="text-align:right;">
+4.5
+</td>
+<td style="text-align:right;">
+10.2
+</td>
+<td style="text-align:right;">
+20.5
+</td>
+<td style="text-align:right;">
+23.7
+</td>
+<td style="text-align:right;">
+21.1
+</td>
+<td style="text-align:right;">
+17.7
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Housing Starts (1-unit structures, 1000s SAAR)
+</td>
+<td style="text-align:right;">
+2.1
+</td>
+<td style="text-align:right;">
+3.8
+</td>
+<td style="text-align:right;">
+8.4
+</td>
+<td style="text-align:right;">
+17.6
+</td>
+<td style="text-align:right;">
+24.9
+</td>
+<td style="text-align:right;">
+25.2
+</td>
+<td style="text-align:right;">
+18.0
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Housing Starts: (5-Unit Structures or More, 1000s SAAR)
+</td>
+<td style="text-align:right;">
+2.1
+</td>
+<td style="text-align:right;">
+3.8
+</td>
+<td style="text-align:right;">
+9.2
+</td>
+<td style="text-align:right;">
+18.7
+</td>
+<td style="text-align:right;">
+21.3
+</td>
+<td style="text-align:right;">
+15.7
+</td>
+<td style="text-align:right;">
+29.2
+</td>
+</tr>
+<tr grouplength="2">
+<td colspan="8" style="border-bottom: 1px solid;">
+<strong>Households</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Household Estimates (Thousands)
+</td>
+<td style="text-align:right;">
+1.1
+</td>
+<td style="text-align:right;">
+1.6
+</td>
+<td style="text-align:right;">
+2.9
+</td>
+<td style="text-align:right;">
+5.6
+</td>
+<td style="text-align:right;">
+10.6
+</td>
+<td style="text-align:right;">
+19.7
+</td>
+<td style="text-align:right;">
+58.4
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Quarterly Household Growth (%)
+</td>
+<td style="text-align:right;">
+54.7
+</td>
+<td style="text-align:right;">
+22.6
+</td>
+<td style="text-align:right;">
+6.7
+</td>
+<td style="text-align:right;">
+3.3
+</td>
+<td style="text-align:right;">
+2.1
+</td>
+<td style="text-align:right;">
+2.1
+</td>
+<td style="text-align:right;">
+8.6
+</td>
+</tr>
+<tr grouplength="2">
+<td colspan="8" style="border-bottom: 1px solid;">
+<strong>Vacancy Rates</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Rental Vacancy Rate for the United States (%)
+</td>
+<td style="text-align:right;">
+1.1
+</td>
+<td style="text-align:right;">
+1.2
+</td>
+<td style="text-align:right;">
+2.3
+</td>
+<td style="text-align:right;">
+6.1
+</td>
+<td style="text-align:right;">
+13.4
+</td>
+<td style="text-align:right;">
+22.6
+</td>
+<td style="text-align:right;">
+53.2
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Homeowner Vacancy Rate for the United States (%)
+</td>
+<td style="text-align:right;">
+1.6
+</td>
+<td style="text-align:right;">
+2.0
+</td>
+<td style="text-align:right;">
+3.1
+</td>
+<td style="text-align:right;">
+7.0
+</td>
+<td style="text-align:right;">
+14.9
+</td>
+<td style="text-align:right;">
+24.5
+</td>
+<td style="text-align:right;">
+46.8
+</td>
+</tr>
+<tr grouplength="2">
+<td colspan="8" style="border-bottom: 1px solid;">
+<strong>House Prices</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+FHFA All-Transactions House Price Index for the United States (Index 1980 Q1 = 100)
+</td>
+<td style="text-align:right;">
+1.8
+</td>
+<td style="text-align:right;">
+2.7
+</td>
+<td style="text-align:right;">
+4.9
+</td>
+<td style="text-align:right;">
+9.1
+</td>
+<td style="text-align:right;">
+15.2
+</td>
+<td style="text-align:right;">
+23.4
+</td>
+<td style="text-align:right;">
+42.7
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Quarterly House Price Growth (%)
+</td>
+<td style="text-align:right;">
+16.9
+</td>
+<td style="text-align:right;">
+12.2
+</td>
+<td style="text-align:right;">
+6.8
+</td>
+<td style="text-align:right;">
+14.2
+</td>
+<td style="text-align:right;">
+22.5
+</td>
+<td style="text-align:right;">
+20.1
+</td>
+<td style="text-align:right;">
+7.4
+</td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td style="padding: 0; border: 0;" colspan="100%">
+<span style="font-style: italic;">Note: </span>
+</td>
+</tr>
+<tr>
+<td style="padding: 0; border: 0;" colspan="100%">
+<sup></sup> <span class="citation">@lenkiefer</span> Based on decomposition described in Matthes, C., Lubik, T. A., &amp; Verona, F. (2019). <br>‘Assessing US Aggregate Fluctuations Across Time and Frequencies’ Richmond Fed Working Paper (No. 19-6).<br>Data retrieved from FRED, Federal Reserve Bank of St. Louis; <a href="https://fred.stlouisfed.org/" class="uri">https://fred.stlouisfed.org/</a><br>Series length varies by series, maximum available quarters selected
+</td>
+</tr>
+<tr>
+<td style="padding: 0; border: 0;" colspan="100%">
+<sup>1</sup> Data Retrieved on April 11, 2019
+</td>
+</tr>
+</tfoot>
+</table>
+</div>
+<p>If we compare the first three rows to Table 1 in Matthes, Lubik and Verona (2019) we see very similar results. Differences in the data tabulation and the sample selection should explain most of the differences, with differences in the exact estimation specification (perhaps they included a bias adjustment, see wmtsa for details) explaining the rest. Decomposing the variation in estimates is beyond the scope of this blog post!</p>
+</div>
+</div>
+<div id="a-bunch-of-plots" class="section level1">
+<h1>A bunch of plots</h1>
+<p>We’ll finish up with a whole bunch of plots showing the wavelet decomposition for each variable listed in the table above.</p>
+<p>There are a lot of plot, so I’ll hide them in the tab below.</p>
+<p><details> <Summary> Bunch o’ plots (I mean it!) </Summary></p>
+<pre class="r"><code># use map to print plots
+map(df_lookup$series,my_plotf)</code></pre>
+<pre><code>## [[1]]</code></pre>
+<p><img src="/post/2019-04-11-is-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies_files/figure-html/2019-04-11-bunch-o-plots-1.png" width="672" /></p>
+<pre><code>## 
+## [[2]]</code></pre>
+<p><img src="/post/2019-04-11-is-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies_files/figure-html/2019-04-11-bunch-o-plots-2.png" width="672" /></p>
+<pre><code>## 
+## [[3]]</code></pre>
+<p><img src="/post/2019-04-11-is-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies_files/figure-html/2019-04-11-bunch-o-plots-3.png" width="672" /></p>
+<pre><code>## 
+## [[4]]</code></pre>
+<p><img src="/post/2019-04-11-is-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies_files/figure-html/2019-04-11-bunch-o-plots-4.png" width="672" /></p>
+<pre><code>## 
+## [[5]]</code></pre>
+<p><img src="/post/2019-04-11-is-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies_files/figure-html/2019-04-11-bunch-o-plots-5.png" width="672" /></p>
+<pre><code>## 
+## [[6]]</code></pre>
+<p><img src="/post/2019-04-11-is-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies_files/figure-html/2019-04-11-bunch-o-plots-6.png" width="672" /></p>
+<pre><code>## 
+## [[7]]</code></pre>
+<p><img src="/post/2019-04-11-is-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies_files/figure-html/2019-04-11-bunch-o-plots-7.png" width="672" /></p>
+<pre><code>## 
+## [[8]]</code></pre>
+<p><img src="/post/2019-04-11-is-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies_files/figure-html/2019-04-11-bunch-o-plots-8.png" width="672" /></p>
+<pre><code>## 
+## [[9]]</code></pre>
+<p><img src="/post/2019-04-11-is-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies_files/figure-html/2019-04-11-bunch-o-plots-9.png" width="672" /></p>
+<pre><code>## 
+## [[10]]</code></pre>
+<p><img src="/post/2019-04-11-is-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies_files/figure-html/2019-04-11-bunch-o-plots-10.png" width="672" /></p>
+<pre><code>## 
+## [[11]]</code></pre>
+<p><img src="/post/2019-04-11-is-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies_files/figure-html/2019-04-11-bunch-o-plots-11.png" width="672" /></p>
+<pre><code>## 
+## [[12]]</code></pre>
+<p><img src="/post/2019-04-11-is-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies_files/figure-html/2019-04-11-bunch-o-plots-12.png" width="672" /></p>
+<pre><code>## 
+## [[13]]</code></pre>
+<p><img src="/post/2019-04-11-is-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies_files/figure-html/2019-04-11-bunch-o-plots-13.png" width="672" /></p>
+<pre><code>## 
+## [[14]]</code></pre>
+<p><img src="/post/2019-04-11-is-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies_files/figure-html/2019-04-11-bunch-o-plots-14.png" width="672" /></p>
+<pre><code>## 
+## [[15]]</code></pre>
+<p><img src="/post/2019-04-11-is-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies_files/figure-html/2019-04-11-bunch-o-plots-15.png" width="672" /></p>
+<pre><code>## 
+## [[16]]</code></pre>
+<p><img src="/post/2019-04-11-is-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies_files/figure-html/2019-04-11-bunch-o-plots-16.png" width="672" /></p>
+<pre><code>## 
+## [[17]]</code></pre>
+<p><img src="/post/2019-04-11-is-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies_files/figure-html/2019-04-11-bunch-o-plots-17.png" width="672" /></p>
+<p></details></p>
+</div>
+<div id="wrapping-up" class="section level1">
+<h1>Wrapping up</h1>
+<p>This approach is quite interesting and one I’m going to think more about. Filtering time series runs a risk of generating artefacts that aren’t actually present in the data. <a href="http://econweb.ucsd.edu/~jhamilto/hp.pdf">Hello Hodrick-Prescott Filter</a>. The wavelet method seems somewhat robust. For example, the last plot above, for households, shows a sudden drop around the year 2000. That’s an artefact of the Census re-benchmarking the household estimates after the 2000 Census. But the effect doesn’t stick around in the estimated trends for very long. Knowing what we know about housing data we would want to smooth that out somehow, but the fact this algorithm doesn’t totally break down in the presence of this artefact is reassuring.</p>
+<p>Is the U.S. housing recovery over? We have presented some evidence that it may be winding down. But the Medium Term trend is moving higher across several housing indicators. This may be reflecting the effects of the rising Millennial generation. As the Millennials age they will propel the housing market for several more years to come. Will that demographic tailwind along with lower mortgage rates help the housing market get back on track? We will have to wait and see, riding the wavelets until then.</p>
+</div>
+<div id="references" class="section level1">
+<h1>References</h1>
+<p>Matthes, C., Lubik, T. A., &amp; Verona, F. (2019). ‘Assessing US Aggregate Fluctuations Across Time and Frequencies’ Richmond Fed Working Paper (No. 19-6). <a href="https://www.richmondfed.org/publications/research/working_papers/2019/wp_19-06">LINK to Working Paper</a></p>
+<p>Eric Aldrich (2019). wavelets: Functions for Computing Wavelet Filters, Wavelet Transforms and Multiresolution Analyses. R package version 0.3-0.1. <a href="https://CRAN.R-project.org/package=wavelets" class="uri">https://CRAN.R-project.org/package=wavelets</a></p>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2019/03/26/housing-construction-and-population-growth/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2019/03/26/housing-construction-and-population-growth/">Housing construction and population growth</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/economics/">economics</a>, 
+            
+                <a href="/tags/statistics/">statistics</a>, 
+            
+                <a href="/tags/r/">R</a>, 
+            
+                <a href="/tags/housing/">housing</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2019%2f04%2f11%2fis-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies%2f&text=Is%20the%20U.S.%20housing%20recovery%20over%3f%20Housing%20fluctuations%20across%20time%20and%20frequencies via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2019%2f04%2f11%2fis-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+
