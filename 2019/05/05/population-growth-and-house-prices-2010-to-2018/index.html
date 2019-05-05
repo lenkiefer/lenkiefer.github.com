@@ -1,0 +1,2097 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="We examine metro house price and population dynamics">
+  <meta name="generator" content="Hugo 0.52" />
+
+  <title>Population Growth and House Prices 2010 to 2018 &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com//img/charts_may_05_2019/pop_hpa.png" >
+     
+    <meta property="og:title" content="Population Growth and House Prices 2010 to 2018">
+    <meta property="og:description" content="We examine metro house price and population dynamics">
+
+<div class="header">
+  <h1>Population Growth and House Prices 2010 to 2018</h1>
+  <h2>We examine metro house price and population dynamics</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2019/05/05</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/demographics">demographics</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/house-prices">house prices</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/housing">Housing</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+
+
+<p>Recently the U.S. Census Bureau released updated population estimates through 2018 for the United States, states, counties, and metropolitan statistical areas (MSA). <a href="https://www.census.gov/newsroom/press-releases/2019/estimates-county-metro.html">Press release</a></p>
+<p>I tweeted out the following chart comparing house prices and state population dynamics.</p>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">demographics are an important driver of <a href="https://twitter.com/hashtag/housing?src=hash&amp;ref_src=twsrc%5Etfw">#housing</a> market trends. <br>here&#39;s a comparison of growth in state population and nominal house prices <br>since the year 2000<br><br>left to right: more people<br>bottom to top:  higher home prices <a href="https://t.co/CtliCFrWoG">pic.twitter.com/CtliCFrWoG</a></p>&mdash; Leonard Kiefer (@lenkiefer) <a href="https://twitter.com/lenkiefer/status/1123663141798387713?ref_src=twsrc%5Etfw">May 1, 2019</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>In this post, I was to dig a little deeper, comparing various aspects of population dynamics to house price trends. We’ll analyze things a the MSA level. Per usual we will use <a href="https://www.r-project.org/">R</a> and include code tucked away between the arrows like so:</p>
+<p><details> <Summary>Click for code</Summary> Hello! </details></p>
+<div id="data" class="section level1">
+<h1>Data</h1>
+<div id="get-data" class="section level2">
+<h2>Get Data</h2>
+<p>The latest population estimates from 2010 to 2018 for metro areas can be found <a href="https://www.census.gov/data/tables/time-series/demo/popest/2010s-total-metro-and-micro-statistical-areas.html">here</a>. We’ll download the .csv file with the data directly into R. We’ll also get house prices using the <a href="http://www.freddiemac.com/research/indices/house-price-index.page">Freddie Mac House Price Index</a>. We can also read in the house price data as a .csv. We’ll use the data.table package <code>fread</code> function to get the data into R.</p>
+<p><details> <Summary>Data Download Code</Summary></p>
+<pre class="r"><code># libraries ----
+library(tidyverse)
+library(data.table)
+library(ggrepel)
+library(scales)
+# get data ----
+df &lt;- fread(&quot;https://www2.census.gov/programs-surveys/popest/datasets/2010-2018/metro/totals/cbsa-est2018-alldata.csv&quot;)
+df_hpi &lt;- fread(&quot;http://www.freddiemac.com/fmac-resources/research/docs/fmhpi_master_file.csv&quot;)</code></pre>
+<p></details></p>
+</div>
+<div id="wrangle-data" class="section level2">
+<h2>Wrangle Data</h2>
+<p>Now that we have our data, we need to do a bit of wrangling. Details hidden below.</p>
+<p><details> <Summary> Data Wrangling Code </Summary></p>
+<div id="population-data" class="section level3">
+<h3>Population data</h3>
+<p>Let’s take a look at our population data as it comes from Census. Details of the file layout are available in this <a href="https://www2.census.gov/programs-surveys/popest/technical-documentation/file-layouts/2010-2018/cbsa-est2018-alldata.pdf">pdf file</a>.</p>
+<pre class="r"><code>str(df)</code></pre>
+<pre><code>## Classes &#39;data.table&#39; and &#39;data.frame&#39;:   2789 obs. of  88 variables:
+##  $ CBSA                : int  10180 10180 10180 10180 10420 10420 10420 10500 10500 10500 ...
+##  $ MDIV                : int  NA NA NA NA NA NA NA NA NA NA ...
+##  $ STCOU               : int  NA 48059 48253 48441 NA 39133 39153 NA 13007 13095 ...
+##  $ NAME                : chr  &quot;Abilene, TX&quot; &quot;Callahan County, TX&quot; &quot;Jones County, TX&quot; &quot;Taylor County, TX&quot; ...
+##  $ LSAD                : chr  &quot;Metropolitan Statistical Area&quot; &quot;County or equivalent&quot; &quot;County or equivalent&quot; &quot;County or equivalent&quot; ...
+##  $ CENSUS2010POP       : int  165252 13544 20202 131506 703200 161419 541781 157308 3451 94565 ...
+##  $ ESTIMATESBASE2010   : int  165246 13546 20192 131508 703203 161425 541778 157493 3451 94562 ...
+##  $ POPESTIMATE2010     : int  165583 13513 20237 131833 703035 161389 541646 157589 3435 94513 ...
+##  $ POPESTIMATE2011     : int  166616 13511 20266 132839 703123 161857 541266 157853 3315 95046 ...
+##  $ POPESTIMATE2012     : int  167447 13488 19870 134089 702080 161375 540705 157349 3376 94676 ...
+##  $ POPESTIMATE2013     : int  167472 13501 20034 133937 703625 161691 541934 156019 3351 93391 ...
+##  $ POPESTIMATE2014     : int  168355 13506 19846 135003 704921 162459 542462 155248 3292 92720 ...
+##  $ POPESTIMATE2015     : int  169704 13591 19972 136141 704448 162615 541833 153604 3196 91495 ...
+##  $ POPESTIMATE2016     : int  170018 13789 19969 136260 703690 162595 541095 152353 3186 90371 ...
+##  $ POPESTIMATE2017     : int  170516 13968 19852 136696 704367 162625 541742 151293 3180 89417 ...
+##  $ POPESTIMATE2018     : int  171451 13994 19817 137640 704845 162927 541918 153009 3092 91243 ...
+##  $ NPOPCHG2010         : int  337 -33 45 325 -168 -36 -132 96 -16 -49 ...
+##  $ NPOPCHG2011         : int  1033 -2 29 1006 88 468 -380 264 -120 533 ...
+##  $ NPOPCHG2012         : int  831 -23 -396 1250 -1043 -482 -561 -504 61 -370 ...
+##  $ NPOPCHG2013         : int  25 13 164 -152 1545 316 1229 -1330 -25 -1285 ...
+##  $ NPOPCHG2014         : int  883 5 -188 1066 1296 768 528 -771 -59 -671 ...
+##  $ NPOPCHG2015         : int  1349 85 126 1138 -473 156 -629 -1644 -96 -1225 ...
+##  $ NPOPCHG2016         : int  314 198 -3 119 -758 -20 -738 -1251 -10 -1124 ...
+##  $ NPOPCHG2017         : int  498 179 -117 436 677 30 647 -1060 -6 -954 ...
+##  $ NPOPCHG2018         : int  935 26 -35 944 478 302 176 1716 -88 1826 ...
+##  $ BIRTHS2010          : int  540 31 25 484 1977 407 1570 545 4 381 ...
+##  $ BIRTHS2011          : int  2295 120 154 2021 7568 1500 6068 2334 35 1569 ...
+##  $ BIRTHS2012          : int  2358 122 189 2047 7497 1381 6116 2183 37 1385 ...
+##  $ BIRTHS2013          : int  2390 135 189 2066 7545 1420 6125 2211 31 1403 ...
+##  $ BIRTHS2014          : int  2382 140 180 2062 7704 1504 6200 2061 25 1275 ...
+##  $ BIRTHS2015          : int  2417 153 159 2105 7562 1476 6086 2032 38 1279 ...
+##  $ BIRTHS2016          : int  2379 152 157 2070 7450 1417 6033 1938 28 1223 ...
+##  $ BIRTHS2017          : int  2427 163 170 2094 7308 1374 5934 1900 33 1205 ...
+##  $ BIRTHS2018          : int  2381 159 164 2058 7212 1370 5842 1844 30 1203 ...
+##  $ DEATHS2010          : int  406 60 21 325 1605 336 1269 410 2 267 ...
+##  $ DEATHS2011          : int  1506 158 213 1135 6662 1292 5370 1242 27 761 ...
+##  $ DEATHS2012          : int  1587 142 173 1272 7011 1365 5646 1396 16 894 ...
+##  $ DEATHS2013          : int  1694 176 206 1312 6991 1378 5613 1461 25 924 ...
+##  $ DEATHS2014          : int  1598 178 196 1224 6851 1372 5479 1414 23 851 ...
+##  $ DEATHS2015          : int  1698 168 202 1328 7453 1457 5996 1452 44 876 ...
+##  $ DEATHS2016          : int  1726 192 189 1345 7286 1474 5812 1528 31 974 ...
+##  $ DEATHS2017          : int  1705 174 188 1343 7283 1444 5839 1528 27 950 ...
+##  $ DEATHS2018          : int  1739 183 172 1384 7229 1434 5795 1561 27 950 ...
+##  $ NATURALINC2010      : int  134 -29 4 159 372 71 301 135 2 114 ...
+##  $ NATURALINC2011      : int  789 -38 -59 886 906 208 698 1092 8 808 ...
+##  $ NATURALINC2012      : int  771 -20 16 775 486 16 470 787 21 491 ...
+##  $ NATURALINC2013      : int  696 -41 -17 754 554 42 512 750 6 479 ...
+##  $ NATURALINC2014      : int  784 -38 -16 838 853 132 721 647 2 424 ...
+##  $ NATURALINC2015      : int  719 -15 -43 777 109 19 90 580 -6 403 ...
+##  $ NATURALINC2016      : int  653 -40 -32 725 164 -57 221 410 -3 249 ...
+##  $ NATURALINC2017      : int  722 -11 -18 751 25 -70 95 372 6 255 ...
+##  $ NATURALINC2018      : int  642 -24 -8 674 -17 -64 47 283 3 253 ...
+##  $ INTERNATIONALMIG2010: int  84 0 4 80 221 54 167 17 0 13 ...
+##  $ INTERNATIONALMIG2011: int  205 4 13 188 1136 300 836 45 2 51 ...
+##  $ INTERNATIONALMIG2012: int  516 5 11 500 1218 345 873 116 2 98 ...
+##  $ INTERNATIONALMIG2013: int  361 5 11 345 1831 603 1228 138 3 109 ...
+##  $ INTERNATIONALMIG2014: int  419 8 8 403 1639 562 1077 86 -1 66 ...
+##  $ INTERNATIONALMIG2015: int  484 9 8 467 1973 667 1306 116 -1 92 ...
+##  $ INTERNATIONALMIG2016: int  388 7 8 373 1963 657 1306 149 -1 114 ...
+##  $ INTERNATIONALMIG2017: int  325 7 7 311 1556 527 1029 104 -1 82 ...
+##  $ INTERNATIONALMIG2018: int  282 7 7 268 1571 524 1047 114 -1 91 ...
+##  $ DOMESTICMIG2010     : int  124 -3 36 91 -728 -156 -572 -58 -19 -170 ...
+##  $ DOMESTICMIG2011     : int  54 33 72 -51 -1911 -22 -1889 -871 -135 -315 ...
+##  $ DOMESTICMIG2012     : int  -448 -6 -435 -7 -2708 -845 -1863 -1429 38 -967 ...
+##  $ DOMESTICMIG2013     : int  -1051 51 167 -1269 -767 -319 -448 -2255 -33 -1906 ...
+##  $ DOMESTICMIG2014     : int  -301 36 -182 -155 -1091 102 -1193 -1523 -61 -1175 ...
+##  $ DOMESTICMIG2015     : int  162 92 158 -88 -2503 -520 -1983 -2364 -90 -1737 ...
+##  $ DOMESTICMIG2016     : int  -723 231 22 -976 -2870 -620 -2250 -1817 -6 -1491 ...
+##  $ DOMESTICMIG2017     : int  -544 183 -106 -621 -878 -426 -452 -1539 -11 -1296 ...
+##  $ DOMESTICMIG2018     : int  19 43 -32 8 -1049 -153 -896 1297 -90 1460 ...
+##  $ NETMIG2010          : int  208 -3 40 171 -507 -102 -405 -41 -19 -157 ...
+##  $ NETMIG2011          : int  259 37 85 137 -775 278 -1053 -826 -133 -264 ...
+##  $ NETMIG2012          : int  68 -1 -424 493 -1490 -500 -990 -1313 40 -869 ...
+##  $ NETMIG2013          : int  -690 56 178 -924 1064 284 780 -2117 -30 -1797 ...
+##  $ NETMIG2014          : int  118 44 -174 248 548 664 -116 -1437 -62 -1109 ...
+##  $ NETMIG2015          : int  646 101 166 379 -530 147 -677 -2248 -91 -1645 ...
+##  $ NETMIG2016          : int  -335 238 30 -603 -907 37 -944 -1668 -7 -1377 ...
+##  $ NETMIG2017          : int  -219 190 -99 -310 678 101 577 -1435 -12 -1214 ...
+##  $ NETMIG2018          : int  301 50 -25 276 522 371 151 1411 -91 1551 ...
+##  $ RESIDUAL2010        : int  -5 -1 1 -5 -33 -5 -28 2 1 -6 ...
+##  $ RESIDUAL2011        : int  -15 -1 3 -17 -43 -18 -25 -2 5 -11 ...
+##  $ RESIDUAL2012        : int  -8 -2 12 -18 -39 2 -41 22 0 8 ...
+##  $ RESIDUAL2013        : int  19 -2 3 18 -73 -10 -63 37 -1 33 ...
+##  $ RESIDUAL2014        : int  -19 -1 2 -20 -105 -28 -77 19 1 14 ...
+##  $ RESIDUAL2015        : int  -16 -1 3 -18 -52 -10 -42 24 1 17 ...
+##  $ RESIDUAL2016        : int  -4 0 -1 -3 -15 0 -15 7 0 4 ...
+##  $ RESIDUAL2017        : int  -5 0 0 -5 -26 -1 -25 3 0 5 ...
+##  $ RESIDUAL2018        : int  -8 0 -2 -6 -27 -5 -22 22 0 22 ...
+##  - attr(*, &quot;.internal.selfref&quot;)=&lt;externalptr&gt; 
+##  - attr(*, &quot;index&quot;)= int 
+##   ..- attr(*, &quot;__LSAD&quot;)= int  2 3 4 6 7 9 10 11 12 13 ...</code></pre>
+<p>These data are not tidy. They have columns for each variable and each year. We also have rows indicating metro area or the underlying population details. We get annual estimates of population changes and the details indicating births, deaths, international migration, net internal migration, the natural increase population (births minus deaths), and a statistical residual.</p>
+<p>There are several types of geography in our data, with an indicator stored in variable <code>LSAD</code>. Let’s see what values it has:</p>
+<pre class="r"><code>unique(df$LSAD)</code></pre>
+<pre><code>## [1] &quot;Metropolitan Statistical Area&quot; &quot;County or equivalent&quot;         
+## [3] &quot;Metropolitan Division&quot;         &quot;Micropolitan Statistical Area&quot;</code></pre>
+<p>We’ll want to keep the MSA (<code>LSAD=Metropolitan Statistical Area</code>) rows and do some tidying.</p>
+<p>The following code does some tidying. See the comments for what each step does.</p>
+<pre class="r"><code>df2 &lt;- 
+  df %&gt;%
+  # only keep the rows corresponding to MSA (drop county detail)
+  filter(LSAD==&quot;Metropolitan Statistical Area&quot;) %&gt;% 
+  # get rid of irrelevant fields)
+  select(-MDIV, -STCOU, -LSAD) %&gt;%
+  # make tidy
+  gather(var,value, -CBSA, -NAME)  %&gt;%
+  # extract the year value from the former column labels (now stored in var)
+  mutate(year= parse_number(var)) %&gt;% 
+  # split up the var column dropping year digits
+  separate(var, c(&quot;var2&quot;,&quot;var3&quot;), sep=&quot;[[:digit:]]+&quot;, remove=FALSE)
+
+str(df2)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    31789 obs. of  7 variables:
+##  $ CBSA : int  10180 10420 10500 10540 10580 10740 10780 10900 11020 11100 ...
+##  $ NAME : chr  &quot;Abilene, TX&quot; &quot;Akron, OH&quot; &quot;Albany, GA&quot; &quot;Albany, OR&quot; ...
+##  $ var  : chr  &quot;CENSUS2010POP&quot; &quot;CENSUS2010POP&quot; &quot;CENSUS2010POP&quot; &quot;CENSUS2010POP&quot; ...
+##  $ var2 : chr  &quot;CENSUS&quot; &quot;CENSUS&quot; &quot;CENSUS&quot; &quot;CENSUS&quot; ...
+##  $ var3 : chr  &quot;POP&quot; &quot;POP&quot; &quot;POP&quot; &quot;POP&quot; ...
+##  $ value: int  165252 703200 157308 116672 870716 887077 153922 821173 127089 251933 ...
+##  $ year : num  2010 2010 2010 2010 2010 2010 2010 2010 2010 2010 ...</code></pre>
+</div>
+<div id="house-price-data" class="section level3">
+<h3>House Price data</h3>
+<p>Now we can set the population data aside for a moment and get the house price data ready. The Census data is annual, as of July for most years (excluding the 2010 Census estimates which are linked to April). The house price data is monthly so we’ll filter on month equal to July and only keep MSA data. The House price data also goes back to the 1970s, but we only need to keep data since 2010.</p>
+<pre class="r"><code># keep only MSA data and month=7
+df_hpi2 &lt;- df_hpi[Year&gt;2009 &amp; Month==7 &amp; GEO_Type==&quot;CBSA&quot;,]</code></pre>
+</div>
+<div id="merge-data" class="section level3">
+<h3>Merge data</h3>
+<p>We have a common key, year and CBSA that we can now merge on. We’ll also create some additional variables, scaling our population dynamic columns by the metro population in the prior year and create some house price growth variables.</p>
+<pre class="r"><code>df3 &lt;- 
+  df2 %&gt;% 
+  select(CBSA,NAME,year,var2,value) %&gt;%
+  pivot_wide(names_from=var2, values_from=value) %&gt;%
+  group_by(CBSA) %&gt;%
+  arrange(year) %&gt;% 
+  # create growth variables (Scale by metro populaton in prior year)
+  mutate(pg=POPESTIMATE/lag(POPESTIMATE)-1,
+         ng=NATURALINC/lag(POPESTIMATE),
+         bg=BIRTHS/lag(POPESTIMATE),
+         dg=DEATHS/lag(POPESTIMATE),
+         ig=INTERNATIONALMIG/lag(POPESTIMATE),
+         domg=DOMESTICMIG/lag(POPESTIMATE),
+         netg=NETMIG/lag(POPESTIMATE)         ) %&gt;%
+    ungroup() %&gt;%
+  # merge on house price data
+    left_join(select(df_hpi2, Year, GEO_Code,Index_SA) %&gt;%
+              mutate(GEO_Code=as.integer(GEO_Code)), 
+            by=c(&quot;year&quot;=&quot;Year&quot;,&quot;CBSA&quot;=&quot;GEO_Code&quot;)) %&gt;% 
+  group_by(CBSA, NAME) %&gt;%
+  # compute house price growth variables
+  mutate(hpi2010= Index_SA/Index_SA[year==2010],   # house price growth since 2000
+         pop2010 = POPESTIMATE/POPESTIMATE[year==2010], # Population growth since 2000
+         hpa = log(Index_SA)-lag(log(Index_SA))      # annual house price growth (logs)
+         ) %&gt;%
+  ungroup() %&gt;% select(CBSA, NAME, year, hpi2010,ng, everything())
+
+# make a list of the largest metros from </code></pre>
+<p>It will also be useful to a list of metros sorted by population. The list doesn’t change too much, so we’ll just use the top metros in terms of 2010 population.</p>
+<pre class="r"><code>clist &lt;- filter(df3, year==2018) %&gt;% arrange(-POPESTIMATE) %&gt;% pull(CBSA)</code></pre>
+<p></details></p>
+<p>Now that we have our data together we can make some plots and analyze some trends. First,let’s compare population growth from 2010 to 2018 and house price growth over that period.</p>
+<pre class="r"><code>ggplot(data=filter(df3, year==2018), aes(x=pop2010-1,y=hpi2010-1, size=log(POPESTIMATE)))+
+  geom_point(alpha=0.5, color=&quot;royalblue&quot;)+
+  scale_y_continuous(labels=percent)+
+  scale_x_continuous(labels=percent)+
+  theme(plot.caption=element_text(hjust=0))+
+  stat_smooth(method=&quot;lm&quot;,fill=NA,linetype=2)+
+  labs(x=&quot;Population Percent Change: 2010-2018&quot;,
+       y=&quot;House Price Percent Change: 2010-2018&quot;,
+       title=&quot;Demographics drive housing markets&quot;,
+       subtitle=&quot;Population and House Price Growth 2010-2018 (each dot a MSA)&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Census Bureau, Freddie Mac House Price Index\nDotted line OLS fit&quot;)</code></pre>
+<div class="figure"><span id="fig:2019-05-05-data-plot-1"></span>
+<img src="/post/2019-05-05-population-growth-and-house-prices-2010-to-2018_files/figure-html/2019-05-05-data-plot-1-1.png" alt="Population and House Price Growth 2010-2018" width="672" />
+<p class="caption">
+Figure 1: Population and House Price Growth 2010-2018
+</p>
+</div>
+<p>There’s a pretty strong association between nominal house price growth and population. The dotted line in the plot shows the Ordinary Least Squares (OLS) fit for the points.</p>
+<pre class="r"><code>stargazer::stargazer(lm(data=filter(df3, year==2018), 
+                        formula= I(hpi2010-1) ~ I(pop2010-1)), type=&quot;html&quot;,
+                     covariate.labels = &quot;Population Growth Rate: 2010-2018 (%)&quot;,
+                     dep.var.labels   = &quot;House Price Growth Rate: 2010-2018 (%)&quot;,
+                     title            = &quot;MSA House Prices and Population Growth: 2010-2018&quot;,
+          notes = &quot;Source: U.S. Census 2018 Population Vintage Estimates, Freddie Mac House Price Index&quot;)</code></pre>
+<table style="text-align:center">
+<caption>
+<strong>MSA House Prices and Population Growth: 2010-2018</strong>
+</caption>
+<tr>
+<td colspan="2" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+<em>Dependent variable:</em>
+</td>
+</tr>
+<tr>
+<td>
+</td>
+<td colspan="1" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+House Price Growth Rate: 2010-2018 (%)
+</td>
+</tr>
+<tr>
+<td colspan="2" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Population Growth Rate: 2010-2018 (%)
+</td>
+<td>
+2.238<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.156)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Constant
+</td>
+<td>
+0.207<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.013)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td colspan="2" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Observations
+</td>
+<td>
+382
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+R<sup>2</sup>
+</td>
+<td>
+0.350
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Adjusted R<sup>2</sup>
+</td>
+<td>
+0.348
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Residual Std. Error
+</td>
+<td>
+0.202 (df = 380)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+F Statistic
+</td>
+<td>
+204.558<sup>***</sup> (df = 1; 380)
+</td>
+</tr>
+<tr>
+<td colspan="2" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+<em>Note:</em>
+</td>
+<td style="text-align:right">
+<sup><em></sup>p&lt;0.1; <sup><strong></sup>p&lt;0.05; <sup></strong></em></sup>p&lt;0.01
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td style="text-align:right">
+Source: U.S. Census 2018 Population Vintage Estimates, Freddie Mac House Price Index
+</td>
+</tr>
+</table>
+<p>The regression indicates that for every 1 percentage point increase in MSA population from 2010 to 2018 is associated with 2.2 percentage points higher house price growth.</p>
+<p>How do the individual components of population growth correlate with house prices? Let’s take a look.</p>
+<p>Let’s consider the association of house prices with migration, both domestic and international.</p>
+<pre class="r"><code>ggplot(data=filter(df3, CBSA %in% clist[1:25], year==2018), aes(x=domg,y=hpa))+
+  geom_point(alpha=0.5, color=&quot;royalblue&quot;)+
+  ggrepel::geom_text_repel( aes(label=NAME), color=&quot;royalblue&quot;, size=3)+
+  scale_y_continuous(labels=percent)+
+  scale_x_continuous(labels=percent)+
+  theme(plot.caption=element_text(hjust=0))+
+  stat_smooth(method=&quot;lm&quot;,fill=NA,linetype=2)+
+  labs(x=&quot;Net Domestic Migration in 2018 as Percent of Population in 2017&quot;,
+       y=&quot;House Price Percent Change 2017-2018&quot;,
+       title=&quot;Demographics drive housing markets&quot;,
+       subtitle=&quot;Net Domestic Migration and House Price Growth 2018 (each dot a MSA, top 25 by 2010 pop)&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Census Bureau, Freddie Mac House Price Index\nDotted line OLS fit&quot;)</code></pre>
+<div class="figure"><span id="fig:2019-05-05-data-plot-21"></span>
+<img src="/post/2019-05-05-population-growth-and-house-prices-2010-to-2018_files/figure-html/2019-05-05-data-plot-2-1.png" alt="Domestic Migration and House Price Growth 2018" width="672" />
+<p class="caption">
+Figure 2: Domestic Migration and House Price Growth 2018
+</p>
+</div>
+<pre class="r"><code>ggplot(data=filter(df3, year==2018), aes(x=domg,y=hpa))+
+  geom_point(alpha=0.5, color=&quot;royalblue&quot;)+
+  scale_y_continuous(labels=percent)+
+  scale_x_continuous(labels=percent)+
+  theme(plot.caption=element_text(hjust=0))+
+  stat_smooth(fill=NA,linetype=2)+
+  labs(x=&quot;Net Domestic Migration in 2018 as Percent of Population in 2017&quot;,
+       y=&quot;House Price Percent Change 2017-2018&quot;,
+       title=&quot;Demographics drive housing markets&quot;,
+       subtitle=&quot;Net Domestic Migration and House Price Growth 2018 (each dot a MSA, all MSAs)&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Census Bureau, Freddie Mac House Price Index\nDotted lin LOESS fit&quot;)</code></pre>
+<div class="figure"><span id="fig:2019-05-05-data-plot-22"></span>
+<img src="/post/2019-05-05-population-growth-and-house-prices-2010-to-2018_files/figure-html/2019-05-05-data-plot-2-2.png" alt="Domestic Migration and House Price Growth 2018" width="672" />
+<p class="caption">
+Figure 3: Domestic Migration and House Price Growth 2018
+</p>
+</div>
+<p>How about international migration?</p>
+<pre class="r"><code>ggplot(data=filter(df3, CBSA %in% clist[1:25], year==2018), aes(x=ig,y=hpa))+
+  geom_point(alpha=0.5, color=&quot;royalblue&quot;)+
+  ggrepel::geom_text_repel( aes(label=NAME), color=&quot;royalblue&quot;, size=3)+
+  scale_y_continuous(labels=percent)+
+  scale_x_continuous(labels=percent)+
+  theme(plot.caption=element_text(hjust=0))+
+  stat_smooth(method=&quot;lm&quot;,fill=NA,linetype=2)+
+  labs(x=&quot;International Migration in 2018 as Percent of Population in 2017&quot;,
+       y=&quot;House Price Percent Change 2017-2018&quot;,
+       title=&quot;Demographics drive housing markets&quot;,
+       subtitle=&quot;International Migration and House Price Growth 2018 (each dot a MSA, top 25 by 2010 pop)&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Census Bureau, Freddie Mac House Price Index\nDotted line OLS fit&quot;)</code></pre>
+<div class="figure"><span id="fig:2019-05-05-data-plot-31"></span>
+<img src="/post/2019-05-05-population-growth-and-house-prices-2010-to-2018_files/figure-html/2019-05-05-data-plot-3-1.png" alt="International Migration and House Price Growth 2018" width="672" />
+<p class="caption">
+Figure 4: International Migration and House Price Growth 2018
+</p>
+</div>
+<pre class="r"><code>ggplot(data=filter(df3, year==2018), aes(x=ig,y=hpa))+
+  geom_point(alpha=0.5, color=&quot;royalblue&quot;)+
+  scale_y_continuous(labels=percent)+
+  scale_x_continuous(labels=percent)+
+  theme(plot.caption=element_text(hjust=0))+
+  stat_smooth(fill=NA,linetype=2)+
+  labs(x=&quot;International Migration in 2018 as Percent of Population in 2017&quot;,
+       y=&quot;House Price Percent Change 2017-2018&quot;,
+       title=&quot;Demographics drive housing markets&quot;,
+       subtitle=&quot;International Migration and House Price Growth 2018 (each dot a MSA, all MSAs)&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Census Bureau, Freddie Mac House Price Index\nDotted line LOESS fit&quot;)</code></pre>
+<div class="figure"><span id="fig:2019-05-05-data-plot-32"></span>
+<img src="/post/2019-05-05-population-growth-and-house-prices-2010-to-2018_files/figure-html/2019-05-05-data-plot-3-2.png" alt="International Migration and House Price Growth 2018" width="672" />
+<p class="caption">
+Figure 5: International Migration and House Price Growth 2018
+</p>
+</div>
+<p>And how about natural population growth (births minus deaths)?</p>
+<pre class="r"><code>ggplot(data=filter(df3, CBSA %in% clist[1:25], year==2018), aes(x=ng,y=hpa))+
+  geom_point(alpha=0.5, color=&quot;royalblue&quot;)+
+  ggrepel::geom_text_repel( aes(label=NAME), color=&quot;royalblue&quot;, size=3)+
+  scale_y_continuous(labels=percent)+
+  scale_x_continuous(labels=percent)+
+  theme(plot.caption=element_text(hjust=0))+
+  stat_smooth(method=&quot;lm&quot;,fill=NA,linetype=2)+
+  labs(x=&quot;Natural Population Growth in 2018 as Percent of Population in 2017&quot;,
+       y=&quot;House Price Percent Change 2017-2018&quot;,
+       title=&quot;Demographics drive housing markets&quot;,
+       subtitle=&quot;Natural Population Growth and House Price Growth 2018 (each dot a MSA, top 25 by 2010 pop)&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Census Bureau, Freddie Mac House Price Index\nDotted line OLS fit&quot;)</code></pre>
+<div class="figure"><span id="fig:2019-05-05-data-plot-4"></span>
+<img src="/post/2019-05-05-population-growth-and-house-prices-2010-to-2018_files/figure-html/2019-05-05-data-plot-4-1.png" alt="Natural Population Growth and House Price Growth 2018" width="672" />
+<p class="caption">
+Figure 6: Natural Population Growth and House Price Growth 2018
+</p>
+</div>
+<pre class="r"><code>ggplot(data=filter(df3, year==2018), aes(x=ng,y=hpa))+
+  geom_point(alpha=0.5, color=&quot;royalblue&quot;)+
+  #ggrepel::geom_text_repel( aes(label=NAME), color=&quot;royalblue&quot;, size=3)+
+  scale_y_continuous(labels=percent)+
+  scale_x_continuous(labels=percent)+
+  theme(plot.caption=element_text(hjust=0))+
+  stat_smooth(fill=NA,linetype=2)+
+  labs(x=&quot;Natural Population Growth in 2018 as Percent of Population in 2017&quot;,
+       y=&quot;House Price Percent Change 2017-2018&quot;,
+       title=&quot;Demographics drive housing markets&quot;,
+       subtitle=&quot;Natural Population Growth and House Price Growth 2018 (each dot a MSA, all MSAs)&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Census Bureau, Freddie Mac House Price Index\nDotted line LOESS fit&quot;)</code></pre>
+<div class="figure"><span id="fig:2019-05-05-data-plot-5"></span>
+<img src="/post/2019-05-05-population-growth-and-house-prices-2010-to-2018_files/figure-html/2019-05-05-data-plot-5-1.png" alt="Natural Population Growth and House Price Growth 2018" width="672" />
+<p class="caption">
+Figure 7: Natural Population Growth and House Price Growth 2018
+</p>
+</div>
+<p>The plots suggest that it’s domestic migration that’s the key component driving house prices in the short run. Let’s take a look by regressing metro house price growth on the components of population growth.</p>
+<pre class="r"><code># regression results
+stargazer::stargazer(lm(data=df3, 
+                        formula= hpa ~ ng+ig+domg+ I(factor(year))-1 ), 
+                     type=&quot;html&quot;,
+                     title            = &quot;MSA House Prices and Population Dynamics: 2010-2018&quot;,
+          covariate.labels = c(&quot;Natural Population Growth Rate&quot;, 
+                               &quot;International Migration Rate&quot;,
+                               &quot;Domestic Migration Rate&quot;,paste0(&quot;Year:&quot;, 2011:2018)),
+          dep.var.labels   = &quot;Annual House Price Growth Rate (%)&quot;,
+          notes = &quot;Source: U.S. Census 2018 Population Vintage Estimates, Freddie Mac House Price Index&quot;)</code></pre>
+<table style="text-align:center">
+<caption>
+<strong>MSA House Prices and Population Dynamics: 2010-2018</strong>
+</caption>
+<tr>
+<td colspan="2" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+<em>Dependent variable:</em>
+</td>
+</tr>
+<tr>
+<td>
+</td>
+<td colspan="1" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+Annual House Price Growth Rate (%)
+</td>
+</tr>
+<tr>
+<td colspan="2" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Natural Population Growth Rate
+</td>
+<td>
+1.431<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.153)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+International Migration Rate
+</td>
+<td>
+1.231<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.299)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Domestic Migration Rate
+</td>
+<td>
+1.910<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.066)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Year:2011
+</td>
+<td>
+-0.048<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.002)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Year:2012
+</td>
+<td>
+0.003
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.002)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Year:2013
+</td>
+<td>
+0.053<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.002)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Year:2014
+</td>
+<td>
+0.026<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.002)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Year:2015
+</td>
+<td>
+0.032<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.002)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Year:2016
+</td>
+<td>
+0.037<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.002)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Year:2017
+</td>
+<td>
+0.044<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.002)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Year:2018
+</td>
+<td>
+0.047<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.002)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td colspan="2" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Observations
+</td>
+<td>
+3,056
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+R<sup>2</sup>
+</td>
+<td>
+0.710
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Adjusted R<sup>2</sup>
+</td>
+<td>
+0.709
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Residual Std. Error
+</td>
+<td>
+0.031 (df = 3045)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+F Statistic
+</td>
+<td>
+677.654<sup>***</sup> (df = 11; 3045)
+</td>
+</tr>
+<tr>
+<td colspan="2" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+<em>Note:</em>
+</td>
+<td style="text-align:right">
+<sup><em></sup>p&lt;0.1; <sup><strong></sup>p&lt;0.05; <sup></strong></em></sup>p&lt;0.01
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td style="text-align:right">
+Source: U.S. Census 2018 Population Vintage Estimates, Freddie Mac House Price Index
+</td>
+</tr>
+</table>
+<p>These results indicate that about 70% of the cross sectional variation in MSA nominal house price growth rates from 2011-2018 can be explained by variations in the components of MSA population growth. Each percent increase in population due to natural populationg rowth is associated with 1.4 percent higher house price growth, each percent increase in international migration is associated with 1.2 percent higher house price growth, while one percent higher domestic migration is associated with 1.9 percent higher house price growth.</p>
+<p>Let’s consider various models where we include either all population growth or the various components</p>
+<pre class="r"><code># regression results
+out1 &lt;- lm(data=df3, formula= hpa ~ pg+ I(factor(year))-1 )
+out2 &lt;- lm(data=df3, formula= hpa ~ ng+ I(factor(year))-1 )
+out3 &lt;- lm(data=df3, formula= hpa ~ ig+ I(factor(year))-1 )
+out4 &lt;- lm(data=df3, formula= hpa ~ domg+ I(factor(year))-1 )
+out5 &lt;- lm(data=df3, formula= hpa ~ ng+ig+domg+ I(factor(year))-1 )
+out6 &lt;- lm(data=df3, formula= hpa ~  I(factor(year))-1 )
+
+
+stargazer::stargazer(out1,out2,out3,out4, out5,out6,
+                     type=&quot;html&quot;,
+                     title            = &quot;MSA House Prices and Population Dynamics: 2010-2018&quot;,
+          covariate.labels = c(&quot;Population Growth Rate&quot;,
+                               &quot;Natural Population Growth Rate&quot;, 
+                               &quot;International Migration Rate&quot;,
+                               &quot;Domestic Migration Rate&quot;,paste0(&quot;Year:&quot;, 2011:2018)),
+          column.labels = c(&quot;Population Growth Only&quot;,
+                            &quot;Natural Population Only &quot;, 
+                            &quot;International Migration Only&quot;,
+                            &quot;Domestic Migration Only&quot; ,
+                            &quot;All Components&quot;,
+                            &quot;Year fixed effects only&quot;),
+          dep.var.labels   = &quot;Annual House Price Growth Rate (%)&quot;,
+          notes = &quot;Source: U.S. Census 2018 Population Vintage Estimates, Freddie Mac House Price Index&quot;)</code></pre>
+<table style="text-align:center">
+<caption>
+<strong>MSA House Prices and Population Dynamics: 2010-2018</strong>
+</caption>
+<tr>
+<td colspan="7" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td colspan="6">
+<em>Dependent variable:</em>
+</td>
+</tr>
+<tr>
+<td>
+</td>
+<td colspan="6" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td colspan="6">
+Annual House Price Growth Rate (%)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+Population Growth Only
+</td>
+<td>
+Natural Population Only
+</td>
+<td>
+International Migration Only
+</td>
+<td>
+Domestic Migration Only
+</td>
+<td>
+All Components
+</td>
+<td>
+Year fixed effects only
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(1)
+</td>
+<td>
+(2)
+</td>
+<td>
+(3)
+</td>
+<td>
+(4)
+</td>
+<td>
+(5)
+</td>
+<td>
+(6)
+</td>
+</tr>
+<tr>
+<td colspan="7" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Population Growth Rate
+</td>
+<td>
+1.800<sup>***</sup>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.062)
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Natural Population Growth Rate
+</td>
+<td>
+</td>
+<td>
+0.777<sup>***</sup>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+1.431<sup>***</sup>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+(0.164)
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+(0.153)
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+International Migration Rate
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+1.306<sup>***</sup>
+</td>
+<td>
+</td>
+<td>
+1.231<sup>***</sup>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+(0.327)
+</td>
+<td>
+</td>
+<td>
+(0.299)
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Domestic Migration Rate
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+1.767<sup>***</sup>
+</td>
+<td>
+1.910<sup>***</sup>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+(0.066)
+</td>
+<td>
+(0.066)
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Year:2011
+</td>
+<td>
+-0.051<sup>***</sup>
+</td>
+<td>
+-0.043<sup>***</sup>
+</td>
+<td>
+-0.042<sup>***</sup>
+</td>
+<td>
+-0.040<sup>***</sup>
+</td>
+<td>
+-0.048<sup>***</sup>
+</td>
+<td>
+-0.039<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.002)
+</td>
+<td>
+(0.002)
+</td>
+<td>
+(0.002)
+</td>
+<td>
+(0.002)
+</td>
+<td>
+(0.002)
+</td>
+<td>
+(0.002)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Year:2012
+</td>
+<td>
+0.0002
+</td>
+<td>
+0.009<sup>***</sup>
+</td>
+<td>
+0.009<sup>***</sup>
+</td>
+<td>
+0.011<sup>***</sup>
+</td>
+<td>
+0.003
+</td>
+<td>
+0.012<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.002)
+</td>
+<td>
+(0.002)
+</td>
+<td>
+(0.002)
+</td>
+<td>
+(0.002)
+</td>
+<td>
+(0.002)
+</td>
+<td>
+(0.002)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Year:2013
+</td>
+<td>
+0.051<sup>***</sup>
+</td>
+<td>
+0.058<sup>***</sup>
+</td>
+<td>
+0.059<sup>***</sup>
+</td>
+<td>
+0.061<sup>***</sup>
+</td>
+<td>
+0.053<sup>***</sup>
+</td>
+<td>
+0.061<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.002)
+</td>
+<td>
+(0.002)
+</td>
+<td>
+(0.002)
+</td>
+<td>
+(0.002)
+</td>
+<td>
+(0.002)
+</td>
+<td>
+(0.002)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Year:2014
+</td>
+<td>
+0.023<sup>***</sup>
+</td>
+<td>
+0.031<sup>***</sup>
+</td>
+<td>
+0.032<sup>***</sup>
+</td>
+<td>
+0.033<sup>***</sup>
+</td>
+<td>
+0.026<sup>***</sup>
+</td>
+<td>
+0.034<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.002)
+</td>
+<td>
+(0.002)
+</td>
+<td>
+(0.002)
+</td>
+<td>
+(0.002)
+</td>
+<td>
+(0.002)
+</td>
+<td>
+(0.002)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Year:2015
+</td>
+<td>
+0.030<sup>***</sup>
+</td>
+<td>
+0.038<sup>***</sup>
+</td>
+<td>
+0.038<sup>***</sup>
+</td>
+<td>
+0.040<sup>***</sup>
+</td>
+<td>
+0.032<sup>***</sup>
+</td>
+<td>
+0.041<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.002)
+</td>
+<td>
+(0.002)
+</td>
+<td>
+(0.002)
+</td>
+<td>
+(0.002)
+</td>
+<td>
+(0.002)
+</td>
+<td>
+(0.002)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Year:2016
+</td>
+<td>
+0.035<sup>***</sup>
+</td>
+<td>
+0.044<sup>***</sup>
+</td>
+<td>
+0.043<sup>***</sup>
+</td>
+<td>
+0.045<sup>***</sup>
+</td>
+<td>
+0.037<sup>***</sup>
+</td>
+<td>
+0.046<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.002)
+</td>
+<td>
+(0.002)
+</td>
+<td>
+(0.002)
+</td>
+<td>
+(0.002)
+</td>
+<td>
+(0.002)
+</td>
+<td>
+(0.002)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Year:2017
+</td>
+<td>
+0.042<sup>***</sup>
+</td>
+<td>
+0.051<sup>***</sup>
+</td>
+<td>
+0.051<sup>***</sup>
+</td>
+<td>
+0.051<sup>***</sup>
+</td>
+<td>
+0.044<sup>***</sup>
+</td>
+<td>
+0.053<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.002)
+</td>
+<td>
+(0.002)
+</td>
+<td>
+(0.002)
+</td>
+<td>
+(0.002)
+</td>
+<td>
+(0.002)
+</td>
+<td>
+(0.002)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Year:2018
+</td>
+<td>
+0.045<sup>***</sup>
+</td>
+<td>
+0.054<sup>***</sup>
+</td>
+<td>
+0.054<sup>***</sup>
+</td>
+<td>
+0.053<sup>***</sup>
+</td>
+<td>
+0.047<sup>***</sup>
+</td>
+<td>
+0.056<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.002)
+</td>
+<td>
+(0.002)
+</td>
+<td>
+(0.002)
+</td>
+<td>
+(0.002)
+</td>
+<td>
+(0.002)
+</td>
+<td>
+(0.002)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td colspan="7" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Observations
+</td>
+<td>
+3,056
+</td>
+<td>
+3,056
+</td>
+<td>
+3,056
+</td>
+<td>
+3,056
+</td>
+<td>
+3,056
+</td>
+<td>
+3,056
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+R<sup>2</sup>
+</td>
+<td>
+0.708
+</td>
+<td>
+0.629
+</td>
+<td>
+0.629
+</td>
+<td>
+0.697
+</td>
+<td>
+0.710
+</td>
+<td>
+0.627
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Adjusted R<sup>2</sup>
+</td>
+<td>
+0.707
+</td>
+<td>
+0.628
+</td>
+<td>
+0.628
+</td>
+<td>
+0.697
+</td>
+<td>
+0.709
+</td>
+<td>
+0.626
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Residual Std. Error
+</td>
+<td>
+0.031 (df = 3047)
+</td>
+<td>
+0.035 (df = 3047)
+</td>
+<td>
+0.035 (df = 3047)
+</td>
+<td>
+0.032 (df = 3047)
+</td>
+<td>
+0.031 (df = 3045)
+</td>
+<td>
+0.035 (df = 3048)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+F Statistic
+</td>
+<td>
+820.972<sup>***</sup> (df = 9; 3047)
+</td>
+<td>
+575.055<sup>***</sup> (df = 9; 3047)
+</td>
+<td>
+573.166<sup>***</sup> (df = 9; 3047)
+</td>
+<td>
+780.283<sup>***</sup> (df = 9; 3047)
+</td>
+<td>
+677.654<sup>***</sup> (df = 11; 3045)
+</td>
+<td>
+639.669<sup>***</sup> (df = 8; 3048)
+</td>
+</tr>
+<tr>
+<td colspan="7" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+<em>Note:</em>
+</td>
+<td colspan="6" style="text-align:right">
+<sup><em></sup>p&lt;0.1; <sup><strong></sup>p&lt;0.05; <sup></strong></em></sup>p&lt;0.01
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td colspan="6" style="text-align:right">
+Source: U.S. Census 2018 Population Vintage Estimates, Freddie Mac House Price Index
+</td>
+</tr>
+</table>
+<p>The table has some interesting results. The last model (6) contains year only fixed effects and explains about 60% of the cross-MSA variation in house prices. If we add population controls we can explain an additional 10% or so of the cross sectional variation. Among the various components, domestic migration seems to do the best in predicting short-term house price movements.</p>
+<p>This isn’t too surprising, as internal migration patterns likely reflect employment patterns. For example see my earlier post <a href="../../../..//2018/02/26/employment-growth-and-house-price-trends/">Employment growth and house price trends</a>.</p>
+<p>While these correlations are interesting, they should be interpreted with care. Migration patterns not only reflect shifting labor market trends but mostly likely are responding themselves to housing prices. Nevertheless these results underscore the importance of demographics for understanding house price movements.</p>
+</div>
+</div>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2019/04/11/is-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2019/04/11/is-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies/">Is the U.S. housing recovery over? Housing fluctuations across time and frequencies</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/dataviz/">dataviz</a>, 
+            
+                <a href="/tags/demographics/">demographics</a>, 
+            
+                <a href="/tags/house-prices/">house prices</a>, 
+            
+                <a href="/tags/housing/">Housing</a>, 
+            
+                <a href="/tags/r/">R</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2019%2f05%2f05%2fpopulation-growth-and-house-prices-2010-to-2018%2f&text=Population%20Growth%20and%20House%20Prices%202010%20to%202018 via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2019%2f05%2f05%2fpopulation-growth-and-house-prices-2010-to-2018%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+
