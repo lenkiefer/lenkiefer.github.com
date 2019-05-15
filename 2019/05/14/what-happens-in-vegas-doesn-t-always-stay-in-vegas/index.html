@@ -247,13 +247,13 @@
   
 
 
-<p>I’ve got a new working paper with my wife Hua Kiefer (FDIC) and our friend Diana Wei (OCC) that studies the dynamics of house prices and foreclosure rates across space and time. We estimate a model using a panel of state/quarters where nearby states influence one another.</p>
+<p>I’ve got a new working paper with Hua Kiefer (FDIC) and Diana Wei (OCC) that studies the dynamics of house prices and foreclosure rates across space and time. We estimate a model using a panel of state/quarters where nearby states influence one another.</p>
 <p>Link to paper (pdf): <a href="../../../../img/charts_may_14_2019/kiefer_kiefer_wei_2019.pdf">What Happens in Vegas Doesn’t Always Stay in Vegas</a></p>
 <p>I’m giving a talk on this paper at the <a href="https://www.areuea.org/conferences/details.phtml?id=115">American Real Estate and Urban Economics</a> National Conference later this month. <a href="https://www.areuea.org/conferences/pdf/2019%20National%20Conference%20Program.pdf?">My Session, House Prices II</a> is Friday, May 31, 2019 at 8 am. Stop by and say hey if you’re around. I’m putting some finishing touches on my slides, but here are some key draft slides.</p>
 <div id="abstract" class="section level1">
 <h1>Abstract</h1>
 <blockquote>
-<p>This paper studies the relationship of house prices and foreclosure rates across space and time. House prices and foreclosure rates are correlated, but identifying the casual impact of each variable requires new instruments and new estimation techniques. After identifying novel instruments for house prices and foreclosure rates, we follow the dynamic spatial simultaneous equations system (DSSES) in Yang and Lee, 2018 and investigate the casual effects of house prices and foreclosure rates across U.S. states. Our results show that there is an economically significant impact of house prices on foreclosure rates and foreclosure rates on house prices.</p>
+<p>This paper studies the relationship of house prices and foreclosure rates across space and time. House prices and foreclosure rates are correlated, but identifying the causal impact of each variable requires new instruments and new estimation techniques. After identifying novel instruments for house prices and foreclosure rates, we follow the dynamic spatial simultaneous equations system (DSSES) in Yang and Lee, 2018 and investigate the causal effects of house prices and foreclosure rates across U.S. states. Our results show that there is an economically significant impact of house prices on foreclosure rates and foreclosure rates on house prices.</p>
 </blockquote>
 <blockquote>
 <p>Shocks to the foreclosure rate in one state not only impact house prices in that state, but also the foreclosure rate and house prices in nearby states and ripple across the country. When it comes to the housing market, what happens in Vegas doesn’t always stay in Vegas. We estimate that a one standard deviation foreclosure shock leads to a short-run real house price decline of 1.6 percent and a 2 percent decline in real house prices over the long run. A one standard deviation shock to real house prices lowers the foreclosure rate 13 percent in the short run. We also find significant spatial spillovers in both house prices and foreclosure rates across states. These results provide evidence that could be useful for policymakers evaluating the effctiveness of foreclosure mitigation programs at a national level.</p>
@@ -296,8 +296,8 @@
 <li><p><span class="math inline">\(\color{LimeGreen}{y_{1,i}(t)}\)</span> is real house price growth (quarterly log difference HPI)</p></li>
 <li><p><span class="math inline">\(\color{DodgerBlue}{y_{2,i}(t)}\)</span> is log foreclosure rate</p></li>
 <li><p><span class="math inline">\(\color{LimeGreen}{W_{n}Y_{1,n2}(t)}\)</span> is weighted average of neighbors’ real house price growth</p></li>
-<li><p><span class="math inline">\(\color{LimeGreen}{y_{2,i}(t)}\)</span> is lagged real house price growth</p></li>
-<li><p><span class="math inline">\(\color{DodgerBlue}{y_{2,i}(t)}\)</span> is lagged log foreclosure rate</p></li>
+<li><p><span class="math inline">\(\color{LimeGreen}{y_{2,i}(t-j)}\)</span> is lagged real house price growth (<span class="math inline">\(j=1,2,...,p\)</span> lags)</p></li>
+<li><p><span class="math inline">\(\color{DodgerBlue}{y_{2,i}(t-j)}\)</span> is lagged log foreclosure rate (<span class="math inline">\(j=1,2,...,p\)</span> lags)</p></li>
 <li><p><span class="math inline">\(\color{orange}{x_{1,i}^{\prime }(t)}\)</span> are predetermined control variables</p></li>
 </ul>
 <p>And the foreclosure equation:</p>
@@ -306,8 +306,8 @@
 <li><p><span class="math inline">\(\color{DodgerBlue}{y_{2,i}(t)}\)</span> is log foreclosure rate</p></li>
 <li><p><span class="math inline">\(\color{LimeGreen}{y_{1,i}(t)}\)</span> is real house price growth (quarterly log difference HPI)</p></li>
 <li><p><span class="math inline">\(\color{DodgerBlue}{W_{n}Y_{2,n2}(t)}\)</span> is weighted average of neighbors’ log foreclosure rate</p></li>
-<li><p><span class="math inline">\(\color{DodgerBlue}{y_{1,i}(t)}\)</span> is lagged log foreclosure rate</p></li>
-<li><p><span class="math inline">\(\color{LimeGreen}{y_{1,i}(t)}\)</span> is lagged real house price growth</p></li>
+<li><p><span class="math inline">\(\color{DodgerBlue}{y_{2,i}(t-j)}\)</span> is lagged log foreclosure rate (<span class="math inline">\(j=1,2,...,p\)</span> lags)</p></li>
+<li><p><span class="math inline">\(\color{LimeGreen}{y_{1,i}(t-j)}\)</span> is lagged real house price growth (<span class="math inline">\(j=1,2,...,p\)</span> lags)</p></li>
 <li><p><span class="math inline">\(\color{orange}{x_{2,i}^{\prime }(t)}\)</span> are predetermined control variables</p></li>
 </ul>
 </div>
@@ -373,11 +373,11 @@
 <div id="response-of-foreclosure-rates-to-a-nevada-foreclosure-shock" class="section level3">
 <h3>Response of foreclosure rates to a Nevada foreclosure shock</h3>
 <p>We trace out the impulse response of foreclosure rates in Nevada and nearby states following a one standard deviation shock to Nevada’s house price.</p>
+<p><img src="../../../../img/charts_may_14_2019/img10.PNG", height="400"></p>
 </div>
 <div id="comparison-of-response-to-standardized-shocks" class="section level3">
 <h3>Comparison of response to standardized shocks</h3>
 <p>We can also trace out the response of house prices and foreclosure rates to a standardized shock:</p>
-<p><img src="../../../../img/charts_may_14_2019/img10.PNG", height="400"></p>
 <p><img src="../../../../img/charts_may_14_2019/img11.PNG", height="400"></p>
 <p><img src="../../../../img/charts_may_14_2019/img12.PNG", height="400"></p>
 </div>
