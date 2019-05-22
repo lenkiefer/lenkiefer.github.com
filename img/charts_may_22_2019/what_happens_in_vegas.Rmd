@@ -1,0 +1,1838 @@
+---
+title: "What Happens in Vegas Doesn't Always Stay in Vegas: The Dynamics of House Prices and Foreclosure Rates Across Space and Time"
+subtitle: "somewhere, somewhen"
+author: "Hua Kiefer, Len Kiefer, Diana Wei"
+date: "2019-05-23"
+header-includes:
+  - \usepackage{xcolor}
+output:
+  xaringan::moon_reader:
+    yolo: FALSE     # what do we say to the god of death? http://gameofthrones.wikia.com/wiki/Syrio_Forel
+    css: mycss.css  # our .css file
+    lib_dir: libs
+    seal: false
+    nature:
+      ratio: "16:9"
+      highlightStyle: github
+      #countdown: 60000
+      highlightLines: true
+      countIncrementalSlides: false
+      slideNumberFormat: |
+        <div class="progress-bar-container">
+          <div class="progress-bar" style="width: calc(%current% / %total% * 100%);">
+          </div>
+        </div>
+---
+class: middle
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+```
+
+<span style="font-size: 150%; font-style:bold;">What Happens in Vegas Doesn't Always Stay in Vegas:</span>  
+<span style="font-size: 105%; font-style:italic;">The Dynamics of House Prices and Foreclosure Rates Across Space and Time</span>
+
+.pull-left[
+Hua Kiefer  
+<span style="font-size:0.75em">Federal Deposit Insurance Corporation</span>
+
+Len Kiefer  
+<span style="font-size:0.75em">Freddie Mac</span>
+
+Diana Wei      
+<span style="font-size:0.75em">Office of the Comptroller of the Currency</span>
+
+<span style="font-size:1em">2019-05-23</span>
+
+]
+
+
+
+.pull-right[
+<!-- Len Kiefer   -->
+<!-- <span style="font-size:0.75em">Freddie Mac</span> -->
+]
+
+<span style="font-size:0.65em">*The views expressed in this paper are those of the authors alone and do not reflect those of The Federal Deposit Insurance Corporation, the Office of the Comptroller of the Currency, and Freddie Mac.*</span>
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(data.table)
+library(lubridate)
+library(panelvar)
+library(scales)
+load("data/df_apr_29_2019.Rdata")
+```
+
+```{r, echo=FALSE, cache=FALSE,message=FALSE, warning=FALSE}
+df2 <- 
+  df %>% group_by(state) %>%
+  mutate(
+    npopg = (RFBRQ-RFDRQ)/100,
+    dnpopg = npopg - lag(npopg,1),
+    ur_lag1 = lag(LBR)/100,
+    ur_lag2 = lag(ur_lag1),
+    ur_lag3 = lag(ur_lag2),
+    ur_lag4 = lag(ur_lag3),
+    dur = LBR/100 - ur_lag1,
+    dur_lag1 = ur_lag1 - lag(ur_lag1),
+    dur_lag2=lag(ur_lag1),
+    dur_lag3=lag(ur_lag2),
+    dur_lag4=lag(ur_lag3),
+    dlinc = log(RYPDPIdolQ)-lag(log(RYPDPIdolQ)),
+    dlinc_lag1 = lag(dlinc),
+    dlinc_lag2 = lag(dlinc_lag1),
+    dlinc_lag3 = lag(dlinc_lag2),
+    dlinc_lag4 = lag(dlinc_lag3),
+    dlpinc = log(RYPDPIdolQ/RFPOPQ)-lag(log(RYPDPIdolQ/RFPOPQ)),
+    dlpinc_lag1 = lag(dlpinc),
+    dlpinc_lag2 = lag(dlpinc_lag1),
+    dlpinc_lag3 = lag(dlpinc_lag2),
+    dlpinc_lag4 = lag(dlpinc_lag3),
+    dlsales_lag2 = lag(dlsales_lag1),
+    dlperm_lag2=lag(dlperm_lag1),
+    dlemp_lag2= lag(dlemp_lag1),
+    dlpinc_lag3 = lag(dlpinc_lag2),
+    dlsales_lag3 = lag(dlsales_lag2),
+    dlperm_lag3=lag(dlperm_lag2),
+    dlemp_lag3= lag(dlemp_lag2),
+    dlpinc_lag4 = lag(dlpinc_lag3),
+    dlsales_lag4 = lag(dlsales_lag3),
+    dlperm_lag4=lag(dlperm_lag3),
+    dlemp_lag4= lag(dlemp_lag3)
+    ) %>%
+  ungroup() %>%
+  dplyr::select(date,
+                yq,
+                fipn,
+                dlhpi, lfcl,dlrhpi,dlfcl,
+                dlemp,
+                dlperm,
+                dlsales,
+                dlpinc,
+                dur,
+                npopg,
+                dnpopg,
+                log_arm,
+                ur_lag1,
+                dur_lag1,
+                dlinc_lag1,
+                dlpinc_lag1,
+                dlsales_lag1,
+                dlperm_lag1,
+                dlemp_lag1
+  )%>% 
+  filter(year(date)>1982,
+         
+         year(date)<3015)
+
+df3 <- df2[complete.cases(df2),]
+df4 <- filter(df3, date>min(df3$date))
+
+XNTstar <- dplyr::select(df3, 
+                         dnpopg,
+                         log_arm,
+                         dlperm_lag1,
+                         dlemp_lag1,
+                         dlpinc_lag1
+                         )
+```
+
+
+---
+class: left
+# <span style="color:red; font-weight: bold;";>Our Contribution</span>
+
+*  Specify a Dynamic Spatial Simultaneous Equation System panel model at quarter/state level that
+
+    *  Allows simultaneous movement in house prices and foreclosure rates
+    *  Captures dynamics over time and space
+
+*  Identify instruments for house prices and foreclosure rates
+
+*  Show that at the state level, there is am amplification mechanism for foreclosure rates
+
+    *  Foreclosure shocks have a large and persistent impact on house prices
+    
+    *  Shocks to housing markets propagate to nearby states
+    
+    *  A one standard deviations increase in Nevada foreclosure rate leads to
+    
+      *  8% decline in Nevada real house prices after 8 quarters
+      *  3% decline in California real house prices after 8 quarters
+
+
+---
+class: left, middle
+# (1) Introduction
+
+
+---
+class: left
+
+.pull-left[
+```{r, echo=FALSE, warning=FALSE,dpi=450}
+ggplot(data=filter(df,year(date)>2004,year(date)<2019), aes(x=date, y=dlrhpi,group=state))+
+  geom_line(alpha=0.5,color="dodgerblue")+
+    scale_x_date(date_breaks="3 years", date_labels="%Y")+
+  scale_y_continuous(labels=percent)+
+  theme_minimal(base_size=16)+
+  labs(x="",y="",
+       title="Real house prices",
+       subtitle="Quarterly Real House Price Growth Rate\nEach line a state, 2005Q1-2018Q1")
+```
+]
+
+
+.pull-right[
+```{r, echo=FALSE, warning=FALSE,dpi=450}
+ggplot(data=filter(df,year(date)>2004,year(date)<2019), aes(x=date, y=XMBAFS/100,group=state))+
+  geom_line(alpha=0.5,color="dodgerblue")+
+  scale_x_date(date_breaks="3 years", date_labels="%Y")+
+    scale_y_continuous(trans="log", breaks=c(0.01,0.1,0.5,1,3)/100, labels=percent)+
+  theme_minimal(base_size=16)+
+  labs(x="",y="",
+       title="Foreclosure Start Rate",
+       subtitle="Foreclosure Start Rate (%, log scale)\nEach line a state, 2005Q1-2018Q1")
+```
+]
+
+---
+class: left, middle
+### House prices and foreclosure rates are negatively correlated
+
+.pull-left[
+
+Do high foreclosure rates cause lower house prices?
+
+
+Or do lower house prices drive foreclosure rates up?
+
+**Why not both?**
+]
+
+
+.pull-right[
+```{r, echo=FALSE, warning=FALSE,dpi=450}
+ggplot(data=filter(df,year(date)>2004,year(date)<2019), aes(x=XMBAFS/100, y=dlrhpi))+
+  geom_point(alpha=0.5,color="dodgerblue")+
+  scale_x_continuous(trans="log", breaks=c(0.01,0.1,0.5,1,3)/100, labels=percent)+
+  scale_y_continuous(labels=percent)+
+  stat_smooth(method="lm", linetype=2)+
+  theme_minimal(base_size=16)+
+  labs(x="Foreclosure Start Rate",y="Quarterly Real House Price Growth",
+       title="House Prices and Foreclosure Rates",
+       subtitle="Each dot a state, quarterly 2005-2018")
+```
+]
+
+
+
+```{r, echo=FALSE, warning=FALSE, cache=TRUE, fig.cap="Panel VAR results"}
+
+
+est1<- 
+  pvargmm( dependent_vars=c("dlemp","dlpinc","dlperm","dlrhpi","lfcl"),
+           lags=12,
+           transformation="fod",
+           steps=c("onestep"),
+           data=data.frame(filter(df2,date>=min(df3$date),date<=max(df3$date))),
+           max_instr_dependent_vars=24,
+           max_instr_predet_vars = 99,
+           collapse=TRUE,
+           panel_identifier=c("fipn","yq")
+  )
+#summary(est1) 
+```
+
+```{r, echo=FALSE, warning=FALSE, cache=TRUE}
+
+XNTstar=as.matrix(XNTstar)
+Y1=as.matrix(df3$dlrhpi)
+Y2=as.matrix(df3$lfcl)
+
+x1_list <- c("dnpopg", 
+             "dlemp_lag1",
+             "dlpinc_lag1",
+             "dlperm_lag1"
+             #,"dlsales_lag1"
+             )
+
+x2_list <- c("log_arm",
+             "dlemp_lag1",
+             "dlpinc_lag1",
+             "dlperm_lag1" #,"dlsales_lag1"
+)
+iv1=1
+iv2=2
+p=1
+k1=ncol(XNTstar)+p*2+1
+k2=ncol(XNTstar)+p*2+1
+N=48
+W = W2
+
+Tmax<-length(Y1)/N
+
+# right ----
+
+Y1NTstar     <-Y1[(p*N+1):((Tmax)*N),]
+Y1NTstarlag1 <-Y1[((p-1)*N+1):((Tmax-1)*N),]
+
+Y2NTstar     <-Y2[(p*N+1):((Tmax)*N),]
+Y2NTstarlag1 <-Y2[((p-1)*N+1):((Tmax-1)*N),]
+
+XNTstar2 <- XNTstar[(p*N+1):((Tmax)*N),]
+
+
+Tmax2 <- Tmax-p
+iTmax<-matrix(1,Tmax2,1)
+JT<-diag(1,Tmax2)-iTmax %*% t(iTmax)
+FT<-eigen(JT)$vectors[,1:(Tmax2-1)]
+preF<-kronecker(t(FT),diag(1,N))
+X1NT    <- preF %*% XNTstar2[,x1_list]
+X2NT    <- preF %*% XNTstar2[,x2_list]
+Y1NT    <- preF %*% Y1NTstar
+Y2NT    <- preF %*% Y2NTstar
+Y1NTlag1 <- preF %*% Y1NTstarlag1
+Y2NTlag1 <- preF %*% Y2NTstarlag1
+
+Y1Qstar <- Y1[1:(Tmax*N-(p+1)*N),]  # get non transformed lags of Y1 (lagged p times)
+Y2Qstar <- Y2[1:(Tmax*N-(p+1)*N),]  # get non transformed lags of Y1 (lagged p times)
+
+
+# construct G matrix
+W3  <- kronecker( diag(1,Tmax2-1),W)
+XNT <- preF %*% XNTstar2
+
+# construct giant G matrix
+G  <- as.matrix(cbind(Y1Qstar, 
+                      Y2Qstar, 
+                      W3 %*% Y1Qstar, W3 %*% Y2Qstar, 
+                      W3 %*% W3 %*% Y1Qstar,  W3 %*% W3 %*% Y2Qstar, 
+                      XNT, 
+                      W3 %*% XNT, 
+                      W3 %*% W3 %*% XNT  ))
+
+# construct gian Z matrix
+Z1  <- as.matrix(cbind(Y2NT,
+                       W3 %*% Y1NT, 
+                       Y1NTlag1,
+                       Y2NTlag1,
+                       X1NT))
+Z2  <- as.matrix(cbind(Y1NT, 
+                       W3 %*% Y2NT, 
+                       Y1NTlag1,
+                       Y2NTlag1,
+                       X2NT))
+
+Z   <- as.matrix(rbind(cbind(Z1,matrix(0,(Tmax2-1)*N,dim(Z2)[2])) , 
+                       cbind(matrix(0,(Tmax2-1)*N,dim(Z1)[2]), Z2)))
+
+Pg <- G %*% solve( t(G) %*% G) %*% t(G)
+
+mybeta12SLS <- solve (t(Z1) %*% Pg %*% Z1 ) %*% t(Z1) %*% Pg %*%   Y1NT
+mybeta22SLS <- solve (t(Z2) %*% Pg %*% Z2)  %*% t(Z2) %*% Pg %*%   Y2NT
+
+
+
+u1<- Y1NT -Z1 %*% mybeta12SLS
+sig11<-t(u1) %*% u1
+
+u2<- Y2NT -Z2 %*% mybeta22SLS
+
+sig11 <- t(u1) %*% u1
+sig12 <- t(u2) %*% u1
+sig21 <- t(u1) %*% u2
+sig22 <- t(u2) %*% u2
+
+
+mysig<-1/(N*(Tmax-1)) * matrix(c(sig11,sig12,sig21,sig22),nrow=2,ncol=2,byrow=T)
+
+# set up big thing
+
+Z<- as.matrix( rbind(cbind(Z1,
+                           matrix(0,(Tmax2-1)*N,dim(Z2)[2])) , 
+                     cbind(matrix(0,(Tmax2-1)*N,dim(Z1)[2]),  Z2  )
+))
+
+Zhat <- as.matrix(rbind(cbind(Pg %*% Z1, matrix(0,(Tmax2-1)*N,dim(Z2)[2])),
+                        cbind(matrix(0,(Tmax2-1)*N,dim(Z1)[2]), Pg %*% Z2))
+)
+
+
+YY<-rbind(Y1NT,Y2NT)
+
+beta3SLS <- 
+  solve ( t(Zhat) %*% 
+            kronecker(solve(mysig),diag(1,(N*(Tmax2-1)))
+            ) %*% Zhat
+  ) %*%   
+  t(Zhat) %*% 
+  kronecker(solve(mysig),diag(1,(N*(Tmax2-1)))) %*% 
+  YY
+
+sig3 <- solve ( t(Zhat) %*% kronecker(solve(mysig),diag(1,(N*(Tmax2-1)))) %*% Zhat)
+
+res3<-cbind(beta3SLS,
+            sqrt(diag(sig3)),
+            beta3SLS/sqrt(diag(sig3)),
+            pnorm(abs(beta3SLS), 0,sqrt(diag(sig3)),lower.tail=F) )
+colnames(res3)<-c("Beta 3SLS","Std Error","t value","Pvalue")
+myr<-c("FCLonHPA (current)","Spatial_lag",paste0("owntimelag",1:p), paste0("cross_FCLlag",1:p))
+
+myr <- c(myr, paste0("Gamma1_",x1_list))
+myr<-c(myr,c("HPAonFCL (current)","Spatial_lag",
+                           paste0("crossHPAlag",1:p),
+                           paste0("owntimelag",1:p)
+                           ))
+
+myr <- c(myr, paste0("Gamma2_",x2_list))
+rownames(res3)<-myr
+rownames(res3)[1:(2+2*p+length(x1_list))] <-
+  paste0("HPA: ", rownames(res3)[1:(2+2*p+length(x1_list))])
+rownames(res3)[(3+2*p+length(x1_list)):nrow(res3)] <-
+  paste0( "FCL: ", rownames(res3)[(3+2*p+length(x1_list)):nrow(res3)])
+
+#View(round(res3[,-1],3))
+#round(res3,3) %>% knitr::kable(caption="DSSES Estimation")
+```
+
+---
+class: left
+.pull-left[
+### Higher house prices drive foreclosure rates lower
+
+* Theory
+    *  Foster and Van Order (1984) option-based model
+
+*  Empirics
+    *  Bajari, Chu, Park (2008)
+    *  Foote, Gerardi, Willen (2008)
+    *  Guiso, Zingales (2013)
+]
+
+.pull-right[
+### Higher foreclosure rates drive house prices lower
+
+*  Foreclosure discount of 20% or more (own property)
+
+  *  Carroll, Clauretie, Neill(1997)
+  *  Clauretie and Daneshvary (2009)
+  *  Harding, Rosenblatt, Yao (2009)
+
+
+*  How about spillovers?
+    *  After controlling for simultaneity/reverse causality the foreclosure impact on nearby house prices declines to less than 2 percent
+    
+      -  Campbell, Giglio, Pathak (2011)
+      -  Hartley (2014)
+      -  Gerardi, Rosenblatt, Willen (2015)
+]
+
+---
+class: left
+### Two contrasting studies
+
+<span style="font-style:italic; font-size: 1.2em;";>Foreclosure rates have a large and persistent impact on house prices</span>
+
+*  Mian, Trebbi, Sufi (2015)
+
+    *  Use variation in state foreclosure laws as I.V.
+    *  Examine variations in prices around state borders
+    *  Zipcode level house prices
+
+--
+    <span style="color:dodgerblue";>1 standard deviation increase in foreclosure rate leads to 8-12% decline in house prices over nine quarters</span>
+
+--
+
+<span style="font-style:italic; font-size: 1.2em;";>Foreclosure rates only have a small impact on house prices</span>
+
+
+* Calomiris, Longhofer, Miles (2013)
+
+    *  Fully model the dynamics of house prices, forclosures and other variables
+    *  Estimate a state Panel Vector AutoRegression (PVAR)
+    *  PVAR assumes all variables are endogenous
+    *  Identifies impact via recursive identification scheme
+
+--
+    <span style="color:dodgerblue";>1 standard deviation increase in foreclosure rate leads to 2.7% decline in house prices over nine quarters</span>
+    
+---
+class:  left
+# <span style="color: red">Spoilers </span>
+
+*  Mian, Trebbi, Sufi (2015, hereafter MTS)
+
+  <span style="color:dodgerblue";>1 standard deviation increase in foreclosure rate leads to 8-12% decline in house prices over nine quarters</span>
+
+* Calomiris, Longhofer, Miles (2013, hereafter CLM)
+
+    <span style="color:dodgerblue";>1 standard deviation increase in foreclosure rate leads to 2.7% decline in house prices over nine quarters</span>
+
+*  Our Result
+
+    <span style="color:red"; font-size: 1.2em;>1 standard deviation increase in foreclosure rate leads to 7.7% decline in real house prices over nine quarters</span>
+
+---
+class:  left, middle
+# (2) Econometric Models
+
+---
+class: left, middle
+# (2.1) Model 1
+### Panel Vector AutoRegression (PVAR)
+
+---
+### Panel Vector AutoRegression (PVAR)
+
+$$Y_{n2}^{\ast}(t)=\sum_{\mathcal{j=1}}^{p}Y_{n2}^{\ast}(t-j)P_{j}
++d^{\prime }\otimes l_{n}+C+U_{n2}^{\ast }(t),$$
+
+---
+### Panel Vector AutoRegression (PVAR)
+
+$$\color{LimeGreen}{Y_{n2}^{\ast}(t)}\color{black}=\sum_{\mathcal{j=1}}^{p}\color{black}{Y_{n2}^{\ast}(t-j)P_{j}}
++\color{black}{d^{\prime }}\color{black}\otimes l_{n}+C+U_{n2}^{\ast }(t),$$
+
+
+*  $\color{LimeGreen}{Y_{n2}^{\ast}(t)}$ are dependent variables
+
+
+---
+### Panel Vector AutoRegression (PVAR)
+
+$$\color{LimeGreen}{Y_{n2}^{\ast}(t)}\color{black}=\sum_{\mathcal{j=1}}^{p}\color{DodgerBlue}{Y_{n2}^{\ast}(t-j)P_{j}}
++\color{black}{d^{\prime }}\color{black}\otimes l_{n}+C+U_{n2}^{\ast }(t),$$
+
+
+*  $\color{LimeGreen}{Y_{n2}^{\ast}(t)}$ are dependent variables
+
+*  $\color{DodgerBlue}{Y_{n2}^{\ast}(t-j)P_{j}}$ are time lags effects
+
+---
+### Panel Vector AutoRegression (PVAR)
+
+$$\color{LimeGreen}{Y_{n2}^{\ast}(t)}\color{black}=\sum_{\mathcal{j=1}}^{p}\color{DodgerBlue}{Y_{n2}^{\ast}(t-j)P_{j}}
++\color{red}{d^{\prime }\otimes l_{n}}\color{black}+C+U_{n2}^{\ast }(t),$$
+
+
+*  $\color{LimeGreen}{Y_{n2}^{\ast}(t)}$ are dependent variables
+
+*  $\color{DodgerBlue}{Y_{n2}^{\ast}(t-j)P_{j}}$ are time lags effects
+
+*  $\color{red}{d^{\prime }\otimes l_{n}}$ are state fixed effects
+
+---
+### Panel Vector AutoRegression (PVAR)
+
+$$\color{LimeGreen}{Y_{n2}^{\ast}(t)}\color{black}=\sum_{\mathcal{j=1}}^{p}\color{DodgerBlue}{Y_{n2}^{\ast}(t-j)P_{j}}
++\color{red}{d^{\prime }\otimes l_{n}}\color{black}+\color{purple}{C}+\color{black}{U_{n2}^{\ast }(t)},$$
+
+
+*  $\color{LimeGreen}{Y_{n2}^{\ast}(t)}$ are dependent variables
+
+*  $\color{DodgerBlue}{Y_{n2}^{\ast}(t-j)P_{j}}$ are time lags effects
+
+*  $\color{red}{d^{\prime }\otimes l_{n}}$ are state fixed effects
+
+*  $\color{purple}C$ constant (normalized so $\sum_{i=1}^{n}c_{1,i}=0$)
+
+
+---
+### Panel Vector AutoRegression (PVAR)
+
+$$\color{LimeGreen}{Y_{n2}^{\ast}(t)}\color{black}=\sum_{\mathcal{j=1}}^{p}\color{DodgerBlue}{Y_{n2}^{\ast}(t-j)P_{j}}
++\color{red}{d^{\prime }\otimes l_{n}}\color{black}+\color{purple}{C}+\color{orange}{U_{n2}^{\ast }(t)},$$
+
+
+*  $\color{LimeGreen}{Y_{n2}^{\ast}(t)}$ are dependent variables
+
+*  $\color{DodgerBlue}{Y_{n2}^{\ast}(t-j)P_{j}}$ are time lags effects
+
+*  $\color{red}{d^{\prime }\otimes l_{n}}$ are state fixed effects
+
+*  $\color{purple}C$ constant (normalized so $\sum_{i=1}^{n}c_{1,i}=0$)
+
+*  $\color{orange}{U_{n2}^{\ast }(t)}$ disturbance term
+
+---
+class: left
+### FOD operation
+
+*  Forward Orthogonal Difference (FOD) removes the fixed effects, constant
+
+*  e.g. for house prices the transformation is (13a, 13b from text):
+
+$$y_{l,i}(t)=\left(\frac{T-p-t}{T-p-t+1}\right)^{\frac{1}{2}}\left[y_{l,i}^{\ast}(t)-\frac{1}{T-p-t}\sum_{h=t+1}^{T-p}y_{l,i}^{\ast }(h)\right]$$
+
+
+$$y_{l,i}(t-1)=\left( \frac{T-p-t}{T-p-t+1}\right) ^{\frac{1}{2}}\left[
+y_{l,i}^{\ast }(t-1)-\frac{1}{T-p-t}\sum_{h=t}^{T-p-1}y_{l,i}^{\ast }(h)\right]$$
+
+*  After FOD transformation, $y_{t-1}$ depends on observations not only at $t-1$, but also those in future time periods, so it become endogenous 
+---
+### Panel Vector AutoRegression (PVAR)
+
+FOD operation removes constant, fixed effects
+
+After FOD operation the equation can be written as:
+
+$$Y_{nm,\mathcal{T}}=\sum_{\mathcal{j=1}}^{p}Y_{nm,\mathcal{T}}^{(-j)}P_{j}
++U_{nm,\mathcal{T}}$$
+
+but $Y_{nm,\mathcal{T}}^{(-j)}$ is no longer exogenous, so can't estimate with Ordinary Least Squares.
+
+Can estimate with GMM
+
+Use R package [panelvar](https://CRAN.R-project.org/package=panelvar)
+
+
+
+---
+class:  left, middle
+# (2.2) Model 2
+### Dynamic Spatial Simultaneous Equation System
+
+---
+### Dynamic Spatial Simultaneous Equation System
+
+The DSSES introduces two additional effects compared to the PVAR
+
+$$Y_{n2}(t)\color{DodgerBlue}{\Gamma}\color{black}=W_{n}Y_{n2}(t)\color{LimeGreen}{\Psi} +\color{black}\sum_{\mathcal{j=1}}^{p} Y_{n2}(t-j)P_{j}+X_{n}(t)\Pi+U_{n2}(t)$$
+
+  *  $\color{DodgerBlue}{\Gamma}$: Simultaneous cross effect  
+  
+  *  $\color{LimeGreen}{\Psi}$: Contemporaneous spillover effect
+
+---
+### Dynamic Spatial Simultaneous Equation System
+
+House Price Equation:
+
+$$y_{1,i}(t) =-\gamma _{12}y_{2,i}(t)+\psi _{11}W_{n}Y_{1,n2}(t)+\sum_{\mathcal{j=1}}^{p}\rho_{j,11}y_{1,i}(t-j)+\\ \sum_{\mathcal{j=1}}^{p} \rho_{j,12}y_{2,i}(t-j)+x_{1,i}^{\prime }(t)\pi_{\cdot 1}+u_{1,i}(t),$$
+
+Foreclosure Equation:
+
+$$y_{2,i}(t) =-\gamma _{21}y_{1,i}(t)+\psi _{22}W_{n}Y_{2,n2}(t)+\sum_{\mathcal{j=1}}^{p}\rho_{j,22}y_{2,i}(t-j)+\\ \sum_{\mathcal{j=1}}^{p} \rho_{j,21}y_{1,i}(t-j)+x_{2,i}^{\prime }(t)\pi_{\cdot 2}+u_{2,i}(t)$$ 
+
+---
+### Dynamic Spatial Simultaneous Equation System
+
+House Price Equation:
+
+$$\color{LimeGreen}{y_{1,i}(t)} \color{black}=-\gamma _{12}\color{DodgerBlue}{y_{2,i}(t)}\color{black}+\psi _{11}\color{LimeGreen}{W_{n}Y_{1,n2}(t)}\color{black}+\sum_{\mathcal{j=1}}^{p}\rho_{j,11}\color{LimeGreen}{y_{1,i}(t-j)}\color{black}+\\ \sum_{\mathcal{j=1}}^{p} \rho_{j,12}\color{DodgerBlue}{y_{2,i}(t-j)}\color{black}+\color{orange}{x_{1,i}^{\prime }(t)}\color{black}\pi_{\cdot 1}+u_{1,i}(t),$$
+--
+
+*  $\color{LimeGreen}{y_{1,i}(t)}$ is real house price growth (quarterly log difference HPI)
+
+--
+
+*  $\color{DodgerBlue}{y_{2,i}(t)}$ is log foreclosure rate
+
+--
+
+*  $\color{LimeGreen}{W_{n}Y_{1,n2}(t)}$ is weighted average of neighbors' real house price growth
+
+--
+
+*  $\color{LimeGreen}{y_{1,i}(t-j)}$ is lagged real house price growth
+
+--
+
+*  $\color{DodgerBlue}{y_{2,i}(t-j)}$ is lagged log foreclosure rate
+
+--
+
+*  $\color{orange}{x_{1,i}^{\prime }(t)}$ are predetermined control variables
+
+
+---
+### Dynamic Spatial Simultaneous Equation System
+
+Foreclosure Equation:
+
+$$\color{DodgerBlue}{y_{2,i}(t)} \color{black}=-\gamma _{21}\color{LimeGreen}{y_{1,i}(t)}\color{black}+\psi _{22}\color{DodgerBlue}{W_{n}Y_{2,n2}(t)}\color{black}+\sum_{\mathcal{j=1}}^{p}\rho_{j,22}\color{DodgerBlue}{y_{2,i}(t-j)}\color{black}+\\ \sum_{\mathcal{j=1}}^{p} \rho_{j,21}\color{LimeGreen}{y_{1,i}(t-j)}\color{black}+\color{orange}{x_{2,i}^{\prime }(t)}\color{black}\pi_{\cdot 2}+u_{2,i}(t),$$
+
+*  $\color{DodgerBlue}{y_{2,i}(t)}$ is log foreclosure rate
+
+--
+
+*  $\color{LimeGreen}{y_{1,i}(t)}$ is real house price growth (quarterly log difference HPI)
+
+--
+
+*  $\color{DodgerBlue}{W_{n}Y_{2,n2}(t)}$ is weighted average of neighbors' log foreclosure rate
+
+--
+
+*  $\color{DodgerBlue}{y_{2,i}(t-j)}$ is lagged log foreclosure rate
+
+--
+
+*  $\color{LimeGreen}{y_{1,i}(t-j)}$ is lagged real house price growth
+
+--
+
+*  $\color{orange}{x_{2,i}^{\prime }(t)}$ are predetermined control variables
+
+---
+### Dynamic Spatial Simultaneous Equation System
+
+*  We estimate with a 3SLS approach, which requires instruments
+
+*  Following Lee and Yang (2018) we construct our I.V. matrix as
+
+$$\mathcal{G}_{n}(t)=\left[\begin{matrix}Y_{n2}^{\ast }(t-p) & W_{n}Y_{n2}^{\ast }(t-p) & W_{n}^{2}Y_{n2}^{\ast}(t-p) & X_{n}(t) & W_{n}X_{n}(t) & W_{n}^{2}X_{n}(t) \\\end{matrix}\right]$$
+
+---
+### Dynamic Spatial Simultaneous Equation System
+
+*  We estimate with a 3SLS approach, which requires instruments
+
+*  Following Lee and Yang (2018) we construct our I.V. matrix as
+
+
+$$\mathcal{G}_{n}(t)=\left[\begin{matrix}\color{DodgerBlue}{Y_{n2}^{\ast }(t-p)} & W_{n}\color{DodgerBlue}{Y_{n2}^{\ast }(t-p)} & W_{n}^{2}\color{DodgerBlue}{Y_{n2}^{\ast }(t-p)} & X_{n}(t) & W_{n}X_{n}(t) & W_{n}^{2}X_{n}(t) \\\end{matrix}\right]$$
+
+
+*  $\color{DodgerBlue}{Y_{n2}^{\ast }(t-p)}$ are non-transformed endogenous variables
+
+    
+---
+### Dynamic Spatial Simultaneous Equation System
+
+*  We estimate with a 3SLS approach, which requires instruments
+
+*  Following Lee and Yang (2018) we construct our I.V. matrix as
+
+
+$$\mathcal{G}_{n}(t)=\left[\begin{matrix}\color{DodgerBlue}{Y_{n2}^{\ast }(t-p)} & W_{n}\color{DodgerBlue}{Y_{n2}^{\ast }(t-p)} & W_{n}^{2}\color{DodgerBlue}{Y_{n2}^{\ast }(t-p)} & \color{orange}{X_{n}(t)} & W_{n}\color{orange}{X_{n}(t)} & W_{n}^{2}\color{orange}{X_{n}(t)} \\\end{matrix}\right]$$
+
+
+*  $\color{DodgerBlue}{Y_{n2}^{\ast }(t-p)}$ are non-transformed endogenous variables
+
+*  $\color{orange}{X_{n}(t)}$ are predetermined variables
+
+---
+### Dynamic Spatial Simultaneous Equation System
+
+*  We estimate with a 3SLS approach, which requires instruments
+
+*  Following Lee and Yang (2018) we construct our I.V. matrix as
+
+
+$$\mathcal{G}_{n}(t)=\left[\begin{matrix}\color{DodgerBlue}{Y_{n2}^{\ast }(t-p)} & \color{purple}{W_{n}}\color{DodgerBlue}{Y_{n2}^{\ast }(t-p)} & \color{purple}{W_{n}^{2}}\color{DodgerBlue}{Y_{n2}^{\ast }(t-p)} & \color{orange}{X_{n}(t)} & \color{purple}{W_{n}}\color{orange}{X_{n}(t)} & \color{purple}{W_{n}^{2}}\color{orange}{X_{n}(t)} \\\end{matrix}\right]$$
+
+
+*  $\color{DodgerBlue}{Y_{n2}^{\ast }(t-p)}$ are non-transformed endogenous variables
+
+*  $\color{orange}{X_{n}(t)}$ are predetermined variables
+
+*  $\color{purple}{W_{n}}$ and $\color{purple}{W_{n}^2}$ are first and second order spatial lag terms
+
+---
+### Dynamic Spatial Simultaneous Equation System
+
+*  First estimate with 2SLS
+
+$$\widehat{\theta}_{l,2sls}^{\mathcal{G}}=(Z_{l,n,\mathcal{T}}^{\prime }P^{\mathcal{G}}Z_{l,n,\mathcal{T}})^{-1}Z_{l,n,\mathcal{T}}^{\prime
+}P^{\mathcal{G}}y_{l,n2,\mathcal{T}} \nonumber$$
+
+*  With asymptotic distribution
+
+$$\sqrt{n\mathcal{T}}(\widehat{\theta}_{l,2sls}^{\mathcal{G}}- \theta_{l})\stackrel{d}{\rightarrow} N\Big(0,plim_{n\to\infty}\Big[\frac{\sigma_{l}}{n \mathcal{T}} (Z_{l,n,\mathcal{T}}^{\prime}P^{\mathcal{G}}Z_{l,n,\mathcal{T}})\Big]^{-1}\Big),$$
+---
+### Dynamic Spatial Simultaneous Equation System
+
+*  Estimate 3SLS
+
+$$\widehat{\theta}_{3sls}^{\mathcal{G}}=[\widehat{Z}_{n,\mathcal{T}}^{\prime }(\widehat{\Sigma }
+^{-1}\otimes I_{n,\mathcal{T}})Z_{n,\mathcal{T}}]^{-1}\widehat{Z}_{n,\mathcal{T}}^{\prime }(\widehat{
+\Sigma }^{-1}\otimes I_{n,\mathcal{T}})y_{n2,\mathcal{T}} \nonumber$$
+
+*  With components of $\widehat{\Sigma}$ estimated by the the 2SLS estimator
+
+
+*  With asymptotic distribution
+
+$$\sqrt{n\mathcal{T}}(\widehat{\theta}_{3sls}^{\mathcal{G}}- \theta)
+\stackrel{d}{\rightarrow}N\Big(0, plim_{n\to\infty} \frac{1}{n\mathcal{T}}[\widehat{Z}
+_{n,\mathcal{T}}^{\prime }(\Sigma ^{-1}\otimes I_{n,\mathcal{T}})\widehat{Z}
+_{n,\mathcal{T}}]^{-1})\Big),$$
+
+---
+### Dynamic Spatial Simultaneous Equation System
+
+We can write the DSSES as (Equation 10):
+
+$$\Phi y_{n2}^{\ast}(t)=\mathcal{P} y_{n2}^{\ast}(t-1)+r^{\ast}(t) +u_{n2}^{\ast}(t)$$
+
+$$\Phi=\left[\begin{array}{cc}I_{n}-\psi_{11} W_{n} & \gamma_{12} I_{n} \\\gamma_{21}I_{n}  & I_{n}-\psi_{22} W_{n}\end{array}\right]$$
+
+$$\mathcal{P}=\left[\begin{array}{cc}\rho_{11} I_{n}  & \rho_{12}I_{n}\\\rho_{21}I_{n} & \rho_{22}I_{n}  \end{array}\right]$$
+
+
+  *  $y_{n2}^{\ast}(t)$ dependent variables
+  *  $r^{\ast}(t)$ predetermined variables, intercept, fixed effects
+  *  $u_{n2}^{\ast}(t)$ shocks
+  
+Inverting Equation 10 yields Equation 11
+  
+$$y_{n2}^{\ast}(t)=\Phi^{-1}\mathcal{P} y_{n2}^{\ast}(t-1)+ \Phi^{-1} r^{\ast}(t) +\Phi^{-1} u_{n2}^{\ast}(t)$$
+
+---
+class:  left, middle
+# (3) Data
+
+---
+### Data
+
+*  Our estimation window covers 2005Q1-2018Q1
+    *  13.25 years (53 quarters)
+    
+* Dependent Variables
+    *  Quarterly log difference in Real (inflation-adjusted) house prices
+      -  FHFA All-Transactions House Price Index
+      -  Deflated by BLS- CPIU: All Items less Shelter
+    *  Log foreclosure start rate (% of loans starting foreclosure)
+      - MBA National Deliquency Survey
+      
+*  We require instruments for house prices and foreclosure rates.
+
+*  We also include additional controls to account for economic and general housing market conditions 
+
+---
+### Natural population growth as an I.V. for house prices
+
+*  To quantify the causal effect of house prices on foreclosures, we use the quarterly change in the growth rate of natural population (i.e., $\Delta$(births - deaths)/population) as our instrument
+
+    *  Population growth reflects housing demand and is an important variable in many models of house prices
+    
+    *  When population growth increases, household formation rates tend to rise, driving up housing demand
+    
+    *  Natural population growth captures lower frequency movements in population reflecting demographic profile of state and less likely to be correlated with contempraneous shocks
+
+---
+### ARM reset rate as an I.V. for Foreclosures
+
+*  We focus on the loans experiencing a rate increase during their initial rate reset using Black Knight's McDash $1^{st}$ lien data
+
+*  We derive two indicators for our ARM reset calculation
+
+    *  First, we create a variable capturing the date when a reset hits 
+    
+      -  An ARM reset is flagged at the introductory expiration date or when the first principle and insurant (P\&I) payment amount changes, whichever comes first
+    
+    *  Then, we compare the scheduled P&I payment from the current month with that of the previous month to identify whether the rate increases at the reset day
+    
+    *  Compute the percent of outstanding loans in a state that experience a payment shock that quarter
+
+
+---
+### Control variables
+
+*  We also include three other variables to help control for economic factors
+
+*  Lag of quarterly log difference of each:
+
+  -  nonfarm payroll employment
+  
+  -  per capita income
+  
+  -  single-family housing permits
+
+*  Treat as
+  *  PVAR: Endogenous
+  
+  *  DSSES:  Predetermined
+
+
+---
+### Summary Statistics
+
+.pull-left[
+dlrhpi:  quarterly log difference in real house price index
+
+lfcl:  log foreclosure start rate
+
+dnpopg:  quarterly change in the growth rate of natural population ( $\Delta$ (births - deaths)/population)
+
+log_arm:  log of proportion of active loans experiencing positive payment shock due to ARM reset
+
+dlemp_lag1:  1-quarter lag in quarterly log difference in nonfarm payroll employment
+
+dlperm_lag1:  1-quarter lag in quarterly log difference in single-family building permits
+
+dlpinc_lag1:  1-quarter lag in quarterly log difference in per capita income
+]
+
+.pull-right[
+```{r, echo=FALSE,message=FALSE,warning=FALSE}
+library(tidyverse)
+library(kableExtra)
+library(knitr)
+dplyr::select(df3, 
+              dlrhpi,
+              lfcl,
+              dnpopg,
+              log_arm,
+              dlperm_lag1,
+              dlemp_lag1,
+              dlpinc_lag1
+                         ) %>%
+  gather(var,val) %>% 
+  group_by(var) %>% 
+  summarize(mean=mean(val),sd=sd(val), min=min(val), max=max(val), n=n()) %>%
+  mutate_if(is.numeric,round,2) %>% 
+  arrange(factor(var, levels =c("dlrhpi","lfcl","dnpopg","log_arm",
+                                        "dlemp_lag1","dlperm_lag1","dlpinc_lag1"))) %>%
+  knitr::kable(caption="Summary Statistics (2005Q1-2018Q1)",format="html")  %>%
+  kable_styling("striped", full_width = F) %>%
+  pack_rows("Dependent Variables", 1, 2)   %>%
+  pack_rows("I.V.s", 3,4)%>%
+  pack_rows("Predetermined Variables", 5, 7) 
+  
+
+```
+]
+
+
+---
+### House Prices and Foreclosure Rates
+
+```{r, echo=FALSE,message=FALSE,warning=FALSE,cache=TRUE, fig.width=14,fig.retina=4}
+library(geofacet)
+
+ggplot(data=filter(df,!is.na(log_arm)), aes(x=lfcl,y=dlrhpi))+geom_point()+
+  facet_geo(~state,grid=us_state_contiguous_grid1)+stat_smooth(method="lm",linetype=2,fill=NA)+
+  labs(x="log foreclosure rate",
+       y="quarterly real house price growth"
+       )
+
+```
+
+---
+class:  left, middle
+# (4) Empirical Results
+
+
+---
+class:  left
+### (4.1) Panel Vector AutoRegression (PVAR)
+
+$$Y_{nm,\mathcal{T}}=\sum_{\mathcal{j=1}}^{p}Y_{nm,\mathcal{T}}^{(-j)}P_{j}
++U_{nm,\mathcal{T}}$$
+
+*  Estimate with GMM (setting $p=12$)
+
+    *  Estimation yields $5 x 12 = 60$ coefficients 
+      -  Table in paper
+    
+    *  Easier to consider aggregations
+
+*  Compute Impulse Response Function
+
+*  Compute Forecast Error Variance Decomposition
+    -  The proportion of forecast variance in variable $j$ accounted for by exogenous shocks to variable $k$
+
+---
+class:  left
+PVAR(12): 2005Q1-2018Q1
+
+
+```{r, echo=FALSE, message=FALSE,warning=FALSE,cache=TRUE, fig.width=14,fig.height=7, fig.retina=4}
+sd_lfcl <- sd(filter(df2,date>=min(df3$date),date<=max(df3$date))$lfcl)
+sd_hpa <- sd(filter(df2,date>=min(df3$date),date<=max(df3$date))$dlrhpi)
+
+df_plot <- data.frame(id=1:24,
+                      hpa_fcl =oirf(est1, 24)$lfcl[,4]/sd_hpa,
+                      hpa_hpa =oirf(est1, 24)$dlrhpi[,4]/sd_hpa,
+                      fcl_fcl = oirf(est1, 24)$lfcl[,5]/sd_lfcl,
+                      fcl_hpa = oirf(est1, 24)$dlrhpi[,5]/sd_lfcl)
+
+p_irf1 <-
+ggplot(data=df_plot, aes(x=id, y=hpa_fcl,color="HPA",linetype="HPA"))+
+  geom_line(size=1.07)+
+  geom_line(size=1.07,aes(y=fcl_hpa,color="FCL",linetype="FCL"))+
+  ggrepel::geom_text_repel(data= .%>% filter(id==12), aes(label="HPA to FCL"),size=6)+
+  ggrepel::geom_text_repel(data= .%>% filter(id==11), nudge_y=-.01,aes(y=fcl_hpa,color="FCL",label="FCL to HPA"),size=6)+
+  theme_minimal(base_size=18)+
+  theme(legend.position="none",
+        plot.caption=element_text(hjust=0))+
+  scale_color_manual(values=c("red","dodgerblue"))+
+  scale_y_continuous()+
+  labs(x="quarters after shock", title="Standardized Impulse Reponse",
+       y="",
+       subtitle="PVAR(12) : 2005Q1-2018Q1",
+       caption="The standardized responses are calculated by dividing the model impulse responses by the \nsample standard deviations of the response variable.")
+
+p_irf1
+```
+
+---
+class:  left
+PVAR(12): 2005Q1-2018Q1
+
+.pull-left[
+*  Standardized Impulse response of real house price growth (HPA) to log foreclosure (FCL) similar to FCL to HPA
+
+    *  CLM find the cumulative 24-quarter HPA to FCL response 79% larger than FCL to HPA
+    
+    *  We find the cumulative HPA to FCL response 44% larger than FCL to HPA
+    
+    *  The volatility of foreclosure shocks greater in our period (2005Q1-2018Q1) compared to CLM (1981-2009)
+]
+.pull-right[
+```{r, echo=FALSE,fig.width=7,fig.height=7}
+p_irf1+labs(       caption="The standardized responses are calculated by dividing the \nmodel impulse responses by the sample standard deviations \nof the response variable.")
+```
+]
+
+
+---
+class:  left
+Forecast Error Variance Decompositions PVAR(12): 2005Q1-2018Q1
+
+.pull-left[
+```{r, echo=FALSE, warning=FALSE, cache=TRUE, fig.cap="Forecast Error Variance Decomposition"}
+
+table1 <- data.frame(horizon=c(4,8,24), fevd_orthogonal(est1, n.ahead = 24)$dlemp[c(4,8,24),1:5])
+knitr::kable(mutate_all(table1,round,3), caption="Employment")
+
+table2 <- data.frame(horizon=c(4,8,24), fevd_orthogonal(est1, n.ahead = 24)$dlpinc[c(4,8,24),1:5])
+knitr::kable(mutate_all(table2,round,3), caption="Per capita income") 
+table3 <- data.frame(horizon=c(4,8,24), fevd_orthogonal(est1, n.ahead = 24)$dlperm[c(4,8,24),1:5])
+knitr::kable(mutate_all(table3,round,3), caption="Single-Family Permits")
+```
+]
+
+
+.pull-right[
+```{r, echo=FALSE, warning=FALSE, cache=TRUE, fig.cap="Forecast Error Variance Decomposition"}
+
+table4<- data.frame(horizon=c(4,8,24), fevd_orthogonal(est1, n.ahead = 24)$dlrhpi[c(4,8,24),1:5])
+knitr::kable(mutate_all(table4,round,3), caption="Real House Prices")
+
+table5 <- data.frame(horizon=c(4,8,24), fevd_orthogonal(est1, n.ahead = 24)$lfcl[c(4,8,24),1:5])
+knitr::kable(mutate_all(table5,round,3), caption="Foreclosure")
+
+```
+]
+
+---
+class:  left
+Forecast Error Variance Decompositions PVAR(12): 2005Q1-2018Q1 <span style="background-color: yellow;"> Response to House Price shocks </span>
+
+.pull-left[
+```{r, echo=FALSE, warning=FALSE, cache=TRUE, fig.cap="Forecast Error Variance Decomposition"}
+
+table1 <- data.frame(horizon=c(4,8,24), fevd_orthogonal(est1, n.ahead = 24)$dlemp[c(4,8,24),1:5])
+knitr::kable(mutate_all(table1,round,3), caption="Employment")%>%
+   column_spec(5,  background = "yellow")
+
+table2 <- data.frame(horizon=c(4,8,24), fevd_orthogonal(est1, n.ahead = 24)$dlpinc[c(4,8,24),1:5])
+knitr::kable(mutate_all(table2,round,3), caption="Per capita income") %>%
+   column_spec(5,  background = "yellow")
+table3 <- data.frame(horizon=c(4,8,24), fevd_orthogonal(est1, n.ahead = 24)$dlperm[c(4,8,24),1:5])
+knitr::kable(mutate_all(table3,round,3), caption="Single-Family Permits")%>%
+   column_spec(5,  background = "yellow")
+```
+]
+
+
+.pull-right[
+```{r, echo=FALSE, warning=FALSE, cache=TRUE, fig.cap="Forecast Error Variance Decomposition"}
+
+table4<- data.frame(horizon=c(4,8,24), fevd_orthogonal(est1, n.ahead = 24)$dlrhpi[c(4,8,24),1:5])
+knitr::kable(mutate_all(table4,round,3), caption="Real House Prices")%>%
+   column_spec(5,  background = "yellow")
+
+table5 <- data.frame(horizon=c(4,8,24), fevd_orthogonal(est1, n.ahead = 24)$lfcl[c(4,8,24),1:5])
+knitr::kable(mutate_all(table5,round,3), caption="Foreclosure")%>%
+   column_spec(5,  background = "yellow")
+
+```
+]
+
+---
+class:  left
+Forecast Error Variance Decompositions PVAR(12): 2005Q1-2018Q1 <span style="background-color: yellow;"> Response to Foreclosure shocks </span>
+
+.pull-left[
+```{r, echo=FALSE, warning=FALSE, cache=TRUE, fig.cap="Forecast Error Variance Decomposition"}
+
+table1 <- data.frame(horizon=c(4,8,24), fevd_orthogonal(est1, n.ahead = 24)$dlemp[c(4,8,24),1:5])
+knitr::kable(mutate_all(table1,round,3), caption="Employment")%>%
+   column_spec(6,  background = "yellow")
+
+table2 <- data.frame(horizon=c(4,8,24), fevd_orthogonal(est1, n.ahead = 24)$dlpinc[c(4,8,24),1:5])
+knitr::kable(mutate_all(table2,round,3), caption="Per capita income") %>%
+   column_spec(6,  background = "yellow")
+table3 <- data.frame(horizon=c(4,8,24), fevd_orthogonal(est1, n.ahead = 24)$dlperm[c(4,8,24),1:5])
+knitr::kable(mutate_all(table3,round,3), caption="Single-Family Permits")%>%
+   column_spec(6,  background = "yellow")
+```
+]
+
+
+.pull-right[
+```{r, echo=FALSE, warning=FALSE, cache=TRUE, fig.cap="Forecast Error Variance Decomposition"}
+
+table4<- data.frame(horizon=c(4,8,24), fevd_orthogonal(est1, n.ahead = 24)$dlrhpi[c(4,8,24),1:5])
+knitr::kable(mutate_all(table4,round,3), caption="Real House Prices")%>%
+   column_spec(6,  background = "yellow")
+
+table5 <- data.frame(horizon=c(4,8,24), fevd_orthogonal(est1, n.ahead = 24)$lfcl[c(4,8,24),1:5])
+knitr::kable(mutate_all(table5,round,3), caption="Foreclosure")%>%
+   column_spec(6,  background = "yellow")
+
+```
+]
+
+---
+class: left
+### PVAR Discussion
+
+*  PVAR leaves some potential insights on the table
+
+    *  Recursive identification imposes some strong restrictions on cross equation effects
+    
+    *  Doesn't allow for states to influence one another
+    
+
+```{r, echo=FALSE, warning=FALSE, eval=FALSE,cache=TRUE, fig.cap="VAR example"}
+library(vars,quietly=TRUE)
+library(tsDyn,quietly=TRUE)
+library(vars,quietly=TRUE)
+library(forecast,quietly=TRUE)
+library(tidyverse,quietly=TRUE)
+set.seed(5232019)
+sig1 <- 1
+sig2 <- 0.1
+S0 <- diag(c(sig1,sig2))
+a11 = 1
+a12 = 0.2
+a21 = 0.3
+a22 = 1
+b11 = 0.7
+b12 = 0
+b21 = 0
+b22 = 0.5
+A = matrix(c(a11,a12,a21,a22),nrow=2, byrow=TRUE)
+B = matrix(c(b11,b12,b21,b22),nrow=2, byrow=TRUE)
+Sigma <- chol(solve(A) %*% S0 %*% t(solve(A)))
+Bhat <- solve(A) %*% B
+Nsim = 200
+u <- MASS::mvrnorm(n =Nsim, rep(0, 2), Sigma)
+var1 <- VAR.sim(B=Bhat, n=Nsim,varcov=Sigma, include="none")
+vest1 <- VAR(var1, type="none")
+
+amat <- diag(1,2)
+amat[1,2] <- NA
+amat[2,1] <- NA
+amat[1,2] <- 0
+vest3 <- SVAR(vest1,Amat=amat)
+vest4 <- SVAR(vest1,Bmat=amat)
+
+colnames(var1)= c("y1","y2")
+vest1 <- VAR(var1, type="none")
+#vvest2 <- VAR(var1[nrow(var1):1,], type="none")
+vest2 <- VAR(var1[, c("y2","y1")], type="none")
+
+y11 <- ts(irf(vest1)$irf$y1)
+y12 <- ts(irf(vest2)$irf$y1)
+y13 <- ts(irf(vest3)$irf$y1)
+y14 <- ts(irf(vest4)$irf$y1)
+#autoplot(y11)+autolayer(y12,linetype=2)
+
+y21 <- ts(irf(vest1)$irf$y2)
+y22 <- ts(irf(vest2)$irf$y2)
+y23 <- ts(irf(vest3)$irf$y2)
+y24 <- ts(irf(vest4)$irf$y2)
+#autoplot(y21)+autolayer(y22,linetype=2)
+# generate true IRF
+
+FF1 <- array(0,dim=c(11,2))
+FF1[1,] <- sqrt(S0[1,1]) * solve(A) %*% c(1,0)
+for (i in 2:11){
+  FF1[i,] <- B %*% FF1[i-1,]
+}
+
+FF2 <- array(0,dim=c(11,2))
+FF2[1,] <- sqrt(S0[2,2]) * solve(A) %*% c(0,2)
+for (i in 2:11){
+  FF2[i,] <- B %*% FF2[i-1,]
+}
+y10 <- ts(FF1)
+colnames(y10) <- c("y1","y2")
+y20 <- ts(FF2)
+colnames(y20) <- c("y1","y2")
+
+tt <-3
+
+
+
+g1 <- suppressWarnings(autoplot(y11)+
+  autolayer(y12,linetype=2)+ 
+  #autolayer(y13, linetype=4)+
+  #autolayer(y14, linetype=5)+
+  autolayer(y10,linetype=3,color="black",size=1.1)+
+  #geom_text(data=window(y12,start=4,end=4), aes( label="Y2 First"))+
+  ggplot2::facet_wrap(~paste("response",series))+
+  scale_color_manual(labels=c("y1 last", "y2 last"),values=c("red","blue"))+guides(color=F)+
+  labs(subtitle="solid line ordering y1 first, dotted line ordering y2 first, black line truth\nModel: A Y(t) = B Y(t-1) + e(t); e(t) ~i.i.N.(0,Sigma)",
+       title="VAR estimates under different identification schemes",
+       y="shock from y1"))
+
+g2 <- suppressWarnings(autoplot(y21)+autolayer(y22,linetype=2)+ 
+  autolayer(y20,linetype=3,color="black",size=1.1)+
+    #autolayer(y23, linetype=4)+
+  ggplot2::facet_wrap(~paste("response",series))+scale_color_manual(labels=c("y1 last", "y2 last"),values=c("red","blue"))+guides(color=F)+
+  labs(subtitle="",
+       y="shock from y2"))
+
+
+cowplot::plot_grid(g1,g2,ncol=1)
+```
+
+    
+
+---
+class: left,middle
+### (4.2) Dynamic Spatial Simultaneous Equation System
+```{r, echo=FALSE, warning=FALSE, cache=TRUE}
+
+XNTstar=as.matrix(XNTstar)
+Y1=as.matrix(df3$dlrhpi)
+Y2=as.matrix(df3$lfcl)
+
+x1_list <- c("dnpopg", 
+             "dlemp_lag1",
+             "dlpinc_lag1",
+             "dlperm_lag1"
+             #,"dlsales_lag1"
+             )
+
+x2_list <- c("log_arm",
+             "dlemp_lag1",
+             "dlpinc_lag1",
+             "dlperm_lag1" #,"dlsales_lag1"
+)
+iv1=1
+iv2=2
+p=1
+k1=ncol(XNTstar)+p*2+1
+k2=ncol(XNTstar)+p*2+1
+N=48
+W = W2
+
+Tmax<-length(Y1)/N
+
+# right ----
+
+Y1NTstar     <-Y1[(p*N+1):((Tmax)*N),]
+Y1NTstarlag1 <-Y1[((p-1)*N+1):((Tmax-1)*N),]
+
+Y2NTstar     <-Y2[(p*N+1):((Tmax)*N),]
+Y2NTstarlag1 <-Y2[((p-1)*N+1):((Tmax-1)*N),]
+
+XNTstar2 <- XNTstar[(p*N+1):((Tmax)*N),]
+
+
+Tmax2 <- Tmax-p
+iTmax<-matrix(1,Tmax2,1)
+JT<-diag(1,Tmax2)-iTmax %*% t(iTmax)
+FT<-eigen(JT)$vectors[,1:(Tmax2-1)]
+preF<-kronecker(t(FT),diag(1,N))
+X1NT    <- preF %*% XNTstar2[,x1_list]
+X2NT    <- preF %*% XNTstar2[,x2_list]
+Y1NT    <- preF %*% Y1NTstar
+Y2NT    <- preF %*% Y2NTstar
+Y1NTlag1 <- preF %*% Y1NTstarlag1
+Y2NTlag1 <- preF %*% Y2NTstarlag1
+
+Y1Qstar <- Y1[1:(Tmax*N-(p+1)*N),]  # get non transformed lags of Y1 (lagged p times)
+Y2Qstar <- Y2[1:(Tmax*N-(p+1)*N),]  # get non transformed lags of Y1 (lagged p times)
+
+
+# construct G matrix
+W3  <- kronecker( diag(1,Tmax2-1),W)
+XNT <- preF %*% XNTstar2
+
+# construct giant G matrix
+G  <- as.matrix(cbind(Y1Qstar, 
+                      Y2Qstar, 
+                      W3 %*% Y1Qstar, W3 %*% Y2Qstar, 
+                      W3 %*% W3 %*% Y1Qstar,  W3 %*% W3 %*% Y2Qstar, 
+                      XNT, 
+                      W3 %*% XNT, 
+                      W3 %*% W3 %*% XNT  ))
+
+# construct gian Z matrix
+Z1  <- as.matrix(cbind(Y2NT,
+                       W3 %*% Y1NT, 
+                       Y1NTlag1,
+                       Y2NTlag1,
+                       X1NT))
+Z2  <- as.matrix(cbind(Y1NT, 
+                       W3 %*% Y2NT, 
+                       Y1NTlag1,
+                       Y2NTlag1,
+                       X2NT))
+
+Z   <- as.matrix(rbind(cbind(Z1,matrix(0,(Tmax2-1)*N,dim(Z2)[2])) , 
+                       cbind(matrix(0,(Tmax2-1)*N,dim(Z1)[2]), Z2)))
+
+Pg <- G %*% solve( t(G) %*% G) %*% t(G)
+
+mybeta12SLS <- solve (t(Z1) %*% Pg %*% Z1 ) %*% t(Z1) %*% Pg %*%   Y1NT
+mybeta22SLS <- solve (t(Z2) %*% Pg %*% Z2)  %*% t(Z2) %*% Pg %*%   Y2NT
+
+
+
+u1<- Y1NT -Z1 %*% mybeta12SLS
+sig11<-t(u1) %*% u1
+
+u2<- Y2NT -Z2 %*% mybeta22SLS
+
+sig11 <- t(u1) %*% u1
+sig12 <- t(u2) %*% u1
+sig21 <- t(u1) %*% u2
+sig22 <- t(u2) %*% u2
+
+
+mysig<-1/(N*(Tmax-1)) * matrix(c(sig11,sig12,sig21,sig22),nrow=2,ncol=2,byrow=T)
+
+# set up big thing
+
+Z<- as.matrix( rbind(cbind(Z1,
+                           matrix(0,(Tmax2-1)*N,dim(Z2)[2])) , 
+                     cbind(matrix(0,(Tmax2-1)*N,dim(Z1)[2]),  Z2  )
+))
+
+Zhat <- as.matrix(rbind(cbind(Pg %*% Z1, matrix(0,(Tmax2-1)*N,dim(Z2)[2])),
+                        cbind(matrix(0,(Tmax2-1)*N,dim(Z1)[2]), Pg %*% Z2))
+)
+
+
+YY<-rbind(Y1NT,Y2NT)
+
+beta3SLS <- 
+  solve ( t(Zhat) %*% 
+            kronecker(solve(mysig),diag(1,(N*(Tmax2-1)))
+            ) %*% Zhat
+  ) %*%   
+  t(Zhat) %*% 
+  kronecker(solve(mysig),diag(1,(N*(Tmax2-1)))) %*% 
+  YY
+
+sig3 <- solve ( t(Zhat) %*% kronecker(solve(mysig),diag(1,(N*(Tmax2-1)))) %*% Zhat)
+
+res3<-cbind(beta3SLS,
+            sqrt(diag(sig3)),
+            beta3SLS/sqrt(diag(sig3)),
+            pnorm(abs(beta3SLS), 0,sqrt(diag(sig3)),lower.tail=F) )
+colnames(res3)<-c("Beta 3SLS","Std Error","t value","Pvalue")
+myr<-c("FCLonHPA (current)","Spatial_lag",paste0("owntimelag",1:p), paste0("cross_FCLlag",1:p))
+
+myr <- c(myr, paste0("Gamma1_",x1_list))
+myr<-c(myr,c("HPAonFCL (current)","Spatial_lag",
+                           paste0("crossHPAlag",1:p),
+                           paste0("owntimelag",1:p)
+                           ))
+
+myr <- c(myr, paste0("Gamma2_",x2_list))
+rownames(res3)<-myr
+rownames(res3)[1:(2+2*p+length(x1_list))] <-
+  paste0("HPA: ", rownames(res3)[1:(2+2*p+length(x1_list))])
+rownames(res3)[(3+2*p+length(x1_list)):nrow(res3)] <-
+  paste0( "FCL: ", rownames(res3)[(3+2*p+length(x1_list)):nrow(res3)])
+
+#View(round(res3[,-1],3))
+```
+
+
+---
+### (4.2) Dynamic Spatial Simultaneous Equation System
+
+
+.pull-left[
+```{r, echo=FALSE}
+round(res3,3)[1:8,] %>% knitr::kable(caption="DSSES Estimation: HPA equation")
+
+```
+]
+.pull-right[
+```{r, echo=FALSE}
+round(res3,3)[9:16,] %>% knitr::kable(caption="DSSES Estimation: FCL equation")
+
+```
+]
+
+
+---
+### (4.2) Dynamic Spatial Simultaneous Equation System <span style="background-color: yellow;"> Cross lag </span>
+ 
+.pull-left[
+```{r, echo=FALSE}
+round(res3,3)[1:8,] %>% knitr::kable(caption="DSSES Estimation: HPA equation")%>%
+   row_spec( c(1,4),  background = "yellow")
+
+```
+]
+.pull-right[
+```{r, echo=FALSE}
+round(res3,3)[9:16,] %>% knitr::kable(caption="DSSES Estimation: FCL equation")%>%
+   row_spec(c(1,3),  background = "yellow")
+
+```
+]
+
+---
+### (4.2) Dynamic Spatial Simultaneous Equation System <span style="background-color: yellow;"> Spatial lag </span>
+ 
+.pull-left[
+```{r, echo=FALSE}
+round(res3,3)[1:8,] %>% knitr::kable(caption="DSSES Estimation: HPA equation")%>%
+   row_spec(2,  background = "yellow")
+
+```
+]
+.pull-right[
+```{r, echo=FALSE}
+round(res3,3)[9:16,] %>% knitr::kable(caption="DSSES Estimation: FCL equation")%>%
+   row_spec(2,  background = "yellow")
+
+```
+]
+
+---
+### (4.2) Dynamic Spatial Simultaneous Equation System <span style="background-color: yellow;"> Time lag </span>
+ 
+.pull-left[
+```{r, echo=FALSE}
+round(res3,3)[1:8,] %>% knitr::kable(caption="DSSES Estimation: HPA equation")%>%
+   row_spec(3,  background = "yellow")
+
+```
+]
+.pull-right[
+```{r, echo=FALSE}
+round(res3,3)[9:16,] %>% knitr::kable(caption="DSSES Estimation: FCL equation")%>%
+   row_spec(4,  background = "yellow")
+
+```
+]
+---
+### (4.2) Dynamic Spatial Simultaneous Equation System <span style="background-color: yellow;"> I.V. </span>
+ 
+.pull-left[
+```{r, echo=FALSE}
+round(res3,3)[1:8,] %>% knitr::kable(caption="DSSES Estimation: HPA equation")%>%
+   row_spec(5,  background = "yellow")
+
+```
+]
+.pull-right[
+```{r, echo=FALSE}
+round(res3,3)[9:16,] %>% knitr::kable(caption="DSSES Estimation: FCL equation")%>%
+   row_spec(5,  background = "yellow")
+
+```
+]
+
+
+```{r, echo=FALSE, warning=FALSE,cache=TRUE}
+res3b <- res3
+
+N<- 48
+PHI1 <- 
+  rbind(
+    cbind(diag(N)- res3b["HPA: Spatial_lag",1] * W2 , -res3b["HPA: FCLonHPA (current)",1] * diag(N)),
+    cbind(-res3b["FCL: HPAonFCL (current)" ,1] * diag(N), diag(N)- res3b["FCL: Spatial_lag",1] * W2))
+
+LAM1 <- 
+  rbind(
+    cbind(res3b["HPA: owntimelag1" ,1] * diag(N) , res3b["HPA: cross_FCLlag1" ,1] * diag(N)    ),
+    cbind(res3b["FCL: crossHPAlag1" ,1] * diag(N) , res3b["FCL: owntimelag1" ,1] * diag(N)    )
+  )
+PHI_SR <- solve(PHI1)
+PHI_LR <- solve(PHI1 - LAM1)
+
+
+# compute Y_t = inv(PHI) * LAM * Y_(t-1) + inv(PHI) * u(t)
+
+# simulate a 1 unit shock to state i over NN periods
+
+my_irf <- function(
+  vari=2, # 1= hpi or 2 = fcl
+  si=27,  # state,
+  ss=1,   # shock size,
+  N=48, ...
+){
+  sid <- ifelse(vari==1,si,si+N)
+  ut <- matrix(0,nrow=N*2,ncol=NN)
+  ut[sid,1]=ss
+  YY <- matrix(0,nrow=96,ncol=NN+1)
+  for (i in 1:NN){
+    YY[,i+1] = PHI_SR %*% LAM1 %*% YY[,i] + PHI_SR %*% ut[,i]
+  }
+  plot(YY[si,],type="l")
+  data.frame("HPI"=sum(YY[si,]),
+             "FCL"=sum(YY[si+48,])
+  )
+  
+}
+#my_irf()
+
+my_irf_all<- function(
+  vari=2, # 1= hpi or 2 = fcl
+  si=27,  # state,
+  ss=1,   # shock size,
+  N=48,
+  NN=20, ...
+){
+  sid <- ifelse(vari==1,si,si+N)
+  ut <- matrix(0,nrow=N*2,ncol=NN)
+  ut[sid,1]=ss
+  YY <- matrix(0,nrow=96,ncol=NN+1)
+  for (i in 1:NN){
+    YY[,i+1] = PHI_SR %*% LAM1 %*% YY[,i] + PHI_SR %*% ut[,i]
+  }
+  #plot(YY[si,],type="l")
+  data.frame(period=0:NN,
+             "HPI"=YY[si,],
+             "FCL"=YY[si+48,]
+  )
+  
+}
+#my_irf_all()
+
+my_irf_big<- function(
+  vari="HPI", # HPI or FCL
+  si=27,  # state,
+  ss=1,   # shock size,
+  N=48,
+  NN=24, ...
+){
+  sid <- ifelse(vari=="HPI",si,si+N)
+  ut <- matrix(0,nrow=N*2,ncol=NN)
+  ut[sid,1]=ss
+  YY <- matrix(0,nrow=96,ncol=NN+1)
+  for (i in 1:NN){
+    YY[,i+1] = PHI_SR %*% LAM1 %*% YY[,i] + PHI_SR %*% ut[,i]
+  }
+  
+  colnames(YY)<-paste0("p_",0:NN)
+  test_df <- bind_cols(var=c(rep("HPI",48),rep("FCL",48)),state=rep(df.a$Name,2),as_tibble(YY))
+  test_df2 <- test_df %>% 
+    group_by(state,var) %>% gather(period,val,-var,-state) %>% mutate(id=as.numeric(substring(period, 3))) %>%
+    arrange(var,state)
+  test_df2$state_name <- state.name[match(test_df2$state,state.abb)]
+  return(test_df2 %>% ungroup())
+}
+
+out<- my_irf_big()
+
+out48 <- expand.grid(vari=c("HPI","FCL"),st=1:48) %>% mutate(res=map2(vari,st,my_irf_big)) %>% unnest(res) 
+
+st_lookup<- data.frame(st=1:48,state_in=df.a$Name)
+
+out48<- merge(out48,st_lookup,by="st") %>% as_tibble()
+
+rownames(PHI_SR)<- rep(df.a$Name,2)
+rownames(PHI_LR)<- rep(df.a$Name,2)
+#rownames_to_column(as_tibble(PHI_SR))
+
+hpi_hpi_sr <- mean(diag(PHI_SR)[1:48])
+fcl_fcl_sr <- mean(diag(PHI_SR)[49:96])
+hpi_fcl_sr <- mean(diag(PHI_SR[1:48,49:96]))
+fcl_hpi_sr <- mean(diag(PHI_SR[49:96,1:48]))
+
+hpi_hpi_lr <- mean(diag(PHI_LR)[1:48])
+fcl_fcl_lr <- mean(diag(PHI_LR)[49:96])
+hpi_fcl_lr <- mean(diag(PHI_LR[1:48,49:96]))
+fcl_hpi_lr <- mean(diag(PHI_LR[49:96,1:48]))
+
+df_direct_sr <-  matrix(c(hpi_hpi_sr,hpi_fcl_sr ,fcl_hpi_sr,fcl_fcl_sr),ncol=2, nrow=2,byrow=TRUE )
+rownames(df_direct_sr)  <- c("HPA","FCL")
+colnames(df_direct_sr)  <- c("HPA","FCL")
+
+df_direct_lr <- matrix(c(hpi_hpi_lr,hpi_fcl_lr ,fcl_hpi_lr,fcl_fcl_lr),ncol=2, nrow=2,byrow=TRUE )
+
+rownames(df_direct_lr)  <- c("HPA","FCL")
+colnames(df_direct_lr)  <- c("HPA","FCL")
+
+smat <- cbind(HPA=df_direct_sr[,1]*sd(u1), FCL=df_direct_sr[,2]*sd(u2))
+lmat <- cbind(HPA=df_direct_lr[1,1]*sd(u1), FCL=df_direct_lr[1,2]*sd(u2))
+```
+
+---
+### (4.2) Dynamic Spatial Simultaneous Equation System
+
+*  Given the coefficients we can plug into Equation 11:
+
+$$y_{n2}^{\ast}(t)=\Phi^{-1}\mathcal{P} y_{n2}^{\ast}(t-1)+ \Phi^{-1} r^{\ast}(t) +\Phi^{-1} u_{n2}^{\ast}(t)$$
+*  Short-run Response to a 1 sd shock (average of all 48 states): 
+    *  1 sd house price shock after 1 quarter
+      -  increases house prices  2%
+      -  decreases the foreclosure rate 13%
+    
+    *  1 sd foreclosure shock after 1 quarter
+      -  decreases house prices 1.6%
+      -  increases the foreclosure rate 27%
+
+*  The long-run cumulative response in the level of house prices to a 1 sd 
+    *  house price shock is a 2.6% increase in house prices
+    *  foreclosure shock is a 2.0% decrease in house prices 
+
+
+```{r, echo=FALSE,eval=FALSE}
+knitr::kable(round(smat,3), caption="")
+```
+
+```{r, echo=FALSE,eval=FALSE}
+knitr::kable(round(lmat,3),  caption="")
+```
+
+---
+### (4.2) Dynamic Spatial Simultaneous Equation System
+
+Impulse response functions for 1 std shock to Nevada (NV)
+
+.pull-left[
+```{r, echo=FALSE, warning=FALSE,cache=TRUE}
+# HPA to HPA shock 
+filter(out48,vari=="HPI",var=="HPI",
+       state %in% c("NV","AZ","CA","UT","ID","OR"),
+       state_in=="NV",id<25) %>% group_by(state) %>%
+  mutate(
+    val=val*sd(u1),
+    vc=cumsum(val)) %>% ungroup() %>%
+  dplyr::select(id,state,vc) %>%
+  spread(state,vc) %>% filter(id %in% c(4,8,24))%>%
+    rename(horizon=id) %>% 
+  mutate_if(is.numeric,round,3) %>%
+  knitr::kable( caption="Cumulative House Price to House Price Shock")
+```
+
+```{r, echo=FALSE, warning=FALSE,cache=TRUE}
+# HPA to FCL Shock
+filter(out48,vari=="FCL",var=="HPI",
+       state %in% c("NV","AZ","CA","UT","ID","OR"),
+       state_in=="NV",id<25) %>% group_by(state) %>%
+  mutate(
+    val=val*sd(u2),
+    vc=cumsum(val)) %>% ungroup() %>%
+  dplyr::select(id,state,vc) %>%
+  spread(state,vc) %>% filter(id %in% c(4,8,24)) %>%
+  rename(horizon=id) %>%  
+  mutate_if(is.numeric,round,3) %>%
+  knitr::kable( caption="Cumulative House Price to Foreclosure Shock")
+
+```
+
+]
+
+
+.pull-right[
+
+
+```{r, echo=FALSE}
+# FCL to HPA Shock
+
+filter(out48,vari=="HPI",var=="FCL",
+       state %in% c("NV","AZ","CA","UT","ID","OR"),
+       state_in=="NV",id<25) %>% group_by(state) %>%
+  mutate(
+    val=val*sd(u1),
+    vc=val) %>% ungroup() %>%
+  dplyr::select(id,state,vc) %>%
+  spread(state,vc) %>% filter(id %in% c(4,8,24))%>%
+    rename(horizon=id) %>% 
+      mutate_if(is.numeric,round,3) %>%
+  knitr::kable( caption="Foreclosure to House Price Shock")
+```
+
+  
+
+```{r, echo=FALSE, warning=FALSE,cache=TRUE}
+# FCL to FCL Shock
+
+filter(out48,vari=="FCL",var=="FCL",
+       state %in% c("NV","AZ","CA","UT","ID","OR"),
+       state_in=="NV",id<25) %>% group_by(state) %>%
+  mutate(
+    val=val*sd(u2),
+    vc=val) %>% ungroup() %>%
+  dplyr::select(id,state,vc) %>%
+  spread(state,vc) %>% filter(id %in% c(4,8,24)) %>%
+    rename(horizon=id) %>% 
+    mutate_if(is.numeric,round,3) %>%
+  knitr::kable( caption="Foreclosure to Foreclosure Shock")
+```
+]
+
+
+---
+### (4.2) Dynamic Spatial Simultaneous Equation System
+
+Impulse response functions for a a std shock to Nevada (NV)
+
+.pull-left[
+```{r, echo=FALSE, warning=FALSE,cache=TRUE}
+# HPA to HPA shock 
+filter(out48,vari=="HPI",var=="HPI",
+       state %in% c("NV","AZ","CA","UT","ID","OR"),
+       state_in=="NV",id<25) %>% group_by(state) %>%
+  mutate(
+    val=val*sd(u1),
+    vc=cumsum(val)) %>% ungroup() %>%
+  dplyr::select(id,state,vc) %>%
+  spread(state,vc) %>% filter(id %in% c(4,8,24))%>%
+    rename(horizon=id) %>% 
+  mutate_if(is.numeric,round,3) %>%
+  knitr::kable( caption="Cumulative House Price to House Price Shock")
+```
+
+```{r, echo=FALSE, warning=FALSE,cache=TRUE}
+# HPA to FCL Shock
+filter(out48,vari=="FCL",var=="HPI",
+       state %in% c("NV","AZ","CA","UT","ID","OR"),
+       state_in=="NV",id<25) %>% group_by(state) %>%
+  mutate(
+    val=val*sd(u2),
+    vc=cumsum(val)) %>% ungroup() %>%
+  dplyr::select(id,state,vc) %>%
+  spread(state,vc) %>% filter(id %in% c(4,8,24)) %>%
+  rename(horizon=id) %>%  
+  mutate_if(is.numeric,round,3) %>%
+  knitr::kable( caption="Cumulative House Price to Foreclosure Shock")%>%
+   row_spec(2,  background = "yellow")
+
+```
+
+]
+
+
+.pull-right[
+
+
+```{r, echo=FALSE}
+# FCL to HPA Shock
+
+filter(out48,vari=="HPI",var=="FCL",
+       state %in% c("NV","AZ","CA","UT","ID","OR"),
+       state_in=="NV",id<25) %>% group_by(state) %>%
+  mutate(
+    val=val*sd(u1),
+    vc=val) %>% ungroup() %>%
+  dplyr::select(id,state,vc) %>%
+  spread(state,vc) %>% filter(id %in% c(4,8,24))%>%
+    rename(horizon=id) %>% 
+      mutate_if(is.numeric,round,3) %>%
+  knitr::kable( caption="Foreclosure to House Price Shock")
+```
+
+  
+
+```{r, echo=FALSE, warning=FALSE,cache=TRUE}
+# FCL to FCL Shock
+
+filter(out48,vari=="FCL",var=="FCL",
+       state %in% c("NV","AZ","CA","UT","ID","OR"),
+       state_in=="NV",id<25) %>% group_by(state) %>%
+  mutate(
+    val=val*sd(u2),
+    vc=val) %>% ungroup() %>%
+  dplyr::select(id,state,vc) %>%
+  spread(state,vc) %>% filter(id %in% c(4,8,24)) %>%
+    rename(horizon=id) %>% 
+    mutate_if(is.numeric,round,3) %>%
+  knitr::kable( caption="Foreclosure to Foreclosure Shock")
+```
+
+  
+
+]
+
+
+
+---
+### (4.2) Dynamic Spatial Simultaneous Equation System
+
+
+```{r, echo=FALSE, warning=FALSE,cache=TRUE, fig.retina=4,fig.width=14}
+
+  ggplot(data=filter(out48,vari=="FCL",var=="HPI",
+                     state %in% c("NV","AZ","CA","UT","ID","OR"),
+                     state_in=="NV",id<25),
+         aes(x=id,y=sd(u2)*val,group=state,label=state,linetype=state))+
+    geom_line()+
+    scale_x_continuous(breaks=1:24)+
+    scale_y_continuous(labels=scales::percent)+
+    ggrepel::geom_text_repel(data=.%>% filter(id==2),color="black")+
+    scale_color_brewer(palette="Greys")+
+    theme_minimal(base_size=18)+
+    theme(legend.position="none")+
+    labs(x="quarters",y="Real House Price Growth Rate",
+         title="Impulse Response to a 1 sd structural shock to Nevada Foreclosure Rate")
+```
+
+---
+### (4.2) Dynamic Spatial Simultaneous Equation System
+
+
+```{r, echo=FALSE, warning=FALSE,cache=TRUE, fig.retina=4,fig.width=14}
+  
+  ggplot(data=filter(out48,vari=="HPI",var=="FCL",
+                     state %in% c("NV","AZ","CA","UT","ID","OR"),
+                     state_in=="NV",id<25),
+         aes(x=id,y=sd(u1)*val,group=state,label=state,linetype=state))+
+    geom_line()+
+    scale_x_continuous(breaks=1:25)+
+    scale_y_continuous(labels=scales::percent)+
+    ggrepel::geom_text_repel(data=.%>% filter(id==2),color="black")+
+    scale_color_brewer(palette="Greys")+
+    theme_minimal(base_size=18)+
+    theme(legend.position="none")+
+    labs(x="quarters",y="Log Foreclosure Rate",
+         title="Impulse Response to a 1 sd structural shock to Nevada House Price")
+
+```
+
+
+---
+class: left
+### (5) Conclusion
+
+*  Specified a Dynamic Spatial Simultaneous Equation System panel model at quarter/state level that
+
+    *  Allows simultaneous movement in house prices and foreclosure rates
+    *  Captures dynamics over time and space
+
+*  Identified instruments for house prices and foreclosure rates
+
+*  Showed that at the state level, there is am amplification mechanism for foreclosure rates
+
+    *  Foreclosure shocks have a large and persistent impact on house prices
+    
+    *  Shocks to housing markets propagate to nearby states
+    
+    *  A one standard deviations increase in Nevada foreclosure rate leads to
+    
+      *  8% decline in Nevada real house prices after 8 quarters
+      *  3% decline in California real house prices after 8 quarters
+
+
+
+
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({ TeX: { extensions: ["color.js"] }});
+</script>
+
+
+
+
