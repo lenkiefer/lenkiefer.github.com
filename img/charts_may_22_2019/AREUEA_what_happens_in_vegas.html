@@ -1,0 +1,1319 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>What Happens in Vegas Doesn’t Always Stay in Vegas: The Dynamics of House Prices and Foreclosure Rates Across Space and Time</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Hua Kiefer, Len Kiefer, Diana Wei" />
+    <meta name="date" content="2019-05-31" />
+    <script src="libs/kePrint/kePrint.js"></script>
+    <link rel="stylesheet" href="mycss.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+class: middle
+
+
+&lt;span style="font-size: 150%; font-style:bold;"&gt;What Happens in Vegas Doesn't Always Stay in Vegas:&lt;/span&gt;  
+&lt;span style="font-size: 105%; font-style:italic;"&gt;The Dynamics of House Prices and Foreclosure Rates Across Space and Time&lt;/span&gt;
+
+.pull-left[
+Hua Kiefer  
+&lt;span style="font-size:0.75em"&gt;Federal Deposit Insurance Corporation&lt;/span&gt;
+
+Len Kiefer  
+&lt;span style="font-size:0.75em"&gt;Freddie Mac&lt;/span&gt;
+
+Diana Wei      
+&lt;span style="font-size:0.75em"&gt;Office of the Comptroller of the Currency&lt;/span&gt;
+
+&lt;span style="font-size:1em"&gt;AREUEA National Conference&lt;/span&gt;
+
+&lt;span style="font-size:1em"&gt;2019-05-31&lt;/span&gt;
+
+]
+
+
+
+.pull-right[
+&lt;!-- Len Kiefer   --&gt;
+&lt;!-- &lt;span style="font-size:0.75em"&gt;Freddie Mac&lt;/span&gt; --&gt;
+]
+
+*[paper and slides](http://lenkiefer.com/2019/05/14/what-happens-in-vegas-doesn-t-always-stay-in-vegas/)*
+
+&lt;span style="font-size:0.65em"&gt;*The views expressed in this paper are those of the authors alone and do not reflect those of The Federal Deposit Insurance Corporation, the Office of the Comptroller of the Currency, and Freddie Mac.*&lt;/span&gt;
+
+
+
+
+
+
+---
+class: left
+# &lt;span style="color:red; font-weight: bold;";&gt;Our Contribution&lt;/span&gt;
+
+*  Specify a Dynamic Spatial Simultaneous Equation System panel model at quarter/state level that
+
+    *  Allows simultaneous movement in house prices and foreclosure rates
+    *  Captures dynamics over time and space
+
+*  Identify instruments for house prices and foreclosure rates
+
+*  Show that at the state level, there is an amplification mechanism for foreclosure rates
+
+    *  Foreclosure shocks have a large and persistent impact on house prices
+    
+    *  Shocks to housing markets propagate to nearby states
+    
+    *  A one standard deviation increase in Nevada foreclosure rate leads to
+    
+      *  8% decline in Nevada real house prices after 8 quarters
+      *  3% decline in California real house prices after 8 quarters
+
+
+---
+class: left, middle
+# (1) Introduction
+
+
+
+---
+class: left, middle
+### House prices and foreclosure rates are negatively correlated
+
+.pull-left[
+
+Do high foreclosure rates cause lower house prices?
+
+
+Or do lower house prices drive foreclosure rates up?
+
+*Why not both?*
+]
+
+
+.pull-right[
+![](AREUEA_what_happens_in_vegas_files/figure-html/fig-1-scatter-1.png)&lt;!-- --&gt;
+]
+
+
+
+
+
+
+
+---
+class: left
+.pull-left[
+### Lower house prices drive foreclosure rates higher
+
+* Theory
+    *  Foster and Van Order (1984) option-based model
+
+*  Empirics
+    *  Bajari, Chu, Park (2008)
+    *  Foote, Gerardi, Willen (2008)
+    *  Guiso, Zingales (2013)
+]
+
+.pull-right[
+### Higher foreclosure rates drive house prices lower
+
+*  Foreclosure discount of 20% or more (own property)
+
+  *  Carroll, Clauretie, Neill(1997)
+  *  Clauretie and Daneshvary (2009)
+  *  Harding, Rosenblatt, Yao (2009)
+
+
+*  How about spillovers?
+    *  After controlling for simultaneity/reverse causality the foreclosure impact on nearby house prices declines to less than 2 percent
+    
+      -  Campbell, Giglio, Pathak (2011)
+      -  Hartley (2014)
+      -  Gerardi, Rosenblatt, Willen (2015)
+]
+
+
+---
+class:  left
+### Our results relative to two related contrasting studies
+
+*  Mian, Trebbi, Sufi (2015)
+
+  &lt;span style="color:dodgerblue";&gt;1 standard deviation increase in foreclosure rate leads to 8-12% decline in house prices over nine quarters&lt;/span&gt;
+
+* Calomiris, Longhofer, Miles (2013)
+
+    &lt;span style="color:dodgerblue";&gt;1 standard deviation increase in foreclosure rate leads to 2.7% decline in house prices over nine quarters&lt;/span&gt;
+
+*  Our Result
+
+    &lt;span style="color:red"; font-size: 1.2em;&gt;1 standard deviation increase in foreclosure rate leads to 7.7% decline in real house prices over nine quarters&lt;/span&gt;
+
+---
+class:  left, middle
+# (2) Econometric Model
+### Dynamic Spatial Simultaneous Equation System
+*Paper also has Panel Vector Autoregression for benchmark/comparison*
+---
+### Dynamic Spatial Simultaneous Equation System
+
+`$$Y^\ast_{n2}(t)\color{DodgerBlue}{\Gamma}\color{black}=W_{n}Y^\ast_{n2}(t)\color{LimeGreen}{\Psi} +\color{black}\sum_{\mathcal{j=1}}^{p} Y^\ast_{n2}(t-j)\color{forestgreen}{P_{j}}\color{black}+X^{\ast}_{n}(t)\color{orange}\Pi\color{black}+\color{red}{d^{\prime }\otimes l_{n}}\color{black}+\color{purple}{C}+\color{black}{U_{n2}^{\ast }(t)}$$`
+
+*  `\(\color{DodgerBlue}{\Gamma}\)`: simultaneous cross effects  
+  
+*  `\(\color{LimeGreen}{\Psi}\)`: contemporaneous spillover effects
+
+*  `\(\color{forestgreen}{P_{j}}\)`:  time lag effects
+
+*  `\(\color{orange}\Pi\)`: predetermined/exogenous variable effects
+
+*  `\(\color{red}{d^{\prime }\otimes l_{n}}\)`: state fixed effects
+
+*  `\(\color{purple}C\)`: constant (normalized so `\(\sum_{i=1}^{n}c_{1,i}=0\)`)
+
+*  `\(\color{black}{U_{n2}^{\ast }(t)}\)`: disturbance term
+
+---
+### Dynamic Spatial Simultaneous Equation System
+
+We can write the DSSES as (Equation 10):
+
+`$$\Phi y_{n2}^{\ast}(t)=\mathcal{P} y_{n2}^{\ast}(t-1)+r^{\ast}(t) +u_{n2}^{\ast}(t)$$`
+
+`$$\Phi=\left[\begin{array}{cc}I_{n}-\psi_{11} W_{n} &amp; \gamma_{12} I_{n} \\\gamma_{21}I_{n}  &amp; I_{n}-\psi_{22} W_{n}\end{array}\right]$$`
+
+`$$\mathcal{P}=\left[\begin{array}{cc}\rho_{11} I_{n}  &amp; \rho_{12}I_{n}\\\rho_{21}I_{n} &amp; \rho_{22}I_{n}  \end{array}\right]$$`
+
+
+  *  `\(y_{n2}^{\ast}(t)\)` dependent variables
+  *  `\(r^{\ast}(t)\)` predetermined variables, intercept, fixed effects
+  *  `\(u_{n2}^{\ast}(t)\)` shocks
+  
+Inverting Equation 10 yields Equation 11
+  
+`$$y_{n2}^{\ast}(t)=\Phi^{-1}\mathcal{P} y_{n2}^{\ast}(t-1)+ \Phi^{-1} r^{\ast}(t) +\Phi^{-1} u_{n2}^{\ast}(t)$$`
+
+---
+class:  left, middle
+# (3) Data
+
+---
+### Data
+
+*  Our estimation window covers 2005Q1-2018Q1
+    *  13.25 years (53 quarters)
+    
+* Dependent Variables
+    *  Quarterly log difference in Real (inflation-adjusted) house prices
+      -  FHFA All-Transactions House Price Index
+      -  Deflated by BLS- CPIU: All Items less Shelter
+    *  Log foreclosure start rate (% of loans starting foreclosure)
+      - MBA National Delinquency Survey
+      
+*  We require instruments for house prices and foreclosure rates.
+
+*  We also include additional controls to account for economic and general housing market conditions 
+
+---
+### Natural population growth as an I.V. for house prices
+
+*  To quantify the causal effect of house prices on foreclosures, we use the quarterly change in the growth rate of natural population as our instrument:
+
+`$$dnpopg_{i,t} = \Delta[(Births_{i,t} - Deaths_{i,t})/Population_{i,t-1}]$$`
+
+*  Population growth reflects housing demand and is an important variable in many models of house prices
+    
+*  When population growth increases, household formation rates tend to rise, driving up housing demand
+
+*  But migration patterns at least partially driven by employment, economic conditions
+  
+*  Natural population growth captures lower frequency movements in population reflecting demographic profile of state and less likely to be correlated with contemporaneous shocks
+    
+*  Requires that (with `\(u_{2i,t}\)` state `\(i\)`'s foreclosure innovation in period `\(t\)`)
+    
+`$$E[dnpopg_{i,t} \cdot u_{2i,t}]=0$$` 
+
+---
+### ARM reset rate as an I.V. for foreclosures
+
+*  We focus on the loans experiencing a rate increase during their initial rate reset using Black Knight's McDash `\(1^{st}\)` lien data
+
+*  ARM reset variable `\(ARM_{i,t}\)`
+
+    *  An ARM reset is flagged at the introductory expiration date or when the first principal and interest (P&amp;I) payment amount changes, whichever comes first
+    
+    *  Then, we compare the scheduled P&amp;I payment from the current month with that of the previous month to identify whether the rate increases at the reset day
+    
+    *  Compute the percent of outstanding loans in state `\(i\)` that experience a payment shock that quarter = `\(ARM_{i,t}\)`
+    
+*  Use `\(log(ARM_{i,t})\)` as I.V.
+
+This requires that (with `\(u_{1i,t}\)` state `\(i\)`'s house price innovation in period `\(t\)`)
+
+`$$E[{log(ARM_{i,t})\cdot u_{1i,t}}]=0$$`
+*Results robust to using `\(log(ARM_{i,t-1})\)` as an I.V.*
+
+---
+### Summary Statistics
+
+.pull-left[
+dlrhpi:  quarterly log difference in real house price index
+
+lfcl:  log foreclosure start rate
+
+dnpopg:  quarterly change in the growth rate of natural population ( `\(\Delta\)` (births - deaths)/population)
+
+log_arm:  log of proportion of active loans experiencing positive payment shock due to ARM reset
+
+dlemp_lag1:  1-quarter lag in quarterly log difference in nonfarm payroll employment
+
+dlperm_lag1:  1-quarter lag in quarterly log difference in single-family building permits
+
+dlpinc_lag1:  1-quarter lag in quarterly log difference in per capita income
+]
+
+.pull-right[
+&lt;table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;"&gt;
+&lt;caption&gt;Summary Statistics (2005Q1-2018Q1)&lt;/caption&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; var &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; mean &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; sd &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; min &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; max &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; n &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr grouplength="2"&gt;&lt;td colspan="6" style="border-bottom: 1px solid;"&gt;&lt;strong&gt;Dependent Variables&lt;/strong&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;
+   &lt;td style="text-align:left; padding-left: 2em;" indentlevel="1"&gt; dlrhpi &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.02 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.11 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.09 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2544 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left; padding-left: 2em;" indentlevel="1"&gt; lfcl &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.65 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.59 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -2.30 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.32 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2544 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr grouplength="2"&gt;&lt;td colspan="6" style="border-bottom: 1px solid;"&gt;&lt;strong&gt;I.V.s&lt;/strong&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;
+   &lt;td style="text-align:left; padding-left: 2em;" indentlevel="1"&gt; dnpopg &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.01 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.01 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2544 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left; padding-left: 2em;" indentlevel="1"&gt; log_arm &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -7.24 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.84 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -9.26 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -4.12 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2544 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr grouplength="3"&gt;&lt;td colspan="6" style="border-bottom: 1px solid;"&gt;&lt;strong&gt;Predetermined Variables&lt;/strong&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;
+   &lt;td style="text-align:left; padding-left: 2em;" indentlevel="1"&gt; dlemp_lag1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.01 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.07 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.03 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2544 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left; padding-left: 2em;" indentlevel="1"&gt; dlperm_lag1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.01 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.18 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -2.47 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2.64 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2544 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left; padding-left: 2em;" indentlevel="1"&gt; dlpinc_lag1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.01 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.10 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.12 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2544 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+---
+class:  left, middle
+# (4) Empirical Results
+### Dynamic Spatial Simultaneous Equation System 
+*Paper also has Panel Vector Autoregression results*
+
+
+---
+### Dynamic Spatial Simultaneous Equation System &lt;span style="background-color: yellow;"&gt; Cross effects &lt;/span&gt;
+ 
+.pull-left[
+&lt;table&gt;
+&lt;caption&gt;DSSES Estimation: HPA equation&lt;/caption&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt;   &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Beta 3SLS &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Std Error &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; t value &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Pvalue &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: yellow !important;"&gt; HPA: FCLonHPA (current) &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; -0.054 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; 0.005 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; -11.194 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; 0.000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; HPA: Spatial_lag &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.444 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.038 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 11.831 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; HPA: owntimelag1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.228 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.046 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4.934 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: yellow !important;"&gt; HPA: cross_FCLlag1 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; 0.050 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; 0.005 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; 10.467 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; 0.000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; HPA: Gamma1_dnpopg &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.352 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.194 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.818 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.035 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; HPA: Gamma1_dlemp_lag1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.459 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.057 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 8.063 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; HPA: Gamma1_dlpinc_lag1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.085 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.021 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -4.133 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; HPA: Gamma1_dlperm_lag1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.002 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.001 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -1.755 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.040 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+.pull-right[
+&lt;table&gt;
+&lt;caption&gt;DSSES Estimation: FCL equation&lt;/caption&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt;   &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Beta 3SLS &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Std Error &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; t value &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Pvalue &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: yellow !important;"&gt; FCL: HPAonFCL (current) &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; -6.684 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; 0.730 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; -9.161 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; 0.000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; FCL: Spatial_lag &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.044 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.028 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -1.539 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.062 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: yellow !important;"&gt; FCL: crossHPAlag1 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; 1.212 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; 0.742 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; 1.634 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; 0.051 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; FCL: owntimelag1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.932 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.035 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 27.002 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; FCL: Gamma2_log_arm &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.010 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.005 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.774 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.038 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; FCL: Gamma2_dlemp_lag1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2.699 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.030 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2.620 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.004 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; FCL: Gamma2_dlpinc_lag1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.689 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.326 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -2.110 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.017 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; FCL: Gamma2_dlperm_lag1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.076 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.020 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -3.900 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.000 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+---
+### Dynamic Spatial Simultaneous Equation System &lt;span style="background-color: yellow;"&gt; Spatial lag &lt;/span&gt;
+ 
+.pull-left[
+&lt;table&gt;
+&lt;caption&gt;DSSES Estimation: HPA equation&lt;/caption&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt;   &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Beta 3SLS &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Std Error &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; t value &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Pvalue &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; HPA: FCLonHPA (current) &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.054 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.005 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -11.194 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: yellow !important;"&gt; HPA: Spatial_lag &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; 0.444 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; 0.038 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; 11.831 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; 0.000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; HPA: owntimelag1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.228 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.046 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4.934 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; HPA: cross_FCLlag1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.050 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.005 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 10.467 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; HPA: Gamma1_dnpopg &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.352 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.194 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.818 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.035 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; HPA: Gamma1_dlemp_lag1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.459 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.057 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 8.063 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; HPA: Gamma1_dlpinc_lag1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.085 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.021 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -4.133 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; HPA: Gamma1_dlperm_lag1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.002 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.001 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -1.755 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.040 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+.pull-right[
+&lt;table&gt;
+&lt;caption&gt;DSSES Estimation: FCL equation&lt;/caption&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt;   &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Beta 3SLS &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Std Error &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; t value &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Pvalue &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; FCL: HPAonFCL (current) &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -6.684 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.730 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -9.161 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: yellow !important;"&gt; FCL: Spatial_lag &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; -0.044 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; 0.028 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; -1.539 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; 0.062 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; FCL: crossHPAlag1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.212 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.742 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.634 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.051 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; FCL: owntimelag1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.932 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.035 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 27.002 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; FCL: Gamma2_log_arm &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.010 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.005 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.774 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.038 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; FCL: Gamma2_dlemp_lag1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2.699 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.030 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2.620 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.004 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; FCL: Gamma2_dlpinc_lag1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.689 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.326 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -2.110 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.017 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; FCL: Gamma2_dlperm_lag1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.076 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.020 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -3.900 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.000 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+---
+### Dynamic Spatial Simultaneous Equation System &lt;span style="background-color: yellow;"&gt; Time lag &lt;/span&gt;
+ 
+.pull-left[
+&lt;table&gt;
+&lt;caption&gt;DSSES Estimation: HPA equation&lt;/caption&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt;   &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Beta 3SLS &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Std Error &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; t value &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Pvalue &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; HPA: FCLonHPA (current) &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.054 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.005 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -11.194 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; HPA: Spatial_lag &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.444 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.038 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 11.831 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: yellow !important;"&gt; HPA: owntimelag1 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; 0.228 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; 0.046 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; 4.934 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; 0.000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; HPA: cross_FCLlag1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.050 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.005 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 10.467 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; HPA: Gamma1_dnpopg &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.352 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.194 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.818 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.035 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; HPA: Gamma1_dlemp_lag1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.459 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.057 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 8.063 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; HPA: Gamma1_dlpinc_lag1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.085 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.021 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -4.133 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; HPA: Gamma1_dlperm_lag1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.002 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.001 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -1.755 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.040 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+.pull-right[
+&lt;table&gt;
+&lt;caption&gt;DSSES Estimation: FCL equation&lt;/caption&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt;   &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Beta 3SLS &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Std Error &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; t value &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Pvalue &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; FCL: HPAonFCL (current) &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -6.684 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.730 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -9.161 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; FCL: Spatial_lag &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.044 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.028 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -1.539 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.062 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; FCL: crossHPAlag1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.212 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.742 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.634 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.051 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: yellow !important;"&gt; FCL: owntimelag1 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; 0.932 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; 0.035 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; 27.002 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; 0.000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; FCL: Gamma2_log_arm &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.010 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.005 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.774 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.038 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; FCL: Gamma2_dlemp_lag1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2.699 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.030 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2.620 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.004 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; FCL: Gamma2_dlpinc_lag1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.689 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.326 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -2.110 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.017 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; FCL: Gamma2_dlperm_lag1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.076 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.020 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -3.900 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.000 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+---
+### Dynamic Spatial Simultaneous Equation System &lt;span style="background-color: yellow;"&gt; I.V. &lt;/span&gt;
+ 
+.pull-left[
+&lt;table&gt;
+&lt;caption&gt;DSSES Estimation: HPA equation&lt;/caption&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt;   &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Beta 3SLS &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Std Error &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; t value &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Pvalue &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; HPA: FCLonHPA (current) &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.054 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.005 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -11.194 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; HPA: Spatial_lag &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.444 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.038 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 11.831 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; HPA: owntimelag1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.228 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.046 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4.934 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; HPA: cross_FCLlag1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.050 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.005 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 10.467 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: yellow !important;"&gt; HPA: Gamma1_dnpopg &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; 0.352 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; 0.194 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; 1.818 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; 0.035 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; HPA: Gamma1_dlemp_lag1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.459 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.057 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 8.063 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; HPA: Gamma1_dlpinc_lag1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.085 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.021 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -4.133 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; HPA: Gamma1_dlperm_lag1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.002 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.001 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -1.755 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.040 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+.pull-right[
+&lt;table&gt;
+&lt;caption&gt;DSSES Estimation: FCL equation&lt;/caption&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt;   &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Beta 3SLS &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Std Error &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; t value &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Pvalue &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; FCL: HPAonFCL (current) &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -6.684 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.730 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -9.161 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; FCL: Spatial_lag &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.044 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.028 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -1.539 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.062 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; FCL: crossHPAlag1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.212 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.742 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.634 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.051 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; FCL: owntimelag1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.932 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.035 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 27.002 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: yellow !important;"&gt; FCL: Gamma2_log_arm &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; 0.010 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; 0.005 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; 1.774 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; 0.038 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; FCL: Gamma2_dlemp_lag1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2.699 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.030 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2.620 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.004 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; FCL: Gamma2_dlpinc_lag1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.689 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.326 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -2.110 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.017 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; FCL: Gamma2_dlperm_lag1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.076 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.020 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -3.900 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.000 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+
+
+
+---
+### Dynamic Spatial Simultaneous Equation System
+
+*  Given the coefficients we can plug into Equation 11:
+
+`$$y_{n2}^{\ast}(t)=\Phi^{-1}\mathcal{P} y_{n2}^{\ast}(t-1)+ \Phi^{-1} r^{\ast}(t) +\Phi^{-1} u_{n2}^{\ast}(t)$$`
+*  Short-run Response to a 1 sd shock (average of all 48 states): 
+    *  1 sd house price shock after 1 quarter
+      -  increases house prices  2%
+      -  decreases the foreclosure rate 13%
+    
+    *  1 sd foreclosure shock after 1 quarter
+      -  decreases house prices 1.6%
+      -  increases the foreclosure rate 27%
+
+*  The long-run cumulative response in the level of house prices to a 1 sd 
+    *  house price shock is a 2.6% increase in house prices
+    *  foreclosure shock is a 2.0% decrease in house prices 
+
+
+
+
+
+
+---
+### Dynamic Spatial Simultaneous Equation System
+
+
+&lt;img src="AREUEA_what_happens_in_vegas_files/figure-html/fig-2-irf-hpa-1.png" width="1008" /&gt;
+
+---
+### Dynamic Spatial Simultaneous Equation System
+
+
+&lt;img src="AREUEA_what_happens_in_vegas_files/figure-html/fig-3-irf-hpi-1.png" width="1008" /&gt;
+
+
+---
+### Dynamic Spatial Simultaneous Equation System
+
+
+&lt;img src="AREUEA_what_happens_in_vegas_files/figure-html/fig-4-irf-fcl-1.png" width="1008" /&gt;
+
+---
+Impulse response functions for 1 std structural shock ( `\(u_{1i,t}\)`, `\(u_{2i,t}\)`) to Nevada (NV)
+
+`\(std(log(fcl))=0.59\)` in data, need 3.47 (=0.59/0.17) sd structural shock to increase fcl rate 1 sd after 8 quarters
+
+.pull-left[
+&lt;table&gt;
+&lt;caption&gt;Cumulative House Price to House Price Shock&lt;/caption&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:right;"&gt; horizon &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; AZ &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; CA &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; ID &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; NV &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; OR &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; UT &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.011 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.016 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.010 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.032 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.014 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.009 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.009 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.014 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.009 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.031 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.012 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.008 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 24 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.006 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.008 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.005 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.026 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.007 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.005 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;table&gt;
+&lt;caption&gt;Cumulative House Price to Foreclosure Shock&lt;/caption&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:right;"&gt; horizon &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; AZ &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; CA &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; ID &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; NV &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; OR &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; UT &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.007 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.011 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.007 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.025 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.010 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.006 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; 8 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; -0.005 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; -0.008 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; -0.005 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; -0.023 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; -0.007 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; -0.004 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 24 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.001 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.002 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.001 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.019 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.002 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.001 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+]
+
+
+.pull-right[
+
+
+&lt;table&gt;
+&lt;caption&gt;Foreclosure to House Price Shock&lt;/caption&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:right;"&gt; horizon &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; AZ &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; CA &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; ID &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; NV &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; OR &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; UT &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.043 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.062 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.040 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.141 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.056 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.036 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.018 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.026 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.016 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.092 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.023 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.015 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 24 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.005 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.008 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.004 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.023 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.006 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.004 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+  
+
+&lt;table&gt;
+&lt;caption&gt;Foreclosure to Foreclosure Shock&lt;/caption&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:right;"&gt; horizon &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; AZ &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; CA &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; ID &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; NV &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; OR &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; UT &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.024 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.034 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.023 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.244 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.032 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.021 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; 8 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; -0.001 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; -0.004 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; -0.001 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; 0.170 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; -0.001 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: yellow !important;"&gt; -0.001 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 24 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.013 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.021 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.012 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.056 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.017 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.011 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+]
+
+&amp;nbsp; 
+
+A shock that increase NV foreclosure rates 1 sd: 
+
+*  Results in 8% (=3.47 x -2.3%) decrease in NV house prices after 8 quarters
+*  Results in 3% (=3.47 x -0.8%) decrease in CA house prices after 8 quarters
+
+---
+class: left
+### (5) Conclusion
+
+*  Specified a Dynamic Spatial Simultaneous Equation System panel model at quarter/state level that
+
+    *  Allows simultaneous movement in house prices and foreclosure rates
+    *  Captures dynamics over time and space
+
+*  Identified instruments for house prices and foreclosure rates
+
+*  Showed that at the state level, there is am amplification mechanism for foreclosure rates
+
+    *  Foreclosure shocks have a large and persistent impact on house prices
+    
+    *  Shocks to housing markets propagate to nearby states
+    
+    *  A one standard deviation increase in Nevada foreclosure rate leads to
+    
+      *  8% decline in Nevada real house prices after 8 quarters
+      *  3% decline in California real house prices after 8 quarters
+
+
+
+
+
+&lt;script type="text/x-mathjax-config"&gt;
+  MathJax.Hub.Config({ TeX: { extensions: ["color.js"] }});
+&lt;/script&gt;
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"slideNumberFormat": "<div class=\"progress-bar-container\">   <div class=\"progress-bar\" style=\"width: calc(%current% / %total% * 100%);\">   </div> </div>"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
