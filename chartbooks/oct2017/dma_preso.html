@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Forecasting Recessions with Dynamic Logistic Regression and Dynamic Model Averaging</title>
+    <meta charset="utf-8">
+    <meta name="author" content="Len Kiefer" />
+    <link rel="stylesheet" href="mycss.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Forecasting Recessions with Dynamic Logistic Regression and Dynamic Model Averaging
+### Len Kiefer
+### 2017/10/30
+
+---
+
+
+
+
+# Overview
+
+* Motivation
+* Statistical model(s)
+* Empirical Excercise
+* Discussion
+
+---
+class: inverse, center, middle
+
+# Motivation
+
+## Uncertainty and Ambiguity
+
+---
+class: left, top
+
+### Statistical model(s)
+
+Application of *Dynamic Logistic Regression and Dynamic Model Averaging for Binary Classification* [LINK](https://www.ncbi.nlm.nih.gov/pubmed/21838812)
+
+We want to predict a binary outcome: 
+
+`$$y_{t}  \in (0,1)$$`
+where 1 (0) indicates recession (no recession).
+
+`$$y_{t}|L_{t}=k\sim Bernoulli(p_{t}^{(k)})$$`
+
+`$$Logit(p_{t}^{(k)}) = x^{(k)'}_{t-h}\theta^{(k)}_{t-h}$$`
+with `\(k=1,2,\ldots,K\)` possible models.
+
+---
+class: inverse, center, middle
+
+### Each model just your standard S curve
+
+![](dma_preso_files/figure-html/10-28-2017-1.png)&lt;!-- --&gt;
+
+---
+class: left, top
+### Suppose k=2
+
+`$$Logit(P(y_{t}=1|x,L=1))= x_{1t}^{'}\theta_{t-h}^{(1)}$$`
+
+and
+
+`$$Logit(P(y_{t}=1|x,L=2))=x_{2t}^{'}\theta_{t-h}^{(2)}$$`.
+
+Parameters might be unstable and drift over time.  A simple model of drift would be:
+
+`$$\theta_{t}^{(k)}=\theta_{t-1}^{(k)}+\delta^{(k)}_{t},\ \ \ \delta^{(k)}_{t} \sim N(0,\sigma^{2})$$`
+
+Suppose we have a way to estimate each model, how do we combine the results from `\(K\)` potential models?
+
+---
+class: left, top
+### Doing in the hard way
+
+Specify:
+
+`$$P(L_{t}=k|Y^{t-1}) = \sum_{\ell=1}^{K}p(L_{t-1}=\ell|Y^{t-1})p(L_{t}=k|L_{t-1}=\ell)$$`
+
+but `\(p(L_{t}=k|L_{t-1}=\ell)\)` requires a `\(K\times K\)` transition matrix.
+
+---
+class: left, top
+### Generally a hard problem to solve so &lt;span style="color:#00b0f0";&gt;forget about it&lt;/span&gt;
+
+- Simplify via *forgetting factors*
+
+  + See [this paper](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2895940/) *Online Prediction Under Model Uncertainty via Dynamic Model Averaging: Application to a Cold Rolling Mill*
+  
+  + See [this paper](https://www.ncbi.nlm.nih.gov/pubmed/21838812) *Dynamic Logistic Regression
+and Dynamic Model Averaging for Binary Classification*
+
+  + See [this paper](http://onlinelibrary.wiley.com/doi/10.1111/j.1468-2354.2012.00704.x/pdf) *Forecasting Inflation Using Dynamic Model Averaging*
+  
+  + [R](https://www.r-project.org/) package [dma](https://CRAN.R-project.org/package=dma)
+  
+---
+class: left, to 
+### Forgetting
+
+instead of this:
+
+`$$p(L_{t}=k|L_{t-1}=\ell)$$`
+
+use:
+
+`$$P(L_{t}=k | Y^{t-1})= \frac{P(L_{t-1}=k | Y^{t-1})^{\alpha} }{\sum_{j=1}^{K}P(L_{t-1}=j | Y^{t-1})^{\alpha}}$$`
+
+Instead of specifying a full `\(K \times K\)` transition Matrix P for model probabilities, probabilities are updated using *forgetting*, parameterized by `\(0&lt;\alpha\leq1\)`.
+
+The parameter `\(\alpha\)` determines how much weight is put on recent models. With `\(\alpha=1\)` there is no forgetting, but `\(\alpha&lt;1\)` puts less weight on observations in the distant past.
+
+---
+class: inverse, center, middle
+# Empirical example
+
+### Forecasting recessions
+
+---
+class: top, left
+### Forecasting recessions
+![](dma_preso_files/figure-html/10-30-2017-plot-3-1.png)&lt;!-- --&gt;
+
+---
+class: top, left
+### Static regression
+
+
+
+&lt;table style="text-align:center"&gt;&lt;caption&gt;&lt;strong&gt;Forecasting Recessions&lt;/strong&gt;&lt;/caption&gt;
+&lt;tr&gt;&lt;td colspan="3" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td colspan="2"&gt;Recession probability&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td colspan="2" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;contemporaneous&lt;/td&gt;&lt;td&gt;forecast&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;(h=0)&lt;/td&gt;&lt;td&gt;(h=12)&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;(1)&lt;/td&gt;&lt;td&gt;(2)&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td colspan="3" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="text-align:left"&gt;SLOPE&lt;/td&gt;&lt;td&gt;-0.964&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;td&gt;-1.350&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;(0.155)&lt;/td&gt;&lt;td&gt;(0.143)&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;PAYEMS&lt;/td&gt;&lt;td&gt;-5.370&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;td&gt;-0.046&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;(0.529)&lt;/td&gt;&lt;td&gt;(0.231)&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;Constant&lt;/td&gt;&lt;td&gt;-0.072&lt;/td&gt;&lt;td&gt;-0.528&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;(0.230)&lt;/td&gt;&lt;td&gt;(0.196)&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td colspan="3" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="text-align:left"&gt;Observations&lt;/td&gt;&lt;td&gt;720&lt;/td&gt;&lt;td&gt;720&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td colspan="3" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;em&gt;Note:&lt;/em&gt;&lt;/td&gt;&lt;td colspan="2" style="text-align:left"&gt;&lt;sup&gt;*&lt;/sup&gt;p&lt;0.1; &lt;sup&gt;**&lt;/sup&gt;p&lt;0.05; &lt;sup&gt;***&lt;/sup&gt;p&lt;0.01&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td colspan="2" style="text-align:left"&gt;Dependent variable is a 0/1 recession indicator. PAYEMS is 3-month % change in payroll employment. SLOPE is the slope of the U.S. Treasury yield curve (10-year minus 3-month Treasury rates).&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;
+---
+class: left, middle
+### Dynamic regressions (h=0)
+![](dma_preso_files/figure-html/10-30-2017-plot-h0-1-1.png)&lt;!-- --&gt;
+
+---
+class: top, left
+### Model probabilties (h=0)
+
+![](dma_preso_files/figure-html/10-30-2017-plot-h0-2-1.png)&lt;!-- --&gt;
+
+---
+class: left, middle
+### Dynamic regressions (h=12)
+
+![](dma_preso_files/figure-html/10-30-2017-plot-h12-1-1.png)&lt;!-- --&gt;
+
+---
+class: top, left
+### Model probabilities (h=12)
+
+![](dma_preso_files/figure-html/10-30-2017-plot-h12-2-1.png)&lt;!-- --&gt;
+
+---
+class: top, left
+### Combining forecasts
+![](dma_preso_files/figure-html/10-30-2017-plot-end-1.png)&lt;!-- --&gt;
+
+
+---
+class: inverse, middle,center
+# Discussion
+###&lt;span style="color:#00b0f0";&gt;How could we use this?&lt;/span&gt;
+    </textarea>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {window.dispatchEvent(new Event('resize'));});
+(function() {var d = document, s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler"); if (!r) return; s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }"; d.head.appendChild(s);})();</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+  }
+});
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
