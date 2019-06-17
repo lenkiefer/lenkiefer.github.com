@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Charting the U.S. housing market over two long economic expansions">
+  <meta name="generator" content="Hugo 0.52" />
+
+  <title>Charting the housing expansion with R &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com//post/2019-06-16-charting-the-housing-expansion-with-r_files/figure-html/plot-code-2019-06-16-plot-6-1.png" >
+     
+    <meta property="og:title" content="Charting the housing expansion with R">
+    <meta property="og:description" content="Charting the U.S. housing market over two long economic expansions">
+
+<div class="header">
+  <h1>Charting the housing expansion with R</h1>
+  <h2>Charting the U.S. housing market over two long economic expansions</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2019/06/16</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/housing">housing</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/economy">economy</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+
+
+<p>Last week I posted a long thread comparing trends in various housing market indicators over on Twitter:</p>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Assuming we aren&#39;t in recession right now, the current expansion will tie the 1990s expansion for longest in U.S. history.  Let&#39;s take a look at how housing markets have behaved in this expansion relative to earlier ones<br>a thread... <a href="https://t.co/ovaiq3lsA8">pic.twitter.com/ovaiq3lsA8</a></p>&mdash; Leonard Kiefer (@lenkiefer) <a href="https://twitter.com/lenkiefer/status/1138904809392791552?ref_src=twsrc%5Etfw">June 12, 2019</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>I followed it up with an article on LinkedIn with some more commentary <a href="https://www.linkedin.com/pulse/us-housing-market-over-two-long-economic-expansions-leonard-kiefer/">The U.S. housing market over two long economic expansions</a>.</p>
+<p>In this post I’m going to share some modified <a href="https://www.r-project.org/">R</a> code to make plots like I shared. I’m also going to try out some of the new features in the <a href="https://www.tidyverse.org/articles/2019/05/ggplot2-3-2-0/">new release of ggplot2</a>, so you’ll need to make sure you have at least version 3.2.0 to follow along at home.</p>
+<p>First we’re going to want to leverage our most important data science skill and count. Specifically, we are going to count the number of months since the lastest business cycle turning points <a href="https://www.nber.org/cycles.html">per NBER</a>. We’re modifying some code we used in our <a href="../../../../2018/04/26/expanding-expansions-contracting-recessions/">Expanding Expansions, Contracting Recession</a> post.</p>
+<div id="get-data-wrangle" class="section level3">
+<h3>Get data, wrangle</h3>
+<p>We’ll get the data via the <a href="https://fred.stlouisfed.org/">St Louis Fed’s FRED</a> and the <a href="https://CRAN.R-project.org/package=tidyquant">tidyquant</a> package.</p>
+<p><details> <Summary>Click for data wrangling code </Summary></p>
+<pre class="r"><code>#####################################################################################
+## Load libraries ----
+#####################################################################################
+
+library(tidyquant)
+library(tidyverse)
+library(lubridate)
+library(sqldf)
+library(cowplot)
+
+theme_set(theme_minimal()) # reset GGPLOT2 theme to theme_minimal()
+
+#####################################################################################
+## get data ----
+#####################################################################################
+
+# Fred symbols
+tickers=c(&quot;UNRATE&quot;,
+          &quot;FEDFUNDS&quot;,
+          &quot;GS10&quot;,
+          &quot;HSN1F&quot;,
+          &quot;MSACSR&quot;,
+          &quot;HOUST&quot;,
+          &quot;HOUST1F&quot;,
+          &quot;HOUST5F&quot;,
+          &quot;PAYEMS&quot;,
+          &quot;HPIPONM226S&quot;,
+          &quot;LXXRHTSA&quot;,
+          &quot;LXXRLTSA&quot;,
+          &quot;LXXRMTSA&quot;,
+          &quot;LXXRSA&quot;,
+          &quot;ATXRHTSA&quot;,
+          &quot;ATXRLTSA&quot;,
+          &quot;ATXRMTSA&quot;,
+          &quot;ATXRSA&quot;,
+          &quot;TTLHHM156N&quot;,
+          &quot;USREC&quot;,
+          &quot;MORTGAGE30US&quot;,
+          &quot;T10Y3MM&quot;) 
+
+# Human readable descriptions
+lookup_1 &lt;- c(&quot;Unemployment Rate (%)&quot;,
+              &quot;Federal Funds Effective Rate (%)&quot;,
+              &quot;10-Year Treasury Constant Maturity Rate (%)&quot;,
+              &quot;New One Family Houses Sold (1000s SAAR)&quot;,
+              &quot;Monthly Supply of New Houses for Sale (Months)&quot;,
+              &quot;Housing Starts (total, 1000s SAAR)&quot;,
+              &quot;Housing Starts (1-unit structures, 1000s SAAR)&quot;,
+              &quot;Housing Starts: (5-Unit Structures or More, 1000s SAAR)&quot;, 
+              &quot;Total Nonfarm Employment (1000s, SA)&quot;,
+              &quot;House Price Index for U.S. (FHFA purchase-only, SA)&quot;,
+              &quot;Home Price Index (High Tier) for Los Angeles, California&quot;,
+              &quot;Home Price Index (Low Tier) for Los Angeles, California&quot;,
+              &quot;Home Price Index (Middle Tier) for Los Angeles, California&quot;,
+              &quot;S&amp;P/Case-Shiller CA-Los Angeles Home Price Index&quot;,
+              &quot;Home Price Index (High Tier) for Atlanta, Georgia&quot;,
+              &quot;Home Price Index (Low Tier) for Atlanta, Georgia&quot;,
+              &quot;Home Price Index (Middle Tier) for Atlanta, Georgia&quot;,
+              &quot;S&amp;P/Case-Shiller GA-Atlanta Home Price Index&quot;,
+              &quot;Household Estimates (Thousands)&quot;,
+              &quot;NBER based Recession Indicator for the United States&quot;,
+              &quot;30-Year Fixed Rate Mortgage Average in the United States&quot;,
+              &quot;10-Year Treasury Constant Maturity Minus 3-Month Treasury Constant Maturity&quot;)
+
+
+# Get data, convert weekly mortgage rate data to monhtly average
+
+dfm &lt;- 
+  tidyquant::tq_get(tickers,get=&quot;economic.data&quot;,from=&quot;1954-01-01&quot;) %&gt;%
+  group_by(year=year(date),month=month(date), symbol) %&gt;%
+  summarize(price=mean(price)) %&gt;% ungroup() %&gt;%
+  mutate(date=as.Date(ISOdate(year,month,1)))
+
+lookup &lt;- data.frame(symbol=tickers, description=lookup_1)
+df &lt;- merge(dfm,lookup,by=&quot;symbol&quot;) 
+
+
+#####################################################################################
+## setup recession data frame via https://www.nber.org/cycles.html ----
+#####################################################################################
+
+recessions.df = read.table(textConnection(
+  &quot;Peak, Trough
+  1953-07-01, 1954-05-01
+  1957-08-01, 1958-04-01
+  1960-04-01, 1961-02-01
+  1969-12-01, 1970-11-01
+  1973-11-01, 1975-03-01
+  1980-01-01, 1980-07-01
+  1981-07-01, 1982-11-01
+  1990-07-01, 1991-03-01
+  2001-03-01, 2001-11-01
+  2007-12-01, 2009-06-01
+  2019-06-02, 2019-06-03&quot; # have expansion last until 2019 June
+  ), sep=&#39;,&#39;,
+  colClasses=c(&#39;Date&#39;, &#39;Date&#39;), header=TRUE)</code></pre>
+<p>Now to set up the data we’re going to need to merge back on dates and count intervals between months. We’ll use <a href="https://CRAN.R-project.org/package=sqldf">sqldf</a> to do some merging via SQL like syntax and then <a href="https://CRAN.R-project.org/package=lubridate">lubridate</a> to count intervals in months.</p>
+<p>We’re also going to compute the value of each variable in the month of the turning point (June 2009 for the current expansion). Then we’ll compute two indicators, the difference in the variable since the start of the cycle to the current date and an indexed value so the starting point equals 100.</p>
+<pre class="r"><code>dft&lt;- data.frame(date=seq.Date(as.Date(&quot;1954-01-01&quot;), 
+                               as.Date(&quot;2019-06-01&quot;), 
+                               by=&quot;1 month&quot;))
+
+rdf &lt;- recessions.df %&gt;% 
+  mutate(TroughLag  = lag(Trough),  # find last trough
+         PeakLag    = lag(Peak)      # find last peak
+         )
+
+# Merge with sqldf
+
+output &lt;- sqldf(&quot;select * from dft left join rdf
+                on  (dft.date&gt;=rdf.Peak and dft.date &lt;= rdf.Trough or
+                (dft.date &gt; rdf.TroughLag and dft.date &lt;= rdf.Peak)) &quot;) %&gt;%
+  
+  mutate(expand=ifelse(date&gt;Peak, &quot;Recession&quot;,&quot;Expansion&quot;),
+         tt=ifelse(date&gt;Peak, (interval(Peak,date) %/% months(1)),
+                   interval(TroughLag,date) %/% months(1) ),
+         d1=as.Date(ifelse(expand==&quot;Recession&quot;,Peak, TroughLag %m+% months(0))),
+         d2=as.Date(ifelse(expand==&quot;Recession&quot;,Trough, Peak %m-% months(0))),
+         name=paste0(expand, &quot; &quot;,
+                     as.character(d1, format=&quot;%b %Y&quot;), &quot; : &quot;,
+                     as.character(d2, format=&quot;%b %Y&quot;)),
+         name2=paste0(expand, &quot; &quot;,
+                      as.character(d1, format=&quot;%Y-%m&quot;), &quot; : &quot;,
+                      as.character(d2, format=&quot;%Y-%m&quot;)
+                     
+  )) %&gt;%
+  # relabel the last row to say :present
+  mutate(name=ifelse(name==&quot;Expansion Jul 2009 : Jun 2019&quot;,
+                     &quot;Expansion Jul 2009 : Present&quot;, name)) %&gt;%
+  mutate(namef=as.factor(name2))%&gt;%
+  select(name,date,Peak,Trough,TroughLag,PeakLag,expand,tt,d1,name2,namef)
+
+
+
+df2 &lt;- 
+  left_join(df, output, by=&quot;date&quot;) %&gt;% arrange(date)
+
+# merge back onto itself, rename the value at start of cycle p0
+df2 &lt;- 
+  left_join(df2,
+            filter(df2, date %in% unique(df2$d1)) %&gt;% select(date,symbol,price) %&gt;% rename(p0=price),
+            by=c(&quot;symbol&quot;, &quot;d1&quot;=&quot;date&quot;)) %&gt;%
+
+  mutate(yd=price-p0,
+         yi=100*price/p0)</code></pre>
+<p></details></p>
+<p>Now that we have our data ready, we can make some plots. I’ll make a plot first, and you can see the code in the details below.</p>
+<p><img src="/post/2019-06-16-charting-the-housing-expansion-with-r_files/figure-html/plot-code-2019-06-16-plot-1-1.png" width="672" /></p>
+<p>Hidden below I create a function that can generate various plots we’ll explore.</p>
+<p><details> <Summary>Click for plotting function </Summary></p>
+<pre class="r"><code>myf &lt;- function(v=&quot;HOUST&quot;, #variable or group of variables
+                pvar=price,   # indicators to plot:
+                                  # price=  value, 
+                                  # yd= difference from start of cycle, 
+                                  # yi indexed value (start of cycle =100
+                yymin=0,       # minmum value for ribbon (0 or 100 make most since, but can use others)
+                indf=df2,      # input data (useful for filtering plot)
+                xxvar=date,    # x axis variable: date or tt (months into expansion)
+                colorv=namef,  # color/fill variable
+                groupv=namef,  # grouping variables
+                aalpha=0.35    # alpha for fill, set to 0 to eliminate shading
+                ){
+  
+  colorv=enquo(colorv)
+  xxvar=enquo(xxvar)
+  pvar=enquo(pvar)
+  gvar=enquo(groupv)
+  ggplot(data=filter(indf,symbol %in% !!v), 
+         aes(x=!!xxvar,
+             group=!!gvar,
+             y=!!pvar,
+             ymax=!!pvar,
+             color=!!colorv,
+             fill=!!colorv,
+             ymin=yymin))+
+    geom_ribbon(alpha=aalpha,color=NA,position=&quot;identity&quot;)+
+    geom_line(key_glyph = &quot;timeseries&quot;)+  # new ggplot2 feature
+    scale_y_continuous(sec.axis=dup_axis())+
+    scale_color_viridis_d(name=&quot;&quot;,option=&quot;C&quot;,end=0.85,direction=-1)+
+    scale_fill_viridis_d(name=&quot;&quot;,option=&quot;C&quot;,end=0.85,direction=-1)+
+    labs(subtitle=as.character(filter(lookup,symbol %in% !!v)$description))+
+    theme(plot.caption=element_text(hjust=0),
+          plot.title=element_text(face=&quot;bold&quot;),
+          plot.subtitle=element_text(face=&quot;italic&quot;))
+}
+
+myf()+labs(x=&quot;date&quot;,y=&quot;&quot;,
+           title=&quot;U.S. Housing Starts&quot;,
+           caption=&quot;@lenkiefer Source: FRED, Federal Reserve Bank of St. Louis&quot;)</code></pre>
+<p></details></p>
+<p>I built in some flexibility into my plotting function so we can try different things.</p>
+<p>For example, we might be interesting in plotting the change in starts relative to the starting date of each cycle:</p>
+<p><img src="/post/2019-06-16-charting-the-housing-expansion-with-r_files/figure-html/plot-code-2019-06-16-plot-2-1.png" width="672" /></p>
+<p>We also might be interested in just comparing the last 1990s expansion to the current one.</p>
+<p><img src="/post/2019-06-16-charting-the-housing-expansion-with-r_files/figure-html/plot-code-2019-06-16-plot-3-1.png" width="672" /></p>
+<p>We could try various other permutations of our function arguments for interesting variations.</p>
+<p>For reference, here are the variables I pulled down from FRED.</p>
+<pre class="r"><code>knitr::kable(lookup)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">symbol</th>
+<th align="left">description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">UNRATE</td>
+<td align="left">Unemployment Rate (%)</td>
+</tr>
+<tr class="even">
+<td align="left">FEDFUNDS</td>
+<td align="left">Federal Funds Effective Rate (%)</td>
+</tr>
+<tr class="odd">
+<td align="left">GS10</td>
+<td align="left">10-Year Treasury Constant Maturity Rate (%)</td>
+</tr>
+<tr class="even">
+<td align="left">HSN1F</td>
+<td align="left">New One Family Houses Sold (1000s SAAR)</td>
+</tr>
+<tr class="odd">
+<td align="left">MSACSR</td>
+<td align="left">Monthly Supply of New Houses for Sale (Months)</td>
+</tr>
+<tr class="even">
+<td align="left">HOUST</td>
+<td align="left">Housing Starts (total, 1000s SAAR)</td>
+</tr>
+<tr class="odd">
+<td align="left">HOUST1F</td>
+<td align="left">Housing Starts (1-unit structures, 1000s SAAR)</td>
+</tr>
+<tr class="even">
+<td align="left">HOUST5F</td>
+<td align="left">Housing Starts: (5-Unit Structures or More, 1000s SAAR)</td>
+</tr>
+<tr class="odd">
+<td align="left">PAYEMS</td>
+<td align="left">Total Nonfarm Employment (1000s, SA)</td>
+</tr>
+<tr class="even">
+<td align="left">HPIPONM226S</td>
+<td align="left">House Price Index for U.S. (FHFA purchase-only, SA)</td>
+</tr>
+<tr class="odd">
+<td align="left">LXXRHTSA</td>
+<td align="left">Home Price Index (High Tier) for Los Angeles, California</td>
+</tr>
+<tr class="even">
+<td align="left">LXXRLTSA</td>
+<td align="left">Home Price Index (Low Tier) for Los Angeles, California</td>
+</tr>
+<tr class="odd">
+<td align="left">LXXRMTSA</td>
+<td align="left">Home Price Index (Middle Tier) for Los Angeles, California</td>
+</tr>
+<tr class="even">
+<td align="left">LXXRSA</td>
+<td align="left">S&amp;P/Case-Shiller CA-Los Angeles Home Price Index</td>
+</tr>
+<tr class="odd">
+<td align="left">ATXRHTSA</td>
+<td align="left">Home Price Index (High Tier) for Atlanta, Georgia</td>
+</tr>
+<tr class="even">
+<td align="left">ATXRLTSA</td>
+<td align="left">Home Price Index (Low Tier) for Atlanta, Georgia</td>
+</tr>
+<tr class="odd">
+<td align="left">ATXRMTSA</td>
+<td align="left">Home Price Index (Middle Tier) for Atlanta, Georgia</td>
+</tr>
+<tr class="even">
+<td align="left">ATXRSA</td>
+<td align="left">S&amp;P/Case-Shiller GA-Atlanta Home Price Index</td>
+</tr>
+<tr class="odd">
+<td align="left">TTLHHM156N</td>
+<td align="left">Household Estimates (Thousands)</td>
+</tr>
+<tr class="even">
+<td align="left">USREC</td>
+<td align="left">NBER based Recession Indicator for the United States</td>
+</tr>
+<tr class="odd">
+<td align="left">MORTGAGE30US</td>
+<td align="left">30-Year Fixed Rate Mortgage Average in the United States</td>
+</tr>
+<tr class="even">
+<td align="left">T10Y3MM</td>
+<td align="left">10-Year Treasury Constant Maturity Minus 3-Month Treasury Constant Maturity</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>How the effective federal funds rate varies across cycles</li>
+</ul>
+<p><img src="/post/2019-06-16-charting-the-housing-expansion-with-r_files/figure-html/plot-code-2019-06-16-plot-4-1.png" width="672" /></p>
+<ul>
+<li>How did U.S. hous prices trend across cycles</li>
+</ul>
+<p><img src="/post/2019-06-16-charting-the-housing-expansion-with-r_files/figure-html/plot-code-2019-06-16-plot-5-1.png" width="672" /></p>
+<ul>
+<li>Comparing low and high price tier house prices in LA</li>
+</ul>
+<p><img src="/post/2019-06-16-charting-the-housing-expansion-with-r_files/figure-html/plot-code-2019-06-16-plot-6-1.png" width="672" /></p>
+<p>We could even try to animate things and make them <a href="https://www.theonion.com/bowling-alley-owner-wants-tv-ad-to-look-more-matrix-y-1819566958">More Matrix-y</a>.</p>
+<p><details> <Summary>Click and you stay in Wonderland, and I show you how deep the rabbit hole goes </Summary></p>
+<p><img src="../../../../img/charts_jun_16_2019/MatrixY.gif", size="50%"></p>
+<pre class="r"><code># Not that any of this is a good idea
+library(gganimate)
+
+df3 &lt;- 
+  filter(df2, symbol==&quot;UNRATE&quot;,year(date)&gt;1990) %&gt;% 
+  select(date,namef,tt,yd) %&gt;%
+  mutate(tt2=year(date)+month(date)/12 - 1/12)
+df3a &lt;- mutate(df3,type=&quot;linear&quot;) %&gt;% mutate(ti=tt)
+df3b &lt;- mutate(df3,type=&quot;quad&quot;) %&gt;% mutate(ti=tt2)
+df4 &lt;- bind_rows(df3a,df3b)
+
+a&lt;- 
+ggplot(data=df4, 
+       aes(x=ti, y=yd,color=namef,group=namef,fill=namef))+
+  geom_area(alpha=0.5,color=NA,position=&quot;identity&quot;)+
+  geom_line()+ scale_color_viridis_d(end=0.85)+
+  scale_fill_viridis_d(end=0.85)+
+  transition_states(type)+
+  view_follow()+
+  transition_states(type)+labs(caption=&quot;@lenkiefer&quot;,title=&quot;MOAR Matrix-y&quot;,x=&quot;&quot;,y=&quot;&quot;)
+
+animate(a,width=550,height=350,nframes=85)</code></pre>
+<p></details></p>
+<p>There’s a bunch more we could do with this function. See my Twitter thread above or <a href="https://www.linkedin.com/pulse/us-housing-market-over-two-long-economic-expansions-leonard-kiefer/">my LinkedIn post</a> for more commentary.</p>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2019/05/22/presentation-the-dynamics-of-house-prices-and-foreclosure-rates-across-space-and-time/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2019/05/22/presentation-the-dynamics-of-house-prices-and-foreclosure-rates-across-space-and-time/">Presentation: The dynamics of house prices and foreclosure rates across space and time</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/dataviz/">dataviz</a>, 
+            
+                <a href="/tags/r/">R</a>, 
+            
+                <a href="/tags/housing/">housing</a>, 
+            
+                <a href="/tags/economy/">economy</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2019%2f06%2f16%2fcharting-the-housing-expansion-with-r%2f&text=Charting%20the%20housing%20expansion%20with%20R via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2019%2f06%2f16%2fcharting-the-housing-expansion-with-r%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+
