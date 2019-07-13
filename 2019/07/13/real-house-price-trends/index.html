@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Analyzing real house price trends with R">
+  <meta name="generator" content="Hugo 0.52" />
+
+  <title>Real House Price Trends &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/charts_jul_13_2019/fmhpi_july2019_State1.png" >
+     
+    <meta property="og:title" content="Real House Price Trends">
+    <meta property="og:description" content="Analyzing real house price trends with R">
+
+<div class="header">
+  <h1>Real House Price Trends</h1>
+  <h2>Analyzing real house price trends with R</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2019/07/13</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/data">data</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/house-prices">house prices</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/maps">maps</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/data-wrangling">data wrangling</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+
+
+<p>Let us take a look at house price trends in the United States and across states and metro areas.</p>
+<p>Earlier this week I tweeted out a few charts on housing market trends.</p>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">In most of the middle part of the country over the past 44 years there has been little growth in real (inflation-adjusted) house prices.<br>In coastal states, a very different story. <a href="https://t.co/PLbiNftha3">pic.twitter.com/PLbiNftha3</a></p>&mdash; Leonard Kiefer (@lenkiefer) <a href="https://twitter.com/lenkiefer/status/1149028737893228547?ref_src=twsrc%5Etfw">July 10, 2019</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>In this post we’ll analyze real house prices since 1975, and per usual use <a href="https://www.r-project.org/">R</a> to wrangle data and make plots. This code will replicate most of the charts I shared. In some of my tweets I used <a href="https://www.tableau.com/">Tableau</a> for maps (it was close at hand), but we’ll do it all with R here.</p>
+<p>Code for the plots will be hidden in the details tabs.</p>
+<div id="setup" class="section level2">
+<h2>Setup</h2>
+<p>Let’s review what we need to do to get started.</p>
+<div id="mapping" class="section level3">
+<h3>Mapping</h3>
+<p>To make maps, we’ll use the <a href="https://medium.com/@urban_institute/how-to-create-state-and-county-maps-easily-in-r-577d29300bb2">Urban Institute’s urbnmapr package</a> library. When we will map metro (MSA) data, we’ll need to get the counties for each MSA via <a href="https://www.census.gov/geographies/reference-files/time-series/demo/metro-micro/delineation-files.html">Census</a>. The Freddie Mac House Price Index hasn’t yet been changed to the latest CBSA definitions so we will need to use older definitions. <em>Though I work at Freddie Mac, I don’t work directly on the house price index</em>.</p>
+</div>
+<div id="data" class="section level3">
+<h3>Data</h3>
+<p>We will use two sources of data. We will get house prices from the <a href="http://www.freddiemac.com/research/indices/house-price-index.page">Freddie Mac House Price Index</a> available through May 2019. We will deflate the price indices by the U.S. Bureau of Labor Statistics, Consumer Price Index for All Urban Consumers: All items less shelter [CUUR0000SA0L2], which we can get via <a href="https://fred.stlouisfed.org/series/CUUR0000SA0L2">FRED</a>.</p>
+<details>
+<p><summary>Load Libraries, Wrangle Data</summary></p>
+<pre class="r"><code>#####################################################################################
+## Load libraries ----
+#####################################################################################
+suppressPackageStartupMessages({
+library(data.table)
+library(tidyverse)
+library(urbnmapr)
+library(colorblindr)
+library(geofacet)
+library(readxl)
+library(httr)}
+)
+
+#####################################################################################
+# wrangle data ----
+#####################################################################################
+
+# download house price data
+dt &lt;- fread(&quot;http://www.freddiemac.com/fmac-resources/research/docs/fmhpi_master_file.csv&quot;)
+# create date
+dt[,date:=as.Date(ISOdate(Year,Month,1))]
+# get cpi data (via FRED)
+df_cpi &lt;- tidyquant::tq_get(&quot;CUUR0000SA0L2&quot;,get=&quot;economic.data&quot;,from=&quot;1975-01-01&quot;)
+dt &lt;- merge(dt,df_cpi,by=&quot;date&quot;)
+
+# crease real house price index by dividing by first observation (Jan 1975) and scaling by 100
+dt[, &quot;:=&quot;(real_hpi=100*Index_SA/first(Index_SA) / (price/first(price))),
+   by=c(&quot;GEO_Name&quot;,&quot;GEO_Type&quot;) # make sure to use by
+   ]
+
+dt2 &lt;- 
+  dt[date==max(date) &amp; GEO_Type==&quot;State&quot;,]  %&gt;% 
+  left_join(states,by=c(&quot;GEO_Name&quot;=&quot;state_abbv&quot;)) %&gt;%
+  data.table()
+
+# get delineation file (use April 2018 version)
+url1 &lt;- &quot;https://www2.census.gov/programs-surveys/metro-micro/geographies/reference-files/2018/delineation-files/list1.xls&quot;
+GET(url1, write_disk(tf &lt;- tempfile(fileext = &quot;.xls&quot;)))
+df &lt;- read_excel(tf,skip=2) #read in data from third row
+# get rid of nasty spacesess in colnames
+colnames(df) &lt;- gsub(&#39;([[:punct:]])|\\s+&#39;,&#39;_&#39;,names(df))
+
+# merge data 
+dt[date==max(date) &amp; GEO_Type==&quot;CBSA&quot;,] %&gt;% 
+  left_join(df, by=c(&quot;GEO_Code&quot;=&quot;CBSA_Code&quot;)) %&gt;% 
+  # on right assignment
+  # http://www.win-vector.com/blog/2016/12/the-case-for-using-in-r/comment-page-1/
+  data.table() -&gt; dt3  </code></pre>
+</details>
+</div>
+<div id="other-packages" class="section level3">
+<h3>Other Packages</h3>
+<p>I’ll also use the recently updated <a href="https://wilkelab.org/cowplot/index.html">cowplot</a> package and the <a href="https://github.com/clauswilke/colorblindr">colorblindr</a> package for the <code>scale_color_OkabeIto</code> and <code>scale_fill_OkabeIto</code> functions. Both of these packages are via Claus Wilke, the author of the excellent <a href="https://serialmentor.com/dataviz/index.html">Fundamentals of Data Visualization</a>.</p>
+<p>If you have trouble with installing colorblindr, you can drop the <code>scale_color_OkabeIto</code> and replace them with something else and the rest of the code should work.</p>
+</div>
+<div id="custom-color-scales" class="section level3">
+<h3>Custom Color Scales</h3>
+<p>Finally, we’ll create a custom color scale as described by <a href="https://twitter.com/drsimonj">[at]drsimonj</a> in this post <a href="https://drsimonj.svbtle.com/creating-corporate-colour-palettes-for-ggplot2">Creating corporate colour palettes for ggplot2</a>.</p>
+<details>
+<p><summary>Code for custom color scales</summary></p>
+<pre class="r"><code># Function for colors ----
+# adapted from https://drsimonj.svbtle.com/creating-corporate-colour-palettes-for-ggplot2
+#####################################################################################
+## Make Color Scale ----  ##
+#####################################################################################
+my_colors &lt;- c(
+  &quot;green&quot;      = rgb(103,180,75, maxColorValue = 256),
+  &quot;green2&quot;      = rgb(147,198,44, maxColorValue = 256),
+  &quot;lightblue&quot;  =  rgb(9, 177,240, maxColorValue = 256),
+  &quot;lightblue2&quot; = rgb(173,216,230, maxColorValue = 256),
+  &#39;blue&#39;       = &quot;#00aedb&quot;,
+  &#39;red&#39;        = &quot;#d11141&quot;,
+  &#39;orange&#39;     = &quot;#f37735&quot;,
+  &#39;yellow&#39;     = &quot;#ffc425&quot;,
+  &#39;gold&#39;       = &quot;#FFD700&quot;,
+  &#39;light grey&#39; = &quot;#cccccc&quot;,
+  &#39;purple&#39;     = &quot;#551A8B&quot;,
+  &#39;dark grey&#39;  = &quot;#8c8c8c&quot;)
+
+
+my_cols &lt;- function(...) {
+  cols &lt;- c(...)
+  if (is.null(cols))
+    return (my_colors)
+  my_colors[cols]
+}
+
+
+my_palettes &lt;- list(
+  `main`  = my_cols(&quot;blue&quot;, &quot;green&quot;, &quot;yellow&quot;),
+  `cool`  = my_cols(&quot;blue&quot;, &quot;green&quot;),
+  `cool2hot` = my_cols(&quot;lightblue2&quot;,&quot;lightblue&quot;, &quot;blue&quot;,&quot;green&quot;, &quot;green2&quot;,&quot;yellow&quot;,&quot;gold&quot;, &quot;orange&quot;, &quot;red&quot;),
+  `hot`   = my_cols(&quot;yellow&quot;, &quot;orange&quot;, &quot;red&quot;),
+  `mixed` = my_cols(&quot;lightblue&quot;, &quot;green&quot;, &quot;yellow&quot;, &quot;orange&quot;, &quot;red&quot;),
+  `mixed2` = my_cols(&quot;lightblue2&quot;,&quot;lightblue&quot;, &quot;green&quot;, &quot;green2&quot;,&quot;yellow&quot;,&quot;gold&quot;, &quot;orange&quot;, &quot;red&quot;),
+  `mixed3` = my_cols(&quot;lightblue2&quot;,&quot;lightblue&quot;, &quot;green&quot;, &quot;yellow&quot;,&quot;gold&quot;, &quot;orange&quot;, &quot;red&quot;),
+  `mixed4` = my_cols(&quot;lightblue2&quot;,&quot;lightblue&quot;, &quot;green&quot;, &quot;green2&quot;,&quot;yellow&quot;,&quot;gold&quot;, &quot;orange&quot;, &quot;red&quot;,&quot;purple&quot;),
+  `mixed5` = my_cols(&quot;lightblue&quot;,&quot;green&quot;, &quot;green2&quot;,&quot;yellow&quot;,&quot;gold&quot;, &quot;orange&quot;, &quot;red&quot;,&quot;purple&quot;,&quot;blue&quot;),
+  `mixed6` = my_cols(&quot;green&quot;, &quot;gold&quot;, &quot;orange&quot;, &quot;red&quot;,&quot;purple&quot;,&quot;blue&quot;),
+  `grey`  = my_cols(&quot;light grey&quot;, &quot;dark grey&quot;)
+)
+
+
+my_pal &lt;- function(palette = &quot;main&quot;, reverse = FALSE, ...) {
+  pal &lt;- my_palettes[[palette]]
+  
+  if (reverse) pal &lt;- rev(pal)
+  
+  colorRampPalette(pal, ...)
+}
+
+
+scale_color_mycol &lt;- function(palette = &quot;main&quot;, discrete = TRUE, reverse = FALSE, ...) {
+  pal &lt;- my_pal(palette = palette, reverse = reverse)
+  
+  if (discrete) {
+    discrete_scale(&quot;colour&quot;, paste0(&quot;my_&quot;, palette), palette = pal, ...)
+  } else {
+    scale_color_gradientn(colours = pal(256), ...)
+  }
+}
+
+
+
+scale_fill_mycol &lt;- function(palette = &quot;main&quot;, discrete = TRUE, reverse = FALSE, ...) {
+  pal &lt;- my_pal(palette = palette, reverse = reverse)
+  
+  if (discrete) {
+    discrete_scale(&quot;fill&quot;, paste0(&quot;my_&quot;, palette), palette = pal, ...)
+  } else {
+    scale_fill_gradientn(colours = pal(256), ...)
+  }
+}</code></pre>
+</details>
+</div>
+</div>
+<div id="national-real-house-price-trends" class="section level1">
+<h1>National Real House Price Trends</h1>
+<p>Let’s start by comparing trends in the U.S. house price index compared to the Consumer Price Index for all items less shelter.</p>
+<details>
+<p><summary>Code for first plot</summary></p>
+<pre class="r"><code>ggplot(data=dt[GEO_Type==&quot;US&quot;,], aes(x=date,y=100*Index_SA/first(Index_SA)))+
+  geom_line(aes(color=&quot;House Price&quot;),size=1.1)+
+  geom_line(aes(y=100*price/first(price), color=&quot;Consumer Prices Less Shelter&quot;),size=1.1)+
+  # if colorblindr doesn&#39;t work, swap in something like (using custom palette):
+  #   scale_color_mycol(palette=&quot;mixed&quot;,reverse=TRUE)+
+  colorblindr::scale_color_OkabeIto(name=&quot;Index&quot;)+
+  geom_ribbon(aes(ymax=100*Index_SA/first(Index_SA),ymin=100*price/first(price)),
+              color=NA,
+              fill=&quot;dodgerblue&quot;,alpha=0.25)+
+  scale_y_log10(breaks=c(75,100,200,400,800))+
+  # try new cowplot theme_minimal_hgrid theme
+  cowplot::theme_minimal_hgrid(font_size=12)+
+  theme(legend.position=&quot;top&quot;,
+        plot.caption=element_text(hjust=0,
+                                  # shrink relative to caption text size
+                                  size=rel(0.65)
+                                  ))+
+  labs(y=&quot;Index, log scale&quot;,title=&quot;U.S. Nominal Prices: Jan1975-May2019&quot;,
+       subtitle=&quot;Shaded area is real house price appreciation&quot; ,
+       caption=&quot;@lenkiefer Source: Freddie Mac House Price Index for the United states (seasonally adjusted)\nU.S. Bureau of Labor Statistics, Consumer Price Index for All Urban Consumers: All items less shelter [CUUR0000SA0L2]&quot;)</code></pre>
+<p><img src="/post/2019-07-13-real-house-price-trends_files/figure-html/2019-07-013-plot1-1.png" width="672" /></p>
+<p><em>Plot repeats below outside the fold.</em></p>
+</details>
+<p><img src="../../../../img/charts_jul_13_2019/fmhpi_july2019_index1.png" style="width:700px"></p>
+<p>We see that from the mid 70s to the early 80s both nominal prices rose rapidly as the US experienced high levels of inflation. As the disinflation of the early 80s took hold both indices flattened out, though they both tended to rise over time. House prices in general outpaces consumer prices excluding shelter. The shaded area between the two indices represents the increase in real house prices.</p>
+<p>We can plot it:</p>
+<details>
+<p><summary>Code for second plot</summary></p>
+<pre class="r"><code>ggplot(data=dt[GEO_Type==&quot;US&quot;,], aes(x=date,y=real_hpi))+
+  geom_line(aes(color=&quot;Real House Price Index (Jan 1975=100)&quot;),size=1.1)+
+  colorblindr::scale_color_OkabeIto(name=&quot;Index&quot;,order=2:1)+
+  geom_ribbon(aes(ymax=real_hpi,ymin=100),
+              color=NA,
+              fill=&quot;dodgerblue&quot;,alpha=0.25)+
+  scale_y_log10(breaks=c(75,100,150,200))+
+  cowplot::theme_minimal_hgrid()+
+  theme(legend.position=&quot;top&quot;,
+        plot.caption=element_text(hjust=0,
+                                  size=rel(0.65)))+
+  labs(y=&quot;Index, log scale&quot;,title=&quot;U.S. Real House Prices: Jan1975-May2019&quot;,
+       subtitle=&quot;Shaded area is real house price appreciation&quot; ,
+       caption=&quot;@lenkiefer Source: Freddie Mac House Price Index for the United states (seasonally adjusted) deflated by \nU.S. Bureau of Labor Statistics, Consumer Price Index for All Urban Consumers: All items less shelter [CUUR0000SA0L2]&quot;)</code></pre>
+<p><img src="/post/2019-07-13-real-house-price-trends_files/figure-html/2019-07-013-plot2-1.png" width="672" /></p>
+<p><em>Plot repeats below outside the fold.</em></p>
+</details>
+<p><img src="../../../../img/charts_jul_13_2019/fmhpi_july2019_index2.png" style="width:700px"></p>
+<p>This plot shows that real house prices are almost back to their prior peak, rising rapidly since 2012.</p>
+<p>But let’s consider how it varies over space, first by states, and then by metros.</p>
+<div id="state-trends" class="section level2">
+<h2>State trends</h2>
+<p>We can follow our earlier post <a href="../../../../2018/08/20/facets-in-space-and-time/">facets in time and space</a> to use the <a href="https://github.com/hafen/geofacet">geofacet</a> package and make a small multiple line chart arranged roughly in line with geography.</p>
+<details>
+<p><summary>Code for third plot</summary></p>
+<pre class="r"><code>ggplot(data=dt[GEO_Type==&quot;State&quot;,], aes(x=date,y=real_hpi,ymin=100,ymax=real_hpi))+
+  geom_ribbon(alpha=0.25,fill=&quot;dodgerblue&quot;,color=NA)+
+  geom_line(color=&quot;dodgerblue&quot;)+
+  scale_y_log10(breaks=c(50,75,100,200,400))+
+  facet_geo(~GEO_Name)+
+  theme_minimal(base_size=8)+
+  theme(axis.text.x=element_text(size=rel(0.75)),
+        plot.caption=element_text(hjust=0))+
+  labs(title=&quot;Real House Price Growth over 44 Years&quot;,
+       y=&quot;Real House Price Index (Jan 1975=100, log scale)&quot;,
+       subtitle=&quot;Strongest on the coasts&quot;,
+       caption=&quot;@lenkiefer Source: Freddie Mac House Price Index by State (seasonally adjusted), deflated by\nU.S. Bureau of Labor Statistics, Consumer Price Index for All Urban Consumers: All items less shelter [CUUR0000SA0L2]&quot;)</code></pre>
+<p><img src="/post/2019-07-13-real-house-price-trends_files/figure-html/2019-07-013-plot3-1.png" width="960" /></p>
+<p><em>Plot repeats below outside the fold.</em></p>
+</details>
+<p><img src="../../../../img/charts_jul_13_2019/fmhpi_july2019_geofacet.png" style="width:700px"></p>
+<p>This plot shows that price growth was strongest on the coasts, particularly the west coast.</p>
+<p>Let’s focus on the cumulative growth since 1975 by state. We can plot a chorpleth map for the states.</p>
+<details>
+<p><summary>Code for fourth plot</summary></p>
+<pre class="r"><code>#note, drop DC from Choropleth map
+ggplot(dt[GEO_Name !=&quot;DC&quot; &amp; GEO_Type==&quot;State&quot; &amp;
+            date %in% as.Date(c(&quot;2019-05-01&quot;)),] %&gt;%
+         left_join(states,by=c(&quot;GEO_Name&quot;=&quot;state_abbv&quot;)) %&gt;%
+         data.table(),
+       mapping = aes(long, lat, group = group, fill = log(real_hpi))) +
+  geom_polygon(color = &quot;#ffffff&quot;, size = .25) +
+  coord_map(projection = &quot;albers&quot;, lat0 = 39, lat1 = 45) +
+  theme(legend.title = element_text(),
+        legend.key.width = unit(.5, &quot;in&quot;)) +
+  labs(fill = &quot;Real House Price Growth\nSince January 1975&quot;) +
+  cowplot::theme_map()+
+  scale_fill_mycol(palette=&quot;cool2hot&quot;,discrete=FALSE,
+                   breaks=c(log(50),log(100),log(200),log(400)),
+                   labels=c(&quot;-50%&quot;,&quot;0%&quot;,&quot;+100%&quot;,&quot;+200%&quot;),
+                   limits=c(log(50),log(400)))+
+  labs(title=&quot;Real House Price Growth over 44 Years&quot;,
+       subtitle=&quot;Strongest on the coasts&quot;,
+       caption=&quot;@lenkiefer Source: Freddie Mac House Price Index by State (seasonally adjusted), deflated by\nU.S. Bureau of Labor Statistics, Consumer Price Index for All Urban Consumers: All items less shelter [CUUR0000SA0L2]&quot;)+
+  theme(legend.position=&quot;top&quot;,
+        plot.caption=element_text(hjust=0,
+                                  size=rel(0.6)),
+        legend.key.width=unit(2,&quot;cm&quot;))+facet_wrap(~date)</code></pre>
+<p><img src="/post/2019-07-13-real-house-price-trends_files/figure-html/2019-07-013-plot4-1.png" width="672" />
+<em>Plot repeats below outside the fold.</em></p>
+</details>
+<p><img src="../../../../img/charts_jul_13_2019/fmhpi_july2019_State1.png" style="width:700px"></p>
+<p>Now we could remix our plot to display a small multiple map comparing several points in time.</p>
+<details>
+<p><summary>Code for fifth plot</summary></p>
+<pre class="r"><code>ggplot(dt[GEO_Name !=&quot;DC&quot; &amp; GEO_Type==&quot;State&quot; &amp;
+            date %in% as.Date(c(&quot;1975-01-01&quot;,&quot;1985-01-01&quot;,&quot;1995-01-01&quot;,&quot;
+                                2005-01-01&quot;,&quot;2010-01-01&quot;,
+                                &quot;2015-01-01&quot;,&quot;2019-05-01&quot;)),] %&gt;%
+         left_join(states,by=c(&quot;GEO_Name&quot;=&quot;state_abbv&quot;)) %&gt;%
+         data.table(),
+       mapping = aes(long, lat, group = group, fill = log(real_hpi))) +
+  geom_polygon(color = &quot;#ffffff&quot;, size = .25) +
+  coord_map(projection = &quot;albers&quot;, lat0 = 39, lat1 = 45) +
+  theme(legend.title = element_text(),
+        legend.key.width = unit(.5, &quot;in&quot;)) +
+  labs(fill = &quot;Real House Price Growth Since January 1975&quot;) +
+  cowplot::theme_map()+
+  scale_fill_mycol(palette=&quot;cool2hot&quot;,discrete=FALSE,
+                   breaks=c(log(50),log(100),log(200),log(400)),
+                   labels=c(&quot;-50%&quot;,&quot;0%&quot;,&quot;+100%&quot;,&quot;+200%&quot;),
+                   limits=c(log(50),log(400)))+
+  labs(title=&quot;Real House Price Growth over 44 Years&quot;,
+       subtitle=&quot;Strongest on the coasts&quot;,
+       caption=&quot;@lenkiefer Source: Freddie Mac House Price Index by State (seasonally adjusted), deflated by\nU.S. Bureau of Labor Statistics, Consumer Price Index for All Urban Consumers: All items less shelter [CUUR0000SA0L2]&quot;)+
+  theme(legend.position=&quot;top&quot;,
+        plot.caption=element_text(hjust=0,
+                                  size=rel(0.6)),
+        legend.key.width=unit(2,&quot;cm&quot;))+facet_wrap(~date)</code></pre>
+<p><img src="/post/2019-07-13-real-house-price-trends_files/figure-html/2019-07-013-plot5-1.png" width="672" /></p>
+<p><em>Plot repeats below outside the fold.</em></p>
+</details>
+<p>There you can see the gradual buildup in real prices over time.</p>
+<p><img src="../../../../img/charts_jul_13_2019/fmhpi_july2019_State.png" style="width:700px"></p>
+<div id="msa-trends" class="section level3">
+<h3>MSA trends</h3>
+<p>But the state obscures dynamics within states, particularly large states like California, or Texas.</p>
+<p>Let’s repeat our maps, but using MSA instead of state.</p>
+<p><img src="../../../../img/charts_jul_13_2019/fmhpi_july2019_v2.png" style="width:700px"></p>
+<p>Here you can see the heterogeneity within California and Texas. In California the Bay Area is dark red with strong real house price growth, while the interior of the state is greenish representing much milder house price growth. Most of Texas is green, but Austin lights up in bright orange.</p>
+<p>Zooming in on California, Texas.</p>
+<p><img src="../../../../img/charts_jul_13_2019/fmhpi_july2019_ca.png" style="width:700px"></p>
+<p><img src="../../../../img/charts_jul_13_2019/fmhpi_july2019_tx.png" style="width:700px"></p>
+<p>And as above with states, we could do a small multiple map.</p>
+<p><img src="../../../../img/charts_jul_13_2019/fmhpi_july2019.png" style="width:700px"></p>
+<details>
+<p><summary>Code for MSA maps</summary></p>
+<pre class="r"><code>dt[date %in% as.Date(c(&quot;1975-01-01&quot;,&quot;1985-01-01&quot;,&quot;1995-01-01&quot;,&quot;2005-01-01&quot;,&quot;2015-01-01&quot;,&quot;2019-05-01&quot;)) &amp; GEO_Type==&quot;CBSA&quot;,] %&gt;% left_join(df, by=c(&quot;GEO_Code&quot;=&quot;CBSA_Code&quot;)) %&gt;% 
+  data.table() -&gt; dt4
+
+
+dt4 %&gt;% 
+  mutate(county_fips=paste0(str_pad(FIPS_State_Code,2,&quot;left&quot;,&quot;0&quot;),
+                            str_pad(FIPS_County_Code,3,&quot;left&quot;,&quot;0&quot;))) %&gt;% 
+  left_join(counties, by = c(&quot;county_fips&quot;)) %&gt;% 
+  #filter(state_name ==&quot;California&quot;) %&gt;% 
+  ggplot(mapping = aes(long, lat, group = group, fill = log(real_hpi))) +
+  geom_polygon(#color = &quot;#ffffff&quot;,
+    size = .25) +
+  geom_polygon(data=states, aes(long,lat,group=group),fill=NA,color=&quot;lightgray&quot;,size=0.25)+
+  #scale_fill_gradientn(labels = scales::percent,                       guide = guide_colorbar(title.position = &quot;top&quot;)) +
+  coord_map(projection = &quot;albers&quot;, lat0 = 39, lat1 = 45) +
+  theme(legend.title = element_text(),
+        legend.key.width = unit(.5, &quot;in&quot;)) +
+  labs(fill = &quot;Real House Price Growth Since January 1975&quot;) +
+  cowplot::theme_map()+
+  scale_fill_mycol(palette=&quot;cool2hot&quot;,discrete=FALSE,
+                   breaks=c(log(50),log(100),log(200),log(400)),
+                   labels=c(&quot;-50%&quot;,&quot;0%&quot;,&quot;+100%&quot;,&quot;+300%&quot;))+
+  labs(title=&quot;Real House Price Growth over 44 Years&quot;,
+       subtitle=&quot;Strongest on the coasts&quot;,
+       caption=&quot;@lenkiefer Source: Freddie Mac House Price Index by MSA (seasonally adjusted), deflated by\nU.S. Bureau of Labor Statistics, Consumer Price Index for All Urban Consumers: All items less shelter [CUUR0000SA0L2]&quot;)+
+  theme(legend.position=&quot;top&quot;,
+        plot.caption=element_text(hjust=0,
+                                  size=rel(0.6)),
+        legend.key.width=unit(2,&quot;cm&quot;))+facet_wrap(~date)</code></pre>
+<p><img src="/post/2019-07-13-real-house-price-trends_files/figure-html/2019-07-013-plot6-1.png" width="672" /></p>
+<pre class="r"><code># Small multiple
+
+dt4 %&gt;% 
+  filter(date==as.Date(&quot;2019-05-01&quot;)) %&gt;% 
+  mutate(county_fips=paste0(str_pad(FIPS_State_Code,2,&quot;left&quot;,&quot;0&quot;),
+                            str_pad(FIPS_County_Code,3,&quot;left&quot;,&quot;0&quot;))) %&gt;% 
+  left_join(counties, by = c(&quot;county_fips&quot;)) %&gt;% 
+  #filter(state_name ==&quot;California&quot;) %&gt;% 
+  ggplot(mapping = aes(long, lat, group = group, fill = log(real_hpi))) +
+  geom_polygon(#color = &quot;#ffffff&quot;,
+    size = .25) +
+  geom_polygon(data=states, aes(long,lat,group=group),fill=NA,color=&quot;lightgray&quot;,size=0.25)+
+  #scale_fill_gradientn(labels = scales::percent,                       guide = guide_colorbar(title.position = &quot;top&quot;)) +
+  coord_map(projection = &quot;albers&quot;, lat0 = 39, lat1 = 45) +
+  theme(legend.title = element_text(),
+        legend.key.width = unit(.5, &quot;in&quot;)) +
+  labs(fill = &quot;Real House Price Growth Since January 1975&quot;) +
+  cowplot::theme_map()+
+  scale_fill_mycol(palette=&quot;cool2hot&quot;,discrete=FALSE,
+                   breaks=c(log(50),log(100),log(200),log(400)),
+                   labels=c(&quot;-50%&quot;,&quot;0%&quot;,&quot;+100%&quot;,&quot;+300%&quot;))+
+  labs(title=&quot;Real House Price Growth over 44 Years&quot;,
+       subtitle=&quot;Strongest on the coasts&quot;,
+       caption=&quot;@lenkiefer Source: Freddie Mac House Price Index by MSA (seasonally adjusted), deflated by\nU.S. Bureau of Labor Statistics, Consumer Price Index for All Urban Consumers: All items less shelter [CUUR0000SA0L2]&quot;)+
+  theme(legend.position=&quot;top&quot;,
+        plot.caption=element_text(hjust=0,
+                                  size=rel(0.6)),
+        legend.key.width=unit(2,&quot;cm&quot;))+facet_wrap(~date)</code></pre>
+<p><img src="/post/2019-07-13-real-house-price-trends_files/figure-html/2019-07-013-plot6-2.png" width="672" /></p>
+<pre class="r"><code># CA map ----
+
+dt4 %&gt;% 
+  filter(date==as.Date(&quot;2019-05-01&quot;)) %&gt;% 
+  mutate(county_fips=paste0(str_pad(FIPS_State_Code,2,&quot;left&quot;,&quot;0&quot;),
+                            str_pad(FIPS_County_Code,3,&quot;left&quot;,&quot;0&quot;))) %&gt;% 
+  left_join(counties, by = c(&quot;county_fips&quot;)) %&gt;% 
+  filter(state_name ==&quot;California&quot;) %&gt;% 
+  ggplot(mapping = aes(long, lat, group = group, fill = log(real_hpi))) +
+  geom_polygon(#color = &quot;#ffffff&quot;,
+    size = .25) +
+  geom_polygon(data=filter(states,state_name==&quot;California&quot;), aes(long,lat,group=group),fill=NA,color=&quot;lightgray&quot;,size=0.25)+
+  #scale_fill_gradientn(labels = scales::percent,                       guide = guide_colorbar(title.position = &quot;top&quot;)) +
+  coord_map(projection = &quot;albers&quot;, lat0 = 39, lat1 = 45) +
+  theme(legend.title = element_text(),
+        legend.key.width = unit(.5, &quot;in&quot;)) +
+  labs(fill = &quot;Real House Price Growth Since January 1975&quot;) +
+  cowplot::theme_map()+
+  scale_fill_mycol(palette=&quot;cool2hot&quot;,discrete=FALSE,
+                   limits=c(log(35),log(605)),
+                   breaks=c(log(50),log(100),log(200),log(400)),
+                   labels=c(&quot;-50%&quot;,&quot;0%&quot;,&quot;+100%&quot;,&quot;+300%&quot;))+
+  labs(title=&quot;Real House Price Growth over 44 Years&quot;,
+       subtitle=&quot;Strongest on the coasts&quot;,
+       caption=&quot;@lenkiefer Source: Freddie Mac House Price Index by MSA (seasonally adjusted), deflated by\nU.S. Bureau of Labor Statistics, Consumer Price Index for All Urban Consumers: All items less shelter [CUUR0000SA0L2]&quot;)+
+  theme(legend.position=&quot;top&quot;,
+        plot.caption=element_text(hjust=0),
+        legend.key.width=unit(2,&quot;cm&quot;))+facet_wrap(~date)</code></pre>
+<p><img src="/post/2019-07-13-real-house-price-trends_files/figure-html/2019-07-013-plot6-3.png" width="672" /></p>
+<pre class="r"><code># TX Map ---- 
+
+dt4 %&gt;% 
+  filter(date==as.Date(&quot;2019-05-01&quot;)) %&gt;% 
+  mutate(county_fips=paste0(str_pad(FIPS_State_Code,2,&quot;left&quot;,&quot;0&quot;),
+                            str_pad(FIPS_County_Code,3,&quot;left&quot;,&quot;0&quot;))) %&gt;% 
+  left_join(counties, by = c(&quot;county_fips&quot;)) %&gt;% 
+  filter(state_name ==&quot;Texas&quot;) %&gt;% 
+  ggplot(mapping = aes(long, lat, group = group, fill = log(real_hpi))) +
+  geom_polygon(#color = &quot;#ffffff&quot;,
+    size = .25) +
+  geom_polygon(data=filter(states,state_name==&quot;Texas&quot;), aes(long,lat,group=group),fill=NA,color=&quot;lightgray&quot;,size=0.25)+
+  #scale_fill_gradientn(labels = scales::percent,                       guide = guide_colorbar(title.position = &quot;top&quot;)) +
+  coord_map(projection = &quot;albers&quot;, lat0 = 39, lat1 = 45) +
+  theme(legend.title = element_text(),
+        legend.key.width = unit(.5, &quot;in&quot;)) +
+  labs(fill = &quot;Real House Price Growth Since January 1975&quot;) +
+  cowplot::theme_map()+
+  scale_fill_mycol(palette=&quot;cool2hot&quot;,discrete=FALSE,
+                   limits=c(log(35),log(605)),
+                   breaks=c(log(50),log(100),log(200),log(400)),
+                   labels=c(&quot;-50%&quot;,&quot;0%&quot;,&quot;+100%&quot;,&quot;+300%&quot;))+
+  labs(title=&quot;Real House Price Growth over 44 Years&quot;,
+       subtitle=&quot;Strongest on the coasts&quot;,
+       caption=&quot;@lenkiefer Source: Freddie Mac House Price Index by MSA (seasonally adjusted), deflated by\nU.S. Bureau of Labor Statistics, Consumer Price Index for All Urban Consumers: All items less shelter [CUUR0000SA0L2]&quot;)+
+  theme(legend.position=&quot;top&quot;,
+        plot.caption=element_text(hjust=0),
+        legend.key.width=unit(2,&quot;cm&quot;))+facet_wrap(~date)</code></pre>
+<img src="/post/2019-07-13-real-house-price-trends_files/figure-html/2019-07-013-plot6-4.png" width="672" />
+</details>
+</div>
+</div>
+</div>
+<div id="discussion" class="section level1">
+<h1>Discussion</h1>
+<p>The trends in real house prices are persistent and reflect long-term trends in economic growth. Housing markets in inelastically supplied areas (like the Bay Area) are even more sensitive to economic growth. Areas with strong income growth but inelastic housing supply experience rapid increases in real house prices as more competition over a relativley fixed supply of housing bids up values.</p>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2019/07/09/epop-becomes-fedspeak/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2019/07/09/epop-becomes-fedspeak/">EPOP becomes Fedspeak</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/r/">R</a>, 
+            
+                <a href="/tags/data/">data</a>, 
+            
+                <a href="/tags/house-prices/">house prices</a>, 
+            
+                <a href="/tags/maps/">maps</a>, 
+            
+                <a href="/tags/dataviz/">dataviz</a>, 
+            
+                <a href="/tags/data-wrangling/">data wrangling</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2019%2f07%2f13%2freal-house-price-trends%2f&text=Real%20House%20Price%20Trends via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2019%2f07%2f13%2freal-house-price-trends%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+
