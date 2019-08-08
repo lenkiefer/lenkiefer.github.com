@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="We put a spin on plotting the U.S. Treasury Yield Curve.">
+  <meta name="generator" content="Hugo 0.52" />
+
+  <title>Crazy Yield Curve Charts &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/charts_aug_07_2019/yc_crazy.png" >
+     
+    <meta property="og:title" content="Crazy Yield Curve Charts">
+    <meta property="og:description" content="We put a spin on plotting the U.S. Treasury Yield Curve.">
+
+<div class="header">
+  <h1>Crazy Yield Curve Charts</h1>
+  <h2>We put a spin on plotting the U.S. Treasury Yield Curve.</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2019/08/07</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/economy">economy</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+
+
+<p>Earlier today I tweeted out some yield curve charts. I won’t go into great detail into the why, but here I will share some <a href="https://www.r-project.org/">R</a> code to make the charts.</p>
+<p>My Thread:</p>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">hope you all are ready for some crazy yield curve charts, cuz you&#39;re about to get some crazy yield curve charts</p>&mdash; Leonard Kiefer (@lenkiefer) <a href="https://twitter.com/lenkiefer/status/1159220045114949633?ref_src=twsrc%5Etfw">August 7, 2019</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>We can get Treasury yield curve data from the U.S. Treasury <a href="https://www.treasury.gov/resource-center/data-chart-center/interest-rates/Pages/TextView.aspx?data=yield">here</a> but for plotting purposes it’s easier to grab the data from <a href="https://fred.stlouisfed.org/">FRED</a>.</p>
+<p>First get data</p>
+<pre class="r"><code>#
+library(tidyverse)
+library(cowplot)
+library(gifski)
+library(gganimate)
+library(tweenr)
+# tickers
+
+tickers &lt;- c(#&quot;T10Y3MM&quot;,
+             #&quot;T10Y2YM&quot;,
+             &quot;GS10&quot;,
+             &quot;GS2&quot;,
+             &quot;TB3MS&quot;,
+             &quot;USREC&quot;)
+
+df &lt;- tidyquant::tq_get(tickers,get=&quot;economic.data&quot;,from=&quot;1953-01-01&quot;)</code></pre>
+<p>Then do a bit of wrangling:</p>
+<pre class="r"><code>df2 &lt;- 
+  df %&gt;% 
+  spread(symbol,price) %&gt;% 
+  mutate(rec12=lead(USREC,12),
+         T10Y3MM=GS10-TB3MS,
+         T10Y2YM=GS10-GS2) 
+
+df_rec &lt;- filter(df, symbol==&quot;USREC&quot;) %&gt;% 
+  mutate(rec12=lead(price,12)) %&gt;% 
+  mutate(recind=ifelse(rec12==1,&quot;Recession in 12 months&quot;,&quot;No Recession in 12 months&quot;))
+
+df3 &lt;- df2 %&gt;%
+  select(date,T10Y3MM,T10Y2YM) %&gt;%
+  gather(symbol,price,-date) %&gt;% 
+  mutate(var=case_when(symbol==&quot;T10Y3MM&quot;~ &quot;Spread 10-year minus 3-month Treasury&quot;,
+                       symbol==&quot;T10Y2YM&quot;~ &quot;Spread 10-year minus 2-year Treasury&quot;,
+                       T ~ &quot;Recession Indicator&quot;)) %&gt;%
+  left_join(select(df_rec, date,recind), by=&quot;date&quot;) %&gt;% 
+  # hard coded based on Treasury data from August 7, 2019
+  # https://www.treasury.gov/resource-center/data-chart-center/interest-rates/Pages/TextView.aspx?data=yield
+  mutate(vlast = ifelse(symbol==&quot;T10Y3MM&quot;,-0.31, 0.12))</code></pre>
+<p>Make plots:</p>
+<pre class="r"><code>ggplot(data=filter(df3,!is.na(recind)), aes(x=price, fill=recind,color=recind))+
+  geom_density(alpha=0.5,color=NA)+
+  facet_wrap(recind~var)+
+  geom_rug(sides=&quot;b&quot;,alpha=0.25)+
+  scale_fill_manual(name=&quot;Recession 12 months from now? &quot;,values=c(&quot;#4575b4&quot;,&quot;#d73027&quot;))+
+  scale_color_manual(name=&quot;Recession 12 months from now? &quot;,values=c(&quot;#4575b4&quot;,&quot;#d73027&quot;))+
+  scale_x_continuous(breaks=seq(-10,10,1))+
+  theme_minimal_vgrid()+
+  geom_vline(aes(xintercept=vlast), linetype=2)+
+  geom_text(data=. %&gt;% filter(date==max(date)),color=&quot;black&quot;,hjust=1,
+            aes(y=0.2,label=paste0(&quot;August 7, 2019: &quot;, vlast,&quot; &quot;), x=vlast))+
+  labs(x=&quot;Spread in percentage points&quot;,y=&quot;Empirical Density Function&quot;,
+       title=&quot;U.S. Treasury Yield Curve and Recessions&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Treasury, monthly averages, NBER recessions&quot;)+
+  theme(legend.position=&quot;top&quot;,
+        plot.caption=element_text(hjust=0),
+        plot.title=element_text(face=&quot;bold&quot;),
+        strip.text=element_text(face=&quot;bold&quot;))</code></pre>
+<pre><code>## Warning: Removed 284 rows containing non-finite values (stat_density).</code></pre>
+<p><img src="/post/2019-08-07-crazy-yield-curve-charts_files/figure-html/2019-08-07-plot-1-1.png" width="960" /></p>
+<p>We can also plot the cumulative density. This tells us what fraction of the time the yield curve slope was less than or equal to a specific value 12-months ahead of a recession.</p>
+<pre class="r"><code>ggplot(data=filter(df3,!is.na(recind)), aes(x=price, fill=recind,color=recind))+
+  # cumulative density
+  stat_ecdf(alpha=0.3,geom=&quot;area&quot;,color=NA)+
+  stat_ecdf(alpha=1,geom=&quot;line&quot;)+
+  facet_wrap(recind~var)+
+  geom_rug(sides=&quot;b&quot;,alpha=0.25)+
+  scale_fill_manual(name=&quot;Recession 12 months from now? &quot;,values=c(&quot;#4575b4&quot;,&quot;#d73027&quot;))+
+  scale_color_manual(name=&quot;Recession 12 months from now? &quot;,values=c(&quot;#4575b4&quot;,&quot;#d73027&quot;))+
+  scale_x_continuous(breaks=seq(-10,10,1))+
+  theme_minimal_vgrid()+
+  geom_vline(aes(xintercept=vlast), linetype=2)+
+  geom_text(data=. %&gt;% filter(date==max(date)),color=&quot;black&quot;,hjust=1,
+            aes(y=0.2,label=paste0(&quot;August 7, 2019: &quot;, vlast,&quot; &quot;), x=vlast))+
+  labs(x=&quot;Spread in percentage points&quot;,y=&quot;Cumulative Empirical Density: Pr(X&lt;=Y)&quot;,
+       title=&quot;U.S. Treasury Yield Curve and Recessions&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Treasury, monthly averages, NBER recessions&quot;)+
+  theme(legend.position=&quot;top&quot;,
+        plot.caption=element_text(hjust=0),
+        plot.title=element_text(face=&quot;bold&quot;),
+        strip.text=element_text(face=&quot;bold&quot;))</code></pre>
+<pre><code>## Warning: Removed 284 rows containing non-finite values (stat_ecdf).
+
+## Warning: Removed 284 rows containing non-finite values (stat_ecdf).</code></pre>
+<p><img src="/post/2019-08-07-crazy-yield-curve-charts_files/figure-html/2019-08-07-plot-2-1.png" width="960" /></p>
+<div id="animate-it" class="section level1">
+<h1>Animate it!</h1>
+<p>We can animate these plots after modification using <a href="https://CRAN.R-project.org/package=gifski">gifski</a> and <a href="https://CRAN.R-project.org/package=tweenr">tweenr</a>.</p>
+<p><img src="../../../../img/charts_aug_07_2019/yc10y2y.gif" style="width:700px"></p>
+<p><img src="../../../../img/charts_aug_07_2019/yc10y3m.gif" style="width:700px"></p>
+<pre class="r"><code>df7 &lt;- df3 %&gt;% filter(!is.na(price), !is.na(recind)) %&gt;%
+  mutate(ind=ifelse(recind==&quot;No Recession in 12 months&quot;,1,0))
+
+
+myxy2&lt;- function(rr=1, in.df=df7,vv=&quot;T10Y2YM&quot;){
+  x&lt;-filter(in.df, ind==ifelse(rr==1,-1,0),symbol=vv)$price
+  outdf&lt;- data.frame(
+    x=density(x)$x[which.max(density(x)$y)],  #find maximum density (in y dimension)
+    y=max(density(x)$y,na.rm=T)
+  )
+}
+
+
+myxy &lt;- function(rr=1,in.df=df7,vv=&quot;T10Y2YM&quot;, N= 600){
+  if (rr== -1) {rr=c(0,1)}
+  x&lt;-filter(in.df, ind %in% rr,symbol==vv)$price
+  outdf&lt;- data.frame(
+    x=density(x,n=N)$x,  #find maximum density (in y dimension)
+    y=density(x,n=N)$y,
+    ind=case_when(rr==1~-1,
+                  rr==0~1),
+    rind=case_when(rr==1~&quot;Recession in 12 months&quot;,
+                   rr==0 ~&quot;No Recession in 12 months&quot;,
+                   T ~ &quot;All months&quot;))
+  }
+
+df8a &lt;-   bind_rows(myxy(1),myxy(0)) %&gt;% mutate(rind=&quot;All&quot;,ind=0)
+df8b &lt;-   myxy(-1,N=1200) %&gt;% mutate(rind=&quot;All&quot;,ind=0)
+df8 &lt;- 
+  bind_rows(df8b) %&gt;%
+  keep_state(30) %&gt;%
+  tween_state(  bind_rows(myxy(1),myxy(0)),&#39;linear&#39;,20) %&gt;%
+  keep_state(50)
+
+myplot2&lt;- function(i=1){
+  ggplot(data=filter(df8,.frame==i), aes(x=x,y=y,fill=ind,group=paste0(rind,&quot;:&quot;,ind)))+
+    geom_area(alpha=0.55,color=NA)+
+    scale_fill_gradient2(name=&quot;Recession 12 months from now?   &quot;,limits=c(-1,1),
+                         breaks=c(-1,0,1),labels=c(&quot;No Recession&quot;, &quot;All points&quot;, &quot;Recession&quot;),
+                         low=&quot;#4575b4&quot;,mid=&quot;gray&quot;,high=&quot;#d73027&quot;)+
+    scale_color_gradient2(name=&quot;Recession 12 months from now?   &quot;,limits=c(-1,1),
+                          breaks=c(-1,0,1),labels=c(&quot;No Recession&quot;, &quot;All points&quot;, &quot;Recession&quot;),
+                          low=&quot;#4575b4&quot;,mid=&quot;gray&quot;,high=&quot;#d73027&quot;)+
+    scale_x_continuous(breaks=seq(-5,5,1),limits=c(-5.5,5.5))+
+    scale_y_continuous(limits=c(0,0.76))+
+    theme_minimal_vgrid()+
+    labs(x=&quot;Spread in percentage points&quot;,y=&quot;Empirical Density Function&quot;,
+         title=&quot;U.S. Treasury Yield Curve: 10-year minus 2-year Constant Maturity Yield&quot;,
+         caption=&quot;@lenkiefer Source: U.S. Treasury, monthly averages, NBER recessions&quot;)+
+    theme(legend.position=&quot;top&quot;,
+          legend.key.width=unit(2,&quot;cm&quot;),
+          plot.caption=element_text(hjust=0),
+          plot.title=element_text(face=&quot;bold&quot;),
+          strip.text=element_text(face=&quot;bold&quot;))+
+    geom_vline(data=filter(df3,date==max(date),symbol==&quot;T10Y2YM&quot;), inherit.aes=FALSE,aes(xintercept=vlast), linetype=2)+
+    geom_text(data=df3 %&gt;% filter(date==max(date), symbol==&quot;T10Y2YM&quot;),color=&quot;black&quot;,hjust=1,inherit.aes=FALSE,
+              aes(x=vlast,y=0.2,label=paste0(&quot;August 7, 2019: &quot;, vlast,&quot; &quot;)))
+}
+
+N2&lt;- max(df8$.frame)
+
+t1 &lt;-Sys.time()
+gif_file &lt;- save_gif({for (i in seq((1):N2)){  
+  g&lt;- myplot2(i)+ guides(fill = guide_legend(reverse=T))
+  print(g)
+  print(paste(i,&quot;out of&quot;,N2))
+}
+  for (ii in 1:1){
+    print(g)
+    print(paste(ii,&quot;out of&quot;,30))
+  }
+  # Set mydir to some place to store your ouptut file
+}, gif_file= paste0(mydir,&quot;/yc10y2y.gif&quot;),width = 900, height = 600, res = 92, delay=1/20)
+t2 &lt;- Sys.time()
+t2-t1
+
+df9a &lt;-   bind_rows(myxy(1,vv=&quot;T10Y3MM&quot;),myxy(0,vv=&quot;T10Y3MM&quot;)) %&gt;% mutate(rind=&quot;All&quot;,ind=0)
+df9b &lt;-   myxy(-1,N=1200,vv=&quot;T10Y3MM&quot;) %&gt;% mutate(rind=&quot;All&quot;,ind=0)
+df9 &lt;- 
+  bind_rows(df9b) %&gt;%
+  keep_state(30) %&gt;%
+  tween_state(  bind_rows(myxy(1,vv=&quot;T10Y3MM&quot;),myxy(0,vv=&quot;T10Y3MM&quot;)),&#39;linear&#39;,20) %&gt;%
+  keep_state(50)
+
+
+myplot3&lt;- function(i=1){
+  ggplot(data=filter(df9,.frame==i), aes(x=x,y=y,fill=ind,group=paste0(rind,&quot;:&quot;,ind)))+
+    geom_area(alpha=0.55,color=NA)+
+
+    scale_fill_gradient2(name=&quot;Recession 12 months from now?   &quot;,limits=c(-1,1),
+                         breaks=c(-1,0,1),labels=c(&quot;No Recession&quot;, &quot;All points&quot;, &quot;Recession&quot;),
+                         low=&quot;#4575b4&quot;,mid=&quot;gray&quot;,high=&quot;#d73027&quot;)+
+    scale_color_gradient2(name=&quot;Recession 12 months from now?   &quot;,limits=c(-1,1),
+                          breaks=c(-1,0,1),labels=c(&quot;No Recession&quot;, &quot;All points&quot;, &quot;Recession&quot;),
+                          low=&quot;#4575b4&quot;,mid=&quot;gray&quot;,high=&quot;#d73027&quot;)+
+    scale_x_continuous(breaks=seq(-5,5,1),limits=c(-5.5,5.5))+
+    scale_y_continuous(limits=c(0,0.6))+
+    theme_minimal_vgrid()+
+    labs(x=&quot;Spread in percentage points&quot;,y=&quot;Empirical Density Function&quot;,
+         title=&quot;U.S. Treasury Yield Curve: 10-year minus 3-month Constant Maturity Yield&quot;,
+         caption=&quot;@lenkiefer Source: U.S. Treasury, monthly averages, NBER recessions&quot;)+
+    theme(legend.position=&quot;top&quot;,
+          legend.key.width=unit(2,&quot;cm&quot;),
+          plot.caption=element_text(hjust=0),
+          plot.title=element_text(face=&quot;bold&quot;),
+          strip.text=element_text(face=&quot;bold&quot;))+
+    geom_vline(data=filter(df3,date==max(date),symbol==&quot;T10Y3MM&quot;), inherit.aes=FALSE,aes(xintercept=vlast), linetype=2)+
+    geom_text(data=df3 %&gt;% filter(date==max(date), symbol==&quot;T10Y3MM&quot;),color=&quot;black&quot;,hjust=1,inherit.aes=FALSE,
+              aes(x=vlast,y=0.2,label=paste0(&quot;August 7, 2019: &quot;, vlast,&quot; &quot;)))
+}
+
+N3&lt;- max(df9$.frame)
+
+t1 &lt;-Sys.time()
+gif_file &lt;- save_gif({for (i in seq((1):N3)){  
+  g&lt;- myplot3(i)+ guides(fill = guide_legend(reverse=T))
+  print(g)
+  print(paste(i,&quot;out of&quot;,N3))
+}
+  for (ii in 1:1){
+    print(g)
+    print(paste(ii,&quot;out of&quot;,30))
+  }
+}, gif_file= paste0(mydir,&quot;/yc10y3m.gif&quot;),width = 900, height = 600, res = 92, delay=1/20)
+t2 &lt;- Sys.time()
+t2-t1</code></pre>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2019/07/24/housing-usually-heats-up-in-summer/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2019/07/24/housing-usually-heats-up-in-summer/">Housing usually heats up in summer</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/dataviz/">dataviz</a>, 
+            
+                <a href="/tags/economy/">economy</a>, 
+            
+                <a href="/tags/r/">R</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2019%2f08%2f07%2fcrazy-yield-curve-charts%2f&text=Crazy%20Yield%20Curve%20Charts via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2019%2f08%2f07%2fcrazy-yield-curve-charts%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+
