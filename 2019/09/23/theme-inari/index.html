@@ -4,10 +4,10 @@
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="A most delightful sign">
+  <meta name="description" content="Making a plot with a vibrant orange theme">
   <meta name="generator" content="Hugo 0.52" />
 
-  <title>Found in Translation: Please do not anything &middot; Len Kiefer</title>
+  <title>Theme Inari &middot; Len Kiefer</title>
 
   
   
@@ -202,14 +202,14 @@
 
 
        <meta name="twitter:card" content="summary_large_image">
-       <meta name="twitter:image" content="http://lenkiefer.com/img/charts_sep_04_2019/do_not_anything.jpg" >
+       <meta name="twitter:image" content="http://lenkiefer.com/img/charts_sep_23_2019/20190821_inari_fox.jpg" >
      
-    <meta property="og:title" content="Found in Translation: Please do not anything">
-    <meta property="og:description" content="A most delightful sign">
+    <meta property="og:title" content="Theme Inari">
+    <meta property="og:description" content="Making a plot with a vibrant orange theme">
 
 <div class="header">
-  <h1>Found in Translation: Please do not anything</h1>
-  <h2>A most delightful sign</h2>
+  <h1>Theme Inari</h1>
+  <h2>Making a plot with a vibrant orange theme</h2>
 </div>
 <div class="content">
 
@@ -217,7 +217,7 @@
 
   <div>
     <i class="fa fa-calendar fa-fw"></i>
-    <time>2019/09/04</time>
+    <time>2019/09/23</time>
   </div>
 
   
@@ -230,9 +230,9 @@
   <div>
     <i class="fa fa-tags fa-fw"></i>
     
-      <a class="post-taxonomy-tag" href="/tags/personal">personal</a>&nbsp;&#47;
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
     
-      <a class="post-taxonomy-tag" href="/tags/presentation">presentation</a>
+      <a class="post-taxonomy-tag" href="/tags/personal">personal</a>
     
   </div>
   
@@ -243,39 +243,56 @@
   
 
 
-<div id="found-in-translation" class="section level2">
-<h2>Found in Translation</h2>
-<p>On a hill in Kyoto, Japan there is a most delightful sign. Near the <a href="https://en.wikipedia.org/wiki/Kiyomizu-dera">Kiyomizu Temple</a> temple in the <a href="https://en.wikipedia.org/wiki/Higashiyama-ku,_Kyoto">Higashiyama District</a> there are several picturesque streets. The presevered historic district is a favorite place for tourist shopping, tasty snacks, photo opportunities with majestic temples in the background.</p>
-<p>Many folks like to rent Kimonos (mostly women, but also a few men) and snap photos in the street. On my way through the district I happened across this wonderful sign attached to a private residence:</p>
-<p><img src="../../../../img/charts_sep_04_2019/do_not_anything.jpg" style="width:700px"></p>
-<p>In English: <em>Please do not anything</em></p>
-<p>In context the meaning is transparent: <em>Please keep your cosplay off our lawn and don’t touch our stuff.</em></p>
-<p>My wife assures me that the Chinese text is equally garbled if taken literally.</p>
-<p>There is a sense the literal English words seem to capture that is related to a captivating story I first recall reading from <a href="https://www.presentationzen.com/presentationzen/2006/04/the_fish_story_.html">Garr Reynolds Presentation Zen</a>, reproduced below.</p>
-<blockquote>
-<p>When you talked about reducing the text on the slides, I was reminded of a story from my childhood in India. When Vijay opened his store he put up a sign that said “We Sell Fresh Fish Here.” His father stopped by and said that the word “We” suggests an emphasis on the seller rather than the customer, and is really not needed. So the sign was changed to “Fresh Fish Sold Here.” His brother came by and suggested that the word “here” could be done away with – it was superfluous. doing?" Later, his neighbor stopped by to congratulate him. Then he mentioned that all passers-by could easily tell that the fish was really fresh. Mentioning the word fresh actually made it sound defensive as though there was room for doubt about the freshness. Now the sign just read: “FISH.” As Vijay was walking back to his shop after a break he noticed that one could identify the fish from its smell from very far, at a distance from which one could barely read the sign. He knew there was no need for the word “FISH.”</p>
-</blockquote>
-<p>An empty sign is a metaphor for the type of minimalism I strive for in my work. I’ve joked with my colleagues that the best economic article I could write would be on a blank sheet of paper. Sadly, they haven’t elected to publish that yet.</p>
-<p>While I try to obey all signs and posted placards when traveling I couldn’t quite comply 100% with the sign. I did eventually something (<em>not not anything</em>): move away from the sign after snapping a quick photo from a respectful distance.</p>
-</div>
-<div id="on-illiteracy-and-design" class="section level2">
-<h2>On illiteracy and design</h2>
-<p>I’ve spent the past few weeks in Asia. Traveling in Japan, Korea and China gives me an idea of what it’s like to be illiterate. Outside of transit and tourist places I often could read nothing. Fortunately, in most public transit and tourist zones the signage is excellent, often in English, but even without words icons and visual design was easy enough to follow. Throughout Asia the signage in public transportation places seems better than most of what I encounter here in the United States.</p>
-<p>There were several interesting design ideas I picked up from my travels. I am looking forward to incoporating some of those ideas into my data visualizations in coming weeks. More on that, and my trip a bit later.</p>
-</div>
+<p>Over the summer I spent a few weeks in Asia. One of the places I visited was <a href="https://en.wikipedia.org/wiki/Fushimi_Inari-taisha">Fushimi Inari-taisha</a> in Kyoto, Japan. This shrine is situated on a beautiful mountain. What really struck me about this place was the vibrant colors used in the <em>Torii</em> gates and to decorate some of the fox statues like these:</p>
+<p><img src="../../../../img/charts_sep_23_2019/inari.png" style="width:450px" style="transform:rotate(90deg);"></p>
+<p>The color got stuck in my head, so I decided to look up the hex code <a href="https://hexcolor.co/hex/fe5305">here</a> and created a modified <a href="https://ggplot2.tidyverse.org/">ggplot2</a> theme using the color.</p>
+<pre class="r"><code># load libraries
+library(tidyverse)
+
+# define colors
+inari  &lt;- &quot;#fe5305&quot;
+inari1 &lt;- &quot;#e53a00&quot;
+inari2 &lt;- &quot;#a90000&quot;</code></pre>
+<p>Make a plot using economic data. I decided to plot 1-unit housing starts which I could get from <a href="https://fred.stlouisfed.org/series/HOUST1F">FRED</a>. Then I modified the theme components so the background was inari flavored orange.</p>
+<pre class="r"><code>df_starts &lt;- tidyquant::tq_get(&quot;HOUST1F&quot;,get=&quot;economic.data&quot;,from=&quot;2010-01-01&quot;) 
+
+ggplot(data=df_starts, aes(x=date,y=price))+
+  geom_path(color=&quot;black&quot;, size=1.5)+  
+  theme_dark(base_size=14)+
+  geom_hline(data=. %&gt;% filter(date==max(date)), 
+             aes(yintercept=price),linetype=2,size=1.5,color=&quot;white&quot;, alpha=0.75)+
+  scale_x_date(date_breaks=&quot;2 year&quot;,date_labels=&quot;%b-%Y&quot;)+
+  theme(plot.background=element_rect(fill=inari),
+        text=element_text(color=&quot;white&quot;),
+        axis.text=element_text(color=&quot;white&quot;),
+        panel.grid.major=element_line(color=&quot;white&quot;,size=0.25),
+        plot.title=element_text(face=&quot;bold&quot;),
+        panel.grid.minor=element_blank(),
+        plot.caption=element_text(hjust=0),
+        panel.background=element_rect(fill=inari1)
+  )+
+  labs(x=&quot;date (daily)&quot;,y=&quot;&quot;, 
+       title=&quot;U.S. Privately Owned Housing Starts: 1-Unit Structures&quot;,
+       subtitle=&quot;1000s, seasonally adjusted annual rate&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Census Bureau and U.S. Department of Housing and Urban Development,\nPrivately Owned Housing Starts: 1-Unit Structures [HOUST1F],\nretrieved from FRED, Federal Reserve Bank of St. Louis;\nDotted line value for August 2019&quot;)</code></pre>
+<p><img src="/post/2019-09-23-theme-inari_files/figure-html/2019-09-23-fig1-1.png" width="864" /></p>
+<p>Might be too intense for regular use. But I’ve been using a less intense version in data visualizations like the ones in this thread:</p>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/mortgage?src=hash&amp;ref_src=twsrc%5Etfw">#mortgage</a> rates tick up this week<a href="https://t.co/bpUsGTfeaK">https://t.co/bpUsGTfeaK</a><br><br>charts!<br>1/ <a href="https://t.co/DiHgZnOydn">pic.twitter.com/DiHgZnOydn</a></p>&mdash; Leonard Kiefer (@lenkiefer) <a href="https://twitter.com/lenkiefer/status/1172151194711670785?ref_src=twsrc%5Etfw">September 12, 2019</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
 
 
   
 <div class="prev-next-post pure-g">
   <div class="pure-u-1-24" style="text-align: left;">
     
-    <a href="/2019/08/07/crazy-yield-curve-charts/"><i class="fa fa-chevron-left"></i></a>
+    <a href="/2019/09/04/found-in-translation-please-do-not-anything/"><i class="fa fa-chevron-left"></i></a>
     
   </div>
   <div class="pure-u-10-24">
     
     <nav class="prev">
-      <a href="/2019/08/07/crazy-yield-curve-charts/">Crazy Yield Curve Charts</a>
+      <a href="/2019/09/04/found-in-translation-please-do-not-anything/">Found in Translation: Please do not anything</a>
     </nav>
     
   </div>
@@ -284,14 +301,8 @@
   </div>
   <div class="pure-u-10-24">
     
-    <nav class="next">
-      <a href="/2019/09/23/theme-inari/">Theme Inari</a>
-    </nav>
-    
   </div>
   <div class="pure-u-1-24" style="text-align: right;">
-    
-    <a href="/2019/09/23/theme-inari/"><i class="fa fa-chevron-right"></i></a>
     
   </div>
 </div>
@@ -307,16 +318,16 @@
             <span>Tagged:</span>
             
             
-                <a href="/tags/personal/">personal</a>, 
+                <a href="/tags/dataviz/">dataviz</a>, 
             
-                <a href="/tags/presentation/">presentation</a>
+                <a href="/tags/personal/">personal</a>
             
         </p>
     
 
     <div class="share">
         
-            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2019%2f09%2f04%2ffound-in-translation-please-do-not-anything%2f&text=Found%20in%20Translation%3a%20Please%20do%20not%20anything via %40lenkiefer"
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2019%2f09%2f23%2ftheme-inari%2f&text=Theme%20Inari via %40lenkiefer"
                 onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
                 <i class="fa fa-twitter"></i>
                 <span class="hidden">Twitter</span>
@@ -324,7 +335,7 @@
         
 
         
-            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2019%2f09%2f04%2ffound-in-translation-please-do-not-anything%2f"
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2019%2f09%2f23%2ftheme-inari%2f"
                 onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
                 <i class="fa fa-facebook"></i>
                 <span class="hidden">Facebook</span>
