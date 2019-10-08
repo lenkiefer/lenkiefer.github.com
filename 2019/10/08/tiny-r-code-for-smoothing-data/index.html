@@ -4,10 +4,10 @@
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="">
+  <meta name="description" content="A tiny R script for smoothing data">
   <meta name="generator" content="Hugo 0.52" />
 
-  <title>Tags &middot; Len Kiefer</title>
+  <title>Tiny R Code for Smoothing Data &middot; Len Kiefer</title>
 
   
   
@@ -39,8 +39,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
  
-  
-  <link rel="alternate" type="application/rss+xml" title="Len Kiefer" href="/tags/index.xml" />
   
 
   
@@ -206,144 +204,149 @@
        <meta name="twitter:card" content="summary">
        <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
     
-    <meta property="og:title" content="Tags">
-    <meta property="og:description" content="">
+    <meta property="og:title" content="Tiny R Code for Smoothing Data">
+    <meta property="og:description" content="A tiny R script for smoothing data">
 
 <div class="header">
-  <h1>Tags</h1>
+  <h1>Tiny R Code for Smoothing Data</h1>
+  <h2>A tiny R script for smoothing data</h2>
 </div>
 <div class="content">
-  <ul>
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2019/10/08</time>
+  </div>
+
+  
+
   
   
-    <li>
-      <a href="dataviz">dataviz</a>
-      <span>&#40;147&#41;</span>
-    </li>
   
-    <li>
-      <a href="r">r</a>
-      <span>&#40;124&#41;</span>
-    </li>
   
-    <li>
-      <a href="housing">housing</a>
-      <span>&#40;63&#41;</span>
-    </li>
+
   
-    <li>
-      <a href="economy">economy</a>
-      <span>&#40;58&#41;</span>
-    </li>
   
-    <li>
-      <a href="animation">animation</a>
-      <span>&#40;41&#41;</span>
-    </li>
   
-    <li>
-      <a href="house-prices">house-prices</a>
-      <span>&#40;34&#41;</span>
-    </li>
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>
+    
+  </div>
   
-    <li>
-      <a href="data-wrangling">data-wrangling</a>
-      <span>&#40;22&#41;</span>
-    </li>
   
-    <li>
-      <a href="mortgage">mortgage</a>
-      <span>&#40;22&#41;</span>
-    </li>
-  
-    <li>
-      <a href="fun">fun</a>
-      <span>&#40;18&#41;</span>
-    </li>
-  
-    <li>
-      <a href="maps">maps</a>
-      <span>&#40;15&#41;</span>
-    </li>
-  
-    <li>
-      <a href="presentation">presentation</a>
-      <span>&#40;14&#41;</span>
-    </li>
-  
-    <li>
-      <a href="statistics">statistics</a>
-      <span>&#40;13&#41;</span>
-    </li>
-  
-    <li>
-      <a href="data">data</a>
-      <span>&#40;10&#41;</span>
-    </li>
-  
-    <li>
-      <a href="forecasting">forecasting</a>
-      <span>&#40;9&#41;</span>
-    </li>
-  
-    <li>
-      <a href="demographics">demographics</a>
-      <span>&#40;8&#41;</span>
-    </li>
-  
-    <li>
-      <a href="slides">slides</a>
-      <span>&#40;7&#41;</span>
-    </li>
-  
-    <li>
-      <a href="economics">economics</a>
-      <span>&#40;6&#41;</span>
-    </li>
-  
-    <li>
-      <a href="office">office</a>
-      <span>&#40;6&#41;</span>
-    </li>
-  
-    <li>
-      <a href="personal">personal</a>
-      <span>&#40;6&#41;</span>
-    </li>
-  
-    <li>
-      <a href="tableau">tableau</a>
-      <span>&#40;5&#41;</span>
-    </li>
-  
-    <li>
-      <a href="remix">remix</a>
-      <span>&#40;4&#41;</span>
-    </li>
-  
-    <li>
-      <a href="meta">meta</a>
-      <span>&#40;3&#41;</span>
-    </li>
-  
-    <li>
-      <a href="textmining">textmining</a>
-      <span>&#40;3&#41;</span>
-    </li>
-  
-    <li>
-      <a href="microdata">microdata</a>
-      <span>&#40;2&#41;</span>
-    </li>
-  
-    <li>
-      <a href="python">python</a>
-      <span>&#40;1&#41;</span>
-    </li>
-  
-  </ul>
+
 </div>
 
+  
+
+
+<p>I’ve been thinking about smoothing time series data. I <a href="https://twitter.com/lenkiefer/status/1181574767909969921?s=20">tweeted out</a> a bite size bit of code.</p>
+<p>To fit it into a tweet, I had to squeeze things down a bit.</p>
+<p>Slightly more verbose, and using <a href="https://CRAN.R-project.org/package=fredr">fredr</a> to get data from <a href="https://fred.stlouisfed.org/">FRED</a> using their API. You’ll need an <a href="https://research.stlouisfed.org/docs/api/api_key.html">API key</a> from FRED. These data happen to be for <a href="https://fred.stlouisfed.org/series/PERMIT1">New Private Housing Units Authorized by Building Permits - in Structures with 1 Unit</a>.</p>
+<pre class="r"><code># libraries
+library(tidyverse)
+library(gganimate)
+library(fredr)
+
+# using fredr
+# get key https://research.stlouisfed.org/docs/api/api_key.html
+# set key
+fredr_set_key(&quot;YOUR_KEY_FROM_FRED&quot;)
+d &lt;-
+  fredr(series_id = &quot;PERMIT1&quot;,
+        observation_start = as.Date(&quot;2009-01-01&quot;))  %&gt;%
+  # rename value as price
+  rename(price = value)
+
+# could use tidyquant:
+# d&lt;-tidyquant::tq_get(&quot;PERMIT1&quot;,get=&quot;economic.data&quot;)
+
+# code:
+tibble(x = 1:60) %&gt;%
+  mutate(data = map(x,  ~ d %&gt;%
+                      mutate(y = zoo::rollapply(
+                        d$price,
+                        .x,
+                        mean, fill = NA
+                      )))) %&gt;%
+  unnest(data) %&gt;%
+  ggplot(aes(x = date, y = y)) +
+  geom_line() +
+  transition_states(x)</code></pre>
+<p>The code sets an anonymous function with map to construct a rolling average of window size x. We increase the window of the moving average from 1 month (no smoothing) to 60 months (5-year centered moving average). Then make a little movie:</p>
+<p><img src="../../../../img/charts_2019_10_08/gganimate_ma.gif" style="width:700px"></p>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2019/10/06/arima-for-ernie/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2019/10/06/arima-for-ernie/">ARIMA for Ernie</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/r/">R</a>, 
+            
+                <a href="/tags/dataviz/">dataviz</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2019%2f10%2f08%2ftiny-r-code-for-smoothing-data%2f&text=Tiny%20R%20Code%20for%20Smoothing%20Data via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2019%2f10%2f08%2ftiny-r-code-for-smoothing-data%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
 </div>
 </div>
 <script src="/js/ui.js"></script>
@@ -367,3 +370,4 @@
 
 </body>
 </html>
+
