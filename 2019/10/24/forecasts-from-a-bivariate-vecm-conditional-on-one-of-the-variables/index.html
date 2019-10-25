@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="I could not find a good summary, so I wrote up some R code.">
+  <meta name="generator" content="Hugo 0.52" />
+
+  <title>Forecasts from a bivariate VECM conditional on one of the variables &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Forecasts from a bivariate VECM conditional on one of the variables">
+    <meta property="og:description" content="I could not find a good summary, so I wrote up some R code.">
+
+<div class="header">
+  <h1>Forecasts from a bivariate VECM conditional on one of the variables</h1>
+  <h2>I could not find a good summary, so I wrote up some R code.</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2019/10/24</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/forecasting">forecasting</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+
+
+<p>This post is for me and future me, though if you get something out of that, that’s great too. Here I will jot down some notes on something I’ve been thinking about.</p>
+<p>Because reasons, I have been interested in <a href="https://en.wikipedia.org/wiki/Error_correction_model#VECM">Vector Error Correction Models (VECM)</a>. I’ve been thinking of the case where you estimate an error correction model, and have available external forecasts for one of the variables. How can you easily construct the conditional forecasts for the VECM in <a href="https://www.r-project.org/">R</a>?</p>
+<p>I couldn’t find a handy summary, so I wrote one up.</p>
+<div id="the-vector-error-correction-model" class="section level1">
+<h1>The Vector Error Correction Model</h1>
+<p>The VECM is a useful tool for forecasting variables with a stochastic trend. This sort of thing comes up all the time in macroeconomics. Lütkepohl, H. (2005) or Hamilton (1994) provide textbook treatments. For this case, we’ll consider a bivariate system of two variables. We can write it as:</p>
+<p><span class="math display">\[ \begin{bmatrix} \Delta y_t \\ \Delta x_t  \end{bmatrix} = \alpha \beta&#39;  \begin{bmatrix} y_{t-1} \\ x_{t-1}  \end{bmatrix} + \sum_i^p \Gamma_i \begin{bmatrix} \Delta y_{t-i} \\ \Delta x_{t-i}  \end{bmatrix} +\epsilon_t \]</span>
+Where <span class="math inline">\(\beta\)</span> is the cointegrating vector.</p>
+<p>There is a large literature on estimating these models. See references at the end for an introduction.</p>
+</div>
+<div id="forecasting" class="section level1">
+<h1>Forecasting</h1>
+<p>One use of such models is to forecast. If we were in a standard case, where we had the same number of observations for <span class="math inline">\(y\)</span> and <span class="math inline">\(x\)</span> we could translate the VECM into a Vector AutoRegression (VAR) and forecast from the VAR. The <a href="https://CRAN.R-project.org/package=vars">vars</a> and <a href="https://CRAN.R-project.org/package=urca">urca</a> packages can handle this case.</p>
+<p>But what if we had observations on <span class="math inline">\(x\)</span> (or perhaps forecasts we really really believed)? How can we construct forecasts for <span class="math inline">\(y\)</span> conditional on these forecasts? That’s what we’re going to do here.</p>
+<div id="r-packages" class="section level3">
+<h3>R packages</h3>
+<p>We’ll need to cast the model in state space form using the <a href="https://CRAN.R-project.org/package=KFAS">KFAS</a> package. Then we can use the Kalman Filter to produce conditional forecasts. We’ll also use the <a href="https://CRAN.R-project.org/package=tsDyn">tsDyn</a> package for a handy utility to convert the VECM into a VAR.</p>
+<p>In a future post we’ll use the <a href="https://CRAN.R-project.org/package=CointReg">CointReg</a> package to consider alternative ways to estimate our cointegrating vector <span class="math inline">\(\beta\)</span>.</p>
+</div>
+</div>
+<div id="a-simulation" class="section level1">
+<h1>A simulation</h1>
+<p>Here’s the code for a little simulation.</p>
+<p>The idea is to estimate a VECM with <code>tsDyn::VECM</code>, and then to cast it into VAR form using <code>tsDyn::VARrep</code>. Then you set up a state space model using KFAS and then feed the observations into the state space model. For periods where <span class="math inline">\(x\)</span> is observed by <span class="math inline">\(y\)</span> is not, you feed the state space model missing values.</p>
+<details>
+<p><summary> Code to simulate VECM </summary></p>
+<pre class="r"><code># Bivariate VECM conditional forecasts
+set.seed(1031)
+
+library(forecast)
+library(KFAS)
+library(tidyverse)
+library(vars)
+library(cointReg)
+library(tsDyn)
+
+
+### SIMULATE DATA 
+
+# in-sample size
+N1 &lt;- 40 
+
+# hold-out sample
+N2 &lt;- 20
+N &lt;- N1+N2
+
+# Cointegration vector is (1, -betaX)
+betaX=2  
+sigu =1
+sige =1
+
+# Simulate process
+# simulation process similar to one in
+
+# Vogelsang, T. J., &amp; Wagner, M. (2014). Integrated modified OLS estimation and fixed-b inference for cointegrating regressions. Journal of Econometrics, 178(2), 741-760.
+
+# y_t = my_y+ betaX*x_t + eps_t
+# x_t = mu_x+ x_(t-1) + nu_t
+# nu_t = e_t + rhox * e_(t-1)
+# eps_t = rhoy *eps_(t-1) + u_t + gamma1 * e_t
+
+# u_t ~ N(0,sigu**2)
+# e_t ~ N(0,sige**2)
+
+et &lt;- rnorm(N,0,sige)
+ut &lt;- rnorm(N,0,sigu)
+
+rhox &lt;- 0.5
+rhoy &lt;- 0.3
+
+mu_y &lt;- 0.1
+mu_x &lt;- 0.01
+
+#degree of endogeneity indexed by gamma
+gamma1 &lt;- 0.3 
+
+# simulate X, Y
+
+y &lt;- rep(0,N)
+x &lt;- rep(0,N)
+
+x[1]  &lt;- et[1]
+nu    &lt;- rep(0,N)
+nu[1] &lt;- et[1]
+
+epst &lt;- rep(0,N)
+epst[1] &lt;- ut[1] + gamma1*et[1]
+
+for (i in 2:N){
+  nu[i] &lt;- et[i] + rhox* et[i-1]
+  x[i] &lt;- mu_x + x[i-1] + nu[i]
+  epst[i] &lt;- rhoy*epst[i]+ut[i] + gamma1* et[i]
+  y[i] &lt;- mu_y + betaX* x[i]+epst[i]
+}
+
+# all observations
+yx &lt;- ts.union(ts(y),ts(x))
+# in sample time series
+yx1 &lt;- window(yx, end=N1)
+# out of sample period
+yx2 &lt;- window(yx,start=N1+1)</code></pre>
+</div>
+<div id="plot-our-simulated-series" class="section level1">
+<h1>plot our simulated series</h1>
+<pre class="r"><code>autoplot(yx2) + labs(title=&quot;Simulated cointegrated series {y,x} &quot;)</code></pre>
+<div class="figure"><span id="fig:2019-10-24-plot-sim"></span>
+<img src="/post/2019-10-24-forecasts-from-a-bivariate-vecm-conditional-on-one-of-the-variables_files/figure-html/2019-10-24-plot-sim-1.png" alt="Simulated Cointegrated Series" width="672" />
+<p class="caption">
+Figure 1: Simulated Cointegrated Series
+</p>
+</div>
+</details>
+<p>With our simulated data we can estimate a VECM and convert to VAR representation:</p>
+<pre class="r"><code># estimate vecm1
+vecm1 &lt;- VECM(yx1,lag=1)
+
+vecm1 %&gt;% summary()</code></pre>
+<pre><code>## #############
+## ###Model VECM 
+## #############
+## Full sample size: 40     End sample size: 38
+## Number of variables: 2   Number of estimated slope parameters 8
+## AIC 5.170909     BIC 19.90918    SSR 240.6511
+## Cointegrating vector (estimated by 2OLS):
+##    ts(y)     ts(x)
+## r1     1 -2.060931
+## 
+## 
+##                ECT                 Intercept           ts(y) -1           
+## Equation ts(y) -0.5429(0.6096)     -0.3511(0.4096)     -0.6044(0.4144)    
+## Equation ts(x) 0.1202(0.2466)      -0.1099(0.1657)     -0.2070(0.1676)    
+##                ts(x) -1         
+## Equation ts(y) 2.4040(0.9317)*  
+## Equation ts(x) 1.0065(0.3768)*</code></pre>
+<pre class="r"><code># VAR reprecsentation of VECM
+VARrep(vecm1)</code></pre>
+<pre><code>##         constant    ts(y).l1 ts(x).l1  ts(y).l2  ts(x).l2
+## ts(y) -0.3510998 -0.14721608 3.522812 0.6043504 -2.404003
+## ts(x) -0.1098973 -0.08677976 1.758797 0.2069827 -1.006527</code></pre>
+<p>Now that we have a VAR representation, we can convert it to a state space representation. We will follow the KFAS notation and set up the following equations:</p>
+<p><span class="math display">\[ y_t = Z_t \alpha_t + \epsilon_t \]</span></p>
+<p><span class="math display">\[ \alpha_t = T_t \alpha_{t-1} + R_t \eta_t \]</span>
+with <span class="math inline">\(\epsilon_t \sim N(0,H_t)\)</span> and $_t N(0,Q_t) $.</p>
+<p>We can get <span class="math inline">\(T_t\)</span> and <span class="math inline">\(Q_t\)</span> from the VAR plus and specify <span class="math inline">\(Z_t\)</span> based on the structure of our setup.</p>
+<pre class="r"><code># initialize yx_miss to hold our data
+yx_miss &lt;- yx
+
+#y is missing from period N1+1 forward, replace with NA
+
+yx_miss[(N1+1):N,1] &lt;- NA
+
+# plot simulated data
+autoplot(yx_miss) + labs(title=&quot;Cointegrated series {y,x} with y missing after period N1 (=40)&quot;)</code></pre>
+<div class="figure"><span id="fig:2019-10-24-v2"></span>
+<img src="/post/2019-10-24-forecasts-from-a-bivariate-vecm-conditional-on-one-of-the-variables_files/figure-html/2019-10-24-v2-1.png" alt="Cointegrated series {y,x}, with missing observations for y" width="672" />
+<p class="caption">
+Figure 2: Cointegrated series {y,x}, with missing observations for y
+</p>
+</div>
+<p>In this setup we observe y until period 40, but continue to observe x until the end of our sample at period 60. We might have literally observed x, or we might have a very reliable forecast and we want to condition our estimate of y on that forecast. A statespace model can help us do it.</p>
+<pre class="r"><code># Set up statespace model
+#extract intercept from VAR
+
+intercept &lt;- VARrep(vecm1)[,1]
+
+# observation is just x,y
+Ft &lt;- cbind(diag(1,2),diag(0,2))
+
+#transiton equation for VAR, based on estimate VECM coefficients (after converted to VAR)
+Tt &lt;-
+  matrix(c(VARrep(vecm1)[1,-1],
+           VARrep(vecm1)[2,-1],
+           c(1,0,0,0),
+           c(0,1,0,0)),
+         nrow=4,byrow=TRUE)
+
+# residuals variance matrix from VECM
+
+Qt &lt;- cov(residuals(vecm1))
+
+
+# set up statespace model
+
+K2 &lt;- SSModel( yx_miss~ -1 +
+                 # add the intercept 
+                SSMcustom(Z = diag(0,2), T = diag(2), Q = diag(0,2), 
+                          a1 = matrix(intercept,2,1), P1inf = diag(0,2),index=c(1,2),
+                          state_names=c(&quot;mu_y&quot;,&quot;mu_x&quot;))+
+                 
+                 # add the VAR part (excluding intercept)
+                 
+                 SSMcustom(Z=Ft,  # observations
+                           
+                           T=Tt, # state transtion (from VECM)
+                           
+                           Q=Qt,  # state innovation variance (from VECM)
+                           
+                           index=c(1,2), # we observe variables 1 &amp; 2 from statespace (without noise)
+                           
+                           
+                           state_names=c(&quot;y&quot;,&quot;x&quot;,&quot;ylag&quot;,&quot;xlag&quot;),  # name variables
+                           
+                           a1=c(y[2],x[2],y[1],x[1]),   #initialize values
+                           
+                           P1=1e7*diag(1,4)),  # make initial variance very large
+               
+               H=diag(0,2) # no noise in observation equation
+               )
+
+
+# Predicr values for our statespace model
+predict(K2,interval = &quot;confidence&quot;, level = 0.95 )[[1]] %&gt;% 
+  #convert to time series
+  ts %&gt;% 
+  # plot
+  autoplot()+autolayer(yx[,1],color=&quot;black&quot;)+
+  scale_color_manual(values=c(&quot;red&quot;,&quot;blue&quot;,&quot;blue&quot;))+
+  labs(x=&quot;periods&quot;,y=&quot;y&quot;,
+       title=&quot;Forecasts for y conditional on x&quot;,
+       subtitle=&quot;y and x are bivariate VECM, x observed after period 40, y is not&quot;)+
+  geom_vline(xintercept=40,linetype=2)+
+  annotate(geom=&quot;text&quot;,x=40.5,y=0, label=&quot;Forecasts for X available, \nY unobserved&quot;,hjust=0)</code></pre>
+<pre><code>## Warning in sqrt(out$V_mu[i, i, timespan]): NaNs produced</code></pre>
+<div class="figure"><span id="fig:2019-10-24-v3"></span>
+<img src="/post/2019-10-24-forecasts-from-a-bivariate-vecm-conditional-on-one-of-the-variables_files/figure-html/2019-10-24-v3-1.png" alt="VECM Forecasts from Statespace Model" width="672" />
+<p class="caption">
+Figure 3: VECM Forecasts from Statespace Model
+</p>
+</div>
+<p>In the plot above the red line is the conditional forecast while the blue lines are the upper and lower bounds.</p>
+<p>This seems like it’s working.</p>
+<p>What can we do with this? Well, that’s something we will explore next time.</p>
+</div>
+<div id="references" class="section level1">
+<h1>References</h1>
+<p>Hamilton, J. D. (1994). Time series analysis. Princeton University Press, USA.</p>
+<p>Lütkepohl, H. (2005). New introduction to multiple time series analysis. Springer Science &amp; Business Media.</p>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2019/10/10/visualizing-consumer-price-inflation-and-mortgage-rates/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2019/10/10/visualizing-consumer-price-inflation-and-mortgage-rates/">Visualizing consumer price inflation and mortgage rates</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/r/">R</a>, 
+            
+                <a href="/tags/forecasting/">forecasting</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2019%2f10%2f24%2fforecasts-from-a-bivariate-vecm-conditional-on-one-of-the-variables%2f&text=Forecasts%20from%20a%20bivariate%20VECM%20conditional%20on%20one%20of%20the%20variables via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2019%2f10%2f24%2fforecasts-from-a-bivariate-vecm-conditional-on-one-of-the-variables%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+
