@@ -385,7 +385,7 @@ VARrep(vecm1)</code></pre>
 <p>Now that we have a VAR representation, we can convert it to a state space representation. We will follow the KFAS notation and set up the following equations:</p>
 <p><span class="math display">\[ y_t = Z_t \alpha_t + \epsilon_t \]</span></p>
 <p><span class="math display">\[ \alpha_t = T_t \alpha_{t-1} + R_t \eta_t \]</span>
-with <span class="math inline">\(\epsilon_t \sim N(0,H_t)\)</span> and $_t N(0,Q_t) $.</p>
+with <span class="math inline">\(\epsilon_t \sim N(0,H_t)\)</span> and <span class="math inline">\(\eta_t \sim N(0,Q_t)\)</span>.</p>
 <p>We can get <span class="math inline">\(T_t\)</span> and <span class="math inline">\(Q_t\)</span> from the VAR plus and specify <span class="math inline">\(Z_t\)</span> based on the structure of our setup.</p>
 <pre class="r"><code># initialize yx_miss to hold our data
 yx_miss &lt;- yx
@@ -453,7 +453,7 @@ K2 &lt;- SSModel( yx_miss~ -1 +
                )
 
 
-# Predicr values for our statespace model
+# Predict values for our statespace model
 predict(K2,interval = &quot;confidence&quot;, level = 0.95 )[[1]] %&gt;% 
   #convert to time series
   ts %&gt;% 
