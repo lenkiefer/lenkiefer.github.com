@@ -252,7 +252,7 @@
 
 
 <p>Mortgage interest rates have moved about a percentage point lower from where they were a year ago. The housing market seems to have responded favorably.</p>
-<p>On my way into D.C. the other day to <a href="https://twitter.com/lenkiefer/status/1189895980700913664?s=20">do some business</a>, I joined a Twitter exchange originally between <a href="https://twitter.com/graykimbrough">[at]Graykimbrough</a> and Adam Ozimek, <a href="https://twitter.com/ModeledBehavior">[at]ModeledBehavior</a> about the affects of Federal Reserve Interest policy on the housing market.</p>
+<p>On my way into D.C. the other day to <a href="https://twitter.com/lenkiefer/status/1189895980700913664?s=20">do some business</a>, I joined a Twitter exchange originally between <a href="https://twitter.com/graykimbrough">[at]Graykimbrough</a> and Adam Ozimek, <a href="https://twitter.com/ModeledBehavior">[at]ModeledBehavior</a> about the effects of Federal Reserve interest policy on the housing market.</p>
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Seems unlikely housing market was slowed by trade war. That fed cuts have helped return it to growth suggest the hikes were to blame. Hard to call this the fed merely reacting to changing conditions. More like a mistake in hiking too fast too soon.</p>&mdash; Adam Ozimek (@ModeledBehavior) <a href="https://twitter.com/ModeledBehavior/status/1189859734410727424?ref_src=twsrc%5Etfw">October 31, 2019</a></blockquote>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
@@ -404,7 +404,7 @@ lmdo &lt;- log(df_mdo$price) %&gt;% ts(start=1950,frequency=4) %&gt;% window(sta
 </div>
 <div id="converting-quarterly-to-monthly-data" class="section level3">
 <h3>Converting quarterly to monthly data</h3>
-<p>Our default data frequency will be monthly data. Most of the data are already monthly. The mortgage rate data is weekly, but we can aggregate to monthly by taking the averaged of all weeks in the month as in the code above.</p>
+<p>Our default data frequency will be monthly data. Most of the data are already monthly. The mortgage rate data is weekly, but we can aggregate to monthly by taking the average of all weeks in the month as in the code above.</p>
 <p>But the <a href="https://fred.stlouisfed.org/series/MDOTP1T4FR">mortgage debt outstanding</a> data comes to us quarterly via the Federal Reserve. We can use temporal disaggregation to interpolate the mortgage debt data using house prices. Details are below (click on the arrow in most browsers).</p>
 <details>
 <p><summary> Interpolating quarterly data with tempdisagg </summary></p>
