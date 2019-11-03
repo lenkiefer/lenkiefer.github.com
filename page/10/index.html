@@ -218,6 +218,59 @@
   
     <article>
   <header>
+    <h2><a href="/2017/10/17/time-to-animate-with-tibbletime/">Time to animate with tibbletime</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2017/10/17</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/housing">housing</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/animation">animation</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  IN THIS POST I WANT TO SHARE SOME CODE TO CREATE AN ANIMATED CHART of housing starts.
+Per usual we’ll use R and we’ll also use the tibbletime package.
+Running the code below will generate:
+(see this post for more on animations with the R package tweenr)
+####################################################################################### Load libraries #######################################################################################library(tidyquant)library(tibbletime)library(tweenr)####################################################################################### Get housing starts data #######################################################################################df &lt;- tq_get(&quot;HOUST1F&quot;,get=&quot;economic.data&quot;,from=&quot;1959-01-01&quot;)####################################################################################### function for rolling windows #######################################################################################mys &lt;- function(win=12){rolling_mean &lt;- rollify(mean, window = win) #function creates rolling average based on windf %&gt;%mutate(dy=rolling_mean(price),w=as.
+  </p>
+
+  
+  <footer>
+    <a href="/2017/10/17/time-to-animate-with-tibbletime/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
     <h2><a href="/2017/10/15/unemployment-flexdashboard/">Unemployment Flexdashboard</a></h2>
 
     <div class="post-meta">
@@ -306,7 +359,7 @@ I’ll have more to say about this in the near future, but I just wanted to make
   I HAVE BEEN EXPERIMENTING WITH A NEW WAY TO VISUALIZE DATA, a bivariate tilegridmap. When I get around to rolling out my tidyPowerPoint workflow we’re going to want something other than bars and lines to fill it up. A graph like this might be a fun option.
 We’ll build one, but first, just let me show you one I tweeted earlier today:
 bivariate #tilegridmap map anyone? pic.twitter.com/y3G5XExzoN
-&mdash; 👻📈 𝙻𝚎𝚗 𝙺𝚒𝚎𝚏𝚎𝚛 😱📊 (@lenkiefer) October 11, 2017  In this post, let’s go over how to make this plot with R.
+&mdash; 📈 𝙻𝚎𝚗 𝙺𝚒𝚎𝚏𝚎𝚛 📊 (@lenkiefer) October 11, 2017  In this post, let’s go over how to make this plot with R.
   </p>
 
   
@@ -355,7 +408,7 @@ bivariate #tilegridmap map anyone? pic.twitter.com/y3G5XExzoN
   <p>
   WHILE I WAS TRYING TO MAKE TIME FOR TIBBLETIME yesterday I got distracted and made this plot:
 hey! here&#39;s a #dataviz: tile plot of U.S. state unemployment pic.twitter.com/vH8fSu63ve
-&mdash; 👻📈 𝙻𝚎𝚗 𝙺𝚒𝚎𝚏𝚎𝚛 😱📊 (@lenkiefer) October 10, 2017  In this post, let’s go over how to make this plot with R. And we’re going to make it quick.
+&mdash; 📈 𝙻𝚎𝚗 𝙺𝚒𝚎𝚏𝚎𝚛 📊 (@lenkiefer) October 10, 2017  In this post, let’s go over how to make this plot with R. And we’re going to make it quick.
 SetupIn order to create a plot like this we’ll need several packages, including the tidyverse, geofacet and the tidyquant package.
   </p>
 
@@ -661,56 +714,6 @@ These data provide the closest thing to a publicly-available comprehensive summa
   
   <footer>
     <a href="/2017/09/29/mortgage-origination-trends/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
-  </footer>
-  
-</article>
-
-  
-    <article>
-  <header>
-    <h2><a href="/2017/09/27/use-purrr/">PURRRty PowerPoint with R</a></h2>
-
-    <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>2017/09/27</time>
-  </div>
-
-  
-
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="/tags/data-wrangling">data wrangling</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="/tags/slides">slides</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="/tags/office">Office</a>
-    
-  </div>
-  
-  
-
-</div>
-
-  </header>
-
-  <p>
-  IN THIS POST I WANT TO GO THROUGH SOME EXAMPLES of using the purrr package for R.
-Now there are already some great examples of how to use purrr. If you’re brand new to purrr (like I was not long ago) probably start with Jenny Bryan’s Purrr tutorial then see R for Data Science and also this presentation from rstudioconf (pdf). You can also check out this curated collection via Mara Averick (on Twitter: dataandme ) for a bunch of examples.
-  </p>
-
-  
-  <footer>
-    <a href="/2017/09/27/use-purrr/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
   </footer>
   
 </article>
