@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Dual y-axis charts make false discoveries easier">
+  <meta name="generator" content="Hugo 0.52" />
+
+  <title>Double Trouble Hazard of Dual Axis Charts &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/charts_2020_01_07/dual.png" >
+     
+    <meta property="og:title" content="Double Trouble Hazard of Dual Axis Charts">
+    <meta property="og:description" content="Dual y-axis charts make false discoveries easier">
+
+<div class="header">
+  <h1>Double Trouble Hazard of Dual Axis Charts</h1>
+  <h2>Dual y-axis charts make false discoveries easier</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2020/01/07</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+
+
+<p>In a blog post <a href="https://blogs.uoregon.edu/timduyfedwatch/2020/01/06/the-dual-y-axis-chart-just-say-no/">the dual y-axis chart just say no</a> Tim Duy asks analysts to give up dual y-axis charts for a new year’s resolution. Like with many resolutions, I predict most will fail at this challenge. I also predict few will take it up. Dual y-axis charts are super popular, especially in finance/economics.</p>
+<p>As you all know, I care a lot about data visualization. And I have been fighting a losing battle against dual y-axis charts for about a decade. Analysts I work with find them irresistible. I will often point out the downsides of such charts. See for example, <a href="https://blog.datawrapper.de/dualaxis/">Lisa Charlotte Rost’s summary</a>. Folks will listen politely, sometimes nod, but almost immediately go back to using them.</p>
+<p>For me, the main reason not to use dual y-axis charts is not because they are <a href="http://www.storytellingwithdata.com/blog/2016/2/1/be-gone-dual-y-axis">hard to read</a>, or that <a href="http://freerangestats.info/blog/2016/08/18/dualaxes">in malicious hands they make it possible to deliberately mislead</a>, rather the main reason I am skeptical of them is because for economic/financial time series dual axis charts risk discovering <a href="https://www.tylervigen.com/spurious-correlations">spurious correlation</a>.</p>
+<p>Here’s a quick example of discovering such a spurious correlation.</p>
+<p>Suppose that variables <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> are generated by uncorrelated driftless random walks:</p>
+<p><span class="math display">\[ y_{i,t} = \sum\epsilon_{i,t}\]</span></p>
+<p><span class="math display">\[ \epsilon_{i,t} \sim i.i.N.(0,1)\]</span>
+for <span class="math inline">\(i =1,2\)</span>.</p>
+<p>The following <a href="https://www.r-project.org/">R</a> code simulates the data for 100 observations and regresses <span class="math inline">\(y_2\)</span> on <span class="math inline">\(y_1\)</span>.</p>
+<pre class="r"><code>library(tidyverse,quietly=TRUE)
+library(latex2exp,quietly=TRUE)
+set.seed(200107)
+N &lt;- 100
+df &lt;- data.frame(id=1:N,y1=cumsum(rnorm(N)),y2=cumsum(rnorm(N)))
+fit &lt;- lm(data=df, formula=y2~y1)
+stargazer::stargazer(fit,type=&quot;html&quot;, title=&quot;Spurious Regression&quot;)</code></pre>
+<table style="text-align:center">
+<caption>
+<strong>Spurious Regression</strong>
+</caption>
+<tr>
+<td colspan="2" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+<em>Dependent variable:</em>
+</td>
+</tr>
+<tr>
+<td>
+</td>
+<td colspan="1" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+y2
+</td>
+</tr>
+<tr>
+<td colspan="2" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+y1
+</td>
+<td>
+0.773<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.052)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Constant
+</td>
+<td>
+-0.143
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.484)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td colspan="2" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Observations
+</td>
+<td>
+100
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+R<sup>2</sup>
+</td>
+<td>
+0.693
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Adjusted R<sup>2</sup>
+</td>
+<td>
+0.690
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Residual Std. Error
+</td>
+<td>
+2.461 (df = 98)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+F Statistic
+</td>
+<td>
+221.242<sup>***</sup> (df = 1; 98)
+</td>
+</tr>
+<tr>
+<td colspan="2" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+<em>Note:</em>
+</td>
+<td style="text-align:right">
+<sup><em></sup>p&lt;0.1; <sup><strong></sup>p&lt;0.05; <sup></strong></em></sup>p&lt;0.01
+</td>
+</tr>
+</table>
+<p>By regressing <span class="math inline">\(y_2\)</span> on <span class="math inline">\(y_1\)</span> we apparently find a very significant relationship. We can explain almost 70% of the variation in <span class="math inline">\(y_2\)</span> with just on time series variable.</p>
+<p>If we didn’t even run a regression we might find this strong relationship graphically. Suppose we just plotted the data as a dual y-axis chart. That’s easy enough to do with most software, though ggplot2 doesn’t make it easy. See <a href="https://stackoverflow.com/questions/3099219/ggplot-with-2-y-axes-on-each-side-and-different-scales">Hadley Wickham’s response here</a> for why not.</p>
+<p>With the <a href="https://ggplot2.tidyverse.org/reference/sec_axis.html">secondary axis</a> you can create a dual axis chart with ggplot2 now. In order to add the secondary scale we first transform the values of <span class="math inline">\(y_1\)</span> using the regression coefficients</p>
+<p><span class="math display">\[\hat{y_2}=\hat{\beta_0}+\hat{\beta_1}y_1\]</span>
+We plot <span class="math display">\[\hat{y_2}\]</span> but use a transformed scale for the secondary axis:</p>
+<p><span class="math display">\[ \frac{(y_1-\hat{\beta_0})}{\hat{\beta_1}}\]</span>
+To make the legend easier, I’ll color the secondary axis to correspond to series, black for <span class="math inline">\(y_1\)</span> and blue for <span class="math inline">\(y_2\)</span>.</p>
+<pre class="r"><code>ggplot(data=df, aes(x=id,y=y2))+
+  geom_line()+
+  geom_line(color=&quot;blue&quot;,aes(y=coef(fit)[1] + coef(fit)[2]*y1))+
+  scale_y_continuous(sec.axis = sec_axis(~ (. -coef(fit)[1])/coef(fit)[2],
+                                         name=TeX(&quot;$y_2$&quot;)))+
+  labs(x=&quot;time&quot;,y=TeX(&quot;$y_1$&quot;),
+       caption=&quot;@lenkiefer random walks simulated using cumsum(rnorm(100))&quot;,
+       title=&quot;Double Trouble: Hazard of Dual Axis Charts&quot;,
+       subtitle=TeX(&quot;y_1,y_2 random walks: $ y_1 = \\sum\\epsilon_{1,t}, y_2=\\sum\\epsilon_{2,t}$, $\\epsilon_{i,t} \\sim i.i.N.(0,1)$&quot;)
+       )+
+  theme( plot.caption=element_text(hjust=0),
+         plot.title=element_text(face=&quot;bold&quot;),
+         axis.line.y.right = element_line(color = &quot;blue&quot;),
+         axis.text.y.right=element_text(color=&quot;blue&quot;),
+         axis.title.y.right=element_text(color=&quot;blue&quot;),
+         axis.ticks.y.right = element_line(color = &quot;blue&quot;))</code></pre>
+<div class="figure"><span id="fig:2020-01-07-plot-1"></span>
+<img src="/post/2020-01-07-double-trouble-hazard-of-dual-axis-charts_files/figure-html/2020-01-07-plot-1-1.png" alt="Dual axis charts and spurious correlation" width="672" />
+<p class="caption">
+Figure 1: Dual axis charts and spurious correlation
+</p>
+</div>
+<p>This chart looks like lots charts I see in finance/economics discussions. Visually this plot is showing what the regression results above tell us. There is a strong correlation between <span class="math inline">\(y_1\)</span> and <span class="math inline">\(y_2\)</span>.</p>
+<p>Note that a scatterplot won’t help us here:</p>
+<pre class="r"><code>ggplot(data=df, aes(x=y1,y=y2))+
+  geom_point(color=&quot;blue&quot;,alpha=0.75)+
+  stat_smooth(method=&quot;lm&quot;,fill=NA)+
+  labs(x=TeX(&quot;$y_1$&quot;),y=TeX(&quot;$y_2$&quot;),
+       caption=&quot;@lenkiefer random walks simulated using cumsum(rnorm(100))&quot;,
+       title=&quot;Scatter plots won&#39;t save us&quot;,
+       subtitle=TeX(&quot;y_1,y_2 random walks: $ y_1 = \\sum\\epsilon_{1,t}, y_2=\\sum\\epsilon_{2,t}$, $\\epsilon_{i,t} \\sim i.i.N.(0,1)$&quot;)
+       )+
+  theme( plot.caption=element_text(hjust=0),
+         plot.title=element_text(face=&quot;bold&quot;),
+         axis.line.y.right = element_line(color = &quot;blue&quot;),
+         axis.text.y.right=element_text(color=&quot;blue&quot;),
+         axis.title.y.right=element_text(color=&quot;blue&quot;),
+         axis.ticks.y.right = element_line(color = &quot;blue&quot;))</code></pre>
+<div class="figure"><span id="fig:2020-01-07-plot-2"></span>
+<img src="/post/2020-01-07-double-trouble-hazard-of-dual-axis-charts_files/figure-html/2020-01-07-plot-2-1.png" alt="Scatter plots won't protect us from spurious correlation" width="672" />
+<p class="caption">
+Figure 2: Scatter plots won’t protect us from spurious correlation
+</p>
+</div>
+<p>If you plot enough time series variables you are almost certain to stumble across spurious correlations. Many economic series exhibit unit root like behavior that drives such spurious correlations. Of course, there are also cases where there is a causal link and series are cointegrated or related in some other way.</p>
+<p>The reason I like the scatterplot is because it forces you to think more directly about the relationship. Choosing to put <span class="math inline">\(y_1\)</span> on the x axis makes us tend to think movements in <span class="math inline">\(y_1\)</span> are causing movements in <span class="math inline">\(y_2\)</span>. This might not be true, but this mental mode is often useful. Is there some reason to believe <span class="math inline">\(y_1\)</span> might be causing <span class="math inline">\(y_2\)</span>? Or should it be the other way around? Perhaps some other factor is driving things.</p>
+<p>This is not a panacea of course. You could get things spectacularly wrong with a scatterplot too. But in my experience the scatterplot generates less lazy thinking than generating a dual y-axis chart and saying: “Eureka! <span class="math inline">\(y_1\)</span> and <span class="math inline">\(y_2\)</span> move together.”, or worse: “<span class="math inline">\(y_2\)</span> has deviated from its relationship to <span class="math inline">\(y_1\)</span>, so it must go up/down soon”.</p>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2019/12/17/shady-housing-market-chart/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2019/12/17/shady-housing-market-chart/">Shady housing market chart</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/dataviz/">dataviz</a>, 
+            
+                <a href="/tags/r/">R</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2020%2f01%2f07%2fdouble-trouble-hazard-of-dual-axis-charts%2f&text=Double%20Trouble%20Hazard%20of%20Dual%20Axis%20Charts via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2020%2f01%2f07%2fdouble-trouble-hazard-of-dual-axis-charts%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+
