@@ -395,7 +395,7 @@ F Statistic
 <p>With the <a href="https://ggplot2.tidyverse.org/reference/sec_axis.html">secondary axis</a> you can create a dual axis chart with ggplot2 now. In order to add the secondary scale we first transform the values of <span class="math inline">\(y_1\)</span> using the regression coefficients</p>
 <p><span class="math display">\[\hat{y_2}=\hat{\beta_0}+\hat{\beta_1}y_1\]</span>
 We plot <span class="math display">\[\hat{y_2}\]</span> but use a transformed scale for the secondary axis:</p>
-<p><span class="math display">\[ \frac{(y_1-\hat{\beta_0})}{\hat{\beta_1}}\]</span>
+<p><span class="math display">\[ \frac{(\hat{y_2}-\hat{\beta_0})}{\hat{\beta_1}}\]</span>
 To make the legend easier, I’ll color the secondary axis to correspond to series, black for <span class="math inline">\(y_1\)</span> and blue for <span class="math inline">\(y_2\)</span>.</p>
 <pre class="r"><code>ggplot(data=df, aes(x=id,y=y2))+
   geom_line()+
