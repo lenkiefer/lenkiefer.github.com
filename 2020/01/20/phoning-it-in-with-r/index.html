@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Running R and Emacs on my mobile phone">
+  <meta name="generator" content="Hugo 0.52" />
+
+  <title>Phoning it in with R &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/charts_2020_01_20/hello_world.jpg" >
+     
+    <meta property="og:title" content="Phoning it in with R">
+    <meta property="og:description" content="Running R and Emacs on my mobile phone">
+
+<div class="header">
+  <h1>Phoning it in with R</h1>
+  <h2>Running R and Emacs on my mobile phone</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2020/01/20</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/fun">fun</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+
+
+<p>Recently I have been running R from my Android phone. There are some apps on the Google Play Store that seem to let you emulate R, or connect to a remote version. Instead of doing that, I have been running R directly off my phone using the terminal.</p>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Rocking now<br><br>Writing, running <a href="https://twitter.com/hashtag/rstats?src=hash&amp;ref_src=twsrc%5Etfw">#rstats</a> scripts from the terminal with Emacs, pulling data from Fred, making chartz,<br><br>All from my oh so very smart phone <a href="https://t.co/WW7nbdYWw9">https://t.co/WW7nbdYWw9</a> <a href="https://t.co/eR9kSDoaL6">pic.twitter.com/eR9kSDoaL6</a></p>&mdash; 📈 𝙻𝚎𝚗 𝙺𝚒𝚎𝚏𝚎𝚛 📊 (@lenkiefer) <a href="https://twitter.com/lenkiefer/status/1218301810571608064?ref_src=twsrc%5Etfw">January 17, 2020</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>I tried a couple things, but I found the <a href="https://wiki.termux.com/wiki/Main_Page">Termux app</a> to be the most stable solution. With Termux I’m able to emulate a Linux command line and call programs like <a href="https://www.r-project.org/">R</a> and <a href="https://www.gnu.org/software/emacs/">Emacs</a>.</p>
+<p>I told Dr Hua Kiefer about it, but she wasn’t so impressed:</p>
+<figure>
+<img src="../../../../img/charts_2020_01_20/textmsg.jfif" alt="emacs with R" style="height:500px">
+<figcaption>
+Fig.2 - Making Chartz
+</figcaption>
+</figure>
+<div id="why-bother" class="section level2">
+<h2>Why bother</h2>
+<p>Why bother with this at all?</p>
+<p>Usually I am not far away from my desk and my reliable computer. Do I really need to run it from my phone? What is the added benefit? There are a few reasons</p>
+<ul>
+<li>It’s cool</li>
+<li>Having R with you is handy, you can
+<ul>
+<li>Look up stats on the fly (no dealing with clunky UI if data API available)</li>
+<li>Create custom plots on the fly</li>
+<li>Run simulations on the go</li>
+</ul></li>
+<li>With Emacs you can
+<ul>
+<li>Edit text files wherever you are</li>
+<li>Hone your Emacs text editing skills</li>
+</ul></li>
+</ul>
+<p>Since I’ve got my phone with me most times, now can have R with me most times. That makes me happy.</p>
+</div>
+<div id="keyboards" class="section level2">
+<h2>Keyboards</h2>
+<p>The default keyboard on my Android Phone is good for making good Tweets or sending text messages but not good for editing files. I found two solutions:</p>
+<ul>
+<li>The Hacker Keyboard app <a href="https://play.google.com/store/apps/details?id=org.pocketworkstation.pckeyboard&amp;hl=en_US">LINK</a></li>
+<li>A Bluetooth keyboard (I got this one <a href="https://www.amazon.com/Foldable-Bluetooth-Keyboard-Jelly-Comb/dp/B076V9Y2XZ/">Amazon</a>, it seems all right)</li>
+</ul>
+<p>Following <a href="https://twitter.com/carroll_jono/status/1218010145763913730?s=20">helpful suggestion</a> online I installed the Hacker Keyboard. This replaced my puny keyboard with a much more robust version.</p>
+<p>As good as the Hacker Keyboard is I also bought a little portable Bluetooth keyboard that can pair with my phone. The version I bought is nice and compact. The only downside is the “t” and “v” keys are a little smaller to accommodate the joints where the keyboard folds. That means I tend to miss those keys if I don’t push them hard enough. I think I’ll get used to it and adapt.</p>
+</div>
+<div id="emacs" class="section level2">
+<h2>Emacs</h2>
+<p>I usually use the Rstudio IDE, but as far as I know it is not available on mobile. Fortunately Termux comes with Emacs readily available. After installing it I fired it up and in short order had my first program:</p>
+<figure>
+<img src="../../../../img/charts_2020_01_20/hello_world.jpg" alt="emacs with R" style="width:100%">
+<figcaption>
+Fig.2 - A first program
+</figcaption>
+</figure>
+<p>I used to use Emacs years ago, mostly for SAS code. As I haven’t written much SAS code lately I haven’t used Emacs much.</p>
+<p>Messing around over the past few days I have begun to recall the Emacs that I forgot. It’s a joy to work with, reminding me of simpler times.</p>
+<p>Plus it has games:</p>
+<figure>
+<img src="../../../../img/charts_2020_01_20/tetris.jpg" alt="emacs with R" style="height:500px">
+<figcaption>
+Fig.3 - Tetris on Emacs
+</figcaption>
+</figure>
+</div>
+<div id="how-to-do-it" class="section level2">
+<h2>How to do it</h2>
+<p>I am afraid this cannot be a comprehensive guide. The steps I took might not work for your particular setup. I had to use a lot of trial and error to get things working.</p>
+<p>However, after some searching (starting with this <a href="https://www.reddit.com/r/rstats/comments/8rnxz2/instructions_for_r_onthego/">Reddit post: R on the go</a>) I found that staying pretty close to the steps outlined in the <a href="https://wiki.termux.com/wiki/Package_Management">Termux Wiki</a> I was able to get things working. There’s still a few places were things are not working (I have trouble installing certain packages from CRAN). But in general things seem to be working pretty well.</p>
+</div>
+<div id="what-to-do-with-it" class="section level1">
+<h1>What to do with it</h1>
+<p>Now that I was up an running, what could we do besides play Tetris?</p>
+<p>Fortunately I was able to get the <a href="https://CRAN.R-project.org/package=quantmod">quantmod</a> package working. That means I can easily got to <a href="https://fred.stlouisfed.org/">FRED</a> and get economic series.</p>
+<figure>
+<img src="../../../../img/charts_2020_01_20/emacs.jpg" alt="emacs with R" style="width:100%">
+<figcaption>
+Fig.4 - Getting going
+</figcaption>
+</figure>
+<p>FRED of course, has a nice application. But I find customizing charts on the phone not the best experience. By loading the data into R we can write our own custom script.</p>
+<pre class="r"><code>library(tidyverse)
+library(lubridate)
+quantmod::getSymbols(&#39;MORTGAGE30US&#39;, src=&#39;FRED&#39;)
+df &lt;-data.frame(date=time(MORTGAGE30US),MORTGAGE30US)
+png(filename=&#39;mtg2.png&#39;, height=500,width=800)
+ggplot(data=df%&gt;% filter(year(date)&gt;2009),
+       aes(x=date,y=MORTGAGE30US))+
+  geom_line(color=&#39;dodgerblue&#39;,size=1.2)+
+  theme_minimal(base_size=18)+
+  theme(plot.caption=element_text(hjust=0))+
+  geom_hline(linetype=2,
+             color=&#39;dodgerblue&#39;,
+             aes(yintercept=last(MORTGAGE30US)))+
+  labs(x=&#39;&#39;,y=&#39;rate %&#39;,
+       title=&#39;30-year fixed mortgage rate (%)&#39;,
+       caption=&#39;@lenkiefer Source Freddie Mac&#39;)
+dev.off()</code></pre>
+<figure>
+<img src="../../../../img/charts_2020_01_20/mtg2.png" alt="R mortgage rate chart" style="width:100%">
+<figcaption>
+Fig.5 - Mortgage Rate Chart
+</figcaption>
+</figure>
+<p><em>Most of this post was written on my phone via Emacs</em></p>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2020/01/07/double-trouble-hazard-of-dual-axis-charts/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2020/01/07/double-trouble-hazard-of-dual-axis-charts/">Double Trouble Hazard of Dual Axis Charts</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/r/">R</a>, 
+            
+                <a href="/tags/fun/">fun</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2020%2f01%2f20%2fphoning-it-in-with-r%2f&text=Phoning%20it%20in%20with%20R via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2020%2f01%2f20%2fphoning-it-in-with-r%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+
