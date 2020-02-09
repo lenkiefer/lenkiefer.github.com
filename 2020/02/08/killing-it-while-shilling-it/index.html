@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Breaking down the internet&#39;s dumbest contest">
+  <meta name="generator" content="Hugo 0.52" />
+
+  <title>Killing it while shilling it &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/charts_2020_02_08/cosine-similarity-1.png" >
+     
+    <meta property="og:title" content="Killing it while shilling it">
+    <meta property="og:description" content="Breaking down the internet&#39;s dumbest contest">
+
+<div class="header">
+  <h1>Killing it while shilling it</h1>
+  <h2>Breaking down the internet&#39;s dumbest contest</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2020/02/08</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/textmining">textmining</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/fun">fun</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+<script src="/rmarkdown-libs/htmlwidgets/htmlwidgets.js"></script>
+<script src="/rmarkdown-libs/jquery/jquery.min.js"></script>
+<link href="/rmarkdown-libs/datatables-css/datatables-crosstalk.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/datatables-binding/datatables.js"></script>
+<link href="/rmarkdown-libs/dt-core/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="/rmarkdown-libs/dt-core/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/dt-core/js/jquery.dataTables.min.js"></script>
+<link href="/rmarkdown-libs/crosstalk/css/crosstalk.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/crosstalk/js/crosstalk.min.js"></script>
+
+
+<p><strong>Economist Play-in Round</strong></p>
+<p>Bracket madness is about the descend on us. Before we get to March Madness we’ll have to suffer through a different kind of madness: the <a href="https://neoliberalproject.org/neoliberal-shill-bracket">Neoliberal Shill Bracket</a>. This year the Neoliberal project has succumbed to inflation and has expanded the field. This year features a play-in round.</p>
+<p>In this post we analyze the Economist Play-in:</p>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Economist Play-in (8)<br>---<a href="https://twitter.com/mioana?ref_src=twsrc%5Etfw">@mioana</a> <a href="https://twitter.com/imbernomics?ref_src=twsrc%5Etfw">@imbernomics</a> <a href="https://twitter.com/stanveuger?ref_src=twsrc%5Etfw">@stanveuger</a> <a href="https://twitter.com/jodiecongirl?ref_src=twsrc%5Etfw">@jodiecongirl</a> <a href="https://twitter.com/cblatts?ref_src=twsrc%5Etfw">@cblatts</a> <a href="https://twitter.com/jonathaneyer?ref_src=twsrc%5Etfw">@jonathaneyer</a> <a href="https://twitter.com/R_Thaler?ref_src=twsrc%5Etfw">@R_Thaler</a> <a href="https://twitter.com/florianederer?ref_src=twsrc%5Etfw">@florianederer</a> <a href="https://t.co/dvE7JkcqIw">pic.twitter.com/dvE7JkcqIw</a></p>&mdash; Neoliberal 🌐 (@ne0liberal) <a href="https://twitter.com/ne0liberal/status/1225851574465048577?ref_src=twsrc%5Etfw">February 7, 2020</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p><a href="https://twitter.com/ne0liberal/status/1225851574465048577?s=20" class="uri">https://twitter.com/ne0liberal/status/1225851574465048577?s=20</a></p>
+<p>As we get ready to break it down, let me ask you to consider the following questions.</p>
+<ul>
+<li><p>Do you like following the crowd?</p></li>
+<li><p>Are you a morning or a night person?</p></li>
+<li><p>What kinds of topics should your shill be shilling about?</p></li>
+<li><p>How do you feel about #hashtags?</p></li>
+<li><p>Should a true shill stick close to the Neoliberal line, or do you prefer originality?</p></li>
+<li><p>Is the The Sveriges Riksbank Prize in Economic Sciences in Memory of Alfred Nobel a real Nobel prize?</p></li>
+<li><p>Do you have excellent judgement and exquisite taste?</p></li>
+</ul>
+<p>In the Economist Play-in round there are 8 handles matched up. How do these prospective shills stack up? Let’s take a look.</p>
+<p>For this article I pulled data from the Twitter API as of about 2pm eastern on February 8, 2020. I pulled the last 1,000 tweets (or all if less than 1,000 existed) and the summary statistics for each of the prospective shills.</p>
+<div id="follower-count-and-primary-influence" class="section level1">
+<h1>Follower count and primary influence</h1>
+<p>We first might want to know how popular these accounts are. The easiest statistic to track is the number of followers. But follower count only gives a rough approximation of influence. We might also be interested in there reach. One way to calculate that is to determine the number of followers of followers.</p>
+<p>The table below displays the number of followers and primary influence metric for each shill. Followers is the number of direct followers, while primary influence is the number of followers of followers. So while <span class="citation">@R_Thaler</span> has the most followers at over 161,000 he does not have the greatest primary influence. That title goes to <span class="citation">@stanveuger</span> whose primary influence is over 43 million!</p>
+<div id="htmlwidget-1" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1">{"x":{"filter":"none","caption":"<caption>Followers and Reach of Shills<\/caption>","data":[["1","2","3","4","5","6","7","8"],["R_Thaler","cblatts","jodiecongirl","mioana","florianederer","imbernomics","stanveuger","jonathaneyer"],["161,321","71,752","24,170","14,759","6,038","3,593","3,291","1,794"],["4,562,832","5,689,518","8,792,712","5,840,138","8,993,363","6,491,251","43,572,025","3,937,981"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>shills<\/th>\n      <th>followers<\/th>\n      <th>primary_influence<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"order":[],"autoWidth":false,"orderClasses":false,"columnDefs":[{"orderable":false,"targets":0}]}},"evals":[],"jsHooks":[]}</script>
+<p>How is that possible? We can look at the full distribution of followers of followers in the histograms below. We use a log scale because number of followers is so skewed. We see that <span class="citation">@R_Thaler</span> has a lot of followers with fewer than 100 followers, while <span class="citation">@stanveuger</span> has several followers with over 1 million followers.</p>
+<div class="figure"><span id="fig:2020-02-08-hist1"></span>
+<img src="/post/2020-02-08-killing-it-while-shilling-it_files/figure-html/2020-02-08-hist1-1.png" alt="Histogram of shill twitter followers # of followers" width="672" />
+<p class="caption">
+Figure 1: Histogram of shill twitter followers # of followers
+</p>
+</div>
+<p>These results indicate that if you care about direct influence <span class="citation">@R_Thaler</span> is your shill, but if you care about reach, <span class="citation">@stanveuger</span> is the shill for you.</p>
+</div>
+<div id="tweet-timing" class="section level1">
+<h1>Tweet timing</h1>
+<p>What about timing of tweets? Maybe you are a morning person and want to see the best tweets right when you get up. Or perhaps you are a night owl and what the hottest takes late at night. What about weekdays vs weeknights? Let’s take a look at the timing of tweets by our would be shills.</p>
+<p>The chart below shows the share of each shills last 1000 tweets that were made based on day of the week and 3 hour blocks. We see that for the most part our shills are active during the week and business hours.</p>
+<div class="figure"><span id="fig:2020-02-08-tsplot-1"></span>
+<img src="/post/2020-02-08-killing-it-while-shilling-it_files/figure-html/2020-02-08-tsplot-1-1.png" alt="Shill tweets by day and time" width="672" />
+<p class="caption">
+Figure 2: Shill tweets by day and time
+</p>
+</div>
+<p>The table below matches you to your shill based on weekend/weekday and time: (before 10am), business hours (10am-5pm), or evening (after 5pm). If you are a morning person <span class="citation">@florianederer</span> just might be your shill. But if you prefer the night (I have kids so after 5 == night for me) then either <span class="citation">@stanveuger</span> or <span class="citation">@jodieecongirl</span> give you the most intense tweets. If you shill 9-5 on the weekdays then <span class="citation">@mioana</span> fits best. If you are chaotic business (business hours but weekend) then perhaps <span class="citation">@imbernomics</span> should be your shill.</p>
+<div class="figure"><span id="fig:2020-02-08-tsplot-2"></span>
+<img src="/post/2020-02-08-killing-it-while-shilling-it_files/figure-html/2020-02-08-tsplot-2-1.png" alt="Morning, noon, night, shilling full time" width="672" />
+<p class="caption">
+Figure 3: Morning, noon, night, shilling full time
+</p>
+</div>
+</div>
+<div id="what-they-shill-about" class="section level1">
+<h1>What they shill about</h1>
+<p>Perhaps it is quality of tweets that matters most. Quality is subjective, but we can use text mining tools to examine what topics our shills are shilling on about. The chart below shows the tf-idf statistic: term frequency and inverse document frequency for each prospective shill. The tf-idf statistic will decrease the weight on very common words and increase the weight on words that only appear in a few tweets. In essence, we extract what’s special about each prospective shill’s tweets.</p>
+<div class="figure"><span id="fig:2020-02-02-td-idf-1"></span>
+<img src="/post/2020-02-08-killing-it-while-shilling-it_files/figure-html/2020-02-02-td-idf-1-1.png" alt="What these shills tweet about" width="672" />
+<p class="caption">
+Figure 4: What these shills tweet about
+</p>
+</div>
+<p>As you might suspect there is a good deal of politics, but also some quite idiosyncratic terms show up.</p>
+<p>We can also plot a word correlation diagram. We’ll compute pairwise word correlations and then construct a graph representing those correlations.</p>
+<p>There’s quite a few graphics, so I’ve hidden them in the tab. Click to expand.</p>
+<details>
+<p><Summary>
+Click for word correlation diagrams
+</Summary>
+<img src="../../../../img/\charts_2020_02_08/mioana.png" alt="emacs with R" style="width:100%">
+<img src="../../../../img/\charts_2020_02_08/imbernomics.png" alt="emacs with R" style="width:100%">
+<img src="../../../../img/\charts_2020_02_08/stanveuger.png" alt="emacs with R" style="width:100%">
+<img src="../../../../img/\charts_2020_02_08/jodiecongirl.png" alt="emacs with R" style="width:100%">
+<img src="../../../../img/\charts_2020_02_08/jonathaneyer.png" alt="emacs with R" style="width:100%">
+<img src="../../../../img/\charts_2020_02_08/florianederer.png" alt="emacs with R" style="width:100%">
+<img src="../../../../img/\charts_2020_02_08/cblatts.png" alt="emacs with R" style="width:100%">
+<img src="../../../../img/\charts_2020_02_08/R_Thaler.png" alt="emacs with R" style="width:100%"></p>
+</details>
+</div>
+<div id="how-do-you-feel-about-hashtags" class="section level1">
+<h1>How do you feel about hashtags?</h1>
+<p>If you like hashtags the table below shows the hashtags with the highest tf-idf (term frequency inverse document frequency) for each shill.</p>
+<div class="figure"><span id="fig:2020-02-02-td-idf-2"></span>
+<img src="/post/2020-02-08-killing-it-while-shilling-it_files/figure-html/2020-02-02-td-idf-2-1.png" alt="What these #shills tweet about" width="672" />
+<p class="caption">
+Figure 5: What these #shills tweet about
+</p>
+</div>
+</div>
+<div id="who-tweets-like-ne0liberal" class="section level1">
+<h1>Who tweets like <span class="citation">@ne0liberal</span>?</h1>
+<p>Perhaps when deciding the best shill, we need to consider who is closest to the ne0liberal account in terms of tweets. We can compute a cosine similiarity metric ( see <a href="http://text2vec.org/similarity.html#cosine_similarity" class="uri">http://text2vec.org/similarity.html#cosine_similarity</a> and <a href="https://www.brodrigues.co/blog/2019-06-04-cosine_sim/" class="uri">https://www.brodrigues.co/blog/2019-06-04-cosine_sim/</a> ) to compare how similar the tweets are among our shills.</p>
+<p>To give some comparison I also pulled in tweets from the <span class="citation">@ne0liberal</span> account, my own account <span class="citation">@lenkiefer</span> and <span class="citation">@Wikipedia</span> and <span class="citation">@weatherchannel</span>. Finally I also included tweets from <span class="citation">@dril</span>.</p>
+<p><strong>Warning!</strong> <span class="citation">@dril</span> is not a family-friendly twitter account. When I computed the tf-idf statistic for <span class="citation">@dril</span> relative to our prospective shill all the top terms were either profanities, scatological, body parts, or combinations of all three.</p>
+<p>The matrix below displays the cosine similarity measure for our prospective shills and the comparison groups. The diagonal are by definition equal to 1. Everyone is perfectly similar to themselves. The darker orange the square, the more similar the two tweet timelines. The shills cblatts and jonathaneyer have the strongest relationship.</p>
+<div class="figure"><span id="fig:2020-02-02-cosine-similarity"></span>
+<img src="/post/2020-02-08-killing-it-while-shilling-it_files/figure-html/2020-02-02-cosine-similarity-1.png" alt="Cosine Similarity" width="672" />
+<p class="caption">
+Figure 6: Cosine Similarity
+</p>
+</div>
+<p>The charts below contain the same information as the graphic above, but might be easier to read.</p>
+<div id="which-shill-is-most-ne0liberal" class="section level2">
+<h2>which shill is most ne0liberal?</h2>
+<p>First, who is the most <span class="citation">@ne0liberal</span>? The shills <span class="citation">@stanveuger</span> and <span class="citation">@imbernomics</span> are the most similar. The <span class="citation">@weatherchannel</span> and <span class="citation">@dril</span> (reassuringly) are the least similar.</p>
+<div class="figure"><span id="fig:2020-02-02-like-neo"></span>
+<img src="/post/2020-02-08-killing-it-while-shilling-it_files/figure-html/2020-02-02-like-neo-1.png" alt="Like a ne0liberal" width="672" />
+<p class="caption">
+Figure 7: Like a ne0liberal
+</p>
+</div>
+<p>Who is most similar to me, <span class="citation">@lenkiefer</span>? That would be <span class="citation">@jonathaneyer</span> and <span class="citation">@R_Thaler</span>.</p>
+</div>
+<div id="which-shill-is-most-like-lenkiefer" class="section level2">
+<h2>which shill is most like <span class="citation">@lenkiefer</span></h2>
+<div class="figure"><span id="fig:2020-02-02-like-lenkiefer"></span>
+<img src="/post/2020-02-08-killing-it-while-shilling-it_files/figure-html/2020-02-02-like-lenkiefer-1.png" alt="Like lenkiefer" width="672" />
+<p class="caption">
+Figure 8: Like lenkiefer
+</p>
+</div>
+</div>
+<div id="which-shill-is-most-like-dril" class="section level2">
+<h2>which shill is most like <span class="citation">@dril</span></h2>
+<p>How about <span class="citation">@dril</span>?</p>
+<div class="figure"><span id="fig:2020-02-02-like-dril"></span>
+<img src="/post/2020-02-08-killing-it-while-shilling-it_files/figure-html/2020-02-02-like-dril-1.png" alt="Like dril" width="672" />
+<p class="caption">
+Figure 9: Like dril
+</p>
+</div>
+<p>The prospective shills <span class="citation">@jonathaneyer</span> and <span class="citation">@jodiecongirl</span> have that distinction.</p>
+</div>
+</div>
+<div id="nobel-prizes" class="section level1">
+<h1>Nobel prizes</h1>
+<p>At the moment only <span class="citation">@R_Thaler</span> has a he Sveriges Riksbank Prize in Economic Sciences in Memory of Alfred Nobel.</p>
+</div>
+<div id="do-they-have-great-taste" class="section level1">
+<h1>Do they have great taste?</h1>
+<p>I’ve presented a variety of statistics and analytics around the various candidate shills. For me there is statistic that I will rely on for my vote. Only <span class="citation">@jodiecongirl</span> has demonstated the good judgement and excellent taste required to follow <span class="citation">@lenkiefer</span>.</p>
+<p><em>R code</em></p>
+<p>All the analysis, charting, and this blog post were made with <a href="https://www.r-project.org/">R</a>. I may post code at a future date. Most of it follows the steps laid out in my earlier post <a href="http://lenkiefer.com/2018/07/29/beige-ian-statistics/">Beige-ian Statistics</a>.</p>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2020/01/20/phoning-it-in-with-r/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2020/01/20/phoning-it-in-with-r/">Phoning it in with R</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/r/">R</a>, 
+            
+                <a href="/tags/textmining/">textmining</a>, 
+            
+                <a href="/tags/fun/">fun</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2020%2f02%2f08%2fkilling-it-while-shilling-it%2f&text=Killing%20it%20while%20shilling%20it via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2020%2f02%2f08%2fkilling-it-while-shilling-it%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+
