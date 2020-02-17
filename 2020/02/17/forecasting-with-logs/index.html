@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Notes on forecasting with logs">
+  <meta name="generator" content="Hugo 0.52" />
+
+  <title>Forecasting with logs &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/charts_2020_02_17/fcst.png" >
+     
+    <meta property="og:title" content="Forecasting with logs">
+    <meta property="og:description" content="Notes on forecasting with logs">
+
+<div class="header">
+  <h1>Forecasting with logs</h1>
+  <h2>Notes on forecasting with logs</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2020/02/17</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/forecasting">forecasting</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/economics">economics</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/statistics">statistics</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+
+
+<p>As an economist and all-around friend of strictly positive numbers I often use the log function. The <a href="https://en.wikipedia.org/wiki/Natural_logarithm">natural logarithm</a> of course, need I specify it? Apparently in certain spreadsheet software you do.</p>
+<p>In this note I just wanted to write down a couple of observations about how to generate mean or median forecasts of a variable <span class="math inline">\(y\)</span> given the model is fit in <span class="math inline">\(log(y)\)</span>. Of course, I am going to borrow heavily from Rob Hyndman’s blog, <a href="https://robjhyndman.com/hyndsight/backtransforming/">where he coverse this</a>. But I also want to add in some code for a simulation from a seasonal arima model <a href="https://robjhyndman.com/hyndsight/simulating-from-a-specified-seasonal-arima-model/">(also covered by Rob)</a>.</p>
+<p><a href="https://www.r-project.org/">R</a> code to follow</p>
+<div id="a-simple-arima-model" class="section level1">
+<h1>A simple ARIMA model</h1>
+<p>Let’s fit a seasonal ARIMA model with drift to quarterly house price index for the state of California from the <a href="https://www.fhfa.gov/DataTools/Downloads/Pages/House-Price-Index-Datasets.aspx">FHFA</a>. The FHFA provides a nice flat text file that we can read straight into our computer:</p>
+<div id="set-up-libraries" class="section level4">
+<h4>Set up libraries</h4>
+<pre class="r"><code>library(data.table)
+library(tidyverse)
+library(forecast)
+library(matrixStats)
+# colors (http://lenkiefer.com/2019/09/23/theme-inari/)
+inari  &lt;- &quot;#fe5305&quot;
+inari1 &lt;- &quot;#e53a00&quot;
+inari2 &lt;- &quot;#a90000&quot;</code></pre>
+</div>
+<div id="import-data" class="section level3">
+<h3>Import data</h3>
+<pre class="r"><code># read in file 
+dt &lt;- fread(&quot;https://www.fhfa.gov/DataTools/Downloads/Documents/HPI/HPI_PO_state.txt&quot;)
+
+# construct  a times series
+ts1 &lt;- ts(dt[state==&quot;CA&quot;,]$index_nsa ,start=1991,frequency=4)
+
+autoplot(ts1,color=inari,size=1.1)+
+  theme_minimal()+
+  theme(plot.caption=element_text(hjust=0))+
+  labs(x=&quot;date (quarterly)&quot;,y=&quot;&quot;,
+                   title=&quot;California House Price Index (NSA)&quot;,
+                   subtitle=&quot;Index (NSA, 1991Q1 = 100)&quot;,
+                   caption=&quot;@lenkiefer Source: FHFA Purchase-only House Price Index&quot;)</code></pre>
+<div class="figure"><span id="fig:2020-02-17-data1"></span>
+<img src="/post/2020-02-17-forecasting-with-logs_files/figure-html/2020-02-17-data1-1.png" alt="House Price Index" width="672" />
+<p class="caption">
+Figure 1: House Price Index
+</p>
+</div>
+<p>Let’s fit a simple seasonal ARIMA model to this index using <code>forecast::auto.arima</code>. Note this isn’t necessarily a great model, or useful for anything. It’s just a pretty standard benchmark.</p>
+<pre class="r"><code>(fit &lt;- auto.arima(ts1,lambda=0,allowdrift=TRUE))</code></pre>
+<pre><code>## Series: ts1 
+## ARIMA(2,1,1)(2,0,0)[4] 
+## Box Cox transformation: lambda= 0 
+## 
+## Coefficients:
+##          ar1      ar2      ma1    sar1    sar2
+##       1.5855  -0.6934  -0.5263  0.3849  0.3375
+## s.e.  0.1522   0.1272   0.1824  0.0958  0.0965
+## 
+## sigma^2 estimated as 0.0001513:  log likelihood=340.19
+## AIC=-668.38   AICc=-667.59   BIC=-651.96</code></pre>
+<pre class="r"><code>fit1 &lt;- Arima(ts1,model=fit)</code></pre>
+<p>Construct foreasts:</p>
+<pre class="r"><code># forecast horizon = 12 quarters
+h &lt;- 12
+
+g1 &lt;- 
+autoplot(forecast(fit1,h),color=inari,size=1.1,fcol=inari)+
+  theme_minimal()+
+  theme(plot.caption=element_text(hjust=0))+
+  labs(x=&quot;date (quarterly)&quot;,y=&quot;&quot;,
+                   title=&quot;California House Price Index (NSA)&quot;,
+                   subtitle=&quot;Index (NSA, 1991Q1 = 100)\nforecasts from ARIMA model&quot;,
+                   caption=&quot;@lenkiefer Source: FHFA Purchase-only House Price Index&quot;)
+
+g1</code></pre>
+<div class="figure"><span id="fig:2020-02-17-plot2"></span>
+<img src="/post/2020-02-17-forecasting-with-logs_files/figure-html/2020-02-17-plot2-1.png" alt="Forecasts from ARIMA" width="672" />
+<p class="caption">
+Figure 2: Forecasts from ARIMA
+</p>
+</div>
+<p>Note that the default parameter setting for <code>forecast::forecast</code> has <code>biasadj=FALSE</code>, which means the default forecast (the line in the plot above) is the median. If we want the mean forecast we can set <code>biasadj=TRUE</code> or just do it ourselves:</p>
+<pre class="r"><code>fc &lt;- forecast(fit,h, level=95)
+# as in https://robjhyndman.com/hyndsight/backtransforming/
+fvar &lt;- ((BoxCox(fc$upper,fit$lambda) -
+                    BoxCox(fc$lower,fit$lambda))/qnorm(0.975)/2)^2
+
+fc$mean_log &lt;- fc$mean * (1+0.5*fvar)
+colnames(fc$mean_log) &lt;-  &quot;mean_log&quot;
+g1+autolayer(fc$mean_log, linetype=2,color=inari2)+scale_x_continuous(limits=c(2018,2022))+
+  labs( subtitle=&quot;Index (NSA, 1991Q1 = 100)\nforecasts from ARIMA model\ndotted line mean forecast, solid line median&quot;)</code></pre>
+<div class="figure"><span id="fig:2020-02-17-plot3"></span>
+<img src="/post/2020-02-17-forecasting-with-logs_files/figure-html/2020-02-17-plot3-1.png" alt="Mean and median forecasts" width="672" />
+<p class="caption">
+Figure 3: Mean and median forecasts
+</p>
+</div>
+</div>
+</div>
+<div id="a-simulation" class="section level1">
+<h1>A simulation</h1>
+<p>It’s always nice to check our results against a simulation.</p>
+<pre class="r"><code># simulate from ARIMA https://robjhyndman.com/hyndsight/simulating-from-a-specified-seasonal-arima-model/
+Nsim=5000
+h &lt;- 12
+ts_sim=array(dim=c(Nsim,h))
+
+for (i in 1:Nsim){
+  ts_sim[i,] &lt;- simulate(fit1,nsim=h)
+}
+
+# create ts object
+ts_sim &lt;- ts(t(ts_sim),start=start(fc$mean),frequency=frequency(fc$mean))
+colnames(ts_sim) &lt;- paste0(&quot;sim_&quot;,1:Nsim)
+
+
+# construct simulation means and medians
+fc_median &lt;- ts(rowMedians(ts_sim),start=start(fc$mean),frequency=frequency(fc$mean))
+fc_mean &lt;- ts(rowMeans(ts_sim),start=start(fc$mean),frequency=frequency(fc$mean))</code></pre>
+<p>And make a plot:</p>
+<pre class="r"><code># combine into data frame/tibble
+df_plot &lt;- tibble(tt=as.numeric(time(fc$mean)),
+                  analytic_median=fc$mean,
+                  simulation_median=fc_median,
+                  simulation_mean=fc_mean,
+                  analytic_mean=fc$mean_log[,1])
+
+# make plot
+df_plot %&gt;% 
+  pivot_longer(-tt) %&gt;%
+  mutate(type=ifelse(grepl(&quot;sim&quot;,name),&quot;simulation&quot;,&quot;analytic&quot;)) %&gt;%
+  ggplot(aes(x=tt,y=value,color=name,linetype=type))+
+  geom_line(size=1.1)+
+  scale_color_manual(values=c(&quot;black&quot;,inari,&quot;darkgray&quot;,inari2))+
+  theme_minimal()+
+  theme(plot.caption=element_text(hjust=0))+
+  labs(x=&quot;&quot;,y=&quot;House Price Index&quot;,
+       title=&quot;ARIMA Forecasts&quot;,
+       subtitle=&quot;solid line: analytical mean/median\ndotted line: mean/median from 5000 simulations&quot;,
+       caption=&quot;@lenkiefer&quot;)</code></pre>
+<div class="figure"><span id="fig:2020-02-17-simulation-plot"></span>
+<img src="/post/2020-02-17-forecasting-with-logs_files/figure-html/2020-02-17-simulation-plot-1.png" alt="Simulation Comparison" width="672" />
+<p class="caption">
+Figure 4: Simulation Comparison
+</p>
+</div>
+<p>As time series go this is pretty straightforward stuff. I am just putting this down here so future me can reference this as needed.</p>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2020/02/08/killing-it-while-shilling-it/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2020/02/08/killing-it-while-shilling-it/">Killing it while shilling it</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/r/">R</a>, 
+            
+                <a href="/tags/forecasting/">forecasting</a>, 
+            
+                <a href="/tags/economics/">economics</a>, 
+            
+                <a href="/tags/statistics/">statistics</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2020%2f02%2f17%2fforecasting-with-logs%2f&text=Forecasting%20with%20logs via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2020%2f02%2f17%2fforecasting-with-logs%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+
