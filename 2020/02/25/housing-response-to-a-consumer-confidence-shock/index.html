@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Reduced form VAR evidence on how consumer sentiment may impact housing markets">
+  <meta name="generator" content="Hugo 0.52" />
+
+  <title>Housing Response to a Consumer Sentiment Shock &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/charts_2020_02_17/fcst.png" >
+     
+    <meta property="og:title" content="Housing Response to a Consumer Sentiment Shock">
+    <meta property="og:description" content="Reduced form VAR evidence on how consumer sentiment may impact housing markets">
+
+<div class="header">
+  <h1>Housing Response to a Consumer Sentiment Shock</h1>
+  <h2>Reduced form VAR evidence on how consumer sentiment may impact housing markets</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2020/02/25</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/economy">economy</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+
+
+<p>I’ve been thinking about how different macroeconomic shocks might affect the U.S. housing market. Given recent volatility it is hard to know how to size risks. But it could be a useful exercise to think through how certain typical shocks might impact the housing market.</p>
+<p>Rather than take on a full structural approach, I just want to extend the reduced form VAR analysis we did in a <a href="../../../../2019/11/02/lower-mortgage-rates-bolster-the-housing-market/">post from last year</a>.</p>
+<p>In this example, I want to see how a shock to consumer sentiment, as measured by the University of Michigan’s <a href="http://www.sca.isr.umich.edu/">Survey of Consumers</a> might impact housing market activity.</p>
+<div id="gather-data-estimate-var" class="section level2">
+<h2>Gather data, estimate VAR</h2>
+<details>
+<p><Summary> Click for data wrangling code </Summary></p>
+<pre class="r"><code>library(tidyquant)
+library(tidyverse)
+library(vars)
+library(patchwork)</code></pre>
+<pre class="r"><code>tickers &lt;- c(&quot;FEDFUNDS&quot;,
+             &quot;GS10&quot;,
+             &quot;MORTGAGE30US&quot;,
+             &quot;UNRATE&quot;,
+             &quot;PCEPILFE&quot;,
+             &quot;HOUST&quot;,
+             &quot;PCE&quot;,
+             &quot;UMCSENT&quot;)
+
+df &lt;- tidyquant::tq_get(tickers,get=&quot;economic.data&quot;,from=&quot;1979-01-01&quot;) %&gt;%
+  group_by(symbol,year=year(date),month=month(date)) %&gt;%
+  summarize(price=last(price)) %&gt;%
+  ungroup() %&gt;%
+  mutate(date=as.Date(ISOdate(year,month,1)))
+
+df2 &lt;- 
+  df %&gt;% 
+  pivot_wider(names_from=symbol,values_from=price)  %&gt;% 
+  mutate(RPCE=PCE*first(PCEPILFE)/PCEPILFE,
+         PCE_INFLATION=PCEPILFE/lag(PCEPILFE)-1,
+         PCE_INFLATION12=PCEPILFE/lag(PCEPILFE,12)-1,
+         LOG_STARTS= log(HOUST),
+         FEDFUNDS=FEDFUNDS/100,
+         UNRATE=UNRATE/100,
+         GS10=GS10/100,
+         LOG_CONSUMER_SENTIMENT = log(UMCSENT )
+  )</code></pre>
+</details>
+<details>
+<p><Summary> Click for estimation and plotting code </Summary></p>
+<pre class="r"><code>ts1 &lt;- ts(df2[,c(&quot;LOG_STARTS&quot;,&quot;LOG_CONSUMER_SENTIMENT&quot;,&quot;UNRATE&quot;,
+                 &quot;PCE_INFLATION12&quot;,&quot;GS10&quot;,&quot;FEDFUNDS&quot;)],
+          start=1979,frequency=12)
+
+ts2 &lt;- window(ts1,start=1980,end=2019+11/12)
+var1 &lt;- VAR(ts2, p=12,type=&quot;const&quot;)
+irf1 &lt;- irf(var1,n.ahead=60)</code></pre>
+<pre class="r"><code>mycaption &lt;- paste0(&quot;@lenkiefer Response estimated by VAR(12)&quot;,
+                      &quot;\nusing R package vars: https://CRAN.R-project.org/package=vars&quot;,
+                      &quot;\nResponse is based on six variable system with log Housing Starts, log Consumer sentiment Index,&quot;,
+                      &quot;\nUnemployment Rate, 12-month percent change in PCE core inflation, the 10-year U.S. Treasury Yield and the \nEffective Federal Funds Rate&quot;,
+                      &quot;\nMonthly data Jan 1980 to Dec 2019&quot;,
+                      &quot;\nSources: Census/HUD, BLS, BEA, University of Michigan, Federal Reserve&quot;,
+                      &quot;\nRetrieved from FRED, Federal Reserve Bank of St. Louis&quot;)
+
+# code to make plots
+
+myf &lt;- function(i=1,j=2){
+
+# hpa response of starts to consumer sentiment shock
+irf_var1 &lt;- data.frame(period=1:61,
+                       low=irf1$Lower[[j]][,i],
+                       up=irf1$Upper[[j]][,i],
+                       m = irf1$irf[[j]][,i]
+)
+
+
+
+ggplot(data=irf_var1, aes(x=period,y=-m,ymin=-low,ymax=-up))+
+  geom_ribbon(fill=&quot;dodgerblue&quot;,alpha=0.5)+
+  geom_line(color=&quot;red&quot;)+
+  geom_hline(yintercept=0,linetype=2)+
+  theme(plot.caption=element_text(hjust=0))+
+  scale_y_continuous(labels=scales::percent)+
+  scale_x_continuous(breaks=seq(0,60,12))+
+  theme_minimal()+
+  theme(plot.caption=element_text(hjust=0))+
+  labs(x=&quot;months since shock&quot;,
+       y=&quot;Response&quot;,
+       title=paste0(colnames(ts2)[i],&quot; response to &quot;,colnames(ts2)[j], &quot; shock&quot;),
+       subtitle=&quot;Red line response, blue shaded area 95% sentiment interval&quot;)
+
+}</code></pre>
+</details>
+<pre class="r"><code>myf(1,2)+labs(caption=mycaption)</code></pre>
+<div class="figure"><span id="fig:2020-02-25-plot1"></span>
+<img src="/post/2020-02-25-housing-response-to-a-consumer-confidence-shock_files/figure-html/2020-02-25-plot1-1.png" alt="Impulse Response of Housing Starts to a Consumer Sentiment Shock" width="672" />
+<p class="caption">
+Figure 1: Impulse Response of Housing Starts to a Consumer Sentiment Shock
+</p>
+</div>
+<p>We can also use the <a href="https://www.r-project.org/">R</a> package <a href="https://github.com/thomasp85/patchwork">patchwork</a> to construct a composite plot:</p>
+<pre class="r"><code>myf(1,2)+labs(title=&quot;Housing Starts&quot;,subtitle=&quot;&quot;)+
+myf(2,2)+labs(title=&quot;Consumer Sentiment&quot;,subtitle=&quot;&quot;) +
+myf(3,2)+labs(title=&quot;Unemployment Rate&quot;,subtitle=&quot;&quot;) +
+myf(4,2)+labs(title=&quot;Inflation&quot;,subtitle=&quot;&quot;) +
+myf(5,2)+labs(title=&quot;10yr Treasury&quot;,subtitle=&quot;&quot;)+
+myf(6,2)+labs(title=&quot;Fed Funds Rate&quot;,subtitle=&quot;&quot;) +
+  plot_annotation(caption=mycaption,
+                  title=&quot;Impulse Response to a Consumer Sentiment Shock&quot;,
+                  theme = theme(plot.caption = element_text(hjust=0)))</code></pre>
+<div class="figure"><span id="fig:2020-02-25-plot-2"></span>
+<img src="/post/2020-02-25-housing-response-to-a-consumer-confidence-shock_files/figure-html/2020-02-25-plot-2-1.png" alt="VAR IRF" width="672" />
+<p class="caption">
+Figure 2: VAR IRF
+</p>
+</div>
+<p>These results look reasonable: a dip in consumer sentiment leads to a contraction in housing starts after about a year, unemployment rises a bit and fed accommodates with ~1 rate cut.</p>
+<p>These results however assume a 4% decline in consumer sentiment (a typical/1 s.d. shock). As I tweeted out, during a recession the consumer sentiment index typically declines 20 to 30 percent:</p>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">consumer confidence index typically declines 20-30% (on  y/y basis) during recession <a href="https://t.co/1g5fK7Yv2W">pic.twitter.com/1g5fK7Yv2W</a></p>&mdash; 📈 𝙻𝚎𝚗 𝙺𝚒𝚎𝚏𝚎𝚛 📊 (@lenkiefer) <a href="https://twitter.com/lenkiefer/status/1232418884575166464?ref_src=twsrc%5Etfw">February 25, 2020</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>This type of reduced form analysis is far from complete. However, it does give us some sense of how changes in sentiment might impact the housing market. This could be a useful launching point for more careful analysis.</p>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2020/02/17/forecasting-with-logs/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2020/02/17/forecasting-with-logs/">Forecasting with logs</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/r/">R</a>, 
+            
+                <a href="/tags/economy/">economy</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2020%2f02%2f25%2fhousing-response-to-a-consumer-confidence-shock%2f&text=Housing%20Response%20to%20a%20Consumer%20Sentiment%20Shock via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2020%2f02%2f25%2fhousing-response-to-a-consumer-confidence-shock%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+
