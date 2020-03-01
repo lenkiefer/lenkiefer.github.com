@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="R script for generating a state &#43; metro map">
+  <meta name="generator" content="Hugo 0.52" />
+
+  <title>Location Quotient Map &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/charts_2020_02_29/map.png" >
+     
+    <meta property="og:title" content="Location Quotient Map">
+    <meta property="og:description" content="R script for generating a state &#43; metro map">
+
+<div class="header">
+  <h1>Location Quotient Map</h1>
+  <h2>R script for generating a state &#43; metro map</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2020/02/29</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/economy">economy</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/maps">maps</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+
+
+<p>I have been thinking about how the recent volatility could impact the economy. If travel and tourism contract due to fears of a pandemic, the impact will differ in markets around the United States. One way to think about this is to compute the Location Quotient, or the percentage of the employment in an area that is in the leisure and hospitality industry.</p>
+<p>Conside the graphic below:</p>
+<p><img src="../../../../img/charts_2020_02_29/map.png" style="width:450px"></p>
+<p>This map shows areas (states and core based statistical areas) color-coded by their location quotient. Blue regions have less dependence on leisure and hospitality. Redder areas have more. At the top of the list (among metros with at least 200,000 employed) are Las Vegas and Orlando.</p>
+<p>The housing markets in Las Vegas and Orlando have benefited from a strong economy. But if travel and tourism contract, those areas could face tough times ahead. Areas in the upper midwest and around the Great Lakes have less exposure to travel and tourism. However, if we face supply disruptions, those areas could face challenges as they rely more on manufacturing.</p>
+<p>Below I share <a href="https://www.r-project.org/">R</a> code to generate the figure above.</p>
+<div id="data-wrangling-code" class="section level2">
+<h2>Data wrangling code</h2>
+<pre class="r"><code>###########################################
+# Load libraries ----
+###########################################
+library(httr)
+library(readxl)
+library(sf)
+library(tidyverse)
+library(data.table)
+library(albersusa)
+library(tigris)
+library(patchwork)
+
+###########################################
+# color palette code ----
+###########################################
+my_colors &lt;- c(
+  &quot;green&quot;      = rgb(103,180,75, maxColorValue = 256),
+  &quot;green2&quot;      = rgb(147,198,44, maxColorValue = 256),
+  &quot;lightblue&quot;  =  rgb(9, 177,240, maxColorValue = 256),
+  &quot;lightblue2&quot; = rgb(173,216,230, maxColorValue = 256),
+  &#39;blue&#39;       = &quot;#00aedb&quot;,
+  &#39;red&#39;        = &quot;#d11141&quot;,
+  &#39;orange&#39;     = &quot;#f37735&quot;,
+  &#39;yellow&#39;     = &quot;#ffc425&quot;,
+  &#39;gold&#39;       = &quot;#FFD700&quot;,
+  &#39;light grey&#39; = &quot;#cccccc&quot;,
+  &#39;purple&#39;     = &quot;#551A8B&quot;,
+  &#39;dark grey&#39;  = &quot;#8c8c8c&quot;)
+
+
+my_cols &lt;- function(...) {
+  cols &lt;- c(...)
+  if (is.null(cols))
+    return (my_colors)
+  my_colors[cols]
+}
+
+
+my_palettes &lt;- list(
+  `main`  = my_cols(&quot;blue&quot;, &quot;green&quot;, &quot;yellow&quot;),
+  `cool`  = my_cols(&quot;blue&quot;, &quot;green&quot;),
+  `cool2hot` = my_cols(&quot;lightblue2&quot;,&quot;lightblue&quot;, &quot;blue&quot;,&quot;green&quot;, &quot;green2&quot;,&quot;yellow&quot;,&quot;gold&quot;, &quot;orange&quot;, &quot;red&quot;),
+  `hot`   = my_cols(&quot;yellow&quot;, &quot;orange&quot;, &quot;red&quot;),
+  `mixed` = my_cols(&quot;lightblue&quot;, &quot;green&quot;, &quot;yellow&quot;, &quot;orange&quot;, &quot;red&quot;),
+  `mixed2` = my_cols(&quot;lightblue2&quot;,&quot;lightblue&quot;, &quot;green&quot;, &quot;green2&quot;,&quot;yellow&quot;,&quot;gold&quot;, &quot;orange&quot;, &quot;red&quot;),
+  `mixed3` = my_cols(&quot;lightblue2&quot;,&quot;lightblue&quot;, &quot;green&quot;, &quot;yellow&quot;,&quot;gold&quot;, &quot;orange&quot;, &quot;red&quot;),
+  `mixed4` = my_cols(&quot;lightblue2&quot;,&quot;lightblue&quot;, &quot;green&quot;, &quot;green2&quot;,&quot;yellow&quot;,&quot;gold&quot;, &quot;orange&quot;, &quot;red&quot;,&quot;purple&quot;),
+  `mixed5` = my_cols(&quot;lightblue&quot;,&quot;green&quot;, &quot;green2&quot;,&quot;yellow&quot;,&quot;gold&quot;, &quot;orange&quot;, &quot;red&quot;,&quot;purple&quot;,&quot;blue&quot;),
+  `mixed6` = my_cols(&quot;green&quot;, &quot;gold&quot;, &quot;orange&quot;, &quot;red&quot;,&quot;purple&quot;,&quot;blue&quot;),
+  `grey`  = my_cols(&quot;light grey&quot;, &quot;dark grey&quot;)
+)
+
+
+my_pal &lt;- function(palette = &quot;main&quot;, reverse = FALSE, ...) {
+  pal &lt;- my_palettes[[palette]]
+  
+  if (reverse) pal &lt;- rev(pal)
+  
+  colorRampPalette(pal, ...)
+}
+
+
+scale_color_mycol &lt;- function(palette = &quot;main&quot;, discrete = TRUE, reverse = FALSE, ...) {
+  pal &lt;- my_pal(palette = palette, reverse = reverse)
+  
+  if (discrete) {
+    discrete_scale(&quot;colour&quot;, paste0(&quot;my_&quot;, palette), palette = pal, ...)
+  } else {
+    scale_color_gradientn(colours = pal(256), ...)
+  }
+}
+
+
+
+scale_fill_mycol &lt;- function(palette = &quot;main&quot;, discrete = TRUE, reverse = FALSE, ...) {
+  pal &lt;- my_pal(palette = palette, reverse = reverse)
+  
+  if (discrete) {
+    discrete_scale(&quot;fill&quot;, paste0(&quot;my_&quot;, palette), palette = pal, ...)
+  } else {
+    scale_fill_gradientn(colours = pal(256), ...)
+  }
+}
+
+
+###########################################
+# data stuff ----
+###########################################
+
+
+dt_sm &lt;- fread(&quot;http://download.bls.gov/pub/time.series/sm/sm.data.0.Current&quot;)
+dt_sm2 &lt;- dt_sm[period !=&quot;M13&quot;, ][,date:=as.Date(ISOdate(year,as.integer(substr(period,2,3)),1))]
+sm_series &lt;- fread(&quot;https://download.bls.gov/pub/time.series/sm/sm.series&quot;)
+sm_industry &lt;- fread(&quot;https://download.bls.gov/pub/time.series/sm/sm.industry&quot;)
+sm_supersector &lt;- fread(&quot;https://download.bls.gov/pub/time.series/sm/sm.supersector&quot;)
+sm_datatype &lt;- fread(&quot;https://download.bls.gov/pub/time.series/sm/sm.data_type&quot;)
+my_ind &lt;- c(0,70000000)
+my_sector &lt;- c(0,70)
+
+sm_area &lt;- fread(&quot;https://download.bls.gov/pub/time.series/sm/sm.area&quot;)
+sm_state &lt;- fread(&quot;https://download.bls.gov/pub/time.series/sm/sm.state&quot;)
+
+# exclude Puerto Rico and Virgin Islands
+st_drop &lt;- c(72,78)
+
+series_list &lt;- sm_series[industry_code==0&amp; seasonal==&quot;U&quot;&amp;area_code==00000 &amp;
+                           !state_code %in% st_drop,]$series_id
+
+dt_sm3 &lt;- 
+  merge(dt_sm2[date==max(date),],sm_series,
+        by=&quot;series_id&quot;)[
+          industry_code %in% c(0,70000000) &amp;
+            area_code==0 &amp; !state_code %in% st_drop &amp; seasonal==&quot;S&quot; &amp;
+            data_type_code==1,
+          ][,
+            share:=value[industry_code!=0]/value[industry_code==0],
+            by=state_code
+            ][,share_total:=sum(value[industry_code!=0])/sum(value[industry_code==0])
+              ][,lq:=share/share_total]
+
+
+###########################################
+# load albers usa maps
+# via https://github.com/hrbrmstr/albersusa
+###########################################
+us_sf &lt;- usa_sf(&quot;laea&quot;)
+cty_sf &lt;- counties_sf(&quot;laea&quot;)
+
+# state map
+df_state &lt;- 
+  left_join (  us_sf %&gt;% mutate(GEOID=as.integer(as.character(fips_state))),
+               dt_sm3[industry_code==0,],
+               by=c(&quot;GEOID&quot;=&quot;state_code&quot;)) %&gt;%
+  filter(!is.na(lq))
+
+###########################################
+# get delineation file (use April 2018 version)
+###########################################
+
+url1 &lt;- &quot;https://www2.census.gov/programs-surveys/metro-micro/geographies/reference-files/2018/delineation-files/list1.xls&quot;
+GET(url1, write_disk(tf &lt;- tempfile(fileext = &quot;.xls&quot;)))
+dfs &lt;- read_excel(tf,skip=2) #read in data from third row
+# get rid of nasty spacesess in colnames
+colnames(dfs) &lt;- gsub(&#39;([[:punct:]])|\\s+&#39;,&#39;_&#39;,names(dfs))
+
+dfs &lt;- data.table(dfs)[,fips:=paste0(FIPS_State_Code,FIPS_County_Code)]
+dfs2 &lt;- dfs[,c(&quot;CBSA_Code&quot;,&quot;CBSA_Title&quot;,&quot;fips&quot;)][!is.na(CBSA_Title),][,fips:=str_pad(fips,5,side=&quot;left&quot;,pad=&quot;0&quot;)]
+
+# msa map
+cbsa_sf &lt;- left_join(cty_sf %&gt;% mutate(fips=as.character(fips)), dfs2, by=&quot;fips&quot;)
+
+dt_sm4 &lt;- 
+  merge(dt_sm2[date==max(date),],sm_series,
+        by=&quot;series_id&quot;)[
+          industry_code %in% c(0,70000000) &amp;
+            area_code!=0 &amp; !state_code %in% st_drop &amp; seasonal==&quot;U&quot; &amp;
+            data_type_code==1,
+          ][, share:=value[industry_code!=0]/value[industry_code==0],
+            by=area_code
+            ][,share_total:=sum(value[industry_code!=0])/sum(value[industry_code==0])
+              ][,lq:=share/share_total]
+###########################################
+# NECTAs! ----
+###########################################
+ne &lt;- new_england(cb = TRUE) %&gt;% st_as_sf()</code></pre>
+</div>
+<div id="graph-code" class="section level2">
+<h2>Graph code</h2>
+<pre class="r"><code>###########################################
+# create map ----
+###########################################
+gmap &lt;- 
+left_join (  filter(cbsa_sf,!is.na(CBSA_Code))%&gt;% mutate(area_code=as.integer(CBSA_Code)),
+             dt_sm4[industry_code==0,],
+             by=c(&quot;area_code&quot;=&quot;area_code&quot;)) %&gt;%
+  filter(!is.na(lq)) %&gt;%
+  ggplot(aes(fill=log(lq)))+
+  geom_sf(data=df_state,alpha=0.15)+
+  geom_sf(data=left_join(ne %&gt;% mutate(area_code=as.integer(NECTAFP)),
+                         dt_sm4[industry_code==0,],
+                         by=c(&quot;area_code&quot;=&quot;area_code&quot;))%&gt;%
+            filter(!is.na(lq)),color=NA,alpha=0.85) +
+  geom_sf(color=NA,alpha=0.85)+
+  theme_minimal()+
+  scale_fill_mycol(palette=&quot;cool2hot&quot;,discrete=FALSE,
+                   name=&quot;Location\nQuotient&quot;,
+                   breaks=c(log(0.5),log(1),log(2)),
+                   labels=c(0.5,1,2),
+                   limits=c(log(0.5),log(3.15)))+
+  theme(panel.grid=element_blank(),
+        axis.text=element_blank(),
+        #plot.background=element_rect(fill=&quot;black&quot;),
+        plot.caption=element_text(hjust=0))+
+  labs(title=&quot;Leisure and Hospitality Employment Location Quotient by State &amp; Metro Area&quot;,
+       subtitle=&quot;December 2019\nLocation Quotient = Share of Area Employment in Leisure &amp; Hospitality over national share\n1=U.S. Average&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Bureau of Labor Statistics&quot;)
+
+
+###########################################
+# bar chart top 5 metros----
+###########################################
+
+gtop &lt;-dt_sm4[!is.na(lq),][industry_code==0][value&gt;200,][order(-lq),][1:10,]%&gt;%
+  left_join(sm_area,by=&quot;area_code&quot;) %&gt;%
+  mutate(namef=fct_reorder(factor(area_name),lq)) %&gt;%
+  ggplot(aes(x=namef,y=lq,fill=log(lq)))+
+  scale_fill_mycol(palette=&quot;cool2hot&quot;,discrete=FALSE,
+                   name=&quot;Location\nQuotient&quot;,
+                   breaks=c(log(0.5),log(1),log(2)),
+                   labels=c(0.5,1,2),
+                   limits=c(log(0.5),log(3.15)))+
+  geom_col()+coord_flip()+
+  geom_text(hjust=0,aes(label=namef,y=0.05),color=&quot;white&quot;,fontface=&quot;bold&quot;)+
+  theme_minimal()+
+  theme(legend.position=&quot;none&quot;,
+        axis.text.y=element_blank(),
+        plot.caption=element_text(hjust=0))+
+  theme(legend.position=&quot;none&quot;,
+        plot.caption=element_text(hjust=0))+
+  labs(y=&quot;Location Quotient&quot;,x=&quot;&quot;,
+       title=&quot;Leisure and Hospitality Employment Location Quotient by Metro Areas&quot;,
+       subtitle=&quot;December 2019\nLocation Quotient = Share of Area Employment in Leisure &amp; Hospitality over national share\n1=U.S. Average\nTop 10 Metros with over employment over 200,000&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Bureau of Labor Statistics&quot;
+       )
+
+
+###########################################
+# bar chart bottom 5 metros----
+###########################################
+
+gbottom &lt;-dt_sm4[!is.na(lq),][industry_code==0][value&gt;200,][order(lq),][1:10,]%&gt;%
+  left_join(sm_area,by=&quot;area_code&quot;) %&gt;%
+  mutate(namef=fct_reorder(factor(area_name),lq)) %&gt;%
+  ggplot(aes(x=namef,y=lq,fill=log(lq)))+
+  scale_fill_mycol(palette=&quot;cool2hot&quot;,discrete=FALSE,
+                   name=&quot;Location\nQuotient&quot;,
+                   breaks=c(log(0.5),log(1),log(2)),
+                   labels=c(0.5,1,2),
+                   limits=c(log(0.5),log(3.15)))+
+  geom_col()+coord_flip()+
+  geom_text(hjust=0,aes(label=namef,y=0.05),color=&quot;white&quot;,fontface=&quot;bold&quot;)+
+  theme_minimal()+
+  theme(legend.position=&quot;none&quot;,
+        axis.text.y=element_blank(),
+        plot.caption=element_text(hjust=0))+
+  labs(y=&quot;Location Quotient&quot;,x=&quot;&quot;,
+       title=&quot;Leisure and Hospitality Employment Location Quotient by Metro Areas&quot;,
+       subtitle=&quot;December 2019\nLocation Quotient = Share of Area Employment in Leisure &amp; Hospitality over national share\n1=U.S. Average\nBottom 10 Metros with over employment over 200,000&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Bureau of Labor Statistics&quot;
+  )
+
+###########################################
+# use patchwork layouts ----
+# https://patchwork.data-imaginist.com/articles/guides/layout.html
+###########################################
+
+layout &lt;- &quot;
+AACCCC
+BBCCCC
+&quot;
+
+###########################################
+# make composite plot  ----
+###########################################
+
+gtop+labs(title=&quot;Top 10 metros with over 200,000 employed&quot;,subtitle=&quot;&quot;,caption=&quot;&quot;)+
+  gbottom+labs(title=&quot;Bottom 10 metros with over 200,000 employed&quot;,subtitle=&quot;&quot;,caption=&quot;&quot;)+
+  plot_annotation( title=&quot;Leisure and Hospitality Employment Location Quotient by State and Metro Areas&quot;,
+                   subtitle=&quot;December 2019\nLocation Quotient = Share of Area Employment in Leisure &amp; Hospitality over national share\n1=U.S. Average&quot;,
+                   caption=&quot;@lenkiefer Source: U.S. Bureau of Labor Statistics&quot;,
+                   theme=theme(plot.caption=element_text(hjust=0)))+
+  gmap+labs(title=&quot;&quot;,subtitle=&quot;&quot;,caption=&quot;&quot;)+theme(legend.position=&quot;top&quot;,legend.direction=&quot;horizontal&quot;)+
+  plot_layout(design=layout)</code></pre>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2020/02/25/housing-response-to-a-consumer-confidence-shock/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2020/02/25/housing-response-to-a-consumer-confidence-shock/">Housing Response to a Consumer Sentiment Shock</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/dataviz/">dataviz</a>, 
+            
+                <a href="/tags/r/">R</a>, 
+            
+                <a href="/tags/economy/">economy</a>, 
+            
+                <a href="/tags/maps/">maps</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2020%2f02%2f29%2flocation-quotient-map%2f&text=Location%20Quotient%20Map via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2020%2f02%2f29%2flocation-quotient-map%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+
