@@ -454,10 +454,10 @@ left_join (  filter(cbsa_sf,!is.na(CBSA_Code))%&gt;% mutate(area_code=as.integer
 
 
 ###########################################
-# bar chart top 5 metros----
+# bar chart top 20 metros----
 ###########################################
 
-gtop &lt;-dt_sm4[!is.na(lq),][industry_code==0][value&gt;200,][order(-lq),][1:10,]%&gt;%
+gtop &lt;-dt_sm4[!is.na(lq),][industry_code==0][value&gt;200,][order(-lq),][1:20,]%&gt;%
   left_join(sm_area,by=&quot;area_code&quot;) %&gt;%
   mutate(namef=fct_reorder(factor(area_name),lq)) %&gt;%
   ggplot(aes(x=namef,y=lq,fill=log(lq)))+
@@ -477,12 +477,12 @@ gtop &lt;-dt_sm4[!is.na(lq),][industry_code==0][value&gt;200,][order(-lq),][1:10
   theme(legend.position=&quot;none&quot;,
         plot.caption=element_text(hjust=0))+
   labs(y=&quot;Location Quotient&quot;,x=&quot;&quot;,
-       title=&quot;Top 10 metros with over 200,000 employed&quot;
+       title=&quot;Top 20 metros with over 200,000 employed&quot;
        )
 
 
 ###########################################
-# bar chart bottom 5 metros----
+# bar chart bottom 10 metros----
 ###########################################
 
 gbottom &lt;-dt_sm4[!is.na(lq),][industry_code==0][value&gt;200,][order(lq),][1:10,]%&gt;%
@@ -512,19 +512,19 @@ gbottom &lt;-dt_sm4[!is.na(lq),][industry_code==0][value&gt;200,][order(lq),][1:
 ###########################################
 
 layout &lt;- &quot;
-##CCCC
-AACCCC
-AACCCC
-BBCCCC
-BBCCCC
-##CCCC
+##BBBB
+AABBBB
+AABBBB
+##BBBB
 &quot;
 
 ###########################################
 # make composite plot  ----
 ###########################################
 
-gtop+ gbottom+labs(caption=&quot;@lenkiefer Source: U.S. Bureau of Labor Statistics&quot;)+
+gtop+ 
+  #gbottom+
+  labs(caption=&quot;@lenkiefer Source: U.S. Bureau of Labor Statistics&quot;)+
   plot_annotation( title=&quot;Leisure and Hospitality Employment Location Quotient by State and Metro Areas&quot;,
                    subtitle=&quot;December 2019\nLocation Quotient = Share of Area Employment in Leisure &amp; Hospitality over national share\n1=U.S. Average&quot;,
                    
