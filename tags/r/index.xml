@@ -7,10 +7,24 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2015-2018. All rights reserved.</copyright>
-    <lastBuildDate>Fri, 03 Apr 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 30 Apr 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/r/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Mortgage rates hit a record low</title>
+      <link>/2020/04/30/mortgage-rates-hit-a-record-low/</link>
+      <pubDate>Thu, 30 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/04/30/mortgage-rates-hit-a-record-low/</guid>
+      <description>This week the Freddie Mac Primary Mortgage Market Survey reported a record low for the U.S. weekly average 30-year mortgage rate.
+First some charts, then below I post R code.
+R codeLoad libraries
+library(fredr)library(tidyverse)library(patchwork)library(cowplot)library(gganimate)You’ll need a custom color scale (see below for code).
+R code to wrangle datadata preparation code
+source(paste0(mydir,&amp;quot;len_color_scales.R&amp;quot;)) #custom color scale code copied belowfredr_set_key(&amp;quot;YOURKEY&amp;quot;)df &amp;lt;- fredr(series_id = &amp;quot;MORTGAGE30US&amp;quot;,observation_start = as.</description>
+    </item>
     
     <item>
       <title>US Labor Market Update</title>

@@ -217,6 +217,58 @@
   
     <article>
   <header>
+    <h2><a href="/2020/04/30/mortgage-rates-hit-a-record-low/">Mortgage rates hit a record low</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2020/04/30</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/mortgage">mortgage</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/animation">animation</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  This week the Freddie Mac Primary Mortgage Market Survey reported a record low for the U.S. weekly average 30-year mortgage rate.
+First some charts, then below I post R code.
+R codeLoad libraries
+library(fredr)library(tidyverse)library(patchwork)library(cowplot)library(gganimate)You’ll need a custom color scale (see below for code).
+R code to wrangle datadata preparation code
+source(paste0(mydir,&quot;len_color_scales.R&quot;)) #custom color scale code copied belowfredr_set_key(&quot;YOURKEY&quot;)df &lt;- fredr(series_id = &quot;MORTGAGE30US&quot;,observation_start = as.
+  </p>
+
+  
+  <footer>
+    <a href="/2020/04/30/mortgage-rates-hit-a-record-low/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
     <h2><a href="/2020/04/20/updated-favorite-data-visualizations/">Updated Favorite Data Visualizations</a></h2>
 
     <div class="post-meta">
