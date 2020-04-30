@@ -21,7 +21,7 @@
       <description>This week the Freddie Mac Primary Mortgage Market Survey reported a record low for the U.S. weekly average 30-year mortgage rate.
 First some charts, then below I post R code.
 R codeLoad libraries
-library(fredr)library(tidyverse)library(patchwork)library(cowplot)library(gganimate)You’ll need a custom color scale (see below for code).
+library(fredr)library(tidyverse)library(patchwork)library(cowplot)library(gganimate)library(lubridate) # updated You’ll need a custom color scale (see below for code).
 R code to wrangle datadata preparation code
 source(paste0(mydir,&amp;quot;len_color_scales.R&amp;quot;)) #custom color scale code copied belowfredr_set_key(&amp;quot;YOURKEY&amp;quot;)df &amp;lt;- fredr(series_id = &amp;quot;MORTGAGE30US&amp;quot;,observation_start = as.</description>
     </item>
