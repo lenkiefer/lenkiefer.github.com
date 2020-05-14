@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Boss-level charts">
+  <meta name="generator" content="Hugo 0.52" />
+
+  <title>Tornado Charts &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/favorites/tornado.jpg" >
+     
+    <meta property="og:title" content="Tornado Charts">
+    <meta property="og:description" content="Boss-level charts">
+
+<div class="header">
+  <h1>Tornado Charts</h1>
+  <h2>Boss-level charts</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2020/05/14</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/data-wrangling">data wrangling</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/fun">fun</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/economy">economy</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+
+
+<p>Earlier this week, I made a boss chart:</p>
+<blockquote class="twitter-tweet"><p lang="und" dir="ltr"><a href="https://t.co/6wf40jtqHI">https://t.co/6wf40jtqHI</a> <a href="https://t.co/xlv3Uzpiv0">pic.twitter.com/xlv3Uzpiv0</a></p>&mdash; 📈 𝙻𝚎𝚗 𝙺𝚒𝚎𝚏𝚎𝚛 📊 (@lenkiefer) <a href="https://twitter.com/lenkiefer/status/1260231293310246917?ref_src=twsrc%5Etfw">May 12, 2020</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>While listening to <a href="https://www.bigbookofdashboards.com/chartchat.html">Chart Chat</a> I heard Jeffrey Shaffer, Steve Wexler, Amanda Makulec, and Andy Cotgreave discuss tornado charts. I decided it might be a good idea to make one. Because I’m not sure I can trust with the awesome power inherent in these charts I won’t post <a href="https://www.r-project.org/">R</a> code here.</p>
+<p>Here is the original</p>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">inflation tornado <a href="https://t.co/TYY9CFprTh">pic.twitter.com/TYY9CFprTh</a></p>&mdash; 📈 𝙻𝚎𝚗 𝙺𝚒𝚎𝚏𝚎𝚛 📊 (@lenkiefer) <a href="https://twitter.com/lenkiefer/status/1260219816033619968?ref_src=twsrc%5Etfw">May 12, 2020</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>If one is so good, then more ought to be better.</p>
+<p><img src="../../../../img/favorites/CPI_tornado.gif" style="width:550px"></p>
+<p>We can also really up the pizzazz factor.</p>
+<p><img src="../../../../img/favorites/CPI_tornado2.gif" style="width:550px"></p>
+<div id="salvage" class="section level2">
+<h2>Salvage</h2>
+<p>Is the tornado plot even worth trying to salvage?</p>
+<p>I think so, though in best of worlds this type of viz is probably a very special case</p>
+<p>There may be better ways to show it, but it does make clear the big difference between April 2020 and every other month since 1998 (inflation collapses). See the static version with a tile plot to help you decode the time series and the colors.</p>
+<p><img src="../../../../img/favorites/tornado.jpg" style="width:550px"></p>
+</div>
+<div id="my-thirty-favorite-custom-emacs-keybindings" class="section level1">
+<h1>My thirty favorite custom Emacs keybindings</h1>
+<p>Now let’s discuss my thirty favorite custom Emacs keybindings…</p>
+<p><br/><br/>
+<br/><br/>
+<br/><br/>
+<br/><br/>
+<br/><br/>
+<br/><br/>
+<br/><br/>
+<br/><br/>
+<br/><br/>
+<br/><br/>
+<br/><br/>
+<br/><br/>
+<br/><br/>
+<br/><br/>
+<br/><br/>
+<br/><br/></p>
+<p>Okay, now that they’re gone, here’s the R code for the Tornado plot. Use it wisely.</p>
+<pre class="r"><code># set libraries
+library(scales)
+library(data.table)
+library(tidyverse)
+library(lubridate)
+library(data.table)
+library(gganimate)
+
+
+# get cpi data from BLS
+dt&lt;- 
+  # data
+  fread(&#39;http://download.bls.gov/pub/time.series/cu/cu.data.2.Summaries&#39;) %&gt;%
+  #series ids
+  left_join(fread(&quot;http://download.bls.gov/pub/time.series/cu/cu.series&quot;), by=&quot;series_id&quot;) %&gt;%
+  # series names
+  left_join(fread(&quot;http://download.bls.gov/pub/time.series/cu/cu.item&quot;),by=&quot;item_code&quot;) %&gt;%
+  
+  # filter on year
+  
+  filter(year&gt;2000,area_code==&quot;0000&quot;, seasonal==&quot;S&quot;)  %&gt;% 
+  group_by(series_id)%&gt;%
+  mutate(y=100*value/value[year==2001 &amp;  period==&quot;M01&quot;],
+         date=as.Date(ISOdate(year,as.numeric(substr(period,2,3)),1) ) ) %&gt;% 
+  ungroup()
+
+# mini tornados
+# create monthly and 3-month percent changes in the CPI
+dt&lt;-
+  data.table(dt)[order(series_id,date)][, &quot;:=&quot;(qoq=(value/shift(value,3))**4 - 1,
+          mom=(value/shift(value,1))**12-1),
+   by=.(series_id,item_name)]
+
+
+
+a2 &lt;- 
+ggplot(data=dt[item_name !=&quot;Other goods and services&quot;,], aes(x=mom,y=qoq,color=mom-qoq))+
+  geom_path(size=1.05,alpha=0.7)+
+  facet_wrap(~item_name,scales=&quot;free&quot;)+
+  # color function down below
+  scale_color_mycol(discrete=FALSE,palette = &quot;cool2hot&quot;,
+                    label=scales::percent_format(accuracy=0.1),
+                    name=&quot;1-month annualized inflation minus 3-month annualized inflation rate  &quot;)+
+  geom_point(size=6,alpha=0.8)+
+  theme_minimal()+
+  scale_x_continuous(label=percent_format(accuracy=0.1))+
+  scale_y_continuous(label=percent_format(accuracy=0.1))+
+  geom_text(aes(label=format(date,&quot;%b %Y&quot;)),size=4,fontface=&quot;bold&quot;,hjust=0)+
+  geom_hline(yintercept=0,color=&quot;black&quot;)+
+  geom_vline(xintercept=0,color=&quot;black&quot;)+
+  labs(caption=&quot;@lenkiefer Source: U.S. Bureau of Labor Statistics, seasonally adjusted indexes&quot;,
+       title=&quot;Consumer Price Tornadoe&quot;,
+       subtitle=&quot;Consumer Price index for All Urban Consumers (CPI-U) special aggregate indexes&quot;,
+       y=&quot;3-month percent change (annualized rate)&quot;,
+       x=&quot;1-month percent change (annualized rate)&quot;)+
+  theme(plot.title=element_text(face=&quot;bold&quot;),
+        legend.key.width=unit(2,&quot;cm&quot;),
+        legend.position=&quot;top&quot;,
+        plot.caption=element_text(hjust=0))
+  
+
+animate(a2+  transition_reveal(date),end_pause=20, width=900,height=900)
+
+# set mydir to a palce to save plots
+save_animation(last_animation(), file=paste0(mydir,&quot;CPI_tornado.gif&quot;))
+
+# use view_follow() for shaky camera
+animate(a2+  transition_reveal(date)+view_follow(),end_pause=20, width=900,height=900)
+
+save_animation(last_animation(), file=paste0(mydir,&quot;CPI_tornado2.gif&quot;))
+
+# a color function for rainbow palette
+# Function for colors ----
+# adapted from https://drsimonj.svbtle.com/creating-corporate-colour-palettes-for-ggplot2
+#####################################################################################
+## Make Color Scale ----  ##
+#####################################################################################
+my_colors &lt;- c(
+  &quot;green&quot;      = rgb(103,180,75, maxColorValue = 256),
+  &quot;green2&quot;      = rgb(147,198,44, maxColorValue = 256),
+  &quot;lightblue&quot;  =  rgb(9, 177,240, maxColorValue = 256),
+  &quot;lightblue2&quot; = rgb(173,216,230, maxColorValue = 256),
+  &#39;blue&#39;       = &quot;#00aedb&quot;,
+  &#39;red&#39;        = &quot;#d11141&quot;,
+  &#39;orange&#39;     = &quot;#f37735&quot;,
+  &#39;yellow&#39;     = &quot;#ffc425&quot;,
+  &#39;gold&#39;       = &quot;#FFD700&quot;,
+  &#39;light grey&#39; = &quot;#cccccc&quot;,
+  &#39;purple&#39;     = &quot;#551A8B&quot;,
+  &#39;dark grey&#39;  = &quot;#8c8c8c&quot;)
+
+
+my_cols &lt;- function(...) {
+  cols &lt;- c(...)
+  if (is.null(cols))
+    return (my_colors)
+  my_colors[cols]
+}
+
+
+my_palettes &lt;- list(
+  `main`  = my_cols(&quot;blue&quot;, &quot;green&quot;, &quot;yellow&quot;),
+  `cool`  = my_cols(&quot;blue&quot;, &quot;green&quot;),
+  `cool2hot` = my_cols(&quot;lightblue2&quot;,&quot;lightblue&quot;, &quot;blue&quot;,&quot;green&quot;, &quot;green2&quot;,&quot;yellow&quot;,&quot;gold&quot;, &quot;orange&quot;, &quot;red&quot;),
+  `hot`   = my_cols(&quot;yellow&quot;, &quot;orange&quot;, &quot;red&quot;),
+  `mixed` = my_cols(&quot;lightblue&quot;, &quot;green&quot;, &quot;yellow&quot;, &quot;orange&quot;, &quot;red&quot;),
+  `mixed2` = my_cols(&quot;lightblue2&quot;,&quot;lightblue&quot;, &quot;green&quot;, &quot;green2&quot;,&quot;yellow&quot;,&quot;gold&quot;, &quot;orange&quot;, &quot;red&quot;),
+  `mixed3` = my_cols(&quot;lightblue2&quot;,&quot;lightblue&quot;, &quot;green&quot;, &quot;yellow&quot;,&quot;gold&quot;, &quot;orange&quot;, &quot;red&quot;),
+  `mixed4` = my_cols(&quot;lightblue2&quot;,&quot;lightblue&quot;, &quot;green&quot;, &quot;green2&quot;,&quot;yellow&quot;,&quot;gold&quot;, &quot;orange&quot;, &quot;red&quot;,&quot;purple&quot;),
+  `mixed5` = my_cols(&quot;lightblue&quot;,&quot;green&quot;, &quot;green2&quot;,&quot;yellow&quot;,&quot;gold&quot;, &quot;orange&quot;, &quot;red&quot;,&quot;purple&quot;,&quot;blue&quot;),
+  `mixed6` = my_cols(&quot;green&quot;, &quot;gold&quot;, &quot;orange&quot;, &quot;red&quot;,&quot;purple&quot;,&quot;blue&quot;),
+  `grey`  = my_cols(&quot;light grey&quot;, &quot;dark grey&quot;)
+)
+
+
+my_pal &lt;- function(palette = &quot;main&quot;, reverse = FALSE, ...) {
+  pal &lt;- my_palettes[[palette]]
+  
+  if (reverse) pal &lt;- rev(pal)
+  
+  colorRampPalette(pal, ...)
+}
+
+
+scale_color_mycol &lt;- function(palette = &quot;main&quot;, discrete = TRUE, reverse = FALSE, ...) {
+  pal &lt;- my_pal(palette = palette, reverse = reverse)
+  
+  if (discrete) {
+    discrete_scale(&quot;colour&quot;, paste0(&quot;my_&quot;, palette), palette = pal, ...)
+  } else {
+    scale_color_gradientn(colours = pal(256), ...)
+  }
+}
+
+
+
+scale_fill_mycol &lt;- function(palette = &quot;main&quot;, discrete = TRUE, reverse = FALSE, ...) {
+  pal &lt;- my_pal(palette = palette, reverse = reverse)
+  
+  if (discrete) {
+    discrete_scale(&quot;fill&quot;, paste0(&quot;my_&quot;, palette), palette = pal, ...)
+  } else {
+    scale_fill_gradientn(colours = pal(256), ...)
+  }
+}</code></pre>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2020/05/07/may-economic-and-housing-market-update/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2020/05/07/may-economic-and-housing-market-update/">May Economic and Housing Market Update</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/dataviz/">dataviz</a>, 
+            
+                <a href="/tags/data-wrangling/">data wrangling</a>, 
+            
+                <a href="/tags/fun/">fun</a>, 
+            
+                <a href="/tags/economy/">economy</a>, 
+            
+                <a href="/tags/r/">R</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2020%2f05%2f14%2ftornado-charts%2f&text=Tornado%20Charts via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2020%2f05%2f14%2ftornado-charts%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+
