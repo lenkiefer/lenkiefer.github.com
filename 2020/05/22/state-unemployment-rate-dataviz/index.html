@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="An update to a remix of a remix">
+  <meta name="generator" content="Hugo 0.52" />
+
+  <title>State unemployment rate dataviz &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/favorites/state_ur.png" >
+     
+    <meta property="og:title" content="State unemployment rate dataviz">
+    <meta property="og:description" content="An update to a remix of a remix">
+
+<div class="header">
+  <h1>State unemployment rate dataviz</h1>
+  <h2>An update to a remix of a remix</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2020/05/22</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/economy">economy</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+
+
+<p>A couple years ago I posted <a href="https://www.r-project.org/">R</a> code for a <a href="https://rud.is/b/2017/01/18/workout-wednesday-redux-2017-week-3/">remix</a> of a <a href="http://thedailyviz.com/2016/12/14/four-decades-of-state-unemployment-rates-in-small-multiples-part-2/">remix</a> of a US state unemployment rate chart.</p>
+<p>Post <a href="../../../../2017/01/18/working-on-a-workout/">Working on a workout</a>. Some of the images were lost in a blog transition. We’ll update below.</p>
+<p>Here’s an updated version:</p>
+<p><img src="../../../../img/favorites/state_ur.png" style="width:550px"></p>
+<p>And another remix focusing just on April 2020 (latest data).</p>
+<p><img src="../../../../img/favorites/state_ur_dot.png" style="width:550px"></p>
+<div id="r-code" class="section level2">
+<h2>R code</h2>
+<pre class="r"><code>######################
+## Load Libraries ##
+######################
+library(data.table)
+library(quantmod)
+library(tidyverse)
+library(geofacet)
+
+
+# Download data big file
+ur.data&lt;-fread(&quot;http://download.bls.gov/pub/time.series/la/la.data.1.CurrentS&quot;)
+
+# Download series ids
+
+ur.series&lt;-fread(&quot;http://download.bls.gov/pub/time.series/la/la.series&quot;)
+
+# We&#39;ll subset data
+ur.list&lt;-ur.series[area_type_code ==&quot;A&quot; &amp;   #get states
+                     measure_code == &quot;3&quot;  &amp;   #get unemployment rate
+                     seasonal == &quot;S&quot;,         #get seasonally adjusted data
+                   c(&quot;series_id&quot;,&quot;area_code&quot;,&quot;series_title&quot;),
+                   with=F]
+
+## Get state names and area crosswalk
+ur.area&lt;-fread(&quot;http://download.bls.gov/pub/time.series/la/la.area&quot;,
+               col.names=
+                 c(&quot;area_type_code&quot;,&quot;area_code&quot;,&quot;area_text&quot;,&quot;display_level&quot;,
+                   &quot;selectable&quot;,&quot;sort_sequence&quot;))                   
+
+# merge data
+ur.dt&lt;-merge(ur.data,ur.list,by=&quot;series_id&quot;,all.y=T)
+
+#create data variable
+ur.dt[,month:=as.numeric(substr(ur.dt$period,2,3))]
+ur.dt$date&lt;- as.Date(ISOdate(ur.dt$year,ur.dt$month,1) ) #set up date variable
+ur.dt&lt;-merge(ur.dt,ur.area[,c(&quot;area_text&quot;,&quot;area_code&quot;),with=F],by=&quot;area_code&quot;)
+
+
+# Load national unemployment rate using quantmod and FRED database
+
+# helpful reference https://jeffreybreen.wordpress.com/tag/quantmod/
+unrate = getSymbols(&#39;UNRATE&#39;,src=&#39;FRED&#39;, auto.assign=F) 
+unrate.df = data.frame(date=time(unrate), coredata(unrate) )
+
+# Drop some columns
+ur.dt2&lt;-ur.dt[,c(&quot;date&quot;,&quot;area_text&quot;,&quot;value&quot;),with=F][,value:=as.numeric(value)]
+
+## rename variables
+ur.dt2&lt;-dplyr::rename(ur.dt2, state=area_text)
+ur.dt2&lt;-dplyr::rename(ur.dt2, ur=value)
+
+# merge national unemploymnent 
+ur.dt2&lt;-merge(ur.dt2,unrate.df,by=&quot;date&quot;)
+ur.dt2&lt;-dplyr::rename(ur.dt2, ur.us=UNRATE)  #rename UNRATE to ur.us
+
+# create variables for use in ribbon chart
+ur.dt2[,up:=ifelse(ur&gt;ur.us,ur,ur.us)]
+ur.dt2[,down:=ifelse(ur&lt;ur.us,ur,ur.us)]
+
+# drop D.C. and Puerto Rico (so we can have 50 plots in small multiple)
+ur.plot&lt;-ur.dt2[! state %in% c(&quot;Puerto Rico&quot;,&quot;District of Columbia&quot;)]
+
+
+# Get list of states:
+st.list&lt;-unique(ur.plot$state)
+
+# used in original post for animation, not needed here, too lazy to undo
+ur.plot.us&lt;-copy(ur.plot)[state==&quot;Alabama&quot;]
+ur.plot.us[,state:=&quot;United States&quot;]
+ur.plot.us[,ur:=ur.us]
+ur.plot.us[,up:=ur.us]
+ur.plot.us[,down:=ur.us]
+ur.plot2&lt;-rbind(ur.plot,ur.plot.us)
+
+# State geo facet plot  ----
+
+g1&lt;-
+  ggplot(data=ur.plot2,aes(x=date,y=ur))+
+  geom_line(color=&quot;black&quot;)+
+  geom_line(linetype=2,aes(y=ur.us))+
+  geom_ribbon(aes(ymin=ur,ymax=down),fill=&quot;#d73027&quot;,alpha=0.5)+
+  geom_ribbon(aes(ymin=ur,ymax=up),fill=&quot;#4575b4&quot;,alpha=0.5)+
+  #facet_wrap(~state,ncol=10,scales=&quot;free_x&quot;)+
+  facet_geo(~state)+
+  scale_y_continuous(limits=c(0,20))+
+  theme_minimal()+
+  theme(legend.position=&quot;top&quot;,
+        plot.caption=element_text(hjust=0),
+        plot.subtitle=element_text(face=&quot;italic&quot;),
+        plot.title=element_text(size=16,face=&quot;bold&quot;))+
+  labs(x=&quot;&quot;,y=&quot;&quot;,
+       title=&quot;The state of U.S. jobs - Working out @hrbmstr&#39;s workout of @stiles&#39; Viz&quot;,
+       subtitle=&quot;Solid line is state unemployment rate, dotted line is U.S. average unemployment rate\nRed (blue) indicates the state level is higher (lower) than the national average&quot;,
+       caption=&quot;@lenkiefer Data Source: U.S. Bureau of Labor Statistics\nViz based on https://rud.is/b/2017/01/18/workout-wednesday-redux-2017-week-3/,\nitself based on http://thedailyviz.com/2016/12/14/four-decades-of-state-unemployment-rates-in-small-multiples-part-2/&quot;)+
+  geom_rug(aes(color=ifelse(ur&gt;ur.us,&quot;Worse&quot;,&quot;Same or Better&quot;)),sides=&quot;b&quot;)+
+  scale_color_manual(values=c(&quot;#4575b4&quot;,&quot;#d73027&quot;),name=&quot;Better or worse than U.S.&quot;)
+
+g1
+
+
+# Static chart ----
+
+g2 &lt;-
+  ggplot(data=filter(ur.plot,date==max(date)) %&gt;%
+           mutate(statef=fct_reorder(state,ur)), 
+         aes(x=ur,y=statef,
+             color=ur&gt;ur.us,
+             label=round(ur,1)))+
+  geom_vline(aes(xintercept=ur.us),linetype=2)+
+  geom_point()+
+  geom_segment(linetype=2, aes(yend=statef,xend=ur.us))+
+  geom_point(shape=21,fill=&quot;white&quot;, aes(x=ur.us))+
+  geom_text(show.legend=FALSE, aes(hjust=ifelse(ur&gt;ur.us,0,1)))+
+  scale_x_continuous(breaks=c(5,10,14.7,20,25),
+                     labels=c(&quot;5&quot;,&quot;10&quot;,&quot;14.7 (U.S.)&quot;, &quot;20&quot;,&quot;25&quot;))+
+  scale_color_manual(values=c(&quot;#4575b4&quot;,&quot;#d73027&quot;),
+                     labels=c(&quot;State &lt; US&quot;,&quot;State &gt; US&quot;),
+                     name=&quot;Better or worse than U.S.&quot;)+
+  theme_minimal()+
+  theme(legend.position=&quot;top&quot;,
+        plot.caption=element_text(hjust=0),
+        plot.subtitle=element_text(face=&quot;italic&quot;),
+        plot.title=element_text(size=16,face=&quot;bold&quot;))+
+  labs(x=&quot;Unemployment Rate (%)&quot;,
+       y=&quot;&quot;,
+       title=&quot;State Unemployment Rate in April 2020&quot;,
+       subtitle=&quot;open circle is U.S. average unemployment rate\nRed (blue) indicates the state level is higher (lower) than the national average&quot;,
+       caption=&quot;@lenkiefer Data Source: U.S. Bureau of Labor Statistics&quot;)
+
+g2</code></pre>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2020/05/14/tornado-charts/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2020/05/14/tornado-charts/">Tornado Charts</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/r/">R</a>, 
+            
+                <a href="/tags/economy/">economy</a>, 
+            
+                <a href="/tags/dataviz/">dataviz</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2020%2f05%2f22%2fstate-unemployment-rate-dataviz%2f&text=State%20unemployment%20rate%20dataviz via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2020%2f05%2f22%2fstate-unemployment-rate-dataviz%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+
