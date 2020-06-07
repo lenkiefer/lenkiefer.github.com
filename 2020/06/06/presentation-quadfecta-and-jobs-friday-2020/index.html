@@ -304,7 +304,7 @@ fredr_set_key(YOURAPIKEYHERE)
 #################################################
 # get and wrangle data
 
-# Seasonally adjusted weekly claims
+# Seasonally adjusted monthly nofarm employment
 df &lt;-
   fredr(series_id = &quot;PAYEMS&quot;,
         observation_start = as.Date(&quot;1948-01-01&quot;))  %&gt;%
@@ -340,283 +340,267 @@ recessions.df = read.table(
   header = TRUE
 )
 
-
-rdf &lt;- recessions.df %&gt;%
+rdf &lt;- recessions.df %&gt;% 
   mutate(TroughLag  = lag(Trough),  # find last trough
-         PeakLag    = lag(Peak)      # find last peak)
-         
-         # Merge with sqldf
-         output &lt;- sqldf(
-           &quot;select * from df left join rdf
+         PeakLag    = lag(Peak)      # find last peak
+  )
+
+# Merge with sqldf
+output &lt;- sqldf(&quot;select * from df left join rdf
                 on  (df.date&gt;=rdf.Peak and df.date &lt;= rdf.Trough or
                 (df.date &gt; rdf.TroughLag and df.date &lt;= rdf.Peak)) &quot;
-         )
-         
-         outdf &lt;- mutate(
-           output,
-           expand = ifelse(date &gt;= Peak, &quot;Recession&quot;, &quot;Expansion&quot;),
-           d1 = as.Date(ifelse(
-             expand == &quot;Recession&quot;, Peak, TroughLag %m+% months(1)
-           )),
-           d2 = as.Date(ifelse(
-             expand == &quot;Recession&quot;, Trough, Peak %m-% months(1)
-           ))
-         ) %&gt;%
-           mutate(name = paste0(
-             expand,
-             &quot; &quot;,
-             as.character(d1, format = &quot;%b %Y&quot;),
-             &quot; : &quot;,
-             as.character(d2, format = &quot;%b %Y&quot;)
-           )) %&gt;%
-           # relabel the last row to say :present
-           mutate(name = ifelse(name == &quot;Recession Mar 2020 : Jan 2100&quot;,
-                                &quot;Mar 2020 : May 2020&quot;, name)) %&gt;%
-           mutate(
-             contraction = interval(Peak, Trough) %/% months(1),
-             # Peak to Trough
-             expansion   = interval(TroughLag, Peak) %/% months(1),
-             # Previous Trough to this Peak
-             cycle1      = interval(TroughLag, Trough) %/% months(1),
-             # Trough from previous Trough
-             cycle2      = interval(PeakLag, Peak) %/% months(1)
-           )      # Peak from previous Peak
-         
-         
-         # adjust labels
-         outdf &lt;-
-           mutate(outdf %&gt;% group_by(name), cj = cumsum(jg)) %&gt;% ungroup() %&gt;%
-           mutate(expand2 = ifelse(date &lt;= &quot;2020-02-02&quot;, expand, &quot;Mar 2020:May 2020&quot;)) %&gt;%
-           # get last value each expansion/recession
-           group_by(name) %&gt;%
-           mutate(dmax = max(date), fj = last(cj)) %&gt;% ungroup()
-         
-         dlist &lt;- c(tail(outdf$date, 3), filter(outdf, jg &lt; -788)$date)
-         
+                )
+
+outdf &lt;- 
+  mutate(filter(output,!is.na(TroughLag)),
+         expand=ifelse(date&gt;=Peak, &quot;Recession&quot;,&quot;Expansion&quot;),
+         d1=ifelse(expand==&quot;Recession&quot;,Peak, TroughLag %m+% months(1)),
+         d2=ifelse(expand==&quot;Recession&quot;,Trough, Peak %m-% months(1))) %&gt;%
+  mutate(d1=as.Date(d1, origin = lubridate::origin),
+         d2=as.Date(d2, origin = lubridate::origin)) %&gt;%
+  mutate(name=paste0(expand, &quot; &quot;,
+                     as.character(d1, format=&quot;%b %Y&quot;), &quot; : &quot;,
+                     as.character(d2, format=&quot;%b %Y&quot;)
+  )) %&gt;%
+  # relabel the last row to say :present
+  mutate(name=ifelse(name==&quot;Recession Mar 2020 : Jan 2100&quot;,
+                     &quot;Mar 2020 : May 2020&quot;, name)) %&gt;%
+  mutate(contraction = interval(Peak, Trough) %/% months(1),       # Peak to Trough
+         expansion   = interval(TroughLag, Peak) %/% months(1),    # Previous Trough to this Peak
+         cycle1      = interval(TroughLag, Trough) %/% months(1),  # Trough from previous Trough
+         cycle2      = interval(PeakLag, Peak) %/% months(1))      # Peak from previous Peak
+
+# adjust labels
+outdf &lt;-
+  mutate(outdf %&gt;% group_by(name), cj = cumsum(jg)) %&gt;% ungroup() %&gt;%
+  mutate(expand2 = ifelse(date &lt;= &quot;2020-02-02&quot;, expand, &quot;Mar 2020:May 2020&quot;)) %&gt;%
+  # get last value each expansion/recession
+  group_by(name) %&gt;%
+  mutate(dmax = max(date), fj = last(cj)) %&gt;% ungroup()
+
+dlist &lt;- c(tail(outdf$date,3), filter(outdf,jg&lt; -788)$date)
          
 #####################################################################################
 ## Make line plot ----
 #####################################################################################
-         
-         ggplot(data = outdf, aes(x = date, y = jg)) +
-           geom_line(color = &quot;#4575b4&quot;) +
-           theme_minimal() +
-           theme(
-             legend.position = &quot;top&quot;,
-             plot.title = element_text(face = &quot;bold&quot;, size = rel(1.8)),
-             plot.caption = element_text(hjust = 0, size = 12)
-           ) +
-           geom_point(
-             size = 5,
-             alpha = 0.25,
-             data = . %&gt;% tail(2),
-             color = inari
-           ) +
-           geom_text(
-             size = 3,
-             alpha = 0.85,
-             color = inari,
-             data = . %&gt;% tail(2),
-             aes(
-               label = paste0(format(date, &quot;%b-%Y&quot;), &quot; : &quot;, scales::comma(jg)),
-               vjust = ifelse(jg &gt; 0, -1.1, 1.1)
-             )
-           ) +
-           scale_color_manual(name = &quot;Expansion/Recession ? &quot;,
-                              values = c(&quot;#4575b4&quot;, inari , &quot;#d73027&quot;)) +
-           scale_fill_manual(name = &quot;Expansion/Recession ? &quot;,
-                             values = c(&quot;#4575b4&quot;, inari , &quot;#d73027&quot;)) +
-           scale_y_continuous(label = scales::comma, sec.axis = dup_axis()) +
-           labs(
-             x = &quot;date (monthly)&quot;,
-             y = &quot;&quot;,
-             title = &quot;U.S. Nonfarm payroll employment monthly change (in thousands)&quot;,
-             caption = &quot;@lenkiefer Source: U.S. Bureau of Labor Statistics All Employees: Total Nonfarm Payrolls [PAYEMS],\nretrieved from FRED, Federal Reserve Bank of St. Louis; https://fred.stlouisfed.org/series/PAYEMS, June 6, 2020.&quot;
-           )
+
+ggplot(data = outdf, aes(x = date, y = jg)) +
+  geom_line(color = &quot;#4575b4&quot;) +
+  theme_minimal() +
+  theme(
+    legend.position = &quot;top&quot;,
+    plot.title = element_text(face = &quot;bold&quot;, size = rel(1.8)),
+    plot.caption = element_text(hjust = 0, size = 12)
+  ) +
+  geom_point(
+    size = 5,
+    alpha = 0.25,
+    data = . %&gt;% tail(2),
+    color = inari
+  ) +
+  geom_text(
+    size = 3,
+    alpha = 0.85,
+    color = inari,
+    data = . %&gt;% tail(2),
+    aes(
+      label = paste0(format(date, &quot;%b-%Y&quot;), &quot; : &quot;, scales::comma(jg)),
+      vjust = ifelse(jg &gt; 0,-1.1, 1.1)
+    )
+  ) +
+  scale_color_manual(name = &quot;Expansion/Recession ? &quot;,
+                     values = c(&quot;#4575b4&quot;, inari , &quot;#d73027&quot;)) +
+  scale_fill_manual(name = &quot;Expansion/Recession ? &quot;,
+                    values = c(&quot;#4575b4&quot;, inari , &quot;#d73027&quot;)) +
+  scale_y_continuous(label = scales::comma, sec.axis = dup_axis()) +
+  labs(
+    x = &quot;date (monthly)&quot;,
+    y = &quot;&quot;,
+    title = &quot;U.S. Nonfarm payroll employment monthly change (in thousands)&quot;,
+    caption = &quot;@lenkiefer Source: U.S. Bureau of Labor Statistics All Employees: Total Nonfarm Payrolls [PAYEMS],\nretrieved from FRED, Federal Reserve Bank of St. Louis; https://fred.stlouisfed.org/series/PAYEMS, June 6, 2020.&quot;
+  )
          
          
 #####################################################################################
 ## Make bar plot ----
 #####################################################################################
-         
-         ggplot(data = outdf,
-                aes(
-                  x = date,
-                  y = jg,
-                  color = expand2,
-                  fill = expand2,
-                  group = name
-                )) +
-           geom_col(alpha = 0.75, width = 0.8) +
-           theme_minimal() +
-           theme(
-             legend.position = &quot;top&quot;,
-             plot.title = element_text(face = &quot;bold&quot;, size = rel(1.8)),
-             plot.caption = element_text(hjust = 0, size = 12)
-           ) +
-           geom_point(
-             size = 5,
-             alpha = 0.25,
-             data = . %&gt;% filter(date %in% dlist)
-           ) +
-           geom_text(
-             size = 3,
-             alpha = 0.85,
-             data = . %&gt;% filter(date %in% dlist),
-             aes(
-               label = paste0(format(date, &quot;%b-%Y&quot;), &quot; : &quot;, scales::comma(jg)),
-               vjust = ifelse(jg &gt; 0, -1.1, 1.1)
-             )
-           ) +
-           scale_color_manual(name = &quot;Expansion/Recession ? &quot;,
-                              values = c(&quot;#4575b4&quot;, inari , &quot;#d73027&quot;)) +
-           scale_fill_manual(name = &quot;Expansion/Recession ? &quot;,
-                             values = c(&quot;#4575b4&quot;, inari , &quot;#d73027&quot;)) +
-           scale_y_continuous(label = scales::comma, sec.axis = dup_axis()) +
-           labs(
-             x = &quot;date (monthly)&quot;,
-             y = &quot;&quot;,
-             title = &quot;U.S. Nonfarm payroll employment monthly change (in thousands)&quot;,
-             caption = &quot;@lenkiefer Source: U.S. Bureau of Labor Statistics All Employees: Total Nonfarm Payrolls [PAYEMS],\nretrieved from FRED, Federal Reserve Bank of St. Louis; https://fred.stlouisfed.org/series/PAYEMS, June 6, 2020. NBER recession dates&quot;
-           )
+ggplot(data = outdf,
+       aes(
+         x = date,
+         y = jg,
+         color = expand2,
+         fill = expand2,
+         group = name
+       )) +
+  geom_col(alpha = 0.75, width = 0.8) +
+  theme_minimal() +
+  theme(
+    legend.position = &quot;top&quot;,
+    plot.title = element_text(face = &quot;bold&quot;, size = rel(1.8)),
+    plot.caption = element_text(hjust = 0, size = 12)
+  ) +
+  geom_point(
+    size = 5,
+    alpha = 0.25,
+    data = . %&gt;% filter(date %in% dlist)
+  ) +
+  geom_text(
+    size = 3,
+    alpha = 0.85,
+    data = . %&gt;% filter(date %in% dlist),
+    aes(
+      label = paste0(format(date, &quot;%b-%Y&quot;), &quot; : &quot;, scales::comma(jg)),
+      vjust = ifelse(jg &gt; 0,-1.1, 1.1)
+    )
+  ) +
+  scale_color_manual(name = &quot;Expansion/Recession ? &quot;,
+                     values = c(&quot;#4575b4&quot;, inari , &quot;#d73027&quot;)) +
+  scale_fill_manual(name = &quot;Expansion/Recession ? &quot;,
+                    values = c(&quot;#4575b4&quot;, inari , &quot;#d73027&quot;)) +
+  scale_y_continuous(label = scales::comma, sec.axis = dup_axis()) +
+  labs(
+    x = &quot;date (monthly)&quot;,
+    y = &quot;&quot;,
+    title = &quot;U.S. Nonfarm payroll employment monthly change (in thousands)&quot;,
+    caption = &quot;@lenkiefer Source: U.S. Bureau of Labor Statistics All Employees: Total Nonfarm Payrolls [PAYEMS],\nretrieved from FRED, Federal Reserve Bank of St. Louis; https://fred.stlouisfed.org/series/PAYEMS, June 6, 2020. NBER recession dates&quot;
+  )
          
 #####################################################################################
 ## Make cumulative growth chart ----
 #####################################################################################
-         
-         ggplot(data = outdf,
-                aes(
-                  x = date,
-                  y = cj,
-                  color = expand2,
-                  fill = expand2,
-                  group = name
-                )) +
-           geom_area(alpha = 0.35, width = 0.8) +
-           geom_line() +
-           theme_minimal() +
-           theme(
-             legend.position = &quot;top&quot;,
-             plot.title = element_text(face = &quot;bold&quot;, size = rel(1.8)),
-             plot.caption = element_text(hjust = 0, size = 12)
-           ) +
-           geom_point(
-             size = 5,
-             alpha = 0.25,
-             data = . %&gt;% filter(date == dmax)
-           ) +
-           ggrepel::geom_text_repel(
-             size = 3,
-             alpha = 0.85,
-             fontface = &quot;bold&quot;,
-             data = . %&gt;% filter(date == dmax),
-             aes(
-               label = paste0(format(date, &quot;%b-%Y&quot;), &quot; : &quot;, scales::comma(round(cj), accuracy =
-                                                                            1)),
-               vjust = ifelse(jg &gt; 0, -1.1, 1.1)
-             )
-           ) +
-           scale_color_manual(name = &quot;Expansion/Recession ? &quot;,
-                              values = c(&quot;#4575b4&quot;, inari , &quot;#d73027&quot;)) +
-           scale_fill_manual(name = &quot;Expansion/Recession ? &quot;,
-                             values = c(&quot;#4575b4&quot;, inari , &quot;#d73027&quot;)) +
-           scale_y_continuous(label = scales::comma, sec.axis = dup_axis()) +
-           labs(
-             x = &quot;date (monthly)&quot;,
-             y = &quot;&quot;,
-             title = &quot;Cumulative U.S. Nonfarm payroll employment growth in expansion/recession&quot;,
-             subtile = &quot;labels indicate cumulative growth through end of expansion/recession&quot;,
-             caption = &quot;@lenkiefer Source: U.S. Bureau of Labor Statistics All Employees: Total Nonfarm Payrolls [PAYEMS],\nretrieved from FRED, Federal Reserve Bank of St. Louis; https://fred.stlouisfed.org/series/PAYEMS, June 6, 2020. NBER recession dates&quot;
-           )
+ggplot(data = outdf,
+       aes(
+         x = date,
+         y = cj,
+         color = expand2,
+         fill = expand2,
+         group = name
+       )) +
+  geom_area(alpha = 0.35, width = 0.8) +
+  geom_line() +
+  theme_minimal() +
+  theme(
+    legend.position = &quot;top&quot;,
+    plot.title = element_text(face = &quot;bold&quot;, size = rel(1.8)),
+    plot.caption = element_text(hjust = 0, size = 12)
+  ) +
+  geom_point(
+    size = 5,
+    alpha = 0.25,
+    data = . %&gt;% filter(date == dmax)
+  ) +
+  ggrepel::geom_text_repel(
+    size = 3,
+    alpha = 0.85,
+    fontface = &quot;bold&quot;,
+    data = . %&gt;% filter(date == dmax),
+    aes(
+      label = paste0(format(date, &quot;%b-%Y&quot;), &quot; : &quot;, scales::comma(round(cj), accuracy =
+                                                                   1)),
+      vjust = ifelse(jg &gt; 0,-1.1, 1.1)
+    )
+  ) +
+  scale_color_manual(name = &quot;Expansion/Recession ? &quot;,
+                     values = c(&quot;#4575b4&quot;, inari , &quot;#d73027&quot;)) +
+  scale_fill_manual(name = &quot;Expansion/Recession ? &quot;,
+                    values = c(&quot;#4575b4&quot;, inari , &quot;#d73027&quot;)) +
+  scale_y_continuous(label = scales::comma, sec.axis = dup_axis()) +
+  labs(
+    x = &quot;date (monthly)&quot;,
+    y = &quot;&quot;,
+    title = &quot;Cumulative U.S. nonfarm payroll employment growth (1000s) in expansion/recession&quot;,
+    subtitle = &quot;labels indicate cumulative growth through end of expansion/recession&quot;,
+    caption = &quot;@lenkiefer Source: U.S. Bureau of Labor Statistics All Employees: Total Nonfarm Payrolls [PAYEMS],\nretrieved from FRED, Federal Reserve Bank of St. Louis; https://fred.stlouisfed.org/series/PAYEMS, June 6, 2020. NBER recession dates&quot;
+  )
          
 #####################################################################################
 ## Make ridges plot ----
 #####################################################################################
-         ggplot(
-           data = outdf %&gt;% filter(!is.na(expand) &amp; date &gt;= &quot;1948-11-01&quot;),
-           aes(
-             x = jg,
-             y = fct_reorder(name, date),
-             label = name,
-             
-             fill = expand2,
-             color = expand2
-           )
-         ) +
-           scale_color_manual(name = &quot;Expansion/Recession &quot;,
-                              values = c(&quot;#4575b4&quot;, inari , &quot;#d73027&quot;)) +
-           scale_fill_manual(name = &quot;Expansion/Recession &quot;,
-                             values = c(&quot;#4575b4&quot;, inari , &quot;#d73027&quot;)) +
-           scale_discrete_manual(
-             name = &quot;Expansion/Recession &quot;,
-             aesthetics = &quot;point_color&quot;,
-             values = c(&quot;#4575b4&quot;, inari , &quot;#d73027&quot;)
-           ) +
-           geom_density_ridges(
-             aes(point_color = expand2),
-             rel_min_height = 0.01,
-             #point_color=&quot;royalblue&quot;,
-             scale = 0.9,
-             jittered_points = TRUE,
-             position = &quot;raincloud&quot;,
-             alpha = 0.5
-           )  +
-           theme_ridges(font_size = 20) +
+ggplot(
+  data = outdf %&gt;% filter(!is.na(expand) &amp; date &gt;= &quot;1948-11-01&quot;),
+  aes(
+    x = jg,
+    y = fct_reorder(name, date),
+    label = name,
+    
+    fill = expand2,
+    color = expand2
+  )
+) +
+  scale_color_manual(name = &quot;Expansion/Recession &quot;,
+                     values = c(&quot;#4575b4&quot;, inari , &quot;#d73027&quot;)) +
+  scale_fill_manual(name = &quot;Expansion/Recession &quot;,
+                    values = c(&quot;#4575b4&quot;, inari , &quot;#d73027&quot;)) +
+  scale_discrete_manual(
+    name = &quot;Expansion/Recession &quot;,
+    aesthetics = &quot;point_color&quot;,
+    values = c(&quot;#4575b4&quot;, inari , &quot;#d73027&quot;)
+  ) +
+  geom_density_ridges(
+    aes(point_color = expand2),
+    rel_min_height = 0.01,
+    #point_color=&quot;royalblue&quot;,
+    scale = 0.9,
+    jittered_points = TRUE,
+    position = &quot;raincloud&quot;,
+    alpha = 0.5
+  )  +
+  theme_ridges(font_size = 20) +
            theme(legend.position = &quot;top&quot;,
-                 plot.caption = element_text(hjust = 0, size = 12)) +
-           labs(
-             x = &quot;Nonfarm payroll monthly change (1000s)&quot;,
-             y = &quot;Expansion or recession&quot;,
-             title = &quot;Expansions Expand, Recessions Contract&quot;,
-             subtitle = &quot;Job growth in U.S. Expansions and Recesssions\n&quot;,
-             caption = &quot;@lenkiefer Source: U.S. Bureau of Labor Statistics All Employees: Total Nonfarm Payrolls [PAYEMS],\nretrieved from FRED, Federal Reserve Bank of St. Louis; https://fred.stlouisfed.org/series/PAYEMS, June 6, 2020.\nNBER recession dates&quot;
-           )
+        plot.caption = element_text(hjust = 0, size = 12)) +
+  labs(
+    x = &quot;Nonfarm payroll monthly change (1000s)&quot;,
+    y = &quot;Expansion or recession&quot;,
+    title = &quot;Expansions Expand, Recessions Contract&quot;,
+    subtitle = &quot;Job growth in U.S. Expansions and Recesssions\n&quot;,
+    caption = &quot;@lenkiefer Source: U.S. Bureau of Labor Statistics All Employees: Total Nonfarm Payrolls [PAYEMS],\nretrieved from FRED, Federal Reserve Bank of St. Louis; https://fred.stlouisfed.org/series/PAYEMS, June 6, 2020.\nNBER recession dates&quot;
+  )
          
-         #####################################################################################
-         ## Make ridges plot  with % changes----
-         #####################################################################################
-         outdf &lt;- mutate(outdf, pg = jg / lag(value, 1))
-         
-         ggplot(
-           data = outdf %&gt;% filter(!is.na(expand) &amp; date &gt;= &quot;1948-11-01&quot;),
-           aes(
-             x = pg,
-             y = fct_reorder(name, date),
-             label = name,
-             
-             fill = expand2,
-             color = expand2
-           )
-         ) +
-           scale_color_manual(name = &quot;Expansion/Recession &quot;,
-                              values = c(&quot;#4575b4&quot;, inari , &quot;#d73027&quot;)) +
-           scale_fill_manual(name = &quot;Expansion/Recession &quot;,
-                             values = c(&quot;#4575b4&quot;, inari , &quot;#d73027&quot;)) +
-           scale_discrete_manual(
-             name = &quot;Expansion/Recession &quot;,
-             aesthetics = &quot;point_color&quot;,
-             values = c(&quot;#4575b4&quot;, inari , &quot;#d73027&quot;)
-           ) +
-           geom_density_ridges(
-             aes(point_color = expand2),
-             rel_min_height = 0.01,
-             #point_color=&quot;royalblue&quot;,
-             scale = 0.9,
-             jittered_points = TRUE,
-             position = &quot;raincloud&quot;,
-             alpha = 0.5
-           )  +
-           theme_ridges(font_size = 20) +
-           scale_x_continuous(labels = scales::percent) +
-           theme(legend.position = &quot;top&quot;,
-                 plot.caption = element_text(hjust = 0, size = 12)) +
-           labs(
-             x = &quot;Nonfarm payroll monthly change % change&quot;,
-             y = &quot;Expansion or recession&quot;,
-             title = &quot;Expansions Expand, Recessions Contract&quot;,
-             subtitle = &quot;Job growth in U.S. Expansions and Recesssions\n&quot;,
-             caption = &quot;@lenkiefer Source: U.S. Bureau of Labor Statistics All Employees: Total Nonfarm Payrolls [PAYEMS],\nretrieved from FRED, Federal Reserve Bank of St. Louis; https://fred.stlouisfed.org/series/PAYEMS, June 6, 2020.\nNBER recession dates&quot;
-           )</code></pre>
+#####################################################################################
+## Make ridges plot  with % changes----
+#####################################################################################
+outdf &lt;- mutate(outdf, pg = jg / lag(value, 1))
+
+ggplot(
+  data = outdf %&gt;% filter(!is.na(expand) &amp; date &gt;= &quot;1948-11-01&quot;),
+  aes(
+    x = pg,
+    y = fct_reorder(name, date),
+    label = name,
+    
+    fill = expand2,
+    color = expand2
+  )
+) +
+  scale_color_manual(name = &quot;Expansion/Recession &quot;,
+                     values = c(&quot;#4575b4&quot;, inari , &quot;#d73027&quot;)) +
+  scale_fill_manual(name = &quot;Expansion/Recession &quot;,
+                    values = c(&quot;#4575b4&quot;, inari , &quot;#d73027&quot;)) +
+  scale_discrete_manual(
+    name = &quot;Expansion/Recession &quot;,
+    aesthetics = &quot;point_color&quot;,
+    values = c(&quot;#4575b4&quot;, inari , &quot;#d73027&quot;)
+  ) +
+  geom_density_ridges(
+    aes(point_color = expand2),
+    rel_min_height = 0.01,
+    #point_color=&quot;royalblue&quot;,
+    scale = 0.9,
+    jittered_points = TRUE,
+    position = &quot;raincloud&quot;,
+    alpha = 0.5
+  )  +
+  theme_ridges(font_size = 20) +
+  scale_x_continuous(labels = scales::percent) +
+  theme(legend.position = &quot;top&quot;,
+        plot.caption = element_text(hjust = 0, size = 12)) +
+  labs(
+    x = &quot;Nonfarm payroll monthly change % change&quot;,
+    y = &quot;Expansion or recession&quot;,
+    title = &quot;Expansions Expand, Recessions Contract&quot;,
+    subtitle = &quot;Job growth in U.S. Expansions and Recesssions\n&quot;,
+    caption = &quot;@lenkiefer Source: U.S. Bureau of Labor Statistics All Employees: Total Nonfarm Payrolls [PAYEMS],\nretrieved from FRED, Federal Reserve Bank of St. Louis; https://fred.stlouisfed.org/series/PAYEMS, June 6, 2020.\nNBER recession dates&quot;
+  )</code></pre>
 </details>
 </div>
 
