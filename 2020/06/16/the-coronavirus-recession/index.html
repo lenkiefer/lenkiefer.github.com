@@ -347,9 +347,6 @@ outdf &lt;-
                      as.character(d1, format=&quot;%b %Y&quot;), &quot; : &quot;,
                      as.character(d2, format=&quot;%b %Y&quot;)
   )) %&gt;%
-  # relabel the last row to say :present
-  mutate(name=ifelse(name==&quot;Recession Mar 2020 : Jan 2100&quot;,
-                     &quot;Mar 2020 : May 2020&quot;, name)) %&gt;%
   mutate(contraction = interval(Peak, Trough) %/% months(1),       # Peak to Trough
          expansion   = interval(TroughLag, Peak) %/% months(1),    # Previous Trough to this Peak
          cycle1      = interval(TroughLag, Trough) %/% months(1),  # Trough from previous Trough
