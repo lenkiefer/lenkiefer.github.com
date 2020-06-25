@@ -7,10 +7,24 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2015-2018. All rights reserved.</copyright>
-    <lastBuildDate>Tue, 16 Jun 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 25 Jun 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/dataviz/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Gradient shading with ggplot2</title>
+      <link>/2020/06/25/gradient-shading-with-ggplot2/</link>
+      <pubDate>Thu, 25 Jun 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/06/25/gradient-shading-with-ggplot2/</guid>
+      <description>Over on Twitter Grant McDermott shares a neat ggplot2 trick:
+A shortcut I like to use is calling multiple geoms in an lapply() call, since this automatically generates a list. Works well for investigating plotting variations, e.g.
+ggplot(diamonds, aes(carat)) +
+lapply(c(50,200), function(b) geom_histogram(bins=b, alpha=0.3)) https://t.co/hf0vtvDkbk pic.twitter.com/jmmqlyJEKo
+&amp;mdash; Grant McDermott (@grant_mcdermott) June 22, 2020  I applied this trick to create a gradient fill for a chart.
+Looks kind of like Kool-Aid.</description>
+    </item>
     
     <item>
       <title>The Coronavirus Recession</title>
