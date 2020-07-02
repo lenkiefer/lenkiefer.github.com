@@ -4,10 +4,10 @@
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="">
+  <meta name="description" content="I try to make a new R package">
   <meta name="generator" content="Hugo 0.52" />
 
-  <title>Gradient shading with ggplot2 &middot; Len Kiefer</title>
+  <title>A new R package darklyplot &middot; Len Kiefer</title>
 
   
   
@@ -202,19 +202,14 @@
 
 
        <meta name="twitter:card" content="summary_large_image">
-       <meta name="twitter:image" content="http://lenkiefer.com/img/charts_2020_06_25/gradient.png" >
+       <meta name="twitter:image" content="http://lenkiefer.com/img/charts_2020_07_02/darkly.png" >
      
-    <meta property="og:title" content="Gradient shading with ggplot2">
-    <meta property="og:description" content="Over on Twitter Grant McDermott shares a neat ggplot2 trick:
-A shortcut I like to use is calling multiple geoms in an lapply() call, since this automatically generates a list. Works well for investigating plotting variations, e.g.
-ggplot(diamonds, aes(carat)) &#43;
-lapply(c(50,200), function(b) geom_histogram(bins=b, alpha=0.3)) https://t.co/hf0vtvDkbk pic.twitter.com/jmmqlyJEKo
-&mdash; Grant McDermott (@grant_mcdermott) June 22, 2020  I applied this trick to create a gradient fill for a chart.
-Looks kind of like Kool-Aid.">
+    <meta property="og:title" content="A new R package darklyplot">
+    <meta property="og:description" content="I try to make a new R package">
 
 <div class="header">
-  <h1>Gradient shading with ggplot2</h1>
-  <h2></h2>
+  <h1>A new R package darklyplot</h1>
+  <h2>I try to make a new R package</h2>
 </div>
 <div class="content">
 
@@ -222,7 +217,7 @@ Looks kind of like Kool-Aid.">
 
   <div>
     <i class="fa fa-calendar fa-fw"></i>
-    <time>2020/06/25</time>
+    <time>2020/07/02</time>
   </div>
 
   
@@ -235,9 +230,7 @@ Looks kind of like Kool-Aid.">
   <div>
     <i class="fa fa-tags fa-fw"></i>
     
-      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>
     
   </div>
   
@@ -248,57 +241,58 @@ Looks kind of like Kool-Aid.">
   
 
 
-<p>Over on Twitter <a href="https://twitter.com/grant_mcdermott">Grant McDermott</a> shares a neat ggplot2 trick:</p>
-<blockquote class="twitter-tweet"><p lang="en" dir="ltr">A shortcut I like to use is calling multiple geoms in an lapply() call, since this automatically generates a list. Works well for investigating plotting variations, e.g.<br><br>ggplot(diamonds, aes(carat)) +<br>  lapply(c(50,200), function(b) geom_histogram(bins=b, alpha=0.3)) <a href="https://t.co/hf0vtvDkbk">https://t.co/hf0vtvDkbk</a> <a href="https://t.co/jmmqlyJEKo">pic.twitter.com/jmmqlyJEKo</a></p>&mdash; Grant McDermott (@grant_mcdermott) <a href="https://twitter.com/grant_mcdermott/status/1275134627871481856?ref_src=twsrc%5Etfw">June 22, 2020</a></blockquote>
+<p>Today I try my hand at building an [R] package called <a href="https://github.com/lenkiefer/darklyplot">darklyplot</a>. This package is a little extension of ggplot2 to create a dark themed time series plot.</p>
+<p>This packages lets you create simple dark-theme times series plots. It extends ggplot2 and relies on mdthemes to make color coded axis labels. The axis labels use ggthemes::geom_rangeframe to create Tufte-like axes. Through parameters, the user can alter the colors, include shading under the line, and also add a single reference line.</p>
+<p>I’ve tweeted out a few examples:</p>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">experimenting with different colors on a dark background <a href="https://t.co/94gnBtw2pB">pic.twitter.com/94gnBtw2pB</a></p>&mdash; 📈 𝙻𝚎𝚗 𝙺𝚒𝚎𝚏𝚎𝚛 📊 (@lenkiefer) <a href="https://twitter.com/lenkiefer/status/1278271449250349056?ref_src=twsrc%5Etfw">July 1, 2020</a></blockquote>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
-<p>I applied this trick to create a gradient fill for a chart.</p>
-<p><img src="../../../../img/charts_2020_06_25/gradient.png" style="width:450px"></p>
-<p>Looks kind of like Kool-Aid. Cherry was my favorite, but if you prefer grape, just swap in “purple” for “red” in the code below.</p>
-<p>Here’s an animated version:</p>
-<p><img src="../../../../img/charts_2020_06_25/starts_layer.gif" style="width:450px"></p>
-<p>Grant’s neat trick used lapply. I wanted to create a function that would take multiple inputs, so I slightly modified it to use mapply and multiple arguments.</p>
-<pre class="r"><code>library(tidyverse)
-library(gganimate)
-df &lt;- tidyquant::tq_get(&quot;HOUST&quot;,get=&quot;economic.data&quot;,from=&quot;2000-01-01&quot;)
-N &lt;- 20
-xlist1 &lt;- sort(c(max(df$price),tail(df$price,1),
-                 pretty(c(0,min(df$price)),n=N,min.n=N)))
-# static plot:
-g1 &lt;- 
-ggplot(data=df, aes(x=date,y=price))+geom_line()+
-  mapply(function(ylow,yhigh,col,a=0.1){geom_ribbon(aes(ymin=ylow,ymax=yhigh),alpha=a,fill=col)}, 
-         head(xlist1,-1),
-         tail(xlist1,-1),
-         &quot;red&quot;,
-         seq(0,0.3,length=length(xlist1)-1))+
-  geom_line(size=2,color=&quot;white&quot;)+
-  geom_line(size=1.1)+
-  geom_ribbon(aes(ymin=price,ymax=Inf),fill=&quot;white&quot;,alpha=0.8)+
-  theme_minimal(base_size=18)+
-  theme(plot.caption=element_text(hjust=0),
-        plot.title=element_text(face=&quot;bold&quot;,size=rel(1.2)))+
-  labs(x=&quot;date (monthly)&quot;,y=&quot;&quot;,
-       subtitle=&quot;U.S. Housing Starts (1000s, SAAR)&quot;,
-       title=&quot;Oh Yeah!&quot;,
-       caption=&quot;@lenkiefer&quot;)
-
-# animate it:
-a1 &lt;- g1+transition_layers(layer_length = 1)
-animate(a1,end_pause=20, fps=20,width=800,height=500)</code></pre>
+<p>It’s all very much under development, but I posted a very rough version to github. You can install it with:</p>
+<pre class="r"><code>library(devtools)
+install_github(&quot;lenkiefer/darklyplot&quot;)
+# requires: dplyr, glue, ggplot2, ggthemes, mdthemes, scales, shiny</code></pre>
+<p>There’s really only one key function <code>darklyplot</code>, along with some helpers and some data I loaded in so you have something to try.</p>
+<pre class="r"><code>library(darklyplot)
+?darklyplot</code></pre>
+<p>You can test the function out. It takes in a data frame (must have a date column named date), and outputs a ggplot2 plot. With ggplot2, you can add labels.</p>
+<pre class="r"><code>darklyplot(mtg_rate,&quot;rate&quot;,labelx=&quot;roundx&quot;,n.decimals=3)+
+  labs(caption=&quot;@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey&quot;,
+       title=&quot;U.S. Weekly Average 30-year Fixed Mortgage Rate (%)&quot;)</code></pre>
+<p><img src="/post/2020-07-02-a-new-r-package-darklyplot_files/figure-html/2020-07-02-darkly-plot-1-1.png" width="960" /></p>
+<p>I added some little embellishments. You can shade under the plot:</p>
+<pre class="r"><code>darklyplot(mtg_rate,&quot;rate&quot;,labelx=&quot;roundx&quot;,n.decimals=3,shade=TRUE,refline=TRUE)+
+  labs(caption=&quot;@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey&quot;,
+       title=&quot;U.S. Weekly Average 30-year Fixed Mortgage Rate (%)&quot;)</code></pre>
+<p><img src="/post/2020-07-02-a-new-r-package-darklyplot_files/figure-html/2020-07-02-darkly-plot-2-1.png" width="960" /></p>
+<p>And you can change the color of the markers.</p>
+<pre class="r"><code>darklyplot(mtg_rate,&quot;rate&quot;,labelx=&quot;roundx&quot;,n.decimals=3,
+           minCol=&quot;blue&quot;,maxCol=&quot;red&quot;,firstCol=&quot;orange&quot;,lastCol=&quot;white&quot;
+           )+
+  labs(caption=&quot;@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey&quot;,
+       title=&quot;U.S. Weekly Average 30-year Fixed Mortgage Rate (%)&quot;)</code></pre>
+<p><img src="/post/2020-07-02-a-new-r-package-darklyplot_files/figure-html/2020-07-02-darkly-plot-3-1.png" width="960" /></p>
+<p>There’s a lot of work to do. But it does give you the ability to make a stylish dark chart with any time series data. Take for example today’s jobs report:</p>
+<pre class="r"><code># Since I&#39;m using mdthemes I need to use &lt;br&gt; instead of \n to break line
+tidyquant::tq_get(&quot;UNRATE&quot;,get=&quot;economic.data&quot;,from=&quot;2000-01-01&quot;) %&gt;%
+  darklyplot(&quot;price&quot;,n.decimals=1)+
+  labs(title=&quot;U.S. unemployment rate (%)&quot;,
+  caption=paste0(&quot;@lenkiefer Source: U.S. Bureau of Labor Statistics, Unemployment Rate [UNRATE],&quot;,
+  &quot;&lt;br&gt; retrieved from FRED, Federal Reserve Bank of St. Louis;&lt;br&gt;&quot;,
+  &quot;July 2, 2020.&quot;))</code></pre>
+<p><img src="/post/2020-07-02-a-new-r-package-darklyplot_files/figure-html/2020-07-02-darkly-plot-4-1.png" width="960" /></p>
 
 
   
 <div class="prev-next-post pure-g">
   <div class="pure-u-1-24" style="text-align: left;">
     
-    <a href="/2020/06/16/the-coronavirus-recession/"><i class="fa fa-chevron-left"></i></a>
+    <a href="/2020/06/25/gradient-shading-with-ggplot2/"><i class="fa fa-chevron-left"></i></a>
     
   </div>
   <div class="pure-u-10-24">
     
     <nav class="prev">
-      <a href="/2020/06/16/the-coronavirus-recession/">The Coronavirus Recession</a>
+      <a href="/2020/06/25/gradient-shading-with-ggplot2/">Gradient shading with ggplot2</a>
     </nav>
     
   </div>
@@ -307,14 +301,8 @@ animate(a1,end_pause=20, fps=20,width=800,height=500)</code></pre>
   </div>
   <div class="pure-u-10-24">
     
-    <nav class="next">
-      <a href="/2020/07/02/a-new-r-package-darklyplot/">A new R package darklyplot</a>
-    </nav>
-    
   </div>
   <div class="pure-u-1-24" style="text-align: right;">
-    
-    <a href="/2020/07/02/a-new-r-package-darklyplot/"><i class="fa fa-chevron-right"></i></a>
     
   </div>
 </div>
@@ -330,16 +318,14 @@ animate(a1,end_pause=20, fps=20,width=800,height=500)</code></pre>
             <span>Tagged:</span>
             
             
-                <a href="/tags/r/">R</a>, 
-            
-                <a href="/tags/dataviz/">dataviz</a>
+                <a href="/tags/r/">R</a>
             
         </p>
     
 
     <div class="share">
         
-            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2020%2f06%2f25%2fgradient-shading-with-ggplot2%2f&text=Gradient%20shading%20with%20ggplot2 via %40lenkiefer"
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2020%2f07%2f02%2fa-new-r-package-darklyplot%2f&text=A%20new%20R%20package%20darklyplot via %40lenkiefer"
                 onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
                 <i class="fa fa-twitter"></i>
                 <span class="hidden">Twitter</span>
@@ -347,7 +333,7 @@ animate(a1,end_pause=20, fps=20,width=800,height=500)</code></pre>
         
 
         
-            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2020%2f06%2f25%2fgradient-shading-with-ggplot2%2f"
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2020%2f07%2f02%2fa-new-r-package-darklyplot%2f"
                 onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
                 <i class="fa fa-facebook"></i>
                 <span class="hidden">Facebook</span>
