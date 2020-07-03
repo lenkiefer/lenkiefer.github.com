@@ -244,7 +244,7 @@
 
 
 <p>Yesterday <a href="../../../../2020/07/02/a-new-r-package-darklyplot/">I announced</a> that I wrote a simple <a href="https://www.r-project.org/">R</a> package <a href="https://github.com/lenkiefer/darklyplot">darklyplot</a>. This is a vignette I have built to help explain ways you can use the package.</p>
-<p>The goal of darklyplot is to create simple time series plots with a dark background. The miniminum and maximum values are highlighted, and color coded along with the y axis and x axis labels. This vignette walks through basic usage and explores somo of the options.</p>
+<p>The goal of darklyplot is to create simple time series plots with a dark background. The miniminum and maximum values are highlighted, and color coded along with the y axis and x axis labels. This vignette walks through basic usage and explores some of the package options.</p>
 <p>darklyplot can be installed from <a href="https://github.com/">GitHub</a> with:</p>
 <pre class="r"><code># install.packages(&quot;devtools&quot;)
 devtools::install_github(&quot;lenkiefer/darklyplot&quot;)</code></pre>
@@ -276,7 +276,7 @@ darklyplot(df=mtg_rate,column=&quot;rate&quot;,labelx=&quot;roundx&quot;,n.decim
 </div>
 <div id="use-with-any-time-series-data" class="section level2">
 <h2>Use with any time series data</h2>
-<p>You can used darklyplot with any time series as long as the data is stored a dataframe with a date formatted column called <code>date</code>, and the desired column is numeric. THe <code>ggplot</code> package comes with a dataframe called <code>txhousing</code> that has a column called date. However, it is a double not a date so if you tried to use it with darklplot you would get an error.</p>
+<p>You can used darklyplot with any time series as long as the data is stored a dataframe with a date formatted column called <code>date</code>, and the desired column is numeric. The <code>ggplot2</code> package comes with a dataframe called <code>txhousing</code> that has a column called date. However, it is a double not a date so if you tried to use it with darklyplot you would get an error.</p>
 <p>In the example below we first filter <code>txhousing</code> to just the observations for Lubbock, Texas and try to plot sales with darklyplot. This code will result in an error</p>
 <pre class="r"><code>txhousing2 &lt;- txhousing[txhousing$city==&quot;Lubbock&quot;,]
 
@@ -304,7 +304,7 @@ darklyplot(df=txhousing2,column=&quot;sales&quot;,labelx=&quot;roundx&quot;,n.de
 </div>
 <div id="using-percent-formats" class="section level2">
 <h2>Using percent formats</h2>
-<p>It’s often the case that you want plot data with percentage changes. We can use darklplot’s <code>labelx</code> parameter to format percents on the axis labels with <code>scales::percent</code>.</p>
+<p>It’s often the case that you want plot data with percentage changes. We can use darklyplot’s <code>labelx</code> parameter to format percents on the axis labels with <code>scales::percent</code>.</p>
 <pre class="r"><code># compute monthly percent changes for Austin Texas
 txhousing3 &lt;- txhousing[txhousing$city==&quot;Austin&quot;,]
 txhousing3$date &lt;- as.Date(ISOdate(txhousing3$year, txhousing3$month,1))
