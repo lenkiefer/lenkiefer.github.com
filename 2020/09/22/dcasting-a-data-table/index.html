@@ -1,0 +1,2638 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Making a presentation table with data.table and gt R packages">
+  <meta name="generator" content="Hugo 0.52" />
+
+  <title>dcasting a data table &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/charts_2020_09_22/table1.PNG" >
+     
+    <meta property="og:title" content="dcasting a data table">
+    <meta property="og:description" content="Making a presentation table with data.table and gt R packages">
+
+<div class="header">
+  <h1>dcasting a data table</h1>
+  <h2>Making a presentation table with data.table and gt R packages</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2020/09/22</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/data-wrangling">data wrangling</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+
+
+<p>Been a while since I blogged here. Where does time go? On Twitter, I realized it’s just about time for spooky plots:</p>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">U.S. existing home sales hit a seasonally adjusted annual rate of 6 million in August 2020, first time at 6 million since 2006 <a href="https://t.co/4ZKrO2d0zN">pic.twitter.com/4ZKrO2d0zN</a></p>&mdash; 📈 Len Kiefer 📊 (@lenkiefer) <a href="https://twitter.com/lenkiefer/status/1308480973059825664?ref_src=twsrc%5Etfw">September 22, 2020</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>Maybe too early?</p>
+<p>In this post, I want to share a simple <a href="https://www.r-project.org/">R</a> code pattern that’s been useful for me. Using <a href="https://CRAN.R-project.org/package=data.table">data.table’s</a> <code>dcast</code> function to create a nice table. Together with <a href="https://CRAN.R-project.org/package=gt">gt</a> you can make some decent stuff.</p>
+<pre class="r"><code>library(gt)
+library(data.table)
+library(tidyverse)</code></pre>
+<div id="get-some-data" class="section level3">
+<h3>Get some data</h3>
+<p>Let’s get some data. How about house prices? Let’s get the <a href="http://www.freddiemac.com/research/indices/house-price-index.page">Freddie Mac House Price Index</a>.</p>
+<pre class="r"><code># load data
+dt &lt;- fread(&quot;http://www.freddiemac.com/fmac-resources/research/docs/fmhpi_master_file.csv&quot;)</code></pre>
+<p>Create 12-month house price growth rates.</p>
+<pre class="r"><code>dt[,hpa_yoy:=Index_SA/shift(Index_SA,12)-1,.(GEO_Type,GEO_Code,GEO_Name)]</code></pre>
+</div>
+<div id="make-a-table" class="section level1">
+<h1>Make a table</h1>
+<p>Let’s focus on one area, Virginia (GEO_Name=“VA” in the file), and chart the annual house price growth rates since 2011.</p>
+<pre class="r"><code>dt_va&lt;- dt[GEO_Name==&quot;VA&quot; &amp; Year&gt;2010,]
+head(dt_va)</code></pre>
+<pre><code>##    Year Month GEO_Type GEO_Name GEO_Code Index_NSA Index_SA     hpa_yoy
+## 1: 2011     1    State       VA        .  151.2373 153.2461 -0.04462630
+## 2: 2011     2    State       VA        .  151.2157 153.1026 -0.04435817
+## 3: 2011     3    State       VA        .  152.4072 153.0405 -0.04148806
+## 4: 2011     4    State       VA        .  154.2866 153.1896 -0.03705511
+## 5: 2011     5    State       VA        .  155.9039 153.2191 -0.03329706
+## 6: 2011     6    State       VA        .  156.6307 152.9682 -0.02927971</code></pre>
+<p>Now we could use dplyr::pivot_wider to make our table, but recently I’ve been using data.table.</p>
+<pre class="r"><code>dcast(dt_va,Year~Month,value.var=&quot;hpa_yoy&quot;)</code></pre>
+<pre><code>##     Year            1            2            3            4            5
+##  1: 2011 -0.044626301 -0.044358166 -0.041488056 -0.037055110 -0.033297061
+##  2: 2012 -0.009463327 -0.007026538 -0.004857802 -0.002297582  0.001727123
+##  3: 2013  0.044484003  0.050000433  0.053948845  0.055360465  0.056554423
+##  4: 2014  0.053463682  0.049736967  0.046012042  0.041707616  0.036186832
+##  5: 2015  0.019442867  0.015968104  0.013413606  0.013505313  0.015992844
+##  6: 2016  0.024926148  0.028235691  0.031062403  0.032352299  0.032912416
+##  7: 2017  0.032755180  0.033205562  0.035454685  0.040142128  0.042344583
+##  8: 2018  0.045999614  0.049474007  0.045810536  0.039358855  0.033843593
+##  9: 2019  0.038207896  0.036018656  0.036824415  0.039998350  0.043124212
+## 10: 2020  0.051758901  0.054343291  0.051047192  0.045608782  0.041815160
+##                6           7           8           9          10          11
+##  1: -0.029279712 -0.02398674 -0.01685799 -0.01191744 -0.01109453 -0.01141400
+##  2:  0.007268559  0.01405302  0.01969788  0.02615740  0.03565749  0.04115821
+##  3:  0.058064410  0.05914242  0.05899473  0.05455433  0.04878094  0.04745076
+##  4:  0.031178462  0.02682621  0.02406790  0.02385549  0.02417547  0.02486742
+##  5:  0.018995642  0.02105085  0.02229313  0.02494160  0.02594623  0.02510597
+##  6:  0.032605494  0.03054026  0.02928032  0.02968501  0.03149942  0.03314164
+##  7:  0.042195974  0.04341698  0.04417151  0.04145725  0.03836104  0.03776823
+##  8:  0.032785103  0.03358091  0.03739476  0.04082979  0.04374959  0.04432131
+##  9:  0.044731015  0.04121706  0.04009124  0.03962240  0.03900515  0.04099818
+## 10:  0.045235922  0.04844981          NA          NA          NA          NA
+##              12
+##  1: -0.01172155
+##  2:  0.04241783
+##  3:  0.05182596
+##  4:  0.02285520
+##  5:  0.02399759
+##  6:  0.03312838
+##  7:  0.04090315
+##  8:  0.04198894
+##  9:  0.04579517
+## 10:          NA</code></pre>
+<p>Let’s clean it up a bit, converting months to month names, and rounding the values.</p>
+<pre class="r"><code>dt_va[,mname:=factor(month.abb[Month],levels=month.abb)]
+dt_tab &lt;- dcast(dt_va,Year~mname,value.var=&quot;hpa_yoy&quot;)
+dt_tab[]</code></pre>
+<pre><code>##     Year          Jan          Feb          Mar          Apr          May
+##  1: 2011 -0.044626301 -0.044358166 -0.041488056 -0.037055110 -0.033297061
+##  2: 2012 -0.009463327 -0.007026538 -0.004857802 -0.002297582  0.001727123
+##  3: 2013  0.044484003  0.050000433  0.053948845  0.055360465  0.056554423
+##  4: 2014  0.053463682  0.049736967  0.046012042  0.041707616  0.036186832
+##  5: 2015  0.019442867  0.015968104  0.013413606  0.013505313  0.015992844
+##  6: 2016  0.024926148  0.028235691  0.031062403  0.032352299  0.032912416
+##  7: 2017  0.032755180  0.033205562  0.035454685  0.040142128  0.042344583
+##  8: 2018  0.045999614  0.049474007  0.045810536  0.039358855  0.033843593
+##  9: 2019  0.038207896  0.036018656  0.036824415  0.039998350  0.043124212
+## 10: 2020  0.051758901  0.054343291  0.051047192  0.045608782  0.041815160
+##              Jun         Jul         Aug         Sep         Oct         Nov
+##  1: -0.029279712 -0.02398674 -0.01685799 -0.01191744 -0.01109453 -0.01141400
+##  2:  0.007268559  0.01405302  0.01969788  0.02615740  0.03565749  0.04115821
+##  3:  0.058064410  0.05914242  0.05899473  0.05455433  0.04878094  0.04745076
+##  4:  0.031178462  0.02682621  0.02406790  0.02385549  0.02417547  0.02486742
+##  5:  0.018995642  0.02105085  0.02229313  0.02494160  0.02594623  0.02510597
+##  6:  0.032605494  0.03054026  0.02928032  0.02968501  0.03149942  0.03314164
+##  7:  0.042195974  0.04341698  0.04417151  0.04145725  0.03836104  0.03776823
+##  8:  0.032785103  0.03358091  0.03739476  0.04082979  0.04374959  0.04432131
+##  9:  0.044731015  0.04121706  0.04009124  0.03962240  0.03900515  0.04099818
+## 10:  0.045235922  0.04844981          NA          NA          NA          NA
+##             Dec
+##  1: -0.01172155
+##  2:  0.04241783
+##  3:  0.05182596
+##  4:  0.02285520
+##  5:  0.02399759
+##  6:  0.03312838
+##  7:  0.04090315
+##  8:  0.04198894
+##  9:  0.04579517
+## 10:          NA</code></pre>
+<p>Now we can touch it up a bit with the gt package.</p>
+<pre class="r"><code>gt(dt_tab)</code></pre>
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#wtrzhmrzmp .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#wtrzhmrzmp .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#wtrzhmrzmp .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#wtrzhmrzmp .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 4px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#wtrzhmrzmp .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#wtrzhmrzmp .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#wtrzhmrzmp .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#wtrzhmrzmp .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#wtrzhmrzmp .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#wtrzhmrzmp .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#wtrzhmrzmp .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#wtrzhmrzmp .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#wtrzhmrzmp .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#wtrzhmrzmp .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#wtrzhmrzmp .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#wtrzhmrzmp .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#wtrzhmrzmp .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#wtrzhmrzmp .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#wtrzhmrzmp .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#wtrzhmrzmp .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#wtrzhmrzmp .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#wtrzhmrzmp .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#wtrzhmrzmp .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#wtrzhmrzmp .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#wtrzhmrzmp .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#wtrzhmrzmp .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#wtrzhmrzmp .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#wtrzhmrzmp .gt_left {
+  text-align: left;
+}
+
+#wtrzhmrzmp .gt_center {
+  text-align: center;
+}
+
+#wtrzhmrzmp .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#wtrzhmrzmp .gt_font_normal {
+  font-weight: normal;
+}
+
+#wtrzhmrzmp .gt_font_bold {
+  font-weight: bold;
+}
+
+#wtrzhmrzmp .gt_font_italic {
+  font-style: italic;
+}
+
+#wtrzhmrzmp .gt_super {
+  font-size: 65%;
+}
+
+#wtrzhmrzmp .gt_footnote_marks {
+  font-style: italic;
+  font-size: 65%;
+}
+</style>
+<div id="wtrzhmrzmp" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">Year</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Jan</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Feb</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Mar</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Apr</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">May</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Jun</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Jul</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Aug</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Sep</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Oct</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Nov</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Dec</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr>
+      <td class="gt_row gt_center">2011</td>
+      <td class="gt_row gt_right">-0.044626301</td>
+      <td class="gt_row gt_right">-0.044358166</td>
+      <td class="gt_row gt_right">-0.041488056</td>
+      <td class="gt_row gt_right">-0.037055110</td>
+      <td class="gt_row gt_right">-0.033297061</td>
+      <td class="gt_row gt_right">-0.029279712</td>
+      <td class="gt_row gt_right">-0.02398674</td>
+      <td class="gt_row gt_right">-0.01685799</td>
+      <td class="gt_row gt_right">-0.01191744</td>
+      <td class="gt_row gt_right">-0.01109453</td>
+      <td class="gt_row gt_right">-0.01141400</td>
+      <td class="gt_row gt_right">-0.01172155</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_center">2012</td>
+      <td class="gt_row gt_right">-0.009463327</td>
+      <td class="gt_row gt_right">-0.007026538</td>
+      <td class="gt_row gt_right">-0.004857802</td>
+      <td class="gt_row gt_right">-0.002297582</td>
+      <td class="gt_row gt_right">0.001727123</td>
+      <td class="gt_row gt_right">0.007268559</td>
+      <td class="gt_row gt_right">0.01405302</td>
+      <td class="gt_row gt_right">0.01969788</td>
+      <td class="gt_row gt_right">0.02615740</td>
+      <td class="gt_row gt_right">0.03565749</td>
+      <td class="gt_row gt_right">0.04115821</td>
+      <td class="gt_row gt_right">0.04241783</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_center">2013</td>
+      <td class="gt_row gt_right">0.044484003</td>
+      <td class="gt_row gt_right">0.050000433</td>
+      <td class="gt_row gt_right">0.053948845</td>
+      <td class="gt_row gt_right">0.055360465</td>
+      <td class="gt_row gt_right">0.056554423</td>
+      <td class="gt_row gt_right">0.058064410</td>
+      <td class="gt_row gt_right">0.05914242</td>
+      <td class="gt_row gt_right">0.05899473</td>
+      <td class="gt_row gt_right">0.05455433</td>
+      <td class="gt_row gt_right">0.04878094</td>
+      <td class="gt_row gt_right">0.04745076</td>
+      <td class="gt_row gt_right">0.05182596</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_center">2014</td>
+      <td class="gt_row gt_right">0.053463682</td>
+      <td class="gt_row gt_right">0.049736967</td>
+      <td class="gt_row gt_right">0.046012042</td>
+      <td class="gt_row gt_right">0.041707616</td>
+      <td class="gt_row gt_right">0.036186832</td>
+      <td class="gt_row gt_right">0.031178462</td>
+      <td class="gt_row gt_right">0.02682621</td>
+      <td class="gt_row gt_right">0.02406790</td>
+      <td class="gt_row gt_right">0.02385549</td>
+      <td class="gt_row gt_right">0.02417547</td>
+      <td class="gt_row gt_right">0.02486742</td>
+      <td class="gt_row gt_right">0.02285520</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_center">2015</td>
+      <td class="gt_row gt_right">0.019442867</td>
+      <td class="gt_row gt_right">0.015968104</td>
+      <td class="gt_row gt_right">0.013413606</td>
+      <td class="gt_row gt_right">0.013505313</td>
+      <td class="gt_row gt_right">0.015992844</td>
+      <td class="gt_row gt_right">0.018995642</td>
+      <td class="gt_row gt_right">0.02105085</td>
+      <td class="gt_row gt_right">0.02229313</td>
+      <td class="gt_row gt_right">0.02494160</td>
+      <td class="gt_row gt_right">0.02594623</td>
+      <td class="gt_row gt_right">0.02510597</td>
+      <td class="gt_row gt_right">0.02399759</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_center">2016</td>
+      <td class="gt_row gt_right">0.024926148</td>
+      <td class="gt_row gt_right">0.028235691</td>
+      <td class="gt_row gt_right">0.031062403</td>
+      <td class="gt_row gt_right">0.032352299</td>
+      <td class="gt_row gt_right">0.032912416</td>
+      <td class="gt_row gt_right">0.032605494</td>
+      <td class="gt_row gt_right">0.03054026</td>
+      <td class="gt_row gt_right">0.02928032</td>
+      <td class="gt_row gt_right">0.02968501</td>
+      <td class="gt_row gt_right">0.03149942</td>
+      <td class="gt_row gt_right">0.03314164</td>
+      <td class="gt_row gt_right">0.03312838</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_center">2017</td>
+      <td class="gt_row gt_right">0.032755180</td>
+      <td class="gt_row gt_right">0.033205562</td>
+      <td class="gt_row gt_right">0.035454685</td>
+      <td class="gt_row gt_right">0.040142128</td>
+      <td class="gt_row gt_right">0.042344583</td>
+      <td class="gt_row gt_right">0.042195974</td>
+      <td class="gt_row gt_right">0.04341698</td>
+      <td class="gt_row gt_right">0.04417151</td>
+      <td class="gt_row gt_right">0.04145725</td>
+      <td class="gt_row gt_right">0.03836104</td>
+      <td class="gt_row gt_right">0.03776823</td>
+      <td class="gt_row gt_right">0.04090315</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_center">2018</td>
+      <td class="gt_row gt_right">0.045999614</td>
+      <td class="gt_row gt_right">0.049474007</td>
+      <td class="gt_row gt_right">0.045810536</td>
+      <td class="gt_row gt_right">0.039358855</td>
+      <td class="gt_row gt_right">0.033843593</td>
+      <td class="gt_row gt_right">0.032785103</td>
+      <td class="gt_row gt_right">0.03358091</td>
+      <td class="gt_row gt_right">0.03739476</td>
+      <td class="gt_row gt_right">0.04082979</td>
+      <td class="gt_row gt_right">0.04374959</td>
+      <td class="gt_row gt_right">0.04432131</td>
+      <td class="gt_row gt_right">0.04198894</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_center">2019</td>
+      <td class="gt_row gt_right">0.038207896</td>
+      <td class="gt_row gt_right">0.036018656</td>
+      <td class="gt_row gt_right">0.036824415</td>
+      <td class="gt_row gt_right">0.039998350</td>
+      <td class="gt_row gt_right">0.043124212</td>
+      <td class="gt_row gt_right">0.044731015</td>
+      <td class="gt_row gt_right">0.04121706</td>
+      <td class="gt_row gt_right">0.04009124</td>
+      <td class="gt_row gt_right">0.03962240</td>
+      <td class="gt_row gt_right">0.03900515</td>
+      <td class="gt_row gt_right">0.04099818</td>
+      <td class="gt_row gt_right">0.04579517</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_center">2020</td>
+      <td class="gt_row gt_right">0.051758901</td>
+      <td class="gt_row gt_right">0.054343291</td>
+      <td class="gt_row gt_right">0.051047192</td>
+      <td class="gt_row gt_right">0.045608782</td>
+      <td class="gt_row gt_right">0.041815160</td>
+      <td class="gt_row gt_right">0.045235922</td>
+      <td class="gt_row gt_right">0.04844981</td>
+      <td class="gt_row gt_right">NA</td>
+      <td class="gt_row gt_right">NA</td>
+      <td class="gt_row gt_right">NA</td>
+      <td class="gt_row gt_right">NA</td>
+      <td class="gt_row gt_right">NA</td>
+    </tr>
+  </tbody>
+  
+  
+</table></div>
+<p>We can use <code>gt::fmt_percent</code> to format the percentages and <code>tab_header</code> to add a title and subtitle.</p>
+<pre class="r"><code>mygt &lt;-
+  gt(dt_tab) %&gt;%
+  fmt_percent(
+    columns = vars(month.abb),
+    decimals = 1,
+    use_seps = FALSE
+  ) %&gt;%
+  tab_header(title=&quot;Virginia House Price Growth&quot;,
+             subtitle=&quot;12-month % change in Freddie Mac House Price Index&quot;)
+
+mygt</code></pre>
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#zlxxnmcuou .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#zlxxnmcuou .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#zlxxnmcuou .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#zlxxnmcuou .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 4px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#zlxxnmcuou .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#zlxxnmcuou .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#zlxxnmcuou .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#zlxxnmcuou .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#zlxxnmcuou .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#zlxxnmcuou .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#zlxxnmcuou .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#zlxxnmcuou .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#zlxxnmcuou .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#zlxxnmcuou .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#zlxxnmcuou .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#zlxxnmcuou .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#zlxxnmcuou .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#zlxxnmcuou .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#zlxxnmcuou .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#zlxxnmcuou .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#zlxxnmcuou .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#zlxxnmcuou .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#zlxxnmcuou .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#zlxxnmcuou .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#zlxxnmcuou .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#zlxxnmcuou .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#zlxxnmcuou .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#zlxxnmcuou .gt_left {
+  text-align: left;
+}
+
+#zlxxnmcuou .gt_center {
+  text-align: center;
+}
+
+#zlxxnmcuou .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#zlxxnmcuou .gt_font_normal {
+  font-weight: normal;
+}
+
+#zlxxnmcuou .gt_font_bold {
+  font-weight: bold;
+}
+
+#zlxxnmcuou .gt_font_italic {
+  font-style: italic;
+}
+
+#zlxxnmcuou .gt_super {
+  font-size: 65%;
+}
+
+#zlxxnmcuou .gt_footnote_marks {
+  font-style: italic;
+  font-size: 65%;
+}
+</style>
+<div id="zlxxnmcuou" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
+  <thead class="gt_header">
+    <tr>
+      <th colspan="13" class="gt_heading gt_title gt_font_normal" style>Virginia House Price Growth</th>
+    </tr>
+    <tr>
+      <th colspan="13" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style>12-month % change in Freddie Mac House Price Index</th>
+    </tr>
+  </thead>
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">Year</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Jan</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Feb</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Mar</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Apr</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">May</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Jun</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Jul</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Aug</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Sep</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Oct</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Nov</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Dec</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr>
+      <td class="gt_row gt_center">2011</td>
+      <td class="gt_row gt_right">&minus;4.5&percnt;</td>
+      <td class="gt_row gt_right">&minus;4.4&percnt;</td>
+      <td class="gt_row gt_right">&minus;4.1&percnt;</td>
+      <td class="gt_row gt_right">&minus;3.7&percnt;</td>
+      <td class="gt_row gt_right">&minus;3.3&percnt;</td>
+      <td class="gt_row gt_right">&minus;2.9&percnt;</td>
+      <td class="gt_row gt_right">&minus;2.4&percnt;</td>
+      <td class="gt_row gt_right">&minus;1.7&percnt;</td>
+      <td class="gt_row gt_right">&minus;1.2&percnt;</td>
+      <td class="gt_row gt_right">&minus;1.1&percnt;</td>
+      <td class="gt_row gt_right">&minus;1.1&percnt;</td>
+      <td class="gt_row gt_right">&minus;1.2&percnt;</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_center">2012</td>
+      <td class="gt_row gt_right">&minus;0.9&percnt;</td>
+      <td class="gt_row gt_right">&minus;0.7&percnt;</td>
+      <td class="gt_row gt_right">&minus;0.5&percnt;</td>
+      <td class="gt_row gt_right">&minus;0.2&percnt;</td>
+      <td class="gt_row gt_right">0.2&percnt;</td>
+      <td class="gt_row gt_right">0.7&percnt;</td>
+      <td class="gt_row gt_right">1.4&percnt;</td>
+      <td class="gt_row gt_right">2.0&percnt;</td>
+      <td class="gt_row gt_right">2.6&percnt;</td>
+      <td class="gt_row gt_right">3.6&percnt;</td>
+      <td class="gt_row gt_right">4.1&percnt;</td>
+      <td class="gt_row gt_right">4.2&percnt;</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_center">2013</td>
+      <td class="gt_row gt_right">4.4&percnt;</td>
+      <td class="gt_row gt_right">5.0&percnt;</td>
+      <td class="gt_row gt_right">5.4&percnt;</td>
+      <td class="gt_row gt_right">5.5&percnt;</td>
+      <td class="gt_row gt_right">5.7&percnt;</td>
+      <td class="gt_row gt_right">5.8&percnt;</td>
+      <td class="gt_row gt_right">5.9&percnt;</td>
+      <td class="gt_row gt_right">5.9&percnt;</td>
+      <td class="gt_row gt_right">5.5&percnt;</td>
+      <td class="gt_row gt_right">4.9&percnt;</td>
+      <td class="gt_row gt_right">4.7&percnt;</td>
+      <td class="gt_row gt_right">5.2&percnt;</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_center">2014</td>
+      <td class="gt_row gt_right">5.3&percnt;</td>
+      <td class="gt_row gt_right">5.0&percnt;</td>
+      <td class="gt_row gt_right">4.6&percnt;</td>
+      <td class="gt_row gt_right">4.2&percnt;</td>
+      <td class="gt_row gt_right">3.6&percnt;</td>
+      <td class="gt_row gt_right">3.1&percnt;</td>
+      <td class="gt_row gt_right">2.7&percnt;</td>
+      <td class="gt_row gt_right">2.4&percnt;</td>
+      <td class="gt_row gt_right">2.4&percnt;</td>
+      <td class="gt_row gt_right">2.4&percnt;</td>
+      <td class="gt_row gt_right">2.5&percnt;</td>
+      <td class="gt_row gt_right">2.3&percnt;</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_center">2015</td>
+      <td class="gt_row gt_right">1.9&percnt;</td>
+      <td class="gt_row gt_right">1.6&percnt;</td>
+      <td class="gt_row gt_right">1.3&percnt;</td>
+      <td class="gt_row gt_right">1.4&percnt;</td>
+      <td class="gt_row gt_right">1.6&percnt;</td>
+      <td class="gt_row gt_right">1.9&percnt;</td>
+      <td class="gt_row gt_right">2.1&percnt;</td>
+      <td class="gt_row gt_right">2.2&percnt;</td>
+      <td class="gt_row gt_right">2.5&percnt;</td>
+      <td class="gt_row gt_right">2.6&percnt;</td>
+      <td class="gt_row gt_right">2.5&percnt;</td>
+      <td class="gt_row gt_right">2.4&percnt;</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_center">2016</td>
+      <td class="gt_row gt_right">2.5&percnt;</td>
+      <td class="gt_row gt_right">2.8&percnt;</td>
+      <td class="gt_row gt_right">3.1&percnt;</td>
+      <td class="gt_row gt_right">3.2&percnt;</td>
+      <td class="gt_row gt_right">3.3&percnt;</td>
+      <td class="gt_row gt_right">3.3&percnt;</td>
+      <td class="gt_row gt_right">3.1&percnt;</td>
+      <td class="gt_row gt_right">2.9&percnt;</td>
+      <td class="gt_row gt_right">3.0&percnt;</td>
+      <td class="gt_row gt_right">3.1&percnt;</td>
+      <td class="gt_row gt_right">3.3&percnt;</td>
+      <td class="gt_row gt_right">3.3&percnt;</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_center">2017</td>
+      <td class="gt_row gt_right">3.3&percnt;</td>
+      <td class="gt_row gt_right">3.3&percnt;</td>
+      <td class="gt_row gt_right">3.5&percnt;</td>
+      <td class="gt_row gt_right">4.0&percnt;</td>
+      <td class="gt_row gt_right">4.2&percnt;</td>
+      <td class="gt_row gt_right">4.2&percnt;</td>
+      <td class="gt_row gt_right">4.3&percnt;</td>
+      <td class="gt_row gt_right">4.4&percnt;</td>
+      <td class="gt_row gt_right">4.1&percnt;</td>
+      <td class="gt_row gt_right">3.8&percnt;</td>
+      <td class="gt_row gt_right">3.8&percnt;</td>
+      <td class="gt_row gt_right">4.1&percnt;</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_center">2018</td>
+      <td class="gt_row gt_right">4.6&percnt;</td>
+      <td class="gt_row gt_right">4.9&percnt;</td>
+      <td class="gt_row gt_right">4.6&percnt;</td>
+      <td class="gt_row gt_right">3.9&percnt;</td>
+      <td class="gt_row gt_right">3.4&percnt;</td>
+      <td class="gt_row gt_right">3.3&percnt;</td>
+      <td class="gt_row gt_right">3.4&percnt;</td>
+      <td class="gt_row gt_right">3.7&percnt;</td>
+      <td class="gt_row gt_right">4.1&percnt;</td>
+      <td class="gt_row gt_right">4.4&percnt;</td>
+      <td class="gt_row gt_right">4.4&percnt;</td>
+      <td class="gt_row gt_right">4.2&percnt;</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_center">2019</td>
+      <td class="gt_row gt_right">3.8&percnt;</td>
+      <td class="gt_row gt_right">3.6&percnt;</td>
+      <td class="gt_row gt_right">3.7&percnt;</td>
+      <td class="gt_row gt_right">4.0&percnt;</td>
+      <td class="gt_row gt_right">4.3&percnt;</td>
+      <td class="gt_row gt_right">4.5&percnt;</td>
+      <td class="gt_row gt_right">4.1&percnt;</td>
+      <td class="gt_row gt_right">4.0&percnt;</td>
+      <td class="gt_row gt_right">4.0&percnt;</td>
+      <td class="gt_row gt_right">3.9&percnt;</td>
+      <td class="gt_row gt_right">4.1&percnt;</td>
+      <td class="gt_row gt_right">4.6&percnt;</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_center">2020</td>
+      <td class="gt_row gt_right">5.2&percnt;</td>
+      <td class="gt_row gt_right">5.4&percnt;</td>
+      <td class="gt_row gt_right">5.1&percnt;</td>
+      <td class="gt_row gt_right">4.6&percnt;</td>
+      <td class="gt_row gt_right">4.2&percnt;</td>
+      <td class="gt_row gt_right">4.5&percnt;</td>
+      <td class="gt_row gt_right">4.8&percnt;</td>
+      <td class="gt_row gt_right">NA</td>
+      <td class="gt_row gt_right">NA</td>
+      <td class="gt_row gt_right">NA</td>
+      <td class="gt_row gt_right">NA</td>
+      <td class="gt_row gt_right">NA</td>
+    </tr>
+  </tbody>
+  
+  
+</table></div>
+<pre class="r"><code>mygt %&gt;%  opt_row_striping()</code></pre>
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#ugvhovclip .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#ugvhovclip .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#ugvhovclip .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#ugvhovclip .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 4px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#ugvhovclip .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ugvhovclip .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#ugvhovclip .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#ugvhovclip .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#ugvhovclip .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#ugvhovclip .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#ugvhovclip .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#ugvhovclip .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#ugvhovclip .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#ugvhovclip .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#ugvhovclip .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#ugvhovclip .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#ugvhovclip .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#ugvhovclip .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#ugvhovclip .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ugvhovclip .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#ugvhovclip .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ugvhovclip .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#ugvhovclip .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ugvhovclip .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#ugvhovclip .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#ugvhovclip .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#ugvhovclip .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#ugvhovclip .gt_left {
+  text-align: left;
+}
+
+#ugvhovclip .gt_center {
+  text-align: center;
+}
+
+#ugvhovclip .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#ugvhovclip .gt_font_normal {
+  font-weight: normal;
+}
+
+#ugvhovclip .gt_font_bold {
+  font-weight: bold;
+}
+
+#ugvhovclip .gt_font_italic {
+  font-style: italic;
+}
+
+#ugvhovclip .gt_super {
+  font-size: 65%;
+}
+
+#ugvhovclip .gt_footnote_marks {
+  font-style: italic;
+  font-size: 65%;
+}
+</style>
+<div id="ugvhovclip" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
+  <thead class="gt_header">
+    <tr>
+      <th colspan="13" class="gt_heading gt_title gt_font_normal" style>Virginia House Price Growth</th>
+    </tr>
+    <tr>
+      <th colspan="13" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style>12-month % change in Freddie Mac House Price Index</th>
+    </tr>
+  </thead>
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">Year</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Jan</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Feb</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Mar</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Apr</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">May</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Jun</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Jul</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Aug</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Sep</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Oct</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Nov</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Dec</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr>
+      <td class="gt_row gt_center">2011</td>
+      <td class="gt_row gt_right">&minus;4.5&percnt;</td>
+      <td class="gt_row gt_right">&minus;4.4&percnt;</td>
+      <td class="gt_row gt_right">&minus;4.1&percnt;</td>
+      <td class="gt_row gt_right">&minus;3.7&percnt;</td>
+      <td class="gt_row gt_right">&minus;3.3&percnt;</td>
+      <td class="gt_row gt_right">&minus;2.9&percnt;</td>
+      <td class="gt_row gt_right">&minus;2.4&percnt;</td>
+      <td class="gt_row gt_right">&minus;1.7&percnt;</td>
+      <td class="gt_row gt_right">&minus;1.2&percnt;</td>
+      <td class="gt_row gt_right">&minus;1.1&percnt;</td>
+      <td class="gt_row gt_right">&minus;1.1&percnt;</td>
+      <td class="gt_row gt_right">&minus;1.2&percnt;</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_center gt_striped">2012</td>
+      <td class="gt_row gt_right gt_striped">&minus;0.9&percnt;</td>
+      <td class="gt_row gt_right gt_striped">&minus;0.7&percnt;</td>
+      <td class="gt_row gt_right gt_striped">&minus;0.5&percnt;</td>
+      <td class="gt_row gt_right gt_striped">&minus;0.2&percnt;</td>
+      <td class="gt_row gt_right gt_striped">0.2&percnt;</td>
+      <td class="gt_row gt_right gt_striped">0.7&percnt;</td>
+      <td class="gt_row gt_right gt_striped">1.4&percnt;</td>
+      <td class="gt_row gt_right gt_striped">2.0&percnt;</td>
+      <td class="gt_row gt_right gt_striped">2.6&percnt;</td>
+      <td class="gt_row gt_right gt_striped">3.6&percnt;</td>
+      <td class="gt_row gt_right gt_striped">4.1&percnt;</td>
+      <td class="gt_row gt_right gt_striped">4.2&percnt;</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_center">2013</td>
+      <td class="gt_row gt_right">4.4&percnt;</td>
+      <td class="gt_row gt_right">5.0&percnt;</td>
+      <td class="gt_row gt_right">5.4&percnt;</td>
+      <td class="gt_row gt_right">5.5&percnt;</td>
+      <td class="gt_row gt_right">5.7&percnt;</td>
+      <td class="gt_row gt_right">5.8&percnt;</td>
+      <td class="gt_row gt_right">5.9&percnt;</td>
+      <td class="gt_row gt_right">5.9&percnt;</td>
+      <td class="gt_row gt_right">5.5&percnt;</td>
+      <td class="gt_row gt_right">4.9&percnt;</td>
+      <td class="gt_row gt_right">4.7&percnt;</td>
+      <td class="gt_row gt_right">5.2&percnt;</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_center gt_striped">2014</td>
+      <td class="gt_row gt_right gt_striped">5.3&percnt;</td>
+      <td class="gt_row gt_right gt_striped">5.0&percnt;</td>
+      <td class="gt_row gt_right gt_striped">4.6&percnt;</td>
+      <td class="gt_row gt_right gt_striped">4.2&percnt;</td>
+      <td class="gt_row gt_right gt_striped">3.6&percnt;</td>
+      <td class="gt_row gt_right gt_striped">3.1&percnt;</td>
+      <td class="gt_row gt_right gt_striped">2.7&percnt;</td>
+      <td class="gt_row gt_right gt_striped">2.4&percnt;</td>
+      <td class="gt_row gt_right gt_striped">2.4&percnt;</td>
+      <td class="gt_row gt_right gt_striped">2.4&percnt;</td>
+      <td class="gt_row gt_right gt_striped">2.5&percnt;</td>
+      <td class="gt_row gt_right gt_striped">2.3&percnt;</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_center">2015</td>
+      <td class="gt_row gt_right">1.9&percnt;</td>
+      <td class="gt_row gt_right">1.6&percnt;</td>
+      <td class="gt_row gt_right">1.3&percnt;</td>
+      <td class="gt_row gt_right">1.4&percnt;</td>
+      <td class="gt_row gt_right">1.6&percnt;</td>
+      <td class="gt_row gt_right">1.9&percnt;</td>
+      <td class="gt_row gt_right">2.1&percnt;</td>
+      <td class="gt_row gt_right">2.2&percnt;</td>
+      <td class="gt_row gt_right">2.5&percnt;</td>
+      <td class="gt_row gt_right">2.6&percnt;</td>
+      <td class="gt_row gt_right">2.5&percnt;</td>
+      <td class="gt_row gt_right">2.4&percnt;</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_center gt_striped">2016</td>
+      <td class="gt_row gt_right gt_striped">2.5&percnt;</td>
+      <td class="gt_row gt_right gt_striped">2.8&percnt;</td>
+      <td class="gt_row gt_right gt_striped">3.1&percnt;</td>
+      <td class="gt_row gt_right gt_striped">3.2&percnt;</td>
+      <td class="gt_row gt_right gt_striped">3.3&percnt;</td>
+      <td class="gt_row gt_right gt_striped">3.3&percnt;</td>
+      <td class="gt_row gt_right gt_striped">3.1&percnt;</td>
+      <td class="gt_row gt_right gt_striped">2.9&percnt;</td>
+      <td class="gt_row gt_right gt_striped">3.0&percnt;</td>
+      <td class="gt_row gt_right gt_striped">3.1&percnt;</td>
+      <td class="gt_row gt_right gt_striped">3.3&percnt;</td>
+      <td class="gt_row gt_right gt_striped">3.3&percnt;</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_center">2017</td>
+      <td class="gt_row gt_right">3.3&percnt;</td>
+      <td class="gt_row gt_right">3.3&percnt;</td>
+      <td class="gt_row gt_right">3.5&percnt;</td>
+      <td class="gt_row gt_right">4.0&percnt;</td>
+      <td class="gt_row gt_right">4.2&percnt;</td>
+      <td class="gt_row gt_right">4.2&percnt;</td>
+      <td class="gt_row gt_right">4.3&percnt;</td>
+      <td class="gt_row gt_right">4.4&percnt;</td>
+      <td class="gt_row gt_right">4.1&percnt;</td>
+      <td class="gt_row gt_right">3.8&percnt;</td>
+      <td class="gt_row gt_right">3.8&percnt;</td>
+      <td class="gt_row gt_right">4.1&percnt;</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_center gt_striped">2018</td>
+      <td class="gt_row gt_right gt_striped">4.6&percnt;</td>
+      <td class="gt_row gt_right gt_striped">4.9&percnt;</td>
+      <td class="gt_row gt_right gt_striped">4.6&percnt;</td>
+      <td class="gt_row gt_right gt_striped">3.9&percnt;</td>
+      <td class="gt_row gt_right gt_striped">3.4&percnt;</td>
+      <td class="gt_row gt_right gt_striped">3.3&percnt;</td>
+      <td class="gt_row gt_right gt_striped">3.4&percnt;</td>
+      <td class="gt_row gt_right gt_striped">3.7&percnt;</td>
+      <td class="gt_row gt_right gt_striped">4.1&percnt;</td>
+      <td class="gt_row gt_right gt_striped">4.4&percnt;</td>
+      <td class="gt_row gt_right gt_striped">4.4&percnt;</td>
+      <td class="gt_row gt_right gt_striped">4.2&percnt;</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_center">2019</td>
+      <td class="gt_row gt_right">3.8&percnt;</td>
+      <td class="gt_row gt_right">3.6&percnt;</td>
+      <td class="gt_row gt_right">3.7&percnt;</td>
+      <td class="gt_row gt_right">4.0&percnt;</td>
+      <td class="gt_row gt_right">4.3&percnt;</td>
+      <td class="gt_row gt_right">4.5&percnt;</td>
+      <td class="gt_row gt_right">4.1&percnt;</td>
+      <td class="gt_row gt_right">4.0&percnt;</td>
+      <td class="gt_row gt_right">4.0&percnt;</td>
+      <td class="gt_row gt_right">3.9&percnt;</td>
+      <td class="gt_row gt_right">4.1&percnt;</td>
+      <td class="gt_row gt_right">4.6&percnt;</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_center gt_striped">2020</td>
+      <td class="gt_row gt_right gt_striped">5.2&percnt;</td>
+      <td class="gt_row gt_right gt_striped">5.4&percnt;</td>
+      <td class="gt_row gt_right gt_striped">5.1&percnt;</td>
+      <td class="gt_row gt_right gt_striped">4.6&percnt;</td>
+      <td class="gt_row gt_right gt_striped">4.2&percnt;</td>
+      <td class="gt_row gt_right gt_striped">4.5&percnt;</td>
+      <td class="gt_row gt_right gt_striped">4.8&percnt;</td>
+      <td class="gt_row gt_right gt_striped">NA</td>
+      <td class="gt_row gt_right gt_striped">NA</td>
+      <td class="gt_row gt_right gt_striped">NA</td>
+      <td class="gt_row gt_right gt_striped">NA</td>
+      <td class="gt_row gt_right gt_striped">NA</td>
+    </tr>
+  </tbody>
+  
+  
+</table></div>
+<p>Will this win me a table competition (<a href="https://blog.rstudio.com/2020/09/15/announcing-the-2020-rstudio-table-contest/" class="uri">https://blog.rstudio.com/2020/09/15/announcing-the-2020-rstudio-table-contest/</a>)? Probably not.</p>
+<p>But it’s a useful little pattern.</p>
+<div id="computing-summary-stastics-by-group-with-data.table" class="section level2">
+<h2>Computing summary stastics by group with data.table</h2>
+<p>Another thing I find useful is to compute by group summary statistics like quantiles.</p>
+<p>Let’s compute the mean, 25th, 50th (median), and 75th percentiles of annual HPA across states and metro areas in July of each year. July being the last month we have house price data in 2020.</p>
+<p>First we’ll need a helper function.</p>
+<pre class="r"><code>my_summary = function(x){list(n=NROW(x),
+                              mean=mean(x,na.rm=TRUE),
+                              q25=unname(quantile(x,0.25,na.rm=TRUE)),
+                              q50=unname(quantile(x,0.5,na.rm=TRUE)),
+                              q75=unname(quantile(x,0.75,na.rm=TRUE))
+                              )}</code></pre>
+<p>Now we can apply it using .SD notation with data.table (you’re welcome future me).</p>
+<pre class="r"><code>dt2 &lt;- 
+  dt[GEO_Type!=&quot;US&quot; &amp; Year&gt;2010,
+   ][,as.list(unlist(lapply(.SD,my_summary))),
+     .(GEO_Type,Year,Month),
+     .SDcols=&quot;hpa_yoy&quot;
+     ]
+
+# take a look
+dt2[Month==7]</code></pre>
+<pre><code>##     GEO_Type Year Month hpa_yoy.n hpa_yoy.mean   hpa_yoy.q25  hpa_yoy.q50
+##  1:    State 2011     7        51  -0.03482701 -5.316122e-02 -0.029839886
+##  2:    State 2012     7        51   0.01830705  7.397581e-05  0.013366741
+##  3:    State 2013     7        51   0.07053574  3.668966e-02  0.052478057
+##  4:    State 2014     7        51   0.04148700  2.694736e-02  0.035764061
+##  5:    State 2015     7        51   0.04485992  2.795387e-02  0.040659438
+##  6:    State 2016     7        51   0.04761339  3.135579e-02  0.045991220
+##  7:    State 2017     7        51   0.05675597  4.176833e-02  0.056043898
+##  8:    State 2018     7        51   0.05634974  4.033939e-02  0.057227738
+##  9:    State 2019     7        51   0.04195195  3.497603e-02  0.041217061
+## 10:    State 2020     7        51   0.05152229  3.615695e-02  0.049935410
+## 11:     CBSA 2011     7       382  -0.03757777 -5.908591e-02 -0.031512591
+## 12:     CBSA 2012     7       382   0.01310780 -5.698265e-03  0.009515327
+## 13:     CBSA 2013     7       382   0.06462398  2.609328e-02  0.045835414
+## 14:     CBSA 2014     7       382   0.03592216  1.285296e-02  0.027820075
+## 15:     CBSA 2015     7       382   0.04182938  1.894401e-02  0.036154296
+## 16:     CBSA 2016     7       382   0.04616276  2.545555e-02  0.041371023
+## 17:     CBSA 2017     7       382   0.05430462  3.405826e-02  0.053600271
+## 18:     CBSA 2018     7       382   0.05742927  4.025364e-02  0.056538657
+## 19:     CBSA 2019     7       382   0.04494198  3.186373e-02  0.043979345
+## 20:     CBSA 2020     7       382   0.05005214  3.377371e-02  0.048743020
+##     hpa_yoy.q75
+##  1: -0.01545427
+##  2:  0.03129702
+##  3:  0.09518173
+##  4:  0.05176107
+##  5:  0.05237482
+##  6:  0.06242702
+##  7:  0.06958177
+##  8:  0.06643227
+##  9:  0.04989990
+## 10:  0.06552478
+## 11: -0.01305736
+## 12:  0.02752671
+## 13:  0.08001134
+## 14:  0.05244303
+## 15:  0.05708949
+## 16:  0.06520285
+## 17:  0.07370181
+## 18:  0.07256919
+## 19:  0.05834908
+## 20:  0.06624088</code></pre>
+<p>Now we’ll melt the columns to convert it to long format.</p>
+<pre class="r"><code>dt3 &lt;-
+  melt(dt2, id.vars=c(&quot;GEO_Type&quot;,&quot;Year&quot;,&quot;Month&quot;))
+
+dt3[]</code></pre>
+<pre><code>##       GEO_Type Year Month    variable       value
+##    1:    State 2011     1   hpa_yoy.n 51.00000000
+##    2:    State 2011     2   hpa_yoy.n 51.00000000
+##    3:    State 2011     3   hpa_yoy.n 51.00000000
+##    4:    State 2011     4   hpa_yoy.n 51.00000000
+##    5:    State 2011     5   hpa_yoy.n 51.00000000
+##   ---                                            
+## 1146:     CBSA 2020     3 hpa_yoy.q75  0.06599967
+## 1147:     CBSA 2020     4 hpa_yoy.q75  0.06335815
+## 1148:     CBSA 2020     5 hpa_yoy.q75  0.06084890
+## 1149:     CBSA 2020     6 hpa_yoy.q75  0.06381227
+## 1150:     CBSA 2020     7 hpa_yoy.q75  0.06624088</code></pre>
+<p>Now we’ve got our variables stored as variable. But we want to split them. There’s the handy data.table function <code>tstrsplit()</code> to help us.</p>
+<pre class="r"><code>dt3[,c(&quot;var&quot;,&quot;stat&quot;) :=tstrsplit(variable,&quot;.&quot;,fixed=TRUE)]
+dt3</code></pre>
+<pre><code>##       GEO_Type Year Month    variable       value     var stat
+##    1:    State 2011     1   hpa_yoy.n 51.00000000 hpa_yoy    n
+##    2:    State 2011     2   hpa_yoy.n 51.00000000 hpa_yoy    n
+##    3:    State 2011     3   hpa_yoy.n 51.00000000 hpa_yoy    n
+##    4:    State 2011     4   hpa_yoy.n 51.00000000 hpa_yoy    n
+##    5:    State 2011     5   hpa_yoy.n 51.00000000 hpa_yoy    n
+##   ---                                                         
+## 1146:     CBSA 2020     3 hpa_yoy.q75  0.06599967 hpa_yoy  q75
+## 1147:     CBSA 2020     4 hpa_yoy.q75  0.06335815 hpa_yoy  q75
+## 1148:     CBSA 2020     5 hpa_yoy.q75  0.06084890 hpa_yoy  q75
+## 1149:     CBSA 2020     6 hpa_yoy.q75  0.06381227 hpa_yoy  q75
+## 1150:     CBSA 2020     7 hpa_yoy.q75  0.06624088 hpa_yoy  q75</code></pre>
+<pre class="r"><code>dt4&lt;- dcast(dt3[Month==7], formula=Year+GEO_Type~stat, value.var=&quot;value&quot;)
+setcolorder(dt4, c(&quot;GEO_Type&quot;,&quot;Year&quot;,&quot;n&quot;,&quot;mean&quot;,&quot;q25&quot;,&quot;q50&quot;,&quot;q75&quot;))</code></pre>
+<pre class="r"><code>  gt(dt4) %&gt;%
+  fmt_percent(
+    columns = vars(&quot;mean&quot;,&quot;q25&quot;,&quot;q50&quot;,&quot;q75&quot;),
+    decimals = 1,
+    use_seps = FALSE
+  ) %&gt;%
+  tab_header(title=&quot;State and Metro (CBSA) house price growth&quot;,
+             subtitle=&quot;12-month % change in Freddie Mac House Price Index (July)&quot;) %&gt;%  
+  opt_row_striping()</code></pre>
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#ierfzohlls .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#ierfzohlls .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#ierfzohlls .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#ierfzohlls .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 4px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#ierfzohlls .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ierfzohlls .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#ierfzohlls .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#ierfzohlls .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#ierfzohlls .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#ierfzohlls .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#ierfzohlls .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#ierfzohlls .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#ierfzohlls .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#ierfzohlls .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#ierfzohlls .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#ierfzohlls .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#ierfzohlls .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#ierfzohlls .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#ierfzohlls .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ierfzohlls .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#ierfzohlls .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ierfzohlls .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#ierfzohlls .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ierfzohlls .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#ierfzohlls .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#ierfzohlls .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#ierfzohlls .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#ierfzohlls .gt_left {
+  text-align: left;
+}
+
+#ierfzohlls .gt_center {
+  text-align: center;
+}
+
+#ierfzohlls .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#ierfzohlls .gt_font_normal {
+  font-weight: normal;
+}
+
+#ierfzohlls .gt_font_bold {
+  font-weight: bold;
+}
+
+#ierfzohlls .gt_font_italic {
+  font-style: italic;
+}
+
+#ierfzohlls .gt_super {
+  font-size: 65%;
+}
+
+#ierfzohlls .gt_footnote_marks {
+  font-style: italic;
+  font-size: 65%;
+}
+</style>
+<div id="ierfzohlls" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
+  <thead class="gt_header">
+    <tr>
+      <th colspan="7" class="gt_heading gt_title gt_font_normal" style>State and Metro (CBSA) house price growth</th>
+    </tr>
+    <tr>
+      <th colspan="7" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style>12-month % change in Freddie Mac House Price Index (July)</th>
+    </tr>
+  </thead>
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">GEO_Type</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">Year</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">n</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">mean</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">q25</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">q50</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">q75</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr>
+      <td class="gt_row gt_left">CBSA</td>
+      <td class="gt_row gt_center">2011</td>
+      <td class="gt_row gt_right">382</td>
+      <td class="gt_row gt_right">&minus;3.8&percnt;</td>
+      <td class="gt_row gt_right">&minus;5.9&percnt;</td>
+      <td class="gt_row gt_right">&minus;3.2&percnt;</td>
+      <td class="gt_row gt_right">&minus;1.3&percnt;</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left gt_striped">State</td>
+      <td class="gt_row gt_center gt_striped">2011</td>
+      <td class="gt_row gt_right gt_striped">51</td>
+      <td class="gt_row gt_right gt_striped">&minus;3.5&percnt;</td>
+      <td class="gt_row gt_right gt_striped">&minus;5.3&percnt;</td>
+      <td class="gt_row gt_right gt_striped">&minus;3.0&percnt;</td>
+      <td class="gt_row gt_right gt_striped">&minus;1.5&percnt;</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">CBSA</td>
+      <td class="gt_row gt_center">2012</td>
+      <td class="gt_row gt_right">382</td>
+      <td class="gt_row gt_right">1.3&percnt;</td>
+      <td class="gt_row gt_right">&minus;0.6&percnt;</td>
+      <td class="gt_row gt_right">1.0&percnt;</td>
+      <td class="gt_row gt_right">2.8&percnt;</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left gt_striped">State</td>
+      <td class="gt_row gt_center gt_striped">2012</td>
+      <td class="gt_row gt_right gt_striped">51</td>
+      <td class="gt_row gt_right gt_striped">1.8&percnt;</td>
+      <td class="gt_row gt_right gt_striped">0.0&percnt;</td>
+      <td class="gt_row gt_right gt_striped">1.3&percnt;</td>
+      <td class="gt_row gt_right gt_striped">3.1&percnt;</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">CBSA</td>
+      <td class="gt_row gt_center">2013</td>
+      <td class="gt_row gt_right">382</td>
+      <td class="gt_row gt_right">6.5&percnt;</td>
+      <td class="gt_row gt_right">2.6&percnt;</td>
+      <td class="gt_row gt_right">4.6&percnt;</td>
+      <td class="gt_row gt_right">8.0&percnt;</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left gt_striped">State</td>
+      <td class="gt_row gt_center gt_striped">2013</td>
+      <td class="gt_row gt_right gt_striped">51</td>
+      <td class="gt_row gt_right gt_striped">7.1&percnt;</td>
+      <td class="gt_row gt_right gt_striped">3.7&percnt;</td>
+      <td class="gt_row gt_right gt_striped">5.2&percnt;</td>
+      <td class="gt_row gt_right gt_striped">9.5&percnt;</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">CBSA</td>
+      <td class="gt_row gt_center">2014</td>
+      <td class="gt_row gt_right">382</td>
+      <td class="gt_row gt_right">3.6&percnt;</td>
+      <td class="gt_row gt_right">1.3&percnt;</td>
+      <td class="gt_row gt_right">2.8&percnt;</td>
+      <td class="gt_row gt_right">5.2&percnt;</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left gt_striped">State</td>
+      <td class="gt_row gt_center gt_striped">2014</td>
+      <td class="gt_row gt_right gt_striped">51</td>
+      <td class="gt_row gt_right gt_striped">4.1&percnt;</td>
+      <td class="gt_row gt_right gt_striped">2.7&percnt;</td>
+      <td class="gt_row gt_right gt_striped">3.6&percnt;</td>
+      <td class="gt_row gt_right gt_striped">5.2&percnt;</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">CBSA</td>
+      <td class="gt_row gt_center">2015</td>
+      <td class="gt_row gt_right">382</td>
+      <td class="gt_row gt_right">4.2&percnt;</td>
+      <td class="gt_row gt_right">1.9&percnt;</td>
+      <td class="gt_row gt_right">3.6&percnt;</td>
+      <td class="gt_row gt_right">5.7&percnt;</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left gt_striped">State</td>
+      <td class="gt_row gt_center gt_striped">2015</td>
+      <td class="gt_row gt_right gt_striped">51</td>
+      <td class="gt_row gt_right gt_striped">4.5&percnt;</td>
+      <td class="gt_row gt_right gt_striped">2.8&percnt;</td>
+      <td class="gt_row gt_right gt_striped">4.1&percnt;</td>
+      <td class="gt_row gt_right gt_striped">5.2&percnt;</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">CBSA</td>
+      <td class="gt_row gt_center">2016</td>
+      <td class="gt_row gt_right">382</td>
+      <td class="gt_row gt_right">4.6&percnt;</td>
+      <td class="gt_row gt_right">2.5&percnt;</td>
+      <td class="gt_row gt_right">4.1&percnt;</td>
+      <td class="gt_row gt_right">6.5&percnt;</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left gt_striped">State</td>
+      <td class="gt_row gt_center gt_striped">2016</td>
+      <td class="gt_row gt_right gt_striped">51</td>
+      <td class="gt_row gt_right gt_striped">4.8&percnt;</td>
+      <td class="gt_row gt_right gt_striped">3.1&percnt;</td>
+      <td class="gt_row gt_right gt_striped">4.6&percnt;</td>
+      <td class="gt_row gt_right gt_striped">6.2&percnt;</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">CBSA</td>
+      <td class="gt_row gt_center">2017</td>
+      <td class="gt_row gt_right">382</td>
+      <td class="gt_row gt_right">5.4&percnt;</td>
+      <td class="gt_row gt_right">3.4&percnt;</td>
+      <td class="gt_row gt_right">5.4&percnt;</td>
+      <td class="gt_row gt_right">7.4&percnt;</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left gt_striped">State</td>
+      <td class="gt_row gt_center gt_striped">2017</td>
+      <td class="gt_row gt_right gt_striped">51</td>
+      <td class="gt_row gt_right gt_striped">5.7&percnt;</td>
+      <td class="gt_row gt_right gt_striped">4.2&percnt;</td>
+      <td class="gt_row gt_right gt_striped">5.6&percnt;</td>
+      <td class="gt_row gt_right gt_striped">7.0&percnt;</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">CBSA</td>
+      <td class="gt_row gt_center">2018</td>
+      <td class="gt_row gt_right">382</td>
+      <td class="gt_row gt_right">5.7&percnt;</td>
+      <td class="gt_row gt_right">4.0&percnt;</td>
+      <td class="gt_row gt_right">5.7&percnt;</td>
+      <td class="gt_row gt_right">7.3&percnt;</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left gt_striped">State</td>
+      <td class="gt_row gt_center gt_striped">2018</td>
+      <td class="gt_row gt_right gt_striped">51</td>
+      <td class="gt_row gt_right gt_striped">5.6&percnt;</td>
+      <td class="gt_row gt_right gt_striped">4.0&percnt;</td>
+      <td class="gt_row gt_right gt_striped">5.7&percnt;</td>
+      <td class="gt_row gt_right gt_striped">6.6&percnt;</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">CBSA</td>
+      <td class="gt_row gt_center">2019</td>
+      <td class="gt_row gt_right">382</td>
+      <td class="gt_row gt_right">4.5&percnt;</td>
+      <td class="gt_row gt_right">3.2&percnt;</td>
+      <td class="gt_row gt_right">4.4&percnt;</td>
+      <td class="gt_row gt_right">5.8&percnt;</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left gt_striped">State</td>
+      <td class="gt_row gt_center gt_striped">2019</td>
+      <td class="gt_row gt_right gt_striped">51</td>
+      <td class="gt_row gt_right gt_striped">4.2&percnt;</td>
+      <td class="gt_row gt_right gt_striped">3.5&percnt;</td>
+      <td class="gt_row gt_right gt_striped">4.1&percnt;</td>
+      <td class="gt_row gt_right gt_striped">5.0&percnt;</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">CBSA</td>
+      <td class="gt_row gt_center">2020</td>
+      <td class="gt_row gt_right">382</td>
+      <td class="gt_row gt_right">5.0&percnt;</td>
+      <td class="gt_row gt_right">3.4&percnt;</td>
+      <td class="gt_row gt_right">4.9&percnt;</td>
+      <td class="gt_row gt_right">6.6&percnt;</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left gt_striped">State</td>
+      <td class="gt_row gt_center gt_striped">2020</td>
+      <td class="gt_row gt_right gt_striped">51</td>
+      <td class="gt_row gt_right gt_striped">5.2&percnt;</td>
+      <td class="gt_row gt_right gt_striped">3.6&percnt;</td>
+      <td class="gt_row gt_right gt_striped">5.0&percnt;</td>
+      <td class="gt_row gt_right gt_striped">6.6&percnt;</td>
+    </tr>
+  </tbody>
+  
+  
+</table></div>
+</div>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2020/07/03/using-darklyplot/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2020/07/03/using-darklyplot/">Using darklyplot</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/r/">R</a>, 
+            
+                <a href="/tags/data-wrangling/">data wrangling</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2020%2f09%2f22%2fdcasting-a-data-table%2f&text=dcasting%20a%20data%20table via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2020%2f09%2f22%2fdcasting-a-data-table%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+
