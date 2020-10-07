@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Using Quantile AutoRegression techniques to characterize the conditional forecast density for US House Prices (speculative).">
+  <meta name="generator" content="Hugo 0.52" />
+
+  <title>Forecasting house prices with Quantile AutoRegression (QAR) &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/charts_2020_10_06/qar.png" >
+     
+    <meta property="og:title" content="Forecasting house prices with Quantile AutoRegression (QAR)">
+    <meta property="og:description" content="Using Quantile AutoRegression techniques to characterize the conditional forecast density for US House Prices (speculative).">
+
+<div class="header">
+  <h1>Forecasting house prices with Quantile AutoRegression (QAR)</h1>
+  <h2>Using Quantile AutoRegression techniques to characterize the conditional forecast density for US House Prices (speculative).</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2020/10/06</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/house-prices">house prices</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/forecasting">forecasting</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+
+
+<p>I’ve been thinking about distributional forecasts. In particular I’ve been considering Quantile Autoregressions (QAR) as defined in <a href="http://www.econ.uiuc.edu/~roger/research/qar/qar14.pdf">KOENKER AND XIAO 2006</a>. There are some handy lecture notes I’ll borrow from <a href="http://www.econ.uiuc.edu/~roger/courses/LSE/lectures/L6.pdf">at this link (pdf)</a> in the exercise here.</p>
+<p>This is all speculative, but I think this might be a useful way to think about the assymetry in likely outcomes given the uncertainty inherent in today’s economic forecasts.</p>
+<div id="setup" class="section level1">
+<h1>Setup</h1>
+<p>Let’s define the QAR(1) model for quantile <span class="math inline">\(Q(\tau)\)</span>,</p>
+<p><span class="math display">\[Q_{y_t}(\tau|y_{t-1}) - \alpha_0(\tau) + \alpha_1(\tau)y_{t-1},\]</span>
+or with <span class="math inline">\(u_t \text{ i.i.d. } U[0,1]\)</span>.</p>
+<p><span class="math display">\[ y_t = \alpha_0(u_t)+ \alpha_1(u_t)y_{t-1}.\]</span>
+We can estimate the model above using standard quantile regression techniques.</p>
+<p>Given the estimated QAR model we have,</p>
+<p><span class="math display">\[ \hat{Q_{y_t}}(\tau|\mathcal{F_{t-1}})=x_t^\intercal\hat{\alpha}(\tau)  \]</span></p>
+<p>given <span class="math inline">\(y_t:t=1,2,..T\)</span> we can forecast</p>
+<p><span class="math display">\[ \hat{y}_{t+s} = \tilde{x}^\intercal_{T+s} \hat{\alpha}(U_s), s=1,...S, \]</span></p>
+<p>where <span class="math inline">\(\tilde{x}^\intercal_{T+s} = [1,\tilde{y}_{T+S-1}]^\intercal\)</span>, <span class="math inline">\(U_s \sim U[0,1]\)</span>, and</p>
+<p><span class="math display">\[ 
+\tilde{y}_t =  \begin{cases}  
+y_t \text{ if } t \leq T,  \\
+\hat{y}_t \text{ if } t&gt;T.
+\end{cases}
+\]</span></p>
+<p>We can then simulate an ensemble of such forecasts paths to generate a conditional density forecast.</p>
+<p>To do that we initialize the data at <span class="math inline">\(y_T\)</span> and then draw a single uniform random variable <span class="math inline">\(U_{T+1} \sim U[0,1]\)</span>, we then plug that into the equation above and iterate forward. We do that for several different draws and average across all the draws to construct the conditonal denstiy forecast <span class="math inline">\(S\)</span> periods into the future.</p>
+<div id="data" class="section level2">
+<h2>Data</h2>
+<p>We’ll begin by using the <a href="http://www.freddiemac.com/research/indices/house-price-index.page">Freddie Mac House Price Index</a> and transform it into annual growth rates. The latest available data is through August, so we’ll use August of each year to avoid overlapping time periods. We’ll have historical data from August 1976 through August 2020.</p>
+<pre class="r"><code>library(data.table)
+library(forecast)
+library(tidyverse)
+library(quantreg)
+library(gt)
+dt &lt;- fread(&quot;http://www.freddiemac.com/fmac-resources/research/docs/fmhpi_master_file.csv&quot;)
+dt_us &lt;- dt[GEO_Type==&quot;US&quot; ,   ]
+dt_us[, hpa:=Index_SA/shift(Index_SA,12)-1, GEO_Name]</code></pre>
+<pre class="r"><code>hpa &lt;- ts(dt_us[Month==8&amp; Year&gt;1975,]$hpa,start=1976,frequency=1)
+autoplot(hpa,color=&quot;dodgerblue&quot;,size=1.1)+scale_y_continuous(labels=scales::percent)+
+  theme_minimal()+
+  labs(x=&quot;date (August of each year)&quot;,
+       y=&quot;&quot;,
+       title=&quot;12-month Percent Change in US House Price Index&quot;,
+       caption=&quot;Source: Freddie Mac House Price Index&quot;)</code></pre>
+<p><img src="/post/2020-10-06-forecasting-house-prices-with-quantile-autoregression-qar_files/figure-html/unnamed-chunk-2-1.png" width="672" />
+We want to account for varying rates of underlying inflation, so let’s deflate the index by the BEA’s <a href="https://fred.stlouisfed.org/series/PCEPI">Personal Consumption Expenditures: Chain-type Price Index</a>.</p>
+<pre class="r"><code>dt_pce &lt;- tidyquant::tq_get(&quot;PCEPI&quot;,get=&quot;economic.data&quot;,from=&quot;1975-01-01&quot;)
+dt_pce &lt;- data.table(dt_pce)[,pce:=price/shift(price,12)-1]
+dt_pce &lt;- data.table(dt_pce)[,pce3:=price/shift(price,36)-1]
+dt_us2 &lt;- left_join(dt_us,
+                    dt_pce[,c(&quot;date&quot;,&quot;pce&quot;,&quot;price&quot;)][,&quot;:=&quot;(Year=year(date),Month=month(date))],
+                    by=c(&quot;Year&quot;,&quot;Month&quot;))
+
+#create Real House Price Appreciation (rhpa) and its 12-month lag (rhpa12)
+
+dt_us2[,rhpa:=hpa-pce][
+  ,rhpa12:=shift(rhpa,12)]
+ggplot(data=dt_us2[Month==8,], aes(x=date,y=rhpa))+
+  geom_path(color=&quot;dodgerblue&quot;,size=1.1)+
+  scale_y_continuous(labels=scales::percent)+
+  theme_minimal()+
+  labs(x=&quot;date (August of each year)&quot;,
+       y=&quot;&quot;,
+       title=&quot;12-month Percent Change in US Real House Price Index&quot;,
+       caption=&quot;Source: Freddie Mac House Price Index, deflated by Personal Consumption Expenditures: Chain-type Price Index&quot;)</code></pre>
+<p><img src="/post/2020-10-06-forecasting-house-prices-with-quantile-autoregression-qar_files/figure-html/unnamed-chunk-3-1.png" width="672" />
+Now we can fit a quantile autoregression using one annual lag:</p>
+<pre class="r"><code>g.qr&lt;-
+  rq(data=dt_us2,
+     tau= seq(0.1,0.9,0.1),
+     formula = rhpa ~ rhpa12 ) %&gt;% 
+  broom::tidy() %&gt;% 
+  #filter(term!=&quot;(Intercept)&quot;) %&gt;%
+  mutate(term=ifelse(term==&quot;rhpa12&quot;,&quot;Lagged real HPA&quot;,term)) %&gt;%
+  ggplot(aes(x=tau,y=estimate))+
+  geom_point(color=&quot;#27408b&quot;)+ 
+  geom_ribbon(aes(ymin=conf.low,ymax=conf.high),alpha=0.25, fill=&quot;#27408b&quot;)+
+  geom_line(color=&quot;#27408b&quot;)+
+  theme_minimal()+
+  theme(text = element_text(color = &quot;#27408b&quot;))+
+  theme(plot.caption=element_text(hjust=0))+
+  scale_x_continuous(breaks=seq(0,1,.1))+
+  facet_wrap(~term,scales=&quot;free_y&quot;,ncol=2)+
+  labs(x=&quot;tau = quantile&quot;, y=&quot;coefficients&quot;, 
+       title=&quot;Quantile AutoRegression (QAR) Results:\nrhpa ~ rhpa12&quot;,
+       caption=&quot;@lenkiefer Note: Quantile regresion coefficients for 12-month real house price growth with\n 12-month lag lags of real house prices. U.S. SA index (Aug 1976-Aug 2020)&quot;)
+g.qr</code></pre>
+<p><img src="/post/2020-10-06-forecasting-house-prices-with-quantile-autoregression-qar_files/figure-html/unnamed-chunk-4-1.png" width="672" />
+The QAR model results such asymmetry in the house price growth process. When you have a negative draw (tau is low) you tend to have more persistence in the process (the AR coefficient is bigger).</p>
+<p>We can see that asymmetry by simulating house prices forward.</p>
+<pre class="r"><code>df &lt;- dt_us2[Year&gt;1975 &amp; Month==8,]
+
+df_quant &lt;- rq(data=df, 
+               tau= seq(0.01,.99,.01),
+               formula =  rhpa ~ rhpa12  )
+
+# forecasting function
+
+# three years out
+N &lt;- 3
+Nsim &lt;- 500
+# initialize values
+y0 &lt;- matrix(NA,N+1,Nsim)
+y0[1,] &lt;- last(df$rhpa)
+qs &lt;- matrix(NA,N,Nsim)
+set.seed(100161)
+for (i in 1:N){
+  for (j in 1:Nsim){
+    # draw a quantile (1-100)
+    qs[i,j] &lt;- max(1,floor(runif(1)*100))
+    y0[i+1,j] &lt;- df_quant$coefficients[1,qs[i,j]]+df_quant$coefficients[1,qs[i,j]]*y0[i,j]
+  }
+}
+
+# reshape2 deprecated?
+# I had this
+#y02 &lt;- melt(y0)
+#setnames(y02,c(&quot;Var1&quot;,&quot;Var2&quot;,&quot;value&quot;),c(&quot;period&quot;,&quot;sim&quot;,&quot;rhpa&quot;))
+# melt throws warning about deprecated reshape2 going with:
+
+y02 &lt;- 
+data.table(
+  period = rep(seq_len(nrow(y0)), ncol(y0)), 
+  year = rep(seq_len(nrow(y0)), ncol(y0))+2019, 
+  sim = rep(seq_len(ncol(y0)), each = nrow(y0)), 
+  rhpa = c(y0)
+)
+
+
+y02 &lt;- data.table(y02)[,cumulative_hpa:=cumsum(rhpa)-first(rhpa),sim]
+y02 &lt;- data.table(y02)[,chpa:=cumprod(1+rhpa),sim][,cumulative_hpa:=chpa-(1+first(rhpa)),sim]
+y02[,year:=period+2019]
+
+data.table(y02)[, as.list(unlist(lapply(.SD,quantile,c(.1,.5,0.9)))),
+                year,.SDcols=&quot;cumulative_hpa&quot;] %&gt;%
+  mutate_at(c(2,3,4),scales::percent,accuracy=.1) %&gt;%
+  filter(year&gt;2020) %&gt;%
+  gt(auto_align=FALSE) %&gt;%
+  tab_header(title=&quot;Cumulative Real House Price Growth (Aug Value/ Aug 2020 -1 )&quot;,
+             subtitle=&quot;Quantile AutoRegressions\nFMHPI deflated by PCE Price Index&quot;) %&gt;%
+  tab_source_note(&quot;10th, 50th, and 90th percentiles across 500 simulated QAR(1) forecasts\nForecasts Starting from August 2020 12, 24, 36 months foreward.&quot;)</code></pre>
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#qspejnwkfk .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#qspejnwkfk .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#qspejnwkfk .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#qspejnwkfk .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 4px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#qspejnwkfk .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#qspejnwkfk .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#qspejnwkfk .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#qspejnwkfk .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#qspejnwkfk .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#qspejnwkfk .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#qspejnwkfk .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#qspejnwkfk .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#qspejnwkfk .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#qspejnwkfk .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#qspejnwkfk .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#qspejnwkfk .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#qspejnwkfk .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#qspejnwkfk .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#qspejnwkfk .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#qspejnwkfk .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#qspejnwkfk .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#qspejnwkfk .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#qspejnwkfk .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#qspejnwkfk .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#qspejnwkfk .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#qspejnwkfk .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#qspejnwkfk .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#qspejnwkfk .gt_left {
+  text-align: left;
+}
+
+#qspejnwkfk .gt_center {
+  text-align: center;
+}
+
+#qspejnwkfk .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#qspejnwkfk .gt_font_normal {
+  font-weight: normal;
+}
+
+#qspejnwkfk .gt_font_bold {
+  font-weight: bold;
+}
+
+#qspejnwkfk .gt_font_italic {
+  font-style: italic;
+}
+
+#qspejnwkfk .gt_super {
+  font-size: 65%;
+}
+
+#qspejnwkfk .gt_footnote_marks {
+  font-style: italic;
+  font-size: 65%;
+}
+</style>
+<div id="qspejnwkfk" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
+  <thead class="gt_header">
+    <tr>
+      <th colspan="4" class="gt_heading gt_title gt_font_normal" style>Cumulative Real House Price Growth (Aug Value/ Aug 2020 -1 )</th>
+    </tr>
+    <tr>
+      <th colspan="4" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style>Quantile AutoRegressions
+FMHPI deflated by PCE Price Index</th>
+    </tr>
+  </thead>
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">year</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">cumulative_hpa.10%</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">cumulative_hpa.50%</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">cumulative_hpa.90%</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr>
+      <td class="gt_row gt_center">2021</td>
+      <td class="gt_row gt_center">-4.8%</td>
+      <td class="gt_row gt_center">1.1%</td>
+      <td class="gt_row gt_center">5.3%</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_center">2022</td>
+      <td class="gt_row gt_center">-6.1%</td>
+      <td class="gt_row gt_center">1.7%</td>
+      <td class="gt_row gt_center">8.0%</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_center">2023</td>
+      <td class="gt_row gt_center">-7.0%</td>
+      <td class="gt_row gt_center">2.5%</td>
+      <td class="gt_row gt_center">10.5%</td>
+    </tr>
+  </tbody>
+  <tfoot class="gt_sourcenotes">
+    <tr>
+      <td class="gt_sourcenote" colspan="4">10th, 50th, and 90th percentiles across 500 simulated QAR(1) forecasts
+Forecasts Starting from August 2020 12, 24, 36 months foreward.</td>
+    </tr>
+  </tfoot>
+  
+</table></div>
+<p>Here we can see the asymmetry manifest itself. Across 500 simulations, the median 3-year real house price growth rate is 2.5 percentage points. However, the upside is 8 percentage points higher (10.5%) while the downside (-7.0%) is 9.5 percentage points lower.</p>
+</div>
+</div>
+<div id="comments" class="section level1">
+<h1>Comments</h1>
+<p>I think this might be a useful way to think about some of these issues. The QAR model is quite tractable and lends itself immediately to a description of conditional forecast densities. However, it remains to be seen if forecasts from such a model would actually be any good compared to more traditional univariate approaches or more complex multivariate models.</p>
+</div>
+<div id="references" class="section level1">
+<h1>References</h1>
+<p>Koenker, R., &amp; Xiao, Z. (2006). Quantile autoregression. Journal of the American Statistical Association, 101(475), 980-990.</p>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2020/09/22/dcasting-a-data-table/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2020/09/22/dcasting-a-data-table/">dcasting a data table</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/r/">R</a>, 
+            
+                <a href="/tags/house-prices/">house prices</a>, 
+            
+                <a href="/tags/forecasting/">forecasting</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2020%2f10%2f06%2fforecasting-house-prices-with-quantile-autoregression-qar%2f&text=Forecasting%20house%20prices%20with%20Quantile%20AutoRegression%20%28QAR%29 via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2020%2f10%2f06%2fforecasting-house-prices-with-quantile-autoregression-qar%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+
