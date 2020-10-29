@@ -218,6 +218,56 @@
   
     <article>
   <header>
+    <h2><a href="/2020/06/25/gradient-shading-with-ggplot2/">Gradient shading with ggplot2</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2020/06/25</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  Over on Twitter Grant McDermott shares a neat ggplot2 trick:
+A shortcut I like to use is calling multiple geoms in an lapply() call, since this automatically generates a list. Works well for investigating plotting variations, e.g.
+ggplot(diamonds, aes(carat)) +
+lapply(c(50,200), function(b) geom_histogram(bins=b, alpha=0.3)) https://t.co/hf0vtvDkbk pic.twitter.com/jmmqlyJEKo
+&mdash; Grant McDermott (@grant_mcdermott) June 22, 2020  I applied this trick to create a gradient fill for a chart.
+Looks kind of like Kool-Aid.
+  </p>
+
+  
+  <footer>
+    <a href="/2020/06/25/gradient-shading-with-ggplot2/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
     <h2><a href="/2020/06/16/the-coronavirus-recession/">The Coronavirus Recession</a></h2>
 
     <div class="post-meta">
@@ -666,55 +716,6 @@ As I update some more charts I may add to the list.
 </article>
 
   
-    <article>
-  <header>
-    <h2><a href="/2020/04/03/us-labor-market-update-april-2020/">US Labor Market Update</a></h2>
-
-    <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>2020/04/03</time>
-  </div>
-
-  
-
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="/tags/animation">animation</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="/tags/economy">economy</a>
-    
-  </div>
-  
-  
-
-</div>
-
-  </header>
-
-  <p>
-  Today the U.S. Bureau of Labor Statistics released its monthly employment situation summary for March 2020. While many were expecting the U.S. labor market to show some weakness as the U.S. economy shuts down to battle COVID-19, the magnitude of the contraction surprised many. Because the reference week for the employment report was March 8th through March 14th, before the nationwide shutdown took full effect, many were expecting a relatively mild report.
-  </p>
-
-  
-  <footer>
-    <a href="/2020/04/03/us-labor-market-update-april-2020/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
-  </footer>
-  
-</article>
-
-  
 
   
 
@@ -723,7 +724,7 @@ As I update some more charts I may add to the list.
   
   <a href="/"><i class="fa fa-chevron-left"></i></a>
   
-  <span>&nbsp;2 / 26&nbsp;</span>
+  <span>&nbsp;2 / 27&nbsp;</span>
   
   <a href="/page/3/"><i class="fa fa-chevron-right"></i></a>
   
