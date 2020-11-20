@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Putting the y-axis on the right side">
+  <meta name="generator" content="Hugo 0.52" />
+
+  <title>y-axis on the right side &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com//img/charts_2020_11_20/yright.png" >
+     
+    <meta property="og:title" content="y-axis on the right side">
+    <meta property="og:description" content="Putting the y-axis on the right side">
+
+<div class="header">
+  <h1>y-axis on the right side</h1>
+  <h2>Putting the y-axis on the right side</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2020/11/20</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/presentation">presentation</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+
+
+<p>Recently I’ve been putting my y-axis labels on the right for some time series.</p>
+<p>I think this idea has been rattling around in my head since it was suggested on Twitter by Maarten Lambrechts:</p>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">A y-axis on the left is almost always the default, while the most recent and usually most relevant data are on the right. Then shouldn&#39;t a y-axis on the right be the default (when there are no data labels), to improve legibility? <a href="https://t.co/Gt5DmvguyH">pic.twitter.com/Gt5DmvguyH</a></p>&mdash; Maarten Lambrechts (@maartenzam) <a href="https://twitter.com/maartenzam/status/1306602228505952257?ref_src=twsrc%5Etfw">September 17, 2020</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>Let’s consider by making some mortgage rate plots using a slide modification to my <a href="../../../../2020/10/30/powder-blue-charts/">power blue chart theme</a>.</p>
+<div id="data-stuff" class="section level1">
+<h1>Data stuff</h1>
+<p>Let’s set up our libraries and get data, using US Weekly average 30-year fixed mortgage rates from <a href="http://www.freddiemac.com/pmms/">Freddie Mac</a>. We can download the data via a handy csv. We’ll also load in a modified version of the power blue theme, the change is making the axis labels dark gray instead of white.</p>
+<p>Per usual, we will made these charts with <a href="https://www.r-project.org/">R</a>.</p>
+<details>
+<p><Summary> Data stuff and prep </Summary></p>
+<pre class="r"><code>##############################################################
+# load libraries ----
+##############################################################
+library(tidyverse)
+library(lubridate)
+library(extrafont)
+library(data.table)
+# works for windows, not sure about others
+extrafont::loadfonts(device=&quot;win&quot;)
+
+##############################################################
+# set up theme ----
+# modified http://lenkiefer.com/2020/10/30/powder-blue-charts/
+# to have dark axis labels
+##############################################################
+
+theme_len &lt;-  function(...){
+  
+  theme_minimal(...)+
+    theme(legend.position=&quot;top&quot;,
+          panel.grid.minor=element_blank(),
+          panel.grid.major=element_line(color=&quot;white&quot;),
+          plot.title=element_text(face=&quot;bold&quot;,color=&quot;gray20&quot;),
+          plot.subtitle=element_text(face=&quot;italic&quot;,color=&quot;gray20&quot;),
+          plot.caption=element_text(hjust=0,color=&quot;gray20&quot;),
+          legend.direction=&quot;horizontal&quot;,
+          axis.text=element_text(color=&quot;gray20&quot;),
+          axis.title=element_text(color=&quot;gray20&quot;),
+          plot.backgroun=element_rect(fill=&quot;lightskyblue1&quot;),
+          panel.border=element_rect(fill=NA,color=NA),
+          plot.margin=margin(1,1,1,1,&quot;cm&quot;),
+          legend.key.width=unit(2,&quot;cm&quot;)
+    )
+  
+}
+
+##############################################################
+# update default ggplot2 line, rect colors/fill ----
+##############################################################
+inari  &lt;- &quot;#fe5305&quot;
+update_geom_defaults(&quot;line&quot;,list(colour=inari))
+update_geom_defaults(&quot;rect&quot;,list(fill=inari,colour=inari))
+
+
+##############################################################
+# get data  ----
+##############################################################
+df &lt;- fread(&quot;http://www.freddiemac.com/pmms/docs/PMMS_history.csv&quot;)
+df$date &lt;- as.Date(df$date,format=&quot;%m/%d/%Y&quot;)
+dd &lt;- format(max(df$date),&quot;%B %d, %Y&quot;)</code></pre>
+</details>
+<p>Now let’s consider some plots. First a standard plost with labels on the left axis.</p>
+<details>
+<p><Summary> Code for standard plot </Summary></p>
+<pre class="r"><code>g_left &lt;- 
+ggplot(data=filter(df,date&gt;=&quot;2005-01-01&quot;), aes(x=date,y=pmms30))+
+  geom_line(size=2,color=&quot;white&quot;,alpha=0.75)+
+  geom_line(size=4,color=&quot;white&quot;,alpha=0.25)+
+  geom_line(size=5,color=&quot;white&quot;,alpha=0.1)+
+  geom_line(size=1.1)+
+  theme_len(base_family=&quot;Gill Sans MT&quot;,base_size=14,base_line_size=0.65)+
+  scale_y_continuous(limits=c(2,7),breaks=seq(0,20,1))+
+  geom_point(data=.%&gt;% tail(1),size=4,alpha=0.5,color=inari)+
+  geom_hline(data=.%&gt;% tail(1),linetype=2,aes(yintercept=pmms30),alpha=1,color=inari)+
+  labs(x=&quot;&quot;,y=&quot;&quot;,
+       subtitle=&quot;U.S. Weekly average 30-year fixed mortgage rate (percent)&quot;,
+       title=&quot;Mortgage Rate Trends&quot;,
+       caption=paste0(&quot;@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey through &quot;,
+                      dd))</code></pre>
+</details>
+<pre class="r"><code>g_left</code></pre>
+<p><img src="/post/2020-11-20-y-axis-on-the-right-side_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<details>
+<p><Summary> Code for plot with labels on right </Summary></p>
+<pre class="r"><code>##############################################################
+# line plot  ----
+##############################################################
+g_right &lt;- 
+ggplot(data=filter(df,date&gt;=&quot;2005-01-01&quot;), aes(x=date,y=pmms30))+
+  geom_line(size=2,color=&quot;white&quot;,alpha=0.75)+
+  geom_line(size=4,color=&quot;white&quot;,alpha=0.25)+
+  geom_line(size=5,color=&quot;white&quot;,alpha=0.1)+
+  geom_line(size=1.1)+
+  theme_len(base_family=&quot;Gill Sans MT&quot;,base_size=14,base_line_size=0.65)+
+  scale_y_continuous(position=&quot;right&quot;,limits=c(2,7),breaks=seq(0,20,1))+
+  geom_point(data=.%&gt;% tail(1),size=4,alpha=0.5,color=inari)+
+  geom_hline(data=.%&gt;% tail(1),linetype=2,aes(yintercept=pmms30),alpha=1,color=inari)+
+  labs(x=&quot;&quot;,y=&quot;&quot;,
+       subtitle=&quot;U.S. Weekly average 30-year fixed mortgage rate (percent)&quot;,
+       title=&quot;Mortgage Rate Trends&quot;,
+       caption=paste0(&quot;@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey through &quot;,
+                      dd))</code></pre>
+</details>
+<pre class="r"><code>g_right</code></pre>
+<p><img src="/post/2020-11-20-y-axis-on-the-right-side_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>We could also put the labels on both sides, which I sometimes do, but that is redundant and also shows the same information twice.</p>
+<details>
+<p><Summary> labels on both sides</Summary></p>
+<pre class="r"><code>##############################################################
+# line plot  ----
+##############################################################
+g_both &lt;- 
+ggplot(data=filter(df,date&gt;=&quot;2005-01-01&quot;), aes(x=date,y=pmms30))+
+  geom_line(size=2,color=&quot;white&quot;,alpha=0.75)+
+  geom_line(size=4,color=&quot;white&quot;,alpha=0.25)+
+  geom_line(size=5,color=&quot;white&quot;,alpha=0.1)+
+  geom_line(size=1.1)+
+  theme_len(base_family=&quot;Gill Sans MT&quot;,base_size=14,base_line_size=0.65)+
+  scale_y_continuous(sec.axis=dup_axis(),limits=c(2,7),breaks=seq(0,20,1))+
+  geom_point(data=.%&gt;% tail(1),size=4,alpha=0.5,color=inari)+
+  geom_hline(data=.%&gt;% tail(1),linetype=2,aes(yintercept=pmms30),alpha=1,color=inari)+
+  labs(x=&quot;&quot;,y=&quot;&quot;,
+       subtitle=&quot;U.S. Weekly average 30-year fixed mortgage rate (percent)&quot;,
+       title=&quot;Mortgage Rate Trends&quot;,
+       caption=paste0(&quot;@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey through &quot;,
+                      dd))</code></pre>
+</details>
+<pre class="r"><code>g_both</code></pre>
+<p><img src="/post/2020-11-20-y-axis-on-the-right-side_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>Which do you prefer? Honestly I’ll probably cycle between all three and tend to stick with labels on the left due to inertia. But right now the labels on the right are my favorite.</p>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2020/10/30/powder-blue-charts/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2020/10/30/powder-blue-charts/">Powder blue charts</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/r/">R</a>, 
+            
+                <a href="/tags/dataviz/">dataviz</a>, 
+            
+                <a href="/tags/presentation/">presentation</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2020%2f11%2f20%2fy-axis-on-the-right-side%2f&text=y-axis%20on%20the%20right%20side via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2020%2f11%2f20%2fy-axis-on-the-right-side%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+
