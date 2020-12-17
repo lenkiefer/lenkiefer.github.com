@@ -4,10 +4,10 @@
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Slides from a recent presentation on data visualization.">
+  <meta name="description" content="A chart for all seasons (that involve snow)">
   <meta name="generator" content="Hugo 0.52" />
 
-  <title>Talking Dataviz &middot; Len Kiefer</title>
+  <title>Seasonally adjusted greetings and low low mortgage rates &middot; Len Kiefer</title>
 
   
   
@@ -202,14 +202,14 @@
 
 
        <meta name="twitter:card" content="summary_large_image">
-       <meta name="twitter:image" content="http://lenkiefer.com//img/charts_2020_12_15/preso.jpg" >
+       <meta name="twitter:image" content="http://lenkiefer.com//img/charts_2020_12_17/rate_cloud.png" >
      
-    <meta property="og:title" content="Talking Dataviz">
-    <meta property="og:description" content="Slides from a recent presentation on data visualization.">
+    <meta property="og:title" content="Seasonally adjusted greetings and low low mortgage rates">
+    <meta property="og:description" content="A chart for all seasons (that involve snow)">
 
 <div class="header">
-  <h1>Talking Dataviz</h1>
-  <h2>Slides from a recent presentation on data visualization.</h2>
+  <h1>Seasonally adjusted greetings and low low mortgage rates</h1>
+  <h2>A chart for all seasons (that involve snow)</h2>
 </div>
 <div class="content">
 
@@ -217,7 +217,7 @@
 
   <div>
     <i class="fa fa-calendar fa-fw"></i>
-    <time>2020/12/15</time>
+    <time>2020/12/17</time>
   </div>
 
   
@@ -232,7 +232,9 @@
     
       <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
     
-      <a class="post-taxonomy-tag" href="/tags/presentation">presentation</a>
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/mortgage">mortgage</a>
     
   </div>
   
@@ -243,26 +245,115 @@
   
 
 
-<p>Today I got to talk #dataviz and shared a bunch of my charts, which always sort of feels like sharing my vacation photos. But it was fun to talk about why I made some of these charts, what they mean, and how different data visualization techniques can bring out new insights in familiar data.</p>
-<p>The pdf version is below or <a href="../../../../img/charts_2020_12_15/Kiefer_Dec_2020.pdf">here</a>.</p>
-<p>The pptx version has animations, get it <a href="../../../../img/charts_2020_12_15/Kiefer_Dec_2020.pptx">here</a>.</p>
-<iframe src="../../../../img/charts_2020_12_15/Kiefer_Dec_2020.pdf" height="540" width="750">
-</iframe>
-<p>For almost all of these charts, I’ve posted <a href="https://www.r-project.org/">R</a> code somewhere on this page. But the secret for this awesome dataviz stays with me.</p>
-<p><img src="../../../../img/charts_2020_12_15/dataviz1.png" style="width:740px" alt="awesome viz"></p>
+<p>Seasonally adjusted greetings to you and yours. For you I have an animated chart, a variation on our <a href="../../../..//2018/04/12/rate-cloud/">rate cloud</a> with a wintry theme.</p>
+<p><img src="../../../../img/favorites/rate_cloud.gif" style="width:550px"></p>
+<p><a href="https://www.r-project.org/">R</a> code below.</p>
+<p>We’ll grab mortgage rate data, make a few new variables and then plot the chart using ggridges::geom_density_ridges2. Using the <code>raincloud</code> option for the poisition argument in ggridges::geom_density_ridges2 places the individual data points below the density plots. Using various shades of white we can turn the rain cloud into a snow cloud. Then with a little animation we can create a snowfall effect.</p>
+<pre class="r"><code># replace with path to save your files
+mydir &lt;- FILEPATH
+
+
+#####################################################################################
+# load libraries----
+#####################################################################################
+library(data.table)
+library(ggridges)
+library(tidyverse)
+library(gganimate)
+library(lubridate)
+
+
+# replace with path to save your files
+mydir &lt;- FILEPATH
+
+#####################################################################################
+# get data ---- 
+#####################################################################################
+df &lt;- fread(&quot;http://www.freddiemac.com/pmms/docs/PMMS_history.csv&quot;) 
+df$date &lt;- as.Date(df$date,format=&quot;%m/%d/%Y&quot;)
+df &lt;- mutate(df,year=year(date),
+             yearf=fct_reorder(factor(year(date)),-year))
+
+
+#####################################################################################
+# make plot ---- 
+#####################################################################################
+a &lt;- 
+  ggplot(
+    data = bind_rows(
+      df %&gt;% filter(year &gt; 2009) %&gt;% mutate(mycolor = &quot;white&quot;),
+      df %&gt;% filter(year &gt; 2009) %&gt;% mutate(mycolor =
+                                              &quot;aliceblue&quot;),
+      df %&gt;% filter(year &gt; 2009) %&gt;% mutate(mycolor =
+                                              &quot;ghostwhite&quot;)
+    ),
+    aes(
+      y = forcats::fct_reorder(yearf, -year),
+      x = pmms30,
+      group = year,
+      fill = mycolor,
+      color = mycolor
+    )
+  ) +
+  geom_density_ridges2(
+    size = 1.2,
+    alpha = 0.85,
+    scale = 0.85,
+    position = &quot;raincloud&quot;,
+    point_color = &quot;white&quot;,
+    jittered_points = TRUE
+  ) +
+  scale_color_identity() +
+  scale_fill_identity() +
+  theme_minimal(base_size = 18) +
+  theme(
+    panel.grid.minor = element_blank(),
+    plot.background = element_rect(fill = &quot;lightgray&quot;),
+    plot.title = element_text(size = rel(1.5), face = &quot;bold&quot;),
+    plot.subtitle = element_text(size = rel(1.3), face = &quot;italic&quot;),
+    plot.caption = element_text(hjust = 0),
+    panel.grid.major.x = element_blank()
+  ) +
+  geom_vline(
+    data = . %&gt;% filter(date == max(date)),
+    linetype = 2,
+    color = &quot;white&quot;,
+    aes(xintercept = pmms30)
+  ) +
+  labs(
+    x = &quot;30-year fixed mortgage rate (%)\n&quot;,
+    y = &quot;&quot;,
+    caption = paste0(
+      &quot;@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey,&quot;,
+      &quot;\nDotted line at &quot;,
+      df[df$date == max(df$date), ]$pmms30,
+      &quot;% average for week of &quot;,
+      as.character(max(df$date), format = &quot;%B %d, %Y&quot;)
+    ),
+    title = &quot;Seasonally adjusted greetings and low low mortgage rates\nDistribution over weekly mortgage rates by year&quot;,
+    subtitle = &quot;Curves are densities fit to weekly observations for each year, dots weekly values&quot;
+  )
+
+
+# animate 
+a &lt;- a+ transition_states(mycolor,wrap=TRUE) 
+animate(a,nframes=60,  width=1000,height=800,end_pause=0,fps=40)
+
+# save animation
+gganimate::anim_save(paste0(mydir,&quot;rate_cloud.gif&quot;))</code></pre>
 
 
   
 <div class="prev-next-post pure-g">
   <div class="pure-u-1-24" style="text-align: left;">
     
-    <a href="/2020/11/30/visual-meditations-on-house-prices-2020-edition/"><i class="fa fa-chevron-left"></i></a>
+    <a href="/2020/12/15/talking-dataviz/"><i class="fa fa-chevron-left"></i></a>
     
   </div>
   <div class="pure-u-10-24">
     
     <nav class="prev">
-      <a href="/2020/11/30/visual-meditations-on-house-prices-2020-edition/">Visual Meditations on House Prices 2020 Edition</a>
+      <a href="/2020/12/15/talking-dataviz/">Talking Dataviz</a>
     </nav>
     
   </div>
@@ -271,14 +362,8 @@
   </div>
   <div class="pure-u-10-24">
     
-    <nav class="next">
-      <a href="/2020/12/17/seasonally-adjusted-greetings-and-low-low-mortgage-rates/">Seasonally adjusted greetings and low low mortgage rates</a>
-    </nav>
-    
   </div>
   <div class="pure-u-1-24" style="text-align: right;">
-    
-    <a href="/2020/12/17/seasonally-adjusted-greetings-and-low-low-mortgage-rates/"><i class="fa fa-chevron-right"></i></a>
     
   </div>
 </div>
@@ -296,14 +381,16 @@
             
                 <a href="/tags/dataviz/">dataviz</a>, 
             
-                <a href="/tags/presentation/">presentation</a>
+                <a href="/tags/r/">R</a>, 
+            
+                <a href="/tags/mortgage/">mortgage</a>
             
         </p>
     
 
     <div class="share">
         
-            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2020%2f12%2f15%2ftalking-dataviz%2f&text=Talking%20Dataviz via %40lenkiefer"
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2020%2f12%2f17%2fseasonally-adjusted-greetings-and-low-low-mortgage-rates%2f&text=Seasonally%20adjusted%20greetings%20and%20low%20low%20mortgage%20rates via %40lenkiefer"
                 onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
                 <i class="fa fa-twitter"></i>
                 <span class="hidden">Twitter</span>
@@ -311,7 +398,7 @@
         
 
         
-            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2020%2f12%2f15%2ftalking-dataviz%2f"
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2020%2f12%2f17%2fseasonally-adjusted-greetings-and-low-low-mortgage-rates%2f"
                 onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
                 <i class="fa fa-facebook"></i>
                 <span class="hidden">Facebook</span>
