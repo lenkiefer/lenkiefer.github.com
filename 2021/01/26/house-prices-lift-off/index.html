@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="House price dataviz with Inari color theme">
+  <meta name="generator" content="Hugo 0.52" />
+
+  <title>House Prices Lift Off &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com//img/charts_2021_01_26/cs_msa.png" >
+     
+    <meta property="og:title" content="House Prices Lift Off">
+    <meta property="og:description" content="House price dataviz with Inari color theme">
+
+<div class="header">
+  <h1>House Prices Lift Off</h1>
+  <h2>House price dataviz with Inari color theme</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2021/01/26</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/house-prices">house prices</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+
+
+<p>Earlier today I tweeted out a chart of house prices using my <a href="../../../../2019/09/23/theme-inari/">inari</a> color theme.</p>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">House price growth lifting off <a href="https://t.co/TvNJcOZrTF">pic.twitter.com/TvNJcOZrTF</a></p>&mdash; 📈 Len Kiefer 📊 (@lenkiefer) <a href="https://twitter.com/lenkiefer/status/1354086116614410241?ref_src=twsrc%5Etfw">January 26, 2021</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>Below is the <a href="https://www.r-project.org/">R</a> code to generate the plot.</p>
+<pre class="r"><code># load libraries
+library(tidyquant)
+library(tidyverse)</code></pre>
+<pre class="r"><code># list of FRED Tickers
+tickers&lt;- c(&quot;LXXRSA&quot;,&quot;SPCS20RSA&quot;,&quot;LVXRSA&quot;,&quot;SEXRSA&quot;,
+            &quot;SFXRSA&quot;,&quot;NYXRSA&quot;,&quot;BOXRSA&quot;,&quot;SDXRSA&quot;,&quot;CHXRSA&quot;,
+            &quot;DNXRSA&quot;,&quot;PHXRNSA&quot;,&quot;DAXRNSA&quot;,&quot;WDXRSA&quot;,
+            &quot;ATXRNSA&quot;,&quot;MIXRNSA&quot;,&quot;POXRSA&quot;,&quot;MNXRSA&quot;,&quot;DEXRNSA&quot;,&quot;TPXRSA&quot;,&quot;CRXRSA&quot;,&quot;CEXRSA&quot;)
+
+# list of city names
+cities &lt;- c(&quot;Los Angeles&quot;,&quot;20-city&quot;,&quot;Las Vegas&quot;,&quot;Seattle&quot;,
+            &quot;San Francisco&quot;,&quot;New York&quot;,&quot;Boston&quot;,&quot;San Diego&quot;,&quot;Chicago&quot;,
+            &quot;Denver&quot;,&quot;Phoenix&quot;,&quot;Dallas&quot;,&quot;Washington DC&quot;,
+            &quot;Atlanta&quot;,&quot;Miami&quot;,&quot;Portland&quot;,&quot;Minneapolis&quot;,&quot;Detroit&quot;,&quot;Tampa&quot;,&quot;Charlotte&quot;,&quot;Cleveland&quot;)
+
+df.all &lt;-
+  data.frame(symbol = tickers,
+             city = cities,
+             stringsAsFactors = FALSE)
+
+# get data from FRED
+hpi.all &lt;- tq_get(tickers,
+                  get = &quot;economic.data&quot;,
+                  from = &quot;2000-01-01&quot;)
+
+df.out2 &lt;-
+  hpi.all %&gt;%
+  left_join(df.all, by = &quot;symbol&quot;) %&gt;%
+  group_by(symbol, city) %&gt;%
+  mutate(price = 100 * price / price[date == &quot;2000-01-01&quot;]) %&gt;%
+  ungroup %&gt;%
+  select(-symbol) %&gt;%
+  group_by(date) %&gt;%
+  tidyr::pivot_wider(names_from = city,
+                     values_from = price,
+                     id_cols = date) %&gt;%
+  filter(year(date) &gt; 1989) %&gt;%
+  ungroup()
+
+df_plot &lt;-
+  df.out2 %&gt;% tidyr::pivot_longer(-date, names_to = &quot;city&quot;, values_to = &quot;price&quot;)  %&gt;%
+  filter(city != &quot;20-city&quot;) %&gt;%
+  group_by(city) %&gt;% mutate(hpa = price / lag(price, 12) - 1) %&gt;% ungroup() %&gt;%
+  filter(year(date) &gt; 2014)
+
+# define colors
+inari  &lt;- &quot;#fe5305&quot;
+inari1 &lt;- &quot;#e53a00&quot;
+inari2 &lt;- &quot;#a90000&quot;</code></pre>
+<pre class="r"><code># make plot 1
+
+df_plot %&gt;%
+  ggplot(aes(
+    x = date,
+    y = hpa,
+    ymin = 0,
+    ymax = hpa
+  )) +
+  geom_ribbon(alpha = 0.45,
+              color = NA,
+              fill = &quot;white&quot;) +
+  geom_line(size = 1.01, color = &quot;black&quot;) + facet_wrap( ~ city) +
+  scale_y_continuous(
+    sec.axis = dup_axis(),
+    #labels=scales::percent,
+    breaks = c(0, .05, 0.1, 0.15),
+    labels = c(&quot;0%&quot;, &quot;5%&quot;, &quot;10%&quot;, &quot;15%&quot;),
+    limits = c(-0.02, .15)
+    
+  ) +
+  theme_dark(base_size=8) +
+  theme(
+    plot.caption = element_text(hjust = 0),
+    plot.title = element_text(face = &quot;bold&quot;),
+    plot.subtitle = element_text(face = &quot;italic&quot;)
+  ) +
+  labs(
+    y = &quot;&quot;,
+    x = &quot;date (monthly)&quot;,
+    title = &quot;House price trends by metro area&quot;,
+    subtitle = &quot;12-month percent change in house price index: Jan 2015 to Nov 2020&quot;,
+    caption = &quot;@lenkiefer Source: S&amp;P Dow Jones Indices LLC, S&amp;P/Case-Shiller, seasonally adjusted index&quot;
+  ) +
+  scale_x_date(date_breaks = &quot;1 years&quot;, date_labels = &quot;%y&quot;) +
+  theme(
+    plot.background = element_rect(fill = inari),
+    text = element_text(color = &quot;white&quot;),
+    axis.text = element_text(color = &quot;white&quot;),
+    panel.grid.major = element_line(color = &quot;white&quot;, size = 0.25),
+    plot.title = element_text(face = &quot;bold&quot;),
+    panel.grid.minor = element_blank(),
+    plot.caption = element_text(hjust = 0),
+    panel.background = element_rect(fill = inari1)
+  )</code></pre>
+<p><img src="/post/2021-01-26-house-prices-lift-off_files/figure-html/chart_2020_01_26_inari_1-1.png" width="768" /></p>
+<pre class="r"><code># make plot 2
+df.out2 %&gt;% pivot_longer(-date, names_to = &quot;city&quot;, values_to = &quot;price&quot;)  %&gt;%
+  filter(city != &quot;20-city&quot;) %&gt;%
+  group_by(city) %&gt;% mutate(hpa = price / lag(price, 12) - 1) %&gt;% ungroup() %&gt;%
+  filter(year(date) &gt; 1989) %&gt;%
+  ggplot(aes(
+    x = date,
+    y = hpa,
+    ymin = 0,
+    ymax = hpa
+  )) +
+  geom_ribbon(alpha = 0.95,
+              color = NA,
+              fill = inari1) +
+  geom_line(size = 1.01, color = inari2) + 
+  facet_wrap( ~ city) +
+  scale_x_date(date_breaks = &quot;2 years&quot;, date_labels = &quot;%y&quot;) +
+  scale_y_continuous(sec.axis = dup_axis(), labels = scales::percent) +
+  theme_dark(base_size=8) +
+  theme(plot.caption = element_text(hjust = 0),
+                         plot.title = element_text(face = &quot;bold&quot;),
+                         plot.subtitle = element_text(face = &quot;italic&quot;)
+                       ) +
+                       labs(
+                         y = &quot;&quot;,
+                         x = &quot;date (monthly)&quot;,
+                         title = &quot;House price trends by metro area&quot;,
+                         subtitle = &quot;12-month percent change in house price index: Jan 2000 to Nov 2020&quot;,
+                         caption = &quot;@lenkiefer Source: S&amp;P Dow Jones Indices LLC, S&amp;P/Case-Shiller, seasonally adjusted index&quot;
+                       ) +
+                       
+                       theme(
+                         plot.background = element_rect(fill = inari),
+                         text = element_text(color = &quot;white&quot;),
+                         strip.text = element_text(face = &quot;bold&quot;, size = rel(1.2)),
+                         axis.text = element_text(color = &quot;white&quot;),
+                         panel.grid.major = element_line(color = &quot;white&quot;, size = 0.25),
+                         plot.title = element_text(face = &quot;bold&quot;, size = rel(1.5)),
+                         plot.subtitle = element_text(face = &quot;italic&quot;, size = rel(1.5)),
+                         panel.grid.minor = element_blank(),
+                         plot.caption = element_text(hjust = 0, size = rel(1.5)),
+                         panel.background = element_rect(fill = &quot;#ff8436&quot;)
+                       )</code></pre>
+<pre><code>## Warning: Removed 12 row(s) containing missing values (geom_path).</code></pre>
+<p><img src="/post/2021-01-26-house-prices-lift-off_files/figure-html/chart_2020_01_26_inari_2-1.png" width="768" /></p>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2020/12/17/seasonally-adjusted-greetings-and-low-low-mortgage-rates/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2020/12/17/seasonally-adjusted-greetings-and-low-low-mortgage-rates/">Seasonally adjusted greetings and low low mortgage rates</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/r/">R</a>, 
+            
+                <a href="/tags/house-prices/">house prices</a>, 
+            
+                <a href="/tags/dataviz/">dataviz</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2021%2f01%2f26%2fhouse-prices-lift-off%2f&text=House%20Prices%20Lift%20Off via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2021%2f01%2f26%2fhouse-prices-lift-off%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+
