@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Slides from a recent talk on data visualization">
+  <meta name="generator" content="Hugo 0.52" />
+
+  <title>Data visualization guidelines and a case study &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com//img/charts_2021_02_26/mtg_shadow.png" >
+     
+    <meta property="og:title" content="Data visualization guidelines and a case study">
+    <meta property="og:description" content="Slides from a recent talk on data visualization">
+
+<div class="header">
+  <h1>Data visualization guidelines and a case study</h1>
+  <h2>Slides from a recent talk on data visualization</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2021/02/26</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/presentation">presentation</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+
+
+<p>Yesterday I gave a <a href="https://business.gmu.edu/component/eventcalendar/event/1274/">virtual lecture on data visualization at GMU</a>. Here I’m posting the slides I used for that talk and including my discussion notes for the portion of the talk where I discussed guidelines for data visualization.</p>
+<p>At the beginning of the talk I spoke a bit about data visualization guidelines. I framed this part of my talk around Jon Schwabish’s five guidelines from his new book <em>Better Data Visualizations</em> see <a href="https://www.amazon.com/Better-Data-Visualizations-Scholars-Researchers/dp/0231193114">(on Amazon)</a> and here for <a href="https://policyviz.com/2021/02/11/inside-better-data-visualizations-a-guide-for-scholars-researchers-and-wonks/">a blog summary</a>.</p>
+<p>I then went over some charts I’ve used recently in talks I’ve given and discussed how I used (or didn’t use) the guidelines in that chart.</p>
+<p>See a pdf version of the slides below, and a .pptx file (with animations) at <a href="../../../../img/preso/Kiefer_GMU_Feb_2021.pptx">this link</a>.</p>
+<iframe src="../../../../img/preso/Kiefer_GMU_Feb_2021.pdf" height="540" width="750">
+</iframe>
+<p>Here are the notes I used for my introductory remarks on the five guidelines.</p>
+<div id="my-interpretation-of-the-five-guidelines" class="section level1">
+<h1>My interpretation of the five guidelines</h1>
+<p>I’m going to base my remarks here on the five guidelines that Jon Schwabish lays out in his new book, <em>Better Data Visualizations</em>. I think these five guidelines are excellent both for data visualization beginners and old hands alike. They are:</p>
+<ol style="list-style-type: decimal">
+<li>Show the Data</li>
+<li>Reduce the Clutter</li>
+<li>Integrate Graphics and Text</li>
+<li>Small Multiples</li>
+<li>Start with Gray</li>
+</ol>
+<div id="show-the-data" class="section level2">
+<h2>Show the Data</h2>
+<p>The first guideline is show your data. Now this might seem like a very simple and obvious guideline, but it’s amazing how often visualizations go off the rails by ignoring this one. The data should be the star of the show. As you add embellishments, reference lines, annotations, colors, additional aesthetics, you can easily get lost and forget about the data itself. Clear communication dictates that you should emphasize the data-driven message above all else.
+But what is the data you want to show? In many cases you cannot possibly show all the data, so you must focus in on a subset, or do some sort of transformation and aggregation. Implicit in these steps are many assumptions, normalizations, and even moral implications about what is important, what is measured, and what is not.</p>
+<p>Which data/aggregation or transformation is most relevant depends critically on your audience, their needs and careful consideration of the factors driving the data. In economics and finance there are often numerous theoretical considerations behind the construction of the data.
+It’s quite challenging to know precisely what aspect of the data is most important. I typically take an iterative approach, where I rapidly try out different aggregations and transformations. This procedure is a way to separate the signal from the noise. As we go along I’ll give you some concrete examples of the choices I made to show the data.</p>
+</div>
+<div id="reduce-the-clutter" class="section level2">
+<h2>Reduce the Clutter</h2>
+<p>A closely related idea is to reduce the clutter. If the data is the star of the show, then all the other embellishments should be reduced. Taken to extreme, this can lead to minimalism. Certainly, a segment of the data visualization community adheres to minimalism. In fact, one of the pioneers of the Data Visualization field, Edward Tufte has been a famous advocate of maximizing what he calls the data ink ratio. On a piece of paper each bit of ink that is not representing data (legends, axis, ticks, gridlines), has the potential to dilute your message.
+As is often the case with absolutes, taking minimalism to the extreme (or equivalently, to maximize data-ink ratios) can itself obscure the message. Annotations legends and tick marks can be important tools to enhance the signal.</p>
+<p>But a good guideline is to start with a minimalist approach. Remove all the extraneous non-essential non-data elements. Then only gradually add them back if they enhance other aspects of communication.</p>
+<p>The goal is not necessarily to reduce all non data ink, but to only deliberately include the ink that enhances the message.</p>
+</div>
+<div id="integrate-graphics-and-text" class="section level2">
+<h2>Integrate Graphics and Text</h2>
+<p>To enhance the message a good data visualization will integrate graphics with text. Charts rarely speak for themselves and are almost always improved with thoughtful annotation. We can learn from journalists and see how they accompany headlines with figures. Rather than hope that your audience can go on a learning journey and discover the data insights you’ve found yourselves, it’s often much more efficient to explicitly tell your audience.</p>
+<p>One of the most effective ways to integrate graphics and text is to use an active headline. Instead of saying something like “house price growth’ use a title like “house price growth is the fastest since the housing boom”. By including your message in a title you can often greatly enhance the reader’s understanding.</p>
+<p>Often in a business setting, the folks reading your charts have little time to figure out all the implications of your analysis. By explicitly stating it in a prominent title or annotation, you can reduce the frustration that busy executives experience when consuming data analysis.</p>
+</div>
+<div id="small-multiples" class="section level2">
+<h2>Small Multiples</h2>
+<p>Another very powerful tool is the use of small multiples. Small multiples are a great alternative to “spaghetti charts”. You all know what I mean by spaghetti charts right? Someone loads up some data in a spreadsheet, say 50 times series and plots them all on a single line chart. The result is a tangled mess of lines that look like spaghetti. With small multiples you repeat the same visual multiple times, say one for each time series. And then arrange the plots in a panel or grid. This is an extremely powerful technique. Even better, you can combine this with a clever arrangement of the grid to further enhance the effectiveness of this technique. We’ll see an example later.</p>
+</div>
+<div id="start-with-gray" class="section level2">
+<h2>Start with Gray</h2>
+<p>The final guideline refers to color. Color is a very powerful visual tool. Advertisers know this, toy manufacturers know this. But because of its potency color can often thwart well-intentioned data viz. An excellent guideline is to start your chart out in grayscale and only add color deliberately.</p>
+<p>You also should be mindful of accessibility and consider making your data visualizations readable for a color blind audience. You can do this by choosing a color scale that works with different forms of color-blindness. Or you could only use color for emphasize, either dual encoding color to another aesthetic.</p>
+</div>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/2021/02/02/the-economy-and-the-housing-market/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/2021/02/02/the-economy-and-the-housing-market/">The economy and the housing market</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/dataviz/">dataviz</a>, 
+            
+                <a href="/tags/presentation/">presentation</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2021%2f02%2f26%2fdata-visualization-guidelines-and-a-case-study%2f&text=Data%20visualization%20guidelines%20and%20a%20case%20study via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2021%2f02%2f26%2fdata-visualization-guidelines-and-a-case-study%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+
