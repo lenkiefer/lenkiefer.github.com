@@ -271,7 +271,7 @@ recessions.df = read.table(textConnection(
                          fill=&#39;gray&#39;,alpha=0.5)+
     geom_line(data=df,aes(x=date,y=price),size=0.75,colour =&quot;dodgerblue&quot;)+
   theme(plot.caption=element_text(hjust=0))+
-  labs(y=&quot;&quot;,title=&quot;US nonfarm payroll employment&quot;,
+  labs(y=&quot;&quot;,title=&quot;US nonfarm payroll employment (1000s, SA)&quot;,
        subtitle=&quot;shaded area NBER recessions&quot;,
        caption=paste0(&quot;@lenkiefer Source: U.S. Bureau of Labor Statistics, All Employees,&quot;,
                       &quot;Total Nonfarm [PAYEMS]&quot;,
@@ -290,7 +290,7 @@ Now make use of ggfx to blend the recession regions with the line.</p>
     blend_type = &#39;atop&#39;
     )+
   theme(plot.caption=element_text(hjust=0))+
-  labs(y=&quot;&quot;,title=&quot;US nonfarm payroll employment&quot;,
+  labs(y=&quot;&quot;,title=&quot;US nonfarm payroll employment (1000s, SA)&quot;,
        subtitle=&quot;red = recession, blue = expansion&quot;,
        caption=paste0(&quot;@lenkiefer Source: U.S. Bureau of Labor Statistics, All Employees,&quot;,
                       &quot;Total Nonfarm [PAYEMS]&quot;,
