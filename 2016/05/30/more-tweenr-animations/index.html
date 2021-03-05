@@ -5,7 +5,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
-  <meta name="generator" content="Hugo 0.52" />
+  <meta name="generator" content="Hugo 0.81.0" />
 
   <title>More tweenr animation examples &middot; Len Kiefer</title>
 
@@ -48,7 +48,7 @@
   <script>hljs.initHighlightingOnLoad();</script>
   
 
-  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+  <link rel="shortcut icon" href="http://lenkiefer.com/img/favicon.PNG" type="image/x-icon" />
 
   
   
@@ -231,11 +231,11 @@ For this data I&rsquo;m going to use the National Income and Products Accounts f
   <div>
     <i class="fa fa-tags fa-fw"></i>
     
-      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
     
-      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>&nbsp;&#47;
     
-      <a class="post-taxonomy-tag" href="/tags/animation">animation</a>
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/animation">animation</a>
     
   </div>
   
@@ -243,167 +243,114 @@ For this data I&rsquo;m going to use the National Income and Products Accounts f
 
 </div>
 
-  
-
-<p>IN THIS POST I WANT TO PROVIDE some additional examples of using tweenr and gganimate to create nice smooth transitions in an animated GIF. In this post we&rsquo;ll look at an animated waterfall chart.</p>
-
+  <p>IN THIS POST I WANT TO PROVIDE some additional examples of using tweenr and gganimate to create nice smooth transitions in an animated GIF. In this post we&rsquo;ll look at an animated waterfall chart.</p>
 <p>For this data I&rsquo;m going to use the National Income and Products Accounts from the <a href="http://www.bea.gov/">U.S. Bureau of Economic Analysis (BEA)</a>.  Specifically we&rsquo;ll be looking at the contributions to growth in Real Gross Domstic  Product, which you can find <a href="http://www.bea.gov/iTable/iTableHtml.cfm?reqid=9&amp;step=3&amp;isuri=1&amp;904=1947&amp;903=2&amp;906=q&amp;905=2016&amp;910=x&amp;911=1">here</a>.</p>
-
 <p>Ultimately, we will end up with this:</p>
-
-<p><img src="../../../../img/charts_may_30_2016/gdp1.gif" alt="GDP waterfall"/></p>
-
+<!-- raw HTML omitted -->
 <h2 id="how-to-construct-the-chart">How to construct the chart</h2>
-
 <p>I found a nice <a href="https://learnr.wordpress.com/2010/05/10/ggplot2-waterfall-charts/">example</a> of how to make a waterfall chart in R that I used.  The basic idea is to draw a rectangle shifted over to the right (or left) depending on the data. The basic idea is to show how individual contributions contribute positivley or negatively to a whole. In this case, we&rsquo;re going to look at how various components of the economy affect total economic growth in a given quarter.</p>
-
 <h3 id="setup">Setup</h3>
-
-<p>If you follow the link above, you can download a spreadsheet from BEA.  I had to do a bit of wrangling, which I happened to do in <span class="icon-file-excel" style="color:green;"></span> Excel. I&rsquo;m not writing up the data wrangling bits here, but you can check out my <a href="../../../../2016/05/08/visual-meditations-on-house-prices-part1">earlier post on house prices</a> to get some ideas.</p>
-
+<p>If you follow the link above, you can download a spreadsheet from BEA.  I had to do a bit of wrangling, which I happened to do in <!-- raw HTML omitted --><!-- raw HTML omitted --> Excel. I&rsquo;m not writing up the data wrangling bits here, but you can check out my <a href="../../../../2016/05/08/visual-meditations-on-house-prices-part1">earlier post on house prices</a> to get some ideas.</p>
 <p>After some wrangling, I ended up with data that looked like this:</p>
-
-<p><img src="../../../../img/charts_may_30_2016/data1.PNG" alt="data screenshot" style="width: 550px;"/></p>
-
+<!-- raw HTML omitted -->
 <p>Next I imported these data into R as a text file name <em>gdpc.txt</em>. We&rsquo;ll pick up the R code from there:</p>
-
-<p>{% highlight r
+<p>{% highlight r 
 gdata &lt;- fread(&ldquo;gdpc.txt&rdquo;)
-gdata$date&lt;-as.Date(gdata$date, format=&ldquo;%m/%d/%Y&rdquo;)
+gdata$date&lt;-as.Date(gdata$date, format=&quot;%m/%d/%Y&quot;)
 gdata[, avgc:=mean(value), by=var]  #I&rsquo;ll want to order some factors, so i&rsquo;m computed average contribution
 gdata&lt;-gdata[order(date,avgc),]</p>
-
-<h1 id="this-follows-from-the-waterfall-example-i-m-setting-up-a-start-and-end-point-for-the-rectangle">This follows from the waterfall example, I&rsquo;m setting up a start and end point for the rectangle</h1>
-
-<h1 id="i-m-taking-advantage-of-data-table-to-compute-the-data">I&rsquo;m taking advantage of data.table to compute the data</h1>
-
+<h1 id="this-follows-from-the-waterfall-example-im-setting-up-a-start-and-end-point-for-the-rectangle">This follows from the waterfall example, I&rsquo;m setting up a start and end point for the rectangle</h1>
+<h1 id="im-taking-advantage-of-datatable-to-compute-the-data">I&rsquo;m taking advantage of data.table to compute the data</h1>
 <p>gdata[Total !=&ldquo;total&rdquo;, end:=cumsum(value), by=date]
 gdata[Total==&ldquo;total&rdquo;, end:=0, by=date]
 gdata[,start:=shift(end,1,fill=0), by=date]
 gdata[,id:=1:.N,,by=date]</p>
-
 <h1 id="i-include-the-variable-mjust-to-control-where-the-label-shows-up-in-the-chart">I include the variable mjust to control where the label shows up in the chart</h1>
-
 <p>gdata[, myjust:=ifelse(value&lt;0,1,0)]</p>
-
-<h1 id="i-m-creating-a-label-which-for-the-total-column-needs-to-start-at-start-not-end">I&rsquo;m creating a label, which for the total column needs to start at &ldquo;start&rdquo;, not &ldquo;end&rdquo;</h1>
-
+<h1 id="im-creating-a-label-which-for-the-total-column-needs-to-start-at-start-not-end">I&rsquo;m creating a label, which for the total column needs to start at &ldquo;start&rdquo;, not &ldquo;end&rdquo;</h1>
 <p>gdata[, lp:=ifelse(Total==&ldquo;total&rdquo;,start,end)]</p>
-
 <h1 id="a-date-label-for-the-total-bar">A date label for the total bar</h1>
-
-<p>gdata[,dlabel:=factor(paste(year,&ldquo;Q&rdquo;,quarter,sep=&ldquo;&rdquo;))]</p>
-
+<p>gdata[,dlabel:=factor(paste(year,&ldquo;Q&rdquo;,quarter,sep=&quot;&quot;))]</p>
 <h1 id="i-need-to-convert-the-character-variables-to-factors-to-use-tweenr">I need to convert the character variables to factors to use tweenr</h1>
-
 <p>gdata[,cont:=factor(cont)]  # cont is used to color the bars</p>
-
 <h1 id="we-need-to-adjust-the-factor-ordering-for-the-chart">We need to adjust the factor ordering for the chart,</h1>
-
 <h1 id="i-want-to-go-from-greatest-total-to-least-total-on-average">I want to go from greatest total to least total (on average)</h1>
-
 <h1 id="given-the-way-these-data-are-structured-that-ensures-the-total-will-be-on-top">Given the way these data are structured that ensures the total will be on top</h1>
-
-<h1 id="if-the-data-were-different-we-d-have-to-choose-a-different-path-to-reoder-the-factors">If the data were different we&rsquo;d have to choose a different path to reoder the factors</h1>
-
+<h1 id="if-the-data-were-different-wed-have-to-choose-a-different-path-to-reoder-the-factors">If the data were different we&rsquo;d have to choose a different path to reoder the factors</h1>
 <p>gdata$var&lt;-factor(gdata$var, levels=gdata$var[order(gdata$avgc)])
 {% endhighlight</p>
-
 <p>These data are now ready to draw the waterfall chart.  Let&rsquo;s make one:</p>
-
 <h3 id="draw-a-static-chart">Draw a static chart</h3>
-
-<p>{% highlight r
-#create a plot for 2016Q1
-ggplot(data=gdata[year==2016 &amp; quarter==1], aes(x=var, y=lp,fill = cont,label=value)) +
-  geom_rect(aes(x = var, xmin = id - 0.45, xmax = id + 0.45, ymin = end,ymax = start))  +
-  theme_minimal()+
-  coord_flip()+   #flip bars to go horizontal to allow more room for labels
-  geom_text(hjust=gdata[year==2016 &amp; quarter==1]$myjust)+
-  # add date labels for only the total
-  geom_text(data=gdata[cont==&ldquo;total&rdquo;&amp;year==2016 &amp; quarter==1 ,  ] ,aes(y=0,x=7.25,label=dlabel),hjust=0,size=4,fontface=&ldquo;bold&rdquo;)  +
-    scale_y_continuous(limits=c(-3,3),breaks=seq(-3,3,1))+
- labs(title=&ldquo;Contributions to Percent Change in Real Gross Domestic Product&rdquo;,x=&ldquo;&rdquo;,y=&ldquo;Contribution to growth (ppt)&rdquo;,
-       subtitle=&ldquo;Seasonally adjusted at annual rates&rdquo;,
-       caption=&ldquo;@lenkiefer Source: U.S. Bureau of Economic Analysis,\nTable 1.1.2, accessed 5/30/2016.&ldquo;)+
-  scale_fill_manual(name=&ldquo;&rdquo;,values=c(&ldquo;red&rdquo;,&ldquo;lightblue&rdquo;,&ldquo;gray&rdquo;))+
-  theme(plot.title=element_text(size=12))+
-  theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10),size=10))+
-  theme(legend.justification=c(0,0), legend.position=&ldquo;none&rdquo;)
+<p>{% highlight r 
+#create a plot for 2016Q1 
+ggplot(data=gdata[year==2016 &amp; quarter==1], aes(x=var, y=lp,fill = cont,label=value)) + 
+geom_rect(aes(x = var, xmin = id - 0.45, xmax = id + 0.45, ymin = end,ymax = start))  +
+theme_minimal()+
+coord_flip()+   #flip bars to go horizontal to allow more room for labels
+geom_text(hjust=gdata[year==2016 &amp; quarter==1]$myjust)+</p>
+<h1 id="add-date-labels-for-only-the-total">add date labels for only the total</h1>
+<p>geom_text(data=gdata[cont==&ldquo;total&rdquo;&amp;year==2016 &amp; quarter==1 ,  ] ,aes(y=0,x=7.25,label=dlabel),hjust=0,size=4,fontface=&ldquo;bold&rdquo;)  +
+scale_y_continuous(limits=c(-3,3),breaks=seq(-3,3,1))+
+labs(title=&ldquo;Contributions to Percent Change in Real Gross Domestic Product&rdquo;,x=&quot;&quot;,y=&ldquo;Contribution to growth (ppt)&rdquo;,
+subtitle=&ldquo;Seasonally adjusted at annual rates&rdquo;,
+caption=&quot;@lenkiefer Source: U.S. Bureau of Economic Analysis,\nTable 1.1.2, accessed 5/30/2016.&quot;)+
+scale_fill_manual(name=&quot;&quot;,values=c(&ldquo;red&rdquo;,&ldquo;lightblue&rdquo;,&ldquo;gray&rdquo;))+
+theme(plot.title=element_text(size=12))+
+theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10),size=10))+
+theme(legend.justification=c(0,0), legend.position=&ldquo;none&rdquo;)
 {% endhighlight</p>
-
-<p><img src="/img/Rfig/fig-waterfall-1.svg" alt="plot of chunk fig-waterfall" /></p>
-
+<p><img src="/img/Rfig/fig-waterfall-1.svg" alt="plot of chunk fig-waterfall"></p>
 <h3 id="ready-for-animation">Ready for animation</h3>
-
 <p>Now we&rsquo;re ready to animate.  For more explicit discussion, see my <a href="../../../../2016/05/29/improving-R-animated-gifs-with-tweenr">earlier post</a>. The code below takes the static plot and animates it with nice smooth transitions using <a href="https://cran.r-project.org/web/packages/tweenr/index.html">tweenr</a>.</p>
-
-<p>{% highlight r
+<p>{% highlight r 
 myd&lt;-unique(gdata[year&gt;=2008]$date)  #we&rsquo;ll truncate the data which goes back to the 1940s</p>
-
 <h1 id="create-a-function-to-make-a-list-of-data-frames">create a function to make a list of data frames</h1>
-
 <p>myf&lt;-function(d){as.data.frame(gdata[date==d, list(date,end,start,id,myjust,lp,var,cont,value,dlabel,year,avgc)])}</p>
-
 <h1 id="use-lapply-to-generate-the-list-of-data-sets">use lapply to generate the list of data sets:</h1>
-
 <p>my.list&lt;-lapply(myd,myf)</p>
-
 <h1 id="apply-tweenr">apply tweenr</h1>
-
 <p>tf &lt;- tween_states(my.list, tweenlength= 2, statelength=1, ease=rep(&lsquo;cubic-in-out&rsquo;,64),nframes=250)</p>
-
 <h1 id="convert-variable-lables-to-factor-and-order-by-average-contribution-so-they-go-from-big-to-small">convert variable lables to factor, and order by average contribution so they go from big to small</h1>
-
 <p>tf$var&lt;-factor(tf$var, levels=tf$var[order(tf$avgc)])
 #conver to data table
 tf&lt;-data.table(tf)</p>
-
 <h1 id="make-animation-using-gganimate">Make animation using gganimate:</h1>
-
 <p>p&lt;-
-  ggplot(data=tf, aes(x=var, y=lp,fill = cont,label=value,frame=.frame)) +
-  geom_rect(aes(x = var, xmin = id - 0.45, xmax = id + 0.45, ymin = end,ymax = start))  +
-  theme_minimal()+
-  coord_flip()+   #flip bars to go horizontal to allow more room for labels
-  geom_text(data=tf[date %in% myd , ] ,hjust=tf[date %in% myd , ]$myjust)+
-  labs(title=&ldquo;Contributions to Percent Change in Real Gross Domestic Product&rdquo;,x=&ldquo;&rdquo;,y=&ldquo;&rdquo;,
-       subtitle=&ldquo;Seasonally adjusted at annual rates&rdquo;,
-       caption=&ldquo;@lenkiefer Source: U.S. Bureau of Economic Analysis, Table 1.1.2, accessed 5/30/2016.&ldquo;)+
-  scale_fill_manual(name=&ldquo;&rdquo;,values=c(&ldquo;red&rdquo;,&ldquo;lightblue&rdquo;,&ldquo;gray&rdquo;))+
-  theme(plot.title=element_text(size=12))+
-  geom_text(data=tf[cont==&ldquo;total&rdquo; ,  ] ,aes(y=0,x=7.25,label=dlabel),hjust=0,size=4,fontface=&ldquo;bold&rdquo;)  +
-  theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10),size=10))+
-  theme(legend.justification=c(0,0), legend.position=&ldquo;none&rdquo;)</p>
-
+ggplot(data=tf, aes(x=var, y=lp,fill = cont,label=value,frame=.frame)) + 
+geom_rect(aes(x = var, xmin = id - 0.45, xmax = id + 0.45, ymin = end,ymax = start))  +
+theme_minimal()+
+coord_flip()+   #flip bars to go horizontal to allow more room for labels
+geom_text(data=tf[date %in% myd , ] ,hjust=tf[date %in% myd , ]$myjust)+
+labs(title=&ldquo;Contributions to Percent Change in Real Gross Domestic Product&rdquo;,x=&quot;&quot;,y=&quot;&quot;,
+subtitle=&ldquo;Seasonally adjusted at annual rates&rdquo;,
+caption=&quot;@lenkiefer Source: U.S. Bureau of Economic Analysis, Table 1.1.2, accessed 5/30/2016.&quot;)+
+scale_fill_manual(name=&quot;&quot;,values=c(&ldquo;red&rdquo;,&ldquo;lightblue&rdquo;,&ldquo;gray&rdquo;))+
+theme(plot.title=element_text(size=12))+
+geom_text(data=tf[cont==&ldquo;total&rdquo; ,  ] ,aes(y=0,x=7.25,label=dlabel),hjust=0,size=4,fontface=&ldquo;bold&rdquo;)  +
+theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10),size=10))+
+theme(legend.justification=c(0,0), legend.position=&ldquo;none&rdquo;)</p>
 <h1 id="now-animate">Now animate!</h1>
-
-<p>gg_animate(p, &ldquo;gif1.gif&rdquo;, title_frame = F, ani.width = 600,
-           ani.height = 450, interval=.01)
+<p>gg_animate(p, &ldquo;gif1.gif&rdquo;, title_frame = F, ani.width = 600, 
+ani.height = 450, interval=.01)
 {% endhighlight</p>
-
 <p>You can adjust the dates to look at different periods:</p>
-
 <h3 id="around-the-early-1990s-recession">Around the early 1990s recession</h3>
-
-<p><img src="../../../../img/charts_may_30_2016/gdp1990.gif" alt="GDP waterfall"/></p>
-
+<!-- raw HTML omitted -->
 <h3 id="around-the-early-2000s-recession">Around the early 2000s recession</h3>
-
-<p><img src="../../../../img/charts_may_30_2016/gdp2000.gif" alt="GDP waterfall"/></p>
+<!-- raw HTML omitted -->
 
 
   
 <div class="prev-next-post pure-g">
   <div class="pure-u-1-24" style="text-align: left;">
     
-    <a href="/2016/05/29/improving-r-animated-gifs-with-tweenr/"><i class="fa fa-chevron-left"></i></a>
+    <a href="http://lenkiefer.com/2016/05/29/improving-r-animated-gifs-with-tweenr/"><i class="fa fa-chevron-left"></i></a>
     
   </div>
   <div class="pure-u-10-24">
     
     <nav class="prev">
-      <a href="/2016/05/29/improving-r-animated-gifs-with-tweenr/">Improving R animated GIFs with tweenr</a>
+      <a href="http://lenkiefer.com/2016/05/29/improving-r-animated-gifs-with-tweenr/">Improving R animated GIFs with tweenr</a>
     </nav>
     
   </div>
@@ -413,13 +360,13 @@ tf&lt;-data.table(tf)</p>
   <div class="pure-u-10-24">
     
     <nav class="next">
-      <a href="/2016/06/06/visualizing-the-us-housing-stock/">Visualizing the U.S. housing stock</a>
+      <a href="http://lenkiefer.com/2016/06/06/visualizing-the-us-housing-stock/">Visualizing the U.S. housing stock</a>
     </nav>
     
   </div>
   <div class="pure-u-1-24" style="text-align: right;">
     
-    <a href="/2016/06/06/visualizing-the-us-housing-stock/"><i class="fa fa-chevron-right"></i></a>
+    <a href="http://lenkiefer.com/2016/06/06/visualizing-the-us-housing-stock/"><i class="fa fa-chevron-right"></i></a>
     
   </div>
 </div>
@@ -446,7 +393,7 @@ tf&lt;-data.table(tf)</p>
 
     <div class="share">
         
-            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2016%2f05%2f30%2fmore-tweenr-animations%2f&text=More%20tweenr%20animation%20examples via %40lenkiefer"
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.comhttp%3a%2f%2flenkiefer.com%2f2016%2f05%2f30%2fmore-tweenr-animations%2f&text=More%20tweenr%20animation%20examples via %40lenkiefer"
                 onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
                 <i class="fa fa-twitter"></i>
                 <span class="hidden">Twitter</span>
@@ -454,7 +401,7 @@ tf&lt;-data.table(tf)</p>
         
 
         
-            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2016%2f05%2f30%2fmore-tweenr-animations%2f"
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.comhttp%3a%2f%2flenkiefer.com%2f2016%2f05%2f30%2fmore-tweenr-animations%2f"
                 onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
                 <i class="fa fa-facebook"></i>
                 <span class="hidden">Facebook</span>
@@ -467,7 +414,7 @@ tf&lt;-data.table(tf)</p>
 </footer>
 </div>
 </div>
-<script src="/js/ui.js"></script>
+<script src="http://lenkiefer.com/js/ui.js"></script>
 
 
 <script>

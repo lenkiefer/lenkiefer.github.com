@@ -5,7 +5,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
-  <meta name="generator" content="Hugo 0.52" />
+  <meta name="generator" content="Hugo 0.81.0" />
 
   <title>Distribution of mortgage loan amounts in 2015 &middot; Len Kiefer</title>
 
@@ -48,7 +48,7 @@
   <script>hljs.initHighlightingOnLoad();</script>
   
 
-  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+  <link rel="shortcut icon" href="http://lenkiefer.com/img/favicon.PNG" type="image/x-icon" />
 
   
   
@@ -233,13 +233,13 @@ R code for graphs posted below">
   <div>
     <i class="fa fa-tags fa-fw"></i>
     
-      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
     
-      <a class="post-taxonomy-tag" href="/tags/mortgage">mortgage</a>&nbsp;&#47;
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/mortgage">mortgage</a>&nbsp;&#47;
     
-      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>&nbsp;&#47;
     
-      <a class="post-taxonomy-tag" href="/tags/data-wrangling">data wrangling</a>
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/data-wrangling">data wrangling</a>
     
   </div>
   
@@ -247,33 +247,19 @@ R code for graphs posted below">
 
 </div>
 
-  
-
-<p>IN THIS POST I WANT TO CREATE some data visualizations with <a href="https://www.r-project.org/">R</a> using the <a href="https://www.ffiec.gov/press/pr092916.htm">recently released</a> Home Mortgage Disclosure Act (HMDA) data.</p>
-
+  <p>IN THIS POST I WANT TO CREATE some data visualizations with <a href="https://www.r-project.org/">R</a> using the <a href="https://www.ffiec.gov/press/pr092916.htm">recently released</a> Home Mortgage Disclosure Act (HMDA) data.</p>
 <p>For this post I&rsquo;m going to return to the 2015 HMDA that you can get from the Consumer Financial Protection Bureau (CFPB) <a href="http://www.consumerfinance.gov/data-research/hmda/explore">webpage</a> and I <a href="../../../../2016/08/18/data-swarm">discussed earlier</a>.</p>
-
 <p>Check out my <a href="../../../../2016/08/21/maps-mortgages-and-me">prior post</a> for more discussion of how we build these data visualizations.</p>
-
 <p><em>R code for graphs posted below</em></p>
-
 <h2 id="mortgage-loan-sizes-in-california">Mortgage loan sizes in California</h2>
-
 <p>First, we&rsquo;ll update my graph from the <a href="../../../../2016/08/21/maps-mortgages-and-me">earlier post</a> to show the distribution of loan sizes in California in 2015.</p>
-
-<p><img src="/img/Rfig/fig-hmda-2015-viz1-1.svg" alt="plot of chunk fig-hmda-2015-viz1" /></p>
-
+<p><img src="/img/Rfig/fig-hmda-2015-viz1-1.svg" alt="plot of chunk fig-hmda-2015-viz1"></p>
 <p>Many loans in California are over $1 million due to high home values, particularly on the coast.  The graph below looks at the share of loans with a loan amount greater than $1 million.</p>
-
-<p><img src="/img/Rfig/fig-hmda-2015-viz2-1.svg" alt="plot of chunk fig-hmda-2015-viz2" /></p>
-
+<p><img src="/img/Rfig/fig-hmda-2015-viz2-1.svg" alt="plot of chunk fig-hmda-2015-viz2"></p>
 <p>We can contrast the high loan balances in California with the lower loans sizes typical in Texas.  Less than 1% of the mortgage loans originated in Texas in 2015 were with loan amounts over $1 million.</p>
-
-<p><img src="/img/Rfig/fig-hmda-2015-viz3-1.svg" alt="plot of chunk fig-hmda-2015-viz3" /></p>
-
+<p><img src="/img/Rfig/fig-hmda-2015-viz3-1.svg" alt="plot of chunk fig-hmda-2015-viz3"></p>
 <h1 id="r-code-for-graphs">R code for graphs</h1>
-
-<p>{% highlight r
+<p>{% highlight r 
 #load libraries
 library(&lsquo;ggbeeswarm&rsquo;)
 library(viridis)
@@ -298,190 +284,146 @@ library(albersusa)
 library(broom)
 library(dplyr)
 library(zoo)</p>
-
-<h1 id="function-for-combining-graphs-see-http-www-cookbook-r-com-graphs-multiple-graphs-on-one-page-ggplot2">function for combining graphs see: <a href="http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/">http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/</a></h1>
-
+<h1 id="function-for-combining-graphs-see-httpwwwcookbook-rcomgraphsmultiple_graphs_on_one_page_ggplot2">function for combining graphs see: <a href="http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/">http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/</a></h1>
 <p>source(&lsquo;code/multiplot.R&rsquo;)</p>
-
-<p>mydata &lt;- fread(&ldquo;data/hmda_lar.csv&rdquo;) #load data<br />
+<p>mydata &lt;- fread(&ldquo;data/hmda_lar.csv&rdquo;) #load data<br>
 #can get from: <a href="http://www.consumerfinance.gov/data-research/hmda/explore#!/as_of_year=2015&amp;action_taken=1&amp;section=filters">http://www.consumerfinance.gov/data-research/hmda/explore#!/as_of_year=2015&amp;action_taken=1&amp;section=filters</a></p>
-
 <p>mydata&lt;-mydata[,list(state_name,state_abbr,county_name,loan_amount_000s,loan_purpose_name,loan_type_name,
-                     agency_abbr,respondent_id,population,property_type_name,
-                     applicant_income_000s,lien_status_name,msamd_name)]</p>
-
+agency_abbr,respondent_id,population,property_type_name,
+applicant_income_000s,lien_status_name,msamd_name)]</p>
 <p>#only keep loans on 1-4 family properties
 mydata&lt;-mydata[property_type_name==&ldquo;One-to-four family dwelling (other than manufactured housing)&rdquo;,]</p>
-
 <p>#create merged state + county variable
-mydata&lt;-mydata[, c.name:=str_c(state_abbr,&rdquo;:&ldquo;,county_name)]</p>
-
+mydata&lt;-mydata[, c.name:=str_c(state_abbr,&quot;:&quot;,county_name)]</p>
 <p>#get fips lookup: from census</p>
-
-<p>fips.look&lt;-fread(&ldquo;<a href="http://www2.census.gov/geo/docs/reference/codes/files/national_county.txt&quot;">http://www2.census.gov/geo/docs/reference/codes/files/national_county.txt&quot;</a>,
-                 col.names=c(&ldquo;state_abbr&rdquo;,&ldquo;st.fips&rdquo;,&ldquo;county.fips&rdquo;,&ldquo;county_name&rdquo;,&ldquo;CLASSFP&rdquo;),head=F)</p>
-
+<p>fips.look&lt;-fread(&ldquo;<a href="http://www2.census.gov/geo/docs/reference/codes/files/national_county.txt%22,">http://www2.census.gov/geo/docs/reference/codes/files/national_county.txt&quot;,</a>
+col.names=c(&ldquo;state_abbr&rdquo;,&ldquo;st.fips&rdquo;,&ldquo;county.fips&rdquo;,&ldquo;county_name&rdquo;,&ldquo;CLASSFP&rdquo;),head=F)</p>
 <p>fips.look&lt;-fips.look[,fips := str_c(str_pad(st.fips, 2, &ldquo;left&rdquo;, &ldquo;0&rdquo;),str_pad(county.fips, 3, &ldquo;left&rdquo;, &ldquo;0&rdquo;))]
 #create merged state + county variable
-fips.look&lt;-fips.look[,c.name:=str_c(state_abbr,&rdquo;:&ldquo;,county_name)]
+fips.look&lt;-fips.look[,c.name:=str_c(state_abbr,&quot;:&quot;,county_name)]
 #get rid of extra columns for merge
 fips.look2&lt;-fips.look[,list(fips,c.name)]</p>
-
 <p>#merge fips numbers back onto data
 mydata&lt;-merge(mydata,fips.look2,by=&ldquo;c.name&rdquo;)</p>
-
 <p>#add state code, will be useful for labeling
 mydata&lt;-mydata[,st.fips:=substr(fips,1,2)]
 mydata&lt;-mydata[,county.fips:=substr(fips,3,5)]</p>
-
 <h1 id="loan-amounts-read-as-character-variable-scaled-in-1000s-create-upb-variable-in-s-and-numeric">loan amounts read as character variable, scaled in $1000s, create upb variable in $s and numeric</h1>
-
 <p>mydata$upb&lt;-as.numeric(mydata$loan_amount_000s)*1000</p>
-
-<h1 id="create-a-summary-file-that-has-total-upb-upb-median-loan-amount-upb-med-and-count-of-loans-count">Create a summary file that has total UPB (upb), median loan amount (upb.med), and count of loans (count)</h1>
-
+<h1 id="create-a-summary-file-that-has-total-upb-upb-median-loan-amount-upbmed-and-count-of-loans-count">Create a summary file that has total UPB (upb), median loan amount (upb.med), and count of loans (count)</h1>
 <p>county.sum&lt;-mydata[,list(upb=sum(upb),upb.med=median(upb),count=.N), by=list(fips,state_abbr,state_name,county_name,msamd_name)]</p>
-
-<h1 id="let-s-load-some-maps">Let&rsquo;s load some maps:</h1>
-
+<h1 id="lets-load-some-maps">Let&rsquo;s load some maps:</h1>
 <p>states&lt;-usa_composite()  #create a state map thing
 smap&lt;-fortify(states,region=&ldquo;fips_state&rdquo;)
 smap.all&lt;-smap           #we&rsquo;re going to subset smap later, so copy full map</p>
-
 <p>counties &lt;- counties_composite()   #create a county map thing</p>
-
 <p>#add on summary stats by county using FIPS code
-counties@data &lt;- left_join(counties@data, county.sum, by = &ldquo;fips&rdquo;)<br />
+counties@data &lt;- left_join(counties@data, county.sum, by = &ldquo;fips&rdquo;)<br>
 cmap &lt;- fortify(counties_composite(), region=&ldquo;fips&rdquo;)
-#create state and county FIPS codes
-cmap$state&lt;-substr(cmap$id,1,2)<br />
+#create state and county FIPS codes 
+cmap$state&lt;-substr(cmap$id,1,2)<br>
 cmap$county&lt;-substr(cmap$id,3,5)
 cmap$fips&lt;-paste0(cmap$state,cmap$county)
 cmap.all&lt;-cmap    #we&rsquo;re going to subset cmap later, so copy full map</p>
-
-<h1 id="first-step-is-to-get-a-list-of-states-we-ll-exclude-fips-code-72-puerto-rico">First step is to get a list of states (we&rsquo;ll exclude FIPS code 72: Puerto Rico)</h1>
-
+<h1 id="first-step-is-to-get-a-list-of-states-well-exclude-fips-code-72-puerto-rico">First step is to get a list of states (we&rsquo;ll exclude FIPS code 72: Puerto Rico)</h1>
 <p>st.list&lt;-unique(mydata[st.fips !=&ldquo;72&rdquo;,]$st.fips)</p>
-
 <h1 id="the-next-step-is-to-make-a-function-that-generates-the-composite-plot-based-on-a-state-fips-number">The next step is to make a function that generates the composite plot based on a state FIPS number:</h1>
-
 <p>myplot&lt;-function(i){</p>
-
 <p>c.list&lt;-unique(mydata[st.fips ==st.list[i]]$fips)  # all counties within selected state [i]
-  smap&lt;-subset(smap.all, id %in% st.list[i])         # subset state map
-  cmap&lt;-subset(cmap.all, fips %in% c.list)           # subset county map</p>
-
+smap&lt;-subset(smap.all, id %in% st.list[i])         # subset state map
+cmap&lt;-subset(cmap.all, fips %in% c.list)           # subset county map</p>
 <p>#state label
-  st.label&lt;-unique(fips.look[st.fips==as.numeric(st.list[i])]$state_abbr)</p>
-
-<p># graph 1: map (as above, but only including subset)
-  g1&lt;-
-    ggplot() +
-    geom_map(data = cmap, map = cmap,
-             aes(x = long, y = lat, map_id = id),
-             color = &ldquo;#2b2b2b&rdquo;, size = 0.05, fill = NA) +
-    geom_map(data = counties@data, map = cmap,
-             aes(fill =log(upb.med), map_id = fips),
-             color = NA) +
-    geom_map(data = smap, map = smap,
-             aes(x = long, y = lat, map_id = id),
-             color = &ldquo;black&rdquo;, size = 1.05, fill = NA) +
-    theme_map( base_size = 12) +
-    theme(plot.title=element_text( size = 16, margin=margin(b=10))) +
-    theme(plot.subtitle=element_text(size = 14, margin=margin(b=-20))) +
-    theme(plot.caption=element_text(size = 9, margin=margin(t=-15),hjust=0)) +
-    coord_proj(us_laea_proj) +
-    labs(y=&ldquo;Loan Amount, $&rdquo;,x=&ldquo;Loan Purpose&rdquo;,
-         title=paste(&ldquo;Median loan amount by county in&rdquo;,
-                     unique(fips.look[st.fips==as.numeric(st.list[i])]$state_abbr)))+
-    scale_fill_viridis(name=&ldquo;Median Loan Amount\n$, log scale\n&rdquo;,
-                       discrete=F,option=&ldquo;D&rdquo;,end=0.95,direction=-1,limits=c(log(10000),log(1.4e6)),
-                       breaks=c(log(10000),log(100000),log(1e6)),
-                       labels=c(&ldquo;$10,000&rdquo;,&ldquo;$100,000&rdquo;,&ldquo;$1,000,000&rdquo;)  )+  theme(legend.position = &ldquo;right&rdquo;)</p>
-
+st.label&lt;-unique(fips.look[st.fips==as.numeric(st.list[i])]$state_abbr)</p>
+<h1 id="graph-1-map-as-above-but-only-including-subset">graph 1: map (as above, but only including subset)</h1>
+<p>g1&lt;-
+ggplot() +
+geom_map(data = cmap, map = cmap,
+aes(x = long, y = lat, map_id = id),
+color = &ldquo;#2b2b2b&rdquo;, size = 0.05, fill = NA) +
+geom_map(data = counties@data, map = cmap,
+aes(fill =log(upb.med), map_id = fips),
+color = NA) +
+geom_map(data = smap, map = smap,
+aes(x = long, y = lat, map_id = id),
+color = &ldquo;black&rdquo;, size = 1.05, fill = NA) +
+theme_map( base_size = 12) +
+theme(plot.title=element_text( size = 16, margin=margin(b=10))) +
+theme(plot.subtitle=element_text(size = 14, margin=margin(b=-20))) +
+theme(plot.caption=element_text(size = 9, margin=margin(t=-15),hjust=0)) +
+coord_proj(us_laea_proj) +
+labs(y=&ldquo;Loan Amount, $&quot;,x=&ldquo;Loan Purpose&rdquo;,
+title=paste(&ldquo;Median loan amount by county in&rdquo;,
+unique(fips.look[st.fips==as.numeric(st.list[i])]$state_abbr)))+
+scale_fill_viridis(name=&ldquo;Median Loan Amount\n$, log scale\n&rdquo;,
+discrete=F,option=&ldquo;D&rdquo;,end=0.95,direction=-1,limits=c(log(10000),log(1.4e6)),
+breaks=c(log(10000),log(100000),log(1e6)),
+labels=c(&quot;$10,000&rdquo;,&quot;$100,000&rdquo;,&quot;$1,000,000&quot;)  )+  theme(legend.position = &ldquo;right&rdquo;)</p>
 <p>#plot data:</p>
-
-<p># Prepare data: select only data in the state (derived from c.list)
-  pdata&lt;-county.sum[fips %in% c.list]</p>
-
+<h1 id="prepare-data-select-only-data-in-the-state-derived-from-clist">Prepare data: select only data in the state (derived from c.list)</h1>
+<p>pdata&lt;-county.sum[fips %in% c.list]</p>
 <p>pdata2&lt;-mydata[fips %in% c.list,.SD[sample(.N,min(.N,1000))],by = msamd_name ]  #subsample metro data</p>
-
-<p># See note: sample by groups
-  # <a href="http://stackoverflow.com/questions/27325656/how-do-you-sample-groups-in-a-data-table-with-a-caveat">http://stackoverflow.com/questions/27325656/how-do-you-sample-groups-in-a-data-table-with-a-caveat</a></p>
-
-<p>pdata2[msamd_name==&ldquo;&rdquo;,msamd_name:=&ldquo;Non-metro&rdquo;]  #rename missing metros to &ldquo;Non-Metro&rdquo;</p>
-
-<p># pdata2[,.N,by=msamd_name]    # Can run this to check how many obs we have per metro</p>
-
+<h1 id="see-note-sample-by-groups">See note: sample by groups</h1>
+<h1 id="httpstackoverflowcomquestions27325656how-do-you-sample-groups-in-a-data-table-with-a-caveat"><a href="http://stackoverflow.com/questions/27325656/how-do-you-sample-groups-in-a-data-table-with-a-caveat">http://stackoverflow.com/questions/27325656/how-do-you-sample-groups-in-a-data-table-with-a-caveat</a></h1>
+<p>pdata2[msamd_name==&quot;&quot;,msamd_name:=&ldquo;Non-metro&rdquo;]  #rename missing metros to &ldquo;Non-Metro&rdquo;</p>
+<h1 id="pdata2nbymsamd_name-----can-run-this-to-check-how-many-obs-we-have-per-metro">pdata2[,.N,by=msamd_name]    # Can run this to check how many obs we have per metro</h1>
 <p>pdata3&lt;-mydata[fips %in% c.list][sample(.N,1000)]  #subsample state data</p>
-
-<p># graph 2: upb distribution for entire state
-  g2&lt;-
-    ggplot(data=pdata2,aes(y=&ldquo;&rdquo;,x=upb,color=log(upb)))+
-    geom_quasirandom(alpha=0.5,size=0.35)+
-    theme_minimal()+
-    scale_color_viridis(name=&ldquo;Loan Amount\n$,log scale\n&rdquo;,discrete=F,option=&ldquo;D&rdquo;,end=0.95,direction=-1,
-                        limits=c(log(10000),log(1.4e6)),
-                        breaks=c(log(10000),log(100000),log(1e6)),
-                        labels=c(&ldquo;$10k&rdquo;,&ldquo;$100k&rdquo;,&ldquo;$1,000k&rdquo;) ) +
-    scale_x_log10(limits=c(10000,1.4e6),breaks=c(10000,100000,1000000),
-                  labels=c(&ldquo;$10k&rdquo;,&ldquo;$100k&rdquo;,&ldquo;$1,000k&rdquo;) )+
-    theme(plot.title=element_text(size=14))+
-    theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
-    theme(plot.margin=unit(c(0.25,0.25,0.25,0.25),&ldquo;cm&rdquo;))+
-    theme(legend.position = &ldquo;none&rdquo;)+
-    labs(y=&ldquo;&rdquo;,x=&ldquo;Loan Amount ($, log scale)&rdquo;,
-         caption=&rdquo;\n@lenkiefer Source: CFPB, FFIEC, Home Mortgage Disclosure Act (HMDA) data\nIncludes all home purchase, home improvement, and refinance loans for 1-4 family dwellings originated in 2015.&ldquo;,
-    title=paste(&ldquo;Loan size distribution by Metro in&rdquo;,
-                     unique(fips.look[st.fips==as.numeric(st.list[i])]$state_abbr)))+
-    theme(axis.text.x = element_text(size=6))+
-    facet_wrap(~msamd_name)+theme(strip.text.x = element_text(size = 6))</p>
-
-<p># graph 3: upb distribution by county (using a subsample of 1000 obs)
-  g3&lt;-
-    ggplot(data=pdata3,aes(y=&ldquo;&rdquo;,x=upb,color=log(upb)))+geom_quasirandom(alpha=0.5,size=0.75)+
-    theme_minimal()+
-    scale_color_viridis(name=&ldquo;Loan Amount\n$,log scale\n&rdquo;,discrete=F,option=&ldquo;D&rdquo;,end=0.95,direction=-1,
-                        limits=c(log(10000),log(1.4e6)),
-                        breaks=c(log(10000),log(100000),log(1e6)),
-                        labels=c(&ldquo;$10k&rdquo;,&ldquo;$100k&rdquo;,&ldquo;$1,000k&rdquo;)                      ) +
-    scale_x_log10(limits=c(10000,1.4e6),breaks=c(10000,100000,1000000),
-                  labels=c(&ldquo;$10k&rdquo;,&ldquo;$100k&rdquo;,&ldquo;$1,000k&rdquo;) )+
-    theme(plot.title=element_text(size=14))+theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
-    theme(plot.margin=unit(c(0.25,0.25,0.25,0.25),&ldquo;cm&rdquo;))+  theme(legend.position = &ldquo;none&rdquo;)+
-    labs(y=&ldquo;&rdquo;,x=&ldquo;Loan Amount ($, log scale)&rdquo;,
-         title=paste(&ldquo;Mortgage loan size distribution in&rdquo;,
-                     unique(fips.look[st.fips==as.numeric(st.list[i])]$state_abbr)))+
-    facet_wrap(~state_name)</p>
-
-<p>m&lt;-multiplot(g1,g2,g3,layout=matrix(c(1,3,2,2,2,2), nrow=3, byrow=TRUE))
-  # I&rsquo;ve source the multiplot function above, and you can find it at:
-  # <a href="http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/">http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/</a><br />
-}</p>
-
+<h1 id="graph-2-upb-distribution-for-entire-state">graph 2: upb distribution for entire state</h1>
+<p>g2&lt;-
+ggplot(data=pdata2,aes(y=&quot;&quot;,x=upb,color=log(upb)))+
+geom_quasirandom(alpha=0.5,size=0.35)+
+theme_minimal()+
+scale_color_viridis(name=&ldquo;Loan Amount\n$,log scale\n&rdquo;,discrete=F,option=&ldquo;D&rdquo;,end=0.95,direction=-1,
+limits=c(log(10000),log(1.4e6)),
+breaks=c(log(10000),log(100000),log(1e6)),
+labels=c(&quot;$10k&quot;,&quot;$100k&quot;,&quot;$1,000k&quot;) ) +
+scale_x_log10(limits=c(10000,1.4e6),breaks=c(10000,100000,1000000),
+labels=c(&quot;$10k&quot;,&quot;$100k&quot;,&quot;$1,000k&quot;) )+
+theme(plot.title=element_text(size=14))+
+theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+theme(plot.margin=unit(c(0.25,0.25,0.25,0.25),&ldquo;cm&rdquo;))+
+theme(legend.position = &ldquo;none&rdquo;)+
+labs(y=&quot;&quot;,x=&ldquo;Loan Amount ($, log scale)&rdquo;,
+caption=&quot;\n@lenkiefer Source: CFPB, FFIEC, Home Mortgage Disclosure Act (HMDA) data\nIncludes all home purchase, home improvement, and refinance loans for 1-4 family dwellings originated in 2015.&quot;,
+title=paste(&ldquo;Loan size distribution by Metro in&rdquo;,
+unique(fips.look[st.fips==as.numeric(st.list[i])]$state_abbr)))+
+theme(axis.text.x = element_text(size=6))+
+facet_wrap(~msamd_name)+theme(strip.text.x = element_text(size = 6))</p>
+<h1 id="graph-3-upb-distribution-by-county-using-a-subsample-of-1000-obs">graph 3: upb distribution by county (using a subsample of 1000 obs)</h1>
+<p>g3&lt;-
+ggplot(data=pdata3,aes(y=&quot;&quot;,x=upb,color=log(upb)))+geom_quasirandom(alpha=0.5,size=0.75)+
+theme_minimal()+
+scale_color_viridis(name=&ldquo;Loan Amount\n$,log scale\n&rdquo;,discrete=F,option=&ldquo;D&rdquo;,end=0.95,direction=-1,
+limits=c(log(10000),log(1.4e6)),
+breaks=c(log(10000),log(100000),log(1e6)),
+labels=c(&quot;$10k&quot;,&quot;$100k&quot;,&quot;$1,000k&quot;)                      ) +
+scale_x_log10(limits=c(10000,1.4e6),breaks=c(10000,100000,1000000),
+labels=c(&quot;$10k&quot;,&quot;$100k&quot;,&quot;$1,000k&quot;) )+
+theme(plot.title=element_text(size=14))+theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+theme(plot.margin=unit(c(0.25,0.25,0.25,0.25),&ldquo;cm&rdquo;))+  theme(legend.position = &ldquo;none&rdquo;)+
+labs(y=&quot;&quot;,x=&ldquo;Loan Amount ($, log scale)&rdquo;,
+title=paste(&ldquo;Mortgage loan size distribution in&rdquo;,
+unique(fips.look[st.fips==as.numeric(st.list[i])]$state_abbr)))+
+facet_wrap(~state_name)</p>
+<p>m&lt;-multiplot(g1,g2,g3,layout=matrix(c(1,3,2,2,2,2), nrow=3, byrow=TRUE))</p>
+<h1 id="ive-source-the-multiplot-function-above-and-you-can-find-it-at">I&rsquo;ve source the multiplot function above, and you can find it at:</h1>
+<h1 id="httpwwwcookbook-rcomgraphsmultiple_graphs_on_one_page_ggplot2"><a href="http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/">http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/</a></h1>
+<p>}</p>
 <h1 id="try-it-out-for-california">Try it out for California:</h1>
-
 <p>myplot(5)</p>
-
 <h1 id="compute-the-number-of-loans-with-loan-amount-greater-than-1-million">compute the number of loans with loan amount greater than $1 Million</h1>
-
 <p>mydata[,upb.gt1m:=ifelse(upb&gt;1000000,1,0)]
 ca.sums&lt;-mydata[state_abbr==&ldquo;CA&rdquo;,list(.N,gt1m=sum(upb.gt1m)),by=msamd_name]</p>
-
 <h1 id="make-bar-chart">make bar chart:</h1>
-
 <p>ggplot(data=ca.sums,aes(y=gt1m/N,x=reorder(msamd_name,gt1m/N)))+
-  theme_minimal()+theme(legend.position=&ldquo;none&rdquo;)+
-  geom_bar(stat=&ldquo;identity&rdquo;,aes(fill=gt1m/N))+    theme(axis.text.y = element_text(size=7))+
-  scale_y_continuous(label=percent)+theme(plot.caption=element_text(hjust=0))+
-  scale_fill_viridis(direction=-1,end=0.95)+coord_flip()+
-  labs(y=&ldquo;Share of loans&rdquo;,x=&ldquo;&rdquo;,
-       title=&ldquo;Share of mortgage loans with loan amount greater than $1 Million&rdquo;,
-       subtitle=&ldquo;Home purchase, home improvement and refinance loans on 1-4 family dwellings&rdquo;,
-       caption=&ldquo;@lenkiefer Source: CFPB, FFIEC, Home Mortgage Disclosure Act (HMDA) data\nIncludes all home purchase, home improvement, and refinance loans for\n1-4 family dwellings originated in 2015.&ldquo;)</p>
-
+theme_minimal()+theme(legend.position=&ldquo;none&rdquo;)+
+geom_bar(stat=&ldquo;identity&rdquo;,aes(fill=gt1m/N))+    theme(axis.text.y = element_text(size=7))+
+scale_y_continuous(label=percent)+theme(plot.caption=element_text(hjust=0))+
+scale_fill_viridis(direction=-1,end=0.95)+coord_flip()+
+labs(y=&ldquo;Share of loans&rdquo;,x=&quot;&quot;,
+title=&ldquo;Share of mortgage loans with loan amount greater than $1 Million&rdquo;,
+subtitle=&ldquo;Home purchase, home improvement and refinance loans on 1-4 family dwellings&rdquo;,
+caption=&quot;@lenkiefer Source: CFPB, FFIEC, Home Mortgage Disclosure Act (HMDA) data\nIncludes all home purchase, home improvement, and refinance loans for\n1-4 family dwellings originated in 2015.&quot;)</p>
 <h1 id="try-out-composite-plot-for-texas">Try out composite plot for Texas:</h1>
-
 <p>myplot(48)
 {% endhighlight</p>
 
@@ -490,13 +432,13 @@ ca.sums&lt;-mydata[state_abbr==&ldquo;CA&rdquo;,list(.N,gt1m=sum(upb.gt1m)),by=m
 <div class="prev-next-post pure-g">
   <div class="pure-u-1-24" style="text-align: left;">
     
-    <a href="/2016/09/22/week-in-gif/"><i class="fa fa-chevron-left"></i></a>
+    <a href="http://lenkiefer.com/2016/09/22/week-in-gif/"><i class="fa fa-chevron-left"></i></a>
     
   </div>
   <div class="pure-u-10-24">
     
     <nav class="prev">
-      <a href="/2016/09/22/week-in-gif/">Data visualizations for the week of September 22, 2016</a>
+      <a href="http://lenkiefer.com/2016/09/22/week-in-gif/">Data visualizations for the week of September 22, 2016</a>
     </nav>
     
   </div>
@@ -506,13 +448,13 @@ ca.sums&lt;-mydata[state_abbr==&ldquo;CA&rdquo;,list(.N,gt1m=sum(upb.gt1m)),by=m
   <div class="pure-u-10-24">
     
     <nav class="next">
-      <a href="/2016/10/14/content-po..-..-..-..-2016-10-14-gifs-10-14-2016/">Some animated gifs: Week of Oct 14, 2016</a>
+      <a href="http://lenkiefer.com/2016/10/2016/10/14/gifs-10-14-2016/">Some animated gifs: Week of Oct 14, 2016</a>
     </nav>
     
   </div>
   <div class="pure-u-1-24" style="text-align: right;">
     
-    <a href="/2016/10/14/content-po..-..-..-..-2016-10-14-gifs-10-14-2016/"><i class="fa fa-chevron-right"></i></a>
+    <a href="http://lenkiefer.com/2016/10/2016/10/14/gifs-10-14-2016/"><i class="fa fa-chevron-right"></i></a>
     
   </div>
 </div>
@@ -541,7 +483,7 @@ ca.sums&lt;-mydata[state_abbr==&ldquo;CA&rdquo;,list(.N,gt1m=sum(upb.gt1m)),by=m
 
     <div class="share">
         
-            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2016%2f10%2f11%2fhmda-viz1%2f&text=Distribution%20of%20mortgage%20loan%20amounts%20in%202015 via %40lenkiefer"
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.comhttp%3a%2f%2flenkiefer.com%2f2016%2f10%2f11%2fhmda-viz1%2f&text=Distribution%20of%20mortgage%20loan%20amounts%20in%202015 via %40lenkiefer"
                 onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
                 <i class="fa fa-twitter"></i>
                 <span class="hidden">Twitter</span>
@@ -549,7 +491,7 @@ ca.sums&lt;-mydata[state_abbr==&ldquo;CA&rdquo;,list(.N,gt1m=sum(upb.gt1m)),by=m
         
 
         
-            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2016%2f10%2f11%2fhmda-viz1%2f"
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.comhttp%3a%2f%2flenkiefer.com%2f2016%2f10%2f11%2fhmda-viz1%2f"
                 onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
                 <i class="fa fa-facebook"></i>
                 <span class="hidden">Facebook</span>
@@ -562,7 +504,7 @@ ca.sums&lt;-mydata[state_abbr==&ldquo;CA&rdquo;,list(.N,gt1m=sum(upb.gt1m)),by=m
 </footer>
 </div>
 </div>
-<script src="/js/ui.js"></script>
+<script src="http://lenkiefer.com/js/ui.js"></script>
 
 
 <script>

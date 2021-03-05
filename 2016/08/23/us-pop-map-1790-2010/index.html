@@ -5,7 +5,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
-  <meta name="generator" content="Hugo 0.52" />
+  <meta name="generator" content="Hugo 0.81.0" />
 
   <title>U.S. county population: 1790-2010 &middot; Len Kiefer</title>
 
@@ -48,7 +48,7 @@
   <script>hljs.initHighlightingOnLoad();</script>
   
 
-  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+  <link rel="shortcut icon" href="http://lenkiefer.com/img/favicon.PNG" type="image/x-icon" />
 
   
   
@@ -206,9 +206,8 @@
     
     <meta property="og:title" content="U.S. county population: 1790-2010">
     <meta property="og:description" content="SOMETIMES YOU ACTUALLY LEARN SOMETHING from social media. Today on Twitter I happened across this Tweet via @kyle_e_walker:
-Anybody want population estimates for every US county &amp; metro back to 1790? Well, here are mine. Have fun!https://t.co/QqdA6226kN
-&mdash; Jonathan Schroeder (@j_p_schroeder) August 15, 2016 
-Seems somebody posted estimates of the U.S. population by county (defined by 2010 county definitions) going back to 1790. This is a perfect dataset to practice my mapping with R.">
+Seems somebody posted estimates of the U.S. population by county (defined by 2010 county definitions) going back to 1790. This is a perfect dataset to practice my mapping with R.
+The data are conveniently available via the University of Minnesota. The data come in a nice spreadsheet that we can easily import into R and manipulate.">
 
 <div class="header">
   <h1>U.S. county population: 1790-2010</h1>
@@ -233,13 +232,13 @@ Seems somebody posted estimates of the U.S. population by county (defined by 201
   <div>
     <i class="fa fa-tags fa-fw"></i>
     
-      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
     
-      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>&nbsp;&#47;
     
-      <a class="post-taxonomy-tag" href="/tags/maps">maps</a>&nbsp;&#47;
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/maps">maps</a>&nbsp;&#47;
     
-      <a class="post-taxonomy-tag" href="/tags/demographics">demographics</a>
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/demographics">demographics</a>
     
   </div>
   
@@ -247,26 +246,15 @@ Seems somebody posted estimates of the U.S. population by county (defined by 201
 
 </div>
 
-  
-
-<p>SOMETIMES YOU ACTUALLY LEARN SOMETHING from social media. Today on Twitter I happened across this Tweet via <a href="https://twitter.com/kyle_e_walker">@kyle_e_walker</a>:</p>
-
-<p><blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">Anybody want population estimates for every US county &amp; metro back to 1790? Well, here are mine. Have fun!<a href="https://t.co/QqdA6226kN">https://t.co/QqdA6226kN</a></p>&mdash; Jonathan Schroeder (@j_p_schroeder) <a href="https://twitter.com/j_p_schroeder/status/765220244822462465">August 15, 2016</a></blockquote>
-<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
-
+  <p>SOMETIMES YOU ACTUALLY LEARN SOMETHING from social media. Today on Twitter I happened across this Tweet via <a href="https://twitter.com/kyle_e_walker">@kyle_e_walker</a>:</p>
+<!-- raw HTML omitted -->
 <p>Seems somebody posted estimates of the U.S. population by county (defined by 2010 county definitions) going back to 1790. This is a perfect dataset to practice my mapping with R.</p>
-
 <p>The data are <a href="http://conservancy.umn.edu/handle/11299/181605">conveniently available</a> via the University of Minnesota. The data come in a <a href="http://conservancy.umn.edu/bitstream/handle/11299/181605/county2010_hist_pops.xlsx?sequence=12&amp;isAllowed=y">nice spreadsheet</a> that we can easily import into R and manipulate.</p>
-
 <p>We&rsquo;re going to build this:</p>
-
-<p><img src="../../../../img/charts_aug_23_2016/pop gif.gif" alt="population map"/></p>
-
+<!-- raw HTML omitted -->
 <h2 id="getting-started">Getting started</h2>
-
 <p>Let&rsquo;s begin my loading libraries.  I don&rsquo;t recall which of these libraries are essential for what follows, but here&rsquo;s what I was working with.</p>
-
-<p>{% highlight r
+<p>{% highlight r 
 #load libraries
 library(readxl)
 library(data.table)
@@ -290,586 +278,49 @@ library(albersusa)
 library(broom)
 library(ineq) #used for concentration indices
 {% endhighlight</p>
-
 <p>Now we can import the data.  I&rsquo;ve saved the <a href="http://conservancy.umn.edu/bitstream/handle/11299/181605/county2010_hist_pops.xlsx?sequence=12&amp;isAllowed=y">spreadsheet</a> to my data directory.</p>
-
 <p>There are two excel worksheets we are interested in using.  The <em>c2010_hist_pops</em> worksheet contains population estimates from 1790 to 2010 arranged with years as columns and each county going down.  The <em>national_shares</em> worksheet contains the share of total U.S. population for each county.</p>
-
 <p>Let&rsquo;s load the data and take a look:</p>
-
-<p>{% highlight r
+<p>{% highlight r 
 library(readxl)
 library(&ldquo;htmlTable&rdquo;)
 popDF&lt;-read_excel(&ldquo;data/county2010_hist_pops.xlsx&rdquo;,sheet=&ldquo;c2010_hist_pops&rdquo;)
 shareDF&lt;-read_excel(&ldquo;data/county2010_hist_pops.xlsx&rdquo;,sheet=&ldquo;national_shares&rdquo;)</p>
-
 <p>popDF.print&lt;-popDF
 shareDF.print&lt;-shareDF</p>
-
 <p>#round the decimals for printing
 is.num &lt;- sapply(popDF.print, is.numeric)
 popDF.print[is.num] &lt;- lapply(popDF.print[is.num], round, 0)
 is.num &lt;- sapply(shareDF.print, is.numeric)
 shareDF.print[is.num] &lt;- lapply(shareDF.print[is.num], round, 2)</p>
-
 <h1 id="make-tables-for-viewing">make tables for viewing</h1>
-
 <p>htmlTable(head(popDF.print), col.rgroup = c(&ldquo;none&rdquo;, &ldquo;#F7F7F7&rdquo;),caption=&ldquo;Population table&rdquo;,
-          tfoot=&rdquo;&dagger;c2010_hist_pops worksheet&rdquo;)
+tfoot=&quot;†c2010_hist_pops worksheet&quot;)
 {% endhighlight</p>
-
-<table class='gmisc_table' style='border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;' >
-<thead>
-<tr><td colspan='28' style='text-align: left;'>
-Population table</td></tr>
-<tr>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey;'> </th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>GISJOIN</th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>GEOID10</th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>STATE</th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>COUNTY</th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>epop1790</th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>epop1800</th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>epop1810</th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>epop1820</th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>epop1830</th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>epop1840</th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>epop1850</th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>epop1860</th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>epop1870</th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>epop1880</th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>epop1890</th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>epop1900</th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>epop1910</th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>epop1920</th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>epop1930</th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>epop1940</th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>epop1950</th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>epop1960</th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>epop1970</th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>epop1980</th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>epop1990</th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>epop2000</th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>pop2010</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style='text-align: left;'>1</td>
-<td style='text-align: center;'>G0100010</td>
-<td style='text-align: center;'>01001</td>
-<td style='text-align: center;'>Alabama</td>
-<td style='text-align: center;'>Autauga</td>
-<td style='text-align: center;'>0</td>
-<td style='text-align: center;'>0</td>
-<td style='text-align: center;'>0</td>
-<td style='text-align: center;'>2313</td>
-<td style='text-align: center;'>6332</td>
-<td style='text-align: center;'>7684</td>
-<td style='text-align: center;'>8049</td>
-<td style='text-align: center;'>8968</td>
-<td style='text-align: center;'>11623</td>
-<td style='text-align: center;'>13108</td>
-<td style='text-align: center;'>13330</td>
-<td style='text-align: center;'>17915</td>
-<td style='text-align: center;'>20038</td>
-<td style='text-align: center;'>18908</td>
-<td style='text-align: center;'>19694</td>
-<td style='text-align: center;'>20977</td>
-<td style='text-align: center;'>18186</td>
-<td style='text-align: center;'>18739</td>
-<td style='text-align: center;'>24460</td>
-<td style='text-align: center;'>32259</td>
-<td style='text-align: center;'>34222</td>
-<td style='text-align: center;'>43671</td>
-<td style='text-align: center;'>54571</td>
-</tr>
-<tr style='background-color: #f7f7f7;'>
-<td style='background-color: #f7f7f7; text-align: left;'>2</td>
-<td style='background-color: #f7f7f7; text-align: center;'>G0100030</td>
-<td style='background-color: #f7f7f7; text-align: center;'>01003</td>
-<td style='background-color: #f7f7f7; text-align: center;'>Alabama</td>
-<td style='background-color: #f7f7f7; text-align: center;'>Baldwin</td>
-<td style='background-color: #f7f7f7; text-align: center;'>0</td>
-<td style='background-color: #f7f7f7; text-align: center;'>22</td>
-<td style='background-color: #f7f7f7; text-align: center;'>26</td>
-<td style='background-color: #f7f7f7; text-align: center;'>646</td>
-<td style='background-color: #f7f7f7; text-align: center;'>1792</td>
-<td style='background-color: #f7f7f7; text-align: center;'>2263</td>
-<td style='background-color: #f7f7f7; text-align: center;'>3385</td>
-<td style='background-color: #f7f7f7; text-align: center;'>5774</td>
-<td style='background-color: #f7f7f7; text-align: center;'>6004</td>
-<td style='background-color: #f7f7f7; text-align: center;'>8603</td>
-<td style='background-color: #f7f7f7; text-align: center;'>8941</td>
-<td style='background-color: #f7f7f7; text-align: center;'>13194</td>
-<td style='background-color: #f7f7f7; text-align: center;'>18178</td>
-<td style='background-color: #f7f7f7; text-align: center;'>20730</td>
-<td style='background-color: #f7f7f7; text-align: center;'>28289</td>
-<td style='background-color: #f7f7f7; text-align: center;'>32324</td>
-<td style='background-color: #f7f7f7; text-align: center;'>40997</td>
-<td style='background-color: #f7f7f7; text-align: center;'>49088</td>
-<td style='background-color: #f7f7f7; text-align: center;'>59382</td>
-<td style='background-color: #f7f7f7; text-align: center;'>78556</td>
-<td style='background-color: #f7f7f7; text-align: center;'>98280</td>
-<td style='background-color: #f7f7f7; text-align: center;'>140415</td>
-<td style='background-color: #f7f7f7; text-align: center;'>182265</td>
-</tr>
-<tr>
-<td style='text-align: left;'>3</td>
-<td style='text-align: center;'>G0100050</td>
-<td style='text-align: center;'>01005</td>
-<td style='text-align: center;'>Alabama</td>
-<td style='text-align: center;'>Barbour</td>
-<td style='text-align: center;'>0</td>
-<td style='text-align: center;'>0</td>
-<td style='text-align: center;'>0</td>
-<td style='text-align: center;'>428</td>
-<td style='text-align: center;'>2173</td>
-<td style='text-align: center;'>11163</td>
-<td style='text-align: center;'>21938</td>
-<td style='text-align: center;'>28902</td>
-<td style='text-align: center;'>29298</td>
-<td style='text-align: center;'>33979</td>
-<td style='text-align: center;'>34898</td>
-<td style='text-align: center;'>35152</td>
-<td style='text-align: center;'>32728</td>
-<td style='text-align: center;'>32067</td>
-<td style='text-align: center;'>32425</td>
-<td style='text-align: center;'>32722</td>
-<td style='text-align: center;'>28892</td>
-<td style='text-align: center;'>24700</td>
-<td style='text-align: center;'>22543</td>
-<td style='text-align: center;'>24756</td>
-<td style='text-align: center;'>25417</td>
-<td style='text-align: center;'>29038</td>
-<td style='text-align: center;'>27457</td>
-</tr>
-<tr style='background-color: #f7f7f7;'>
-<td style='background-color: #f7f7f7; text-align: left;'>4</td>
-<td style='background-color: #f7f7f7; text-align: center;'>G0100070</td>
-<td style='background-color: #f7f7f7; text-align: center;'>01007</td>
-<td style='background-color: #f7f7f7; text-align: center;'>Alabama</td>
-<td style='background-color: #f7f7f7; text-align: center;'>Bibb</td>
-<td style='background-color: #f7f7f7; text-align: center;'>0</td>
-<td style='background-color: #f7f7f7; text-align: center;'>0</td>
-<td style='background-color: #f7f7f7; text-align: center;'>0</td>
-<td style='background-color: #f7f7f7; text-align: center;'>2908</td>
-<td style='background-color: #f7f7f7; text-align: center;'>6144</td>
-<td style='background-color: #f7f7f7; text-align: center;'>7088</td>
-<td style='background-color: #f7f7f7; text-align: center;'>8526</td>
-<td style='background-color: #f7f7f7; text-align: center;'>10188</td>
-<td style='background-color: #f7f7f7; text-align: center;'>7512</td>
-<td style='background-color: #f7f7f7; text-align: center;'>9549</td>
-<td style='background-color: #f7f7f7; text-align: center;'>13948</td>
-<td style='background-color: #f7f7f7; text-align: center;'>18650</td>
-<td style='background-color: #f7f7f7; text-align: center;'>22884</td>
-<td style='background-color: #f7f7f7; text-align: center;'>23236</td>
-<td style='background-color: #f7f7f7; text-align: center;'>20780</td>
-<td style='background-color: #f7f7f7; text-align: center;'>20155</td>
-<td style='background-color: #f7f7f7; text-align: center;'>17987</td>
-<td style='background-color: #f7f7f7; text-align: center;'>14357</td>
-<td style='background-color: #f7f7f7; text-align: center;'>13812</td>
-<td style='background-color: #f7f7f7; text-align: center;'>15723</td>
-<td style='background-color: #f7f7f7; text-align: center;'>16576</td>
-<td style='background-color: #f7f7f7; text-align: center;'>19889</td>
-<td style='background-color: #f7f7f7; text-align: center;'>22915</td>
-</tr>
-<tr>
-<td style='text-align: left;'>5</td>
-<td style='text-align: center;'>G0100090</td>
-<td style='text-align: center;'>01009</td>
-<td style='text-align: center;'>Alabama</td>
-<td style='text-align: center;'>Blount</td>
-<td style='text-align: center;'>0</td>
-<td style='text-align: center;'>0</td>
-<td style='text-align: center;'>0</td>
-<td style='text-align: center;'>1153</td>
-<td style='text-align: center;'>2418</td>
-<td style='text-align: center;'>4346</td>
-<td style='text-align: center;'>5637</td>
-<td style='text-align: center;'>8252</td>
-<td style='text-align: center;'>7377</td>
-<td style='text-align: center;'>13357</td>
-<td style='text-align: center;'>19362</td>
-<td style='text-align: center;'>20445</td>
-<td style='text-align: center;'>21456</td>
-<td style='text-align: center;'>25538</td>
-<td style='text-align: center;'>28020</td>
-<td style='text-align: center;'>29490</td>
-<td style='text-align: center;'>28975</td>
-<td style='text-align: center;'>25449</td>
-<td style='text-align: center;'>26853</td>
-<td style='text-align: center;'>36459</td>
-<td style='text-align: center;'>39248</td>
-<td style='text-align: center;'>51022</td>
-<td style='text-align: center;'>57322</td>
-</tr>
-<tr style='background-color: #f7f7f7;'>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: left;'>6</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>G0100110</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>01011</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>Alabama</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>Bullock</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>0</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>0</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>0</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>611</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>2113</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>8126</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>14665</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>18727</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>24500</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>29097</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>27077</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>31944</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>30196</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>25333</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>20016</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>19810</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>16054</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>13462</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>11824</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>10596</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>11042</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>11626</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>10914</td>
-</tr>
-</tbody>
-<tfoot><tr><td colspan='28'>
-&dagger;c2010_hist_pops worksheet</td></tr></tfoot>
-</table>
-
-<p>{% highlight r
+<!-- raw HTML omitted -->
+<p>{% highlight r 
 htmlTable(head(shareDF.print), col.rgroup = c(&ldquo;none&rdquo;, &ldquo;#F7F7F7&rdquo;),caption=&ldquo;Population share table&rdquo;,
-          tfoot=&rdquo;&dagger; national_shares_worksheet&rdquo;)
+tfoot=&quot;† national_shares_worksheet&quot;)
 {% endhighlight</p>
-
-<table class='gmisc_table' style='border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;' >
-<thead>
-<tr><td colspan='28' style='text-align: left;'>
-Population share table</td></tr>
-<tr>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey;'> </th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>GISJOIN</th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>GEOID10</th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>STATE</th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>COUNTY</th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>share1790</th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>share1800</th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>share1810</th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>share1820</th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>share1830</th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>share1840</th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>share1850</th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>share1860</th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>share1870</th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>share1880</th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>share1890</th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>share1900</th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>share1910</th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>share1920</th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>share1930</th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>share1940</th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>share1950</th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>share1960</th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>share1970</th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>share1980</th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>share1990</th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>share2000</th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>share2010</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style='text-align: left;'>1</td>
-<td style='text-align: center;'>G0100010</td>
-<td style='text-align: center;'>01001</td>
-<td style='text-align: center;'>Alabama</td>
-<td style='text-align: center;'>Autauga</td>
-<td style='text-align: center;'>0</td>
-<td style='text-align: center;'>0</td>
-<td style='text-align: center;'>0</td>
-<td style='text-align: center;'>0.02</td>
-<td style='text-align: center;'>0.05</td>
-<td style='text-align: center;'>0.05</td>
-<td style='text-align: center;'>0.03</td>
-<td style='text-align: center;'>0.03</td>
-<td style='text-align: center;'>0.03</td>
-<td style='text-align: center;'>0.03</td>
-<td style='text-align: center;'>0.02</td>
-<td style='text-align: center;'>0.02</td>
-<td style='text-align: center;'>0.02</td>
-<td style='text-align: center;'>0.02</td>
-<td style='text-align: center;'>0.02</td>
-<td style='text-align: center;'>0.02</td>
-<td style='text-align: center;'>0.01</td>
-<td style='text-align: center;'>0.01</td>
-<td style='text-align: center;'>0.01</td>
-<td style='text-align: center;'>0.01</td>
-<td style='text-align: center;'>0.01</td>
-<td style='text-align: center;'>0.02</td>
-<td style='text-align: center;'>0.02</td>
-</tr>
-<tr style='background-color: #f7f7f7;'>
-<td style='background-color: #f7f7f7; text-align: left;'>2</td>
-<td style='background-color: #f7f7f7; text-align: center;'>G0100030</td>
-<td style='background-color: #f7f7f7; text-align: center;'>01003</td>
-<td style='background-color: #f7f7f7; text-align: center;'>Alabama</td>
-<td style='background-color: #f7f7f7; text-align: center;'>Baldwin</td>
-<td style='background-color: #f7f7f7; text-align: center;'>0</td>
-<td style='background-color: #f7f7f7; text-align: center;'>0</td>
-<td style='background-color: #f7f7f7; text-align: center;'>0</td>
-<td style='background-color: #f7f7f7; text-align: center;'>0.01</td>
-<td style='background-color: #f7f7f7; text-align: center;'>0.01</td>
-<td style='background-color: #f7f7f7; text-align: center;'>0.01</td>
-<td style='background-color: #f7f7f7; text-align: center;'>0.01</td>
-<td style='background-color: #f7f7f7; text-align: center;'>0.02</td>
-<td style='background-color: #f7f7f7; text-align: center;'>0.02</td>
-<td style='background-color: #f7f7f7; text-align: center;'>0.02</td>
-<td style='background-color: #f7f7f7; text-align: center;'>0.01</td>
-<td style='background-color: #f7f7f7; text-align: center;'>0.02</td>
-<td style='background-color: #f7f7f7; text-align: center;'>0.02</td>
-<td style='background-color: #f7f7f7; text-align: center;'>0.02</td>
-<td style='background-color: #f7f7f7; text-align: center;'>0.02</td>
-<td style='background-color: #f7f7f7; text-align: center;'>0.02</td>
-<td style='background-color: #f7f7f7; text-align: center;'>0.03</td>
-<td style='background-color: #f7f7f7; text-align: center;'>0.03</td>
-<td style='background-color: #f7f7f7; text-align: center;'>0.03</td>
-<td style='background-color: #f7f7f7; text-align: center;'>0.03</td>
-<td style='background-color: #f7f7f7; text-align: center;'>0.04</td>
-<td style='background-color: #f7f7f7; text-align: center;'>0.05</td>
-<td style='background-color: #f7f7f7; text-align: center;'>0.06</td>
-</tr>
-<tr>
-<td style='text-align: left;'>3</td>
-<td style='text-align: center;'>G0100050</td>
-<td style='text-align: center;'>01005</td>
-<td style='text-align: center;'>Alabama</td>
-<td style='text-align: center;'>Barbour</td>
-<td style='text-align: center;'>0</td>
-<td style='text-align: center;'>0</td>
-<td style='text-align: center;'>0</td>
-<td style='text-align: center;'>0</td>
-<td style='text-align: center;'>0.02</td>
-<td style='text-align: center;'>0.07</td>
-<td style='text-align: center;'>0.09</td>
-<td style='text-align: center;'>0.09</td>
-<td style='text-align: center;'>0.08</td>
-<td style='text-align: center;'>0.07</td>
-<td style='text-align: center;'>0.06</td>
-<td style='text-align: center;'>0.05</td>
-<td style='text-align: center;'>0.04</td>
-<td style='text-align: center;'>0.03</td>
-<td style='text-align: center;'>0.03</td>
-<td style='text-align: center;'>0.02</td>
-<td style='text-align: center;'>0.02</td>
-<td style='text-align: center;'>0.01</td>
-<td style='text-align: center;'>0.01</td>
-<td style='text-align: center;'>0.01</td>
-<td style='text-align: center;'>0.01</td>
-<td style='text-align: center;'>0.01</td>
-<td style='text-align: center;'>0.01</td>
-</tr>
-<tr style='background-color: #f7f7f7;'>
-<td style='background-color: #f7f7f7; text-align: left;'>4</td>
-<td style='background-color: #f7f7f7; text-align: center;'>G0100070</td>
-<td style='background-color: #f7f7f7; text-align: center;'>01007</td>
-<td style='background-color: #f7f7f7; text-align: center;'>Alabama</td>
-<td style='background-color: #f7f7f7; text-align: center;'>Bibb</td>
-<td style='background-color: #f7f7f7; text-align: center;'>0</td>
-<td style='background-color: #f7f7f7; text-align: center;'>0</td>
-<td style='background-color: #f7f7f7; text-align: center;'>0</td>
-<td style='background-color: #f7f7f7; text-align: center;'>0.03</td>
-<td style='background-color: #f7f7f7; text-align: center;'>0.05</td>
-<td style='background-color: #f7f7f7; text-align: center;'>0.04</td>
-<td style='background-color: #f7f7f7; text-align: center;'>0.04</td>
-<td style='background-color: #f7f7f7; text-align: center;'>0.03</td>
-<td style='background-color: #f7f7f7; text-align: center;'>0.02</td>
-<td style='background-color: #f7f7f7; text-align: center;'>0.02</td>
-<td style='background-color: #f7f7f7; text-align: center;'>0.02</td>
-<td style='background-color: #f7f7f7; text-align: center;'>0.02</td>
-<td style='background-color: #f7f7f7; text-align: center;'>0.02</td>
-<td style='background-color: #f7f7f7; text-align: center;'>0.02</td>
-<td style='background-color: #f7f7f7; text-align: center;'>0.02</td>
-<td style='background-color: #f7f7f7; text-align: center;'>0.02</td>
-<td style='background-color: #f7f7f7; text-align: center;'>0.01</td>
-<td style='background-color: #f7f7f7; text-align: center;'>0.01</td>
-<td style='background-color: #f7f7f7; text-align: center;'>0.01</td>
-<td style='background-color: #f7f7f7; text-align: center;'>0.01</td>
-<td style='background-color: #f7f7f7; text-align: center;'>0.01</td>
-<td style='background-color: #f7f7f7; text-align: center;'>0.01</td>
-<td style='background-color: #f7f7f7; text-align: center;'>0.01</td>
-</tr>
-<tr>
-<td style='text-align: left;'>5</td>
-<td style='text-align: center;'>G0100090</td>
-<td style='text-align: center;'>01009</td>
-<td style='text-align: center;'>Alabama</td>
-<td style='text-align: center;'>Blount</td>
-<td style='text-align: center;'>0</td>
-<td style='text-align: center;'>0</td>
-<td style='text-align: center;'>0</td>
-<td style='text-align: center;'>0.01</td>
-<td style='text-align: center;'>0.02</td>
-<td style='text-align: center;'>0.03</td>
-<td style='text-align: center;'>0.02</td>
-<td style='text-align: center;'>0.03</td>
-<td style='text-align: center;'>0.02</td>
-<td style='text-align: center;'>0.03</td>
-<td style='text-align: center;'>0.03</td>
-<td style='text-align: center;'>0.03</td>
-<td style='text-align: center;'>0.02</td>
-<td style='text-align: center;'>0.02</td>
-<td style='text-align: center;'>0.02</td>
-<td style='text-align: center;'>0.02</td>
-<td style='text-align: center;'>0.02</td>
-<td style='text-align: center;'>0.01</td>
-<td style='text-align: center;'>0.01</td>
-<td style='text-align: center;'>0.02</td>
-<td style='text-align: center;'>0.02</td>
-<td style='text-align: center;'>0.02</td>
-<td style='text-align: center;'>0.02</td>
-</tr>
-<tr style='background-color: #f7f7f7;'>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: left;'>6</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>G0100110</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>01011</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>Alabama</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>Bullock</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>0</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>0</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>0</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>0.01</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>0.02</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>0.05</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>0.06</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>0.06</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>0.06</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>0.06</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>0.04</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>0.04</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>0.03</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>0.02</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>0.02</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>0.01</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>0.01</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>0.01</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>0.01</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>0</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>0</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>0</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>0</td>
-</tr>
-</tbody>
-<tfoot><tr><td colspan='28'>
-&dagger; national_shares_worksheet</td></tr></tfoot>
-</table>
-
+<!-- raw HTML omitted -->
 <p>In order to get our code to work, we need to gather the data columns and created some year variables.  If you scroll all the way to the right you&rsquo;ll also see that the last column has a slightly different name (<em>pop2010</em> instead of <em>epop2000</em>), which will have to account for in our code.</p>
-
-<p>{% highlight r
+<p>{% highlight r 
 #set up the population data frame:
-popDF&lt;-popDF %&gt;% gather(year.of,&ldquo;pop&rdquo;,5:27)
+popDF&lt;-popDF %&gt;% gather(year.of,&ldquo;pop&rdquo;,5:27) 
 #create years, adjusting for last column:
 popDF&lt;-mutate(popDF,year=ifelse(substr(year.of,1,1)==&ldquo;e&rdquo;,substr(year.of,5,9),substr(year.of,4,8)))
 popDF&lt;-rename(popDF,fips=GEOID10 )</p>
-
 <h1 id="and-shares-data-frame">and shares data frame:</h1>
-
-<p>shareDF&lt;-shareDF %&gt;% gather(year.of,&ldquo;share&rdquo;,5:27)
+<p>shareDF&lt;-shareDF %&gt;% gather(year.of,&ldquo;share&rdquo;,5:27) 
 shareDF&lt;-mutate(shareDF,year=substr(year.of,6,10))
 shareDF&lt;-rename(shareDF,fips=GEOID10 )</p>
-
 <h1 id="and-take-a-look">and take a look:</h1>
-
 <p>htmlTable(head(popDF), col.rgroup = c(&ldquo;none&rdquo;, &ldquo;#F7F7F7&rdquo;),caption=&ldquo;Population table-tidy version&rdquo;,
-          tfoot=&rdquo;&dagger;c2010_hist_pops worksheet&rdquo;)
+tfoot=&quot;†c2010_hist_pops worksheet&quot;)
 {% endhighlight</p>
-
-<table class='gmisc_table' style='border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;' >
-<thead>
-<tr><td colspan='8' style='text-align: left;'>
-Population table-tidy version</td></tr>
-<tr>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey;'> </th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>GISJOIN</th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>fips</th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>STATE</th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>COUNTY</th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>year.of</th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>pop</th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>year</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style='text-align: left;'>1</td>
-<td style='text-align: center;'>G0100010</td>
-<td style='text-align: center;'>01001</td>
-<td style='text-align: center;'>Alabama</td>
-<td style='text-align: center;'>Autauga</td>
-<td style='text-align: center;'>epop1790</td>
-<td style='text-align: center;'>0</td>
-<td style='text-align: center;'>1790</td>
-</tr>
-<tr style='background-color: #f7f7f7;'>
-<td style='background-color: #f7f7f7; text-align: left;'>2</td>
-<td style='background-color: #f7f7f7; text-align: center;'>G0100030</td>
-<td style='background-color: #f7f7f7; text-align: center;'>01003</td>
-<td style='background-color: #f7f7f7; text-align: center;'>Alabama</td>
-<td style='background-color: #f7f7f7; text-align: center;'>Baldwin</td>
-<td style='background-color: #f7f7f7; text-align: center;'>epop1790</td>
-<td style='background-color: #f7f7f7; text-align: center;'>0</td>
-<td style='background-color: #f7f7f7; text-align: center;'>1790</td>
-</tr>
-<tr>
-<td style='text-align: left;'>3</td>
-<td style='text-align: center;'>G0100050</td>
-<td style='text-align: center;'>01005</td>
-<td style='text-align: center;'>Alabama</td>
-<td style='text-align: center;'>Barbour</td>
-<td style='text-align: center;'>epop1790</td>
-<td style='text-align: center;'>0</td>
-<td style='text-align: center;'>1790</td>
-</tr>
-<tr style='background-color: #f7f7f7;'>
-<td style='background-color: #f7f7f7; text-align: left;'>4</td>
-<td style='background-color: #f7f7f7; text-align: center;'>G0100070</td>
-<td style='background-color: #f7f7f7; text-align: center;'>01007</td>
-<td style='background-color: #f7f7f7; text-align: center;'>Alabama</td>
-<td style='background-color: #f7f7f7; text-align: center;'>Bibb</td>
-<td style='background-color: #f7f7f7; text-align: center;'>epop1790</td>
-<td style='background-color: #f7f7f7; text-align: center;'>0</td>
-<td style='background-color: #f7f7f7; text-align: center;'>1790</td>
-</tr>
-<tr>
-<td style='text-align: left;'>5</td>
-<td style='text-align: center;'>G0100090</td>
-<td style='text-align: center;'>01009</td>
-<td style='text-align: center;'>Alabama</td>
-<td style='text-align: center;'>Blount</td>
-<td style='text-align: center;'>epop1790</td>
-<td style='text-align: center;'>0</td>
-<td style='text-align: center;'>1790</td>
-</tr>
-<tr style='background-color: #f7f7f7;'>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: left;'>6</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>G0100110</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>01011</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>Alabama</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>Bullock</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>epop1790</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>0</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>1790</td>
-</tr>
-</tbody>
-<tfoot><tr><td colspan='8'>
-&dagger;c2010_hist_pops worksheet</td></tr></tfoot>
-</table>
-
+<!-- raw HTML omitted -->
 <p>All right! Now we&rsquo;re on easy street.  We just have to plug these data into the maps <a href="../../../../2016/08/21/maps-mortgages-and-me">like we did last time</a>.  We&rsquo;ll add some flourishes to get the animation to work.</p>
-
-<p>{% highlight r
+<p>{% highlight r 
 #set up our map stuff:
 states&lt;-usa_composite()
 smap&lt;-fortify(states,region=&ldquo;fips_state&rdquo;)
@@ -878,293 +329,191 @@ counties &lt;- counties_composite()
 #get data:
 counties@data &lt;- left_join(counties@data, popDF.i, by = &ldquo;fips&rdquo;)
 counties@data &lt;- left_join(counties@data, shareDF.i, by = &ldquo;fips&rdquo;)</p>
-
 <p>cmap &lt;- fortify(counties_composite(), region=&ldquo;fips&rdquo;)
 cmap$state&lt;-substr(cmap$id,1,2)
 cmap$county&lt;-substr(cmap$id,3,5)
 cmap$fips&lt;-paste0(cmap$state,cmap$county)
 cmap.all&lt;-cmap</p>
-
-<p>#we want to cite these data appropriately.  The caption gets long so we&rsquo;ll follow @hrbrmstr
-#<a href="https://www.r-bloggers.com/supreme-annotations/">https://www.r-bloggers.com/supreme-annotations/</a> This post has a bunch of tricks, like the caption one I use here:
-mycaption&lt;-&ldquo;@lenkiefer Source: Schroeder, Jonathan P. (2016). Historical Population Estimates for 2010 U.S. States, Counties and Metro/Micro Areas, 1790-2010. Retrieved from the Data Repository for the University of Minnesota, <a href="http://doi.org/10.13020/D6XW2H.&quot;">http://doi.org/10.13020/D6XW2H.&quot;</a>
-mycaption &lt;- paste0(strwrap(mycaption, 130), sep=&ldquo;&rdquo;, collapse=&rdquo;\n&rdquo;)
+<p>#we want to cite these data appropriately.  The caption gets long so we&rsquo;ll follow @hrbrmstr 
+#https://www.r-bloggers.com/supreme-annotations/ This post has a bunch of tricks, like the caption one I use here:
+mycaption&lt;-&quot;@lenkiefer Source: Schroeder, Jonathan P. (2016). Historical Population Estimates for 2010 U.S. States, Counties and Metro/Micro Areas, 1790-2010. Retrieved from the Data Repository for the University of Minnesota, <a href="http://doi.org/10.13020/D6XW2H.%22">http://doi.org/10.13020/D6XW2H.&quot;</a>
+mycaption &lt;- paste0(strwrap(mycaption, 130), sep=&quot;&quot;, collapse=&quot;\n&quot;)
 {% endhighlight</p>
-
 <p>We could just loop through the data subsetting on years.  That would be easy, but the animation would be choppy. We want it to be smoother so we&rsquo;ll need to use tweenr. See my earlier <a href="../../../../2016/05/29/improving-R-animated-gifs-with-tweenr">post about tweenr</a> for an introduction to tweenr, and more examples <a href="../../../../2016/05/30/more-tweenr-animations">here</a> and <a href="../../../../2016/06/26/week-in-review">here</a>.</p>
-
 <p>To make this work, we&rsquo;ll build two functions. One to create the maps and distribution plot and a second function to create the data the map/plot function will use.</p>
-
-<p>{% highlight r
+<p>{% highlight r 
 source(&lsquo;code/multiplot.R&rsquo;)</p>
-
-<h1 id="function-for-combining-graphs-see-http-www-cookbook-r-com-graphs-multiple-graphs-on-one-page-ggplot2">function for combining graphs see: <a href="http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/">http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/</a></h1>
-
+<h1 id="function-for-combining-graphs-see-httpwwwcookbook-rcomgraphsmultiple_graphs_on_one_page_ggplot2">function for combining graphs see: <a href="http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/">http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/</a></h1>
 <p>myplotf&lt;-function(popDF.i){
-  popDF.i&lt;-data.table(popDF.i)  #convert to data.table for later
-  counties &lt;- counties_composite()
-  #get data:
-  counties@data &lt;- left_join(counties@data, popDF.i, by = &ldquo;fips&rdquo;)</p>
-
+popDF.i&lt;-data.table(popDF.i)  #convert to data.table for later
+counties &lt;- counties_composite()
+#get data:
+counties@data &lt;- left_join(counties@data, popDF.i, by = &ldquo;fips&rdquo;)</p>
 <p>map1&lt;-
-  ggplot() +
-  geom_map(data = cmap.all, map = cmap.all,
-           aes(x = long, y = lat, map_id = id),
-           #color = &ldquo;#2b2b2b&rdquo;, size = 0.05, fill = NA) +
-  color = &ldquo;lightgray&rdquo;, size = 0.05, fill = NA) +
-  geom_map(data = counties@data, map = cmap.all,
-           aes(fill =log(pop), map_id = fips),
-           color = NA) +
-  geom_map(data = smap.all, map = smap.all,
-           aes(x = long, y = lat, map_id = id),
-           color = &ldquo;lightgray&rdquo;, size = .25, fill = NA) +
-  theme_map( base_size = 12) +
-  theme(plot.title=element_text( size = 16, margin=margin(b=10))) +
-  theme(plot.subtitle=element_text(size = 14, margin=margin(b=-20))) +
-  theme(plot.caption=element_text(size = 9, margin=margin(t=-15))) +
-  coord_proj(us_laea_proj) +   labs(title=&ldquo;&rdquo;,subtitle=&ldquo;&rdquo; ) +
-  scale_fill_viridis(name=&ldquo;Population\nlog scale\n&rdquo;,
-                      discrete=F,option=&ldquo;D&rdquo;,end=0.95,direction=-1,limits=c(log(100),log(1e7)),
-                      breaks=c(log(100),log(10000),log(100000),log(1e7)),
-                      labels=c(&ldquo;100&rdquo;,&ldquo;10,000&rdquo;,&ldquo;100,000&rdquo;,&ldquo;1,000,000&rdquo;)) +
-  theme(legend.position = &ldquo;right&rdquo;) +theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
-  labs(x=&ldquo;Population (log scale)&rdquo;,y=&ldquo;&rdquo;,
-       #subtitle=&ldquo;Each dot represents 1 county&rdquo;,
-       title=paste0(&ldquo;County Population Distributions in &ldquo;,popDF.i[1]$year))</p>
-
+ggplot() +
+geom_map(data = cmap.all, map = cmap.all,
+aes(x = long, y = lat, map_id = id),
+#color = &ldquo;#2b2b2b&rdquo;, size = 0.05, fill = NA) +
+color = &ldquo;lightgray&rdquo;, size = 0.05, fill = NA) +
+geom_map(data = counties@data, map = cmap.all,
+aes(fill =log(pop), map_id = fips),
+color = NA) +
+geom_map(data = smap.all, map = smap.all,
+aes(x = long, y = lat, map_id = id),
+color = &ldquo;lightgray&rdquo;, size = .25, fill = NA) +
+theme_map( base_size = 12) +
+theme(plot.title=element_text( size = 16, margin=margin(b=10))) +
+theme(plot.subtitle=element_text(size = 14, margin=margin(b=-20))) +
+theme(plot.caption=element_text(size = 9, margin=margin(t=-15))) +
+coord_proj(us_laea_proj) +   labs(title=&quot;&quot;,subtitle=&quot;&quot; ) +
+scale_fill_viridis(name=&ldquo;Population\nlog scale\n&rdquo;,
+discrete=F,option=&ldquo;D&rdquo;,end=0.95,direction=-1,limits=c(log(100),log(1e7)),
+breaks=c(log(100),log(10000),log(100000),log(1e7)),
+labels=c(&ldquo;100&rdquo;,&ldquo;10,000&rdquo;,&ldquo;100,000&rdquo;,&ldquo;1,000,000&rdquo;)) +
+theme(legend.position = &ldquo;right&rdquo;) +theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+labs(x=&ldquo;Population (log scale)&quot;,y=&quot;&rdquo;,
+#subtitle=&ldquo;Each dot represents 1 county&rdquo;,
+title=paste0(&ldquo;County Population Distributions in &ldquo;,popDF.i[1]$year))</p>
 <p>#remove counties with 0 pop as they mess up the log scale
 popDF.i[,pop:=ifelse(pop&gt;0,pop,NA)]</p>
-
 <p>graph1&lt;-
-  ggplot(popDF.i[STATE !=&ldquo;District Of Columbia&rdquo; ],<br />
-         #we need 50 states for the columns to look pretty so D.C. has to go
-         aes(y=&ldquo;&rdquo;,x=pop,color=log(pop)))+
-  theme_minimal()+<br />
-  theme(plot.title=element_text(size=14))+theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
-  theme(plot.margin=unit(c(0.25,0.25,0.25,0.25),&ldquo;cm&rdquo;))+  theme(legend.position = &ldquo;none&rdquo;)+
-  geom_quasirandom(alpha=0.65,size=1)  +  #I like the quasirandom beeswarm option
-  scale_color_viridis(name=&ldquo;Pop\nlog scale\n&rdquo;,
-                      discrete=F,option=&ldquo;D&rdquo;,end=0.95,direction=-1,limits=c(log(100),log(1e7)),
-                      breaks=c(log(1000),log(100000),log(1e7)),
-                      labels=c(&ldquo;1000&rdquo;,&ldquo;100,000&rdquo;,&ldquo;10M&rdquo;)) +
-    theme(axis.text.x = element_text(size=4))+  #shrink axis text size
-  scale_x_log10( labels=c(&ldquo;10K&rdquo;,&ldquo;1M&rdquo;),limits=c(1000,1e7),breaks=c(10000,100000))+
-  labs(x=&ldquo;Population&rdquo;,y=&ldquo;&rdquo;,
-       subtitle=&ldquo;Each dot represents 1 county&rdquo;,
-       #title=&ldquo;County Population Distributions&rdquo;,
-       caption=mycaption  )+
-  facet_wrap(~STATE,ncol=10)</p>
-
+ggplot(popDF.i[STATE !=&ldquo;District Of Columbia&rdquo; ],<br>
+#we need 50 states for the columns to look pretty so D.C. has to go
+aes(y=&quot;&quot;,x=pop,color=log(pop)))+
+theme_minimal()+ <br>
+theme(plot.title=element_text(size=14))+theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+theme(plot.margin=unit(c(0.25,0.25,0.25,0.25),&ldquo;cm&rdquo;))+  theme(legend.position = &ldquo;none&rdquo;)+
+geom_quasirandom(alpha=0.65,size=1)  +  #I like the quasirandom beeswarm option
+scale_color_viridis(name=&ldquo;Pop\nlog scale\n&rdquo;,
+discrete=F,option=&ldquo;D&rdquo;,end=0.95,direction=-1,limits=c(log(100),log(1e7)),
+breaks=c(log(1000),log(100000),log(1e7)),
+labels=c(&ldquo;1000&rdquo;,&ldquo;100,000&rdquo;,&ldquo;10M&rdquo;)) +
+theme(axis.text.x = element_text(size=4))+  #shrink axis text size
+scale_x_log10( labels=c(&ldquo;10K&rdquo;,&ldquo;1M&rdquo;),limits=c(1000,1e7),breaks=c(10000,100000))+
+labs(x=&ldquo;Population&rdquo;,y=&quot;&rdquo;,
+subtitle=&ldquo;Each dot represents 1 county&rdquo;,
+#title=&ldquo;County Population Distributions&rdquo;,
+caption=mycaption  )+
+facet_wrap(~STATE,ncol=10)</p>
 <p>m&lt;-multiplot(map1,graph1,layout=matrix(c(1,1,2,2,2), nrow=5, byrow=TRUE))
 }</p>
-
 <p>y.list&lt;-unique(popDF$year) #get a list of years
 yy&lt;-y.list[12]  #pick a year 1900 in this case
 popDF.i&lt;-subset(popDF,year==yy)
 myplotf(popDF.i)  #try it out!
 {% endhighlight</p>
-
-<p><img src="/img/Rfig/fig-graph-1-1.svg" alt="plot of chunk fig-graph-1" /></p>
-
+<p><img src="/img/Rfig/fig-graph-1-1.svg" alt="plot of chunk fig-graph-1"></p>
 <p>Okay, now that we have the graph, we just have to set up the tween_states() call and loop through the animation.</p>
-
-<p>{% highlight r
+<p>{% highlight r 
 myf &lt;- function(yy){
-  my.out&lt;-popDF[year==yy,]  #subset data based on year
-  my.out %&gt;% map_if(is.character, as.factor) %&gt;% as.data.frame() -&gt;my.out  #need to convert characters to factors for tweenr
-  return(data.frame(my.out))}</p>
-
+my.out&lt;-popDF[year==yy,]  #subset data based on year
+my.out %&gt;% map_if(is.character, as.factor) %&gt;% as.data.frame() -&gt;my.out  #need to convert characters to factors for tweenr
+return(data.frame(my.out))}</p>
 <p>my.list&lt;-lapply(y.list,myf)</p>
-
 <p>tf &lt;- tween_states(my.list,tweenlength= 3, statelength=1, ease=rep(&lsquo;cubic-in-out&rsquo;,2),nframes=23*4)
 tf&lt;-data.table(tf) #data.table useful for subsetting
 N&lt;-max(tf$.frame)  #number of frames</p>
-
 <p>#create the animation
 oopt = ani.options(interval = 0.15)
 saveGIF({for (i in 1:N) {
-  myplotf(tf[.frame==i])
-  ani.pause()  }
-  },movie.name=&ldquo;pop gif2.gif&rdquo;,ani.width = 900, ani.height = 700)
+myplotf(tf[.frame==i])
+ani.pause()  }
+},movie.name=&ldquo;pop gif2.gif&rdquo;,ani.width = 900, ani.height = 700)
 {% endhighlight</p>
-
 <p>And that&rsquo;s it. Run through this code and you&rsquo;ll get the animated gif I posted above.</p>
-
-<h2 id="but-wait-there-s-more">But wait! There&rsquo;s more</h2>
-
+<h2 id="but-wait-theres-more">But wait! There&rsquo;s more</h2>
 <p>Let&rsquo;s make a few other static graphs to explore some other features of this fascintating dataset.</p>
-
 <h3 id="small-multiple-map">Small multiple map</h3>
-
 <p>Let&rsquo;s construct a small multiple map, showing how the share of population has varied by county across time.</p>
-
-<p>{% highlight r
+<p>{% highlight r 
 p2&lt;-subset(popDF,year %in% c(&ldquo;1810&rdquo;,&ldquo;1860&rdquo;,&ldquo;1910&rdquo;,&ldquo;1960&rdquo;,&ldquo;1980&rdquo;,&ldquo;2010&rdquo;))
 counties &lt;- counties_composite()
-  #get data:
-  counties@data &lt;- left_join(counties@data, p2, by = &ldquo;fips&rdquo;)</p>
-
+#get data:
+counties@data &lt;- left_join(counties@data, p2, by = &ldquo;fips&rdquo;)</p>
 <p>map3&lt;-
-  ggplot() +
-  geom_map(data = cmap.all, map = cmap.all,
-           aes(x = long, y = lat, map_id = id),
-           color = &ldquo;lightgray&rdquo;, size = 0.05, fill = NA) +
-  geom_map(data = counties@data, map = cmap.all,
-           aes(fill =log(pop), map_id = fips),
-           color = NA) +
-  geom_map(data = smap.all, map = smap.all,
-           aes(x = long, y = lat, map_id = id),
-           color = &ldquo;lightgray&rdquo;, size = .25, fill = NA) +
-  theme_map( base_size = 12) +
-  theme(plot.title=element_text( size = 16, margin=margin(b=10))) +
-  theme(plot.subtitle=element_text(size = 14, margin=margin(b=-20))) +
-  theme(plot.caption=element_text(size = 9, margin=margin(t=-15))) +
-  coord_proj(us_laea_proj) +   labs(title=&ldquo;&rdquo;,subtitle=&ldquo;&rdquo; ) +
-  scale_fill_viridis(name=&ldquo;Population\nlog scale\n&rdquo;,
-                      discrete=F,option=&ldquo;D&rdquo;,end=0.95,direction=-1,limits=c(log(100),log(1e7)),
-                      breaks=c(log(100),log(10000),log(100000),log(1e7)),
-                      labels=c(&ldquo;100&rdquo;,&ldquo;10,000&rdquo;,&ldquo;100,000&rdquo;,&ldquo;1,000,000&rdquo;)) +
-  theme(legend.position = &ldquo;right&rdquo;) +theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
-  labs(x=&ldquo;Population (log scale)&rdquo;, caption=mycaption,
-       title=&ldquo;U.S. County Population by Year\n&rdquo;)+facet_wrap(~year)</p>
-
+ggplot() +
+geom_map(data = cmap.all, map = cmap.all,
+aes(x = long, y = lat, map_id = id),
+color = &ldquo;lightgray&rdquo;, size = 0.05, fill = NA) +
+geom_map(data = counties@data, map = cmap.all,
+aes(fill =log(pop), map_id = fips),
+color = NA) +
+geom_map(data = smap.all, map = smap.all,
+aes(x = long, y = lat, map_id = id),
+color = &ldquo;lightgray&rdquo;, size = .25, fill = NA) +
+theme_map( base_size = 12) +
+theme(plot.title=element_text( size = 16, margin=margin(b=10))) +
+theme(plot.subtitle=element_text(size = 14, margin=margin(b=-20))) +
+theme(plot.caption=element_text(size = 9, margin=margin(t=-15))) +
+coord_proj(us_laea_proj) +   labs(title=&quot;&quot;,subtitle=&rdquo;&quot; ) +
+scale_fill_viridis(name=&ldquo;Population\nlog scale\n&rdquo;,
+discrete=F,option=&ldquo;D&rdquo;,end=0.95,direction=-1,limits=c(log(100),log(1e7)),
+breaks=c(log(100),log(10000),log(100000),log(1e7)),
+labels=c(&ldquo;100&rdquo;,&ldquo;10,000&rdquo;,&ldquo;100,000&rdquo;,&ldquo;1,000,000&rdquo;)) +
+theme(legend.position = &ldquo;right&rdquo;) +theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+labs(x=&ldquo;Population (log scale)&rdquo;, caption=mycaption,
+title=&ldquo;U.S. County Population by Year\n&rdquo;)+facet_wrap(~year)</p>
 <p>map3
 {% endhighlight</p>
-
-<p><img src="/img/Rfig/fig-graph-3-1.svg" alt="plot of chunk fig-graph-3" /></p>
-
+<p><img src="/img/Rfig/fig-graph-3-1.svg" alt="plot of chunk fig-graph-3"></p>
 <p>Aren&rsquo;t ggplot2() and geom_map() just great?</p>
-
 <h1 id="how-concentrated-is-the-us-population">How concentrated is the US population?</h1>
-
-<p>Several maps have been circulating showing how <sup>1</sup>&frasl;<sub>2</sub> of some country&rsquo;s population lives in a tiny part of the physical area of a country.  Let&rsquo;s use the share data to investigate how the concentration of population might have changed from 1790 to 2010.</p>
-
-<p>{% highlight r
+<p>Several maps have been circulating showing how 1/2 of some country&rsquo;s population lives in a tiny part of the physical area of a country.  Let&rsquo;s use the share data to investigate how the concentration of population might have changed from 1790 to 2010.</p>
+<p>{% highlight r 
 #load shares data
 shareDF&lt;-read_excel(&ldquo;data/county2010_hist_pops.xlsx&rdquo;,sheet=&ldquo;national_shares&rdquo;)
-shareDF&lt;-shareDF %&gt;% gather(year.of,&ldquo;share&rdquo;,5:27)
+shareDF&lt;-shareDF %&gt;% gather(year.of,&ldquo;share&rdquo;,5:27) 
 shareDF&lt;-mutate(shareDF,year=substr(year.of,6,10))
 shareDF&lt;-rename(shareDF,fips=GEOID10 )
 {% endhighlight</p>
-
 <p>{% highlight text</p>
-
-<h2 id="error-in-rename-sharedf-fips-geoid10-unused-argument-fips-geoid10">Error in rename(shareDF, fips = GEOID10): unused argument (fips = GEOID10)</h2>
-
+<h2 id="error-in-renamesharedf-fips--geoid10-unused-argument-fips--geoid10">Error in rename(shareDF, fips = GEOID10): unused argument (fips = GEOID10)</h2>
 <p>{% endhighlight</p>
-
-<p>{% highlight r
+<p>{% highlight r 
 s2&lt;-subset(shareDF,year %in% c(&ldquo;1810&rdquo;,&ldquo;1860&rdquo;,&ldquo;1910&rdquo;,&ldquo;1960&rdquo;,&ldquo;1980&rdquo;,&ldquo;2010&rdquo;))
 s2&lt;-data.table(s2)[order(year,-share)]  #order by share of total population
 s2&lt;-s2[, id := 1:.N, by = year][order(year,id)]  #create an index
 library(zoo)
-s2&lt;-s2[, &ldquo;:=&ldquo;(share.run=rollapply(share,id,sum,align=&ldquo;right&rdquo;)), by=year] #compute running total by share</p>
-
-<p>ggplot(s2,<br />
-         #we need 50 states for the columns to look pretty so D.C. has to go
-         aes(y=share.run,x=id,color=year,label=paste0(&rdquo; &ldquo;,COUNTY,&rdquo; County, &ldquo;,STATE,&rdquo;\n &ldquo;,round(share.run,1),&rdquo;% of total&rdquo;)))+
-    geom_hline(yintercept=50,linetype=2,color=&ldquo;black&rdquo;,size=0.5)+
-  theme_minimal()+   geom_line() +facet_wrap(~year)+
-  geom_text(data=s2[id==1],hjust=0,nudge_x=20,size=3,nudge_y=5)+
-    theme(legend.position = &ldquo;none&rdquo;)+
-  theme(plot.title=element_text(size=14))+theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
-  theme(plot.margin=unit(c(0.25,0.25,0.25,0.25),&ldquo;cm&rdquo;))+  theme(legend.position = &ldquo;none&rdquo;)+
-      labs(y=&ldquo;Cumulative share of population (percent)&rdquo;,x=&ldquo;County population rank&rdquo;,
-       title=&ldquo;County Population Cumulative Share&rdquo;,
-       caption=mycaption  )
+s2&lt;-s2[, &ldquo;:=&quot;(share.run=rollapply(share,id,sum,align=&ldquo;right&rdquo;)), by=year] #compute running total by share</p>
+<p>ggplot(s2,<br>
+#we need 50 states for the columns to look pretty so D.C. has to go
+aes(y=share.run,x=id,color=year,label=paste0(&rdquo; &ldquo;,COUNTY,&rdquo; County, &ldquo;,STATE,&quot;\n &ldquo;,round(share.run,1),&quot;% of total&rdquo;)))+
+geom_hline(yintercept=50,linetype=2,color=&ldquo;black&rdquo;,size=0.5)+
+theme_minimal()+   geom_line() +facet_wrap(~year)+
+geom_text(data=s2[id==1],hjust=0,nudge_x=20,size=3,nudge_y=5)+
+theme(legend.position = &ldquo;none&rdquo;)+
+theme(plot.title=element_text(size=14))+theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+theme(plot.margin=unit(c(0.25,0.25,0.25,0.25),&ldquo;cm&rdquo;))+  theme(legend.position = &ldquo;none&rdquo;)+
+labs(y=&ldquo;Cumulative share of population (percent)&quot;,x=&ldquo;County population rank&rdquo;,
+title=&ldquo;County Population Cumulative Share&rdquo;,
+caption=mycaption  )
 {% endhighlight</p>
-
-<p><img src="/img/Rfig/fig-graph-4-1.svg" alt="plot of chunk fig-graph-4" /></p>
-
+<p><img src="/img/Rfig/fig-graph-4-1.svg" alt="plot of chunk fig-graph-4"></p>
 <p>This plot shows how the cumulative population share by county (sorted by largest to smallest county) has varied.  In 1810, Philadelphia county accounted for 1.5% of the total U.S. population.  In 2010, Los Angeles County was the largest and accounted for 3.2% of the total U.S. population.</p>
-
 <p>Let&rsquo;s find the county where the cumulative line crosses at 50 where it ranked.</p>
-
-<p>{% highlight r
+<p>{% highlight r 
 print.table&lt;-merge(s2[ share.run&lt;=50, list(crossing.county.number=max(id)), by=year],
-      s2[ share&gt;0,list(total.county.number=.N), by=year],
-      by=&ldquo;year&rdquo;)
-print.table[,&rdquo;:=&ldquo;(percent.for.50.percent=percent(crossing.county.number/total.county.number))]</p>
-
-<p>htmlTable(print.table, header=c(&ldquo;Year&rdquo;,&ldquo;Rank at 50%&rdquo;,&ldquo;Total Counties&rdquo;,&ldquo;% for 50%&rdquo;),
-          col.rgroup = c(&ldquo;none&rdquo;, &ldquo;#F7F7F7&rdquo;),caption=&ldquo;How many counties comprise 50% of U.S. population?&rdquo;,
-          tfoot=&rdquo;&dagger;Counties ranked (descending) in terms of share of total population\nTable revised 8/25/2016 to correct # of counties\n(some omitted due to rounding in earlier version)&ldquo;)
+s2[ share&gt;0,list(total.county.number=.N), by=year],
+by=&ldquo;year&rdquo;)
+print.table[,&quot;:=&quot;(percent.for.50.percent=percent(crossing.county.number/total.county.number))]</p>
+<p>htmlTable(print.table, header=c(&ldquo;Year&rdquo;,&ldquo;Rank at 50%&rdquo;,&ldquo;Total Counties&rdquo;,&quot;% for 50%&quot;),
+col.rgroup = c(&ldquo;none&rdquo;, &ldquo;#F7F7F7&rdquo;),caption=&ldquo;How many counties comprise 50% of U.S. population?&rdquo;,
+tfoot=&quot;†Counties ranked (descending) in terms of share of total population\nTable revised 8/25/2016 to correct # of counties\n(some omitted due to rounding in earlier version)&quot;)
 {% endhighlight</p>
-
-<table class='gmisc_table' style='border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;' >
-<thead>
-<tr><td colspan='5' style='text-align: left;'>
-How many counties comprise 50% of U.S. population?</td></tr>
-<tr>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey;'> </th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>Year</th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>Rank at 50%</th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>Total Counties</th>
-<th style='border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>% for 50%</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style='text-align: left;'>1</td>
-<td style='text-align: center;'>1810</td>
-<td style='text-align: center;'>142</td>
-<td style='text-align: center;'>1385</td>
-<td style='text-align: center;'>10.25%</td>
-</tr>
-<tr style='background-color: #f7f7f7;'>
-<td style='background-color: #f7f7f7; text-align: left;'>2</td>
-<td style='background-color: #f7f7f7; text-align: center;'>1860</td>
-<td style='background-color: #f7f7f7; text-align: center;'>327</td>
-<td style='background-color: #f7f7f7; text-align: center;'>2653</td>
-<td style='background-color: #f7f7f7; text-align: center;'>12.33%</td>
-</tr>
-<tr>
-<td style='text-align: left;'>3</td>
-<td style='text-align: center;'>1910</td>
-<td style='text-align: center;'>316</td>
-<td style='text-align: center;'>3143</td>
-<td style='text-align: center;'>10.05%</td>
-</tr>
-<tr style='background-color: #f7f7f7;'>
-<td style='background-color: #f7f7f7; text-align: left;'>4</td>
-<td style='background-color: #f7f7f7; text-align: center;'>1960</td>
-<td style='background-color: #f7f7f7; text-align: center;'>135</td>
-<td style='background-color: #f7f7f7; text-align: center;'>3143</td>
-<td style='background-color: #f7f7f7; text-align: center;'>4.30%</td>
-</tr>
-<tr>
-<td style='text-align: left;'>5</td>
-<td style='text-align: center;'>1980</td>
-<td style='text-align: center;'>147</td>
-<td style='text-align: center;'>3143</td>
-<td style='text-align: center;'>4.68%</td>
-</tr>
-<tr style='background-color: #f7f7f7;'>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: left;'>6</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>2010</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>147</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>3143</td>
-<td style='background-color: #f7f7f7; border-bottom: 2px solid grey; text-align: center;'>4.68%</td>
-</tr>
-</tbody>
-<tfoot><tr><td colspan='5'>
-&dagger;Counties ranked (descending) in terms of share of total population<br>
-Table revised 8/25/2016 to correct # of counties<br>
-(some omitted due to rounding in earlier version)</td></tr></tfoot>
-</table>
+<!-- raw HTML omitted -->
 
 
   
 <div class="prev-next-post pure-g">
   <div class="pure-u-1-24" style="text-align: left;">
     
-    <a href="/2016/08/21/maps-mortgages-and-me/"><i class="fa fa-chevron-left"></i></a>
+    <a href="http://lenkiefer.com/2016/08/21/maps-mortgages-and-me/"><i class="fa fa-chevron-left"></i></a>
     
   </div>
   <div class="pure-u-10-24">
     
     <nav class="prev">
-      <a href="/2016/08/21/maps-mortgages-and-me/">Maps, mortgages and me</a>
+      <a href="http://lenkiefer.com/2016/08/21/maps-mortgages-and-me/">Maps, mortgages and me</a>
     </nav>
     
   </div>
@@ -1174,13 +523,13 @@ Table revised 8/25/2016 to correct # of counties<br>
   <div class="pure-u-10-24">
     
     <nav class="next">
-      <a href="/2016/08/24/more-maps/">More map visualizations</a>
+      <a href="http://lenkiefer.com/2016/08/24/more-maps/">More map visualizations</a>
     </nav>
     
   </div>
   <div class="pure-u-1-24" style="text-align: right;">
     
-    <a href="/2016/08/24/more-maps/"><i class="fa fa-chevron-right"></i></a>
+    <a href="http://lenkiefer.com/2016/08/24/more-maps/"><i class="fa fa-chevron-right"></i></a>
     
   </div>
 </div>
@@ -1209,7 +558,7 @@ Table revised 8/25/2016 to correct # of counties<br>
 
     <div class="share">
         
-            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2016%2f08%2f23%2fus-pop-map-1790-2010%2f&text=U.S.%20county%20population%3a%201790-2010 via %40lenkiefer"
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.comhttp%3a%2f%2flenkiefer.com%2f2016%2f08%2f23%2fus-pop-map-1790-2010%2f&text=U.S.%20county%20population%3a%201790-2010 via %40lenkiefer"
                 onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
                 <i class="fa fa-twitter"></i>
                 <span class="hidden">Twitter</span>
@@ -1217,7 +566,7 @@ Table revised 8/25/2016 to correct # of counties<br>
         
 
         
-            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2016%2f08%2f23%2fus-pop-map-1790-2010%2f"
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.comhttp%3a%2f%2flenkiefer.com%2f2016%2f08%2f23%2fus-pop-map-1790-2010%2f"
                 onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
                 <i class="fa fa-facebook"></i>
                 <span class="hidden">Facebook</span>
@@ -1230,7 +579,7 @@ Table revised 8/25/2016 to correct # of counties<br>
 </footer>
 </div>
 </div>
-<script src="/js/ui.js"></script>
+<script src="http://lenkiefer.com/js/ui.js"></script>
 
 
 <script>

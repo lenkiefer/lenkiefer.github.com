@@ -5,7 +5,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
-  <meta name="generator" content="Hugo 0.52" />
+  <meta name="generator" content="Hugo 0.81.0" />
 
   <title>Let&#39;s make a dot plot &middot; Len Kiefer</title>
 
@@ -48,7 +48,7 @@
   <script>hljs.initHighlightingOnLoad();</script>
   
 
-  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+  <link rel="shortcut icon" href="http://lenkiefer.com/img/favicon.PNG" type="image/x-icon" />
 
   
   
@@ -232,11 +232,11 @@ The dot plot is a special chart that shows the distribution of expectations of t
   <div>
     <i class="fa fa-tags fa-fw"></i>
     
-      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
     
-      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>&nbsp;&#47;
     
-      <a class="post-taxonomy-tag" href="/tags/animation">animation</a>
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/animation">animation</a>
     
   </div>
   
@@ -244,41 +244,24 @@ The dot plot is a special chart that shows the distribution of expectations of t
 
 </div>
 
-  
-
-<p>IN THIS POST WE&rsquo;RE GOING to make an animated version of the famous Federal Reserve dot plot comparing the dots in March 2016 to June 2016.  As far as celebrity charts go, the dot plot has to be up there. Check out how much &ldquo;dot plot&rdquo; has grown in search popularity since the Fed introduced their dot plot in 2012:</p>
-
-<p><img src="../../../../img/charts_jun_22_2016/dottrends.PNG" alt="dot trends" width="400"/></p>
-
+  <p>IN THIS POST WE&rsquo;RE GOING to make an animated version of the famous Federal Reserve dot plot comparing the dots in March 2016 to June 2016.  As far as celebrity charts go, the dot plot has to be up there. Check out how much &ldquo;dot plot&rdquo; has grown in search popularity since the Fed introduced their dot plot in 2012:</p>
+<!-- raw HTML omitted -->
 <p>Ultimately, it will look something like this:</p>
-
-<p><img src="../../../../img/charts_jun_22_2016/fed_dots_2016.gif" alt="dot plot"/></p>
-
+<!-- raw HTML omitted -->
 <p>The dot plot is a special chart that shows the distribution of expectations of the Federal Open Market Committee (FOMC) for the federal funds rate. Specifically it captures the views of each individual FOMC member for the following:</p>
-
 <blockquote>
-<p>Each shaded circle indicates the value (rounded to the nearest <sup>1</sup>&frasl;<sub>8</sub> percentage point) of an individual participant&rsquo;s judgment of the midpoint of the appropriate target range for the federal funds rate or the appropriate target level for the federal funds rate at the end of the specified calendar year or over the longer run.</p>
+<p>Each shaded circle indicates the value (rounded to the nearest 1/8 percentage point) of an individual participant&rsquo;s judgment of the midpoint of the appropriate target range for the federal funds rate or the appropriate target level for the federal funds rate at the end of the specified calendar year or over the longer run.</p>
 </blockquote>
-
 <p>The Fed makes the dot plot information available in a handy format here: <a href="https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm">FOMC materials</a>. For example, the June 2016 projections look like this:</p>
-
-<p><img src="../../../../img/charts_jun_22_2016/jun2016dots.PNG" alt="jun2016dots.PNG"/></p>
-
+<!-- raw HTML omitted -->
 <p>I&rsquo;ve tidied the data (in Excel) so that it has three columns.  One corresponding to the rate (rate), one corresponding to the horizon (x), and one corresponding to the count of dots (count).  It looks like:</p>
-
-<p><img src="../../../../img/charts_jun_22_2016/dotsetup.PNG" alt="dotsetup.PNG"/></p>
-
+<!-- raw HTML omitted -->
 <p>We&rsquo;re going to begin with two text files capturing (tidied) tables for <a href="https://www.federalreserve.gov/monetarypolicy/fomcprojtabl20160316.htm">March 2016</a> and <a href="https://www.federalreserve.gov/monetarypolicy/fomcprojtabl20160615.htm">June 2016</a>.  With these two files in hand our R dataviz party can get started.</p>
-
 <h2 id="making-the-dots">Making the dots</h2>
-
 <p>We&rsquo;ll be using ggplot2, which has a plot type called <a href="http://docs.ggplot2.org/current/geom_dotplot.html">geom_dotplot</a>, but unfortunately this plot doesn&rsquo;t work very well for what we want to do.  Perhaps parameters could be set to make the image we want, but I&rsquo;m going to build the plot myself.  This follows a pattern similar to what we did with the distribution plots for unemployment <a href="../../../../2016/04/06/dot-plots-and-distributions">in an earlier post</a>.</p>
-
 <h3 id="setup">Setup</h3>
-
 <p>First we&rsquo;ll set up our libraries:</p>
-
-<p>{% highlight r
+<p>{% highlight r 
 library(ggplot2)
 library(scales)
 library(animation)
@@ -286,149 +269,118 @@ library(ggthemes)
 library(data.table)
 library(tweenr)  #used for animation
 {% endhighlight</p>
-
 <p>Next we&rsquo;re going to find the location for each dot in the dot plot.  This requires some simple math.  We&rsquo;re going to set the dots along a line between +/-0.4 from the index value for each entry on the x axis (1 for 2016, 2 for 2017, 3 for 2018 and 4 for Longer Run).  If there is an odd number of dots, we&rsquo;ll being at the index value and add two dots +/- a fixed amount of spacing <strong>the interval</strong>.  The <strong>interval</strong> will be determined by the maximum number of dots along any row.  For an even number of dots, we&rsquo;ll set the first two dots at +/- the <strong>interval</strong>.</p>
-
 <p>Turns out for this example, we can set the <strong>interval</strong> to 0.2. This seems to work with the number of dots we have, but isn&rsquo;t a general solution. For different data you might need to tune the <strong>interval</strong>.</p>
-
-<p>{% highlight r
+<p>{% highlight r 
 d6&lt;-fread(&ldquo;data/jun2016.txt&rdquo;)  #load data for Jun 2016
 d3&lt;-fread(&ldquo;data/mar2016.txt&rdquo;)  #load data for March 2016</p>
-
-<h1 id="get-a-unique-list-of-horizon-values-appearing-in-the-fomc-projection-table-2016-2017-2018-longer-run">get a unique list of horizon values appearing in the FOMC projection table (2016,2017,2018,Longer Run)</h1>
-
+<h1 id="get-a-unique-list-of-horizon-values-appearing-in-the-fomc-projection-table-201620172018longer-run">get a unique list of horizon values appearing in the FOMC projection table (2016,2017,2018,Longer Run)</h1>
 <p>xlist&lt;-unique(d6$x)</p>
-
 <h1 id="set-up-an-empty-data-frame">Set up an empty data frame</h1>
-
 <p>df&lt;-data.frame(rate=numeric(),x=numeric())
 #str(df)
 for (xx in 1:length(xlist)){  #loop through x values
-  for (i in 1:length(d6[x==xlist[xx]]$rate) ){ #create a dot for each observation
-    for (j in 1:d6[x==xlist[xx] ]$count[i])   #count along each row
-    {if (d6[x==xlist[xx]]$count[i]&gt;0){   #do something if count is greater than 0
-      myc&lt;-j  #j corresponds to the number of dots in a row
-      #set up a counter for total number of dots in a row
-      #if number in row is odd, start at zero
-      #if number in row is even, start at <sup>1</sup>&frasl;<sub>2</sub> 0.4 = 0.2 around zero
-      df1&lt;-data.frame(rate=d6[x==xlist[xx]]$rate[i],x=ifelse(d6[x==xlist[xx]]$count[i] %% 2 ==1,
-                                                          ifelse(myc %% 2 ==1,xx+(-1)^myc * (myc-1)*0.04,xx+(-1)^myc * (myc)*0.04),
-                                                          xx-.02+(-1)^myc * (myc)*0.04)   )
-      df&lt;-rbind(df,df1)
+for (i in 1:length(d6[x==xlist[xx]]$rate) ){ #create a dot for each observation
+for (j in 1:d6[x==xlist[xx] ]$count[i])   #count along each row
+{if (d6[x==xlist[xx]]$count[i]&gt;0){   #do something if count is greater than 0
+myc&lt;-j  #j corresponds to the number of dots in a row
+#set up a counter for total number of dots in a row
+#if number in row is odd, start at zero
+#if number in row is even, start at 1/2 0.4 = 0.2 around zero
+df1&lt;-data.frame(rate=d6[x==xlist[xx]]$rate[i],x=ifelse(d6[x==xlist[xx]]$count[i] %% 2 ==1, 
+ifelse(myc %% 2 ==1,xx+(-1)^myc * (myc-1)*0.04,xx+(-1)^myc * (myc)*0.04),
+xx-.02+(-1)^myc * (myc)*0.04)   )
+df&lt;-rbind(df,df1)
 }}}}</p>
-
-<p>caption &lt;- &ldquo;@lenkiefer Source: Federal Reserve Board Note: Each shaded circle indicates the value (rounded to the nearest <sup>1</sup>&frasl;<sub>8</sub> percentage point) of an individual participant&rsquo;s judgment of the midpoint of the appropriate target range for the federal funds rate or the appropriate target level for the federal funds rate at the end of the specified calendar year or over the longer run. One participant did not submit longer-run projections in June 2016.
-&ldquo;
+<p>caption &lt;- &ldquo;@lenkiefer Source: Federal Reserve Board Note: Each shaded circle indicates the value (rounded to the nearest 1/8 percentage point) of an individual participant&rsquo;s judgment of the midpoint of the appropriate target range for the federal funds rate or the appropriate target level for the federal funds rate at the end of the specified calendar year or over the longer run. One participant did not submit longer-run projections in June 2016. 
+&quot;
 {% endhighlight</p>
-
 <p>Now make a static plot:</p>
-
-<p>{% highlight r
+<p>{% highlight r 
 #make a plot
 ggplot(data=df,aes(x=x,y=rate))+
-  theme_minimal()+
-  scale_x_continuous(breaks=seq(1,4,1),labels=c(&ldquo;2016&rdquo;,&ldquo;2017&rdquo;,&ldquo;2018&rdquo;,&ldquo;Longer Run&rdquo;))+
-  geom_point(size=2,color=&ldquo;#00B0F0&rdquo;)+scale_y_continuous(limits=c(0,4.5))+
-  labs(y=&ldquo;Midpoint of target range or target level for the federal funds rate (%)&rdquo;,x=&ldquo;Horizon&rdquo;,
-       subtitle=&ldquo;June 2016&rdquo;,
-       title=&ldquo;FOMC participants&rsquo; assessments of appropriate monetary policy:\nMidpoint of target range or target level for the federal funds rate&rdquo;,
-       caption=label_wrap_gen(100)(caption))+ #wrap the label
-  theme(plot.title=element_text(size=14))+theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
-  theme(plot.margin=unit(c(0.25,0.25,0.25,0.25),&ldquo;cm&rdquo;))+  theme(legend.justification=c(0,0), legend.position=&ldquo;none&rdquo;)
+theme_minimal()+
+scale_x_continuous(breaks=seq(1,4,1),labels=c(&ldquo;2016&rdquo;,&ldquo;2017&rdquo;,&ldquo;2018&rdquo;,&ldquo;Longer Run&rdquo;))+
+geom_point(size=2,color=&quot;#00B0F0&rdquo;)+scale_y_continuous(limits=c(0,4.5))+
+labs(y=&ldquo;Midpoint of target range or target level for the federal funds rate (%)&quot;,x=&ldquo;Horizon&rdquo;,
+subtitle=&ldquo;June 2016&rdquo;,
+title=&ldquo;FOMC participants' assessments of appropriate monetary policy:\nMidpoint of target range or target level for the federal funds rate&rdquo;,
+caption=label_wrap_gen(100)(caption))+ #wrap the label 
+theme(plot.title=element_text(size=14))+theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+theme(plot.margin=unit(c(0.25,0.25,0.25,0.25),&ldquo;cm&rdquo;))+  theme(legend.justification=c(0,0), legend.position=&ldquo;none&rdquo;)
 {% endhighlight</p>
-
-<p><img src="/img/Rfig/dot-chunk-1.svg" alt="plot of chunk dot-chunk" /></p>
-
+<p><img src="/img/Rfig/dot-chunk-1.svg" alt="plot of chunk dot-chunk"></p>
 <h2 id="animating-the-dots">Animating the dots</h2>
-
-<p>Now we&rsquo;re ready to animate.  For more explicit discussion, see my <a href="{%post_url 2016-05-29-improving-R-animated-gifs-with-tweenr">earlier post</a>. What we&rsquo;re going to do is load each month worth of dots and then then use tweenr to interpolate between the points.</p>
-
+<p>Now we&rsquo;re ready to animate.  For more explicit discussion, see my [earlier post]({%post_url 2016-05-29-improving-R-animated-gifs-with-tweenr). What we&rsquo;re going to do is load each month worth of dots and then then use tweenr to interpolate between the points.</p>
 <h3 id="a-dot-goes-missing">A dot goes missing</h3>
-
 <p>The way I&rsquo;m using tweenr, with the tween_states function, I need each dataset to have the same number of observations (rows).  This normally wouldn&rsquo;t be a problem as there are usually 17 dots corresponding to each FOMC member. But in June 2016 one dot went missing.  There were only 16 dots for the &ldquo;Longer Run&rdquo; dot.</p>
-
 <p>It turns out that James Bullard from the St. Louis Fed <a href="http://www.bloomberg.com/news/articles/2016-06-17/st-louis-fed-s-bullard-claims-the-dot-missing-from-fed-estimate">claimed the missing dot</a>, and even wrote a short paper on why he didn&rsquo;t think the &ldquo;Longer Run&rdquo; dot was useful.  You can read more about it <a href="https://www.stlouisfed.org/from-the-president/commentary/2016/new-characterization-outlook-economy">here</a>.</p>
-
 <p>In order to deal with the missing dot and have the animation work, we&rsquo;re going to need to pad the data frame with the June dots.  I chose to do it by adding a large positive value (8) outside the range of the plot.  This will result in the dot flying off the top of the chart in the animation. I imagine a tiny voice say &ldquo;forget this I&rsquo;m outta here!&rdquo;</p>
-
 <h3 id="animation-code">Animation code</h3>
-
-<p>{% highlight r
+<p>{% highlight r 
 #pad the dot for June 2016:
 df6&lt;-rbind(df6,data.frame(rate=8,x=4))</p>
-
 <p>#replicate the business above for march 2016</p>
-
 <p>d3&lt;-fread(&ldquo;mar2016.txt&rdquo;)
 xlist&lt;-unique(d3$x)</p>
-
 <h1 id="set-up-an-empty-data-frame-1">Set up an empty data frame</h1>
-
 <p>df&lt;-data.frame(rate=numeric(),x=numeric())
 #str(df)
 for (xx in 1:length(xlist)){  #loop through x values
-  for (i in 1:length(d6[x==xlist[xx]]$rate) ){ #create a dot for each observation
-    for (j in 1:d6[x==xlist[xx] ]$count[i])
-    {if (d6[x==xlist[xx]]$count[i]&gt;0){
-      myc&lt;-j
-      #set up a counter for total number of dots in a row
-      #if number in row is odd, start at zero
-      #if number in row is even, start at <sup>1</sup>&frasl;<sub>2</sub> 0.4 = 0.2 around zero
-      df1&lt;-data.frame(rate=d3[x==xlist[xx]]$rate[i],x=ifelse(d3[x==xlist[xx]]$count[i] %% 2 ==1,
-                                                          ifelse(myc %% 2 ==1,xx+(-1)^myc * (myc-1)*0.04,xx+(-1)^myc * (myc)*0.04),
-                                                          xx-.02+(-1)^myc * (myc)*0.04)   )
-      df&lt;-rbind(df,df1)
+for (i in 1:length(d6[x==xlist[xx]]$rate) ){ #create a dot for each observation
+for (j in 1:d6[x==xlist[xx] ]$count[i])
+{if (d6[x==xlist[xx]]$count[i]&gt;0){
+myc&lt;-j
+#set up a counter for total number of dots in a row
+#if number in row is odd, start at zero
+#if number in row is even, start at 1/2 0.4 = 0.2 around zero
+df1&lt;-data.frame(rate=d3[x==xlist[xx]]$rate[i],x=ifelse(d3[x==xlist[xx]]$count[i] %% 2 ==1, 
+ifelse(myc %% 2 ==1,xx+(-1)^myc * (myc-1)*0.04,xx+(-1)^myc * (myc)*0.04),
+xx-.02+(-1)^myc * (myc)*0.04)   )
+df&lt;-rbind(df,df1)
 }}}}</p>
-
 <p>df3&lt;-df</p>
-
 <p>#tween the data sets.
 df3$date&lt;-factor(&ldquo;March 2016&rdquo;)  #set date label
 df6$date&lt;-factor(&ldquo;June 2016&rdquo;)   #set date label</p>
-
 <h1 id="use-tweenr-to-interpolate-the-data">use tweenr to interpolate the data</h1>
-
 <p>tf &lt;- tween_states(list(df3,df6,df3), tweenlength= 3, statelength=1, ease=rep(&lsquo;cubic-in-out&rsquo;,2),nframes=50)
 tf&lt;-data.table(tf)  #make a data table for convenience</p>
-
 <h1 id="run-the-animation">Run the animation:</h1>
-
 <p>oopt = ani.options(interval = 0.01)
 saveGIF({for (i in 1:max(tf$.frame)) {
-  g&lt;-
-    ggplot(data=tf[.frame==i],aes(x=x,y=rate,color=date))+
-    theme_minimal()+scale_x_continuous(breaks=seq(1,4,1),labels=c(&ldquo;2016&rdquo;,&ldquo;2017&rdquo;,&ldquo;2018&rdquo;,&ldquo;Longer Run&rdquo;))+
-    geom_point(size=2,aes(color=date))+scale_y_continuous(limits=c(0,4.5))+
-    scale_color_manual(limits=c(&ldquo;March 2016&rdquo;,&ldquo;June 2016&rdquo;),values=c(&ldquo;red&rdquo;,&ldquo;#00B0F0&rdquo;))+
-    labs(y=&ldquo;Midpoint of target range or target level for the federal funds rate (%)&rdquo;,x=&ldquo;Horizon&rdquo;,
-         subtitle=tf[.frame==i]$date,
-         title=&ldquo;FOMC participants&rsquo; assessments of appropriate monetary policy:\nMidpoint of target range or target level for the federal funds rate&rdquo;,
-         caption=label_wrap_gen(100)(caption))+
-    theme(plot.title=element_text(size=14))+theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
-    theme(plot.margin=unit(c(0.25,0.25,0.25,0.25),&ldquo;cm&rdquo;))+  theme(legend.justification=c(0,0), legend.position=&ldquo;none&rdquo;)
-  print(g)
-  ani.pause()
-  print(i)  #I like to print a counter so I know about when the animation will finish
+g&lt;- 
+ggplot(data=tf[.frame==i],aes(x=x,y=rate,color=date))+
+theme_minimal()+scale_x_continuous(breaks=seq(1,4,1),labels=c(&ldquo;2016&rdquo;,&ldquo;2017&rdquo;,&ldquo;2018&rdquo;,&ldquo;Longer Run&rdquo;))+
+geom_point(size=2,aes(color=date))+scale_y_continuous(limits=c(0,4.5))+
+scale_color_manual(limits=c(&ldquo;March 2016&rdquo;,&ldquo;June 2016&rdquo;),values=c(&ldquo;red&rdquo;,&quot;#00B0F0&rdquo;))+
+labs(y=&ldquo;Midpoint of target range or target level for the federal funds rate (%)&quot;,x=&ldquo;Horizon&rdquo;,
+subtitle=tf[.frame==i]$date,
+title=&ldquo;FOMC participants' assessments of appropriate monetary policy:\nMidpoint of target range or target level for the federal funds rate&rdquo;,
+caption=label_wrap_gen(100)(caption))+
+theme(plot.title=element_text(size=14))+theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+theme(plot.margin=unit(c(0.25,0.25,0.25,0.25),&ldquo;cm&rdquo;))+  theme(legend.justification=c(0,0), legend.position=&ldquo;none&rdquo;)
+print(g)
+ani.pause()
+print(i)  #I like to print a counter so I know about when the animation will finish
 }
 },movie.name=&ldquo;fed_dots_2016.gif&rdquo;,ani.width = 575, ani.height = 450)  #save the output
 {% endhighlight</p>
-
 <p>Running this code should create our animated dot plot:</p>
-
-<p><img src="../../../../img/charts_jun_22_2016/fed_dots_2016.gif" alt="dot plot"/></p>
+<!-- raw HTML omitted -->
 
 
   
 <div class="prev-next-post pure-g">
   <div class="pure-u-1-24" style="text-align: left;">
     
-    <a href="/2016/06/09/dataviz-remix-housing-trilemma/"><i class="fa fa-chevron-left"></i></a>
+    <a href="http://lenkiefer.com/2016/06/09/dataviz-remix-housing-trilemma/"><i class="fa fa-chevron-left"></i></a>
     
   </div>
   <div class="pure-u-10-24">
     
     <nav class="prev">
-      <a href="/2016/06/09/dataviz-remix-housing-trilemma/">Dataviz Remix: Housing Trilemma</a>
+      <a href="http://lenkiefer.com/2016/06/09/dataviz-remix-housing-trilemma/">Dataviz Remix: Housing Trilemma</a>
     </nav>
     
   </div>
@@ -438,13 +390,13 @@ saveGIF({for (i in 1:max(tf$.frame)) {
   <div class="pure-u-10-24">
     
     <nav class="next">
-      <a href="/2016/06/26/week-in-review/">Brexit, State of the Nation&#39;s Housing, and home sales: the week in charts.</a>
+      <a href="http://lenkiefer.com/2016/06/26/week-in-review/">Brexit, State of the Nation&#39;s Housing, and home sales: the week in charts.</a>
     </nav>
     
   </div>
   <div class="pure-u-1-24" style="text-align: right;">
     
-    <a href="/2016/06/26/week-in-review/"><i class="fa fa-chevron-right"></i></a>
+    <a href="http://lenkiefer.com/2016/06/26/week-in-review/"><i class="fa fa-chevron-right"></i></a>
     
   </div>
 </div>
@@ -471,7 +423,7 @@ saveGIF({for (i in 1:max(tf$.frame)) {
 
     <div class="share">
         
-            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2016%2f06%2f22%2fmake-a-dotplot%2f&text=Let%27s%20make%20a%20dot%20plot via %40lenkiefer"
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.comhttp%3a%2f%2flenkiefer.com%2f2016%2f06%2f22%2fmake-a-dotplot%2f&text=Let%27s%20make%20a%20dot%20plot via %40lenkiefer"
                 onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
                 <i class="fa fa-twitter"></i>
                 <span class="hidden">Twitter</span>
@@ -479,7 +431,7 @@ saveGIF({for (i in 1:max(tf$.frame)) {
         
 
         
-            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2016%2f06%2f22%2fmake-a-dotplot%2f"
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.comhttp%3a%2f%2flenkiefer.com%2f2016%2f06%2f22%2fmake-a-dotplot%2f"
                 onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
                 <i class="fa fa-facebook"></i>
                 <span class="hidden">Facebook</span>
@@ -492,7 +444,7 @@ saveGIF({for (i in 1:max(tf$.frame)) {
 </footer>
 </div>
 </div>
-<script src="/js/ui.js"></script>
+<script src="http://lenkiefer.com/js/ui.js"></script>
 
 
 <script>

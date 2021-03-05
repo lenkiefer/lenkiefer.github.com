@@ -5,7 +5,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
-  <meta name="generator" content="Hugo 0.52" />
+  <meta name="generator" content="Hugo 0.81.0" />
 
   <title>Len Kiefer</title>
 
@@ -40,7 +40,7 @@
 
  
   
-  <link rel="alternate" type="application/rss+xml" title="Len Kiefer" href="/index.xml" />
+  <link rel="alternate" type="application/rss+xml" title="Len Kiefer" href="http://lenkiefer.com/index.xml" />
   
 
   
@@ -50,7 +50,7 @@
   <script>hljs.initHighlightingOnLoad();</script>
   
 
-  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+  <link rel="shortcut icon" href="http://lenkiefer.com/img/favicon.PNG" type="image/x-icon" />
 
   
   
@@ -218,31 +218,19 @@
   
     <article>
   <header>
-    <h2><a href="/2021/02/26/data-visualization-guidelines-and-a-case-study/">Data visualization guidelines and a case study</a></h2>
+    <h2><a href="http://lenkiefer.com/post/">Posts</a></h2>
 
     <div class="post-meta">
 
   <div>
     <i class="fa fa-calendar fa-fw"></i>
-    <time>2021/02/26</time>
+    <time>2021/03/05</time>
   </div>
 
   
 
   
 
-  
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="/tags/presentation">presentation</a>
-    
-  </div>
-  
   
 
 </div>
@@ -250,452 +238,9 @@
   </header>
 
   <p>
-  Yesterday I gave a virtual lecture on data visualization at GMU. Here I’m posting the slides I used for that talk and including my discussion notes for the portion of the talk where I discussed guidelines for data visualization.
-At the beginning of the talk I spoke a bit about data visualization guidelines. I framed this part of my talk around Jon Schwabish’s five guidelines from his new book Better Data Visualizations see (on Amazon) and here for a blog summary.
+  
   </p>
 
-  
-  <footer>
-    <a href="/2021/02/26/data-visualization-guidelines-and-a-case-study/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
-  </footer>
-  
-</article>
-
-  
-    <article>
-  <header>
-    <h2><a href="/2021/02/02/the-economy-and-the-housing-market/">The economy and the housing market</a></h2>
-
-    <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>2021/02/02</time>
-  </div>
-
-  
-
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="/tags/economy">economy</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="/tags/housing">housing</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="/tags/house-prices">house prices</a>
-    
-  </div>
-  
-  
-
-</div>
-
-  </header>
-
-  <p>
-  Last week the U.S. Commerce Department reported the advance estimate for annual economic growth for 2020. For the full year, US gross domestic product contracted 3.5 percentage points, the largest annual decline since the 11.6 percentage point contraction in 1946. The similarities pretty much end there.
-In 1946 the US economy was demobilizing after finishing the fight against fascism. Factories were shuttered that had been producing munitions, fighter planes, tanks and liberty ships, while the G.
-  </p>
-
-  
-  <footer>
-    <a href="/2021/02/02/the-economy-and-the-housing-market/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
-  </footer>
-  
-</article>
-
-  
-    <article>
-  <header>
-    <h2><a href="/2021/01/26/house-prices-lift-off/">House Prices Lift Off</a></h2>
-
-    <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>2021/01/26</time>
-  </div>
-
-  
-
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="/tags/house-prices">house prices</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>
-    
-  </div>
-  
-  
-
-</div>
-
-  </header>
-
-  <p>
-  Earlier today I tweeted out a chart of house prices using my inari color theme.
-House price growth lifting off pic.twitter.com/TvNJcOZrTF
-&mdash; 📈 Len Kiefer 📊 (@lenkiefer) January 26, 2021  Below is the R code to generate the plot.
-# load librarieslibrary(tidyquant)library(tidyverse)# list of FRED Tickerstickers&lt;- c(&quot;LXXRSA&quot;,&quot;SPCS20RSA&quot;,&quot;LVXRSA&quot;,&quot;SEXRSA&quot;,&quot;SFXRSA&quot;,&quot;NYXRSA&quot;,&quot;BOXRSA&quot;,&quot;SDXRSA&quot;,&quot;CHXRSA&quot;,&quot;DNXRSA&quot;,&quot;PHXRNSA&quot;,&quot;DAXRNSA&quot;,&quot;WDXRSA&quot;,&quot;ATXRNSA&quot;,&quot;MIXRNSA&quot;,&quot;POXRSA&quot;,&quot;MNXRSA&quot;,&quot;DEXRNSA&quot;,&quot;TPXRSA&quot;,&quot;CRXRSA&quot;,&quot;CEXRSA&quot;)# list of city namescities &lt;- c(&quot;Los Angeles&quot;,&quot;20-city&quot;,&quot;Las Vegas&quot;,&quot;Seattle&quot;,&quot;San Francisco&quot;,&quot;New York&quot;,&quot;Boston&quot;,&quot;San Diego&quot;,&quot;Chicago&quot;,&quot;Denver&quot;,&quot;Phoenix&quot;,&quot;Dallas&quot;,&quot;Washington DC&quot;,&quot;Atlanta&quot;,&quot;Miami&quot;,&quot;Portland&quot;,&quot;Minneapolis&quot;,&quot;Detroit&quot;,&quot;Tampa&quot;,&quot;Charlotte&quot;,&quot;Cleveland&quot;)df.
-  </p>
-
-  
-  <footer>
-    <a href="/2021/01/26/house-prices-lift-off/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
-  </footer>
-  
-</article>
-
-  
-    <article>
-  <header>
-    <h2><a href="/2020/12/17/seasonally-adjusted-greetings-and-low-low-mortgage-rates/">Seasonally adjusted greetings and low low mortgage rates</a></h2>
-
-    <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>2020/12/17</time>
-  </div>
-
-  
-
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="/tags/mortgage">mortgage</a>
-    
-  </div>
-  
-  
-
-</div>
-
-  </header>
-
-  <p>
-  Seasonally adjusted greetings to you and yours. For you I have an animated chart, a variation on our rate cloud with a wintry theme.
-R code below.
-We’ll grab mortgage rate data, make a few new variables and then plot the chart using ggridges::geom_density_ridges2. Using the raincloud option for the poisition argument in ggridges::geom_density_ridges2 places the individual data points below the density plots. Using various shades of white we can turn the rain cloud into a snow cloud.
-  </p>
-
-  
-  <footer>
-    <a href="/2020/12/17/seasonally-adjusted-greetings-and-low-low-mortgage-rates/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
-  </footer>
-  
-</article>
-
-  
-    <article>
-  <header>
-    <h2><a href="/2020/12/15/talking-dataviz/">Talking Dataviz</a></h2>
-
-    <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>2020/12/15</time>
-  </div>
-
-  
-
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="/tags/presentation">presentation</a>
-    
-  </div>
-  
-  
-
-</div>
-
-  </header>
-
-  <p>
-  Today I got to talk #dataviz and shared a bunch of my charts, which always sort of feels like sharing my vacation photos. But it was fun to talk about why I made some of these charts, what they mean, and how different data visualization techniques can bring out new insights in familiar data.
-The pdf version is below or here.
-The pptx version has animations, get it here.
-  </p>
-
-  
-  <footer>
-    <a href="/2020/12/15/talking-dataviz/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
-  </footer>
-  
-</article>
-
-  
-    <article>
-  <header>
-    <h2><a href="/2020/11/30/visual-meditations-on-house-prices-2020-edition/">Visual Meditations on House Prices 2020 Edition</a></h2>
-
-    <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>2020/11/30</time>
-  </div>
-
-  
-
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="/tags/house-prices">house prices</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="/tags/r">R</a>
-    
-  </div>
-  
-  
-
-</div>
-
-  </header>
-
-  <p>
-  VISUAL MEDITATIONS are the analysis of repeated graphs of the same data with variations on a graphical theme. When altering the mapping of data to aesthetics sometimes interesting patterns emerge. I find it a useful practice. I made a series of these a few years ago with different charts. The chart images have been lost to past blog migrations, but the code should still work.
-In this post, I want to consider several alternative ways to visualize house prices.
-  </p>
-
-  
-  <footer>
-    <a href="/2020/11/30/visual-meditations-on-house-prices-2020-edition/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
-  </footer>
-  
-</article>
-
-  
-    <article>
-  <header>
-    <h2><a href="/2020/11/23/new-research-paper-inequality-during-the-covid-19-pandemic-the-the-case-of-savings-from-mortgage-refinancing/">New Research Paper Inequality During the COVID-19 Pandemic The Case of Savings from Mortgage Refinancing</a></h2>
-
-    <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>2020/11/23</time>
-  </div>
-
-  
-
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="/tags/economy">economy</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="/tags/mortgage">mortgage</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="/tags/presentation">presentation</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="/tags/housing">housing</a>
-    
-  </div>
-  
-  
-
-</div>
-
-  </header>
-
-  <p>
-  For several months now, I’ve been working on a new research paper with Sumit Agarwal, Souphala Chomsisengphet, Hua Kiefer, and Paolina Medina studying refinance activity this year.
-When we started the project back in the spring we were not sure that the pandemic would allow households to refinance at rates similar to prior periods. It seemed possible that the pandemic would disrupt the mortgage market and make it difficult for households to take advantage of historically low rates.
-  </p>
-
-  
-  <footer>
-    <a href="/2020/11/23/new-research-paper-inequality-during-the-covid-19-pandemic-the-the-case-of-savings-from-mortgage-refinancing/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
-  </footer>
-  
-</article>
-
-  
-    <article>
-  <header>
-    <h2><a href="/2020/11/20/y-axis-on-the-right-side/">y-axis on the right side</a></h2>
-
-    <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>2020/11/20</time>
-  </div>
-
-  
-
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="/tags/presentation">presentation</a>
-    
-  </div>
-  
-  
-
-</div>
-
-  </header>
-
-  <p>
-  Recently I’ve been putting my y-axis labels on the right for some time series.
-I think this idea has been rattling around in my head since it was suggested on Twitter by Maarten Lambrechts:
-A y-axis on the left is almost always the default, while the most recent and usually most relevant data are on the right. Then shouldn&#39;t a y-axis on the right be the default (when there are no data labels), to improve legibility?
-  </p>
-
-  
-  <footer>
-    <a href="/2020/11/20/y-axis-on-the-right-side/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
-  </footer>
-  
-</article>
-
-  
-    <article>
-  <header>
-    <h2><a href="/2020/10/30/powder-blue-charts/">Powder blue charts</a></h2>
-
-    <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>2020/10/30</time>
-  </div>
-
-  
-
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="/tags/presentation">presentation</a>
-    
-  </div>
-  
-  
-
-</div>
-
-  </header>
-
-  <p>
-  Yesterday I shared with you observations on the economy, which form the core of many of my recent economic outlook talks. In that article I used some charts with alternative formatting. No not spooky, but a blue theme kind of like those alternative road uniforms some sportsball teams wear.
-Here, I will share with you the R code for these delicious plots.
-SetupFirst we’ll need to set up our chart theme, tweak some ggplot2 defaults and load some libraries.
-  </p>
-
-  
-  <footer>
-    <a href="/2020/10/30/powder-blue-charts/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
-  </footer>
-  
-</article>
-
-  
-    <article>
-  <header>
-    <h2><a href="/2020/10/29/october-2020-us-housing-and-mortgage-market-outlook/">October 2020 US housing and mortgage market outlook</a></h2>
-
-    <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>2020/10/29</time>
-  </div>
-
-  
-
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="/tags/economy">economy</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="/tags/housing">housing</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="/tags/mortgage">mortgage</a>
-    
-  </div>
-  
-  
-
-</div>
-
-  </header>
-
-  <p>
-  We are entering the homestretch for 2020, with just about two months left. It has been an intense year, with many twists and turns. Given all the uncertainty many people have been asking me to share my perspective on the outlook for US housing and mortgage markets. I’ve given many talks, in this article I’m laying out the basic view that forms the core of my recent presentations.
-The COVID-19 pandemic and the associated recession are of course the dominant drivers of the outlook.
-  </p>
-
-  
-  <footer>
-    <a href="/2020/10/29/october-2020-us-housing-and-mortgage-market-outlook/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
-  </footer>
   
 </article>
 
@@ -704,23 +249,11 @@ The COVID-19 pandemic and the associated recession are of course the dominant dr
   
 
 
-<nav class="pagination" role="pagination">
-  
-  <i class="fa fa-chevron-left"></i>
-  
-  <span>&nbsp;1 / 27&nbsp;</span>
-  
-  <a href="/page/2/"><i class="fa fa-chevron-right"></i></a>
-  
-</nav>
-
-
-
 </div>
 
 </div>
 </div>
-<script src="/js/ui.js"></script>
+<script src="http://lenkiefer.com/js/ui.js"></script>
 
 
 <script>

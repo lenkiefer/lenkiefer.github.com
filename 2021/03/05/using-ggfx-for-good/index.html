@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A possible good use for the new ggfx package">
+  <meta name="generator" content="Hugo 0.81.0" />
+
+  <title>Using ggfx for good &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="http://lenkiefer.com/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com//img/charts_2021_03_05/bloom_ggridges.png" >
+     
+    <meta property="og:title" content="Using ggfx for good">
+    <meta property="og:description" content="A possible good use for the new ggfx package">
+
+<div class="header">
+  <h1>Using ggfx for good</h1>
+  <h2>A possible good use for the new ggfx package</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2021/03/05</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/presentation">presentation</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+
+
+<p>I have been recently messing around with the <a href="https://github.com/thomasp85/ggfx">ggfx</a> package.</p>
+<p><blockquote class="twitter-tweet"><p lang="en" dir="ltr">using <a href="https://twitter.com/hashtag/rstats?src=hash&amp;ref_src=twsrc%5Etfw">#rstats</a> ggfx::with_bloom and ggridges::geom_density  <br><br>left with ggfx, right without <a href="https://t.co/L8yknjAJVw">pic.twitter.com/L8yknjAJVw</a></p>&mdash; 📈 Len Kiefer 📊 (@lenkiefer) <a href="https://twitter.com/lenkiefer/status/1367519224277725192?ref_src=twsrc%5Etfw">March 4, 2021</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</p>
+<p>Most of my applications (see below for a gallery) have maybe not been applying <a href="../../../../2021/02/26/data-visualization-guidelines-and-a-case-study/">good dataviz guidelines</a>. But I think I have found a good example.</p>
+<p>We can use the <code>ggfx::with_blend</code> function to layer a recession indicator with a time series and color code the lines. This prevents us from having to use sql like syntax (as we did <a href="../../../../2018/04/26/expanding-expansions-contracting-recessions/">here</a>) to merge on date ranges.</p>
+<p>Instead, we can layer a rectangle with a time series and use the <code>with_blend</code> function to switch the colors depending on whether or not the line falls within a recession region.</p>
+<p>First some very brief setup:</p>
+<pre class="r"><code>library(tidyverse)
+library(ggfx)
+library(tidyquant)
+
+df &lt;- tidyquant::tq_get(&quot;PAYEMS&quot;,get=&quot;economic.data&quot;,from=&quot;2000-01-01&quot;)
+recessions.df = read.table(textConnection(
+  &quot;Peak, Trough
+  2001-03-01, 2001-11-01
+  2007-12-01, 2009-06-01
+  2020-03-02, 2021-04-01&quot;), sep=&#39;,&#39;,
+  colClasses=c(&#39;Date&#39;, &#39;Date&#39;), header=TRUE)</code></pre>
+<p>Then a standard plot with recession shading.</p>
+<pre class="r"><code>ggplot()+ 
+  geom_rect(data=recessions.df, 
+                         aes(xmin=Peak,xmax=Trough,ymin=-Inf,ymax=+Inf),
+                         fill=&#39;gray&#39;,alpha=0.5)+
+    geom_line(data=df,aes(x=date,y=price),size=0.75,colour =&quot;dodgerblue&quot;)+
+  theme(plot.caption=element_text(hjust=0))+
+  labs(y=&quot;&quot;,title=&quot;US nonfarm payroll employment&quot;,
+       subtitle=&quot;shaded area NBER recessions&quot;,
+       caption=paste0(&quot;@lenkiefer Source: U.S. Bureau of Labor Statistics, All Employees,&quot;,
+                      &quot;Total Nonfarm [PAYEMS]&quot;,
+                      &quot;\nretrieved from FRED, Federal Reserve Bank of St. Louis;&quot;,
+                      &quot;\nhttps://fred.stlouisfed.org/series/PAYEMS, March 5, 2021.&quot;))</code></pre>
+<p><img src="/post/2021-03-05-using-ggfx-for-good_files/figure-html/standard-plot-1.png" width="672" />
+Now make use of ggfx to blend the recession regions with the line.</p>
+<pre class="r"><code>ggplot()+ 
+  as_reference(geom_rect(data=recessions.df, 
+                         aes(xmin=Peak,xmax=Trough,ymin=-Inf,ymax=+Inf),
+                         fill=&#39;red&#39;),
+               id=&quot;rec&quot;)+
+  with_blend(
+    geom_line(data=df,aes(x=date,y=price),size=0.75,colour =&quot;dodgerblue&quot;),
+    bg_layer = &quot;rec&quot;,flip_order=TRUE,
+    blend_type = &#39;atop&#39;
+    )+
+  theme(plot.caption=element_text(hjust=0))+
+  labs(y=&quot;&quot;,title=&quot;US nonfarm payroll employment&quot;,
+       subtitle=&quot;red = recession, blue = expansion&quot;,
+       caption=paste0(&quot;@lenkiefer Source: U.S. Bureau of Labor Statistics, All Employees,&quot;,
+                      &quot;Total Nonfarm [PAYEMS]&quot;,
+                      &quot;\nretrieved from FRED, Federal Reserve Bank of St. Louis;&quot;,
+                      &quot;\nhttps://fred.stlouisfed.org/series/PAYEMS, March 5, 2021.&quot;))</code></pre>
+<p><img src="/post/2021-03-05-using-ggfx-for-good_files/figure-html/ggfx-for-good-1.png" width="672" /></p>
+<div id="ggfx-for-not-so-good" class="section level2">
+<h2>ggfx for not so good</h2>
+<p>We could also mess around with some other features of ggfx to make some perhaps less good charts.</p>
+<p><img src="../../../../img/charts_2021_03_05/blur_bloom3.gif" style="width:550px"></p>
+</div>
+<div id="comparing-blur-to-without-blur" class="section level2">
+<h2>comparing blur to without blur</h2>
+<p>Here’s the code for the chart I tweeted out at the start that compares a plot with and without blur.</p>
+<pre class="r"><code>library(ggridges)
+library(&quot;ggfx&quot;)
+library(tidyverse)
+library(lubridate)
+library(data.table)
+library(darklyplot)  # available on github
+library(patchwork)
+
+# grab mortgage rate data
+df &lt;- data.table::fread(&quot;http://www.freddiemac.com/pmms/docs/PMMS_history.csv&quot;)
+df$date &lt;- as.Date(df$date,format=&quot;%m/%d/%Y&quot;)
+df &lt;- mutate(df, yearf=fct_reorder(factor(year(date)), -year(date)))
+mycolor &lt;- &quot;#1e90ff&quot;
+
+g1 &lt;- 
+  ggplot(data = filter(df, year(date) &gt; 2009),
+         aes(y = yearf,
+             x = pmms30)) +
+  with_bloom(
+    geom_density_ridges(
+      color = &quot;white&quot;,
+      fill = mycolor,
+      size = 1.1,
+      scale = 3,
+      alpha = 0.7
+    ),
+    colour = &quot;white&quot;,
+    sigma = 10,
+    keep_alpha = FALSE
+  ) +
+  darklyplot::theme_dark2(base_family = &quot;Arial&quot;, base_size = 18) +
+  theme(
+    panel.grid.minor = element_blank(),
+    plot.title = element_text(size = rel(1.5), face = &quot;bold&quot;),
+    plot.subtitle = element_text(size = rel(1.3), face = &quot;italic&quot;),
+    panel.grid.major.x = element_blank()
+  ) +
+  geom_vline(
+    data = . %&gt;% tail(1),
+    linetype = 2,
+    color = &quot;white&quot;,
+    aes(xintercept = pmms30)
+  ) +
+  labs(
+    x = &quot;30-year fixed mortgage rate (%)&quot;,
+    y = &quot;&quot;,
+    title = &quot;With bloom (ggridges + ggfx::with_bloom)&quot;,
+    subtitle = &quot;Distribution over weekly mortgage rates by year\nCurves are densities fit to weekly observations for each year&quot;,
+    
+    caption = paste0(
+      &quot;@lenkiefer: Source Freddie Mac Primary Mortgage Market Survey\n&quot;,
+      &quot;dotted line at &quot;,
+      tail(df$pmms30, 1),
+      &quot; average for week of &quot;,
+      format(last(df$date), &#39;%b %d, %Y&#39;)
+    )
+  )
+
+
+g2&lt;- 
+  ggplot(data = filter(df, year(date) &gt; 2009),
+         aes(y = yearf,
+             x = pmms30)) +
+  geom_density_ridges(
+    color = &quot;white&quot;,
+    fill = mycolor,
+    size = 1.1,
+    scale = 3,
+    alpha = 0.7
+  ) +
+  darklyplot::theme_dark2(base_family = &quot;Arial&quot;, base_size = 18) +
+  theme(
+    panel.grid.minor = element_blank(),
+    plot.title = element_text(size = rel(1.5), face = &quot;bold&quot;),
+    plot.subtitle = element_text(size = rel(1.3), face = &quot;italic&quot;),
+    panel.grid.major.x = element_blank()
+  ) +
+  geom_vline(
+    data = . %&gt;% tail(1),
+    linetype = 2,
+    color = &quot;white&quot;,
+    aes(xintercept = pmms30)
+  ) +
+  labs(
+    x = &quot;30-year fixed mortgage rate (%)&quot;,
+    y = &quot;&quot;,
+    title = &quot;Without bloom (standard ggridges)&quot;,
+    subtitle = &quot;Distribution over weekly mortgage rates by year\nCurves are densities fit to weekly observations for each year&quot;,
+    caption = paste0(
+      &quot;@lenkiefer: Source Freddie Mac Primary Mortgage Market Survey\n&quot;,
+      &quot;dotted line at &quot;,
+      tail(df$pmms30, 1),
+      &quot; average for week of &quot;,
+      format(last(df$date), &#39;%b %d, %Y&#39;)
+    )
+  )
+
+g1+g2</code></pre>
+<p><img src="../../../../img/charts_2021_03_05/bloom_ggridges.png" style="width:550px"></p>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="http://lenkiefer.com/2021/02/26/data-visualization-guidelines-and-a-case-study/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="http://lenkiefer.com/2021/02/26/data-visualization-guidelines-and-a-case-study/">Data visualization guidelines and a case study</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/dataviz/">dataviz</a>, 
+            
+                <a href="/tags/presentation/">presentation</a>, 
+            
+                <a href="/tags/r/">R</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.comhttp%3a%2f%2flenkiefer.com%2f2021%2f03%2f05%2fusing-ggfx-for-good%2f&text=Using%20ggfx%20for%20good via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.comhttp%3a%2f%2flenkiefer.com%2f2021%2f03%2f05%2fusing-ggfx-for-good%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="http://lenkiefer.com/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+

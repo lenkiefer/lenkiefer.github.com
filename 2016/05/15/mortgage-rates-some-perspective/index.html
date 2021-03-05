@@ -5,7 +5,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
-  <meta name="generator" content="Hugo 0.52" />
+  <meta name="generator" content="Hugo 0.81.0" />
 
   <title>Mortgage rates, some perspective &middot; Len Kiefer</title>
 
@@ -48,7 +48,7 @@
   <script>hljs.initHighlightingOnLoad();</script>
   
 
-  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+  <link rel="shortcut icon" href="http://lenkiefer.com/img/favicon.PNG" type="image/x-icon" />
 
   
   
@@ -207,7 +207,7 @@
     <meta property="og:title" content="Mortgage rates, some perspective">
     <meta property="og:description" content="Another mortgage rates animated gif IN THE PAST I&rsquo;ve told you how I made my mortgage rates gif. In this post I&rsquo;m make an extension that uses stop motion techniques to reverse course. We&rsquo;ll end up with this:
 For reference, here&rsquo;s the standard gif I share each Thursday after mortgage rates come out:
-Stop motion animation While thinking about the week-to-week movements in rates it&rsquo;s easy to lose longer-term perspective.">
+Stop motion animation While thinking about the week-to-week movements in rates it&rsquo;s easy to lose longer-term perspective. Rates in the week of May 12, 2016 were the lowest in three years.">
 
 <div class="header">
   <h1>Mortgage rates, some perspective</h1>
@@ -232,13 +232,13 @@ Stop motion animation While thinking about the week-to-week movements in rates i
   <div>
     <i class="fa fa-tags fa-fw"></i>
     
-      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
     
-      <a class="post-taxonomy-tag" href="/tags/mortgage">mortgage</a>&nbsp;&#47;
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/mortgage">mortgage</a>&nbsp;&#47;
     
-      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>&nbsp;&#47;
     
-      <a class="post-taxonomy-tag" href="/tags/animation">animation</a>
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/animation">animation</a>
     
   </div>
   
@@ -246,138 +246,117 @@ Stop motion animation While thinking about the week-to-week movements in rates i
 
 </div>
 
-  
-
-<h1 id="another-mortgage-rates-animated-gif">Another mortgage rates animated gif</h1>
-
+  <h1 id="another-mortgage-rates-animated-gif">Another mortgage rates animated gif</h1>
 <p>IN THE PAST I&rsquo;ve told you <a href="../../../../2016/03/10/mortgage-rates-gif">how I made my mortgage rates gif</a>. In this post I&rsquo;m make an extension that uses stop motion techniques to reverse course. We&rsquo;ll end up with this:</p>
-
-<p><img src="../../../../img/charts_may_15_2016/rate_5_14_2016.gif" alt="stop motion rates gif"/></p>
-
+<!-- raw HTML omitted -->
 <p>For reference, here&rsquo;s the standard gif I share each Thursday after mortgage rates come out:</p>
-
-<p><img src="../../../../img/charts_may_15_2016/rate_5_12_2016.gif" alt="standard rates gif"/></p>
-
+<!-- raw HTML omitted -->
 <h1 id="stop-motion-animation">Stop motion animation</h1>
-
 <p>While thinking about the week-to-week movements in rates it&rsquo;s easy to lose longer-term perspective.  Rates in the week of May 12, 2016 were the lowest in three years.  I decided to tweak my animation to give that perspective.</p>
-
 <p>In order to do so I thought I&rsquo;d first roll forward in time from the beginning of 2016 and then start rolling <em>backward</em> in time.  For the standard gif I fix the scales so that you aren&rsquo;t disoriented by movement. But when going backward in time I let the scales dynamically adjust so you can feel the range of data change. I also added some rough easing effects by changing the number of weeks between frames, speeding up and slowing down the animation as we move through time.</p>
-
 <h2 id="the-code">The code</h2>
-
 <p>Here&rsquo;s the R script to enable the animation:</p>
-
-<p>{% highlight r
+<p>{% highlight r 
 #Load some data stored in a text file called &ldquo;pmms30yr&rdquo;
 #these data have one column of dates, one column of rates, and helper columns called year and week (week number)
 pmms30yr &lt;- fread(&ldquo;pmms30yr.txt&rdquo;)
-pmms30yr$date&lt;-as.Date(pmms30yr$date, format=&ldquo;%m/%d/%Y&rdquo;)</p>
-
+pmms30yr$date&lt;-as.Date(pmms30yr$date, format=&quot;%m/%d/%Y&quot;)</p>
 <h1 id="plot-function-to-draw-graph-takes-data-set-as-input">plot function to draw graph, takes data set as input</h1>
-
 <p>myplotf&lt;-function (d){
-  g&lt;-
-    ggplot(data=d, aes(x=date,y=rate,label=rate))+geom_line()+
-    # My favorite minimal theme for gplot2
-    theme_minimal()+
-    # add red ball at end of time series
-    geom_point(data=d[date==max(d$date)],size=2,color=&ldquo;red&rdquo;)+<br />
-    # add open circle at 3.57 on May 12
-    geom_point(data=d[date==as.Date(&ldquo;2016-05-12&rdquo;)],size=2,color=&ldquo;red&rdquo;,shape=1)+
-    # add 3.57 in red text
-    geom_text(data=d[date==as.Date(&ldquo;2016-05-12&rdquo;)],color=&ldquo;red&rdquo;,nudge_x=0.25,hjust=-0.2)+
-    # add dotted red line at 3.57%, laste point
-    geom_segment(xend=-Inf,x=as.numeric(as.Date(&ldquo;2016-05-12&rdquo;)),y=3.57,yend=3.57,color=&ldquo;red&rdquo;,linetype=2)+
-    # set title size
-    theme(plot.title=element_text(size=18))+
-    # adjust caption, add breathing room
-    theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
-    theme(plot.margin=unit(c(0.25,0.25,0.25,0.25),&ldquo;cm&rdquo;))
-  return (g)
-  }</p>
-
-<h1 id="helper-dataset-with-data-since-2013-not-necessary-vestigial-from-how-i-built-this-up">helper dataset with data since 2013, not necessary &amp; vestigial from how I built this up</h1>
-
+g&lt;-
+ggplot(data=d, aes(x=date,y=rate,label=rate))+geom_line()+
+# My favorite minimal theme for gplot2
+theme_minimal()+
+# add red ball at end of time series
+geom_point(data=d[date==max(d$date)],size=2,color=&ldquo;red&rdquo;)+<br>
+# add open circle at 3.57 on May 12
+geom_point(data=d[date==as.Date(&ldquo;2016-05-12&rdquo;)],size=2,color=&ldquo;red&rdquo;,shape=1)+ 
+# add 3.57 in red text
+geom_text(data=d[date==as.Date(&ldquo;2016-05-12&rdquo;)],color=&ldquo;red&rdquo;,nudge_x=0.25,hjust=-0.2)+
+# add dotted red line at 3.57%, laste point
+geom_segment(xend=-Inf,x=as.numeric(as.Date(&ldquo;2016-05-12&rdquo;)),y=3.57,yend=3.57,color=&ldquo;red&rdquo;,linetype=2)+
+# set title size
+theme(plot.title=element_text(size=18))+
+# adjust caption, add breathing room
+theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+theme(plot.margin=unit(c(0.25,0.25,0.25,0.25),&ldquo;cm&rdquo;))
+return (g)
+}</p>
+<h1 id="helper-dataset-with-data-since-2013-not-necessary--vestigial-from-how-i-built-this-up">helper dataset with data since 2013, not necessary &amp; vestigial from how I built this up</h1>
 <p>dd13&lt;-pmms30yr[year&gt;=2013]$date</p>
-
-<h1 id="note-i-did-some-counting-to-figure-out-which-weeks-i-needed-for-the-animation-not-elegant-but-works">Note, I did some counting to figure out which weeks I needed for the animation.  Not elegant, but works.</h1>
-
+<h1 id="note-i-did-some-counting-to-figure-out-which-weeks-i-needed-for-the-animation--not-elegant-but-works">Note, I did some counting to figure out which weeks I needed for the animation.  Not elegant, but works.</h1>
 <p>#Run the animation</p>
-
 <p>#Partition data: 2016 YTD, since May 2013, 5 years prior
 oopt = ani.options(interval = 0.01)
 saveGIF({
-  #First standard forward animation (slowed to half place by pausing in J:
-  for (i in 1:19) {
-  for (j in 1:2){
-    g&lt;-myplotf(pmms30yr[year==2016 &amp; week &lt;=i])+
-      #Add labels and caption, use subtitle for annotations
-      labs(x=&ldquo;&rdquo;, y=&ldquo;&rdquo;,
-         title=&ldquo;30-year Fixed Mortgage Rate (%)&rdquo;,
-         subtitle=&ldquo;Mortgage rates decline throughout 2016 reaching a low on May 12&hellip;&rdquo;,
-         caption=&ldquo;@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey&rdquo;)
-  ani.pause()}
+#First standard forward animation (slowed to half place by pausing in J:
+for (i in 1:19) {
+for (j in 1:2){
+g&lt;-myplotf(pmms30yr[year==2016 &amp; week &lt;=i])+
+#Add labels and caption, use subtitle for annotations
+labs(x=&quot;&quot;, y=&quot;&quot;,
+title=&ldquo;30-year Fixed Mortgage Rate (%)&rdquo;,
+subtitle=&ldquo;Mortgage rates decline throughout 2016 reaching a low on May 12&hellip;&rdquo;,
+caption=&quot;@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey&quot;)
+ani.pause()}
 }
-  #Pause for drama
-    for (i2 in 1:8) {
-    print(g)
-    ani.pause()
-  }
-  # Start moving backwards to three years ago:
-  for (i in 1:137) {
-    g&lt;-
-      myplotf(pmms30yr[date&gt;= dd13[157-i]])+
-      labs(x=&ldquo;&rdquo;, y=&ldquo;&rdquo;,
-           title=&ldquo;30-year Fixed Mortgage Rate (%)&rdquo;,
-           subtitle=&ldquo;&hellip;rates haven&rsquo;t been this low in three years&hellip;&rdquo;,
-           caption=&ldquo;@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey&rdquo;)
-      #annotate(&ldquo;text&rdquo;, x=pmms30yr[year==2016 &amp; week==1]$date, y=3.5,
-               #label=&ldquo;&hellip;rates haven&rsquo;t been\n that low in\n three years.&ldquo;,color=&ldquo;red&rdquo;,hjust=0)
-    print(g)
-    ani.pause()
-  }
-  #Pause for more drama
-  for (i2 in 1:8) {
-    print(g)
-    ani.pause()
-  }
-  #Start moving backwards:
-  #   I want to move slowly (by six week increments) faster (13 week) faster (26 weeks)
-  #   Then slow down (13 weeks) to (6 weeks) to finally 1 week
-  for (i in c(seq(1,365,6),seq(378,716,13),seq(1145,1574,26),seq(1587,2003,13),seq(2016,2185,6),2196) ) {
-    g&lt;-
-      myplotf(pmms30yr[date&gt;= dd[2353-156-i]])+
-      labs(x=&ldquo;&rdquo;, y=&ldquo;&rdquo;,
-           title=&ldquo;30-year Fixed Mortgage Rate (%)&rdquo;,
-           subtitle=&ldquo;&hellip;and rates are very low by historical standards&rdquo;,
-           caption=&ldquo;@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey&rdquo;)
-    print(g)
-    ani.pause()
-  }
-  for (i2 in 1:8) {
-    print(g)
-    ani.pause()
-  }
+#Pause for drama
+for (i2 in 1:8) {
+print(g)
+ani.pause()
+}</p>
+<h1 id="start-moving-backwards-to-three-years-ago">Start moving backwards to three years ago:</h1>
+<p>for (i in 1:137) {
+g&lt;-
+myplotf(pmms30yr[date&gt;= dd13[157-i]])+
+labs(x=&quot;&quot;, y=&quot;&quot;,
+title=&ldquo;30-year Fixed Mortgage Rate (%)&rdquo;,
+subtitle=&quot;&hellip;rates haven&rsquo;t been this low in three years&hellip;&quot;,
+caption=&quot;@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey&quot;)
+#annotate(&ldquo;text&rdquo;, x=pmms30yr[year==2016 &amp; week==1]$date, y=3.5, 
+#label=&quot;&hellip;rates haven&rsquo;t been\n that low in\n three years.&quot;,color=&ldquo;red&rdquo;,hjust=0)
+print(g)
+ani.pause()
+}
+#Pause for more drama
+for (i2 in 1:8) {
+print(g)
+ani.pause()
+}
+#Start moving backwards:</p>
+<h1 id="i-want-to-move-slowly-by-six-week-increments-faster-13-week-faster-26-weeks">I want to move slowly (by six week increments) faster (13 week) faster (26 weeks)</h1>
+<h1 id="then-slow-down-13-weeks-to-6-weeks-to-finally-1-week">Then slow down (13 weeks) to (6 weeks) to finally 1 week</h1>
+<p>for (i in c(seq(1,365,6),seq(378,716,13),seq(1145,1574,26),seq(1587,2003,13),seq(2016,2185,6),2196) ) {
+g&lt;-
+myplotf(pmms30yr[date&gt;= dd[2353-156-i]])+
+labs(x=&quot;&quot;, y=&quot;&quot;,
+title=&ldquo;30-year Fixed Mortgage Rate (%)&rdquo;,
+subtitle=&quot;&hellip;and rates are very low by historical standards&quot;,
+caption=&quot;@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey&quot;)
+print(g)
+ani.pause()
+}
+for (i2 in 1:8) {
+print(g)
+ani.pause()
+}
 },movie.name=&ldquo;rate_5_14_2016.gif&rdquo;,ani.width = 575, ani.height = 450)
 {% endhighlight</p>
-
 <p>And the result:</p>
-
-<p><img src="../../../../img/charts_may_15_2016/rate_5_14_2016.gif" alt="stop motion rates gif"/></p>
+<!-- raw HTML omitted -->
 
 
   
 <div class="prev-next-post pure-g">
   <div class="pure-u-1-24" style="text-align: left;">
     
-    <a href="/2016/05/14/visual-meditations-on-house-prices-part4/"><i class="fa fa-chevron-left"></i></a>
+    <a href="http://lenkiefer.com/2016/05/14/visual-meditations-on-house-prices-part4/"><i class="fa fa-chevron-left"></i></a>
     
   </div>
   <div class="pure-u-10-24">
     
     <nav class="prev">
-      <a href="/2016/05/14/visual-meditations-on-house-prices-part4/">Visual meditations on house prices, Part 4: graph gallery</a>
+      <a href="http://lenkiefer.com/2016/05/14/visual-meditations-on-house-prices-part4/">Visual meditations on house prices, Part 4: graph gallery</a>
     </nav>
     
   </div>
@@ -387,13 +366,13 @@ saveGIF({
   <div class="pure-u-10-24">
     
     <nav class="next">
-      <a href="/2016/05/19/mortgage-rates-and-the-fed-funds/">Mortgage rates and the Fed Funds rate</a>
+      <a href="http://lenkiefer.com/2016/05/19/mortgage-rates-and-the-fed-funds/">Mortgage rates and the Fed Funds rate</a>
     </nav>
     
   </div>
   <div class="pure-u-1-24" style="text-align: right;">
     
-    <a href="/2016/05/19/mortgage-rates-and-the-fed-funds/"><i class="fa fa-chevron-right"></i></a>
+    <a href="http://lenkiefer.com/2016/05/19/mortgage-rates-and-the-fed-funds/"><i class="fa fa-chevron-right"></i></a>
     
   </div>
 </div>
@@ -422,7 +401,7 @@ saveGIF({
 
     <div class="share">
         
-            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2016%2f05%2f15%2fmortgage-rates-some-perspective%2f&text=Mortgage%20rates%2c%20some%20perspective via %40lenkiefer"
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.comhttp%3a%2f%2flenkiefer.com%2f2016%2f05%2f15%2fmortgage-rates-some-perspective%2f&text=Mortgage%20rates%2c%20some%20perspective via %40lenkiefer"
                 onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
                 <i class="fa fa-twitter"></i>
                 <span class="hidden">Twitter</span>
@@ -430,7 +409,7 @@ saveGIF({
         
 
         
-            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2016%2f05%2f15%2fmortgage-rates-some-perspective%2f"
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.comhttp%3a%2f%2flenkiefer.com%2f2016%2f05%2f15%2fmortgage-rates-some-perspective%2f"
                 onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
                 <i class="fa fa-facebook"></i>
                 <span class="hidden">Facebook</span>
@@ -443,7 +422,7 @@ saveGIF({
 </footer>
 </div>
 </div>
-<script src="/js/ui.js"></script>
+<script src="http://lenkiefer.com/js/ui.js"></script>
 
 
 <script>

@@ -5,7 +5,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
-  <meta name="generator" content="Hugo 0.27.1" />
+  <meta name="generator" content="Hugo 0.81.0" />
 
   <title>Visual meditations on house prices, Part 5: distributions &middot; Len Kiefer</title>
 
@@ -48,7 +48,7 @@
   <script>hljs.initHighlightingOnLoad();</script>
   
 
-  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+  <link rel="shortcut icon" href="http://lenkiefer.com/img/favicon.PNG" type="image/x-icon" />
 
   
   
@@ -231,11 +231,11 @@
   <div>
     <i class="fa fa-tags fa-fw"></i>
     
-      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
     
-      <a class="post-taxonomy-tag" href="/tags/house-prices">house prices</a>&nbsp;&#47;
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/house-prices">house prices</a>&nbsp;&#47;
     
-      <a class="post-taxonomy-tag" href="/tags/r">R</a>
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>
     
   </div>
   
@@ -243,53 +243,32 @@
 
 </div>
 
-  
-
-<p>OVER THE PAST THREE MONTHS I HAVE MADE several new house price visualizations.  In these meditations I&rsquo;ll consider some recent graphs and provide R code for them.  For reference, prior meditations are available at:</p>
-
+  <p>OVER THE PAST THREE MONTHS I HAVE MADE several new house price visualizations.  In these meditations I&rsquo;ll consider some recent graphs and provide R code for them.  For reference, prior meditations are available at:</p>
 <ul>
 <li><a href="../../../../2016/05/08/visual-meditations-on-house-prices-part1">Part 1: data wrangling </a></li>
 <li><a href="../../../../2016/05/08/visual-meditations-on-house-prices-part2">Part 2: sparklines and dots (animated) </a></li>
 <li><a href="../../../../2016/05/10/visual-meditations-on-house-prices-part3">Part 3: bubbles and bounce </a></li>
 <li><a href="../../../../2016/05/14/visual-meditations-on-house-prices-part4">Part 4: graph gallery </a></li>
 </ul>
-
 <h1 id="meditation-1-median-sales-price-trends">Meditation 1: Median sales price trends</h1>
-
 <p>Earlier this week, the National Association of Realtors (NAR) <a href="http://www.realtor.org/news-releases/2016/08/home-price-gains-unfettered-in-most-metro-areas-during-second-quarter">released</a> their quarterly update on metro area median house prices (data <a href="http://www.realtor.org/topics/metropolitan-median-area-prices-and-affordability">here</a>).  These data show trends in the median sales price of existing single family homes.</p>
-
 <p>According to the NAR report, the national median sales price of an existing single family home was $240,700 in the second quarter of 2016, but there are vast differences in house prices across the country.  San Jose <a href="http://www.businessinsider.com/san-jose-median-home-price-1-million-2016-8">made news</a> by having a median sales prices that was over $1 million dollars.  On the other end of the spectrum, the median sales price in Youngstown, Ohio was just over $85,000.</p>
-
 <p>In order to better understand the distribution of median sales prices, I constructed the following combination chart:</p>
-
-<p><img src="../../../../img/charts_aug_13_2016/nar dots 2016 q2 v2.gif" alt="nar combo" style="width: 550px;"/></p>
-
+<!-- raw HTML omitted -->
 <p>The chart combines a slopegraph showing the trend in house prices from the second quarter of 2015 to the second quarter of 2016 and two histogram of house prices where the bars are replaced with dots representing each individual metro. By looking at the slopes on the left, you can see how house prices have trended across metros (mostly up) and by looking at the histogram on the right, you can compare how individual metros stack up relative to other markets in the country.  On the left I&rsquo;ve created two histograms comparing 2015 Q2 to 2016Q2 so you can see how metros have moved in the median price distribution over time.</p>
-
 <p>As there is a whole lot of data (180 metros), I use animation to highlight each individual metro one at a time.  I sorted the metros based on their place in the 2016 Q2 price distribution, starting from Youngstown and going up to San Jose.</p>
-
 <h2 id="code-for-plot">Code for plot</h2>
-
 <p>In order to construct this plot using R we&rsquo;ll need to combine multiple graphs on a single page. Fortunately, the <a href="http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/">Cookbook for R has code for this</a>.  By using the multiplot function in the link above, we can easily combine two plots into one page.</p>
-
 <p>The data from NAR comes in a spreadsheet, but we&rsquo;re going to have to change it.  From this:</p>
-
-<p><img src="../../../../img/charts_aug_13_2016/nar before.PNG" alt="nar before" style="width: 550px;"/></p>
-
+<!-- raw HTML omitted -->
 <p>to this:</p>
-
-<p><img src="../../../../img/charts_aug_13_2016/nar after.PNG" alt="nar after" style="width: 550px;"/></p>
-
-<p>I tried to manipulate the data in R, but the headers and formatting of the spreadsheet made it seem more trouble than it was worth, so I transformed the data using <span class="icon-file-excel" style="color:green;"></span> excel. See <a href="../../../../2016/05/08/visual-meditations-on-house-prices-part1">this post</a> for details.</p>
-
+<!-- raw HTML omitted -->
+<p>I tried to manipulate the data in R, but the headers and formatting of the spreadsheet made it seem more trouble than it was worth, so I transformed the data using <!-- raw HTML omitted --><!-- raw HTML omitted --> excel. See <a href="../../../../2016/05/08/visual-meditations-on-house-prices-part1">this post</a> for details.</p>
 <h3 id="slopegraph">Slopegraph</h3>
-
 <p>The slopegraph is a line plot with two points.  In this case, the median price in 2015Q2 and in 2016Q2.  We&rsquo;ll arrange the dates on the x axis and have the price displayed on the y axis.  We&rsquo;ll use a logarithmic scale for the y axis, so the slopes of the lines will approximate the percentage change in the median price.</p>
-
 <p>We&rsquo;ll call out the United State median sales price by overlaying a red line on tope of gray lines representing each individual metro area.  In the animation we&rsquo;ll loop through each metro and update the histogram.</p>
-
-<p>{% highlight r
-#Load some packages&hellip;
+<p>{% highlight r 
+#Load some packages&hellip; 
 library(data.table, warn.conflicts = FALSE, quietly=TRUE)
 library(ggplot2, warn.conflicts = FALSE, quietly=TRUE)  #Using the development version for captions/subtitles
 library(dplyr, warn.conflicts = FALSE, quietly=TRUE)
@@ -300,80 +279,62 @@ library(animation, warn.conflicts = FALSE, quietly=TRUE)
 library(tidyr, warn.conflicts = FALSE, quietly=TRUE)
 library(ggrepel, warn.conflicts = FALSE, quietly=TRUE)
 library(tweenr, warn.conflicts = FALSE, quietly=TRUE)</p>
-
 <p>#Load some data that looks like the image above:
 ndata &lt;- fread(&ldquo;data/nar2016q2.txt&rdquo;)
-ndata$date&lt;-as.Date(ndata$date, format=&ldquo;%m/%d/%Y&rdquo;)  #set dates
+ndata$date&lt;-as.Date(ndata$date, format=&quot;%m/%d/%Y&quot;)  #set dates
 ndata&lt;-transform(ndata, value = as.numeric(value))  #force value to be numeric
 ndata[,myjust:=ifelse(id==&ldquo;2016.II&rdquo;,0,1)]           #used to align text labels, left label right aligned, right label left aligned</p>
-
 <p>#create the plot</p>
-
 <p>g.slope&lt;-ggplot(data=ndata[code==&ldquo;US&rdquo; &amp; (id==&ldquo;2015.II&rdquo;|id==&ldquo;2016.II&rdquo;) &amp; type==&ldquo;level&rdquo;,],
-       aes(x=id,y=value,group=name,label=paste(&rdquo; &ldquo;,name,&rdquo;\n&rdquo;,dollar(round(value,0)),&ldquo;k &ldquo;,sep=&rdquo;&ldquo;)))+
-  #we need to group by metros, and create a label</p>
-
+aes(x=id,y=value,group=name,label=paste(&quot; &ldquo;,name,&quot;\n&rdquo;,dollar(round(value,0)),&ldquo;k &ldquo;,sep=&quot;&quot;)))+
+#we need to group by metros, and create a label</p>
 <p>#create gray lines for each metro
-  geom_path(data=ndata[code==&ldquo;metro&rdquo; &amp; (id==&ldquo;2015.II&rdquo;|id==&ldquo;2016.II&rdquo;) &amp; type==&ldquo;level&rdquo;],color=&ldquo;gray&rdquo;,alpha=0.7)+
-  geom_point(data=ndata[code==&ldquo;metro&rdquo; &amp; (id==&ldquo;2015.II&rdquo;|id==&ldquo;2016.II&rdquo;) &amp; type==&ldquo;level&rdquo;],color=&ldquo;gray&rdquo;,alpha=0.7)+
-  theme_minimal()+</p>
-
+geom_path(data=ndata[code==&ldquo;metro&rdquo; &amp; (id==&ldquo;2015.II&rdquo;|id==&ldquo;2016.II&rdquo;) &amp; type==&ldquo;level&rdquo;],color=&ldquo;gray&rdquo;,alpha=0.7)+
+geom_point(data=ndata[code==&ldquo;metro&rdquo; &amp; (id==&ldquo;2015.II&rdquo;|id==&ldquo;2016.II&rdquo;) &amp; type==&ldquo;level&rdquo;],color=&ldquo;gray&rdquo;,alpha=0.7)+
+theme_minimal()+</p>
 <p>#create a red line for the U.S.
-  geom_path(color=&ldquo;red&rdquo;)+geom_text(color=&ldquo;red&rdquo;,aes(hjust=myjust))+scale_y_log10(breaks=seq(100,1100,100))+
-  geom_point(color=&ldquo;red&rdquo;,size=2)+
-  labs(x=&ldquo;quarter&rdquo;,y=&ldquo;Median sales price (Ths $, log scale)&rdquo;,subtitle=&ldquo;Median sales price of existing single family home&rdquo;,
-       caption=&ldquo;@lenkiefer Source: NAR each line a metro area&rdquo;,title=&ldquo;Change in house prices 2015Q2 to 2016Q2&rdquo;)+
- theme(plot.caption=element_text(size=10, hjust=0, margin=margin(t=15)))</p>
-
+geom_path(color=&ldquo;red&rdquo;)+geom_text(color=&ldquo;red&rdquo;,aes(hjust=myjust))+scale_y_log10(breaks=seq(100,1100,100))+
+geom_point(color=&ldquo;red&rdquo;,size=2)+
+labs(x=&ldquo;quarter&rdquo;,y=&ldquo;Median sales price (Ths $, log scale)&quot;,subtitle=&ldquo;Median sales price of existing single family home&rdquo;,
+caption=&quot;@lenkiefer Source: NAR each line a metro area&rdquo;,title=&ldquo;Change in house prices 2015Q2 to 2016Q2&rdquo;)+
+theme(plot.caption=element_text(size=10, hjust=0, margin=margin(t=15)))</p>
 <p>g.slope
 {% endhighlight</p>
-
-<p><img src="/img/Rfig/fig-nar-slopes-1.svg" alt="plot of chunk fig-nar-slopes" /></p>
-
+<p><img src="/img/Rfig/fig-nar-slopes-1.svg" alt="plot of chunk fig-nar-slopes"></p>
 <h3 id="create-the-histograms">Create the histograms</h3>
-
 <p>In order to create the histograms we&rsquo;re going to have build them ourselves.  Our strategy will be to place each metro in a bin corresponding to a range of house prices (say from $75,000 to $100,000), and then count up how many metros are in each bin.  So far, that&rsquo;s just like a standard histogram. But as we&rsquo;re going to draw a dot for each metro area, we have to assign a y axis value for each metro.</p>
-
-<p>{% highlight r
+<p>{% highlight r 
 d&lt;-ndata[code==&ldquo;metro&rdquo;&amp; id==&ldquo;2016.II&rdquo; &amp; type==&ldquo;level&rdquo; &amp; value&gt;0,]
 myhist&lt;-hist(d$value,plot=FALSE, breaks=seq(0,1100,25) ) #construct a histogram</p>
-
 <p>N&lt;-length(myhist$mids)  #how many bins in the histogram
 d&lt;-d[order(value),]  #sort the data by median house prices</p>
-
 <p>myindex&lt;-0  #initialize
 d$counter&lt;-0  #initialize y axis counter
 g1&lt;-ggplot(data=data.frame(x=myhist$mids[i],y=j),
-          aes(x=x,y=y))+theme_minimal()
+aes(x=x,y=y))+theme_minimal()
 for (i in 1:N){
-  for (j in 1:myhist$counts[i])
-  {if (myhist$counts[i]&gt;0){
-    myindex&lt;-myindex+1 #iterate counter
-    d[myindex, counter:=j]  #set y = j
-    d[myindex, vbin:=myhist$mids[i]]  # append bin value for this price
-    g1&lt;-g1+geom_point(data=data.frame(x=myhist$mids[i],y=j), aes(x=x,y=y),size=2,color=&ldquo;gray&rdquo;)}  #add dot to plot
-  }}
+for (j in 1:myhist$counts[i])
+{if (myhist$counts[i]&gt;0){
+myindex&lt;-myindex+1 #iterate counter
+d[myindex, counter:=j]  #set y = j
+d[myindex, vbin:=myhist$mids[i]]  # append bin value for this price
+g1&lt;-g1+geom_point(data=data.frame(x=myhist$mids[i],y=j), aes(x=x,y=y),size=2,color=&ldquo;gray&rdquo;)}  #add dot to plot
+}}
 g1&lt;-g1+scale_x_continuous(limits=c(0,1150),breaks=seq(0,1100,100))+
-  scale_y_continuous(limits=c(0,40))+
-  labs(x=&ldquo;Median Sales Price of Existing Single-Family Homes (Ths $)&rdquo;,
-       y=&ldquo;count of metros&rdquo;,
-       title=&ldquo;Home sales price distribution 2016 Q2&rdquo;,
-              caption=&ldquo;@lenkiefer Source: NAR each dot a metro area&rdquo;)+
- theme(plot.caption=element_text(size=10, hjust=0, margin=margin(t=15)))
+scale_y_continuous(limits=c(0,40))+
+labs(x=&ldquo;Median Sales Price of Existing Single-Family Homes (Ths $)&rdquo;,
+y=&ldquo;count of metros&rdquo;,
+title=&ldquo;Home sales price distribution 2016 Q2&rdquo;,
+caption=&quot;@lenkiefer Source: NAR each dot a metro area&rdquo;)+
+theme(plot.caption=element_text(size=10, hjust=0, margin=margin(t=15)))
 g1
 {% endhighlight</p>
-
-<p><img src="/img/Rfig/fig-nar-dot-1-1.svg" alt="plot of chunk fig-nar-dot-1" /></p>
-
+<p><img src="/img/Rfig/fig-nar-dot-1-1.svg" alt="plot of chunk fig-nar-dot-1"></p>
 <h3 id="combine-the-plots">Combine the plots</h3>
-
 <p>Now we&rsquo;ll used the <a href="http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/">multiplot function</a> to combine the plots. We&rsquo;ll also make another histogram so we can compare the distribution of median house sales prices in 2016Q2 to the distribution in 2015Q2.</p>
-
-<p>{% highlight r
+<p>{% highlight r 
 source(&ldquo;code/multiplot.R&rdquo;) #include the multiplot function</p>
-
 <p>#Recreate the histogram for 2015Q2:</p>
-
 <p>d2&lt;-ndata[code==&ldquo;metro&rdquo;&amp; id==&ldquo;2015.II&rdquo; &amp; type==&ldquo;level&rdquo; &amp; value&gt;0,]
 myhist&lt;-hist(d2$value,plot=FALSE, breaks=seq(0,1100,25) )
 N&lt;-length(myhist$mids)
@@ -382,84 +343,68 @@ d2&lt;-d2[order(value),]
 myindex&lt;-0
 d2$counter&lt;-0
 g2&lt;-ggplot(data=data.frame(x=myhist$mids[i],y=j),
-          aes(x=x,y=y))+theme_minimal()
+aes(x=x,y=y))+theme_minimal()
 for (i in 1:N){
-  for (j in 1:myhist$counts[i])
-  {if (myhist$counts[i]&gt;0){
-    myindex&lt;-myindex+1
-    d2[myindex, counter:=j]
-    d2[myindex, vbin:=myhist$mids[i]]
-    g2&lt;-g2+geom_point(data=data.frame(x=myhist$mids[i],y=j), aes(x=x,y=y),size=2,color=&ldquo;gray&rdquo;)}
-  }}</p>
-
+for (j in 1:myhist$counts[i])
+{if (myhist$counts[i]&gt;0){
+myindex&lt;-myindex+1
+d2[myindex, counter:=j]
+d2[myindex, vbin:=myhist$mids[i]]
+g2&lt;-g2+geom_point(data=data.frame(x=myhist$mids[i],y=j), aes(x=x,y=y),size=2,color=&ldquo;gray&rdquo;)}
+}}</p>
 <p>g2&lt;-g2+scale_x_continuous(limits=c(0,1150),breaks=seq(0,1100,100))+
-  scale_y_continuous(limits=c(0,40))+
-  labs(x=&ldquo;Median Sales Price of Existing Single-Family Homes (Ths $)&rdquo;,
-       y=&ldquo;count of metros&rdquo;,
-       title=&ldquo;Home sales price distribution 2015 Q2&rdquo;)</p>
-
-<p>#Create the multiplot
+scale_y_continuous(limits=c(0,40))+
+labs(x=&ldquo;Median Sales Price of Existing Single-Family Homes (Ths $)&rdquo;,
+y=&ldquo;count of metros&rdquo;,
+title=&ldquo;Home sales price distribution 2015 Q2&rdquo;)</p>
+<p>#Create the multiplot 
 #We use a matrix layout to make the slopegraph two units tall and the histograms 1 in a 2x2 layout:</p>
-
 <p>multiplot(g2+theme(axis.text=element_text(size=6),axis.title=element_text(size=7)), #shrink axis text and labels
-          g1+theme(axis.text=element_text(size=6),axis.title=element_text(size=7)),
-          g.slope+labs(caption=&ldquo;@lenkiefer Source: NAR each dot/line a metro area&rdquo;),layout=matrix(c(3,1,3,2), nrow=2, byrow=TRUE))
+g1+theme(axis.text=element_text(size=6),axis.title=element_text(size=7)),
+g.slope+labs(caption=&quot;@lenkiefer Source: NAR each dot/line a metro area&rdquo;),layout=matrix(c(3,1,3,2), nrow=2, byrow=TRUE))
 {% endhighlight</p>
-
-<p><img src="/img/Rfig/fig-nar-combo-1-1.svg" alt="plot of chunk fig-nar-combo-1" /></p>
-
+<p><img src="/img/Rfig/fig-nar-combo-1-1.svg" alt="plot of chunk fig-nar-combo-1"></p>
 <h3 id="add-animation">add animation</h3>
-
 <p>Now we want to highlight each individual metro area.  To do so, we&rsquo;ll construct an animated gif where we highlight each metro one at time.  The code below generates the animated gif:</p>
-
-<p>{% highlight r
+<p>{% highlight r 
 mlist&lt;-unique(d$name)  #get a unique list of metros, ordered by median prices in 2016Q2</p>
-
 <p>oopt = ani.options(interval = 0.3)
 saveGIF({for (i in seq(1,length(mlist),1) ){
 g3&lt;-
-  ggplot(data=ndata[name==mlist[i] &amp; (id==&ldquo;2015.II&rdquo;|id==&ldquo;2016.II&rdquo;) &amp; type==&ldquo;level&rdquo;,],
-         aes(x=id,y=value,group=name,label=paste(&rdquo; $&ldquo;,round(value,1),&ldquo;k &ldquo;,sep=&rdquo;&ldquo;)))+
-  geom_path(data=ndata[code==&ldquo;metro&rdquo; &amp; (id==&ldquo;2015.II&rdquo;|id==&ldquo;2016.II&rdquo;) &amp; type==&ldquo;level&rdquo;],color=&ldquo;gray&rdquo;,alpha=0.7)+
-  geom_point(data=ndata[code==&ldquo;metro&rdquo; &amp; (id==&ldquo;2015.II&rdquo;|id==&ldquo;2016.II&rdquo;) &amp; type==&ldquo;level&rdquo;],color=&ldquo;gray&rdquo;,alpha=0.7)+
-  theme_minimal()+
-  geom_path(color=&ldquo;red&rdquo;)+geom_text(color=&ldquo;red&rdquo;,aes(hjust=myjust))+scale_y_log10(breaks=seq(100,1100,100))+
-  labs(x=&ldquo;quarter&rdquo;,y=&ldquo;Median sales price (Ths $, log scale)&rdquo;,subtitle=mlist[i],
-       caption=&ldquo;@lenkiefer Source: NAR&rdquo;,title=&ldquo;Change in house prices 2015Q2 to 2016Q2&rdquo;)+
-  theme(plot.subtitle=element_text(color=&ldquo;red&rdquo;))+ theme(plot.caption=element_text(size=10, hjust=0,margin=margin(t=15)))+
-  geom_point(color=&ldquo;red&rdquo;,size=2)</p>
-
+ggplot(data=ndata[name==mlist[i] &amp; (id==&ldquo;2015.II&rdquo;|id==&ldquo;2016.II&rdquo;) &amp; type==&ldquo;level&rdquo;,],
+aes(x=id,y=value,group=name,label=paste(&quot; $&quot;,round(value,1),&ldquo;k &ldquo;,sep=&quot;&quot;)))+
+geom_path(data=ndata[code==&ldquo;metro&rdquo; &amp; (id==&ldquo;2015.II&rdquo;|id==&ldquo;2016.II&rdquo;) &amp; type==&ldquo;level&rdquo;],color=&ldquo;gray&rdquo;,alpha=0.7)+
+geom_point(data=ndata[code==&ldquo;metro&rdquo; &amp; (id==&ldquo;2015.II&rdquo;|id==&ldquo;2016.II&rdquo;) &amp; type==&ldquo;level&rdquo;],color=&ldquo;gray&rdquo;,alpha=0.7)+
+theme_minimal()+
+geom_path(color=&ldquo;red&rdquo;)+geom_text(color=&ldquo;red&rdquo;,aes(hjust=myjust))+scale_y_log10(breaks=seq(100,1100,100))+
+labs(x=&ldquo;quarter&rdquo;,y=&ldquo;Median sales price (Ths $, log scale)&quot;,subtitle=mlist[i],
+caption=&quot;@lenkiefer Source: NAR&rdquo;,title=&ldquo;Change in house prices 2015Q2 to 2016Q2&rdquo;)+
+theme(plot.subtitle=element_text(color=&ldquo;red&rdquo;))+ theme(plot.caption=element_text(size=10, hjust=0,margin=margin(t=15)))+
+geom_point(color=&ldquo;red&rdquo;,size=2)</p>
 <p>multiplot(g2+  geom_point(data=d2[name==mlist[i]],aes(x=vbin,y=counter),size=2,color=&ldquo;red&rdquo;)+
-            labs(subtitle=mlist[i])+theme(plot.subtitle=element_text(color=&ldquo;red&rdquo;))+
-            theme(axis.text=element_text(size=6),axis.title=element_text(size=7)),
-          g1+  geom_point(data=d[name==mlist[i]],aes(x=vbin,y=counter),size=2,color=&ldquo;red&rdquo;)+
-            labs(subtitle=mlist[i])+theme(plot.subtitle=element_text(color=&ldquo;red&rdquo;))+
-            theme(axis.text=element_text(size=6),axis.title=element_text(size=7)) ,
-          g3+theme(axis.text=element_text(size=6),axis.title=element_text(size=7))
-          ,layout=matrix(c(3,1,3,2), nrow=2, byrow=TRUE))
+labs(subtitle=mlist[i])+theme(plot.subtitle=element_text(color=&ldquo;red&rdquo;))+
+theme(axis.text=element_text(size=6),axis.title=element_text(size=7)),
+g1+  geom_point(data=d[name==mlist[i]],aes(x=vbin,y=counter),size=2,color=&ldquo;red&rdquo;)+
+labs(subtitle=mlist[i])+theme(plot.subtitle=element_text(color=&ldquo;red&rdquo;))+
+theme(axis.text=element_text(size=6),axis.title=element_text(size=7)) ,
+g3+theme(axis.text=element_text(size=6),axis.title=element_text(size=7))
+,layout=matrix(c(3,1,3,2), nrow=2, byrow=TRUE))
 ani.pause()
 print(i)
 }
 },movie.name=&ldquo;nar dots 2016 q2 v2.gif&rdquo;,ani.width = 1000, ani.height = 650)
-{% endhighlight
+{% endhighlight 
 Run it and you get our plot:</p>
-
-<p><img src="../../../../img/charts_aug_13_2016/nar dots 2016 q2 v2.gif" alt="nar combo" style="width: 550px;"/></p>
-
+<!-- raw HTML omitted -->
 <h1 id="meditation-2-changes-in-the-distribution-of-house-price-appreciation">Meditation 2: Changes in the Distribution of House Price Appreciation</h1>
-
 <p>The NAR data only goes back to 2015Q2, but how has the metro level distribution of house prices changed over the last 10 years or so?  In this section we&rsquo;ll consider a graph I constructed using the Freddie Mac House Price Index (FMHPI), which is available to the public on <a href="http://www.freddiemac.com/finance/house_price_index.html">Freddie Mac&rsquo;s webpage</a> and goes back to the 1970s for over 300 metro areas.</p>
-
 <p>The data I&rsquo;m going to use is an updated version of the files <em>fmhpi2.txt</em> I described in <a href="../../../../2016/05/08/visual-meditations-on-house-prices-part1">Part 1: data wrangling </a>.</p>
-
 <p>For the animation we&rsquo;ll also be using the tweenr package, which I&rsquo;ve written about before. See my earlier <a href="../../../../2016/05/29/improving-R-animated-gifs-with-tweenr">post about tweenr</a> for an introduction, and more examples <a href="../../../../2016/05/30/more-tweenr-animations">here</a> and <a href="../../../../2016/06/26/week-in-review">here</a>.</p>
-
-<p>{% highlight r
+<p>{% highlight r 
 #load data
 metrodata &lt;- fread(&ldquo;data/fmhpi4.txt&rdquo;)  #updated fmhpi file
-metrodata$date&lt;-as.Date(metrodata$date, format=&ldquo;%m/%d/%Y&rdquo;)
+metrodata$date&lt;-as.Date(metrodata$date, format=&quot;%m/%d/%Y&rdquo;)
 metrodata&lt;-metrodata[,hpa12:=c(rep(NA,12),((1+diff(hpi,12)/hpi))^1)-1,by=metro]</p>
-
 <p>#make a function to create a dot histogram, similar to above
 myf&lt;-function(mydate){
 d&lt;-mdata[date==mydate,]
@@ -469,120 +414,98 @@ d&lt;-d[order(hpa12),]
 myindex&lt;-0
 d$counter&lt;-0
 for (i in 1:N){
-  for (j in 1:myhist$counts[i])
-  {if (myhist$counts[i]&gt;0){
-    myindex&lt;-myindex+1
-    d[myindex, counter:=j]
-    d[myindex, vbin:=myhist$mids[i]]
-  }}}
+for (j in 1:myhist$counts[i])
+{if (myhist$counts[i]&gt;0){
+myindex&lt;-myindex+1
+d[myindex, counter:=j]
+d[myindex, vbin:=myhist$mids[i]]
+}}}
 d$date&lt;-factor(d$date)
 d.out&lt;-as.data.frame(d[, list(date,vbin,counter,hpa12,state,region,metro)])
 return(d.out)
 }</p>
-
 <p>#create a plot using our function</p>
-
 <p>ggplot(data=myf(unique(metrodata[year==2016 &amp; month==6,]$date)),
-           aes(x=vbin,y=counter,label=metro))+geom_point(size=1.5,color=&ldquo;#00B0F0&rdquo;)+theme_minimal()+
-    labs(x=&ldquo;Annual House Price Growth (Y/Y % change, NSA index)&rdquo;,
-         y=&ldquo;Count of Metros&rdquo;,
-         title=&ldquo;Metro House Price Distribution&rdquo;,
-         caption=&ldquo;@lenkiefer Source: Freddie Mac House Price Index. Each dot a metro area&rdquo;,
-         subtitle=format(as.Date(&ldquo;2016-06-01&rdquo;),&ldquo;%b-%Y&rdquo;))+
-    coord_cartesian(xlim=c(-0.2,.2),ylim=c(0,35))+
-    theme(plot.title=element_text(size=16))+
-    scale_x_continuous(labels=percent,breaks=seq(-.4,.4,.1))+
-    theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
-    theme(legend.justification=c(0,0), legend.position=&ldquo;top&rdquo;)
+aes(x=vbin,y=counter,label=metro))+geom_point(size=1.5,color=&quot;#00B0F0&rdquo;)+theme_minimal()+
+labs(x=&ldquo;Annual House Price Growth (Y/Y % change, NSA index)&rdquo;,
+y=&ldquo;Count of Metros&rdquo;,
+title=&ldquo;Metro House Price Distribution&rdquo;,
+caption=&quot;@lenkiefer Source: Freddie Mac House Price Index. Each dot a metro area&quot;,
+subtitle=format(as.Date(&ldquo;2016-06-01&rdquo;),&quot;%b-%Y&quot;))+
+coord_cartesian(xlim=c(-0.2,.2),ylim=c(0,35))+
+theme(plot.title=element_text(size=16))+
+scale_x_continuous(labels=percent,breaks=seq(-.4,.4,.1))+
+theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+theme(legend.justification=c(0,0), legend.position=&ldquo;top&rdquo;)
 {% endhighlight</p>
-
-<p><img src="/img/Rfig/fig-nar-fmhpi-dots-1-1.svg" alt="plot of chunk fig-nar-fmhpi-dots-1" /></p>
-
+<p><img src="/img/Rfig/fig-nar-fmhpi-dots-1-1.svg" alt="plot of chunk fig-nar-fmhpi-dots-1"></p>
 <h2 id="adding-animation">Adding animation</h2>
-
 <p>We want to compare how the distribution of annual house price growth has shifted from 2006 to 2016. We&rsquo;ll compare the annual appreciation in June of each year.  We&rsquo;ll also use tweenr to have the dots smoothly transition between years.</p>
-
-<p>{% highlight r
+<p>{% highlight r 
 dlist&lt;-unique(metrodata[year&gt;2005 &amp; month==6,]$date)  #generate a list of dates
 my.list2&lt;-lapply(c(dlist,min(dlist)),myf)  #apply our function to our list of dates</p>
-
 <p>#use tweenr to interploate
 tf &lt;- tween_states(my.list2,tweenlength= 3, statelength=1, ease=rep(&lsquo;cubic-in-out&rsquo;,2),nframes=200)
 tf&lt;-data.table(unique(tf)) #convert output into data table</p>
-
 <p>oopt = ani.options(interval = 0.15)
 saveGIF({for (i in 1:max(tf$.frame)) { #loop over frames
-  g&lt;-
-    ggplot(data=tf[.frame==i,],aes(x=vbin,y=counter,label=metro))+geom_point(size=1.5,alpha=0.75,color=&ldquo;#00B0F0&rdquo;)+theme_minimal()+
-    labs(x=&ldquo;Annual House Price Growth (Y/Y % change, NSA index)&rdquo;,
-         y=&ldquo;Count of Metros&rdquo;,
-         title=&ldquo;Metro House Price Distribution&rdquo;,
-         caption=&ldquo;@lenkiefer Source: Freddie Mac House Price Index. Each dot a metro area&rdquo;,
-         subtitle=unique(format(as.Date(tf[.frame==i]$date), &ldquo;%b-%Y&rdquo;)))+
-    coord_cartesian(xlim=c(-0.4,.4),ylim=c(0,41))+
-    theme(plot.title=element_text(size=16))+
-    scale_x_continuous(labels=percent,breaks=seq(-.4,.4,.1))+
-    theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
-    theme(legend.justification=c(0,0), legend.position=&ldquo;top&rdquo;)
-  print(g)
-  ani.pause()
-  print(i)}
+g&lt;-
+ggplot(data=tf[.frame==i,],aes(x=vbin,y=counter,label=metro))+geom_point(size=1.5,alpha=0.75,color=&quot;#00B0F0&quot;)+theme_minimal()+
+labs(x=&ldquo;Annual House Price Growth (Y/Y % change, NSA index)&rdquo;,
+y=&ldquo;Count of Metros&rdquo;,
+title=&ldquo;Metro House Price Distribution&rdquo;,
+caption=&quot;@lenkiefer Source: Freddie Mac House Price Index. Each dot a metro area&quot;,
+subtitle=unique(format(as.Date(tf[.frame==i]$date), &ldquo;%b-%Y&rdquo;)))+
+coord_cartesian(xlim=c(-0.4,.4),ylim=c(0,41))+
+theme(plot.title=element_text(size=16))+
+scale_x_continuous(labels=percent,breaks=seq(-.4,.4,.1))+
+theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+theme(legend.justification=c(0,0), legend.position=&ldquo;top&rdquo;)
+print(g)
+ani.pause()
+print(i)}
 },movie.name=&ldquo;hpi dot tween aug 12 2016 portland highlight.gif&rdquo;,ani.width = 700, ani.height = 500)
-{% endhighlight
-<img src="../../../../img/charts_aug_13_2016/fmhpi tween jun 2006 to 2016.gif" alt="fmhpi dots combo" style="width: 550px;"/></p>
-
+{% endhighlight 
+<!-- raw HTML omitted --></p>
 <h2 id="adding-a-time-series-plot-highlighting-individual-metros">Adding a time series plot, highlighting individual metros</h2>
-
 <p>We can use multiplot again to combine the historgram with a line plot. In this case, we&rsquo;ll loop through all the metro areas and compare the current year-over-year appreciation to the history of that metro from 2000 through 2016 (June).</p>
-
-<p><img src="../../../../img/charts_aug_13_2016/hpi dot combo dot line aug 2016.gif" alt="fmhpi dots combo 2" style="width: 550px;"/></p>
-
+<!-- raw HTML omitted -->
 <p>Coder for this plot follows:</p>
-
-<p>{% highlight r
+<p>{% highlight r 
 d.out&lt;-myf(as.Date(&ldquo;2016-06-01&rdquo;))  #we&rsquo;ll just plot the data for June 2016
 d.out&lt;-data.table(d.out) #make it a data table for ease of use
 mlist0&lt;-unique(metrodata$metro)  #generate a list of metros</p>
-
 <p>oopt = ani.options(interval = 0.25)
 saveGIF({for (i in 1:length(mlist0)) {  #loop over metros</p>
-
 <p>g&lt;-
-  ggplot(data=d.out,aes(x=vbin,y=counter,label=metro))+geom_point(size=1.5,alpha=0.75,color=&ldquo;#00B0F0&rdquo;)+
-  theme_minimal()+</p>
-
+ggplot(data=d.out,aes(x=vbin,y=counter,label=metro))+geom_point(size=1.5,alpha=0.75,color=&quot;#00B0F0&quot;)+
+theme_minimal()+</p>
 <p>labs(x=&ldquo;Annual House Price Growth (Y/Y % change, NSA index)&rdquo;,
-       y=&ldquo;Count of Metros&rdquo;,
-       title=&ldquo;Metro House Price Appreciation Distribution&rdquo;,
-       caption=&ldquo;@lenkiefer Source: Freddie Mac House Price Index. Each dot/line a metro area&rdquo;,
-       subtitle=paste(&ldquo;(Y/Y % change) in&rdquo;,unique(format(as.Date(d.out$date), &ldquo;%b-%Y&rdquo;))))+
-  coord_cartesian(xlim=c(-0.1,.20),ylim=c(0,35))+
-  theme(plot.title=element_text(size=16))+
-  scale_x_continuous(labels=percent,breaks=seq(-.4,.4,.1))+
-  theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
-  theme(legend.justification=c(0,0), legend.position=&ldquo;top&rdquo;)+
-  geom_text(data=d.out[metro==mlist0[i]],color=&ldquo;red&rdquo;,aes(y=0),size=3)+
-  geom_point(data=d.out[metro==mlist0[i]],color=&ldquo;red&rdquo;)</p>
-
+y=&ldquo;Count of Metros&rdquo;,
+title=&ldquo;Metro House Price Appreciation Distribution&rdquo;,
+caption=&quot;@lenkiefer Source: Freddie Mac House Price Index. Each dot/line a metro area&quot;,
+subtitle=paste(&quot;(Y/Y % change) in&quot;,unique(format(as.Date(d.out$date), &ldquo;%b-%Y&rdquo;))))+
+coord_cartesian(xlim=c(-0.1,.20),ylim=c(0,35))+
+theme(plot.title=element_text(size=16))+
+scale_x_continuous(labels=percent,breaks=seq(-.4,.4,.1))+
+theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+theme(legend.justification=c(0,0), legend.position=&ldquo;top&rdquo;)+
+geom_text(data=d.out[metro==mlist0[i]],color=&ldquo;red&rdquo;,aes(y=0),size=3)+
+geom_point(data=d.out[metro==mlist0[i]],color=&ldquo;red&rdquo;)</p>
 <p>#now make a time series plot</p>
-
 <p>g2&lt;-
-  ggplot(data=metrodata[year&gt;1999,],aes(x=date,y=hpi,group=metro))+geom_line(color=&ldquo;gray&rdquo;,alpha=0.75)+</p>
-
-<p>theme_minimal()+labs(x=&ldquo;&rdquo;,y=&ldquo;House Price Index (Dec 2000=100, NSA)&rdquo;,
-                       subtitle=mlist0[i],
-                       title=&ldquo;Metro House Price Trends Jan 2000-Jun 2016&rdquo;)+
-  theme(plot.subtitle=element_text(color=&ldquo;red&rdquo;))+
-  geom_line(data=metrodata[year&gt;1999 &amp; metro==mlist0[i],],color=&ldquo;red&rdquo;,size=1.2)  #highlight the metro we want</p>
-
+ggplot(data=metrodata[year&gt;1999,],aes(x=date,y=hpi,group=metro))+geom_line(color=&ldquo;gray&rdquo;,alpha=0.75)+</p>
+<p>theme_minimal()+labs(x=&quot;&quot;,y=&ldquo;House Price Index (Dec 2000=100, NSA)&rdquo;,
+subtitle=mlist0[i],
+title=&ldquo;Metro House Price Trends Jan 2000-Jun 2016&rdquo;)+
+theme(plot.subtitle=element_text(color=&ldquo;red&rdquo;))+
+geom_line(data=metrodata[year&gt;1999 &amp; metro==mlist0[i],],color=&ldquo;red&rdquo;,size=1.2)  #highlight the metro we want</p>
 <p>m&lt;-multiplot(g2,g)</p>
-
 <p>print(m)
 ani.pause()
 print(i)}
 },movie.name=&ldquo;hpi dot combo dot line aug 2016.gif&rdquo;,ani.width = 700, ani.height = 700)
 {% endhighlight</p>
-
 <p><a href="../../../../2016/05/08/visual-meditations-on-house-prices">Check out the other visual meditations on house prices</a></p>
 
 
@@ -590,13 +513,13 @@ print(i)}
 <div class="prev-next-post pure-g">
   <div class="pure-u-1-24" style="text-align: left;">
     
-    <a href="/2016/08/09/trends-in-credit/"><i class="fa fa-chevron-left"></i></a>
+    <a href="http://lenkiefer.com/2016/08/09/trends-in-credit/"><i class="fa fa-chevron-left"></i></a>
     
   </div>
   <div class="pure-u-10-24">
     
     <nav class="prev">
-      <a href="/2016/08/09/trends-in-credit/">Consumer Credit Trends</a>
+      <a href="http://lenkiefer.com/2016/08/09/trends-in-credit/">Consumer Credit Trends</a>
     </nav>
     
   </div>
@@ -606,13 +529,13 @@ print(i)}
   <div class="pure-u-10-24">
     
     <nav class="next">
-      <a href="/2016/08/13/visual-meditations-on-house-prices-part-5-distributions/">Visual meditations on house prices, Part 5: distributions</a>
+      <a href="http://lenkiefer.com/2016/08/15/trends-in-credit-part-2/">Consumer Credit Trends Part 2: Data doesn&#39;t drive, it&#39;s lucky to be in the car</a>
     </nav>
     
   </div>
   <div class="pure-u-1-24" style="text-align: right;">
     
-    <a href="/2016/08/13/visual-meditations-on-house-prices-part-5-distributions/"><i class="fa fa-chevron-right"></i></a>
+    <a href="http://lenkiefer.com/2016/08/15/trends-in-credit-part-2/"><i class="fa fa-chevron-right"></i></a>
     
   </div>
 </div>
@@ -639,7 +562,7 @@ print(i)}
 
     <div class="share">
         
-            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2016%2f08%2f2016%2f08%2f13%2fvisual-meditations-on-house-prices-part5%2f&text=Visual%20meditations%20on%20house%20prices%2c%20Part%205%3a%20distributions via %40lenkiefer"
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.comhttp%3a%2f%2flenkiefer.com%2f2016%2f08%2f2016%2f08%2f13%2fvisual-meditations-on-house-prices-part5%2f&text=Visual%20meditations%20on%20house%20prices%2c%20Part%205%3a%20distributions via %40lenkiefer"
                 onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
                 <i class="fa fa-twitter"></i>
                 <span class="hidden">Twitter</span>
@@ -647,7 +570,7 @@ print(i)}
         
 
         
-            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2016%2f08%2f2016%2f08%2f13%2fvisual-meditations-on-house-prices-part5%2f"
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.comhttp%3a%2f%2flenkiefer.com%2f2016%2f08%2f2016%2f08%2f13%2fvisual-meditations-on-house-prices-part5%2f"
                 onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
                 <i class="fa fa-facebook"></i>
                 <span class="hidden">Facebook</span>
@@ -660,7 +583,7 @@ print(i)}
 </footer>
 </div>
 </div>
-<script src="/js/ui.js"></script>
+<script src="http://lenkiefer.com/js/ui.js"></script>
 
 
 <script>

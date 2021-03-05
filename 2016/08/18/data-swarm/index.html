@@ -5,7 +5,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
-  <meta name="generator" content="Hugo 0.52" />
+  <meta name="generator" content="Hugo 0.81.0" />
 
   <title>Data swarms: Your firearms are useless against them! &middot; Len Kiefer</title>
 
@@ -48,7 +48,7 @@
   <script>hljs.initHighlightingOnLoad();</script>
   
 
-  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+  <link rel="shortcut icon" href="http://lenkiefer.com/img/favicon.PNG" type="image/x-icon" />
 
   
   
@@ -231,13 +231,13 @@ From American Community Survey to the American Housing Survey to the annual Home
   <div>
     <i class="fa fa-tags fa-fw"></i>
     
-      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
     
-      <a class="post-taxonomy-tag" href="/tags/economy">economy</a>&nbsp;&#47;
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/economy">economy</a>&nbsp;&#47;
     
-      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>&nbsp;&#47;
     
-      <a class="post-taxonomy-tag" href="/tags/data-wrangling">data wrangling</a>
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/data-wrangling">data wrangling</a>
     
   </div>
   
@@ -245,41 +245,23 @@ From American Community Survey to the American Housing Survey to the annual Home
 
 </div>
 
-  
-
-<p>AUGUST IS ALMOST OVER, and it&rsquo;s nearly back to school season.  And that means one thing.  No, not that we&rsquo;re about to get a chance to watch the <a href="http://www.ncaa.com/news/football/article/2016-08-02/college-football-ohio-state-tops-aps-all-time-top-100">#1 NCAA football program of all time</a> dominate the gridiron (though that&rsquo;s awesome too). No, it&rsquo;s data release season!  A data swarm is on its way.</p>
-
+  <p>AUGUST IS ALMOST OVER, and it&rsquo;s nearly back to school season.  And that means one thing.  No, not that we&rsquo;re about to get a chance to watch the <a href="http://www.ncaa.com/news/football/article/2016-08-02/college-football-ohio-state-tops-aps-all-time-top-100">#1 NCAA football program of all time</a> dominate the gridiron (though that&rsquo;s awesome too). No, it&rsquo;s data release season!  A data swarm is on its way.</p>
 <p>From <a href="http://www.census.gov/programs-surveys/acs/news/data-releases/2015/release-schedule.html">American Community Survey</a> to the <a href="http://www.census.gov/programs-surveys/ahs/news/2015-data-release.html">American Housing Survey</a> to the annual <a href="https://www.ffiec.gov/hmda/faqtech.htm#p3">Home Mortgage Disclosure Act Data</a> many statistical data releases come out in September and October.</p>
-
 <p>In preparation for all these data releases I&rsquo;ve been firing up the viz terminal and getting my statistical software all stretched out.  Good news is, there&rsquo;s all kind of great innovations coming out to help me. Bad news is there&rsquo;s so much to keep up with.  In this post I&rsquo;m going to try out some new techniques and work on some fundamentals.</p>
-
 <h1 id="data-wrangling-with-r">Data wrangling with R</h1>
-
 <p>Out of expediency I&rsquo;ve often used Excel for mundane data wrangling tasks (<a href="../../../../2016/05/08/visual-meditations-on-house-prices-part1">see here for an example</a>), but I&rsquo;ve been meaning to use R more.</p>
-
 <p>Fortunately I&rsquo;ve gotten some help to jump start me. <a href="https://twitter.com/jkregenstein">@jkregenstein</a>, who works at <a href="https://www.rstudio.com/">Rstudio</a> reached out to me and offered me some R code (see <a href="https://beta.rstudioconnect.com/content/1341/Freddie_Data_Notebook.nb.html">here for house prices example</a> and  <a href="https://beta.rstudioconnect.com/content/1445/ConsumerCreditDataNotebook.nb.html">here for credit panel example</a> from Jonathan) to accomplish what I was doing with Excel.</p>
-
 <p>I&rsquo;m going to try to build from Jonathan&rsquo;s examples and work out my data wrangling skills with an example using negative equity estimates from Zillow.</p>
-
 <h2 id="wrangling-some-data">Wrangling some data</h2>
-
 <p>Zillow publishes a <a href="http://www.zillow.com/research/methodology-negative-equity-3180/">negative equity report</a> that tracks what proportion of homeowners currently are &ldquo;underwater&rdquo; or owe more on their mortgage than what their home is currently worth.  See a write-up of their latest release from Zillow Chief Economist <a href="https://twitter.com/SvenjaGudell">@SvenjaGudell </a> <a href="http://www.zillow.com/research/q2-2016-negative-equity-report-13046/">here</a>. Note that the firm <a href="http://www.corelogic.com/about-us/researchtrends/homeowner-equity-report.aspx">CoreLogic also has a report</a>. The two reports are slightly different due to different underlying data and different, but similar, methodologies.  Because the Zillow data is available in a handy .csv format <a href="http://www.zillow.com/research/data/#additional-data">downloadable</a> from their website I&rsquo;m going to use the Zillow data.</p>
-
 <p>The Zillow data is not <a href="http://vita.had.co.nz/papers/tidy-data.pdf">tidy</a>, but it&rsquo;s not too far from it. It&rsquo;s a good version to practice on. Downloading the <a href="http://files.zillowstatic.com/research/public/NegativeEquity_2016Q1_Public.csv">data</a> you get a .csv file that looks like this when viewed in Excel. <strong>Note Zillow released the 2016Q2 <a href="http://www.zillow.com/research/q2-2016-negative-equity-report-13046/">report today</a>, but the latest available data at time of writing is the 2016Q1 report</strong></p>
-
-<p><img src="../../../../img/charts_aug_18_2016/zillow ne report.PNG" alt="zillow data" style="width: 550px;"/></p>
-
+<!-- raw HTML omitted -->
 <p>In the data file there are several descriptive columns and then the actual data showing the proportion of homeowners underwater according to Zillow&rsquo;s calculations starting in the 13th column (M in the spreadsheet). We&rsquo;ll want to tidy this column by gathering all the data columns (from columns 13 to 32 or column M to AF).</p>
-
 <p>My standard approach with this would be to use the Excel pivot table wizard to gather the columns like so (from my <a href="../../../../2016/05/08/visual-meditations-on-house-prices-part1">house price data wrangling post</a>):</p>
-
-<p><img src="../../../../img/charts_may_8_2016/tidy1.gif" alt="FMHPI 6" style="width: 550px;"/></p>
-
+<!-- raw HTML omitted -->
 <p>But tidying these data in R is pretty easy.</p>
-
 <p>Here&rsquo;s how I would have gone about it:</p>
-
-<p>{% highlight r
+<p>{% highlight r 
 #load libraries
 library(readr)
 library(dplyr)
@@ -293,189 +275,140 @@ library(ggthemes)
 library(scales)
 library(zoo)
 library(data.table)</p>
-
-<p>#zdata&lt;-fread(&ldquo;<a href="http://files.zillowstatic.com/research/public/NegativeEquity_2016Q1_Public.csv&quot;">http://files.zillowstatic.com/research/public/NegativeEquity_2016Q1_Public.csv&quot;</a>)</p>
-
-<h1 id="here-s-how-i-would-have-done-it-by-brut-ish-force">Here&rsquo;s how I would have done it by brut(ish) force</h1>
-
+<p>#zdata&lt;-fread(&ldquo;<a href="http://files.zillowstatic.com/research/public/NegativeEquity_2016Q1_Public.csv%22">http://files.zillowstatic.com/research/public/NegativeEquity_2016Q1_Public.csv&quot;</a>)</p>
+<h1 id="heres-how-i-would-have-done-it-by-brutish-force">Here&rsquo;s how I would have done it by brut(ish) force</h1>
 <p>z2&lt;-data.table(gather(zdata,dateq,&ldquo;neg&rdquo;,13:32))
 z2[,year:=as.numeric(substring(dateq,1,4))]
 z2[,month:=as.numeric(substring(dateq,6,6))]
 z2$date&lt;- as.Date(ISOdate(z2$year,z2$month,1) )  #this converts year and month characters to R dates
 {% endhighlight</p>
-
 <p>But after reading Jonathan&rsquo;s code examples I see that I can try a slightly different approach to get to the same place.</p>
-
-<p>{% highlight r
+<p>{% highlight r 
 ##manipulate and create new variables
-zdata_wrangled &lt;-zdata  %&gt;%
-  gather(dateq,&ldquo;neg&rdquo;,13:32) %&gt;%
-  #create a column called year and month by separating the zillow date column
-  separate(dateq,into=c(&ldquo;year&rdquo;,&ldquo;quarter&rdquo;),sep=&ldquo;Q&rdquo;,convert=T,remove=F) %&gt;%
-  #create dates
-  mutate(
-    date= as.Date(ISOdate(year,quarter*3,1) )
-  ) %&gt;% data.table()
+zdata_wrangled &lt;-zdata  %&gt;% 
+gather(dateq,&ldquo;neg&rdquo;,13:32) %&gt;%
+#create a column called year and month by separating the zillow date column
+separate(dateq,into=c(&ldquo;year&rdquo;,&ldquo;quarter&rdquo;),sep=&ldquo;Q&rdquo;,convert=T,remove=F) %&gt;%
+#create dates
+mutate(
+date= as.Date(ISOdate(year,quarter*3,1) )
+) %&gt;% data.table()
 {% endhighlight</p>
-
-<h3 id="okay-let-s-use-these-data-for-something">Okay let&rsquo;s use these data for something</h3>
-
+<h3 id="okay-lets-use-these-data-for-something">Okay let&rsquo;s use these data for something</h3>
 <p>Let&rsquo;s examine trends in negative equity by state using these data. Once again we&rsquo;ll use the R packaged tweenr and animate to make an animated gif. See my earlier <a href="../../../../2016/05/29/improving-R-animated-gifs-with-tweenr">post about tweenr</a> for an introduction to tweenr, and more examples <a href="../../../../2016/05/30/more-tweenr-animations">here</a> and <a href="../../../../2016/06/26/week-in-review">here</a>.</p>
-
-<p>{% highlight r
+<p>{% highlight r 
 USID&lt;-unique(z3[RegionType==&ldquo;Country&rdquo;]$RegionID)   #get the US region ID
 regions&lt;-unique(z3[RegionType==&ldquo;State&rdquo;]$RegionID)  #get a list of state IDs</p>
-
-<p>#add the &ldquo;US&rdquo; at the top and the bottomw of the list of states
+<p>#add the &ldquo;US&rdquo; at the top and the bottomw of the list of states 
 r2&lt;-c(USID,regions,USID)</p>
-
 <h1 id="function-to-create-list-of-data-sets-from-our-data-by-state">function to create list of data sets from our data (by state)</h1>
-
-<p>myf&lt;-function&reg;{
-  z.out&lt;-z3[RegionType %in% c(&ldquo;Country&rdquo;,&ldquo;State&rdquo;) &amp; RegionID==r, list(RegionName,date,neg)]
-  z.out %&gt;% map_if(is.character, as.factor) %&gt;% as.data.frame() -&gt;z.out
-  return(z.out)
-  }
+<p>myf&lt;-function(r){
+z.out&lt;-z3[RegionType %in% c(&ldquo;Country&rdquo;,&ldquo;State&rdquo;) &amp; RegionID==r, list(RegionName,date,neg)]
+z.out %&gt;% map_if(is.character, as.factor) %&gt;% as.data.frame() -&gt;z.out
+return(z.out)
+}
 myf(regions[1])</p>
-
 <h1 id="use-lapply-to-generate-the-list-of-data-sets">use lapply to generate the list of data sets:</h1>
-
 <p>my.list2&lt;-lapply(r2,myf)</p>
-
 <h1 id="apply-tweenr">Apply tweenr:</h1>
-
 <p>tf &lt;- tween_states(my.list2, tweenlength= 2, statelength=3, ease=rep(&lsquo;cubic-in-out&rsquo;,51),nframes=300)
 dtf&lt;-data.table(tf)  # Make tweenr output a data table</p>
-
 <p>oopt = ani.options(interval = 0.15)
 saveGIF({for (i in 1:max(tf$.frame)) {</p>
-
 <h1 id="create-the-animation">create the animation</h1>
-
 <p>g&lt;-
-  ggplot(data=dtf,aes(x=date,y=neg,group=RegionName,label=RegionName))+
-  geom_path(data=z3[RegionID %in% r2,],aes(x=date,y=neg),color=&ldquo;gray&rdquo;,alpha=0.3)  +
-  scale_y_continuous(labels=percent)+
-  geom_line(data=dtf[.frame==i,],color=&ldquo;red&rdquo;,size=1.1)+
-  #add % at end
-  geom_text(data=dtf[date==max(dtf$date) &amp; .frame==i],aes(label=percent(neg)),
-            nudge_y=.025,nudge_x=10, color=&ldquo;red&rdquo;)+
-  #add point at line end:
-  geom_point(data=dtf[date==max(dtf$date) &amp; .frame==i],size=2, color=&ldquo;red&rdquo;)+
-  #style:
-  theme_minimal()+  theme(plot.title=element_text(face=&ldquo;bold&rdquo;,size=12))+
-  theme(plot.caption=element_text(hjust=0))+
-  theme(plot.subtitle=element_text(color=&ldquo;red&rdquo;))+
-  #labels:
-  labs(y=&ldquo;Percent of homeowners underwater&rdquo;, x=&ldquo;&rdquo;,
-       caption=&ldquo;@lenkiefer Source: Zillow Negative Equity Report (2016Q1)&ldquo;,
-       subtitle=unique(dtf[.frame==i]$RegionName),
-       title=&ldquo;Negative Equity by State&rdquo;)
+ggplot(data=dtf,aes(x=date,y=neg,group=RegionName,label=RegionName))+
+geom_path(data=z3[RegionID %in% r2,],aes(x=date,y=neg),color=&ldquo;gray&rdquo;,alpha=0.3)  +
+scale_y_continuous(labels=percent)+
+geom_line(data=dtf[.frame==i,],color=&ldquo;red&rdquo;,size=1.1)+
+#add % at end
+geom_text(data=dtf[date==max(dtf$date) &amp; .frame==i],aes(label=percent(neg)),
+nudge_y=.025,nudge_x=10, color=&ldquo;red&rdquo;)+
+#add point at line end:
+geom_point(data=dtf[date==max(dtf$date) &amp; .frame==i],size=2, color=&ldquo;red&rdquo;)+
+#style:
+theme_minimal()+  theme(plot.title=element_text(face=&ldquo;bold&rdquo;,size=12))+
+theme(plot.caption=element_text(hjust=0))+
+theme(plot.subtitle=element_text(color=&ldquo;red&rdquo;))+
+#labels:
+labs(y=&ldquo;Percent of homeowners underwater&rdquo;, x=&quot;&rdquo;,
+caption=&quot;@lenkiefer Source: Zillow Negative Equity Report (2016Q1)&quot;,
+subtitle=unique(dtf[.frame==i]$RegionName),
+title=&ldquo;Negative Equity by State&rdquo;)
 print(g)
 ani.pause()
 print(i)
 }
 },movie.name=&ldquo;zillow neg equity 2016Q1.gif&rdquo;,ani.width = 500, ani.height = 350)
 {% endhighlight</p>
-
 <p>Which yields:</p>
-
-<p><img src="../../../../img/charts_aug_18_2016/zillow neg equity 2016Q1.gif" alt="neg equity gif"/></p>
-
+<!-- raw HTML omitted -->
 <h1 id="swarms-and-swarms">Swarms and swarms</h1>
-
 <p>I spend a lot of time looking at the annual Home Mortgage Disclosure Act (HMDA) data. The publicly available data is a great source of information for what&rsquo;s happened in the mortgage market in the past year. The data are only available with a lag.  In September/October we&rsquo;ll get the 2015 data.</p>
-
 <p>The data are housed over at the Consumer Financial Protection Bureau <a href="http://www.consumerfinance.gov/data-research/hmda/explore">webpage</a>. They have a public <a href="http://www.consumerfinance.gov/data-research/hmda/api">API</a>, but I haven&rsquo;t seen anything written on using R with it. But they do have a nice summary file generator, which can be quite handy. But for this exercise we&rsquo;ll work with the loan level data.</p>
-
 <p>For this exercise we&rsquo;re going to work with mortgage loan origination records from the 2014 HMDA data.</p>
-
 <p>Every year there are a lot of mortgages originated. <a href="https://twitter.com/lenkiefer/status/765204080604147712">Some</a> have even said that this year (2016) the total market will top $2 Trillion in originated mortgages. In 2014 there were over 5 million mortgage loans originated for 1-4 family dwellings and manufactured housing. For the following examples I downloaded a loan-level file including all 5 million + observations from the CFPB website. To make things marginally faster I restricted myself to conventional loans, bringing the raw count down to about 4 million loans.</p>
-
 <h2 id="beeswarm-plots">Beeswarm plots</h2>
-
 <p>Yesterday <a href="https://twitter.com/hadleywickham">@hadleywickham</a> <a href="https://twitter.com/hadleywickham/status/765893450172473344">commented</a> on how he was enjoying the <a href="https://github.com/eclarke/ggbeeswarm">ggbeeswarm package</a> which allows you to make beeswarm plots (or column scatter plots or violin scatter plots) in R with ggplot2.</p>
-
 <p>I like to look at distributions in different ways, so I thought I would try them out. I was not disappointed, especially when I combined it with tweenr.</p>
-
 <p>For this example, I&rsquo;m going to use the beeswarm package to generate beeswarm plots shows the distribution of loan amount across states broken out by purchase and refinance loans. And we&rsquo;ll use tweenr to animate the transitions.</p>
-
-<p><img src="../../../../img/charts_aug_18_2016/HMDA loan amounts v3.gif" alt="HMDA Swarm"/></p>
-
+<!-- raw HTML omitted -->
 <h2 id="making-the-plot">Making the plot</h2>
-
 <p>I&rsquo;ve pulled down a .csv file from the CFPB website that containes all the conventional purchase and refinance 1-4 family dwelling and manufactured housing mortgage originations in 2014. <a href="http://www.consumerfinance.gov/data-research/hmda/explore#!/as_of_year=2014&amp;property_type=1,3&amp;action_taken=1&amp;loan_purpose=1,3&amp;loan_type=1&amp;section=filters">This link</a> will take you to the CFPB webpage where you can download the file. It is about 2.6 GB so I wouldn&rsquo;t recommend opening in Excel. <em>Though I have done such a thing in the past.</em></p>
-
 <p>But I&rsquo;m not here to talk about the past (that&rsquo;s a story for another post). I&rsquo;m here to talk about beeswarms.</p>
-
-<p>{% highlight r
+<p>{% highlight r 
 library(&lsquo;ggbeeswarm&rsquo;)  #load the ggbeeswarm package
 library(&lsquo;viridis&rsquo;)     # viridis for colors
-mydata &lt;- fread(&rdquo;~/data/hmda/hmda_lar.csv&rdquo;)  #load the .csv file data tables do well.</p>
-
+mydata &lt;- fread(&quot;~/data/hmda/hmda_lar.csv&quot;)  #load the .csv file data tables do well.</p>
 <p>#let&rsquo;s only keep important columns
 mydata&lt;-mydata[,list(state_name,loan_purpose_name,loan_type_name,loan_amount_000s)]
 mydata$upb&lt;-as.numeric(mydata$loan_amount_000s)*1000</p>
-
 <p>#subset data for smaller version:
-mydata2&lt;-mydata[ loan_type_name %in% c(&ldquo;Conventional&rdquo;) &amp; state_name !=&ldquo;&rdquo;, ]  #my original query included non-conventional (e.g. FHA, VA, or RHS loans)</p>
-
+mydata2&lt;-mydata[ loan_type_name %in% c(&ldquo;Conventional&rdquo;) &amp; state_name !=&quot;&quot;, ]  #my original query included non-conventional (e.g. FHA, VA, or RHS loans)</p>
 <p>rm(mydata)  #drop unecessary data</p>
-
 <p>#convert characters to factors for tweenr</p>
-
 <p>mydata2 %&gt;% map_if(is.character, as.factor) %&gt;% as_data_frame -&gt; mydata2</p>
-
 <p>myf &lt;- function(mystate){
-  my.out&lt;-mydata2[state_name==mystate,list(upb,loan_purpose_name,loan_type_name,state_name)][sample(.N,3000)]
-  #The data is huge, so I only want to sample 3000 loans.  Plotting millions of points isn&rsquo;t very useful.</p>
-
+my.out&lt;-mydata2[state_name==mystate,list(upb,loan_purpose_name,loan_type_name,state_name)][sample(.N,3000)]
+#The data is huge, so I only want to sample 3000 loans.  Plotting millions of points isn&rsquo;t very useful.</p>
 <pre><code>my.out %&gt;% map_if(is.character, as.factor) %&gt;% as.data.frame() -&gt;my.out  #need to convert characters to factors for tweenr
 </code></pre>
-
 <p>return(data.frame(my.out))}</p>
-
 <p>#I want to order states by total loan origination Unpaid Principal Balance (upb)
 #Calinfornia goes first
 st.sums1&lt;-mydata2[, list(upb=sum(as.numeric(loan_amount_000s))/1e6),by=state_name]</p>
-
 <p>st.list&lt;-as.character(unique(st.sums1[order(-upb)]$state_name))  #unique list of states
 my.list&lt;-lapply(c(st.list[1:51],st.list[1]),myf)</p>
-
 <h1 id="tween">tween</h1>
-
 <p>tf &lt;- tween_states(my.list, tweenlength= 3, statelength=2, ease=rep(&lsquo;cubic-in-out&rsquo;,24),nframes=300)
 tf&lt;-data.table(tf)</p>
-
 <p>#a plot for the function
 myplot&lt;-function(i){
-  g&lt;-
-    ggplot(tf[.frame==i &amp; upb&gt;0],
-           aes(y=loan_purpose_name,x=upb/1000,color=loan_purpose_name))+
-    theme_minimal()+<br />
-    theme(plot.title=element_text(size=14))+theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
-    theme(plot.margin=unit(c(0.25,0.25,0.25,0.25),&ldquo;cm&rdquo;))+
-    geom_quasirandom(alpha=0.35,size=.7)+  #I like the quasirandom beeswarm option
-    scale_color_viridis(discrete=T,option=&ldquo;D&rdquo;,end=0.5)+  #use viridis color package, it&rsquo;s great!
-    theme(legend.justification=c(0,0), legend.position=&ldquo;none&rdquo;)+
-    # use a log scale
-    scale_x_log10(limits=c(10,2500),label=dollar,breaks=c(10,25,50,100,250,500,1000,2000))+
-    #labels
-    labs(x=&ldquo;Loan Amount (Ths $, log scale)&rdquo;,
-         y=&ldquo;Loan Purpose&rdquo;,title=&ldquo;Distribution of conventional mortgage loan amount&rdquo;,
-         subtitle=paste(unique(tf[.frame==i]$state),&ldquo;in 2014&rdquo;),
-        caption=&ldquo;@lenkiefer Source: CFPB, FFIEC, Home Mortgage Disclosure Act (HMDA) data\nEach dot represents one originated loan. (3,000 loans randomly sampled for plot)\nIncludes only Conventional purchase and refinance loans for 1-4 family dwellings and manufactured housing.&ldquo;)
-   return(g)  }</p>
-
+g&lt;-
+ggplot(tf[.frame==i &amp; upb&gt;0],
+aes(y=loan_purpose_name,x=upb/1000,color=loan_purpose_name))+
+theme_minimal()+ <br>
+theme(plot.title=element_text(size=14))+theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
+theme(plot.margin=unit(c(0.25,0.25,0.25,0.25),&ldquo;cm&rdquo;))+
+geom_quasirandom(alpha=0.35,size=.7)+  #I like the quasirandom beeswarm option
+scale_color_viridis(discrete=T,option=&ldquo;D&rdquo;,end=0.5)+  #use viridis color package, it&rsquo;s great!
+theme(legend.justification=c(0,0), legend.position=&ldquo;none&rdquo;)+
+# use a log scale
+scale_x_log10(limits=c(10,2500),label=dollar,breaks=c(10,25,50,100,250,500,1000,2000))+ 
+#labels
+labs(x=&ldquo;Loan Amount (Ths $, log scale)&rdquo;,
+y=&ldquo;Loan Purpose&rdquo;,title=&ldquo;Distribution of conventional mortgage loan amount&rdquo;,
+subtitle=paste(unique(tf[.frame==i]$state),&ldquo;in 2014&rdquo;),
+caption=&quot;@lenkiefer Source: CFPB, FFIEC, Home Mortgage Disclosure Act (HMDA) data\nEach dot represents one originated loan. (3,000 loans randomly sampled for plot)\nIncludes only Conventional purchase and refinance loans for 1-4 family dwellings and manufactured housing.&quot;)
+return(g)  }</p>
 <h1 id="make-the-movie">make the movie</h1>
-
 <p>library(animation)
 oopt = ani.options(interval = 0.2)
 saveGIF({for (i in 1:max(tf$.frame)) {
-  g&lt;-myplot(i)
-  print(g)
-  ani.pause()
-  print(i)
+g&lt;-myplot(i)
+print(g)
+ani.pause()
+print(i)
 }
 },movie.name=&ldquo;HMDA loan amounts v3.gif&rdquo;,ani.width = 740, ani.height = 450)
 {% endhighlight</p>
@@ -485,13 +418,13 @@ saveGIF({for (i in 1:max(tf$.frame)) {
 <div class="prev-next-post pure-g">
   <div class="pure-u-1-24" style="text-align: left;">
     
-    <a href="/2016/08/15/trends-in-credit-part-2/"><i class="fa fa-chevron-left"></i></a>
+    <a href="http://lenkiefer.com/2016/08/15/trends-in-credit-part-2/"><i class="fa fa-chevron-left"></i></a>
     
   </div>
   <div class="pure-u-10-24">
     
     <nav class="prev">
-      <a href="/2016/08/15/trends-in-credit-part-2/">Consumer Credit Trends Part 2: Data doesn&#39;t drive, it&#39;s lucky to be in the car</a>
+      <a href="http://lenkiefer.com/2016/08/15/trends-in-credit-part-2/">Consumer Credit Trends Part 2: Data doesn&#39;t drive, it&#39;s lucky to be in the car</a>
     </nav>
     
   </div>
@@ -501,13 +434,13 @@ saveGIF({for (i in 1:max(tf$.frame)) {
   <div class="pure-u-10-24">
     
     <nav class="next">
-      <a href="/2016/08/19/mortgage-gif-8-19-2016/">Mortgage rate gifs: Week of Aug 19, 2016</a>
+      <a href="http://lenkiefer.com/2016/08/19/mortgage-gif-8-19-2016/">Mortgage rate gifs: Week of Aug 19, 2016</a>
     </nav>
     
   </div>
   <div class="pure-u-1-24" style="text-align: right;">
     
-    <a href="/2016/08/19/mortgage-gif-8-19-2016/"><i class="fa fa-chevron-right"></i></a>
+    <a href="http://lenkiefer.com/2016/08/19/mortgage-gif-8-19-2016/"><i class="fa fa-chevron-right"></i></a>
     
   </div>
 </div>
@@ -536,7 +469,7 @@ saveGIF({for (i in 1:max(tf$.frame)) {
 
     <div class="share">
         
-            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2016%2f08%2f18%2fdata-swarm%2f&text=Data%20swarms%3a%20Your%20firearms%20are%20useless%20against%20them%21 via %40lenkiefer"
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.comhttp%3a%2f%2flenkiefer.com%2f2016%2f08%2f18%2fdata-swarm%2f&text=Data%20swarms%3a%20Your%20firearms%20are%20useless%20against%20them%21 via %40lenkiefer"
                 onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
                 <i class="fa fa-twitter"></i>
                 <span class="hidden">Twitter</span>
@@ -544,7 +477,7 @@ saveGIF({for (i in 1:max(tf$.frame)) {
         
 
         
-            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2016%2f08%2f18%2fdata-swarm%2f"
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.comhttp%3a%2f%2flenkiefer.com%2f2016%2f08%2f18%2fdata-swarm%2f"
                 onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
                 <i class="fa fa-facebook"></i>
                 <span class="hidden">Facebook</span>
@@ -557,7 +490,7 @@ saveGIF({for (i in 1:max(tf$.frame)) {
 </footer>
 </div>
 </div>
-<script src="/js/ui.js"></script>
+<script src="http://lenkiefer.com/js/ui.js"></script>
 
 
 <script>
