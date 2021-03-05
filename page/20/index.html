@@ -5,7 +5,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
-  <meta name="generator" content="Hugo 0.52" />
+  <meta name="generator" content="Hugo 0.81.0" />
 
   <title>Len Kiefer</title>
 
@@ -40,7 +40,7 @@
 
  
   
-  <link rel="alternate" type="application/rss+xml" title="Len Kiefer" href="/index.xml" />
+  <link rel="alternate" type="application/rss+xml" title="Len Kiefer" href="http://lenkiefer.com/index.xml" />
   
 
   
@@ -50,7 +50,7 @@
   <script>hljs.initHighlightingOnLoad();</script>
   
 
-  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+  <link rel="shortcut icon" href="http://lenkiefer.com/img/favicon.PNG" type="image/x-icon" />
 
   
   
@@ -218,13 +218,13 @@
   
     <article>
   <header>
-    <h2><a href="/2017/02/01/emp-trends/">Wrangling employment data, plotting trends</a></h2>
+    <h2><a href="http://lenkiefer.com/2016/05/29/improving-r-animated-gifs-with-tweenr/">Improving R animated GIFs with tweenr</a></h2>
 
     <div class="post-meta">
 
   <div>
     <i class="fa fa-calendar fa-fw"></i>
-    <time>2017/02/01</time>
+    <time>2016/05/29</time>
   </div>
 
   
@@ -237,13 +237,11 @@
   <div>
     <i class="fa fa-tags fa-fw"></i>
     
-      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
     
-      <a class="post-taxonomy-tag" href="/tags/remix">remix</a>&nbsp;&#47;
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>&nbsp;&#47;
     
-      <a class="post-taxonomy-tag" href="/tags/economy">economy</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="/tags/r">R</a>
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/animation">animation</a>
     
   </div>
   
@@ -254,14 +252,14 @@
   </header>
 
   <p>
-  We will get back to house prices soon.
-IN THIS POST I WANT TO EXPLORE EMPLOYMENT TRENDS at the state and metro area. Today the U.S. Bureau of Labor Statistics (BLS) released data on state and metro area employment trends. Last month we looked at unemployment trends. Today we’ll look at trends in nonfarm employment.
-Wrangling the dataWe will be importing, preparing, and plotting our data with R. We can get the data pretty easily using the files BLS prepares, though we have to do a little bit of work to organize the data.
+  RECENTLY I HAVE MADE several animated GIFs, primarily using the animation package. These gifs usually work pretty well, coming out something like this (code here).
+Unfortunately, these gifs tend to come out rather choppy. I tried to get around that by using variable length sequences to alter the timing of each frame. My primitive approach involves loops and business like this:
+{% highlight r for (i in c(seq(1,365,6),seq(378,716,13),seq(1145,1574,26),seq(1587,2003,13),seq(2016,2185,6),2196) ) { {% endhighlight
   </p>
 
   
   <footer>
-    <a href="/2017/02/01/emp-trends/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+    <a href="/2016/05/29/improving-r-animated-gifs-with-tweenr/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
   </footer>
   
 </article>
@@ -269,13 +267,13 @@ Wrangling the dataWe will be importing, preparing, and plotting our data with R
   
     <article>
   <header>
-    <h2><a href="/2017/01/31/visualizing-housing-value-distributions-by-metro/">Visualizing housing value distributions by metro</a></h2>
+    <h2><a href="http://lenkiefer.com/2016/05/22/population-growth-housing-supply-and-house-prices/">Population growth, housing supply, and house prices</a></h2>
 
     <div class="post-meta">
 
   <div>
     <i class="fa fa-calendar fa-fw"></i>
-    <time>2017/01/31</time>
+    <time>2016/05/22</time>
   </div>
 
   
@@ -283,20 +281,35 @@ Wrangling the dataWe will be importing, preparing, and plotting our data with R
   
 
   
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/maps">maps</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/demographics">demographics</a>
+    
+  </div>
+  
+  
 
 </div>
 
   </header>
 
   <p>
-  EARLEIR TODAY I HAPPENED ACROSS AN INTERESTING post by Ken Steif ([twitter @kensteif](https://twitter.com/KenSteif)) at the Urban Spatial Analysis blog that predicts gentrification using census data.
-Do take some time to check out the post.
-There’s a bunch to unpack in the post, but for today I just want to talk about house values. Ken’s post looks at the evolution of house values within a metro area over time. There are some nice graphics in the post, but I thought I would add some additional graphics.
+  EARLIER THIS WEEK THE U.S. CENSUS BUREAU released dataon population and housing units for counties across the U.S. in 2015. These data reveal important trends in population growth, and help shed light on recent house price trends.
+Housing unit growth One key factor driving housing market dynamics is the expansion of housing supply (or lack thereof). The updated estimates from Census allow us to see which areas have added the most housing units and how that relates to population and house price trends.
   </p>
 
   
   <footer>
-    <a href="/2017/01/31/visualizing-housing-value-distributions-by-metro/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+    <a href="/2016/05/22/population-growth-housing-supply-and-house-prices/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
   </footer>
   
 </article>
@@ -304,13 +317,13 @@ There’s a bunch to unpack in the post, but for today I just want to talk about
   
     <article>
   <header>
-    <h2><a href="/2017/01/30/best-year-for-home-sales-in-a-decade/">Best year for home sales in a decade</a></h2>
+    <h2><a href="http://lenkiefer.com/2016/05/19/mortgage-rates-and-the-fed-funds/">Mortgage rates and the Fed Funds rate</a></h2>
 
     <div class="post-meta">
 
   <div>
     <i class="fa fa-calendar fa-fw"></i>
-    <time>2017/01/30</time>
+    <time>2016/05/19</time>
   </div>
 
   
@@ -318,20 +331,78 @@ There’s a bunch to unpack in the post, but for today I just want to talk about
   
 
   
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/animation">animation</a>
+    
+  </div>
+  
+  
 
 </div>
 
   </header>
 
   <p>
-  WE ARE ONE MONTH INTO 2017 AND WITH THIS MONTH’S economic releases we’ve completed most of the picture of 2016. These data by and large matched our expectations as I outlined in my 2016 year-in-review.
-Let’s take a quick look.
-Existing homes sales best in a decadeLast week the National Association of Realtors (NAR) reported on existing home sales for December of 2016. On a seasonally adjusted basis home sales declined 2.
+  YESTERDAY THE FEDERAL RESERVE RELEASED minutes from their last Federal Open Market Committee (FOMC) meeting in April. The big news was that the FOMC still considered a June rate hike a possibility. How much does Fed policy impact mortgage rates? I put together a few gifs comparing the history of the 30-year mortgage rate, the Fed Funds rate and the 10-year constant maturity Treasury.
+{% include JB/setup
+  </p>
+
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://lenkiefer.com/2016/05/15/mortgage-rates-some-perspective/">Mortgage rates, some perspective</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2016/05/15</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/mortgage">mortgage</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/animation">animation</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  Another mortgage rates animated gif IN THE PAST I&rsquo;ve told you how I made my mortgage rates gif. In this post I&rsquo;m make an extension that uses stop motion techniques to reverse course. We&rsquo;ll end up with this:
+For reference, here&rsquo;s the standard gif I share each Thursday after mortgage rates come out:
+Stop motion animation While thinking about the week-to-week movements in rates it&rsquo;s easy to lose longer-term perspective. Rates in the week of May 12, 2016 were the lowest in three years.
   </p>
 
   
   <footer>
-    <a href="/2017/01/30/best-year-for-home-sales-in-a-decade/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+    <a href="/2016/05/15/mortgage-rates-some-perspective/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
   </footer>
   
 </article>
@@ -339,13 +410,13 @@ Existing homes sales best in a decadeLast week the National Association of Real
   
     <article>
   <header>
-    <h2><a href="/2017/01/29/fun-with-plotly/">Fun with Plotly</a></h2>
+    <h2><a href="http://lenkiefer.com/2016/05/14/visual-meditations-on-house-prices-part4/">Visual meditations on house prices, Part 4: graph gallery</a></h2>
 
     <div class="post-meta">
 
   <div>
     <i class="fa fa-calendar fa-fw"></i>
-    <time>2017/01/29</time>
+    <time>2016/05/14</time>
   </div>
 
   
@@ -353,33 +424,40 @@ Existing homes sales best in a decadeLast week the National Association of Real
   
 
   
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/house-prices">House prices</a>
+    
+  </div>
+  
+  
 
 </div>
 
   </header>
 
   <p>
-  RECENTLY I HAVE BEEN EXPLORING FLEXDASHBOARDS to visualize data. In this post I want to focus on a tool I’ve found particularly useful, plotly.
-Plotly enables you to make interactive html widgets that you can embed in your webpage or view from within R. I’ve been having a lot of fun converting existing visualizations I have made with ggplot2 into plotly visualizations using ggplotly.
+  Charts and graphs exploring house price trends
   </p>
 
-  
-  <footer>
-    <a href="/2017/01/29/fun-with-plotly/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
-  </footer>
   
 </article>
 
   
     <article>
   <header>
-    <h2><a href="/2017/01/28/gdp-growth-chart-animated/">GDP Growth Chart (animated)</a></h2>
+    <h2><a href="http://lenkiefer.com/2016/05/10/visual-meditations-on-house-prices-part3/">Visual meditations on house prices, Part 3: bubbles and bounce</a></h2>
 
     <div class="post-meta">
 
   <div>
     <i class="fa fa-calendar fa-fw"></i>
-    <time>2017/01/28</time>
+    <time>2016/05/10</time>
   </div>
 
   
@@ -387,34 +465,40 @@ Plotly enables you to make interactive html widgets that you can embed in your w
   
 
   
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/house-prices">House prices</a>
+    
+  </div>
+  
+  
 
 </div>
 
   </header>
 
   <p>
-  IN THIS POST I WANT TO SHARE WITH YOU some code to create an animated plot of annual growth rates in U.S. Real Gross Domestic Product (GDP).
-As in most of my posts, we’ll be creating these graphs in R.
-GDP PlotOn Friday the U.S. Bureau of Economic Analysis (BEA) released the “advance” or first estimate of GDP growth for the fourth quarter of 2016. With that advance estimate we now have estimates for full-year 2016 economic growth.
+  Charts and graphs exploring house price trends
   </p>
 
-  
-  <footer>
-    <a href="/2017/01/28/gdp-growth-chart-animated/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
-  </footer>
   
 </article>
 
   
     <article>
   <header>
-    <h2><a href="/2017/01/26/converting-a-tableau-dashboard-to-a-flexdashboard/">Converting a Tableau dashboard to a Flexdashboard</a></h2>
+    <h2><a href="http://lenkiefer.com/2016/05/08/visual-meditations-on-house-prices/">Visual meditations on house prices</a></h2>
 
     <div class="post-meta">
 
   <div>
     <i class="fa fa-calendar fa-fw"></i>
-    <time>2017/01/26</time>
+    <time>2016/05/08</time>
   </div>
 
   
@@ -422,34 +506,40 @@ GDP PlotOn Friday the U.S. Bureau of Economic Analysis (BEA) released the “ad
   
 
   
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/house-prices">House prices</a>
+    
+  </div>
+  
+  
 
 </div>
 
   </header>
 
   <p>
-  Edited on 2017-01-27 to correct typos and fix tootip in dashboard
-IN THIS POST WE WILL CONVERT a data visualization dashboard I made some time ago using Tableau into a flexdashboard using R.
-On Monday, the Census posted a blog summarizing recent mobility trends. According to the CPS ASEC, 11.2 percent of the U.S. population age 1 and over moved between 2015 and 2016, the lowest since the CPS ASEC began in 1948.
+  Charts and graphs exploring house price trends
   </p>
 
-  
-  <footer>
-    <a href="/2017/01/26/converting-a-tableau-dashboard-to-a-flexdashboard/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
-  </footer>
   
 </article>
 
   
     <article>
   <header>
-    <h2><a href="/2017/01/22/a-guide-to-building-an-interactive-flexdashboard/">A guide to building an interactive flexdashboard</a></h2>
+    <h2><a href="http://lenkiefer.com/2016/05/08/visual-meditations-on-house-prices-part1/">Visual meditations on house prices, Part 1: data wrangling</a></h2>
 
     <div class="post-meta">
 
   <div>
     <i class="fa fa-calendar fa-fw"></i>
-    <time>2017/01/22</time>
+    <time>2016/05/08</time>
   </div>
 
   
@@ -457,37 +547,40 @@ On Monday, the Census posted a blog summarizing recent mobility trends. Accordin
   
 
   
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/house-prices">House prices</a>
+    
+  </div>
+  
+  
 
 </div>
 
   </header>
 
   <p>
-  INTERACTIVE DASHBOARDS CAN BE AN EFFECTIVE WAY to explore and present data. Recently, I have been using flexdashboards created with R. Over January 2017 I’ve posted the following examples:
-Mortgage rates viewer
-Year in review remix
-Cross talk dashboard
-Flexin Friday
-For each of these you can get the code by clicking on the source link in the upper right corner of the visualizations at the respective links.
+  Charts and graphs exploring house price trends
   </p>
 
-  
-  <footer>
-    <a href="/2017/01/22/a-guide-to-building-an-interactive-flexdashboard/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
-  </footer>
   
 </article>
 
   
     <article>
   <header>
-    <h2><a href="/2017/01/20/flexin-friday/">Flexin&#39; Friday</a></h2>
+    <h2><a href="http://lenkiefer.com/2016/05/08/visual-meditations-on-house-prices-part2/">Visual meditations on house prices, Part 2: sparklines and dots (animated)</a></h2>
 
     <div class="post-meta">
 
   <div>
     <i class="fa fa-calendar fa-fw"></i>
-    <time>2017/01/20</time>
+    <time>2016/05/08</time>
   </div>
 
   
@@ -495,34 +588,40 @@ On Monday, the Census posted a blog summarizing recent mobility trends. Accordin
   
 
   
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/house-prices">House prices</a>
+    
+  </div>
+  
+  
 
 </div>
 
   </header>
 
   <p>
-  WE WORKED OUT A VISUALIZATION REMIX ON WEDNESDAY and now that it’s Friday time to flex a little. In this post I’m going to remix the remix into a flexdashboard.
-I made this dashboard using crosstalk and plotly. By using htmlwidgets we can create an interactive dashboard in a static webpage.
-In this version I added an animation. In order to get the animation to work you’ll need the development version of plotly for R.
+  Charts and graphs exploring house price trends
   </p>
 
-  
-  <footer>
-    <a href="/2017/01/20/flexin-friday/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
-  </footer>
   
 </article>
 
   
     <article>
   <header>
-    <h2><a href="/2017/01/18/working-on-a-workout/">Working on a Workout</a></h2>
+    <h2><a href="http://lenkiefer.com/2016/05/04/house-price-data-viz/">House price data viz</a></h2>
 
     <div class="post-meta">
 
   <div>
     <i class="fa fa-calendar fa-fw"></i>
-    <time>2017/01/18</time>
+    <time>2016/05/04</time>
   </div>
 
   
@@ -530,39 +629,21 @@ In this version I added an animation. In order to get the animation to work you�
   
 
   
-
-</div>
-
-  </header>
-
-  <p>
-  SO APPARENTLY IT IS WORKOUT WEDNESDAY, a day when data visualization fans try to build data visualization skills. I heard about it via [this post by @hrbrmstr](https://rud.is/b/2017/01/18/workout-wednesday-redux-2017-week-3/) that reconsiders a visualization of state level unemployment rates. (Original post here).
-When I study data visualization, I do so earnestly. That is, I approach it with an open mind and enthusiasm. In truth I like all of the visualizations mentioned above and you should check them out.
-  </p>
-
   
-  <footer>
-    <a href="/2017/01/18/working-on-a-workout/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
-  </footer>
   
-</article>
-
-  
-    <article>
-  <header>
-    <h2><a href="/2017/01/16/cross-talk-dashboard/">That&#39;s what I&#39;m (cross)talking about!</a></h2>
-
-    <div class="post-meta">
-
   <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>2017/01/16</time>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/economy">Economy</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/housing">Housing</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/house-prices">house prices</a>
+    
   </div>
-
   
-
-  
-
   
 
 </div>
@@ -570,14 +651,14 @@ When I study data visualization, I do so earnestly. That is, I approach it with 
   </header>
 
   <p>
-  IN THIS POST I SHARE WITH YOU SOMETHING I BUILT with R, a simple dashboard using crosstalk, plotly, and data tables. By using htmlwidgets we can create an interactive dashboard in a static webpage.
-In this version I created a few line charts and data tables. Then I created a linked view using crosstalk to enable you to filter the table and chart simultaneously.
-Check out the fullscreen version here.
+  TO HELP UNDERSTAND TRENDS in house prices, I have a couple of data visualizations for the Freddie Mac house price index.
+Viz 1: House Price Dynamics The first compares the quarterly and annual appreciation for house prices across the 50 states plus the District of Columbia.
+In this visualization, each dot represent a state (or D.C.). The horizontal X axis measures the quarter-over-quarter annualized percentage change in the Freddie Mac house price index.
   </p>
 
   
   <footer>
-    <a href="/2017/01/16/cross-talk-dashboard/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+    <a href="/2016/05/04/house-price-data-viz/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
   </footer>
   
 </article>
@@ -591,7 +672,7 @@ Check out the fullscreen version here.
   
   <a href="/page/19/"><i class="fa fa-chevron-left"></i></a>
   
-  <span>&nbsp;20 / 27&nbsp;</span>
+  <span>&nbsp;20 / 22&nbsp;</span>
   
   <a href="/page/21/"><i class="fa fa-chevron-right"></i></a>
   
@@ -603,7 +684,7 @@ Check out the fullscreen version here.
 
 </div>
 </div>
-<script src="/js/ui.js"></script>
+<script src="http://lenkiefer.com/js/ui.js"></script>
 
 
 <script>
