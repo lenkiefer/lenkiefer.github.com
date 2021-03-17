@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Shine a little light on your charts. Watch your charts glow up with R and ggfx.">
+  <meta name="generator" content="Hugo 0.81.0" />
+
+  <title>Watch your charts glow up with R and ggfx &middot; Len Kiefer</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="http://lenkiefer.com/img/favicon.PNG" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2015-2018. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com//img/charts_2021_03_17/hpi_glow.png" >
+     
+    <meta property="og:title" content="Watch your charts glow up with R and ggfx">
+    <meta property="og:description" content="Shine a little light on your charts. Watch your charts glow up with R and ggfx.">
+
+<div class="header">
+  <h1>Watch your charts glow up with R and ggfx</h1>
+  <h2>Shine a little light on your charts. Watch your charts glow up with R and ggfx.</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2021/03/17</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+
+
+<p>Recently I’ve been doing some experiments with the new R package ggfx. Earlier this month I shared an example, <a href="http://localhost:4321/2021/03/05/using-ggfx-for-good/">using ggfx for good</a>. Since then, new features have been added to ggfx and I’ve found new applications for them.</p>
+<p>In this post, we’ll take some standard charts and watch them glow up as we add new features from ggfx.</p>
+<p>Having our charts glow up might not be the best idea, Bob Rudis <a href="https://twitter.com/hrbrmstr/status/1370074536339734532?s=20">suggests we’re converging on Excel level graphs</a>. But it certainly is a <em>fun</em> idea. So let’s have at it.</p>
+<p>In this post we’ll take several charts and have them all glow up using various ggfx features and other tricks. We’ll start with a line chart. and build up complexity from there. The plan is to glow up a</p>
+<ul>
+<li>line chart</li>
+<li>lollipop chart</li>
+<li>area chart</li>
+<li>map</li>
+</ul>
+<div id="prep" class="section level1">
+<h1>Prep</h1>
+<p>We’ll be using R to create all the charts in this post. To get ready, we’ll need to load quite a few libraries. We’ll also need to collect data, but we’ll pick that up as we need it.</p>
+<p>Reproducible code will be hidden in the details tab like so.</p>
+<div id="r-prep" class="section level2">
+<h2>R prep</h2>
+<pre class="r"><code># load libraries ----
+library(ggfx)
+library(tidyverse)</code></pre>
+<pre><code>## -- Attaching packages --------------------------------------- tidyverse 1.3.0 --</code></pre>
+<pre><code>## v ggplot2 3.3.3     v purrr   0.3.4
+## v tibble  3.1.0     v dplyr   1.0.4
+## v tidyr   1.1.3     v stringr 1.4.0
+## v readr   1.3.1     v forcats 0.5.0</code></pre>
+<pre><code>## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>library(data.table)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;data.table&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:dplyr&#39;:
+## 
+##     between, first, last</code></pre>
+<pre><code>## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     transpose</code></pre>
+<pre class="r"><code>library(readxl)
+library(albersusa)
+library(gganimate)
+library(httr)
+library(patchwork)
+library(albersusa)
+library(tigris)</code></pre>
+<pre><code>## To enable 
+## caching of data, set `options(tigris_use_cache = TRUE)` in your R script or .Rprofile.</code></pre>
+<pre class="r"><code>library(sf)</code></pre>
+<pre><code>## Linking to GEOS 3.8.0, GDAL 3.0.4, PROJ 6.3.1</code></pre>
+<pre class="r"><code>#my experimental package (needed for theme_dark2)
+library(darklyplot)</code></pre>
+<pre><code>## Loading required package: glue</code></pre>
+<pre><code>## 
+## Attaching package: &#39;glue&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     collapse</code></pre>
+<pre><code>## Loading required package: ggthemes</code></pre>
+<pre><code>## Loading required package: mdthemes</code></pre>
+<pre><code>## Loading required package: scales</code></pre>
+<pre><code>## 
+## Attaching package: &#39;scales&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     discard</code></pre>
+<pre><code>## The following object is masked from &#39;package:readr&#39;:
+## 
+##     col_factor</code></pre>
+<pre><code>## Loading required package: shiny</code></pre>
+<pre class="r"><code># load my color scales
+source(&quot;http://lenkiefer.com/img/favorites/len_color_scales.R&quot;)</code></pre>
+</div>
+</div>
+<div id="shine-a-little-light-line-chart" class="section level1">
+<h1>Shine a little light (line chart)</h1>
+<p>Let’s start with a simple line chart. We’ll plot trends in the seasonally adjusted annual rate of U.S. housing starts, <a href="https://www.census.gov/construction/nrc/index.html">published today</a>. We can get the data <a href="https://fred.stlouisfed.org/series/HOUST">from FRED</a> using the <code>HOUST</code> mnemonic.</p>
+<p>Let’s grab the data from FRED.</p>
+<pre class="r"><code>df &lt;- tidyquant::tq_get(&quot;HOUST&quot;,get=&quot;economic.data&quot;,from=&quot;2000-01-01&quot;)</code></pre>
+<p>We begin with a very simple, functional line chart.</p>
+<pre class="r"><code>ggplot(data=df, aes(x=date,y=price))+geom_line()+theme_minimal()+
+  theme(plot.caption=element_text(hjust=0))+
+  labs(x=&quot;&quot;,y=&quot;&quot;,
+       subtitle=&quot;U.S.Total Housing Starts (1000s, SAAR)&quot;,
+       title=&quot;Housing Starts (no glow)&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Census Bureau and U.S. Department of Housing and Urban Development&quot;)</code></pre>
+<p><img src="/post/2020-03-17-watch-your-charts-glow-up-with-r-and-ggfx_files/figure-html/chart-2020-03-17-chart-1-noglow-1.png" width="672" /></p>
+<p>Nothing wrong with that, but we can apply some styling using ggfx::with_outer_glow.</p>
+<pre class="r"><code>ggplot(data=df, aes(x=date,y=price))+
+  with_outer_glow(geom_line(),colour=&quot;dodgerblue&quot;,sigma=5)+
+  theme_minimal()+
+  theme(plot.caption=element_text(hjust=0))+
+  labs(x=&quot;&quot;,y=&quot;&quot;,
+       subtitle=&quot;U.S.Total Housing Starts (1000s, SAAR)&quot;,
+       title=&quot;Housing Starts (glowing up)&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Census Bureau and U.S. Department of Housing and Urban Development&quot;)</code></pre>
+<p><img src="/post/2020-03-17-watch-your-charts-glow-up-with-r-and-ggfx_files/figure-html/chart-2020-03-17-chart-1-some-glow-1.png" width="672" /></p>
+<p>Now if we apply a dark theme we can see all chart all <a href="https://www.youtube.com/watch?v=Jknn7MMszNo">glowed up</a>.</p>
+<pre class="r"><code>ggplot(data=df, aes(x=date,y=price))+
+  with_outer_glow(geom_line(color=&quot;white&quot;,size=1.1),colour=&quot;deeppink&quot;,sigma=15,expand=2)+
+  darklyplot::theme_dark2()+
+  theme(plot.caption=element_text(hjust=0))+
+  labs(x=&quot;&quot;,y=&quot;&quot;,
+       subtitle=&quot;U.S.Total Housing Starts (1000s, SAAR)&quot;,
+       title=&quot;Housing Starts (all glowed up)&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Census Bureau and U.S. Department of Housing and Urban Development&quot;)</code></pre>
+<p><img src="/post/2020-03-17-watch-your-charts-glow-up-with-r-and-ggfx_files/figure-html/chart-2020-03-17-chart-1-all-glow-1.png" width="672" /></p>
+<p>By the way, something <a href="https://github.com/thomasp85/gganimate/issues/431">seems to be wrong with gifski version 0.8.7</a>, because when I animated it my chart got attacked by space aliens. Fortunately, their rays cannot penetrate my shield.</p>
+<p><img src="../../../../img/charts_2021_03_17/starts_line.gif" style="width:550px"></p>
+</div>
+<div id="youre-a-shooting-star-lollipop-chart" class="section level1">
+<h1>You’re a shooting star (lollipop chart)</h1>
+<p>Let’s now try a slightly more complicated chart. Let’s combine a segment with a point to make a lollipop chart.</p>
+<p>We’ll stick with housing starts data, but combine year-to-date totals for nonseasonally adjusted starts through February (<code>HOUSTSNA</code> via FRED).</p>
+<pre class="r"><code>df2 &lt;- tidyquant::tq_get(&quot;HOUSTNSA&quot;,get=&quot;economic.data&quot;,from=&quot;2000-01-01&quot;)
+df2 &lt;- group_by(df2,year=year(date)) %&gt;% mutate(csum=cumsum(price)) %&gt;% ungroup()</code></pre>
+<p>First, our standard chart.</p>
+<pre class="r"><code>ggplot(data=filter(df2, month(date)==2), aes(x=csum, y=year,yend=year,xend=0))+
+  theme_minimal()+
+  theme(plot.caption=element_text(hjust=0))+
+  scale_y_continuous(breaks=2000:2021,expand=c(0.02,0.02))+
+  scale_x_continuous(expand=c(0.001,0.1),limits=c(0,350))+
+  geom_segment(color=&quot;dodgerblue&quot;)+
+  geom_point(size=3,alpha=0.75,color=&quot;dodgerblue&quot;)+
+  labs(x=&quot;&quot;,y=&quot;&quot;,
+       subtitle=&quot;U.S. Total Housing Starts Year-to-Date through February (1000s, NSA)&quot;,
+       title=&quot;Housing Starts (no glow)&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Census Bureau and U.S. Department of Housing and Urban Development&quot;)</code></pre>
+<p><img src="/post/2020-03-17-watch-your-charts-glow-up-with-r-and-ggfx_files/figure-html/chart-2020-03-17-chart-2-no-glow-1.png" width="672" /></p>
+<p>Now let’s let it sparkle a little.</p>
+<pre class="r"><code># lolly 2
+ggplot(data=filter(df2, month(date)==2), aes(x=csum, y=year,yend=year,xend=0))+
+  theme_minimal()+
+  theme(plot.caption=element_text(hjust=0))+
+  scale_y_continuous(breaks=2000:2021,expand=c(0.02,0.02))+
+  scale_x_continuous(expand=c(0.001,0.1),limits=c(0,350))+
+  with_outer_glow(geom_segment(color=&quot;dodgerblue&quot;),
+                  colour=&quot;gold&quot;, sigma=10)+
+  with_outer_glow(  geom_point(size=3,alpha=0.75,color=&quot;dodgerblue&quot;),
+                  colour=&quot;gold&quot;, sigma=10)+
+  labs(x=&quot;&quot;,y=&quot;&quot;,
+       subtitle=&quot;U.S. Total Housing Starts Year-to-Date through February (1000s, NSA)&quot;,
+       title=&quot;Housing Starts (glowing up)&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Census Bureau and U.S. Department of Housing and Urban Development&quot;)</code></pre>
+<p><img src="/post/2020-03-17-watch-your-charts-glow-up-with-r-and-ggfx_files/figure-html/chart-2020-03-17-chart-2-some-glow-1.png" width="672" /></p>
+<p>MOAR SPARKLES!</p>
+<pre class="r"><code>ggplot(data=filter(df2, month(date)==2), aes(x=csum, y=year,yend=year,xend=0))+
+  darklyplot::theme_dark2()+
+  theme(plot.caption=element_text(hjust=0,color=&quot;gold&quot;),
+        plot.title=element_text(color=&quot;gold&quot;),
+        plot.subtitle=element_text(color=&quot;gold&quot;),
+        text=element_text(color=&quot;gold&quot;))+
+  scale_y_continuous(breaks=2000:2021,expand=c(0.02,0.02))+
+  scale_x_continuous(expand=c(0.001,0.1),limits=c(0,350))+
+  with_outer_glow(geom_segment(color=&quot;white&quot;,alpha=0.8),
+                  colour=&quot;gold&quot;, sigma=5,expand=1)+
+  with_outer_glow(
+    with_inner_glow(
+      geom_point(size=3,alpha=0.75,color=&quot;gold&quot;),
+      colour=&quot;white&quot;, sigma=1),
+    colour=&quot;gold&quot;, sigma=10,expand=5)+
+  geom_text(aes(label=round(csum,0)), colour=&quot;gold&quot;,nudge_x=10,hjust=0)+
+  labs(x=&quot;&quot;,y=&quot;&quot;,
+       subtitle=&quot;U.S. Total Housing Starts Year-to-Date through February (1000s, NSA)&quot;,
+       title=&quot;Housing Starts (all glowed up)&quot;,
+       caption=&quot;@lenkiefer Source: U.S. Census Bureau and U.S. Department of Housing and Urban Development&quot;)</code></pre>
+<p><img src="/post/2020-03-17-watch-your-charts-glow-up-with-r-and-ggfx_files/figure-html/chart-2020-03-17-chart-2-all-glow-1.png" width="672" /></p>
+</div>
+<div id="do-we-have-to-doubt-your-commitment-to-sparkle-motion" class="section level1">
+<h1>Do we have to doubt your commitment to sparkle motion?</h1>
+<p>Now let’s try an area chart. We’ll create a chart using the <a href="https://www.nahb.org/news-and-economics/housing-economics/indices/Housing-Market-Index">NAHB/Wells Fargo Housing Market Index</a>. For this chart we’ll need to download an Excel spreadsheet.</p>
+<p>Fortunately, we don’t have to open it or anything. We can let R do our work for us.</p>
+<pre class="r"><code># hmi area chart ----
+# data prep
+url1 &lt;- &quot;https://www.nahb.org/-/media/NAHB/news-and-economics/docs/housing-economics/hmi/2021-03/table2-national-hmi-history-2021-03.xls&quot;
+invisible(GET(url1, write_disk(tf &lt;- tempfile(fileext = &quot;.xls&quot;))))
+df3 &lt;- read_excel(tf,range=&quot;A3:M40&quot;) #read in data range A3:M40
+colnames(df3)=c(&quot;year&quot;,month.abb) 
+
+df3&lt;- 
+  df3 %&gt;%
+  reshape2::melt(id.vars=&quot;year&quot;) %&gt;%
+  mutate(month=match(variable,month.abb)) %&gt;% 
+  mutate(date=as.Date(ISOdate(year,month,1))) </code></pre>
+<p>First a standard bar chart.</p>
+<pre class="r"><code># standard bar chart
+
+ggplot(data=df3, aes(x=date,y=value-50))+
+  geom_col(data=filter(df3,value&gt;50),fill=&quot;dodgerblue&quot;,color=&quot;dodgerblue&quot;)+
+  geom_col(data=filter(df3,value&lt;=50),fill=&quot;red&quot;,color=&quot;red&quot;)+
+  theme_minimal()+
+  theme(plot.caption=element_text(hjust=0))+
+  scale_y_continuous(breaks=c(-50,-25,0,25,50),labels=seq(0,100,25))+
+  labs(x=&quot;&quot;,y=&quot;&quot;,
+       title=&quot;Housing Market Index (no glow)&quot;,
+       subtitle=&quot;Values &gt;50 (blue) indicate positive sentiment&quot;,
+       caption=&quot;@lenkiefer Source: NAHB/Wells Fargo Housing Market Index&quot;)</code></pre>
+<p><img src="/post/2020-03-17-watch-your-charts-glow-up-with-r-and-ggfx_files/figure-html/chart-2020-03-17-chart-3-no-glow-1.png" width="672" /></p>
+<p>Now make it sparkle!</p>
+<pre class="r"><code>gbar &lt;- 
+  ggplot(data=df3, aes(x=date,y=value-50))+
+  with_inner_glow(geom_col(data=filter(df3,value&gt;50),fill=&quot;white&quot;),
+                  colour=&quot;dodgerblue&quot;,sigma=3)+
+  with_inner_glow(geom_col(data=filter(df3,value&lt;50),fill=&quot;white&quot;),
+                  colour=&quot;red&quot;,sigma=3)+
+  darklyplot::theme_dark2()+
+  scale_y_continuous(breaks=c(-50,-25,0,25,50),labels=seq(0,100,25))+
+  labs(x=&quot;&quot;,y=&quot;&quot;)
+
+gbar +
+  labs(x=&quot;&quot;,y=&quot;&quot;,
+       title=&quot;Housing Market Index (dark theme/ no glow)&quot;,
+       subtitle=&quot;Values &gt;50 (blue) indicate positive sentiment&quot;,
+       caption=&quot;@lenkiefer Source: NAHB/Wells Fargo Housing Market Index&quot;)</code></pre>
+<p><img src="/post/2020-03-17-watch-your-charts-glow-up-with-r-and-ggfx_files/figure-html/chart-2020-03-17-chart-3-some-glow-1.png" width="672" /></p>
+<p>We could enhance this graphic by adding a strip at the bottom.</p>
+<pre class="r"><code>gtile3 &lt;- 
+  ggplot(data=filter(df3,!is.na(value)),
+         aes(y=1,x=date,fill=value-50,color=value-50))+
+  geom_col()+
+  theme_dark2()+
+  scale_y_continuous(breaks=NULL)+
+  scale_fill_gradient2(high=&quot;dodgerblue&quot;, low=&quot;red&quot;, 
+                       limits=c(-50,50),
+                       breaks=c(-50,-25,0,25,50),labels=seq(0,100,25),
+                       name=&quot;Housing Market Index (&gt;50 indicates positive sentiment)&quot;)+
+  scale_color_gradient2(high=&quot;dodgerblue&quot;, low=&quot;red&quot;, 
+                        limits=c(-50,50),
+                        breaks=c(-50,-25,0,25,50),labels=seq(0,100,25),
+                        name=&quot;Housing Market Index (&gt;50 indicates positive sentiment)&quot;)+
+  theme(legend.position=&quot;none&quot;,legend.direction=&quot;horizontal&quot;)+
+  labs(x=&quot;&quot;,y=&quot;&quot;)
+
+gbar/gtile3+plot_layout(heights=c(3,1))+
+  plot_annotation(title=&quot;Housing Market Index (glowed up)&quot;,
+                  subtitle=&quot;Values &gt;50 indicate positive sentiment&quot;,
+                  caption=&quot;@lenkiefer Source: NAHB/Wells Fargo Housing Market Index&quot;,
+                  theme=theme(plot.caption=element_text(hjust=0),
+                              text=element_text(color=&quot;white&quot;),
+                              plot.background=element_rect(fill=&quot;gray10&quot;)))</code></pre>
+<p><img src="/post/2020-03-17-watch-your-charts-glow-up-with-r-and-ggfx_files/figure-html/chart-2020-03-17-chart-3-combo-1.png" width="672" />
+If we wake up and feel like choosing violence (to data), you could apply a polar coordinate to this plot. It makes a good background image for video conferencing.</p>
+<pre class="r"><code># make a t-shirt graphic
+ggplot(data=df3, aes(x=date,y=value-50))+
+  with_outer_glow(
+    with_inner_glow(geom_area(data=filter(df3,value&gt;50),fill=&quot;white&quot;),
+                    colour=&quot;dodgerblue&quot;),
+    sigma=10,colour=&quot;dodgerblue&quot;)+
+  with_outer_glow(with_inner_glow(geom_area(data=filter(df3,value&lt;50),fill=&quot;white&quot;),colour=&quot;red&quot;),
+                  sigma=5,colour=&quot;red&quot;)+
+  theme_dark2()+
+  theme(axis.ticks=element_blank(),
+        panel.grid.major=element_blank(),
+        panel.grid.minor=element_blank(),
+    axis.text.x=element_blank(),
+        axis.text.y=element_blank(),
+        axis.title.x=element_blank(),
+        axis.title.y=element_blank())+
+  coord_polar(start=3)+
+  labs(caption=&quot;@lenkiefer&quot;)</code></pre>
+<p><img src="/post/2020-03-17-watch-your-charts-glow-up-with-r-and-ggfx_files/figure-html/chart-2020-03-17-chart-3-polar-1.png" width="672" /></p>
+</div>
+<div id="glowy-maps" class="section level1">
+<h1>Glowy maps</h1>
+<p>Let’s make some glowy maps. The <code>ggfx::with_inner_glow</code> function can be applied to polygons to create a nice shading effect. Let’s first do it without any data other than our base map.</p>
+<p>Let’s create a map of the US with the states where I have lived (KY,OH,TX,VA) highlighted. But instead of just filling the polygon with a color, I want to have an inner glow effect.</p>
+<pre class="r"><code>###########################################
+# load albers usa maps
+# via https://github.com/hrbrmstr/albersusa
+###########################################
+us_sf &lt;- usa_sf(&quot;laea&quot;) %&gt;% mutate(state_abbv=iso_3166_2)
+cty_sf &lt;- counties_sf(&quot;laea&quot;)
+
+st_list &lt;- c(&quot;VA&quot;,&quot;KY&quot;,&quot;OH&quot;,&quot;TX&quot;)
+
+myf &lt;- function(st=&quot;CA&quot;,mycolor=&quot;red&quot;){
+  with_inner_glow(geom_sf(fill = &quot;white&quot;,
+                          data= .%&gt;% filter(state_abbv==st),
+                          color = &quot;#ffffff&quot;),
+                  colour=mycolor,sigma=5)
+}
+
+us_sf %&gt;% 
+  ggplot(aes())+
+  geom_sf(fill = &quot;grey&quot;,
+          alpha=.8,
+          color = &quot;#ffffff&quot;)+
+  map(st_list, myf) +
+    theme_minimal()+
+    theme(plot.background=element_rect(fill=&quot;ghostwhite&quot;),
+        legend.position=&quot;top&quot;,
+        legend.direction=&quot;horizontal&quot;,
+        legend.key.width=unit(1.25,&quot;cm&quot;),
+        axis.text.x=element_blank(),
+        axis.text.y=element_blank())+
+  labs(title=&quot;States where I lived&quot;)</code></pre>
+<p><img src="/post/2020-03-17-watch-your-charts-glow-up-with-r-and-ggfx_files/figure-html/map-03-17-2021-v1-1.png" width="672" />
+It may strike you as odd why I would create a function <code>myf</code> above which takes two arguments, state and color. But we can map directly color to the plot. So for example, we can color code the states by special colors.</p>
+<pre class="r"><code>mycolors=c(&quot;#009BE4&quot;,   #Freddie Mac Blue
+           &quot;#0033a0&quot;, #UK Wildcat blue
+           #https://www.uky.edu/prmarketing/sites/www.uky.edu.prmarketing/files/Graphic%20Standards%20M9-16.pdf
+            &quot;#bb0000&quot;,   #OSU Scarlet https://brand.osu.edu/color/
+           &quot;#CC0000&quot;)   # Texas Tech Scarlet https://www.texastech.edu/identityguidelines/colors.php
+
+us_sf %&gt;% 
+  ggplot(aes())+
+  geom_sf(fill = &quot;grey&quot;,alpha=.8,
+          color = &quot;#ffffff&quot;)+
+  map2(st_list,mycolors,myf) +
+  theme_minimal()+
+    theme(plot.background=element_rect(fill=&quot;ghostwhite&quot;),
+        legend.position=&quot;top&quot;,
+        legend.direction=&quot;horizontal&quot;,
+        legend.key.width=unit(1.25,&quot;cm&quot;),
+        axis.text.x=element_blank(),
+        axis.text.y=element_blank())+
+  labs(title=&quot;States where I lived&quot;)</code></pre>
+<p><img src="/post/2020-03-17-watch-your-charts-glow-up-with-r-and-ggfx_files/figure-html/map-03-17-2021-v2-1.png" width="672" /></p>
+<p>Now we can apply this same strategy to map data to the glowing interior. Let’s do that for house prices.</p>
+<pre class="r"><code># get house price data
+dt &lt;- fread(&quot;http://www.freddiemac.com/fmac-resources/research/docs/fmhpi_master_file.csv&quot;)
+
+dt &lt;- data.table(dt)[,&quot;:=&quot;(hpa12=Index_SA/shift(Index_SA,12)-1,
+                           hpa3 = (Index_SA/shift(Index_SA,3))**4 -1 ),
+                     .(GEO_Type,GEO_Name)
+                     ]
+
+dt[,date:=as.Date(ISOdate(Year,Month,15))]
+dt[, hpa3_lag3:=shift(hpa3,3), by=.(GEO_Type,GEO_Name)]
+dts &lt;- dt[date==max(date) &amp; GEO_Type==&quot;State&quot;,]
+dtstate&lt;-dt[date==max(date) &amp; GEO_Type==&quot;State&quot;,]
+dtc &lt;- dt[date==max(date) &amp; GEO_Type==&quot;CBSA&quot;,]
+mydate &lt;- format(max(dt$date),&quot;%b %Y&quot;)
+
+
+## Scale your values to range between 0 and 1
+rr &lt;- range(dts$hpa12)
+svals &lt;- (dts$hpa12-rr[1])/diff(rr)
+f &lt;- colorRamp(c( &quot;dodgerblue&quot;,&quot;green&quot;))
+colors &lt;- rgb(f(svals)/255)
+dts$mycol &lt;- colors
+
+gbar &lt;- 
+  ggplot(data=dts, aes(x=hpa12,xend=0,color=mycol,
+                       yend=fct_reorder(GEO_Name,hpa12),
+                       y=fct_reorder(GEO_Name,hpa12)))+
+  with_outer_glow(geom_segment(),colour=&quot;dodgerblue&quot;)+
+  with_bloom(geom_point(size=2),colour=&quot;dodgerblue&quot;)+
+  scale_color_identity()+
+  scale_x_continuous(labels=scales::percent,expand=c(0.01,.01))+
+  geom_text(nudge_x=0.0075,size=2,aes(label=GEO_Name))+
+  theme_minimal(base_size=10)+
+  theme(axis.text.y=element_blank())+
+  labs(x=&quot;12-month % change in house price index&quot;,y=&quot;&quot;,
+       title=&quot;House price growth by state (January 2021)&quot;)
+
+gmap &lt;- 
+  us_sf %&gt;% 
+  ggplot(aes())+
+  geom_sf(fill = &quot;grey&quot;,alpha=.8,
+          color = &quot;#ffffff&quot;)+
+  theme_void()+
+  map2(dts$GEO_Name,dts$mycol, myf)
+
+gmap+gbar+plot_annotation(caption=&quot;@lenkiefer Source: Freddie Mac House Price Index&quot;,
+                          theme=theme(plot.caption=element_text(hjust=0),
+                                      plot.title=element_text(face=&quot;bold&quot;)),
+                          title=&quot;U.S. House Price Annual % Change&quot;)</code></pre>
+<p><img src="/post/2020-03-17-watch-your-charts-glow-up-with-r-and-ggfx_files/figure-html/map-hpi-2021-03-17-glow-1.png" width="672" /></p>
+</div>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="http://lenkiefer.com/2021/03/05/using-ggfx-for-good/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="http://lenkiefer.com/2021/03/05/using-ggfx-for-good/">Using ggfx for good</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+<footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/r/">R</a>, 
+            
+                <a href="/tags/dataviz/">dataviz</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.comhttp%3a%2f%2flenkiefer.com%2f2021%2f03%2f17%2fwatch-your-charts-glow-up-with-r-and-ggfx%2f&text=Watch%20your%20charts%20glow%20up%20with%20R%20and%20ggfx via %40lenkiefer"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.comhttp%3a%2f%2flenkiefer.com%2f2021%2f03%2f17%2fwatch-your-charts-glow-up-with-r-and-ggfx%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+
+        
+    </div>
+</footer>
+</div>
+</div>
+<script src="http://lenkiefer.com/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66905937-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+
