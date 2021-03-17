@@ -11,13 +11,13 @@
 
   
   
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+  <link rel="stylesheet" href="https://cdn.bootcss.com/pure/0.6.2/pure-min.css">
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <link rel="stylesheet" href="https://cdn.bootcss.com/pure/0.6.2/grids-responsive-old-ie-min.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <link rel="stylesheet" href="https://cdn.bootcss.com/pure/0.6.2/grids-responsive-min.css">
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
@@ -30,22 +30,16 @@
   <link rel="stylesheet" href="/css/blackburn.css">
 
   
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script async src="https://use.fontawesome.com/32c3d13def.js"></script>
 
   
-  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
-
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
- 
   
 
   
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
-  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-  
-  <script>hljs.initHighlightingOnLoad();</script>
+  <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.11.0/styles/androidstudio.min.css">
+  <script src="//cdn.bootcss.com/highlight.js/9.11.0/highlight.min.js"></script>
+  <script src="//cdn.bootcss.com/highlight.js/9.11.0/languages/r.min.js"></script>
+  <script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
   
 
   <link rel="shortcut icon" href="http://lenkiefer.com/img/favicon.PNG" type="image/x-icon" />
@@ -54,7 +48,6 @@
   
 
 </head>
-
 
 <body>
 <div id="layout">
@@ -202,7 +195,7 @@
 
 
        <meta name="twitter:card" content="summary_large_image">
-       <meta name="twitter:image" content="http://lenkiefer.com//img/charts_2021_03_17/hpi_glow.png" >
+       <meta name="twitter:image" content="http://lenkiefer.com//img/charts_2021_03_17/glow_up.png" >
      
     <meta property="og:title" content="Watch your charts glow up with R and ggfx">
     <meta property="og:description" content="Shine a little light on your charts. Watch your charts glow up with R and ggfx.">
@@ -261,56 +254,21 @@
 <h2>R prep</h2>
 <pre class="r"><code># load libraries ----
 library(ggfx)
-library(tidyverse)</code></pre>
-<pre><code>## -- Attaching packages --------------------------------------- tidyverse 1.3.0 --</code></pre>
-<pre><code>## v ggplot2 3.3.3     v purrr   0.3.4
-## v tibble  3.1.0     v dplyr   1.0.4
-## v tidyr   1.1.3     v stringr 1.4.0
-## v readr   1.3.1     v forcats 0.5.0</code></pre>
-<pre><code>## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
-## x dplyr::filter() masks stats::filter()
-## x dplyr::lag()    masks stats::lag()</code></pre>
-<pre class="r"><code>library(data.table)</code></pre>
-<pre><code>## 
-## Attaching package: &#39;data.table&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:dplyr&#39;:
-## 
-##     between, first, last</code></pre>
-<pre><code>## The following object is masked from &#39;package:purrr&#39;:
-## 
-##     transpose</code></pre>
-<pre class="r"><code>library(readxl)
+library(tidyverse)
+library(data.table)
+library(readxl)
 library(albersusa)
 library(gganimate)
 library(httr)
 library(patchwork)
 library(albersusa)
-library(tigris)</code></pre>
-<pre><code>## To enable 
-## caching of data, set `options(tigris_use_cache = TRUE)` in your R script or .Rprofile.</code></pre>
-<pre class="r"><code>library(sf)</code></pre>
-<pre><code>## Linking to GEOS 3.8.0, GDAL 3.0.4, PROJ 6.3.1</code></pre>
-<pre class="r"><code>#my experimental package (needed for theme_dark2)
-library(darklyplot)</code></pre>
-<pre><code>## Loading required package: glue</code></pre>
-<pre><code>## 
-## Attaching package: &#39;glue&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
-## 
-##     collapse</code></pre>
-<pre><code>## Loading required package: ggthemes</code></pre>
-<pre><code>## Loading required package: mdthemes</code></pre>
-<pre><code>## Loading required package: scales</code></pre>
-<pre><code>## 
-## Attaching package: &#39;scales&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:purrr&#39;:
-## 
-##     discard</code></pre>
-<pre><code>## The following object is masked from &#39;package:readr&#39;:
-## 
-##     col_factor</code></pre>
-<pre><code>## Loading required package: shiny</code></pre>
-<pre class="r"><code># load my color scales
+library(tigris)
+library(sf)
+
+#my experimental package (needed for theme_dark2)
+library(darklyplot)
+
+# load my color scales
 source(&quot;http://lenkiefer.com/img/favorites/len_color_scales.R&quot;)</code></pre>
 </div>
 </div>
@@ -408,8 +366,9 @@ ggplot(data=filter(df2, month(date)==2), aes(x=csum, y=year,yend=year,xend=0))+
        caption=&quot;@lenkiefer Source: U.S. Census Bureau and U.S. Department of Housing and Urban Development&quot;)</code></pre>
 <p><img src="/post/2020-03-17-watch-your-charts-glow-up-with-r-and-ggfx_files/figure-html/chart-2020-03-17-chart-2-all-glow-1.png" width="672" /></p>
 </div>
-<div id="do-we-have-to-doubt-your-commitment-to-sparkle-motion" class="section level1">
-<h1>Do we have to doubt your commitment to sparkle motion?</h1>
+<div id="glowing-bar-chart" class="section level1">
+<h1>Glowing Bar Chart</h1>
+<p><em>Do we have to doubt your commitment to sparkle motion?</em></p>
 <p>Now let’s try an area chart. We’ll create a chart using the <a href="https://www.nahb.org/news-and-economics/housing-economics/indices/Housing-Market-Index">NAHB/Wells Fargo Housing Market Index</a>. For this chart we’ll need to download an Excel spreadsheet.</p>
 <p>Fortunately, we don’t have to open it or anything. We can let R do our work for us.</p>
 <pre class="r"><code># hmi area chart ----
@@ -515,7 +474,7 @@ cty_sf &lt;- counties_sf(&quot;laea&quot;)
 
 st_list &lt;- c(&quot;VA&quot;,&quot;KY&quot;,&quot;OH&quot;,&quot;TX&quot;)
 
-myf &lt;- function(st=&quot;CA&quot;,mycolor=&quot;red&quot;){
+paint_map &lt;- function(st=&quot;CA&quot;,mycolor=&quot;red&quot;){
   with_inner_glow(geom_sf(fill = &quot;white&quot;,
                           data= .%&gt;% filter(state_abbv==st),
                           color = &quot;#ffffff&quot;),
@@ -527,7 +486,7 @@ us_sf %&gt;%
   geom_sf(fill = &quot;grey&quot;,
           alpha=.8,
           color = &quot;#ffffff&quot;)+
-  map(st_list, myf) +
+  map(st_list, paint_map) +
     theme_minimal()+
     theme(plot.background=element_rect(fill=&quot;ghostwhite&quot;),
         legend.position=&quot;top&quot;,
@@ -535,9 +494,9 @@ us_sf %&gt;%
         legend.key.width=unit(1.25,&quot;cm&quot;),
         axis.text.x=element_blank(),
         axis.text.y=element_blank())+
-  labs(title=&quot;States where I lived&quot;)</code></pre>
-<p><img src="/post/2020-03-17-watch-your-charts-glow-up-with-r-and-ggfx_files/figure-html/map-03-17-2021-v1-1.png" width="672" />
-It may strike you as odd why I would create a function <code>myf</code> above which takes two arguments, state and color. But we can map directly color to the plot. So for example, we can color code the states by special colors.</p>
+  labs(title=&quot;States where @lenkiefer lived&quot;)</code></pre>
+<p><img src="/post/2020-03-17-watch-your-charts-glow-up-with-r-and-ggfx_files/figure-html/map-03-17-2021-v1-1.png" width="672" /></p>
+<p>It may strike you as odd why I would create a function <code>paint_map</code> above which takes two arguments, state and color. But we can map directly color to the plot. So for example, we can color code the states by special colors.</p>
 <pre class="r"><code>mycolors=c(&quot;#009BE4&quot;,   #Freddie Mac Blue
            &quot;#0033a0&quot;, #UK Wildcat blue
            #https://www.uky.edu/prmarketing/sites/www.uky.edu.prmarketing/files/Graphic%20Standards%20M9-16.pdf
@@ -548,7 +507,7 @@ us_sf %&gt;%
   ggplot(aes())+
   geom_sf(fill = &quot;grey&quot;,alpha=.8,
           color = &quot;#ffffff&quot;)+
-  map2(st_list,mycolors,myf) +
+  map2(st_list,mycolors,paint_map) +
   theme_minimal()+
     theme(plot.background=element_rect(fill=&quot;ghostwhite&quot;),
         legend.position=&quot;top&quot;,
@@ -556,9 +515,11 @@ us_sf %&gt;%
         legend.key.width=unit(1.25,&quot;cm&quot;),
         axis.text.x=element_blank(),
         axis.text.y=element_blank())+
-  labs(title=&quot;States where I lived&quot;)</code></pre>
+  labs(title=&quot;States where @lenkiefer lived&quot;)</code></pre>
 <p><img src="/post/2020-03-17-watch-your-charts-glow-up-with-r-and-ggfx_files/figure-html/map-03-17-2021-v2-1.png" width="672" /></p>
-<p>Now we can apply this same strategy to map data to the glowing interior. Let’s do that for house prices.</p>
+<p>Now we can apply this same strategy to map data to the glowing interior. Let’s do that for house prices. We’ll transform the 12-month percent change in house prices in January 2021 to a 0 to 1 scale. Then we’ll use a color map to assign colors to <code>ggfx::with_inner_glow</code>. We have to do this because as far as I understand we can’t map data to the colour aesthetic of <code>ggfx::with_inner_glow</code>.</p>
+<p>In summary, we’ll download the Freddie Mac House Price Index (currently available through January 2021) and compute the 12-month percent change for each state (plus the District of Columbia) in January of 2021. Then we’ll assign a color for each state based on their house price index using a gradient color scale going from dodgerblue (hex #1e90ff ) to green.</p>
+<p>We’ll end up with a map like the one above, but with the warm glowly interior of each state radiating at a color corresponding to it’s house price growth rate. Because there’s no easy way to construct a legend, we’ll also map the color to a standard ggplot lollypop (geom_point + geom_segment like above) and use that as the legend in a composite graph.</p>
 <pre class="r"><code># get house price data
 dt &lt;- fread(&quot;http://www.freddiemac.com/fmac-resources/research/docs/fmhpi_master_file.csv&quot;)
 
@@ -608,7 +569,18 @@ gmap+gbar+plot_annotation(caption=&quot;@lenkiefer Source: Freddie Mac House Pri
                           theme=theme(plot.caption=element_text(hjust=0),
                                       plot.title=element_text(face=&quot;bold&quot;)),
                           title=&quot;U.S. House Price Annual % Change&quot;)</code></pre>
-<p><img src="/post/2020-03-17-watch-your-charts-glow-up-with-r-and-ggfx_files/figure-html/map-hpi-2021-03-17-glow-1.png" width="672" /></p>
+<p><img src="../../../../img/charts_2021_03_17/hpi_glow.png" style="width:700px"></p>
+<p>And there we go a glowy map!</p>
+</div>
+<div id="summary-glowed-up-dataviz" class="section level1">
+<h1>Summary: glowed up dataviz</h1>
+<p>Let’s take a moment to reflect on all the charts we glowed up today.</p>
+<p><img src="../../../../img/charts_2021_03_17/glow_up.png" style="width:700px"></p>
+<p>These charts are fun, I think they look pretty good. In the case of the map in particular I think the inner glow helps tell the data story without overwhelming you with color. I’m planning to keep experiment with these effects.</p>
+<p>Also note that ggfx is in development so the current code might not work with future verions (sorry future Len). For this post I used this version of ggfx:</p>
+<pre class="r"><code>packageVersion(&quot;ggfx&quot;)</code></pre>
+<pre><code>## [1] &#39;0.0.0.9000&#39;</code></pre>
+<p>For good or ill, the immense power of these #rstats charts are now in your hands. Shine on!</p>
 </div>
 
 
