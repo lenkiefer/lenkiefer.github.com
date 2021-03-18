@@ -45,6 +45,82 @@ All from my oh so very smart phone https://t.</description>
     </item>
     
     <item>
+      <title>Everything is spiraling out of control!</title>
+      <link>http://lenkiefer.com/2018/08/16/everything-is-spiraling-out-of-control/</link>
+      <pubDate>Thu, 16 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://lenkiefer.com/2018/08/16/everything-is-spiraling-out-of-control/</guid>
+      <description>I saw this fun bit of R code in a tweet by user aschinchon.
+df &amp;lt;- data.frame(x=0, y=0)
+for (i in 2:500)
+{
+df[i,1] &amp;lt;- df[i-1,1]+((0.98)^i)*cos(i)
+df[i,2] &amp;lt;- df[i-1,2]+((0.98)^i)*sin(i) }
+ggplot2::ggplot(df, aes(x,y)) + geom_polygon()+
+theme_void()#rstats pic.twitter.com/cgNjyk405f
+&amp;mdash; Antonio Sánchez Chinchón (@aschinchon) August 16, 2018  Let’s remix it to make a fun animation. We’ll zoom in and out and have the colors shift.
+  Click for R code</description>
+    </item>
+    
+    <item>
+      <title>Connected scatterplot</title>
+      <link>http://lenkiefer.com/2018/07/21/connected-scatterplot/</link>
+      <pubDate>Sat, 21 Jul 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://lenkiefer.com/2018/07/21/connected-scatterplot/</guid>
+      <description>On Twitter Claus Wilke asks:
+Dear Lazyweb: Is there an accepted name for a plot showing a two-variable time series as a path in the x-y plane? #dataviz@Elijah_Meeks @albertocairo @lenkiefer @sharoz @dataandme pic.twitter.com/N8Edmf8qii
+&amp;mdash; Claus Wilke (@ClausWilke) July 21, 2018  I call them connected scatterplots, and we’ve made a few here. See for example this post.
+But we can intensify things and make a plot like this:
+hey @ClausWilke why stop at a 2-d connected scatterplot* when you could go to 3-d</description>
+    </item>
+    
+    <item>
+      <title>Pomological Plots</title>
+      <link>http://lenkiefer.com/2018/05/21/pomological-plots/</link>
+      <pubDate>Mon, 21 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://lenkiefer.com/2018/05/21/pomological-plots/</guid>
+      <description>In the real world, when I give talks and use slides I am typically constrained in my aesthetic. Often I’m speaking at a work-related thing and we have a corporate template and color scheme. They serve us well and I’ve found restraint helps focus on the message. Usually I’m setting out to inform, so direct, repeatable and easy to follow are key.
+But I also like to explore new ideas and different themes on the side.</description>
+    </item>
+    
+    <item>
+      <title>Rate Cloud</title>
+      <link>http://lenkiefer.com/2018/04/12/rate-cloud/</link>
+      <pubDate>Thu, 12 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://lenkiefer.com/2018/04/12/rate-cloud/</guid>
+      <description>TIME FOR A FUN NEW MORTGAGE RATE CHART.
+This one:
+We’ll use R to plot a new visualization of mortgage rates.
+Let’s make it.
+DataAs we did with our majestic mortgage rate plot post we’ll plot mortgage rates using the Freddie Mac Primary Mortgage Market Survey.
+We’ll get the mortgage rates data via the Saint Louis Federal Reserve’s FRED database. If you followed my post from back in April of last year you know what we can do if we combine FRED with the quantmod package.</description>
+    </item>
+    
+    <item>
+      <title>Forecasting Game</title>
+      <link>http://lenkiefer.com/2018/03/12/forecasting-game/</link>
+      <pubDate>Mon, 12 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://lenkiefer.com/2018/03/12/forecasting-game/</guid>
+      <description>LET’S PICK BACK UP where we left off and think about communicating forecast results. To help guide our thinking, let’s set up a little game.
+Basic setupLike last time we’re going to focus on a situation where a forecaster observes some information about the world and makes an announcement about a future binary outcome. A decision maker observes the forecaster’s announcement and takes a binary action. Then the outcome is realized and the forecaster receives a payoff.</description>
+    </item>
+    
+    <item>
+      <title>Rock that dadbod plot!</title>
+      <link>http://lenkiefer.com/2018/03/03/rock-that-dadbod-plot/</link>
+      <pubDate>Sat, 03 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://lenkiefer.com/2018/03/03/rock-that-dadbod-plot/</guid>
+      <description>Spring is nearly upon us, or at least we can hope. Let’s examine how housing activity typically rounds into shape as the weather warms up. We’ll make some fun plots with R.
+Seasonality in housing dataHousing market activity in the United States is highly seasonal. Consider this animated plot.
+This plot shows U.S. new home sales. Often the data are presented seasonally adjusted, but this plot is for non seasonally adjusted data.</description>
+    </item>
+    
+    <item>
       <title>Majestic mortgage rate plot</title>
       <link>http://lenkiefer.com/2017/11/16/majestic-mortgage-rate-plot/</link>
       <pubDate>Thu, 16 Nov 2017 00:00:00 +0000</pubDate>
@@ -55,6 +131,18 @@ We’ll use R to plot a few visualizations of mortgage rates.
 I recently gave a number of talks about the economic outlook and housing. One point I like to make is that mortgage rates are low. I’ve shown this through a variety of visualizations. But one of my favorites looks like this:
 Let’s make it.
 DataWe’ll plot mortgage rates using the Freddie Mac Primary Mortgage Market Survey.</description>
+    </item>
+    
+    <item>
+      <title>Bivariate tilegridmaps with R</title>
+      <link>http://lenkiefer.com/2017/10/11/bivariate-tilegridmaps-with-r/</link>
+      <pubDate>Wed, 11 Oct 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://lenkiefer.com/2017/10/11/bivariate-tilegridmaps-with-r/</guid>
+      <description>I HAVE BEEN EXPERIMENTING WITH A NEW WAY TO VISUALIZE DATA, a bivariate tilegridmap. When I get around to rolling out my tidyPowerPoint workflow we’re going to want something other than bars and lines to fill it up. A graph like this might be a fun option.
+We’ll build one, but first, just let me show you one I tweeted earlier today:
+bivariate #tilegridmap map anyone? pic.twitter.com/y3G5XExzoN
+&amp;mdash; 📈 Len Kiefer 📊 (@lenkiefer) October 11, 2017  In this post, let’s go over how to make this plot with R.</description>
     </item>
     
     <item>
@@ -102,6 +190,15 @@ Then after I created the PowerPoint I started messing around with the drawing to
       <pubDate>Sat, 22 Apr 2017 00:00:00 +0000</pubDate>
       
       <guid>http://lenkiefer.com/2017/04/22/treemapify-those-pies/</guid>
+      <description>R statistics rstats mortgage rates dataviz</description>
+    </item>
+    
+    <item>
+      <title>Let&#39;s Pixelate America</title>
+      <link>http://lenkiefer.com/2017/04/17/pixel-map/</link>
+      <pubDate>Mon, 17 Apr 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://lenkiefer.com/2017/04/17/pixel-map/</guid>
       <description>R statistics rstats mortgage rates dataviz</description>
     </item>
     

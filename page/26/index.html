@@ -5,19 +5,20 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
-  <meta name="generator" content="Hugo 0.52" />
+
+<meta name="generator" content="Hugo 0.81.0">
 
   <title>Len Kiefer</title>
 
   
   
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+  <link rel="stylesheet" href="https://cdn.bootcss.com/pure/0.6.2/pure-min.css">
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <link rel="stylesheet" href="https://cdn.bootcss.com/pure/0.6.2/grids-responsive-old-ie-min.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <link rel="stylesheet" href="https://cdn.bootcss.com/pure/0.6.2/grids-responsive-min.css">
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
@@ -30,33 +31,26 @@
   <link rel="stylesheet" href="/css/blackburn.css">
 
   
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script async src="https://use.fontawesome.com/32c3d13def.js"></script>
 
   
-  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
-
   
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
- 
-  
-  <link rel="alternate" type="application/rss+xml" title="Len Kiefer" href="/index.xml" />
+  <link rel="alternate" type="application/rss+xml" title="Len Kiefer" href="http://lenkiefer.com/index.xml" />
   
 
   
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
-  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-  
-  <script>hljs.initHighlightingOnLoad();</script>
+  <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.11.0/styles/androidstudio.min.css">
+  <script src="//cdn.bootcss.com/highlight.js/9.11.0/highlight.min.js"></script>
+  <script src="//cdn.bootcss.com/highlight.js/9.11.0/languages/r.min.js"></script>
+  <script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
   
 
-  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+  <link rel="shortcut icon" href="http://lenkiefer.com/img/favicon.PNG" type="image/x-icon" />
 
   
   
 
 </head>
-
 
 <body>
 <div id="layout">
@@ -218,7 +212,7 @@
   
     <article>
   <header>
-    <h2><a href="/2016/05/08/visual-meditations-on-house-prices/">Visual meditations on house prices</a></h2>
+    <h2><a href="http://lenkiefer.com/2016/05/08/visual-meditations-on-house-prices-part1/">Visual meditations on house prices, Part 1: data wrangling</a></h2>
 
     <div class="post-meta">
 
@@ -237,9 +231,9 @@
   <div>
     <i class="fa fa-tags fa-fw"></i>
     
-      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
     
-      <a class="post-taxonomy-tag" href="/tags/house-prices">House prices</a>
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/house-prices">House prices</a>
     
   </div>
   
@@ -250,9 +244,7 @@
   </header>
 
   <p>
-  IntroductionThis is a multi-part blog series on visual meditations on house prices. You can find the links at:
-Part 1: data wranglingPart 2: sparklines and dots (animated)Part 3: bubbles and bouncePart 4: graph galleryPart 5: distributionsPart 6: state recoveryPart 7: don’t cross the streamsand maybe more as I think of them. I’ll add them all here.
-
+  Charts and graphs exploring house price trends
   </p>
 
   
@@ -261,7 +253,7 @@
   
     <article>
   <header>
-    <h2><a href="/2016/05/08/visual-meditations-on-house-prices-part1/">Visual meditations on house prices, Part 1: data wrangling</a></h2>
+    <h2><a href="http://lenkiefer.com/2016/05/08/visual-meditations-on-house-prices-part2/">Visual meditations on house prices, Part 2: sparklines and dots (animated)</a></h2>
 
     <div class="post-meta">
 
@@ -280,54 +272,9 @@
   <div>
     <i class="fa fa-tags fa-fw"></i>
     
-      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
     
-      <a class="post-taxonomy-tag" href="/tags/house-prices">House prices</a>
-    
-  </div>
-  
-  
-
-</div>
-
-  </header>
-
-  <p>
-  IntroductionTHIS POST CONSIDERS recent trends in house prices. Thinking a great deal about house prices, I like to look at many different DATA VISUALIZATIONS of house prices, at the national, state, and metro levels of aggregation. Also, in this post, I will include descriptions of how I built my visualizations, including code. These meditations as I call them, required some data wrangling and some thinking as to how to construct the charts.
-  </p>
-
-  
-  <footer>
-    <a href="/2016/05/08/visual-meditations-on-house-prices-part1/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
-  </footer>
-  
-</article>
-
-  
-    <article>
-  <header>
-    <h2><a href="/2016/05/08/visual-meditations-on-house-prices-part2/">Visual meditations on house prices, Part 2: sparklines and dots (animated)</a></h2>
-
-    <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>2016/05/08</time>
-  </div>
-
-  
-
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="/tags/house-prices">House prices</a>
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/house-prices">House prices</a>
     
   </div>
   
@@ -338,23 +285,16 @@
   </header>
 
   <p>
-  THIS IS PART TWO of my series of meditations on house prices. In our earlier post we covered the data collection, wrangling, and some useful transformations.
-RecapFor convenience, the data files you’ll need to replicate these results are right here:
-state and national called fmhpi.txtmetro called fmhpi2.txtAnd the data preparation code is here in the previous post
-Now we’ll need to load and prepare some data.
+  Charts and graphs exploring house price trends
   </p>
 
-  
-  <footer>
-    <a href="/2016/05/08/visual-meditations-on-house-prices-part2/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
-  </footer>
   
 </article>
 
   
     <article>
   <header>
-    <h2><a href="/2016/05/04/house-price-data-viz/">House price data viz</a></h2>
+    <h2><a href="http://lenkiefer.com/2016/05/04/house-price-data-viz/">House price data viz</a></h2>
 
     <div class="post-meta">
 
@@ -373,13 +313,13 @@ Now we’ll need to load and prepare some data.
   <div>
     <i class="fa fa-tags fa-fw"></i>
     
-      <a class="post-taxonomy-tag" href="/tags/economy">Economy</a>&nbsp;&#47;
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/economy">Economy</a>&nbsp;&#47;
     
-      <a class="post-taxonomy-tag" href="/tags/housing">Housing</a>&nbsp;&#47;
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/housing">Housing</a>&nbsp;&#47;
     
-      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
     
-      <a class="post-taxonomy-tag" href="/tags/house-prices">house prices</a>
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/house-prices">house prices</a>
     
   </div>
   
@@ -405,7 +345,7 @@ In this visualization, each dot represent a state (or D.C.). The horizontal X ax
   
     <article>
   <header>
-    <h2><a href="/2016/05/01/annotated-chartbook-tufte-style/">Annotated chartbook, Tufte style</a></h2>
+    <h2><a href="http://lenkiefer.com/2016/05/01/annotated-chartbook-tufte-style/">Annotated chartbook, Tufte style</a></h2>
 
     <div class="post-meta">
 
@@ -424,7 +364,7 @@ In this visualization, each dot represent a state (or D.C.). The horizontal X ax
   <div>
     <i class="fa fa-tags fa-fw"></i>
     
-      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>
     
   </div>
   
@@ -435,12 +375,7 @@ In this visualization, each dot represent a state (or D.C.). The horizontal X ax
   </header>
 
   <p>
-  I finally got around to putting together an annotated chartbook, Tufte style, using the Tufte package for Rmarkdown. Check it out
-Some screenshots: Screenshot 1 
-Screenshot 2 
-Screenshot 3 
-Screenshot 4 
-{% include JB/setup
+  I finally got around to putting together an annotated chartbook, Tufte style, using the Tufte packagefor Rmarkdown. Check it outSome screenshots: Screenshot 1 Screenshot 2 Screenshot 3 Screenshot 4 {% include JB/setup
   </p>
 
   
@@ -449,7 +384,7 @@ Screenshot 4
   
     <article>
   <header>
-    <h2><a href="/2016/04/30/vacant-housing-from-surplus-to-shortage/">Vacant housing: from surplus to shortage</a></h2>
+    <h2><a href="http://lenkiefer.com/2016/04/30/vacant-housing-from-surplus-to-shortage/">Vacant housing: from surplus to shortage</a></h2>
 
     <div class="post-meta">
 
@@ -468,9 +403,9 @@ Screenshot 4
   <div>
     <i class="fa fa-tags fa-fw"></i>
     
-      <a class="post-taxonomy-tag" href="/tags/economy">economy</a>&nbsp;&#47;
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/economy">economy</a>&nbsp;&#47;
     
-      <a class="post-taxonomy-tag" href="/tags/housing">Housing</a>
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/housing">Housing</a>
     
   </div>
   
@@ -481,8 +416,8 @@ Screenshot 4
   </header>
 
   <p>
-  EARLIER THIS WEEK the Census Bureau released the latest Housing Vacancy Survey (HVS) data for the first quarter of 2016.
-Much attention went to the homeownership rate estimates, which showed a decline in homeownership rates near a 48-year low. The gif below shows the history of the homeownership rate as estimated by the HVS.
+  EARLIER THIS WEEK the Census Bureau released the latest Housing Vacancy Survey (HVS)data for the first quarter of 2016.
+Much attentionwent to the homeownership rate estimates, which showed a decline in homeownership rates near a 48-year low. The gif below shows the history of the homeownership rate as estimated by the HVS.
 And here&rsquo;s a still image of the same data:
 Vacancy rates In addition to the homeownership rate, the HVS data contained estimates of both the homeowner and rental vacancy rates.
   </p>
@@ -497,7 +432,7 @@ Vacancy rates In addition to the homeownership rate, the HVS data contained esti
   
     <article>
   <header>
-    <h2><a href="/2016/04/23/the-week-that-was-in-charts/">The week that was in charts</a></h2>
+    <h2><a href="http://lenkiefer.com/2016/04/23/the-week-that-was-in-charts/">The week that was in charts</a></h2>
 
     <div class="post-meta">
 
@@ -516,9 +451,9 @@ Vacancy rates In addition to the homeownership rate, the HVS data contained esti
   <div>
     <i class="fa fa-tags fa-fw"></i>
     
-      <a class="post-taxonomy-tag" href="/tags/economy">economy</a>&nbsp;&#47;
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/economy">economy</a>&nbsp;&#47;
     
-      <a class="post-taxonomy-tag" href="/tags/housing">Housing</a>
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/housing">Housing</a>
     
   </div>
   
@@ -529,7 +464,8 @@ Vacancy rates In addition to the homeownership rate, the HVS data contained esti
   </header>
 
   <p>
-  THIS WAS A BUSY WEEK for housing data. On Monday, the NAHB released the NAHB/Wells Fargo Housing Market Index (HMI), which tracks home builder sentiment. On Tuesday we got New Residential Construction from Census/HUD which gives us housing starts and permits. On Wednesday we got Existing Home Sales (EHS) from the National Association of Realtors. And on Thursday (along with mortgage rates), we got the FHFA House Price Index.
+  THIS WAS A BUSY WEEK for housing data. On Monday, the NAHB releasedthe NAHB/Wells Fargo Housing Market Index (HMI), which tracks home builder sentiment. On Tuesday we got New Residential Constructionfrom Census/HUD which gives us housing starts and permits. On Wednesday we got Existing Home Sales (EHS)from the National Association of Realtors. And on Thursday (along with mortgage rates), we got the FHFA House Price Index.
+These data were eagerly awaited.
   </p>
 
   
@@ -542,7 +478,7 @@ Vacancy rates In addition to the homeownership rate, the HVS data contained esti
   
     <article>
   <header>
-    <h2><a href="/2016/04/14/data-viz-occupation-wages-and-regional-cost-of-living/">Data Viz: Occupation Wages and Regional Cost of Living</a></h2>
+    <h2><a href="http://lenkiefer.com/2016/04/14/data-viz-occupation-wages-and-regional-cost-of-living/">Data Viz: Occupation Wages and Regional Cost of Living</a></h2>
 
     <div class="post-meta">
 
@@ -561,13 +497,13 @@ Vacancy rates In addition to the homeownership rate, the HVS data contained esti
   <div>
     <i class="fa fa-tags fa-fw"></i>
     
-      <a class="post-taxonomy-tag" href="/tags/economy">economy</a>&nbsp;&#47;
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/economy">economy</a>&nbsp;&#47;
     
-      <a class="post-taxonomy-tag" href="/tags/housing">housing</a>&nbsp;&#47;
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/housing">housing</a>&nbsp;&#47;
     
-      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
     
-      <a class="post-taxonomy-tag" href="/tags/tableau">Tableau</a>
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/tableau">Tableau</a>
     
   </div>
   
@@ -578,11 +514,10 @@ Vacancy rates In addition to the homeownership rate, the HVS data contained esti
   </header>
 
   <p>
-  A new data viz TODAY THE BLS released data on metro level wages, employment concentration and regional costs of living.
+  A new data viz TODAY THE BLS released dataon metro level wages, employment concentration and regional costs of living.
 I put together a quick plot and sent out the following tweet:
-Today @BLS_gov released data combining price-adjusted wages and employment concentration. I looked at economists&hellip; pic.twitter.com/NkL3q9r5ID
-&mdash; Leonard Kiefer (@lenkiefer) April 14, 2016 
 This post provides a link to interactive versions of the same plot and a discussion.
+The data The BLS data is quite interesting. It combines estimates of the average annual wages by occupation in metro areas with estimates of the relative price level in those areas.
   </p>
 
   
@@ -595,7 +530,7 @@ This post provides a link to interactive versions of the same plot and a discuss
   
     <article>
   <header>
-    <h2><a href="/2016/04/06/dot-plots-and-distributions/">dot plots and distributions</a></h2>
+    <h2><a href="http://lenkiefer.com/2016/04/06/dot-plots-and-distributions/">dot plots and distributions</a></h2>
 
     <div class="post-meta">
 
@@ -614,11 +549,11 @@ This post provides a link to interactive versions of the same plot and a discuss
   <div>
     <i class="fa fa-tags fa-fw"></i>
     
-      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>&nbsp;&#47;
     
-      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
     
-      <a class="post-taxonomy-tag" href="/tags/animation">animation</a>
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/animation">animation</a>
     
   </div>
   
@@ -646,7 +581,7 @@ Each dot represents a metro area with its unemployment rate depicted on the x ax
   
     <article>
   <header>
-    <h2><a href="/2016/03/30/real-house-prices-and-population-growth/">Real house prices and population growth</a></h2>
+    <h2><a href="http://lenkiefer.com/2016/03/30/real-house-prices-and-population-growth/">Real house prices and population growth</a></h2>
 
     <div class="post-meta">
 
@@ -665,13 +600,13 @@ Each dot represents a metro area with its unemployment rate depicted on the x ax
   <div>
     <i class="fa fa-tags fa-fw"></i>
     
-      <a class="post-taxonomy-tag" href="/tags/economy">Economy</a>&nbsp;&#47;
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/economy">Economy</a>&nbsp;&#47;
     
-      <a class="post-taxonomy-tag" href="/tags/housing">Housing</a>&nbsp;&#47;
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/housing">Housing</a>&nbsp;&#47;
     
-      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
     
-      <a class="post-taxonomy-tag" href="/tags/house-prices">House prices</a>
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/house-prices">House prices</a>
     
   </div>
   
@@ -682,13 +617,63 @@ Each dot represents a metro area with its unemployment rate depicted on the x ax
   </header>
 
   <p>
-  EARLIER THIS WEEK the U.S. Census Bureau released updated population figures for 2015. These data revealed changes in population across the country. Jed Kolko published a nice summary of these data, and it got me thinking about the relationship of population growth rates and house prices. In this post I want to consider a few key things I found by exploring these data.
+  EARLIER THIS WEEK the U.S. Census Bureau releasedupdated population figures for 2015. These data revealed changes in population across the country. Jed Kolko published a nice summaryof these data, and it got me thinking about the relationship of population growth rates and house prices. In this post I want to consider a few key things I found by exploring these data.
 First, let’s have a look at the history of real house prices, relative to the year 2000 for 30 large metro areas:
   </p>
 
   
   <footer>
     <a href="/2016/03/30/real-house-prices-and-population-growth/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://lenkiefer.com/2016/03/24/tight-supply-data-viz-remixed/">Tight Inventory: Data Viz Remixed</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2016/03/24</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/economy">Economy</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/housing">Housing</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/remix">remix</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  Tight Inventory EARLIER THIS WEEK, Trulia published a post by Chief Economist Ralph McLaughlincalled &ldquo;House Arrest: How Low Inventory Is Slowing Home Buying&rdquo;. The article analyzed trends in housing inventory.
+Trulia broke housing inventory into &ldquo;starter homes&rdquo;, &ldquo;move-up homes&rdquo;, and &ldquo;premium homes&rdquo;. They found that the inventory of available homes for-sale has shifted towards premium homes and away from starter homes that first time homebuyers would typically be buying. We&rsquo;re not here to talk housing inventory, but I recommend you take a look.
+  </p>
+
+  
+  <footer>
+    <a href="/2016/03/24/tight-supply-data-viz-remixed/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
   </footer>
   
 </article>
@@ -714,7 +699,7 @@ First, let’s have a look at the history of real house prices, relative to the 
 
 </div>
 </div>
-<script src="/js/ui.js"></script>
+<script src="http://lenkiefer.com/js/ui.js"></script>
 
 
 <script>
@@ -735,4 +720,3 @@ First, let’s have a look at the history of real house prices, relative to the 
 
 </body>
 </html>
-

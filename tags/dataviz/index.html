@@ -2496,6 +2496,1555 @@ The current level of housing construction is close to the level we’ve seen in 
   
     <article>
   <header>
+    <h2><a href="http://lenkiefer.com/2018/09/11/jolts-update/">JOLTS update</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/09/11</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/economy">economy</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  It’s been a while since I posted here. I’ve got some longer form things in the works, but let’s ease back into it.
+Let’s take a look at the latest Job Openings and Labor Turnover Survey (JOLTS) data via the U.S. Bureau of Labor Statistics. This post is an update of this post. Per usual we will make our graphics with R.
+First, let’s look at aggregate trends.
+  </p>
+
+  
+  <footer>
+    <a href="/2018/09/11/jolts-update/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://lenkiefer.com/2018/08/20/facets-in-space-and-time/">Facets in space and time</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/08/20</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/housing">housing</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  My studies involve a lot of data organized in space and across time. I look at housing data that usually captures activity around the United States, or sometimes the world, and almost always over time.
+In my data visualization explorations I like to study different ways to visualize trends across both space and time, often simultaneously.
+Let’s consider a couple here in this post. Per usual we will make our graphics with R.
+  </p>
+
+  
+  <footer>
+    <a href="/2018/08/20/facets-in-space-and-time/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://lenkiefer.com/2018/08/11/state-employment-dataviz/">Core Inflation Viz with Progress Bar</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/08/11</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/economy">economy</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  About a year ago I shared code for a dataviz with a progress bar.
+Let’s update that R code using gifski and tweener.
+The code below will generate this animated gif:
+ Gif code. Click for details. 
+# CPI VIz with progress bar----# set up your directorymydir &lt;- &quot;PATH_TO_YOUR_DIRECTORY&quot;# libraries ----library(data.table)library(tidyverse)library(tweenr)library(gifski)library(ggridges)library(extrafont)library(scales)library(cowplot)# make plots ----# Get data-----# CPILFESL is FRED mnemonic for CPI: All Items Less Food and Energy# https://fred.
+  </p>
+
+  
+  <footer>
+    <a href="/2018/08/11/state-employment-dataviz/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://lenkiefer.com/2018/08/07/state-employment-dataviz/">State employment dataviz</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/08/07</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/economy">economy</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/maps">maps</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  Today was JOLTS Tuesday, when the U.S. Bureau of Labor Statistics releases updated data from the Job Openings and Labor Turnover Survey. I was talking about it earlier today, but before we get into that…
+If you care about dataviz check this outI saw this on Twitter today via Jon Schwabish.
+Link to a handy dataviz cheatsheet outlining Jon’s core dataviz principles. Prints out nicely on pdf.
+Back to the JOLTS.
+  </p>
+
+  
+  <footer>
+    <a href="/2018/08/07/state-employment-dataviz/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://lenkiefer.com/2018/08/05/charts-within-charts/">Charts within charts</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/08/05</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  Maybe you are of the opinion that charts should have their y axis extend all the way down to 0, even if the data live far away from zero. I’m not sure if that’s always the right thing to do. But if you are strict about this, how can you use the space?
+One thing I experimented with in my Mortgage rates in the 21st century post was filling the area under a line with progressively fainter area.
+  </p>
+
+  
+  <footer>
+    <a href="/2018/08/05/charts-within-charts/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://lenkiefer.com/2018/08/02/global-house-price-trends/">Global house price trends</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/08/02</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/house-prices">house prices</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/animation">animation</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  In this post I want to share updated plots comparing house price trends around the world. Or at least part of the world. Our view will be somewhat limited, based on data, but will at least allow us to see how U.S. house prices compare to a few other countries.
+The details behind these plots are explained in more detail in this post, but some of the images were lost due to my blog transition.
+  </p>
+
+  
+  <footer>
+    <a href="/2018/08/02/global-house-price-trends/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://lenkiefer.com/2018/07/31/house-price-gif/">House price gif that keeps on giffing</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/07/31</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/house-prices">house prices</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/animation">animation</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  This tweet turned out to be popular:
+👀house price trends👀 pic.twitter.com/JXB5P0H84A
+&mdash; 📈 Len Kiefer 📊 (@lenkiefer) August 1, 2018  It’s a remix of a chart we made here, though it uses a different index. In the earlier post, we used the FHFA house price index, but this one used the Case-Shiller Index, which was released today.
+Let me just post two gifs and then below will be the R code I used to create them.
+  </p>
+
+  
+  <footer>
+    <a href="/2018/07/31/house-price-gif/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://lenkiefer.com/2018/07/26/getting-animated-about-new-home-sales/">Getting animated about new home sales</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/07/26</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/animation">animation</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/data-wrangling">data wrangling</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/housing">housing</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  Indications are that U.S. housing market activity in the middle part of 2018 has moderated. Home sales estimates for both new home sales and existing home sales declined on a seasonally adjusted basis in June relative to May. House price growth has also moderated recently. Some folks have gotten animated about the recent trends.
+I’m more sanguine about the recent data. Certainly a slowdown in housing market activity would be cause for concern.
+  </p>
+
+  
+  <footer>
+    <a href="/2018/07/26/getting-animated-about-new-home-sales/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://lenkiefer.com/2018/07/22/house-price-gifski/">House price gifski</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/07/22</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/animation">animation</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/house-prices">house prices</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  I saw today, via Ropensci a blog post about a new package for making animated gifs with R called gifski now available on CRAN.
+Let’s adapt the code we shared last week to use the gifski package. See that post for additional details.
+If we run the R code below we’ll generate this animated plot:
+This plot shows the evolution of house prices in two states, California (CA) and Texas (TX) versus the United States (USA).
+  </p>
+
+  
+  <footer>
+    <a href="/2018/07/22/house-price-gifski/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://lenkiefer.com/2018/07/21/connected-scatterplot/">Connected scatterplot</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/07/21</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/fun">fun</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  On Twitter Claus Wilke asks:
+Dear Lazyweb: Is there an accepted name for a plot showing a two-variable time series as a path in the x-y plane? #dataviz@Elijah_Meeks @albertocairo @lenkiefer @sharoz @dataandme pic.twitter.com/N8Edmf8qii
+&mdash; Claus Wilke (@ClausWilke) July 21, 2018  I call them connected scatterplots, and we’ve made a few here. See for example this post.
+But we can intensify things and make a plot like this:
+hey @ClausWilke why stop at a 2-d connected scatterplot* when you could go to 3-d
+  </p>
+
+  
+  <footer>
+    <a href="/2018/07/21/connected-scatterplot/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://lenkiefer.com/2018/07/07/mortgage-rates-in-the-21st-century/">Mortgage rates in the 21st century</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/07/07</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/mortgage">mortgage</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  Let’s compare two charts. “Your chart”, or a chart that might come virtually unedited from spreadsheet software versus the chart your boss told you not to worry about:
+Your chart is perfectly serviceable and for a quick exploration might be perfectly fine. However, why routinely generate such charts if you have the ability to make something a bit more dynamic? Being able to produce more interesting charts might not be necessary, but it also probably doesn’t hurt.
+  </p>
+
+  
+  <footer>
+    <a href="/2018/07/07/mortgage-rates-in-the-21st-century/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://lenkiefer.com/2018/07/01/exploring-housing-data-with-r-and-ipums-usa/">Exploring housing data with R and IPUMS USA</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/07/01</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/housing">housing</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/data-wrangling">data wrangling</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/microdata">microdata</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  In this post I want to share some observations on housing in the United States from 1980 to 2016, share some R code for data wrangling, and tri (no that’s not a typo, just a pun) out a visualization techniques.
+Let’s get to it.
+I’ve been carrying a running conversation with folks on Twitter regarding the U.S. housing market and its future. Much of that depends on the evolution of demographic forces.
+  </p>
+
+  
+  <footer>
+    <a href="/2018/07/01/exploring-housing-data-with-r-and-ipums-usa/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://lenkiefer.com/2018/06/24/plotting-house-price-and-income-trends/">Plotting house price and income trends</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/06/24</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/house-prices">house prices</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/data-wrangling">data wrangling</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  In this post we will create some plots of house prices and incomes for the United States and individual states. We will also try out the bea.R package to get data from the U.S. Bureau of Economic Analysis.
+We’ll end up with something like this:
+Per usual we’ll do it with R and I’ll include code so you can follow along.
+DataWe’re going to use two sources of data.
+  </p>
+
+  
+  <footer>
+    <a href="/2018/06/24/plotting-house-price-and-income-trends/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://lenkiefer.com/2018/05/21/pomological-plots/">Pomological Plots</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/05/21</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/fun">fun</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  In the real world, when I give talks and use slides I am typically constrained in my aesthetic. Often I’m speaking at a work-related thing and we have a corporate template and color scheme. They serve us well and I’ve found restraint helps focus on the message. Usually I’m setting out to inform, so direct, repeatable and easy to follow are key.
+But I also like to explore new ideas and different themes on the side.
+  </p>
+
+  
+  <footer>
+    <a href="/2018/05/21/pomological-plots/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://lenkiefer.com/2018/05/08/spotlight-on-housing-affordability/">Spotlight on housing affordability</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/05/08</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/housing">housing</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  IN MY LINE OF WORK, (finance/economics) you see a lot of dual axis line charts. I am of the opinion that dual y axis charts are sort of evil. But in this post I’m going to make one. It’s for a totally legit reason though.
+Like in an earlier post we’ll make a graph similar to one I saw on xenographics. Xenographics gives examples of and links to “weird, but (sometimes) useful charts”.
+  </p>
+
+  
+  <footer>
+    <a href="/2018/05/08/spotlight-on-housing-affordability/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://lenkiefer.com/2018/05/04/jobs-friday-may-2018/">Jobs Friday May 2018</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/05/04</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/economy">economy</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  TODAY WAS JOBS FRIDAY. LET’s create a couple plots to show the trend in employment growth.
+Each month the U.S. Bureau of Labor Statistics (BLS) releases its employment situation report. Let’s make a couple plots looking at trends in U.S. nonfarm payrolls.
+Per usual, let’s make a graph with R.
+DataWe can easily get the data via the Saint Louis Federal Reserve’s FRED database. If you followed my post from back in April of last year you know what we can do if we combine FRED with the quantmod package.
+  </p>
+
+  
+  <footer>
+    <a href="/2018/05/04/jobs-friday-may-2018/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://lenkiefer.com/2018/05/02/what-s-up-vsup-that-s-what-s-up/">What&#39;s up? VSUP, that&#39;s what&#39;s up.</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/05/02</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/maps">maps</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/data-wrangling">data wrangling</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  IN THIS POST WE SHALL EXPLORE VALUE-SUPRESSING UNCERTAINTY PALETTES.
+One of my favorite new sites is xenographics that gives examples of and links to “weird, but (sometimes) useful charts”. The examples xenographics gives are undoubtedly interesting and might help inspire you if you’re looking for something new.
+One new (to me) graphic was something called Value-Suppressing Uncertainty Palettes (VSUP). See this research paper (pdf). VSUPs “allocate larger ranges of a visual channel when uncertainty is low, and smaller ranges when uncertainty is high”.
+  </p>
+
+  
+  <footer>
+    <a href="/2018/05/02/what-s-up-vsup-that-s-what-s-up/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://lenkiefer.com/2018/04/26/expanding-expansions-contracting-recessions/">Expanding Expansions, Contracting Recessions</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/04/26</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/economy">economy</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/data-wrangling">data wrangling</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  IN THIS POST I WANT TO SHARE A GRAPH looking at the length of economic expansions and recessions in the United State over time. Earlier today, Andrew Chamberlain (on Twitter), observed that at the end of this month the current economic expansion in the U.S. would be the second longest in history. Let’s explore.
+In the United States, the National Bureau of Economic Research (NBER) dates expansions and recessions. See for example http://www.
+  </p>
+
+  
+  <footer>
+    <a href="/2018/04/26/expanding-expansions-contracting-recessions/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://lenkiefer.com/2018/04/23/april-2018-housing-market-update-april/">April 2018 Housing Market Update</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/04/23</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/housing">housing</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/economy">economy</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  LAST WEEK I POSTED A THREAD ON TWITTER COVERING RECENT HOUSING MARKET TRENDS AND THE OUTLOOK FOR MORTGAGE RATES:
+#Mortgage rates are now at their highest level since January 2014. Will these higher borrowing costs dampen the spring homebuying season?
+Some thoughts (+ charts)... pic.twitter.com/BegOb7p6iq
+&mdash; 📈 Len Kiefer 📊 (@lenkiefer) April 19, 2018  Let’s unpack that thread and add a few more charts I’ve tweeted out in the past week.
+  </p>
+
+  
+  <footer>
+    <a href="/2018/04/23/april-2018-housing-market-update-april/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://lenkiefer.com/2018/04/12/rate-cloud/">Rate Cloud</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/04/12</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/fun">fun</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/animation">animation</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  TIME FOR A FUN NEW MORTGAGE RATE CHART.
+This one:
+We’ll use R to plot a new visualization of mortgage rates.
+Let’s make it.
+DataAs we did with our majestic mortgage rate plot post we’ll plot mortgage rates using the Freddie Mac Primary Mortgage Market Survey.
+We’ll get the mortgage rates data via the Saint Louis Federal Reserve’s FRED database. If you followed my post from back in April of last year you know what we can do if we combine FRED with the quantmod package.
+  </p>
+
+  
+  <footer>
+    <a href="/2018/04/12/rate-cloud/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://lenkiefer.com/2018/03/18/pipe-tweenr/">Pipe Tweenr</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/03/18</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/animation">animation</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  I LIKE TO MAKE ANIMATIONS WITH R. Sometimes folks ask me how they add to understanding. They don’t always, but often, particularly when you are working with time series, I find they help visualize trends and understand the evolution of variables.
+I’ve written several posts on animation, see particularly this recent post on making a simple line plot and this post about improving animations with tweenr.
+Tweenr is a handy package that lets you interpolate data and make smooth animations.
+  </p>
+
+  
+  <footer>
+    <a href="/2018/03/18/pipe-tweenr/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://lenkiefer.com/2018/03/12/forecasting-game/">Forecasting Game</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/03/12</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/forecasting">forecasting</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/fun">fun</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  LET’S PICK BACK UP where we left off and think about communicating forecast results. To help guide our thinking, let’s set up a little game.
+Basic setupLike last time we’re going to focus on a situation where a forecaster observes some information about the world and makes an announcement about a future binary outcome. A decision maker observes the forecaster’s announcement and takes a binary action. Then the outcome is realized and the forecaster receives a payoff.
+  </p>
+
+  
+  <footer>
+    <a href="/2018/03/12/forecasting-game/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://lenkiefer.com/2018/03/11/charting-jobs-friday-with-r/">Charting Jobs Friday with R</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/03/11</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/economy">economy</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  LAST FRIDAY WAS JOBS FRIDAY, the day when the U.S. Bureau of Labor Statistics (BLS) releases its monthly employment situation report. This report is blanketed with media coverage and economist and financial analysts all over the world pay close attention to the report. The employment situation gives a read on trends in the world’s largest economy’s labor market. It also provides a clue about how monetary policy might unfold, affecting bond yields around the world.
+  </p>
+
+  
+  <footer>
+    <a href="/2018/03/11/charting-jobs-friday-with-r/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://lenkiefer.com/2018/03/03/rock-that-dadbod-plot/">Rock that dadbod plot!</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/03/03</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/fun">fun</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  Spring is nearly upon us, or at least we can hope. Let’s examine how housing activity typically rounds into shape as the weather warms up. We’ll make some fun plots with R.
+Seasonality in housing dataHousing market activity in the United States is highly seasonal. Consider this animated plot.
+This plot shows U.S. new home sales. Often the data are presented seasonally adjusted, but this plot is for non seasonally adjusted data.
+  </p>
+
+  
+  <footer>
+    <a href="/2018/03/03/rock-that-dadbod-plot/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://lenkiefer.com/2018/02/26/employment-growth-and-house-price-trends/">Employment growth and house price trends</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/02/26</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/house-prices">house prices</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/economy">economy</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  LET US TAKE A LOOK AT HOUSE PRICE AND EMPLOYMENT TRENDS.
+House prices in the Unitest States have been increasing at a rapid pace, about 7 percent on an annual basis. How does that relate to employment growth? And how do those trends vary by geography. Let’s take a look.
+Per usual, I will post R code and you can follow along.
+DataFollowing recent posts (see here and here for example), we will use the Freddie Mac House Price Index an Excel spreadsheet can be downloaded here.
+  </p>
+
+  
+  <footer>
+    <a href="/2018/02/26/employment-growth-and-house-price-trends/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://lenkiefer.com/2018/02/19/more-house-price-plots/">More house price plots</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/02/19</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/house-prices">House prices</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  SO TODAY I SPENT SOME TIME WITH THE KIDDOS and contemplated the Enlightenment, so I didn’t have time to write up some code. But I will post a couple images that I think are interesting.
+I’ve got two plots for you, both using geofacets. See this post on using the geofacet package in R to make plots like these.
+The first plot shows U.S. house price trends by metro area from January 2015 to December 2017.
+  </p>
+
+  
+  <footer>
+    <a href="/2018/02/19/more-house-price-plots/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://lenkiefer.com/2018/02/07/february-2018-housing-market-update/">February 2018 housing market update </a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/02/07</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/data">data</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/housing">housing</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/economy">economy</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/presentation">presentation</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  EARLIER THIS WEEK I TWEETED out a poll asking whether or not folks wanted to see a thread/tweetstorm with slides from an upcoming presentation on the economy and housing markets that I’m giving. Over 90 percent voted for a thread. So I shared it. In this post let me add a little more commentary on the individual slides.
+Here’s the thread I ended up posting:
+Thread (0/5). I&#39;m giving an update on economy, #housing and #mortgage market trends.
+  </p>
+
+  
+  <footer>
+    <a href="/2018/02/07/february-2018-housing-market-update/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://lenkiefer.com/2018/02/05/comparing-recent-periods-of-mortgage-rate-increases/">Comparing recent periods of mortgage rate increases</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/02/05</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/remix">remix</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/mortgage">mortgage</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  THIS MORNING I SAW AN INTERESTING CHART OVER ON BLOOMBERG. In this post they compared recent 10-year Treasury yield movements with the Taper Tantrum in 2013. The chart you can see here was an area chart with overlapping line plots.
+I thought it would be a fun exercise to remix a similar chart with R.
+Eventually it will look like this:
+Let’s make our remix and try out a few alternative plots.
+  </p>
+
+  
+  <footer>
+    <a href="/2018/02/05/comparing-recent-periods-of-mortgage-rate-increases/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://lenkiefer.com/2018/01/23/me-on-a-podcast/">Me on a podcast</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/01/23</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/personal">personal</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  Hey check it out!
+Me on a podcast: https://policyviz.com/podcast/episode-111-len-kiefer/.
+We talk about data visualization and how I use it at work. A bit about using R too.
+I got the opportunity to talk with Jon Schwabish on the Policyviz podcast. Jon’s PolicyViz blog has a lot of cool data visualization stuff, including chart remakes and thoughtful discussion. There’s a bunch of other neat stuff on the page too.
+So check out the podcast and take a look around the page, there’s a lot of useful stuff there.
+  </p>
+
+  
+  <footer>
+    <a href="/2018/01/23/me-on-a-podcast/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://lenkiefer.com/2018/01/17/simple-animated-line-plot/">Simple animated line plot with R</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/01/17</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  IN THIS POST I WANT TO SHARE R code for a simple animated line plot using ggplot2.
+In the past I’ve shared similar code, but over time my workflow has evolved. So I thought it would be good to post an updated bit of code. We’ll use economic data from the St. Louis Federal Reserve Economic Database (FRED). See for example this post for more on using FRED with the tidyquant package.
+  </p>
+
+  
+  <footer>
+    <a href="/2018/01/17/simple-animated-line-plot/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://lenkiefer.com/2017/12/11/plotting-u-s-macroeconomic-trends-with-fred-and-r/">Plotting U.S. Macroeconomic Trends with FRED and R</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2017/12/11</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/economy">economy</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  LET’S TAKE A LOOK AT RECENT U.S. macroeconomic trends by making a couple plots with R code.
+Since we’re going to be looking at U.S. macroeconomic data, the data we’ll need is available in the St. Louis Federal Reserve Bank Economic Database FRED. Below I’ll walk you through creating the plots.
+Where are we in the business cycleAfter the BLS released their employment situation report (the Jobs report) last week I tweeted out:
+  </p>
+
+  
+  <footer>
+    <a href="/2017/12/11/plotting-u-s-macroeconomic-trends-with-fred-and-r/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
     <h2><a href="http://lenkiefer.com/2017/11/22/housing-market-dataviz-week-of-november-22-2017/">Housing market dataviz: week of November 22, 2017</a></h2>
 
     <div class="post-meta">
@@ -2646,6 +4195,55 @@ Get dataWe are going to use house price data from the publicly available Freddi
   
   <footer>
     <a href="/2017/11/08/tour-of-u-s-metro-area-house-price-trends/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://lenkiefer.com/2017/11/07/jolts-a-dataviz-trilogy/">JOLTS a dataviz trilogy</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2017/11/07</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/economy">economy</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  LET’S TAKE A LOOK AT RECENT LABOR MARKET TRENDS IN THE UNITED STATES. Below we’ll plot labor market trends using the U.S. Bureau of Labor Statistics Job Openings and Labor Turnover Survey (JOLTS).
+Last year we looked at how to get the data and plot it using R. Look to that post for more details, though I’ll include all the code we need below at the bottom.
+A trilogy of plotsFirst, let’s look at some static plots.
+  </p>
+
+  
+  <footer>
+    <a href="/2017/11/07/jolts-a-dataviz-trilogy/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
   </footer>
   
 </article>
@@ -2902,6 +4500,108 @@ I’ll have more to say about this in the near future, but I just wanted to make
   
   <footer>
     <a href="/2017/10/15/unemployment-flexdashboard/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://lenkiefer.com/2017/10/11/bivariate-tilegridmaps-with-r/">Bivariate tilegridmaps with R</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2017/10/11</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/maps">maps</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/fun">fun</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  I HAVE BEEN EXPERIMENTING WITH A NEW WAY TO VISUALIZE DATA, a bivariate tilegridmap. When I get around to rolling out my tidyPowerPoint workflow we’re going to want something other than bars and lines to fill it up. A graph like this might be a fun option.
+We’ll build one, but first, just let me show you one I tweeted earlier today:
+bivariate #tilegridmap map anyone? pic.twitter.com/y3G5XExzoN
+&mdash; 📈 Len Kiefer 📊 (@lenkiefer) October 11, 2017  In this post, let’s go over how to make this plot with R.
+  </p>
+
+  
+  <footer>
+    <a href="/2017/10/11/bivariate-tilegridmaps-with-r/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://lenkiefer.com/2017/10/10/quick-geofacet-plots/">quick geofacet plots</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2017/10/10</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/data-wrangling">data wrangling</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  WHILE I WAS TRYING TO MAKE TIME FOR TIBBLETIME yesterday I got distracted and made this plot:
+hey! here&#39;s a #dataviz: tile plot of U.S. state unemployment pic.twitter.com/vH8fSu63ve
+&mdash; 📈 Len Kiefer 📊 (@lenkiefer) October 10, 2017  In this post, let’s go over how to make this plot with R. And we’re going to make it quick.
+SetupIn order to create a plot like this we’ll need several packages, including the tidyverse, geofacet and the tidyquant package.
+  </p>
+
+  
+  <footer>
+    <a href="/2017/10/10/quick-geofacet-plots/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
   </footer>
   
 </article>
@@ -3965,6 +5665,49 @@ Today the U.S. Census Bureau joint with the U.S. Department of Housing and Urban
   
     <article>
   <header>
+    <h2><a href="http://lenkiefer.com/2017/04/24/bivariate-map/">Bivariate choropleth maps with R</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2017/04/24</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/maps">maps</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  R statistics rstats mortgage rates dataviz
+  </p>
+
+  
+</article>
+
+  
+    <article>
+  <header>
     <h2><a href="http://lenkiefer.com/2017/04/23/horizon/">What&#39;s that on the horizon? An awesome dataviz!</a></h2>
 
     <div class="post-meta">
@@ -4073,6 +5816,51 @@ Today the U.S. Census Bureau joint with the U.S. Department of Housing and Urban
       <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/housing">housing</a>&nbsp;&#47;
     
       <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  R statistics rstats mortgage rates dataviz
+  </p>
+
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://lenkiefer.com/2017/04/17/pixel-map/">Let&#39;s Pixelate America</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2017/04/17</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/fun">fun</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/maps">maps</a>
     
   </div>
   
