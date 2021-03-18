@@ -4,20 +4,21 @@
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Value-Suppressing Uncertainty Palettes allocate a larger range of a visual channel when uncertainty is low, and smaller ranges when uncertainty is high. Let us make one with R.">
-  <meta name="generator" content="Hugo 0.52" />
+  <meta name="description" content="">
 
-  <title>What&#39;s up? VSUP, that&#39;s what&#39;s up. &middot; Len Kiefer</title>
+<meta name="generator" content="Hugo 0.81.0">
+
+  <title>Len Kiefer</title>
 
   
   
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+  <link rel="stylesheet" href="https://cdn.bootcss.com/pure/0.6.2/pure-min.css">
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <link rel="stylesheet" href="https://cdn.bootcss.com/pure/0.6.2/grids-responsive-old-ie-min.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <link rel="stylesheet" href="https://cdn.bootcss.com/pure/0.6.2/grids-responsive-min.css">
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
@@ -30,31 +31,26 @@
   <link rel="stylesheet" href="/css/blackburn.css">
 
   
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script async src="https://use.fontawesome.com/32c3d13def.js"></script>
 
   
-  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
-
   
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
- 
+  <link rel="alternate" type="application/rss+xml" title="Len Kiefer" href="http://lenkiefer.com/index.xml" />
   
 
   
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
-  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-  
-  <script>hljs.initHighlightingOnLoad();</script>
+  <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.11.0/styles/androidstudio.min.css">
+  <script src="//cdn.bootcss.com/highlight.js/9.11.0/highlight.min.js"></script>
+  <script src="//cdn.bootcss.com/highlight.js/9.11.0/languages/r.min.js"></script>
+  <script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
   
 
-  <link rel="shortcut icon" href="/img/favicon.PNG" type="image/x-icon" />
+  <link rel="shortcut icon" href="http://lenkiefer.com/img/favicon.PNG" type="image/x-icon" />
 
   
   
 
 </head>
-
 
 <body>
 <div id="layout">
@@ -201,23 +197,28 @@
   <div id="main">
 
 
-       <meta name="twitter:card" content="summary_large_image">
-       <meta name="twitter:image" content="http://lenkiefer.com//img/charts_may_02_2018/VSUP.png" >
-     
-    <meta property="og:title" content="What&#39;s up? VSUP, that&#39;s what&#39;s up.">
-    <meta property="og:description" content="Value-Suppressing Uncertainty Palettes allocate a larger range of a visual channel when uncertainty is low, and smaller ranges when uncertainty is high. Let us make one with R.">
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Len Kiefer">
+    <meta property="og:description" content="">
 
 <div class="header">
-  <h1>What&#39;s up? VSUP, that&#39;s what&#39;s up.</h1>
-  <h2>Value-Suppressing Uncertainty Palettes allocate a larger range of a visual channel when uncertainty is low, and smaller ranges when uncertainty is high. Let us make one with R.</h2>
+  <h1>Len Kiefer</h1>
+  <h2>Helping people understand the economy, housing and mortgage markets</h2>
 </div>
-<div class="content">
 
-  <div class="post-meta">
+<div class="content">
+  
+    <article>
+  <header>
+    <h2><a href="http://lenkiefer.com/2021/03/17/watch-your-charts-glow-up-with-r-and-ggfx/">Watch your charts glow up with R and ggfx</a></h2>
+
+    <div class="post-meta">
 
   <div>
     <i class="fa fa-calendar fa-fw"></i>
-    <time>2018/05/02</time>
+    <time>2021/03/17</time>
   </div>
 
   
@@ -230,13 +231,9 @@
   <div>
     <i class="fa fa-tags fa-fw"></i>
     
-      <a class="post-taxonomy-tag" href="/tags/dataviz">dataviz</a>&nbsp;&#47;
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>&nbsp;&#47;
     
-      <a class="post-taxonomy-tag" href="/tags/r">R</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="/tags/maps">maps</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="/tags/data-wrangling">data wrangling</a>
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>
     
   </div>
   
@@ -244,719 +241,493 @@
 
 </div>
 
+  </header>
+
+  <p>
+  Recently I’ve been doing some experiments with the new R package ggfx. Earlier this month I shared an example, using ggfx for good. Since then, new features have been added to ggfx and I’ve found new applications for them.
+In this post, we’ll take some standard charts and watch them glow up as we add new features from ggfx.
+Having our charts glow up might not be the best idea, Bob Rudis suggests we’re converging on Excel level graphs.
+  </p>
+
+  
+  <footer>
+    <a href="/2021/03/17/watch-your-charts-glow-up-with-r-and-ggfx/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://lenkiefer.com/2021/03/05/using-ggfx-for-good/">Using ggfx for good</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2021/03/05</time>
+  </div>
+
   
 
-
-<p>IN THIS POST WE SHALL EXPLORE VALUE-SUPRESSING UNCERTAINTY PALETTES.</p>
-<p>One of my favorite new sites is <a href="https://xeno.graphics/">xenographics</a> that gives examples of and links to “weird, but (sometimes) useful charts”. The examples xenographics gives are <a href="https://xeno.graphics/bivariate-tilegrid-map/">undoubtedly interesting</a> and might help inspire you if you’re looking for something new.</p>
-<p>One new (to me) graphic was something called <a href="https://xeno.graphics/value-suppressing-uncertainty-palettes/">Value-Suppressing Uncertainty Palettes (VSUP)</a>. See <a href="http://idl.cs.washington.edu/files/2018-UncertaintyPalettes-CHI.pdf">this research paper (pdf)</a>. VSUPs “allocate larger ranges of a visual channel when uncertainty is low, and smaller ranges when uncertainty is high”. As we mentioned in an <a href="../../../../2017/04/26/housing-data-uncertainty/">earlier post</a>, much of the economic and housing data I track is highly uncertain. Perhaps VSUPs can be useful.</p>
-<p>Per usual, let’s make a graph with <a href="https://www.r-project.org/">R</a>.</p>
-<div id="value-suppressing-uncertainty-palette" class="section level1">
-<h1>Value-Suppressing Uncertainty Palette</h1>
-<p>Let’s build a VSUP and take a look. We can construct a visual describing the VSUP using <a href="http://ggplot2.org/">ggplot2</a> and <a href="https://CRAN.R-project.org/package=ggforce">ggforce</a>. The ggforce package is nice because it helps us <a href="https://cran.r-project.org/web/packages/ggforce/vignettes/Visual_Guide.html#arcs">avoid polar coordinates</a>.</p>
-<pre class="r"><code>library(tidyverse)
-library(viridis)
-library(ggforce)
-library(ggrepel)
-library(scales)
-library(cowplot)
-
-#____________________________________________________________________________________
-## Draw Legend ----
-#____________________________________________________________________________________
-
-# Function to draw legend
-d.legend &lt;- function(){
   
-  nlevels=4
-  X=seq(-0.5/pi,0.5/pi,length.out=8)
-  Y=1:4
-  df&lt;-expand.grid(x=X,y=Y)
-  
-  X0 &lt;- seq(-1.75,1.75,.5)/pi
-  X1 &lt;- X0[c(TRUE,FALSE)]
-  X2 &lt;- X1[c(TRUE,FALSE)]
-  X3 &lt;- X2[c(TRUE,FALSE)]
-  
-  quant.X&lt;- function (x, level=5, X=X0){
-    X1 &lt;- X[c(TRUE,FALSE)]
-    X2 &lt;- X1[c(TRUE,FALSE)]
-    X3 &lt;- X2[c(TRUE,FALSE)]
-    case_when(
-      level== 5 ~ X[findInterval(x,X)],
-      level== 4 ~ X1[findInterval(x,X1)],
-      level== 3 ~ X2[findInterval(x,X2)],
-      level== 2 ~ X3[findInterval(x,X3)],
-      TRUE ~ median(X0)
-      
-    )
-  }
-  
-  d&lt;-expand.grid(x=X0, y=1:5)
 
-  ggplot(data=dplyr::filter(d,y&gt;1))+
-    geom_arc_bar(aes(x0=0,
-                     y0=0,
-                     r0=y-2,
-                     r=y-1,
-                     start=x-0.25/pi,
-                     end=x+0.25/pi,
-                     fill=quant.X(x,y),
-                     alpha=y),color=NA)+
-    scale_fill_viridis(limits=c(min(X0),max(X0)), option=&quot;C&quot;, direction=-1)+
-    theme_void()+
-    theme(legend.position=&quot;none&quot;, plot.subtitle=element_text(hjust=0.5, face=&quot;italic&quot;))+guides(alpha=F)+
-    geom_segment(x= 0.1, xend= 2.5, yend= 3.1, y=0,
-                 arrow = arrow(length = unit(0.03, &quot;npc&quot;), ends=&quot;first&quot;))+
-    geom_segment(xend= -2.5, x= 2.5, yend= 4.05, y=4.05,
-                 arrow = arrow(length = unit(0.03, &quot;npc&quot;), ends=&quot;first&quot;))+
-    annotate(geom=&quot;text&quot;, x= 0.1, y=4.3, label=&quot; Value increases&quot; )+
-    annotate(geom=&quot;text&quot;, x= 1.7, y=1.5, label=&quot; Uncertainty increases&quot; ,angle=45 )+
-    labs( title=&quot;Value-Supressing Uncertainty Scale&quot;,
-          subtitle=&quot;Darker values indicate higher values, higher transparency indicates higher uncertainty&quot;)
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
     
-}
-
-# Call Function
-d.legend()</code></pre>
-<p><img src="/post/2018-05-02-what-s-up-vsup-that-s-what-s-up_files/figure-html/05-02-2018-setup-1-1.png" width="672" /></p>
-</div>
-<div id="using-vsup" class="section level1">
-<h1>Using VSUP</h1>
-<p>The VSUP can be useful if we want to plot some data that has some measure of uncertainty attached to it. Let’s use the VSUP to plot median house values by county estimated in the U.S. Census Bureau’s <a href="https://www.census.gov/programs-surveys/acs/">American Community Survey (ACS)</a>. We can easily access the ACS data with the <a href="https://CRAN.R-project.org/package=acs">acs</a> package. Note for this to work for you you’ll need to get an <a href="https://api.census.gov/data/key_signup.html">API key</a> from the U.S. Census Bureau.</p>
-<p>I want to look at the median value of owner-occupied housing units. Estimates <a href="https://factfinder.census.gov/bkmk/table/1.0/en/ACS/16_5YR/B25077">are reported</a> in table B25077. The ACS also gives us an estimate of the standard error/ margin of error for the estimates.</p>
-<div id="state-data" class="section level2">
-<h2>State data</h2>
-<p>Let’s start by looking at state data.</p>
-<pre class="r"><code>#install your key
-api.key.install(key=&quot;YOUR_API_KEY&quot;)
-
-# get state data
-geo2 &lt;- geo.make(state=&#39;*&#39;)
-# get state estimates 
-hv &lt;- acs.fetch(endyear=2016,         # get data estimates ending in 2016
-                span=1,               # for states we can use 1-year ACS estimates 
-                geography=geo2,       # state geography
-                table.number=&quot;B25077&quot; # housing values
-                )
-# convert to data frame
-
-df.hv &lt;- data.frame(NAME=hv@geography$NAME,
-                    value=unname(hv@estimate), 
-                    sd=unname(hv@standard.error)) %&gt;%
-  filter(! NAME %in% c(&quot;Puerto Rico&quot;,&quot;Alaska&quot;,&quot;Hawaii&quot; )) # keep only lower 48 states
-
-# Print the data
-knitr::kable(df.hv %&gt;% select(NAME, value, sd) %&gt;% 
-               mutate(value=dollar(round(value,0)),
-                      sd=dollar(round(sd,0))
-                      ),
-             col.names=c(&quot;State&quot;, &quot;Median Value ($)&quot;, &quot;Standard Error&quot;)
-             )</code></pre>
-<table>
-<thead>
-<tr class="header">
-<th align="left">State</th>
-<th align="left">Median Value ($)</th>
-<th align="left">Standard Error</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">Alabama</td>
-<td align="left">$136,200</td>
-<td align="left">$1,000</td>
-</tr>
-<tr class="even">
-<td align="left">Arizona</td>
-<td align="left">$205,900</td>
-<td align="left">$1,187</td>
-</tr>
-<tr class="odd">
-<td align="left">Arkansas</td>
-<td align="left">$123,300</td>
-<td align="left">$1,058</td>
-</tr>
-<tr class="even">
-<td align="left">California</td>
-<td align="left">$477,500</td>
-<td align="left">$1,011</td>
-</tr>
-<tr class="odd">
-<td align="left">Colorado</td>
-<td align="left">$314,200</td>
-<td align="left">$1,433</td>
-</tr>
-<tr class="even">
-<td align="left">Connecticut</td>
-<td align="left">$274,600</td>
-<td align="left">$1,412</td>
-</tr>
-<tr class="odd">
-<td align="left">Delaware</td>
-<td align="left">$243,400</td>
-<td align="left">$2,274</td>
-</tr>
-<tr class="even">
-<td align="left">District of Columbia</td>
-<td align="left">$576,100</td>
-<td align="left">$10,779</td>
-</tr>
-<tr class="odd">
-<td align="left">Florida</td>
-<td align="left">$197,700</td>
-<td align="left">$801</td>
-</tr>
-<tr class="even">
-<td align="left">Georgia</td>
-<td align="left">$166,800</td>
-<td align="left">$677</td>
-</tr>
-<tr class="odd">
-<td align="left">Idaho</td>
-<td align="left">$189,400</td>
-<td align="left">$1,858</td>
-</tr>
-<tr class="even">
-<td align="left">Illinois</td>
-<td align="left">$186,500</td>
-<td align="left">$861</td>
-</tr>
-<tr class="odd">
-<td align="left">Indiana</td>
-<td align="left">$134,800</td>
-<td align="left">$602</td>
-</tr>
-<tr class="even">
-<td align="left">Iowa</td>
-<td align="left">$142,300</td>
-<td align="left">$925</td>
-</tr>
-<tr class="odd">
-<td align="left">Kansas</td>
-<td align="left">$144,900</td>
-<td align="left">$1,134</td>
-</tr>
-<tr class="even">
-<td align="left">Kentucky</td>
-<td align="left">$135,600</td>
-<td align="left">$869</td>
-</tr>
-<tr class="odd">
-<td align="left">Louisiana</td>
-<td align="left">$158,000</td>
-<td align="left">$876</td>
-</tr>
-<tr class="even">
-<td align="left">Maine</td>
-<td align="left">$184,700</td>
-<td align="left">$1,827</td>
-</tr>
-<tr class="odd">
-<td align="left">Maryland</td>
-<td align="left">$306,900</td>
-<td align="left">$1,623</td>
-</tr>
-<tr class="even">
-<td align="left">Massachusetts</td>
-<td align="left">$366,900</td>
-<td align="left">$1,367</td>
-</tr>
-<tr class="odd">
-<td align="left">Michigan</td>
-<td align="left">$147,100</td>
-<td align="left">$567</td>
-</tr>
-<tr class="even">
-<td align="left">Minnesota</td>
-<td align="left">$211,800</td>
-<td align="left">$813</td>
-</tr>
-<tr class="odd">
-<td align="left">Mississippi</td>
-<td align="left">$113,900</td>
-<td align="left">$1,286</td>
-</tr>
-<tr class="even">
-<td align="left">Missouri</td>
-<td align="left">$151,400</td>
-<td align="left">$722</td>
-</tr>
-<tr class="odd">
-<td align="left">Montana</td>
-<td align="left">$217,200</td>
-<td align="left">$2,348</td>
-</tr>
-<tr class="even">
-<td align="left">Nebraska</td>
-<td align="left">$148,100</td>
-<td align="left">$1,018</td>
-</tr>
-<tr class="odd">
-<td align="left">Nevada</td>
-<td align="left">$239,500</td>
-<td align="left">$1,341</td>
-</tr>
-<tr class="even">
-<td align="left">New Hampshire</td>
-<td align="left">$251,100</td>
-<td align="left">$2,110</td>
-</tr>
-<tr class="odd">
-<td align="left">New Jersey</td>
-<td align="left">$328,200</td>
-<td align="left">$1,332</td>
-</tr>
-<tr class="even">
-<td align="left">New Mexico</td>
-<td align="left">$167,500</td>
-<td align="left">$1,303</td>
-</tr>
-<tr class="odd">
-<td align="left">New York</td>
-<td align="left">$302,400</td>
-<td align="left">$1,495</td>
-</tr>
-<tr class="even">
-<td align="left">North Carolina</td>
-<td align="left">$165,400</td>
-<td align="left">$633</td>
-</tr>
-<tr class="odd">
-<td align="left">North Dakota</td>
-<td align="left">$184,100</td>
-<td align="left">$2,387</td>
-</tr>
-<tr class="even">
-<td align="left">Ohio</td>
-<td align="left">$140,100</td>
-<td align="left">$459</td>
-</tr>
-<tr class="odd">
-<td align="left">Oklahoma</td>
-<td align="left">$132,200</td>
-<td align="left">$884</td>
-</tr>
-<tr class="even">
-<td align="left">Oregon</td>
-<td align="left">$287,100</td>
-<td align="left">$1,414</td>
-</tr>
-<tr class="odd">
-<td align="left">Pennsylvania</td>
-<td align="left">$174,100</td>
-<td align="left">$447</td>
-</tr>
-<tr class="even">
-<td align="left">Rhode Island</td>
-<td align="left">$247,700</td>
-<td align="left">$2,194</td>
-</tr>
-<tr class="odd">
-<td align="left">South Carolina</td>
-<td align="left">$153,900</td>
-<td align="left">$872</td>
-</tr>
-<tr class="even">
-<td align="left">South Dakota</td>
-<td align="left">$160,700</td>
-<td align="left">$1,588</td>
-</tr>
-<tr class="odd">
-<td align="left">Tennessee</td>
-<td align="left">$157,700</td>
-<td align="left">$726</td>
-</tr>
-<tr class="even">
-<td align="left">Texas</td>
-<td align="left">$161,500</td>
-<td align="left">$484</td>
-</tr>
-<tr class="odd">
-<td align="left">Utah</td>
-<td align="left">$250,300</td>
-<td align="left">$1,654</td>
-</tr>
-<tr class="even">
-<td align="left">Vermont</td>
-<td align="left">$223,700</td>
-<td align="left">$2,437</td>
-</tr>
-<tr class="odd">
-<td align="left">Virginia</td>
-<td align="left">$264,000</td>
-<td align="left">$1,245</td>
-</tr>
-<tr class="even">
-<td align="left">Washington</td>
-<td align="left">$306,400</td>
-<td align="left">$1,562</td>
-</tr>
-<tr class="odd">
-<td align="left">West Virginia</td>
-<td align="left">$117,900</td>
-<td align="left">$1,424</td>
-</tr>
-<tr class="even">
-<td align="left">Wisconsin</td>
-<td align="left">$173,200</td>
-<td align="left">$640</td>
-</tr>
-<tr class="odd">
-<td align="left">Wyoming</td>
-<td align="left">$209,500</td>
-<td align="left">$3,716</td>
-</tr>
-</tbody>
-</table>
-<p>How does the standard error of estimates vary with the estimate itself?</p>
-<pre class="r"><code>s.lin&lt;-
-ggplot(data=df.hv, aes(x=value, y=sd) )+
-  geom_point()+
-  geom_text_repel( aes(label=NAME))+
-  scale_x_log10(limits=c(1e5,6e5),breaks=c(1e5, 2e5, 4e5, 6e5), labels=dollar)+scale_y_log10(limits=c(100,12000),labels=dollar)+
-  guides(alpha=F,color=F)+
-  labs(x=&quot;Median House Value (log scale, owner-occupied housing units)&quot;,
-       y=&quot;Standard Errror of estimates (log scale)&quot;,
-       caption=&quot;@lenkiefer Source: U.S. Census Bureau American Community Survey (1-year estimates)&quot;)+
-  theme(plot.caption=element_text(hjust=0))
-s.lin</code></pre>
-<p><img src="/post/2018-05-02-what-s-up-vsup-that-s-what-s-up_files/figure-html/05-02-2018-scatter-1-1.png" width="672" /> How about if we scale the value estimates by the estimated standard deviation?</p>
-<pre class="r"><code>s.lin&lt;-
-ggplot(data=df.hv, aes(x=value, y=value/sd) )+
-  geom_point()+
-  geom_text_repel( aes(label=NAME))+
- # scale_color_viridis(option=&quot;C&quot;,discrete=F,direction=-1)+
-  scale_x_log10(limits=c(1e5,6e5),breaks=c(1e5, 2e5, 4e5, 6e5), labels=dollar)+scale_y_log10(limits=c(100,1000))+
-  guides(alpha=F,color=F)+
-  labs(x=&quot;Median House Value (log scale, owner-occupied housing units)&quot;,
-       y=&quot;Ratio: Housing Value/Standard Errror of estimates\n(log scale)&quot;,
-       caption=&quot;@lenkiefer Source: U.S. Census Bureau American Community Survey (1-year estimates)&quot;)+
-  theme(plot.caption=element_text(hjust=0))
-s.lin</code></pre>
-<pre><code>## Warning: Removed 7 rows containing missing values (geom_point).</code></pre>
-<pre><code>## Warning: Removed 7 rows containing missing values (geom_text_repel).</code></pre>
-<p><img src="/post/2018-05-02-what-s-up-vsup-that-s-what-s-up_files/figure-html/05-02-2018-scatter-2-1.png" width="672" /></p>
-<p>Let’s apply the VSUP scale to this plot. To do so we need to assign each state to a value based on the uncertaninty associated with the estimate. (I may come back and explain in more detail what’s going on with this code, but for now let me just put it down.)</p>
-<pre class="r"><code>#____________________________________________________________________________________
-## Assign Uncertainty category ----
-#____________________________________________________________________________________
-
-df.hv &lt;- mutate(df.hv, y2=findInterval(value/sd,quantile(value/sd, c(0,0.25,0.5,0.75,.9))))
-
-X0b&lt;- quantile(df.hv$value,probs=seq(0,0.9,length.out=8))
-# Function to quantize the value 
-quant.X2&lt;- function (x=0, level=5, Z=X0b){
-  X1 &lt;- Z[c(TRUE,FALSE)]
-  X2 &lt;- X1[c(TRUE,FALSE)]
-  X3 &lt;- X2[c(TRUE,FALSE)]
-  case_when(
-    level== 5 ~ Z[findInterval(x,Z)],
-    level== 4 ~ X1[findInterval(x,X1)],
-    level== 3 ~ X2[findInterval(x,X2)],
-    level== 2 ~ X3[findInterval(x,X3)],
-    TRUE ~ median(Z)
-  )
-}
-
-
-df.hv &lt;- mutate(df.hv, z=quant.X2(value,y2))
-
-s.vsup &lt;- 
-  ggplot(data=df.hv, aes(x=value, y=value/sd, color=z, alpha=y2))+
-  geom_point()+
-  ggrepel::geom_text_repel(data=. %&gt;% filter(y2==5), aes(label=NAME))+
-  scale_color_viridis(option=&quot;C&quot;,discrete=F,direction=-1)+
-  #scale_x_log10()+scale_y_log10()+
-  guides(alpha=F,color=F)+
-  labs(x=&quot;Median House Value (log scale, owner-occupied housing units)&quot;, title=&quot;Value Suppressing Uncertainty Palette&quot;,
-       y=&quot;Ratio: Housing Value/Standard Errror of estimates\n(log scale)&quot;,
-       caption=&quot;@lenkiefer Source: U.S. Census Bureau American Community Survey (1-year estimates)&quot;)+
-  theme(plot.caption=element_text(hjust=0))
-  
-s.lin&lt;-
-ggplot(data=df.hv, aes(x=value, y=value/sd, 
-                       color=quant.X2(value, level=5, 
-                                      Z=quantile(df.hv$value,probs=seq(0,0.9,length.out=8))
-                                      )) )+
-  geom_point()+
-  ggrepel::geom_text_repel(data=. %&gt;% filter(y2==5), aes(label=NAME))+
-  scale_color_viridis(option=&quot;C&quot;,discrete=F,direction=-1)+
-  #scale_x_log10()+scale_y_log10()+
-  guides(alpha=F,color=F)+
-  labs(x=&quot;Median House Value (log scale, owner-occupied housing units)&quot;, title=&quot;Standard Scale&quot;,
-       y=&quot;Ratio: Housing Value/Standard Errror of estimates\n(log scale)&quot;,
-       caption=&quot; &quot;)+
-  theme(plot.caption=element_text(hjust=0))
-
-
-state.scatters &lt;- plot_grid(s.lin,s.vsup,ncol=1)
-
-print(state.scatters)</code></pre>
-<p><img src="/post/2018-05-02-what-s-up-vsup-that-s-what-s-up_files/figure-html/05-02-2018-VSUP-1-state-1.png" width="960" /></p>
-<p>What we’ve done here is supressed the color for the observations with low ratios of estimated value to standard error. The utility of this approach might be easier to see with a map.</p>
-</div>
-<div id="making-maps" class="section level2">
-<h2>Making maps</h2>
-<p>In order to make the maps, we can use the <a href="https://CRAN.R-project.org/package=tigris">tigris</a> package.</p>
-<pre class="r"><code>#____________________________________________________________________________________
-## Load Map and Filter ----
-#____________________________________________________________________________________
-us_geo2 &lt;- states(cb=TRUE) 
-us_geo48 &lt;- us_geo2[! us_geo2@data$STUSPS %in% c(&quot;AK&quot;,&quot;PR&quot;,&quot;VI&quot;,&quot;HI&quot;,&quot;GU&quot;,&quot;MP&quot;,&quot;AS&quot;), ]
-us_geo48@data$id &lt;- rownames(us_geo48@data)
-us_geo48f &lt;- fortify(us_geo48)
-us_geo48f &lt;- left_join(us_geo48f,us_geo48@data, by=&quot;id&quot;)</code></pre>
-<pre class="r"><code>df.map &lt;- left_join(us_geo48f,df.hv, by=&quot;NAME&quot;)
-
-
-gmap.slin&lt;-
-ggplot(data=df.map,
-       aes(x=long,y=lat, map_id=id, group=group,
-                  fill=factor(quant.X2(value, level=5,
-                                 Z=quantile(value,probs=seq(0,0.9,length.out=8))
-                                 ))) #use level==5 to force 8 categories
-       )+
-  
-  geom_polygon(color=&quot;white&quot;)+theme_map()+
-  theme(legend.position=&quot;none&quot;,
-        plot.caption=element_text(hjust=1),
-        plot.title=element_text(hjust=0))+
-  scale_fill_viridis(option=&quot;C&quot;,discrete=T,direction=-1, name= &quot;Housing value&quot;)+
-    labs(x=&quot;Median House Value (log scale, owner-occupied housing units)&quot;, 
-         title=&quot;Standard Choropleth&quot;,
-         subtitle=&quot;Housing Values (Binned 8 values)&quot;,
-         y=&quot;Ratio: Housing Value/Standard Errror of estimates\n(log scale)&quot;,
-         caption=&quot;@lenkiefer Source: U.S. Census Bureau American Community Survey (1-year estimates)&quot;)
-gmap.slin</code></pre>
-<p><img src="/post/2018-05-02-what-s-up-vsup-that-s-what-s-up_files/figure-html/05-02-2018-map-1-1.png" width="864" /></p>
-<p>COmpare that to our VSUP plot:</p>
-<pre class="r"><code>gmap.svsup&lt;-
-  ggplot(data=df.map , 
-       aes(x=long,y=lat, map_id=id, group=group,
-           fill =z, alpha=factor(y2)
-           ))+
-  geom_polygon(color=&quot;white&quot;)+theme_map()+
-    theme(legend.position=&quot;none&quot;,
-        plot.caption=element_text(hjust=1),
-        plot.title=element_text(hjust=0))+
-  scale_fill_viridis(option=&quot;C&quot;,discrete=F,direction=-1)+
-    labs(x=&quot;Median House Value (log scale, owner-occupied housing units)&quot;, title=&quot;Value Suppressing Uncertainty Palette&quot;,
-       y=&quot;Ratio: Housing Value/Standard Errror of estimates\n(log scale)&quot;,
-       caption=&quot;@lenkiefer Source: U.S. Census Bureau American Community Survey (1-year estimates)&quot;)
-
-ggdraw()+
-  draw_plot(gmap.svsup+theme(legend.position=&quot;none&quot;,panel.border=element_rect(color=&quot;black&quot;,fill=NA))+
-              labs(title=&quot;Median Home Values by County&quot;,
-                             subtitle=&quot;Value Suppressing Uncertainty Palette with R&quot;,
-                             caption=&quot;@lenkiefer Source 2016 American Community Survey  \n&quot;)+
-              theme(plot.title=element_text(hjust=0)), 0, 0, 1, 1) + 
-  draw_plot(d.legend()+labs(title=&quot;&quot;,subtitle=&quot;&quot;)+theme_void()+theme(legend.position=&quot;none&quot;,panel.border=element_rect(color=&quot;black&quot;,fill=NA)) , 0.01, 0.01, 0.34, 0.35)</code></pre>
-<pre><code>## Warning: Using alpha for a discrete variable is not advised.</code></pre>
-<p><img src="/post/2018-05-02-what-s-up-vsup-that-s-what-s-up_files/figure-html/05-02-2018-map-2-1.png" width="864" /></p>
-<p>Now let’s drill down and look at county-level estimates. For this, we’ll need the 5-year ACS estimates.</p>
-<pre class="r"><code>#####################################################################################
-## Draw County Map ##
-#####################################################################################
-
-
-geoc &lt;- geo.make(state=&#39;*&#39;, county=&quot;*&quot;)
-hvc &lt;- acs.fetch(endyear=2016, 
-                 span=5,   # 5-year estimates
-                 geography=geoc, table.number=&quot;B25077&quot;)
-
-df.hvc &lt;- data.frame(NAME=hvc@geography$NAME,
-                    state=hvc@geography$state,
-                    county=hvc@geography$county,
-                    value=unname(hvc@estimate), 
-                    sd=unname(hvc@standard.error)) %&gt;%
-  mutate(GEOID= paste0(str_pad(state,width=2,side=&quot;left&quot;,pad=&quot;0&quot;),county)) %&gt;% filter(value&gt;0 &amp; sd &gt; 0)
-
-
-us_geoc &lt;- counties(cb=TRUE) 
-us_geoc$id &lt;- rownames(us_geoc@data)
-us_geocf &lt;- fortify(us_geoc)
-us_geocf     &lt;- left_join(us_geocf,us_geoc@data, by=&quot;id&quot;)
-# drop outside long(-125,67)  &amp; lat(24,49)
-us_geocf48&lt;- filter(us_geocf, long &gt; -125 &amp; long &lt; 67 &amp; lat &gt; 25 &amp; lat &lt; 50)
-
-dfc.map &lt;- left_join(us_geocf48,df.hvc, by=&quot;GEOID&quot;)</code></pre>
-<pre class="r"><code>#____________________________________________________________________________________
-## Make data ----
-#____________________________________________________________________________________
-df.hvc &lt;- mutate(df.hvc, y2=findInterval(value/sd,quantile(value/sd, c(0,0.25,0.5,0.75,.9))))
-X0b&lt;- quantile(df.hvc$value,probs=seq(0,0.9,length.out=8))
-quant.X2&lt;- function (x=0, level=5, Z=X0b){
-  X1 &lt;- Z[c(TRUE,FALSE)]
-  X2 &lt;- X1[c(TRUE,FALSE)]
-  X3 &lt;- X2[c(TRUE,FALSE)]
-  case_when(
-    level== 5 ~ Z[findInterval(x,Z)],
-    level== 4 ~ X1[findInterval(x,X1)],
-    level== 3 ~ X2[findInterval(x,X2)],
-    level== 2 ~ X3[findInterval(x,X3)],
-    TRUE ~ median(Z)
-  )
-}
-df.hvc &lt;- mutate(df.hvc, z=quant.X2(value,y2))
-
-
-#____________________________________________________________________________________
-## Create Scatters ----
-#____________________________________________________________________________________
-
-s.vsupc&lt;-
-  ggplot(data=df.hvc, aes(x=value, y=value/sd, color=z, alpha=y2))+
-  geom_point()+
-  scale_color_viridis(option=&quot;C&quot;,discrete=F,direction=-1)+
-  scale_x_log10(limits=c(1e4,6e5),breaks=c(1e4,1e5, 2e5, 4e5, 6e5), labels=dollar)+scale_y_log10(limits=c(10,1000))+
-  guides(alpha=F,color=F)+
-    labs(x=&quot;Median House Value (log scale, owner-occupied housing units)&quot;,
-       y=&quot;Ratio: Housing Value/Standard Errror of estimates\n(log scale)&quot;)
-
-
-
-
-
-
-s.linc&lt;-
-  ggplot(data=df.hvc, aes(x=value, y=value/sd, 
-                          color=quant.X2(value, level=5, Z=quantile(df.hvc$value,probs=seq(0,0.9,length.out=8)))))+
-  geom_point()+
-  scale_color_viridis(option=&quot;C&quot;,discrete=F,direction=-1)+
-  scale_x_log10(limits=c(1e4,6e5),breaks=c(1e4,1e5, 2e5, 4e5, 6e5), labels=dollar)+scale_y_log10(limits=c(10,1000))+
-  guides(alpha=F,color=F)+
-    labs(x=&quot;Median House Value (log scale, owner-occupied housing units)&quot;,
-       y=&quot;Ratio: Housing Value/Standard Errror of estimates\n(log scale)&quot;)
-
-plot_grid(s.linc+labs(title=&quot;Standard Scale&quot;),
-          s.vsupc +labs(title=&quot;Value Suppressing Uncertainty Palette&quot;,
-                        caption=&quot;@lenkiefer Source 2016 American Community Survey  \nMedian house value by county (5 year estimates)  &quot;),
-          ncol=1, align=&quot;hv&quot;)</code></pre>
-<pre><code>## Warning: Removed 135 rows containing missing values (geom_point).
-
-## Warning: Removed 135 rows containing missing values (geom_point).</code></pre>
-<p><img src="/post/2018-05-02-what-s-up-vsup-that-s-what-s-up_files/figure-html/05-02-2018-scatter-3-county-1.png" width="864" /></p>
-<pre class="r"><code>#____________________________________________________________________________________
-## Create Maps ----
-#____________________________________________________________________________________
-dfc.map &lt;- left_join(us_geocf48,df.hvc, by=&quot;GEOID&quot;)
-gmap.cvsup &lt;- 
-ggplot(data=dfc.map , 
-       aes(x=long,y=lat, map_id=id, group=group,
-           fill =z, alpha=y2
-       ))+
-  geom_polygon(color=&quot;white&quot;)+theme_map()+
-  scale_fill_viridis(option=&quot;C&quot;,discrete=F,direction=-1)+
-  theme(legend.position=&quot;none&quot;)
-
-gmap.clin&lt;-
-  ggplot(data=dfc.map , 
-       aes(x=long,y=lat, map_id=id, group=group,
-           fill =z#, alpha=factor(y2)
-       ))+
-  geom_polygon(color=&quot;white&quot;)+theme_map()+
-  scale_fill_viridis(option=&quot;C&quot;,discrete=F,direction=-1)+
-  theme(legend.position=&quot;none&quot;)
-
-#____________________________________________________________________________________
-## Put it all together ----
-#____________________________________________________________________________________
-
-plot_grid(plot_grid(s.linc+labs(title=&quot;Standard Choropleth&quot;),
-                    s.vsupc+labs(title=&quot;Value Suppressing Uncertainty Palette&quot;),
-                    ncol=2),
-          plot_grid(gmap.clin+ theme(legend.position = &quot;none&quot;)+ labs(caption=&quot;&quot;),
-                    ggdraw()+draw_plot(gmap.cvsup+ theme(legend.position = &quot;none&quot;)+ labs(caption=&quot;@lenkiefer Source 2016 American Community Survey  \nMedian house value by county (5 year estimates)  &quot;))+
-                      draw_plot(d.legend()+labs(title=&quot;&quot;,subtitle=&quot;&quot;)+theme_void()+theme(legend.position=&quot;none&quot;,panel.border=element_rect(color=&quot;black&quot;,fill=NA)) , 0.01, 0.01, 0.35, 0.375),
-                                        ncol=2),
-          ncol=1)</code></pre>
-<pre><code>## Warning: Removed 135 rows containing missing values (geom_point).
-
-## Warning: Removed 135 rows containing missing values (geom_point).</code></pre>
-<p><img src="/post/2018-05-02-what-s-up-vsup-that-s-what-s-up_files/figure-html/05-02-2018-map-3-county,%20-1.png" width="1152" /></p>
-<p>There’s a lot more we could do with this, but that’s enough for one post.</p>
-</div>
-</div>
-
-
-  
-<div class="prev-next-post pure-g">
-  <div class="pure-u-1-24" style="text-align: left;">
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
     
-    <a href="/2018/04/26/expanding-expansions-contracting-recessions/"><i class="fa fa-chevron-left"></i></a>
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/presentation">presentation</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>
     
   </div>
-  <div class="pure-u-10-24">
-    
-    <nav class="prev">
-      <a href="/2018/04/26/expanding-expansions-contracting-recessions/">Expanding Expansions, Contracting Recessions</a>
-    </nav>
-    
-  </div>
-  <div class="pure-u-2-24">
-    &nbsp;
-  </div>
-  <div class="pure-u-10-24">
-    
-    <nav class="next">
-      <a href="/2018/05/04/jobs-friday-may-2018/">Jobs Friday May 2018</a>
-    </nav>
-    
-  </div>
-  <div class="pure-u-1-24" style="text-align: right;">
-    
-    <a href="/2018/05/04/jobs-friday-may-2018/"><i class="fa fa-chevron-right"></i></a>
-    
-  </div>
-</div>
-
-
-
+  
   
 
 </div>
-<footer class="post-footer clearfix">
+
+  </header>
+
+  <p>
+  I have been recently messing around with the new ggfx package.
+using #rstats ggfx::with_bloom and ggridges::geom_density left with ggfx, right without pic.twitter.com/L8yknjAJVw
+&mdash; 📈 Len Kiefer 📊 (@lenkiefer) March 4, 2021  Most of my applications (see below for a gallery) have maybe not been applying good dataviz guidelines. But I think I have found a good example.
+We can use the ggfx::with_blend function to layer a recession indicator with a time series and color code the lines.
+  </p>
+
+  
+  <footer>
+    <a href="/2021/03/05/using-ggfx-for-good/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://lenkiefer.com/2021/02/26/data-visualization-guidelines-and-a-case-study/">Data visualization guidelines and a case study</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2021/02/26</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
     
-        <p class="post-tags">
-            <span>Tagged:</span>
-            
-            
-                <a href="/tags/dataviz/">dataviz</a>, 
-            
-                <a href="/tags/r/">R</a>, 
-            
-                <a href="/tags/maps/">maps</a>, 
-            
-                <a href="/tags/data-wrangling/">data wrangling</a>
-            
-        </p>
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
     
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/presentation">presentation</a>
+    
+  </div>
+  
+  
 
-    <div class="share">
-        
-            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.com%2f2018%2f05%2f02%2fwhat-s-up-vsup-that-s-what-s-up%2f&text=What%27s%20up%3f%20VSUP%2c%20that%27s%20what%27s%20up. via %40lenkiefer"
-                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
-                <i class="fa fa-twitter"></i>
-                <span class="hidden">Twitter</span>
-            </a>
-        
+</div>
 
-        
-            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.com%2f2018%2f05%2f02%2fwhat-s-up-vsup-that-s-what-s-up%2f"
-                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
-                <i class="fa fa-facebook"></i>
-                <span class="hidden">Facebook</span>
-            </a>
-        
+  </header>
+
+  <p>
+  Yesterday I gave a virtual lecture on data visualization at GMU. Here I’m posting the slides I used for that talk and including my discussion notes for the portion of the talk where I discussed guidelines for data visualization.
+At the beginning of the talk I spoke a bit about data visualization guidelines. I framed this part of my talk around Jon Schwabish’s five guidelines from his new book Better Data Visualizations see (on Amazon) and here for a blog summary.
+  </p>
+
+  
+  <footer>
+    <a href="/2021/02/26/data-visualization-guidelines-and-a-case-study/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://lenkiefer.com/2021/02/02/the-economy-and-the-housing-market/">The economy and the housing market</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2021/02/02</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/economy">economy</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/housing">housing</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/house-prices">house prices</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  Last week the U.S. Commerce Department reported the advance estimate for annual economic growth for 2020. For the full year, US gross domestic product contracted 3.5 percentage points, the largest annual decline since the 11.6 percentage point contraction in 1946. The similarities pretty much end there.
+In 1946 the US economy was demobilizing after finishing the fight against fascism. Factories were shuttered that had been producing munitions, fighter planes, tanks and liberty ships, while the G.
+  </p>
+
+  
+  <footer>
+    <a href="/2021/02/02/the-economy-and-the-housing-market/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://lenkiefer.com/2021/01/26/house-prices-lift-off/">House Prices Lift Off</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2021/01/26</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/house-prices">house prices</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  Earlier today I tweeted out a chart of house prices using my inari color theme.
+House price growth lifting off pic.twitter.com/TvNJcOZrTF
+&mdash; 📈 Len Kiefer 📊 (@lenkiefer) January 26, 2021  Below is the R code to generate the plot.
+# load libraries
+library(tidyquant)
+library(tidyverse)
+# list of FRED Tickers
+tickers&lt;- c(&quot;LXXRSA&quot;,&quot;SPCS20RSA&quot;,&quot;LVXRSA&quot;,&quot;SEXRSA&quot;,
+&quot;SFXRSA&quot;,&quot;NYXRSA&quot;,&quot;BOXRSA&quot;,&quot;SDXRSA&quot;,&quot;CHXRSA&quot;,
+&quot;DNXRSA&quot;,&quot;PHXRNSA&quot;,&quot;DAXRNSA&quot;,&quot;WDXRSA&quot;,
+&quot;ATXRNSA&quot;,&quot;MIXRNSA&quot;,&quot;POXRSA&quot;,&quot;MNXRSA&quot;,&quot;DEXRNSA&quot;,&quot;TPXRSA&quot;,&quot;CRXRSA&quot;,&quot;CEXRSA&quot;)
+# list of city names
+cities &lt;- c(&quot;Los Angeles&quot;,&quot;20-city&quot;,&quot;Las Vegas&quot;,&quot;Seattle&quot;,
+&quot;San Francisco&quot;,&quot;New York&quot;,&quot;Boston&quot;,&quot;San Diego&quot;,&quot;Chicago&quot;,
+&quot;Denver&quot;,&quot;Phoenix&quot;,&quot;Dallas&quot;,&quot;Washington DC&quot;,
+&quot;Atlanta&quot;,&quot;Miami&quot;,&quot;Portland&quot;,&quot;Minneapolis&quot;,&quot;Detroit&quot;,&quot;Tampa&quot;,&quot;Charlotte&quot;,&quot;Cleveland&quot;)
+df.
+  </p>
+
+  
+  <footer>
+    <a href="/2021/01/26/house-prices-lift-off/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://lenkiefer.com/2020/12/17/seasonally-adjusted-greetings-and-low-low-mortgage-rates/">Seasonally adjusted greetings and low low mortgage rates</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2020/12/17</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/mortgage">mortgage</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  Seasonally adjusted greetings to you and yours. For you I have an animated chart, a variation on our rate cloud with a wintry theme.
+R code below.
+We’ll grab mortgage rate data, make a few new variables and then plot the chart using ggridges::geom_density_ridges2. Using the raincloud option for the poisition argument in ggridges::geom_density_ridges2 places the individual data points below the density plots. Using various shades of white we can turn the rain cloud into a snow cloud.
+  </p>
+
+  
+  <footer>
+    <a href="/2020/12/17/seasonally-adjusted-greetings-and-low-low-mortgage-rates/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://lenkiefer.com/2020/12/15/talking-dataviz/">Talking Dataviz</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2020/12/15</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/presentation">presentation</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  Today I got to talk #dataviz and shared a bunch of my charts, which always sort of feels like sharing my vacation photos. But it was fun to talk about why I made some of these charts, what they mean, and how different data visualization techniques can bring out new insights in familiar data.
+The pdf version is below or here.
+The pptx version has animations, get it here.
+  </p>
+
+  
+  <footer>
+    <a href="/2020/12/15/talking-dataviz/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://lenkiefer.com/2020/11/30/visual-meditations-on-house-prices-2020-edition/">Visual Meditations on House Prices 2020 Edition</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2020/11/30</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/house-prices">house prices</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  VISUAL MEDITATIONS are the analysis of repeated graphs of the same data with variations on a graphical theme. When altering the mapping of data to aesthetics sometimes interesting patterns emerge. I find it a useful practice. I made a series of these a few years ago with different charts. The chart images have been lost to past blog migrations, but the code should still work.
+In this post, I want to consider several alternative ways to visualize house prices.
+  </p>
+
+  
+  <footer>
+    <a href="/2020/11/30/visual-meditations-on-house-prices-2020-edition/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://lenkiefer.com/2020/11/23/new-research-paper-inequality-during-the-covid-19-pandemic-the-the-case-of-savings-from-mortgage-refinancing/">New Research Paper Inequality During the COVID-19 Pandemic The Case of Savings from Mortgage Refinancing</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2020/11/23</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/economy">economy</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/mortgage">mortgage</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/presentation">presentation</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/housing">housing</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  For several months now, I’ve been working on a new research paper with Sumit Agarwal, Souphala Chomsisengphet, Hua Kiefer, and Paolina Medina studying refinance activity this year.
+When we started the project back in the spring we were not sure that the pandemic would allow households to refinance at rates similar to prior periods. It seemed possible that the pandemic would disrupt the mortgage market and make it difficult for households to take advantage of historically low rates.
+  </p>
+
+  
+  <footer>
+    <a href="/2020/11/23/new-research-paper-inequality-during-the-covid-19-pandemic-the-the-case-of-savings-from-mortgage-refinancing/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://lenkiefer.com/2020/11/20/y-axis-on-the-right-side/">y-axis on the right side</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2020/11/20</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/presentation">presentation</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  Recently I’ve been putting my y-axis labels on the right for some time series.
+I think this idea has been rattling around in my head since it was suggested on Twitter by Maarten Lambrechts:
+A y-axis on the left is almost always the default, while the most recent and usually most relevant data are on the right. Then shouldn&#39;t a y-axis on the right be the default (when there are no data labels), to improve legibility?
+  </p>
+
+  
+  <footer>
+    <a href="/2020/11/20/y-axis-on-the-right-side/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+
+  
 
 
-        
-    </div>
-</footer>
+<nav class="pagination" role="pagination">
+  
+  <i class="fa fa-chevron-left"></i>
+  
+  <span>&nbsp;1 / 22&nbsp;</span>
+  
+  <a href="/page/2/"><i class="fa fa-chevron-right"></i></a>
+  
+</nav>
+
+
+
+</div>
+
 </div>
 </div>
-<script src="/js/ui.js"></script>
+<script src="http://lenkiefer.com/js/ui.js"></script>
 
 
 <script>
@@ -970,6 +741,13 @@ plot_grid(plot_grid(s.linc+labs(title=&quot;Standard Choropleth&quot;),
 
 </script>
 
+
+
+
+
+
+</body>
+</html>
 
 
 
