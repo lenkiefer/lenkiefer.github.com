@@ -4,11 +4,11 @@
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="">
+  <meta name="description" content="Has the US recession already ended?">
 
 <meta name="generator" content="Hugo 0.81.0">
 
-  <title>Are we still in recession &middot; Len Kiefer</title>
+  <title>Are we still in recession? &middot; Len Kiefer</title>
 
   
   
@@ -195,16 +195,15 @@
   <div id="main">
 
 
-       <meta name="twitter:card" content="summary">
-       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
-    
-    <meta property="og:title" content="Are we still in recession">
-    <meta property="og:description" content="This morning the U.S. Bureau of Labor Statistics reported record high job openings in the JOLTS data. Using the code in this post I tweeted out this chart:
-chart link">
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com//img/charts_2021_06_08/jobs_recession_call.png" >
+     
+    <meta property="og:title" content="Are we still in recession?">
+    <meta property="og:description" content="Has the US recession already ended?">
 
 <div class="header">
-  <h1>Are we still in recession</h1>
-  <h2></h2>
+  <h1>Are we still in recession?</h1>
+  <h2>Has the US recession already ended?</h2>
 </div>
 <div class="content">
 
@@ -217,9 +216,6 @@ chart link">
 
   
 
-  
-  
-  
   
 
   
@@ -243,9 +239,325 @@ chart link">
   
 
 
-<p>This morning the U.S. Bureau of Labor Statistics reported record high job openings in the <a href="https://www.bls.gov/news.release/jolts.nr0.htm">JOLTS</a> data. Using the code in <a href="../../../../2018/09/11/jolts-update/">this post</a> I tweeted out this chart:</p>
+<p>This morning the U.S. Bureau of Labor Statistics reported record high job openings in the <a href="https://www.bls.gov/news.release/jolts.nr0.htm">JOLTS</a> data. Using the code in <a href="../../../../2018/09/11/jolts-update/">this post</a> I tweeted out this chart showing job openings are at a record high in the US.</p>
 <p><img src="../../../../../../img/charts_2021_06_08/jolts_jo.png" style="width:700px"></p>
-<p><a href="%22../../../../../../img/charts_2021_06_08/jolts_jo.png%22">chart link</a></p>
+<p><a href="../../../../../../img/charts_2021_06_08/jolts_jo.png">chart link</a></p>
+<p>With so many job openings you might be curious to ask whether or not the recession that started last year is well and truly over. Many indicators certainly seem to say say. But the arbiter of recessions that most point to, the National Bureau of Economic Research (NBER), has not yet made an annoucement about the end of the current recession.</p>
+<p>That’s quite common, usually the NBER waits to make a pronouncement. How long? Let’s make a couple graphs. <a href="https://www.r-project.org/">R</a> code at bottom.</p>
+<p>We’ll use the annoucement dates available <a href="https://www.nber.org/research/business-cycle-dating/business-cycle-dating-committee-announcements">here</a> along with the business cycle dates available <a href="https://www.nber.org/research/data/us-business-cycle-expansions-and-contractions">here</a>.</p>
+<p>First we’ll compare the timing of NBER business cycle dates with the announcements. For example, on June 8, 2020 the NBER announced the US business cycle peaked in February of 2020. Thus, there was a few months (March through May) when the economy was in recession by the NBER’s reckoning, but the announcement was not made.</p>
+<p>Let’s compare the periods of expansion and recession to periods either before or after a buinsess cycle turning point. We’ll also plot a time series of US nonfarm employment as a broad measure of economic activity and see how it compares.</p>
+<p><img src="../../../../../../img/charts_2021_06_08/jobs_recession_call.png" style="width:700px"></p>
+<p><a href="../../../../../../img/charts_2021_06_08/jobs_recession_call.png">chart link</a></p>
+<p>This chart shows that there tends to be an extended period around business cycle turning points (denoted by the lighter shaded boxes/lines in the plot) when the status is not known. Ex post of course, it’s easier to see that things have turned around. And the NBER looks at a lot more than just employment. Nevertheless, there’s a very good chance that when the NBER does make a pronouncement we’ll learn that the coronavirus recession has been long over.</p>
+<p>Here’s an additional chart with the timeline annotated:</p>
+<p><img src="../../../../../../img/charts_2021_06_08/jobs_recession_call_timeline.png" style="width:700px"></p>
+<p><a href="../../../../../../img/charts_2021_06_08/jobs_recession_call_timeline.png">chart link</a></p>
+<div id="r-code" class="section level1">
+<h1>R code</h1>
+<div id="data-prep" class="section level2">
+<h2>Data Prep</h2>
+<pre class="r"><code>library(lubridate)
+library(data.table)
+library(tidyverse)
+library(sqldf)
+library(patchwork)
+recessions.df = read.table(textConnection(
+  &quot;Peak, Trough, Call_peak, Call_trough
+  1973-11-01, 1975-03-01, 1900-01-01, 1900-01-01
+  1980-01-01, 1980-07-01, 1980-06-03, 1981-07-08
+  1981-07-01, 1982-11-01, 1982-01-06, 1983-07-08
+  1990-07-01, 1991-03-01, 1991-04-25, 1992-12-22
+  2001-03-01, 2001-11-01, 2001-11-26, 2003-07-17
+  2007-12-01, 2009-06-01, 2008-12-01, 2010-09-20
+  2020-02-01, NA, 2020-06-08, NA&quot;), sep=&#39;,&#39;,
+  colClasses=c(&#39;Date&#39;, &#39;Date&#39;,&#39;Date&#39;,&#39;Date&#39;), header=TRUE)
+
+recession.df &lt;-
+  mutate(
+    recessions.df,
+    peak_trough = interval(Peak, Trough) %/% months(1),
+    trough_peak = interval(lag(Trough), Peak) %/% months(1),
+    peak_peak = -interval(Peak, lag(Peak)) %/% months(1) + 1,
+    trough_trough = -interval(Trough, lag(Trough)) %/% months(1) +
+      1,
+    trough_call = interval(Trough, Call_trough) %/% months(1),
+    peak_call = interval(Peak, Call_peak) %/% months(1)
+  )[-1, ]
+
+
+rdf &lt;- recession.df %&gt;%
+  mutate(
+    TroughLag  = lag(Trough),
+    # find last trough
+    PeakLag    = lag(Peak),
+    PeakLead   = lead(Peak),
+    TroughLead = lead(Trough)
+    
+  )
+
+
+# get employment data
+df2 &lt;-
+  tidyquant::tq_get(&quot;PAYEMS&quot;, get = &quot;economic.data&quot;, from = &quot;1979-01-01&quot;) %&gt;%
+  mutate(dj = price - lag(price))
+
+
+output &lt;- sqldf(
+  &quot;select * from df2 left join rdf
+                 on
+                 (df2.date&gt;rdf.Peak and df2.date &lt;= rdf.Trough or
+                (df2.date &gt; rdf.TroughLag and df2.date &lt;= rdf.Peak)) &quot;
+)
+
+
+outdf &lt;- mutate(
+  output,
+  expand = ifelse(date &gt; Peak, &quot;Recession&quot;, &quot;Expansion&quot;),
+  d1 = as.Date(
+    ifelse(
+      expand == &quot;Recession&quot;,
+      Peak %m+% months(1),
+      TroughLag %m+% months(1)
+    ),
+    &quot;1970-01-01&quot;
+  ),
+  d2 = as.Date(ifelse(expand == &quot;Recession&quot;, Trough,
+                      Peak), &quot;1970-01-01&quot;)
+) %&gt;%
+  mutate(name = paste0(
+    expand,
+    &quot; &quot;,
+    as.character(d1, format = &quot;%b %Y&quot;),
+    &quot; : &quot;,
+    as.character(d2, format = &quot;%b %Y&quot;)
+  )) %&gt;%
+  # relabel the last row to say :present
+  mutate(name = ifelse(date &gt; &quot;2020-02-01&quot;,
+                       &quot;March 2020: Present&quot;, name))  %&gt;%
+  mutate(expand = ifelse(is.na(expand), &quot;Recession&quot;, expand)) %&gt;%
+  # adjust for 2020-06-08 recession call
+  mutate(Call_peak = as.Date(
+    ifelse(name == &quot;March 2020: Present&quot;, as.Date(&#39;2020-06-08&#39;), Call_peak),
+    origin = &quot;1960-01-01&quot;
+  )) %&gt;%
+  mutate(Call_peak = as.Date(
+    ifelse(
+      name == &quot;Expansion Jul 2009 : Feb 2020&quot;,
+      as.Date(&#39;2020-06-08&#39;),
+      Call_peak
+    ),
+    origin = &quot;1960-01-01&quot;
+  ))
+
+
+
+output &lt;- sqldf(
+  &quot;select * from df2 left join rdf
+                 on
+                 (df2.date&gt;rdf.Peak and df2.date &lt;= rdf.Trough or
+                (df2.date &gt; rdf.Trough and df2.date &lt;= rdf.PeakLead)) &quot;
+)
+
+
+outdf &lt;-
+  mutate(
+    outdf,
+    category = case_when(
+      expand == &quot;Recession&quot; &amp; date &gt;= Call_peak ~ &quot;Recession, Know it&quot;,
+      expand == &quot;Recession&quot; ~ &quot;Recession, Don&#39;t Know it&quot;,
+      expand == &quot;Expansion&quot; &amp;
+        date &gt;= Call_trough ~ &quot;Expansion, Know it&quot;,
+      T ~ &quot;Expansion, Don&#39;t Know it&quot;
+    )
+  ) %&gt;%
+  mutate(cat2 = paste0(name, &quot;:&quot;, category)) %&gt;%
+  group_by(name) %&gt;% mutate(id1 = row_number()) %&gt;% ungroup() %&gt;%
+  group_by(cat2) %&gt;% mutate(id2 = row_number()) %&gt;% ungroup()</code></pre>
+</div>
+<div id="chart-1-composite-chart-grid-and-employment-timeline" class="section level2">
+<h2>Chart 1 Composite Chart grid and employment timeline</h2>
+<pre class="r"><code>g1 &lt;-
+ggplot(data = outdf, aes(
+x = fct_reorder(format(date, &quot;%b&quot;), month(date)),
+y = factor(year(date)),
+fill = category
+)) +
+geom_tile(alpha = 0.45, color = NA) +
+geom_tile(aes(color = category), size = .5, fill = NA) +
+scale_color_manual(values = c(&quot;blue&quot;, &quot;blue&quot;, &quot;red&quot;, &quot;red&quot;)) +
+scale_fill_manual(values = c(&quot;lightblue&quot;, &quot;dodgerblue&quot;, &quot;pink&quot;, &quot;red&quot;)) +
+theme_minimal() +
+theme(legend.position = &quot;top&quot;,
+plot.caption = element_text(hjust = 0)) +
+labs(
+title = &quot;Are we in an expansion or recession?&quot;,
+subtitle = &quot;Colors indicate NBER recession dates, whether or not the announcement was made&quot;,
+y = &quot;&quot;,x = &quot;&quot;,
+caption = &quot;@lenkiefer Source: NBER recession dates, announcements&quot;
+)
+
+
+
+g2 &lt;-
+ggplot(data = outdf,
+aes(
+x = date,
+y = price,
+color = category,
+group = paste0(name, category),
+fill = category
+)) +
+geom_path(size = 1.05) +
+scale_color_manual(values = c(&quot;lightblue&quot;, &quot;dodgerblue&quot;, &quot;pink&quot;, &quot;red&quot;)) +
+scale_y_log10(position = &quot;right&quot;, label = scales::comma) +
+theme_minimal() +
+theme(legend.position = &quot;top&quot;,
+plot.caption = element_text(hjust = 0)) +
+labs(
+title = &quot;US nonfarm payroll (ths, seasonally adjusted, log scale)&quot;,
+subtitle = &quot;Colors indicate NBER recession dates, whether or not the announcement was made&quot;,
+y = &quot;Employment, 1000s log scale&quot;,
+x = &quot;date (monthly)&quot;,
+caption = &quot;@lenkiefer Source: BLS, NBER recession dates, announcements&quot;
+)
+
+g1+g2</code></pre>
+</div>
+<div id="chart-2-timeline" class="section level2">
+<h2>Chart 2 Timeline</h2>
+<pre class="r"><code>ggplot(
+  data = filter(outdf, year(date) &gt;= 1980),
+  aes(
+    x = date,
+    y = 1,
+    color = category,
+    group = paste0(name, category),
+    fill = category
+  )
+) +
+  geom_col(size = 1.05) +
+  scale_color_manual(values = c(&quot;lightblue&quot;, &quot;dodgerblue&quot;, &quot;pink&quot;, &quot;red&quot;)) +
+  scale_fill_manual(values = c(&quot;lightblue&quot;, &quot;dodgerblue&quot;, &quot;pink&quot;, &quot;red&quot;)) +
+  theme_minimal() +
+  labs(
+    title = &quot;Are we in an expansion or recession?&quot;,
+    subtitle = &quot;Colors indicate NBER recession dates, whether or not the announcement was made\nsolid lines cycle dates&quot;,
+    x = &quot;date (monthly)&quot;,
+    y = &quot;&quot;,
+    caption = &quot;@lenkiefer Source: NBER recession dates, announcements\nhttps://www.nber.org/research/business-cycle-dating/business-cycle-dating-committee-announcements&quot;
+  ) +
+  theme(
+    plot.caption = element_text(hjust = 0),
+    axis.text.y = element_blank(),
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor.y = element_blank(),
+    panel.grid = element_blank(),
+    legend.position = &quot;top&quot;
+  ) +
+  scale_x_date(date_breaks = &quot;3 years&quot;,
+               date_labels = &quot;%Y&quot;,
+               limits = as.Date(c(&quot;1980-01-01&quot;, &quot;2022-12-31&quot;))) +
+  scale_y_continuous(limits = c(-0.25, 1.25)) +
+  geom_vline(
+    data = rdf,
+    size = 0.15,
+    color = &quot;gray&quot;,
+    inherit.aes = FALSE,
+    aes(
+      xintercept = Call_peak,
+      xend = Call_peak,
+      y = 0,
+      yend = 1.15
+    ),
+    linetype = 2
+  ) +
+  geom_vline(
+    data = rdf,
+    size = 0.15,
+    color = &quot;gray&quot;,
+    inherit.aes = FALSE,
+    aes(
+      xintercept = Call_trough,
+      xend = Call_trough,
+      y = 0,
+      yend = 1.45
+    ),
+    linetype = 2
+  ) +
+  geom_vline(
+    data = rdf,
+    size = 0.15,
+    color = &quot;gray&quot;,
+    aes(xintercept = Peak, ),
+    linetype = 1
+  ) +
+  geom_vline(
+    data = rdf,
+    size = 0.15,
+    color = &quot;gray&quot;,
+    aes(xintercept = Trough),
+    linetype = 1
+  ) +
+  geom_label(
+    data = rdf,
+    segment.alpha = 0,
+    hjust = 0,
+    fill = &quot;red&quot;,
+    alpha = 0.25,
+    aes(
+      x = Call_peak,
+      y = ifelse(Peak == &quot;1980-01-01&quot;, 1.1, 1.25),
+      label = paste0(&quot;Peak called &quot;, format(Call_peak, &quot;%b %d, %Y&quot;))
+    ),
+    color = &quot;black&quot;,
+    inherit.aes = FALSE
+  ) +
+  geom_label(
+    data = rdf,
+    segment.alpha = 0,
+    hjust = 0,
+    fill = &quot;red&quot;,
+    alpha = 0.85,
+    aes(
+      x = Peak,
+      y = ifelse(Peak == &quot;1980-01-01&quot;, 0.85, 0.6),
+      label = paste0(&quot;Peak &quot;, format(Peak, &quot;%b %Y&quot;))
+    ),
+    color = &quot;white&quot;,
+    inherit.aes = FALSE
+  ) +
+  geom_label(
+    data = rdf,
+    segment.alpha = 0,
+    hjust = 0,
+    fill = &quot;blue&quot;,
+    alpha = 0.85,
+    aes(
+      x = Trough,
+      y = ifelse(Trough == &quot;1980-07-01&quot;, 0.1, 0.25),
+      label = paste0(&quot;Trough &quot;, format(Trough, &quot;%b %Y&quot;))
+    ),
+    color = &quot;white&quot;,
+    inherit.aes = FALSE
+  ) +
+  
+  
+  geom_label(
+    data = rdf,
+    hjust = 0,
+    fill = &quot;blue&quot;,
+    alpha = 0.25,
+    aes(
+      x = Call_trough,
+      y = ifelse(Peak == &quot;1980-01-01&quot;, -0.1,-0.25),
+      label = paste0(&quot;Trough called &quot;, format(Call_trough, &quot;%b %d, %Y&quot;))
+    ),
+    color = &quot;black&quot;,
+    inherit.aes = FALSE
+  )</code></pre>
+</div>
+</div>
 
 
   
@@ -295,7 +607,7 @@ chart link">
 
     <div class="share">
         
-            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.comhttp%3a%2f%2flenkiefer.com%2f2021%2f06%2f08%2fare-we-still-in-recession%2f&text=Are%20we%20still%20in%20recession via %40lenkiefer"
+            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.comhttp%3a%2f%2flenkiefer.com%2f2021%2f06%2f08%2fare-we-still-in-recession%2f&text=Are%20we%20still%20in%20recession%3f via %40lenkiefer"
                 onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
                 <i class="fa fa-twitter"></i>
                 <span class="hidden">Twitter</span>
