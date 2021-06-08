@@ -262,6 +262,8 @@ library(data.table)
 library(tidyverse)
 library(sqldf)
 library(patchwork)
+
+# note I don&#39;t have the NBER calls for recessions prior to 1980, but put in a dummy value of 1900-01-01 for the first row, I end up dropping it
 recessions.df = read.table(textConnection(
   &quot;Peak, Trough, Call_peak, Call_trough
   1973-11-01, 1975-03-01, 1900-01-01, 1900-01-01
@@ -299,7 +301,7 @@ rdf &lt;- recession.df %&gt;%
 
 # get employment data
 df2 &lt;-
-  tidyquant::tq_get(&quot;PAYEMS&quot;, get = &quot;economic.data&quot;, from = &quot;1979-01-01&quot;) %&gt;%
+  tidyquant::tq_get(&quot;PAYEMS&quot;, get = &quot;economic.data&quot;, from = &quot;1980-01-01&quot;) %&gt;%
   mutate(dj = price - lag(price))
 
 
@@ -313,7 +315,8 @@ output &lt;- sqldf(
 
 outdf &lt;- mutate(
   output,
-  expand = ifelse(date &gt; Peak, &quot;Recession&quot;, &quot;Expansion&quot;),
+  expand=ifelse(date&gt;Peak, &quot;Recession&quot;,&quot;Expansion&quot;),
+  expand=ifelse(is.na(Peak),&quot;Expansion&quot;,expand),
   d1 = as.Date(
     ifelse(
       expand == &quot;Recession&quot;,
