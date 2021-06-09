@@ -23,13 +23,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
@@ -70,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -78,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -203,6 +203,14 @@
 
   <div id="main">
 
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="U.S. county population: 1790-2010">
+    <meta property="og:description" content="SOMETIMES YOU ACTUALLY LEARN SOMETHING from social media. Today on Twitter I happened across this Tweet via @kyle_e_walker:
+Seems somebody posted estimates of the U.S. population by county (defined by 2010 county definitions) going back to 1790. This is a perfect dataset to practice my mapping with R.
+The data are conveniently available via the University of Minnesota. The data come in a nice spreadsheet that we can easily import into R and manipulate.">
 
 <div class="header">
   <h1>U.S. county population: 1790-2010</h1>
@@ -397,7 +405,7 @@ yy&lt;-y.list[12]  #pick a year 1900 in this case
 popDF.i&lt;-subset(popDF,year==yy)
 myplotf(popDF.i)  #try it out!
 {% endhighlight</p>
-<p><img src="/img/Rfig/fig-graph-1-1.svg" alt="plot of chunk fig-graph-1"></p>
+<p><img src="http://lenkiefer.com/img/Rfig/fig-graph-1-1.svg" alt="plot of chunk fig-graph-1"></p>
 <p>Okay, now that we have the graph, we just have to set up the tween_states() call and loop through the animation.</p>
 <p>{% highlight r 
 myf &lt;- function(yy){
@@ -450,7 +458,7 @@ labs(x=&ldquo;Population (log scale)&rdquo;, caption=mycaption,
 title=&ldquo;U.S. County Population by Year\n&rdquo;)+facet_wrap(~year)</p>
 <p>map3
 {% endhighlight</p>
-<p><img src="/img/Rfig/fig-graph-3-1.svg" alt="plot of chunk fig-graph-3"></p>
+<p><img src="http://lenkiefer.com/img/Rfig/fig-graph-3-1.svg" alt="plot of chunk fig-graph-3"></p>
 <p>Aren&rsquo;t ggplot2() and geom_map() just great?</p>
 <h1 id="how-concentrated-is-the-us-population">How concentrated is the US population?</h1>
 <p>Several maps have been circulating showing how 1/2 of some country&rsquo;s population lives in a tiny part of the physical area of a country.  Let&rsquo;s use the share data to investigate how the concentration of population might have changed from 1790 to 2010.</p>
@@ -483,7 +491,7 @@ labs(y=&ldquo;Cumulative share of population (percent)&quot;,x=&ldquo;County pop
 title=&ldquo;County Population Cumulative Share&rdquo;,
 caption=mycaption  )
 {% endhighlight</p>
-<p><img src="/img/Rfig/fig-graph-4-1.svg" alt="plot of chunk fig-graph-4"></p>
+<p><img src="http://lenkiefer.com/img/Rfig/fig-graph-4-1.svg" alt="plot of chunk fig-graph-4"></p>
 <p>This plot shows how the cumulative population share by county (sorted by largest to smallest county) has varied.  In 1810, Philadelphia county accounted for 1.5% of the total U.S. population.  In 2010, Los Angeles County was the largest and accounted for 3.2% of the total U.S. population.</p>
 <p>Let&rsquo;s find the county where the cumulative line crosses at 50 where it ranked.</p>
 <p>{% highlight r 
@@ -604,7 +612,7 @@ tfoot=&quot;†Counties ranked (descending) in terms of share of total populatio
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="http://lenkiefer.com/js/math-code.js"></script>
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   
 

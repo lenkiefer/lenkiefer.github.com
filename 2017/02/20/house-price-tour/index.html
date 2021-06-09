@@ -23,13 +23,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
@@ -70,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -78,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -203,6 +203,12 @@
 
   <div id="main">
 
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="A grand tour of house price trends">
+    <meta property="og:description" content="R statistics dataviz housing mortgage data">
 
 <div class="header">
   <h1>A grand tour of house price trends</h1>
@@ -642,7 +648,7 @@ Source: Freddie Mac House Price Index, Census</td></tr></tfoot>
 
 ## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
 ## font family not found in Windows font database</code></pre>
-<p><img src="/post/2017-02-20-house-price-tour_files/figure-html/feb-20-2017-graph-1-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-02-20-house-price-tour_files/figure-html/feb-20-2017-graph-1-1.png" width="672" /></p>
 <p>For whatever reason, I think the gridlines are a little too dark, so I’d rather they be <em>lightgray</em>. Let’s tweak the theme and redraw with annual house price appreciation for Miami, Florida.</p>
 <pre class="r"><code>ggplot(data=dm2[metro==&quot;Miami-Fort Lauderdale-West Palm Beach, FL&quot;],aes(x=date,y=hpa12))+
   geom_line()+
@@ -710,7 +716,7 @@ Source: Freddie Mac House Price Index, Census</td></tr></tfoot>
 
 ## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
 ## font family not found in Windows font database</code></pre>
-<p><img src="/post/2017-02-20-house-price-tour_files/figure-html/feb-20-2017-graph-2-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-02-20-house-price-tour_files/figure-html/feb-20-2017-graph-2-1.png" width="672" /></p>
 </div>
 </div>
 <div id="employment-data" class="section level2">
@@ -854,7 +860,7 @@ g1</code></pre>
 
 ## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
 ## font family not found in Windows font database</code></pre>
-<p><img src="/post/2017-02-20-house-price-tour_files/figure-html/feb-20-2017-ohio-plot-1-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-02-20-house-price-tour_files/figure-html/feb-20-2017-ohio-plot-1-1.png" width="672" /></p>
 <p>Okay, we’ve got the data we want. Now let’s put it together. Things are about to get slightly interesting.</p>
 </div>
 <div id="combining-data" class="section level2">
@@ -962,7 +968,7 @@ dt&lt;-merge(dm2,emp.dt2[,c(&quot;md&quot;,&quot;emp&quot;,&quot;emp.yoy&quot;,&
 
 ## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
 ## font family not found in Windows font database</code></pre>
-<p><img src="/post/2017-02-20-house-price-tour_files/figure-html/feb-20-2017-graph-3-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-02-20-house-price-tour_files/figure-html/feb-20-2017-graph-3-1.png" width="672" /></p>
 <p>This chart tells a host of stories. In general house prices rise with stronger employment growth (we’ll soon see that’s true across most time periods). Also, there are regional differences. While I’ve color coded the regions, it might not jump out, so let’s use <em>facet_wrap</em> to create a small multiple by region and add a regression line.</p>
 <pre class="r"><code>ggplot(data=dt[date==&quot;2016-12-01&quot;,],
        aes(x=emp.pc,y=hpa12,color=region,size=metro.pop))+
@@ -1055,7 +1061,7 @@ dt&lt;-merge(dm2,emp.dt2[,c(&quot;md&quot;,&quot;emp&quot;,&quot;emp.yoy&quot;,&
 
 ## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
 ## font family not found in Windows font database</code></pre>
-<p><img src="/post/2017-02-20-house-price-tour_files/figure-html/feb-20-2017-graph-4-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-02-20-house-price-tour_files/figure-html/feb-20-2017-graph-4-1.png" width="672" /></p>
 <p>Here, we can see that the positive relationship between house price growth and employment appears to be strongest in the South and West Regions.</p>
 <div id="animate-it" class="section level3">
 <h3>Animate it</h3>
@@ -1340,7 +1346,7 @@ myplot(df)</code></pre>
 
 ## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
 ## font family not found in Windows font database</code></pre>
-<p><img src="/post/2017-02-20-house-price-tour_files/figure-html/feb-20-2017-graph-5-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-02-20-house-price-tour_files/figure-html/feb-20-2017-graph-5-1.png" width="672" /></p>
 <pre><code>## NULL</code></pre>
 <p>This plot shows what you would expect, that periods of strong employment growth are generally periods of strong house price growth and vice versa.</p>
 <p>Now, using our tweenr tricks, we can creat an animated tour:</p>
@@ -1486,7 +1492,7 @@ saveGIF({for (i in 1:max(tf$.frame)) {
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="http://lenkiefer.com/js/math-code.js"></script>
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   
 

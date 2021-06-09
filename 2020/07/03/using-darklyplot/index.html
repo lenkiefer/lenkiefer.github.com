@@ -23,13 +23,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
@@ -70,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -78,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -204,6 +204,12 @@
   <div id="main">
 
 
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/charts_2020_07_02/darkly.png" >
+     
+    <meta property="og:title" content="Using darklyplot">
+    <meta property="og:description" content="A guide to using the darklyplot package">
+
 <div class="header">
   <h1>Using darklyplot</h1>
   <h2>A guide to using the darklyplot package</h2>
@@ -250,26 +256,26 @@ devtools::install_github(&quot;lenkiefer/darklyplot&quot;)</code></pre>
 <p>The darklyplot package comes with a dataset <code>mtg_rate</code> which contains a time series of U.S. weekly average 30-year fixed mortgage rates from Freddie Mac’s <a href="http://www.freddiemac.com/pmms/">Primary Mortgage Market Survey</a>. The following code constructs a time series plot of the weekly values from April 2, 1971 through July 2, 2020.</p>
 <pre class="r"><code>library(darklyplot)
 darklyplot(df=mtg_rate,column=&quot;rate&quot;,labelx=&quot;roundx&quot;,n.decimals=3)</code></pre>
-<p><img src="/post/2020-07-03-using-darklyplot_files/figure-html/vignette-1.png" width="50%" /></p>
+<p><img src="http://lenkiefer.com/post/2020-07-03-using-darklyplot_files/figure-html/vignette-1.png" width="50%" /></p>
 <p>The darklyplot plot combines a dark theme with a minimalist aesthetic. Using <code>geom_rangeframe</code> from the <a href="https://jrnold.github.io/ggthemes/reference/geom_rangeframe.html">ggthemes</a> package we limit the axis to cover the minimum and maxiumum values. We also highlight the first, last, minimum and maximum value with separate axis ticks and different colors. The user can select the colors to highlight the values.</p>
 <p>For example, you could force darklyplot to use only one color, white, to represent all values:</p>
 <pre class="r"><code>darklyplot(df=mtg_rate,column=&quot;rate&quot;,
            labelx=&quot;roundx&quot;,n.decimals=3,
            minCol=&quot;white&quot;,maxCol=&quot;white&quot;,
            firstCol=&quot;white&quot;,lastCol=&quot;white&quot;)</code></pre>
-<p><img src="/post/2020-07-03-using-darklyplot_files/figure-html/vignette-2-1.png" width="50%" /></p>
+<p><img src="http://lenkiefer.com/post/2020-07-03-using-darklyplot_files/figure-html/vignette-2-1.png" width="50%" /></p>
 </div>
 <div id="shading-and-reference-lines" class="section level2">
 <h2>Shading and reference lines</h2>
 <p>The darklyplot packages allows you to add a reference line to your plot. By default the reference line is set to 0, but you can adjust it to any fixed value. For example, we can modify our mortgage rate plot to add a reference line at 5 percentage points.</p>
 <pre class="r"><code>darklyplot(df=mtg_rate,column=&quot;rate&quot;,labelx=&quot;roundx&quot;,n.decimals=3,
            refline=TRUE,refCol=&quot;yellow&quot;,refValue=5)</code></pre>
-<p><img src="/post/2020-07-03-using-darklyplot_files/figure-html/vignette-3-1.png" width="50%" /></p>
+<p><img src="http://lenkiefer.com/post/2020-07-03-using-darklyplot_files/figure-html/vignette-3-1.png" width="50%" /></p>
 <p>You can also shade between the reference line and the data by setting <code>shade=TRUE</code>. The default shading is <code>dodgerblue</code> with alpha set to 0.15, but you can adjust those values with the <code>shadeCol</code> and <code>shadeAlpha</code> parameters.</p>
 <pre class="r"><code>darklyplot(df=mtg_rate,column=&quot;rate&quot;,labelx=&quot;roundx&quot;,n.decimals=3,
            refCol=&quot;yellow&quot;,refline=TRUE,refValue=5,
            shade=TRUE,shadeCol=&quot;yellow&quot;,shadeAlpha=0.35)</code></pre>
-<p><img src="/post/2020-07-03-using-darklyplot_files/figure-html/vignette-4-1.png" width="50%" /></p>
+<p><img src="http://lenkiefer.com/post/2020-07-03-using-darklyplot_files/figure-html/vignette-4-1.png" width="50%" /></p>
 </div>
 <div id="use-with-any-time-series-data" class="section level2">
 <h2>Use with any time series data</h2>
@@ -287,7 +293,7 @@ txhousing2$date &lt;- as.Date(ISOdate(txhousing2$year, txhousing2$month,1))
 
 darklyplot(df=txhousing2,column=&quot;sales&quot;,labelx=&quot;roundx&quot;,n.decimals=3)+
   labs(title=&quot;Monthly home sales in Lubbock, Texas&quot;)</code></pre>
-<p><img src="/post/2020-07-03-using-darklyplot_files/figure-html/vignette-6-1.png" width="50%" /></p>
+<p><img src="http://lenkiefer.com/post/2020-07-03-using-darklyplot_files/figure-html/vignette-6-1.png" width="50%" /></p>
 <div id="where-is-my-minmax" class="section level3">
 <h3>Where is my min/max?</h3>
 <p>The plot above lacks a min/max. That is because the dataframe we created has some missing observations. Future versions of darklyplot may adjust for this, but for now we have to work around that issue:</p>
@@ -296,7 +302,7 @@ txhousing2 &lt;- txhousing2[!is.na(txhousing2$sales),]
 
 darklyplot(df=txhousing2,column=&quot;sales&quot;,labelx=&quot;roundx&quot;,n.decimals=3)+
   labs(title=&quot;Monthly home sales in Lubbock, Texas&quot;)</code></pre>
-<p><img src="/post/2020-07-03-using-darklyplot_files/figure-html/vignette-7-1.png" width="50%" /></p>
+<p><img src="http://lenkiefer.com/post/2020-07-03-using-darklyplot_files/figure-html/vignette-7-1.png" width="50%" /></p>
 </div>
 </div>
 <div id="using-percent-formats" class="section level2">
@@ -314,7 +320,7 @@ darklyplot(df=txhousing3,column=&quot;dsales&quot;,
            #n.decimals corresponds to accuracy in scales::percent when labelx=&quot;percent&quot;
            n.decimals=.1)+
   labs(title=&quot;12-month perent change home sales in Austin, Texas&quot;)</code></pre>
-<p><img src="/post/2020-07-03-using-darklyplot_files/figure-html/vignette-8-1.png" width="50%" /></p>
+<p><img src="http://lenkiefer.com/post/2020-07-03-using-darklyplot_files/figure-html/vignette-8-1.png" width="50%" /></p>
 </div>
 
   
@@ -424,7 +430,7 @@ darklyplot(df=txhousing3,column=&quot;dsales&quot;,
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="http://lenkiefer.com/js/math-code.js"></script>
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   
 

@@ -23,13 +23,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
@@ -70,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -78,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -203,6 +203,12 @@
 
   <div id="main">
 
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Forecasting is hard (work)">
+    <meta property="og:description" content="R statistics dataviz housing mortgage data">
 
 <div class="header">
   <h1>Forecasting is hard (work)</h1>
@@ -664,7 +670,7 @@ f.plot(s=&quot;HOUSING&quot;)+
   theme(plot.caption=element_text(hjust=0),
         plot.subtitle=element_text(face=&quot;italic&quot;))</code></pre>
 <pre><code>## Warning: Removed 2770 rows containing missing values (geom_segment).</code></pre>
-<p><img src="/post/2017-08-27-forecast_files/figure-html/08-26-2017-plot-1-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-08-27-forecast_files/figure-html/08-26-2017-plot-1-1.png" width="672" /></p>
 <p>Let’s break down what we are looking at here.</p>
 <p>The black dots represent what each forecaster in the panel believes housing starts will be four quarters in the future. A dot at 2017:Q2 corresponds to what an individual forecaster though housing starts would be in 2017:Q2 as of 2016Q2. The boxes summarize the distribution of black dots, with the box capturing the 25th to 75th percentile of forecasts and the line indicating the median forecast.</p>
 <p>The red line is the median estimate from the panel the quarter after the data released. Since the data is available to forecasters at that time the red line should match the historical vintage estimate. Again using our example of 2017:Q2: the red line at 2017:Q3 represents the median estimate for 2017:Q2 housing starts as of 2017:Q3.</p>
@@ -700,7 +706,7 @@ f.plot2() +
        caption=&quot;@lenkiefer Source: U.S. Census Bureau and Department of Housing and Urban Development\nForecasts median forecasts from Survey of Professional Forecasters\nhttps://www.philadelphiafed.org/research-and-data/real-time-center/survey-of-professional-forecasters&quot;)+
   theme(plot.caption=element_text(hjust=0),
         plot.subtitle=element_text(face=&quot;italic&quot;))</code></pre>
-<p><img src="/post/2017-08-27-forecast_files/figure-html/08-26-2017-data-plot-2-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-08-27-forecast_files/figure-html/08-26-2017-data-plot-2-1.png" width="672" /></p>
 <p>We can see that from the early- to mid-2000s forecasters were expecting housing starts to decrease. Then during the Great Recession and the collapse of housing starts, forecasters tended to overestimate 4-quarter ahead starts. Once the recover began, forecasters also tended to overestimate starts. Early in the recovery, the tentacles have a greater slope, indicating forecasters anticipated a strong recovery. Over time, the slope of the forecast line started to flatten and line up with the data.</p>
 <p>Let’s watch this as an animated gif. Some people find animated gifs gratuitous and even tell me so on Twitter. That’s an okay opinion. Sometimes the animation is gratuitous, though it does help focus attention.</p>
 <p>But in this case I think the animation helps you understand better. Imagine you are a forecaster and see the black line as estimates are released. Where do you think housing starts will be next year? The dotted lines don’t seem as obviously wrong as they might if you only look at the static plot. Forecasting is hard.</p>
@@ -720,7 +726,7 @@ plot_grid(f.plot(s=&quot;HOUSING&quot;)+labs(title=&quot;Houing Starts (millions
           f.plot(s=&quot;TBOND&quot;)+
             labs(title=&quot;10-Year Treasury Bond Rate (%)&quot;),
           align=&quot;hv&quot;)</code></pre>
-<p><img src="/post/2017-08-27-forecast_files/figure-html/08-26-2017-data-plot-3-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-08-27-forecast_files/figure-html/08-26-2017-data-plot-3-1.png" width="672" /></p>
 <p>And let’s make the tentacle plot focusing on median forecasts:</p>
 <pre class="r"><code>################################################################
 # Make a composite plot arranged with cowplot::plot_grid()
@@ -733,7 +739,7 @@ plot_grid(f.plot2(s=&quot;HOUSING&quot;)+labs(title=&quot;Housing Starts (millio
           theme(plot.caption=element_text(hjust=0)),
           f.plot2(s=&quot;TBOND&quot;)+labs(title=&quot;10-Year Treasury Bond Rate (%)&quot;),
           align=&quot;hv&quot;)</code></pre>
-<p><img src="/post/2017-08-27-forecast_files/figure-html/08-26-2017-data-plot-4-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-08-27-forecast_files/figure-html/08-26-2017-data-plot-4-1.png" width="672" /></p>
 <div id="inflation-forecasts" class="section level3">
 <h3>Inflation forecasts</h3>
 <p>We also extracted inflation forecasts. Let’s use our function to draw plots of inflation forecasts. We have four variables to look at corresponding to forecasts of headline CPI, core CPI, headline PCE and core PCE inflation. The core inflation measures are indices that strip away volatile food and energy prices.</p>
@@ -750,7 +756,7 @@ plot_grid(f.plot(s=&quot;CPI&quot;)+labs(title=&quot;CPI Inflation Rate (%)&quot
           f.plot(s=&quot;COREPCE&quot;)+
             labs(title=&quot;Core PCE Inflation Rate (%)&quot;),
           align=&quot;hv&quot;)</code></pre>
-<p><img src="/post/2017-08-27-forecast_files/figure-html/08-26-2017-data-plot-5-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-08-27-forecast_files/figure-html/08-26-2017-data-plot-5-1.png" width="672" /></p>
 <pre class="r"><code>################################################################
 # Make a composite plot arranged with cowplot::plot_grid()
 ################################################################
@@ -764,7 +770,7 @@ plot_grid(f.plot2(s=&quot;CPI&quot;)+labs(title=&quot;CPI Inflation Rate (%)&quo
           f.plot2(s=&quot;COREPCE&quot;)+
             labs(title=&quot;Core PCE Inflation Rate (%)&quot;),
           align=&quot;hv&quot;)</code></pre>
-<p><img src="/post/2017-08-27-forecast_files/figure-html/08-26-2017-data-plot-6-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-08-27-forecast_files/figure-html/08-26-2017-data-plot-6-1.png" width="672" /></p>
 <p>Two things to note about these forecasts. First, the inflation forecasts are a lot less volatile than inflation rates, particularly for the Core measures that strip away volatile food and energy prices. That’s not too surprising. What’s more interesting is that the inflation forecasts seem to cluster right around a 2% rate, even though inflation has remained consistently below 2 percent.</p>
 </div>
 <div id="joyswarm" class="section level3">
@@ -813,7 +819,7 @@ f.plot3()+
   theme(plot.caption=element_text(hjust=0,size=9),
         plot.subtitle=element_text(face=&quot;italic&quot;))</code></pre>
 <pre><code>## Picking joint bandwidth of 0.0409</code></pre>
-<p><img src="/post/2017-08-27-forecast_files/figure-html/08-26-2017-data-plot-7-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-08-27-forecast_files/figure-html/08-26-2017-data-plot-7-1.png" width="672" /></p>
 <p>For this plot, it might help to add an anotation for actual housing starts. We’ll save the real-time data for a future post, but we can grab the latest estimates for housing starts and add to the plot. We’ll use the <a href="https://fred.stlouisfed.org/">Saint Louis Federal Reserve Economic Database (FRED)</a>. In <a href="../../../2017/04/11/Fred-plot">this post</a> I talk more about using FRED with R.</p>
 <pre class="r"><code>library(quantmod)</code></pre>
 <pre><code>## Loading required package: xts</code></pre>
@@ -868,7 +874,7 @@ df.fred %&gt;% mutate(YEAR=year(date)) %&gt;% group_by(YEAR) %&gt;%
                           color=forcats::fct_reorder(factor(YEAR),-YEAR)),
              shape=4,size=5)</code></pre>
 <pre><code>## Picking joint bandwidth of 0.0409</code></pre>
-<p><img src="/post/2017-08-27-forecast_files/figure-html/08-26-2017-data-plot-8-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-08-27-forecast_files/figure-html/08-26-2017-data-plot-8-1.png" width="672" /></p>
 </div>
 </div>
 <div id="forecasting-is-hard-work" class="section level1">
@@ -985,7 +991,7 @@ df.fred %&gt;% mutate(YEAR=year(date)) %&gt;% group_by(YEAR) %&gt;%
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="http://lenkiefer.com/js/math-code.js"></script>
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   
 

@@ -23,13 +23,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
@@ -70,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -78,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -204,6 +204,12 @@
   <div id="main">
 
 
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Visual meditations on house prices, Part 4: graph gallery">
+    <meta property="og:description" content="Charts and graphs exploring house price trends">
+
 <div class="header">
   <h1>Visual meditations on house prices, Part 4: graph gallery</h1>
   <h2></h2>
@@ -281,10 +287,10 @@
 <div id="swirly-pop" class="section level2">
 <h2>Swirly pop</h2>
 <p>After I created this chart I realized that the y axis, where I’ve encoded state, doesn’t add any information. What if we added another dimension to the chart? Because the FMHPI is displayed on a log scale, the length of the segments corresponds to annual percentage changes (if the endpoints are the current month and 12 months ago). In the following chart, I encoded the percentage change in the y axis for over 300 metro areas:</p>
-<p><img src="/post/2016-05-14-visual-meditations-on-house-prices-part4_files/figure-html/fig-hpi-scatter-w-marginal-1.png" width="816" /></p>
+<p><img src="http://lenkiefer.com/post/2016-05-14-visual-meditations-on-house-prices-part4_files/figure-html/fig-hpi-scatter-w-marginal-1.png" width="816" /></p>
 <p>Here the vertical distance measures the annual percentage change in index, while the x axis measures the level of the index. I’ve also added histograms to the x and y axis, capturing the relative frequency of observations.</p>
 <p>After I created this chart I realized I was missing an opportunity. I could extend the tail to the value from a year ago in both the x and y axis. Here’s the modified version, for March of each year since 2005:</p>
-<p><img src="/post/2016-05-14-visual-meditations-on-house-prices-part4_files/figure-html/fig-rbswirl3-1.png" width="768" /></p>
+<p><img src="http://lenkiefer.com/post/2016-05-14-visual-meditations-on-house-prices-part4_files/figure-html/fig-rbswirl3-1.png" width="768" /></p>
 <p>Animated version:</p>
 <p><img src="{{ site.url }}/img/charts_may_10_2016/rbswirl2.gif" alt="Swoosh"/></p>
 </div>
@@ -319,20 +325,20 @@
 <p><img src="{{ site.url }}/img/charts_may_14_2016/metro_us_corr.gif" alt="hpi corr"/></p>
 <p>This gif compares each metro area (grouped by principal state) to the U.S. in terms of the index. I’ve plotted the U.S. index on the x axis (using a log scale) and the metro index (using a log scale) on the y axis. In general there’s fairly strong correlation, but some markets seem to permanently depart from the regression line.</p>
 <p>Let’s consider Dallas and Los Angeles:</p>
-<p><img src="/post/2016-05-14-visual-meditations-on-house-prices-part4_files/figure-html/fig-hpi-corr-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2016-05-14-visual-meditations-on-house-prices-part4_files/figure-html/fig-hpi-corr-1.png" width="672" /></p>
 <p>In Dallas, there seem to be permanent departures from the solid regression line. Los Angeles on the other hand, seems to follow the national trend very closely (though the slope of the Los Angles line is well above the 45 degree line).</p>
 <p>Let’s try to estimate it using the monthly percent change (at an annualized rate):</p>
 <p><img src="{{ site.url }}/img/charts_may_14_2016/metro_us_hpa_corr.gif" alt="hpa corr"/></p>
 <p>Again we can focus in on just Dallas and Los Angeles:</p>
-<p><img src="/post/2016-05-14-visual-meditations-on-house-prices-part4_files/figure-html/fig-hpa-corr-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2016-05-14-visual-meditations-on-house-prices-part4_files/figure-html/fig-hpa-corr-1.png" width="672" /></p>
 <p>Here we see that the points tend to cluster around the regression loan, but with very different slopes. Dallas, which lies below the 45 degree line tends to experience house price growth that is subdued with respect to national trends. Los Angeles, seems more responsive. Let’s examine these relationships across all the metros.</p>
 </div>
 <div id="regressions" class="section level2">
 <h2>Regressions</h2>
 <p>In the plots below we compare the slope coefficient from each scatterplot. We can quickly notice some regularities:</p>
-<p><img src="/post/2016-05-14-visual-meditations-on-house-prices-part4_files/figure-html/fig-hpa-reg1-1.png" width="912" /></p>
+<p><img src="http://lenkiefer.com/post/2016-05-14-visual-meditations-on-house-prices-part4_files/figure-html/fig-hpa-reg1-1.png" width="912" /></p>
 <p>Focus in on a four large states:</p>
-<p><img src="/post/2016-05-14-visual-meditations-on-house-prices-part4_files/figure-html/fig-hpa-reg2-1.png" width="912" /></p>
+<p><img src="http://lenkiefer.com/post/2016-05-14-visual-meditations-on-house-prices-part4_files/figure-html/fig-hpa-reg2-1.png" width="912" /></p>
 <p>All the metros in California and all but two in Florida have a coefficient greater than one, while all the metros in Pennsylvania and Texas have a coefficient less than one. This means that on average when house prices rise (fall) 3 percent for the U.S., California and Florida tend to rise (fall) more than 3 percent, while Pennsylvania and Texas tend to rise (fall) less than 3 percent.</p>
 </div>
 </div>

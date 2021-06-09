@@ -23,13 +23,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
@@ -70,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -78,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -203,6 +203,12 @@
 
   <div id="main">
 
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com//img/charts_jan_13_2019/hpi.png" >
+     
+    <meta property="og:title" content="Go Go Animate!">
+    <meta property="og:description" content="Using gganimate to visualize housing and mortgage data.">
 
 <div class="header">
   <h1>Go Go Animate!</h1>
@@ -347,7 +353,7 @@ knitr::kable(head(df2))</code></pre>
   labs(title=&quot;Household debt balances&quot;,
        subtitle=&quot;Trillions of Dollars&quot;,
        x=&quot;&quot;,y=&quot;&quot;,caption=&quot;@lenkiefer Source: FRBNY Consumer Credit Panel/Equifax through 2018Q3&quot;) </code></pre>
-<p><img src="/post/2019-01-13-go-go-animate_files/figure-html/2019-01-13-plot-01-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2019-01-13-go-go-animate_files/figure-html/2019-01-13-plot-01-1.png" width="672" /></p>
 <p>To animate it, we need to make some slight tweaks. I want the image to gradually reveal each data point on the line and have the label at the endpoint. To do so, we put a label on each data point, but gganimate will only show the last.</p>
 <p>The following code will animate our line plot. <details> <Summary>Click for R code to animate plot </Summary></p>
 <pre class="r"><code>anim &lt;- 
@@ -587,7 +593,7 @@ knitr::kable(head(dt3))</code></pre>
   theme(plot.caption=element_text(hjust=0),
         legend.key.width=unit(2,&quot;cm&quot;),
         legend.position=&quot;top&quot;)</code></pre>
-<p><img src="/post/2019-01-13-go-go-animate_files/figure-html/2019-01-13-hpi-graph-1-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2019-01-13-go-go-animate_files/figure-html/2019-01-13-hpi-graph-1-1.png" width="672" /></p>
 <div id="animate-it" class="section level3">
 <h3>Animate it</h3>
 <p>To animate the code run this:</p>
@@ -743,7 +749,7 @@ anim_save(file=&quot;hpi_state_nov2018.gif&quot;, animation = last_animation())<
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="http://lenkiefer.com/js/math-code.js"></script>
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   
 

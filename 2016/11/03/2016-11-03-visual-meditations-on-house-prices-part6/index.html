@@ -23,13 +23,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
@@ -70,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -78,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -204,6 +204,12 @@
   <div id="main">
 
 
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Visual meditations on house prices, Part 6: state recovery">
+    <meta property="og:description" content="Introduction HOUSE PRICES HAVE NOW RECOVERED BACK TO THEIR PRE-RECESSION PEAK, at least according to some indices. The Freddie Mac House Price Index, for example, surpassed its pre-2008 peak in the latest release for data through September 2016. In this post I&rsquo;ll be exploring trends in house prices and exploring different ways of showing how far house prices have come, and in some cases, how far they still have to go.">
+
 <div class="header">
   <h1>Visual meditations on house prices, Part 6: state recovery</h1>
   <h2></h2>
@@ -257,26 +263,26 @@
 <li><a href="../../../../img/charts_nov_3_2016/fmhpi2016q3.txt"><em>state and national called fmhpi.txt</em></a></li>
 <li><a href="../../../../img/charts_nov_3_2016/fmhpi2016q3metro.txt"><em>metro called fmhpi2.txt</em></a></li>
 </ol>
-<p><img src="/img/Rfig/fig-hpimed6-viz1-1.svg" alt="plot of chunk fig-hpimed6-viz1"></p>
+<p><img src="http://lenkiefer.com/img/Rfig/fig-hpimed6-viz1-1.svg" alt="plot of chunk fig-hpimed6-viz1"></p>
 <p>This plot shows the seasonally-adjusted index for the United States. In September of 2016 the index was at 165.25, just above (0.1%) the pre-2008 peak of 165.06.</p>
 <p>The story varies quite a bit across the country. While the national average is just abvoe the pre-2008 peak, some states are above and some are below.</p>
 <h2 id="state-trends">State trends</h2>
 <h3 id="maps">Maps</h3>
 <p>First, let&rsquo;s look at a map of annual house price appreciation by state, September 2015 to September 2016:</p>
-<p><img src="/img/Rfig/fig-hpimed6-viz2-1.svg" alt="plot of chunk fig-hpimed6-viz2"></p>
+<p><img src="http://lenkiefer.com/img/Rfig/fig-hpimed6-viz2-1.svg" alt="plot of chunk fig-hpimed6-viz2"></p>
 <p>We can contrast this with a map showing the percentage difference between the September 2016 index and that state&rsquo;s pre-2008 peak.</p>
-<p><img src="/img/Rfig/fig-hpimed6-viz3-1.svg" alt="plot of chunk fig-hpimed6-viz3"></p>
+<p><img src="http://lenkiefer.com/img/Rfig/fig-hpimed6-viz3-1.svg" alt="plot of chunk fig-hpimed6-viz3"></p>
 <p>This map reveals that North Dakota, Colorado, and Texas have had the fastest house price appreciation relative to their pre-2008 peak (45%, 38%, and 35% respectively). On the other end, Nevada, Connecticut  and Arizona are the lowest relative to their pre-2008 peak at -24%, -20%, and -18% respectively.</p>
 <p>It would be interesting to compare the rank of states in terms of year-over-year house price appreciation.</p>
-<p><img src="/img/Rfig/fig-hpimed6-viz3b-1.svg" alt="plot of chunk fig-hpimed6-viz3b"></p>
+<p><img src="http://lenkiefer.com/img/Rfig/fig-hpimed6-viz3b-1.svg" alt="plot of chunk fig-hpimed6-viz3b"></p>
 <p>We can also construct a panel plot comparing the last few years:</p>
-<p><img src="/img/Rfig/fig-hpimed6-viz3c-1.svg" alt="plot of chunk fig-hpimed6-viz3c"></p>
+<p><img src="http://lenkiefer.com/img/Rfig/fig-hpimed6-viz3c-1.svg" alt="plot of chunk fig-hpimed6-viz3c"></p>
 <p>Early in the housing recovery the central United States, pretty much a straight path from Texas up to North Dakota had the fastest house price growth (or least decline).  But as the recovery has progressed, growth has accelerated in the West and in Florida.</p>
 <p>The animated gif below shows how the rankings have changed each September from 1980-2016:</p>
 <!-- raw HTML omitted -->
 <h2 id="dot-plot">Dot plot</h2>
 <p>In an <a href="../../../../2016/05/08/visual-meditations-on-house-prices-part2">earlier post</a> I described how to make the following dotplot:</p>
-<p><img src="/img/Rfig/fig-hpimed6-viz4-1.svg" alt="plot of chunk fig-hpimed6-viz4"></p>
+<p><img src="http://lenkiefer.com/img/Rfig/fig-hpimed6-viz4-1.svg" alt="plot of chunk fig-hpimed6-viz4"></p>
 <p>The plot shows the value of the house price index in September 2016 relative to the past 12 months.  The color corresponds to the pace of house price appreciation, and the tail represents the range of the index over the past 12 months.</p>
 <p>Hawaii has the highest index value (meaning that house prices have grown most in HI relative to December 2000), but the fastest year-over-year growth has been in Washington state.  You can see that in the graph by the blueness of the dot and in the length of the tail.</p>
 <p>This is a fun graph to animate:</p>
@@ -348,7 +354,7 @@ labs(title=&ldquo;Annual House Price Growth (Y/Y %)&rdquo;,</p>
 <pre><code>   caption=&quot;@lenkiefer Source: Freddie Mac House Price Index (Not Seasonally adjusted)&quot;)
 </code></pre>
 <p>{% endhighlight</p>
-<p><img src="/img/Rfig/unnamed-chunk-2-1.svg" alt="plot of chunk unnamed-chunk-2"></p>
+<p><img src="http://lenkiefer.com/img/Rfig/unnamed-chunk-2-1.svg" alt="plot of chunk unnamed-chunk-2"></p>
 <p>{% highlight r 
 #make comparison to pre-2008 peak map</p>
 <p>ggplot() +
@@ -368,7 +374,7 @@ theme(legend.position = &ldquo;top&rdquo;) +theme(plot.caption=element_text(hjus
 labs(title=&ldquo;House Prices in September 2016 relative to pre-2008 peak&rdquo;,
 caption=&quot;@lenkiefer Source: Freddie Mac House Price Index (Not Seasonally adjusted)&quot;)
 {% endhighlight</p>
-<p><img src="/img/Rfig/unnamed-chunk-2-2.svg" alt="plot of chunk unnamed-chunk-2"></p>
+<p><img src="http://lenkiefer.com/img/Rfig/unnamed-chunk-2-2.svg" alt="plot of chunk unnamed-chunk-2"></p>
 <p>{% highlight r</p>
 <h1 id="state-annual-house-price-appreciation-rank-map">State annual house price appreciation rank map</h1>
 <p>ggplot() +
@@ -391,7 +397,7 @@ labs(title=&quot;Rank for state + D.C. annual house price growth (1 to 51)&quot;
      caption=&quot;@lenkiefer Source: Freddie Mac House Price Index (Not Seasonally adjusted)&quot;)
 </code></pre>
 <p>{% endhighlight</p>
-<p><img src="/img/Rfig/unnamed-chunk-2-3.svg" alt="plot of chunk unnamed-chunk-2"></p>
+<p><img src="http://lenkiefer.com/img/Rfig/unnamed-chunk-2-3.svg" alt="plot of chunk unnamed-chunk-2"></p>
 <p>{% highlight r</p>
 <h1 id="state-annual-house-price-appreciation-rank-map-panel-2008-2016">State annual house price appreciation rank map, panel 2008-2016</h1>
 <p>ggplot() +
@@ -414,7 +420,7 @@ labs(title=&quot;Rank for state + D.C. annual house price growth (1 to 51)&quot;
      caption=&quot;@lenkiefer Source: Freddie Mac House Price Index (Not Seasonally adjusted)&quot;)
 </code></pre>
 <p>{% endhighlight</p>
-<p><img src="/img/Rfig/unnamed-chunk-2-4.svg" alt="plot of chunk unnamed-chunk-2"></p>
+<p><img src="http://lenkiefer.com/img/Rfig/unnamed-chunk-2-4.svg" alt="plot of chunk unnamed-chunk-2"></p>
 
   
   <h4><i class="fas fa-share-alt" aria-hidden="true"></i>&nbsp;Share!</h4>
@@ -523,7 +529,7 @@ labs(title=&quot;Rank for state + D.C. annual house price growth (1 to 51)&quot;
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="http://lenkiefer.com/js/math-code.js"></script>
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   
 

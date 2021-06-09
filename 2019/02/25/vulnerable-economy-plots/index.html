@@ -23,13 +23,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
@@ -70,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -78,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -203,6 +203,12 @@
 
   <div id="main">
 
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com//img/charts_feb_25_2019/vulnerable_summary.png" >
+     
+    <meta property="og:title" content="Vulnerable Economy Plots">
+    <meta property="og:description" content="R code for plots from my speech: Forecasting in a Vulnerable Economy">
 
 <div class="header">
   <h1>Vulnerable Economy Plots</h1>
@@ -329,7 +335,7 @@ ggplot(data=filter(df_slope,!is.na(price)), aes(x=date,y=price))+
        subtitle=&quot;Difference in percentage points, daily&quot;)+
   geom_rug(aes(color=ifelse(price&lt;=0 ,&quot;&lt;=0 &quot;,&quot;&gt;0&quot;)),sides=&quot;b&quot;)+
   scale_color_manual(values=c(&quot;#d73027&quot;,&quot;#4575b4&quot;),name=&quot;Slope:  &quot;)</code></pre>
-<p><img src="/post/2019-02-25-vulnerable-economy-plots_files/figure-html/2019-02-25-yield-slope-plot-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2019-02-25-vulnerable-economy-plots_files/figure-html/2019-02-25-yield-slope-plot-1.png" width="672" /></p>
 </div>
 <div id="unemployment-rate-chart" class="section level2">
 <h2>Unemployment Rate Chart</h2>
@@ -355,7 +361,7 @@ ggplot(data=filter(df2,!is.na(NROU2)),aes(x=date,y=UNRATE))+
        caption=&quot;@lenkiefer Data Source: U.S. Bureau of Labor Statistics, U.S. Congressional Budget Office,shaded bars NBER Recessions\nNatural Rate of Unemployment (Long-Term) retrieved from FRED,\nFederal Reserve Bank of St. Louis; https://fred.stlouisfed.org/series/NROU, Feb 25, 2019&quot;)+
   geom_rug(aes(color=ifelse(UNRATE&lt;=NROU2,&quot;Below or Equal&quot;,&quot;Above&quot;)),sides=&quot;b&quot;)+
   scale_color_manual(values=c(&quot;#d73027&quot;,&quot;#4575b4&quot;),name=&quot;Unemployment Rate Above/Below Natural Rate &quot;)</code></pre>
-<p><img src="/post/2019-02-25-vulnerable-economy-plots_files/figure-html/2019-02-25-ugap-plot-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2019-02-25-vulnerable-economy-plots_files/figure-html/2019-02-25-ugap-plot-1.png" width="672" /></p>
 </div>
 <div id="fed-funds-chart" class="section level2">
 <h2>Fed Funds Chart</h2>
@@ -488,7 +494,7 @@ ggplot(filter(output, year(date)&gt;1990), aes(x=date,y=ifelse(type==&quot;rate_
        subtitle=&quot;Black line is effective federal funds rate,\ncolors indicate if last move was hike/cut and \nnumber of months between switching from hikes to cuts (or vice versa)&quot;,
        caption=&quot;@lenkiefer Source: Board of Governors of the Federal Reserve System&quot;)
 g1</code></pre>
-<p><img src="/post/2019-02-25-vulnerable-economy-plots_files/figure-html/2019-02-25-fedfunds-plot-1.png" width="816" /></p>
+<p><img src="http://lenkiefer.com/post/2019-02-25-vulnerable-economy-plots_files/figure-html/2019-02-25-fedfunds-plot-1.png" width="816" /></p>
 <p>And if we want to animate with <a href="https://CRAN.R-project.org/package=gganimate">gganimate</a> we need to make a slight tweak (for labels)</p>
 <pre class="r"><code>g2&lt;-
 ggplot(filter(output, year(date)&gt;1990), aes(x=date,y=ifelse(type==&quot;rate_cut&quot;,-dur, dur)/50, color=type, group=date2))+
@@ -617,7 +623,7 @@ anim_save(file=&quot;fed_cuts.gif&quot;,
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="http://lenkiefer.com/js/math-code.js"></script>
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   
 

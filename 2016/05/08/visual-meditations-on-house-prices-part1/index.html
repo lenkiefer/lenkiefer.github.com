@@ -23,13 +23,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
@@ -70,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -78,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -203,6 +203,12 @@
 
   <div id="main">
 
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Visual meditations on house prices, Part 1: data wrangling">
+    <meta property="og:description" content="Charts and graphs exploring house price trends">
 
 <div class="header">
   <h1>Visual meditations on house prices, Part 1: data wrangling</h1>
@@ -339,7 +345,7 @@ metrodata&lt;-metrodata[, hpi12min:=rollapply(hpi, 12, min,fill=NA, na.rm=FALSE,
 metrodata&lt;-metrodata[, hpi12max:=rollapply(hpi, 12, max,fill=NA, na.rm=FALSE,align=&#39;right&#39;), by=metro]</code></pre>
 <p>In the code above we take advantage of the data table structure and some functions to compute some time series calculations that will be helpful for the plots we’ll make later. For example, the diff function is used together with some exponentiation to calculate the monthly, quarterly, and annual house price appreciation (all annualized). I also used the rollapply function to caclulate a rolling 12-month min and max (backward looking by using align=‘right’).</p>
 <p>Before we close out this data preparation blog post, let’s at least make one plot from the data. The code below generates a time series plot for the national index from January 2000 to March 2016.</p>
-<p><img src="/post/2016-05-08-visual-meditations-on-house-prices-part1_files/figure-html/fig-main1-1.png" width="480" /></p>
+<p><img src="http://lenkiefer.com/post/2016-05-08-visual-meditations-on-house-prices-part1_files/figure-html/fig-main1-1.png" width="480" /></p>
 <p>The chart shows the rise, fall, and recovery of national house prices. In this index house prices are still a little below their nominal peak, but trending higher. In the follow-up posts, we’ll get creative with the data visualizations.</p>
 <p><a href="../%202016-05-08-visual-meditations-on-house-prices-part2">Click here for Part 2: sparklines and dots (animated)</a></p>
 </div>
@@ -452,7 +458,7 @@ metrodata&lt;-metrodata[, hpi12max:=rollapply(hpi, 12, max,fill=NA, na.rm=FALSE,
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="http://lenkiefer.com/js/math-code.js"></script>
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   
 

@@ -23,13 +23,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
@@ -70,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -78,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -203,6 +203,12 @@
 
   <div id="main">
 
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Wrangling employment data, plotting trends">
+    <meta property="og:description" content="R statistics dataviz housing mortgage data">
 
 <div class="header">
   <h1>Wrangling employment data, plotting trends</h1>
@@ -411,7 +417,7 @@ g1&lt;-
 
 g1</code></pre>
 <pre><code>## Warning: Removed 120 rows containing missing values (geom_path).</code></pre>
-<p><img src="/post/2017-02-01-emp-trends_files/figure-html/feb-01-2017-ohio-plot-1-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-02-01-emp-trends_files/figure-html/feb-01-2017-ohio-plot-1-1.png" width="672" /></p>
 <p>These data show that across most metro areas employment growth is picking up since the end of the Great Recession. Let’s zoom in and just look at the most recent month’s data:</p>
 <pre class="r"><code>g2&lt;-
   ggplot(data=emp.dt[state_name==&quot;Ohio&quot; &amp; date==&quot;2016-12-01&quot;])+
@@ -427,7 +433,7 @@ g1</code></pre>
         plot.subtitle=element_text(face=&quot;italic&quot;))
 
 g2</code></pre>
-<p><img src="/post/2017-02-01-emp-trends_files/figure-html/feb-01-2017-ohio-plot-2-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-02-01-emp-trends_files/figure-html/feb-01-2017-ohio-plot-2-1.png" width="672" /></p>
 <p>These data match those in <a href="https://www.bls.gov/news.release/metro.t03.htm">Table 3</a> of the BLS press release. They show that while employment is growing in the Buckeye state, some metros are still facing shrinking employment.</p>
 <div id="add-interactions-with-plotly" class="section level2">
 <h2>Add interactions with plotly</h2>
@@ -574,7 +580,7 @@ htmlwidgets::saveWidget(as.widget(p), &quot;plotly-2.html&quot;)</code></pre>
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="http://lenkiefer.com/js/math-code.js"></script>
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   
 

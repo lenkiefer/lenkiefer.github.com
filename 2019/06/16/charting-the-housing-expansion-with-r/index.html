@@ -23,13 +23,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
@@ -70,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -78,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -203,6 +203,12 @@
 
   <div id="main">
 
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com//post/2019-06-16-charting-the-housing-expansion-with-r_files/figure-html/plot-code-2019-06-16-plot-6-1.png" >
+     
+    <meta property="og:title" content="Charting the housing expansion with R">
+    <meta property="og:description" content="Charting the U.S. housing market over two long economic expansions">
 
 <div class="header">
   <h1>Charting the housing expansion with R</h1>
@@ -402,7 +408,7 @@ df2 &lt;-
          yi=100*price/p0)</code></pre>
 <p></details></p>
 <p>Now that we have our data ready, we can make some plots. I’ll make a plot first, and you can see the code in the details below.</p>
-<p><img src="/post/2019-06-16-charting-the-housing-expansion-with-r_files/figure-html/plot-code-2019-06-16-plot-1-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2019-06-16-charting-the-housing-expansion-with-r_files/figure-html/plot-code-2019-06-16-plot-1-1.png" width="672" /></p>
 <p>Hidden below I create a function that can generate various plots we’ll explore.</p>
 <p><details> <Summary>Click for plotting function </Summary></p>
 <pre class="r"><code>myf &lt;- function(v=&quot;HOUST&quot;, #variable or group of variables
@@ -447,9 +453,9 @@ myf()+labs(x=&quot;date&quot;,y=&quot;&quot;,
 <p></details></p>
 <p>I built in some flexibility into my plotting function so we can try different things.</p>
 <p>For example, we might be interesting in plotting the change in starts relative to the starting date of each cycle:</p>
-<p><img src="/post/2019-06-16-charting-the-housing-expansion-with-r_files/figure-html/plot-code-2019-06-16-plot-2-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2019-06-16-charting-the-housing-expansion-with-r_files/figure-html/plot-code-2019-06-16-plot-2-1.png" width="672" /></p>
 <p>We also might be interested in just comparing the last 1990s expansion to the current one.</p>
-<p><img src="/post/2019-06-16-charting-the-housing-expansion-with-r_files/figure-html/plot-code-2019-06-16-plot-3-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2019-06-16-charting-the-housing-expansion-with-r_files/figure-html/plot-code-2019-06-16-plot-3-1.png" width="672" /></p>
 <p>We could try various other permutations of our function arguments for interesting variations.</p>
 <p>For reference, here are the variables I pulled down from FRED.</p>
 <pre class="r"><code>knitr::kable(lookup)</code></pre>
@@ -554,15 +560,15 @@ myf()+labs(x=&quot;date&quot;,y=&quot;&quot;,
 <ul>
 <li>How the effective federal funds rate varies across cycles</li>
 </ul>
-<p><img src="/post/2019-06-16-charting-the-housing-expansion-with-r_files/figure-html/plot-code-2019-06-16-plot-4-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2019-06-16-charting-the-housing-expansion-with-r_files/figure-html/plot-code-2019-06-16-plot-4-1.png" width="672" /></p>
 <ul>
 <li>How did U.S. hous prices trend across cycles</li>
 </ul>
-<p><img src="/post/2019-06-16-charting-the-housing-expansion-with-r_files/figure-html/plot-code-2019-06-16-plot-5-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2019-06-16-charting-the-housing-expansion-with-r_files/figure-html/plot-code-2019-06-16-plot-5-1.png" width="672" /></p>
 <ul>
 <li>Comparing low and high price tier house prices in LA</li>
 </ul>
-<p><img src="/post/2019-06-16-charting-the-housing-expansion-with-r_files/figure-html/plot-code-2019-06-16-plot-6-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2019-06-16-charting-the-housing-expansion-with-r_files/figure-html/plot-code-2019-06-16-plot-6-1.png" width="672" /></p>
 <p>We could even try to animate things and make them <a href="https://www.theonion.com/bowling-alley-owner-wants-tv-ad-to-look-more-matrix-y-1819566958">More Matrix-y</a>.</p>
 <p><details> <Summary>Click and you stay in Wonderland, and I show you how deep the rabbit hole goes </Summary></p>
 <p><img src="../../../../img/charts_jun_16_2019/MatrixY.gif", size="50%"></p>
@@ -699,7 +705,7 @@ animate(a,width=550,height=350,nframes=85)</code></pre>
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="http://lenkiefer.com/js/math-code.js"></script>
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   
 

@@ -23,13 +23,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
@@ -70,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -78,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -204,6 +204,14 @@
   <div id="main">
 
 
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="JOLTS! Job openings and labor turnover trends">
+    <meta property="og:description" content="IN THIS POST WE&rsquo;LL LOOK AT recent job openings and hires data from the Bureau of Labor Statistics Job Openings and Labor Turnover Survey (JOLTS).
+R code for selected graphs posted below
+Job openings and labor turnover Total nonfarm trends Let&rsquo;s start by looking at aggregate national trends for total nonfarm sector. The plot below compares hires, job openings and separations (the sum of quits, layoffs and discharges, and other separations) over time.">
+
 <div class="header">
   <h1>JOLTS! Job openings and labor turnover trends</h1>
   <h2></h2>
@@ -249,15 +257,15 @@
 <h3 id="total-nonfarm-trends">Total nonfarm trends</h3>
 <p>Let&rsquo;s start by looking at aggregate national trends for total nonfarm sector.  The plot below compares hires, job openings and separations (the sum of quits, layoffs and discharges, and other separations) over time.  The JOLTS data begins in December 2000.</p>
 <p>In the <a href="http://www.bls.gov/news.release/pdf/jolts.pdf">latest release</a> for July 2016, total job openings in the U.S. were 5.9 million, the highest recorded. The graph below compares hires, job openings and separations.</p>
-<p><img src="/img/Rfig/fig-JOLTS-graph1-1.svg" alt="plot of chunk fig-JOLTS-graph1"></p>
+<p><img src="http://lenkiefer.com/img/Rfig/fig-JOLTS-graph1-1.svg" alt="plot of chunk fig-JOLTS-graph1"></p>
 <h3 id="trends-by-industry">Trends by industry</h3>
 <p>We also can compare trends by industry.</p>
-<p><img src="/img/Rfig/fig-JOLTS-graph2-1.svg" alt="plot of chunk fig-JOLTS-graph2"></p>
+<p><img src="http://lenkiefer.com/img/Rfig/fig-JOLTS-graph2-1.svg" alt="plot of chunk fig-JOLTS-graph2"></p>
 <p>We can break these charts into individual panel plots for hires, job openings and total separations.</p>
-<p><img src="/img/Rfig/fig-JOLTS-graph2b-1.svg" alt="plot of chunk fig-JOLTS-graph2b"><img src="/img/Rfig/fig-JOLTS-graph2b-2.svg" alt="plot of chunk fig-JOLTS-graph2b"><img src="/img/Rfig/fig-JOLTS-graph2b-3.svg" alt="plot of chunk fig-JOLTS-graph2b"></p>
+<p><img src="http://lenkiefer.com/img/Rfig/fig-JOLTS-graph2b-1.svg" alt="plot of chunk fig-JOLTS-graph2b"><img src="http://lenkiefer.com/img/Rfig/fig-JOLTS-graph2b-2.svg" alt="plot of chunk fig-JOLTS-graph2b"><img src="http://lenkiefer.com/img/Rfig/fig-JOLTS-graph2b-3.svg" alt="plot of chunk fig-JOLTS-graph2b"></p>
 <h2 id="index-the-data">Index the data</h2>
 <p>In order to make comparisons easier, we can index the data so the series can be compared on the same y axis. Due to the spike in hiring due to the 2010 Census, we&rsquo;ll omit the Federal category in the graphs to come.</p>
-<p><img src="/img/Rfig/fig-JOLTS-graph3-1.svg" alt="plot of chunk fig-JOLTS-graph3"><img src="/img/Rfig/fig-JOLTS-graph3-2.svg" alt="plot of chunk fig-JOLTS-graph3"><img src="/img/Rfig/fig-JOLTS-graph3-3.svg" alt="plot of chunk fig-JOLTS-graph3"></p>
+<p><img src="http://lenkiefer.com/img/Rfig/fig-JOLTS-graph3-1.svg" alt="plot of chunk fig-JOLTS-graph3"><img src="http://lenkiefer.com/img/Rfig/fig-JOLTS-graph3-2.svg" alt="plot of chunk fig-JOLTS-graph3"><img src="http://lenkiefer.com/img/Rfig/fig-JOLTS-graph3-3.svg" alt="plot of chunk fig-JOLTS-graph3"></p>
 <h2 id="the-beveridge-curve">The Beveridge Curve</h2>
 <p>If we add the unemployment rate from the BLS <a href="http://www.census.gov/programs-surveys/cps.html">Current Population Survey  (CPS)</a> we can draw a <a href="https://en.wikipedia.org/wiki/Beveridge_curve">Beveridge Curve</a>.</p>
 <!-- raw HTML omitted -->
@@ -633,7 +641,7 @@ ani.pause()  }
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="http://lenkiefer.com/js/math-code.js"></script>
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   
 

@@ -23,13 +23,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
@@ -70,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -78,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -204,6 +204,13 @@
   <div id="main">
 
 
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Visualizing the history of U.S. homeownership rates">
+    <meta property="og:description" content="IN THIS POST I WANT TO LOOK AT THE HISTORY OF HOMEOWNERSHIP in the United States. I&rsquo;m going to go relatively far back in time, using Census data to compare the evolution of the homeownership rate by state from 1900 through 2015. Along the way we&rsquo;ll make several different visualizations.
+Data For data we&rsquo;re going to rely on the U.S. Census Bureau. This page has a tabulation of historical homeownership rates from 1900 through 2000.">
+
 <div class="header">
   <h1>Visualizing the history of U.S. homeownership rates</h1>
   <h2></h2>
@@ -264,7 +271,7 @@ caption=&quot;@lenkiefer Source: U.S. Census Bureau\n1900-2010 Decennial Census,
 theme(plot.caption=element_text(hjust=0))+
 theme(axis.text=element_text(size=7))
 {% endhighlight</p>
-<p><img src="/img/Rfig/fig-horate-1-1.svg" alt="plot of chunk fig-horate-1"></p>
+<p><img src="http://lenkiefer.com/img/Rfig/fig-horate-1-1.svg" alt="plot of chunk fig-horate-1"></p>
 <p>This chart shows the decline in the homeownership rate since 2005 for the United States.  At 63% the level of homeownership is the lowest in several decades.  The <a href="http://www.census.gov/housing/hvs/index.html">Housing Vacancy Survey</a> has updated estimates through the second quarter of 2016 and the rate of 62.9 percent in 2016Q2 is the lowest since the start of the survey in 1965.</p>
 <p>However, the longer history that we can get from the Decennial Census shows us that the homeownership rate has been much lower before the 1960s.</p>
 <h2 id="homeownership-rates-by-state">Homeownership rates by state</h2>
@@ -286,7 +293,7 @@ caption=&quot;@lenkiefer Source: U.S. Census Bureau\n1900-2010 Decennial Census,
 theme(plot.caption=element_text(hjust=0))+
 theme(axis.text=element_text(size=7))
 {% endhighlight</p>
-<p><img src="/img/Rfig/fig-horate-2-1.svg" alt="plot of chunk fig-horate-2"></p>
+<p><img src="http://lenkiefer.com/img/Rfig/fig-horate-2-1.svg" alt="plot of chunk fig-horate-2"></p>
 <p>The chart shows that most states follow a pattern similar to the U.S., the the rate of increase and post-2005 decline varies by state.</p>
 <h3 id="dot-plot">Dot plot</h3>
 <p>An alternative to the line plot is a dot plot, which compares the level of homeownership across states at a particular point in time.  For example, the graph below compares the homeownership rate in 2015 across states:</p>
@@ -307,7 +314,7 @@ caption=&quot;@lenkiefer Source: U.S. Census Bureau\n1900-2010 Decennial Census,
 theme(plot.caption=element_text(hjust=0))+
 theme(axis.text=element_text(size=7))
 {% endhighlight</p>
-<p><img src="/img/Rfig/fig-horate-3-1.svg" alt="plot of chunk fig-horate-3"></p>
+<p><img src="http://lenkiefer.com/img/Rfig/fig-horate-3-1.svg" alt="plot of chunk fig-horate-3"></p>
 <p>The plot shows that while the U.S. homeownership rate averaged 63 percent in 2015, there&rsquo;s substantial variation across states.  California and New York, with large populations of renters and high housing costs have the homeownership rates below 54%.  Eight states (DE, IA, ME, MI, MN, NH, VT, and WV) had a homeownership rate over 70 percent in 2015.</p>
 <h2 id="animated-plots">Animated plots</h2>
 <p>We can use tweenr to create animated versions of these plots to see how homeownership rates have varied over time and across states.</p>
@@ -493,7 +500,7 @@ print(i)
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="http://lenkiefer.com/js/math-code.js"></script>
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   
 

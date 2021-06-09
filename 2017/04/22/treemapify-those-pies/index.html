@@ -23,13 +23,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
@@ -70,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -78,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -203,6 +203,12 @@
 
   <div id="main">
 
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Treemapify those pies!">
+    <meta property="og:description" content="R statistics rstats mortgage rates dataviz">
 
 <div class="header">
   <h1>Treemapify those pies!</h1>
@@ -366,7 +372,7 @@ ggplot(df5, aes(x=factor(1), y = pct, fill = type2, width = value)) +
 ## Warning: position_stack requires non-overlapping x intervals
 
 ## Warning: position_stack requires non-overlapping x intervals</code></pre>
-<p><img src="/post/2017-04-22-treemapify-those-pies_files/figure-html/4-22-2017-mypie-1.png" width="768" /></p>
+<p><img src="http://lenkiefer.com/post/2017-04-22-treemapify-those-pies_files/figure-html/4-22-2017-mypie-1.png" width="768" /></p>
 <p>I couldn’t fill in the donut holes, but this chart shows both the percent closing and the percent remaining. The radius of the pie/donut represents the absolute number of stores. As is usual with pies (see <a href="https://www.perceptualedge.com/articles/visual_business_intelligence/save_the_pies_for_dessert.pdf">this essay</a> for some discussion of the challenges with pie charts), making comparisons is difficult.</p>
 </div>
 <div id="first-remix" class="section level1">
@@ -424,7 +430,7 @@ ggplot(closing_df) +
 
 ## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
 ## font family not found in Windows font database</code></pre>
-<p><img src="/post/2017-04-22-treemapify-those-pies_files/figure-html/04-22-2017-hrbrmstr-original-1.png" width="768" /></p>
+<p><img src="http://lenkiefer.com/post/2017-04-22-treemapify-those-pies_files/figure-html/04-22-2017-hrbrmstr-original-1.png" width="768" /></p>
 <p>This is a pretty good remix, but it’s always worth considering alternatives.</p>
 <p>While the graphic does list the number of stores closing and remaining on the labels, it doesn’t give you any visual sense of the number of stores. For example, JC Penny is closing 138 stores, but it is keeping 862 stores open. American Apparel is closing all 110 stores. The 138 JC Penny stores represents smaller share of the JC Penny footprint but in absolute number is greater than the American Apparel closings.</p>
 </div>
@@ -459,7 +465,7 @@ ggplot(closing_df, aes(
   labs(title=&quot;Selected 2017 store closings (estimated)&quot;,
        subtitle=&quot;Smaller specialty chains such as Bebe and American Apparel are closing their stores,\nwhile larger chains such as J.C. Penny and Sears are scaling back their footprint.&quot;,
     caption=&quot;@lenkiefer based on https://rud.is/b/2017/04/21/shuttering-pies-with-retiring-stores/\nitself a remix of https://www.wsj.com/articles/brick-and-mortar-stores-are-shuttering-at-a-record-pace-1492818818&quot;)</code></pre>
-<p><img src="/post/2017-04-22-treemapify-those-pies_files/figure-html/04-22-2017-treemapify-1.png" width="768" /></p>
+<p><img src="http://lenkiefer.com/post/2017-04-22-treemapify-those-pies_files/figure-html/04-22-2017-treemapify-1.png" width="768" /></p>
 <div id="summary" class="section level3">
 <h3>Summary</h3>
 <p>Overall, I’m not sure the treemap is better than the original remix. The simple bar chart focuses on the reduction in stores (as a percent of total), while the treemap shows multiple dimensions and could be confusing.</p>
@@ -575,7 +581,7 @@ ggplot(closing_df, aes(
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="http://lenkiefer.com/js/math-code.js"></script>
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   
 

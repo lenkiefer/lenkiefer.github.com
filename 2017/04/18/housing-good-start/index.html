@@ -23,13 +23,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
@@ -70,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -78,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -203,6 +203,12 @@
 
   <div id="main">
 
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Housing gets off to a good start">
+    <meta property="og:description" content="R statistics rstats mortgage rates dataviz">
 
 <div class="header">
   <h1>Housing gets off to a good start</h1>
@@ -369,7 +375,7 @@ ggplot(data=dt[cat_idx==4 &amp; geo_idx==1 &amp; dt_idx==1],
   labs(y=&quot;&quot;,title=&quot;Housing Starts&quot;,x=&quot;&quot;,
        subtitle=&quot;Thousands at seasonally adjusted annual rate&quot;,
        caption=&quot;@lenkiefer Source: U.S. Census Bureau/Department of Housing and Urban Development, NBER.\nShaded regions recessions.&quot;)</code></pre>
-<p><img src="/post/2017-04-18-housing-good-start_files/figure-html/04-18-2017-plot-1-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-04-18-housing-good-start_files/figure-html/04-18-2017-plot-1-1.png" width="672" /></p>
 <p>All right, that looks pretty good, but it’s after dark in my timezone, so let’s apply our <a href="../../../../2017/04/14/after-dark">dark theme</a> (defined in the code) to the chart.</p>
 <pre class="r"><code>##################################################################################
 # Define our dark theme, called theme_dark2
@@ -486,7 +492,7 @@ ggplot(data=dt[cat_idx==4 &amp; geo_idx==1 &amp; dt_idx==1],
 
 ## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
 ## font family not found in Windows font database</code></pre>
-<p><img src="/post/2017-04-18-housing-good-start_files/figure-html/04-18-2017-plot-2-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-04-18-housing-good-start_files/figure-html/04-18-2017-plot-2-1.png" width="672" /></p>
 <p>We can see that while housing starts are trending up, they are well below hisotrical averages. Census breaks out construction activity between 1-unit properties (single family), 2 to 4 unit properties and 5+ unit properties (multifamily). Let’s see how single family and multifamily starts trends compare:</p>
 <pre class="r"><code>ggplot(data=dt[cat_idx==4 &amp; geo_idx==1 &amp; dt_idx %in% c(2,3)],
        aes(x=date,y=val))+
@@ -543,7 +549,7 @@ ggplot(data=dt[cat_idx==4 &amp; geo_idx==1 &amp; dt_idx==1],
 
 ## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
 ## font family not found in Windows font database</code></pre>
-<p><img src="/post/2017-04-18-housing-good-start_files/figure-html/04-18-2017-plot-3-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-04-18-housing-good-start_files/figure-html/04-18-2017-plot-3-1.png" width="672" /></p>
 <p>While there is a lot of noise in each series, we can see that while multifamily starts are back close to hisotrical averages, single family starts have a ways to go.</p>
 </div>
 <div id="off-to-a-good-start" class="section level1">
@@ -621,7 +627,7 @@ ggplot(data=dt[cat_idx==5 &amp; geo_idx==1 &amp;
 
 ## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
 ## font family not found in Windows font database</code></pre>
-<p><img src="/post/2017-04-18-housing-good-start_files/figure-html/04-18-2017-plot-4-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-04-18-housing-good-start_files/figure-html/04-18-2017-plot-4-1.png" width="672" /></p>
 <p>This plost shows that housing starts through the first quarter are off to their best start since 2007.</p>
 <p>How does it break out between singel family and multifamily starts?</p>
 <pre class="r"><code>ggplot(data=dt[cat_idx==5 &amp; geo_idx==1 &amp; 
@@ -688,7 +694,7 @@ ggplot(data=dt[cat_idx==5 &amp; geo_idx==1 &amp;
 
 ## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
 ## font family not found in Windows font database</code></pre>
-<p><img src="/post/2017-04-18-housing-good-start_files/figure-html/04-18-2017-plot-5-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-04-18-housing-good-start_files/figure-html/04-18-2017-plot-5-1.png" width="672" /></p>
 <p>Here we see as above, that while multifamily starts are exceeding pre-recession averages, single family starts are still lagging. However, starts are on the rise (and note that per the Census report the YTD sum is up 5.9 percent with a range of plus/minus 4.4 percent). So slowly and steadily, housing starts are rebounding.</p>
 <div id="animate-it" class="section level3">
 <h3>Animate it</h3>
@@ -849,7 +855,7 @@ saveGIF({for (i in 1:max(tf$.frame)) { #loop over frames
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="http://lenkiefer.com/js/math-code.js"></script>
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   
 

@@ -23,13 +23,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
@@ -70,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -78,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -203,6 +203,12 @@
 
   <div id="main">
 
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/charts_2019_11_02/sales_rate.png" >
+     
+    <meta property="og:title" content="Lower Mortgage Rates Bolster the Housing Market">
+    <meta property="og:description" content="How do lower interest rates impact the housing market?">
 
 <div class="header">
   <h1>Lower Mortgage Rates Bolster the Housing Market</h1>
@@ -410,7 +416,7 @@ lmdo &lt;- log(df_mdo$price) %&gt;% ts(start=1950,frequency=4) %&gt;% window(sta
 cbind(mdo=ts4[,1]-as.numeric(first(ts4[,1]))+1, hpi=ts4[,2]-as.numeric(first(ts4[,2]))+1) %&gt;% 
   autoplot() + labs(x=&quot;date&quot;,y=&quot;index, 1975Q1= 1 &quot;)</code></pre>
 <div class="figure"><span id="fig:2019-11-02-td-reg"></span>
-<img src="/post/2019-11-02-lower-mortgage-rates-bolster-the-housing-market_files/figure-html/2019-11-02-td-reg-1.png" alt="MDO and house pricess" width="672" />
+<img src="http://lenkiefer.com/post/2019-11-02-lower-mortgage-rates-bolster-the-housing-market_files/figure-html/2019-11-02-td-reg-1.png" alt="MDO and house pricess" width="672" />
 <p class="caption">
 Figure 1: MDO and house pricess
 </p>
@@ -445,7 +451,7 @@ autoplot(log_mdo) + autolayer(lmdo,color=&quot;red&quot;)+
   labs(title=&quot;Log MDO and monthly interpolation&quot;,
        caption=&quot;Interpolation based on temporal disaggration of Log MDO ~ Log House Prices&quot;)</code></pre>
 <div class="figure"><span id="fig:2019-11-02-td-reg-plot"></span>
-<img src="/post/2019-11-02-lower-mortgage-rates-bolster-the-housing-market_files/figure-html/2019-11-02-td-reg-plot-1.png" alt="Interpolating Monthly MDO" width="672" />
+<img src="http://lenkiefer.com/post/2019-11-02-lower-mortgage-rates-bolster-the-housing-market_files/figure-html/2019-11-02-td-reg-plot-1.png" alt="Interpolating Monthly MDO" width="672" />
 <p class="caption">
 Figure 2: Interpolating Monthly MDO
 </p>
@@ -463,7 +469,7 @@ g2 &lt;- autoplot(ts3[,&quot;MORTGAGE_RATE&quot;]*100)+labs(x=&quot;&quot;,y=&qu
 g3 &lt;- autoplot(ts3[,&quot;HOUST&quot;])+labs(x=&quot;&quot;,y=&quot;&quot;,title=&quot;Housing Starts (1000s, SAAR)&quot;)
 plot_grid(g1,g2,g3,ncol=1)</code></pre>
 <div class="figure"><span id="fig:2019-11-02-summary-plots"></span>
-<img src="/post/2019-11-02-lower-mortgage-rates-bolster-the-housing-market_files/figure-html/2019-11-02-summary-plots-1.png" alt="Trends in fed funds rate, mortgage rate, housing starts" width="672" />
+<img src="http://lenkiefer.com/post/2019-11-02-lower-mortgage-rates-bolster-the-housing-market_files/figure-html/2019-11-02-summary-plots-1.png" alt="Trends in fed funds rate, mortgage rate, housing starts" width="672" />
 <p class="caption">
 Figure 3: Trends in fed funds rate, mortgage rate, housing starts
 </p>
@@ -476,7 +482,7 @@ Figure 3: Trends in fed funds rate, mortgage rate, housing starts
   labs(x=&quot;change in mortgage rate&quot;,y=&quot;change in Log(Housing Starts)&quot;,
        title=&quot;Changes in mortgage rates and log(housing starts)&quot;)</code></pre>
 <div class="figure"><span id="fig:2019-11-02-scatter-plot-1"></span>
-<img src="/post/2019-11-02-lower-mortgage-rates-bolster-the-housing-market_files/figure-html/2019-11-02-scatter-plot-1-1.png" alt="When interest rates increase, housing starts fall" width="672" />
+<img src="http://lenkiefer.com/post/2019-11-02-lower-mortgage-rates-bolster-the-housing-market_files/figure-html/2019-11-02-scatter-plot-1-1.png" alt="When interest rates increase, housing starts fall" width="672" />
 <p class="caption">
 Figure 4: When interest rates increase, housing starts fall
 </p>
@@ -628,7 +634,7 @@ F Statistic
 dlog_starts=diff(log(ts3[,&quot;HOUST&quot;]))
 ccf(drate,dlog_starts,na.action=na.exclude, main=&quot;Cross Correlation Function: Change Mortgage Rate &amp; Change Log Starts&quot;)</code></pre>
 <div class="figure"><span id="fig:2019-11-02-ccf-function-1"></span>
-<img src="/post/2019-11-02-lower-mortgage-rates-bolster-the-housing-market_files/figure-html/2019-11-02-ccf-function-1-1.png" alt="Cross correlation function of changes in mortgage rates and changes in log starts" width="672" />
+<img src="http://lenkiefer.com/post/2019-11-02-lower-mortgage-rates-bolster-the-housing-market_files/figure-html/2019-11-02-ccf-function-1-1.png" alt="Cross correlation function of changes in mortgage rates and changes in log starts" width="672" />
 <p class="caption">
 Figure 5: Cross correlation function of changes in mortgage rates and changes in log starts
 </p>
@@ -739,7 +745,7 @@ irf_plot2&lt;-
 <p>Let’s examine the impulse response based on this VAR. We’ll first look a the response of log housing starts to a 1 standard deviation shock to the effective federal funds rate.</p>
 <pre class="r"><code>irf_plot1</code></pre>
 <div class="figure"><span id="fig:2019-11-02-VAR-1-fig-1"></span>
-<img src="/post/2019-11-02-lower-mortgage-rates-bolster-the-housing-market_files/figure-html/2019-11-02-VAR-1-fig-1-1.png" alt="Impulse Response of Log Starts to a Federal Funds Rate Shock: VAR" width="768" />
+<img src="http://lenkiefer.com/post/2019-11-02-lower-mortgage-rates-bolster-the-housing-market_files/figure-html/2019-11-02-VAR-1-fig-1-1.png" alt="Impulse Response of Log Starts to a Federal Funds Rate Shock: VAR" width="768" />
 <p class="caption">
 Figure 6: Impulse Response of Log Starts to a Federal Funds Rate Shock: VAR
 </p>
@@ -749,7 +755,7 @@ Figure 6: Impulse Response of Log Starts to a Federal Funds Rate Shock: VAR
 <pre class="r"><code># plot VAR response
 irf_plot2</code></pre>
 <div class="figure"><span id="fig:2019-11-02-VAR-1-fig-2"></span>
-<img src="/post/2019-11-02-lower-mortgage-rates-bolster-the-housing-market_files/figure-html/2019-11-02-VAR-1-fig-2-1.png" alt="Impulse Response of Log Starts to a 10-year Treasury shock" width="768" />
+<img src="http://lenkiefer.com/post/2019-11-02-lower-mortgage-rates-bolster-the-housing-market_files/figure-html/2019-11-02-VAR-1-fig-2-1.png" alt="Impulse Response of Log Starts to a 10-year Treasury shock" width="768" />
 <p class="caption">
 Figure 7: Impulse Response of Log Starts to a 10-year Treasury shock
 </p>
@@ -760,31 +766,31 @@ Figure 7: Impulse Response of Log Starts to a 10-year Treasury shock
 <p><summary> All VAR responses </summary></p>
 <pre class="r"><code>plot(irf1 )</code></pre>
 <div class="figure"><span id="fig:2019-11-02-var-irf-all1"></span>
-<img src="/post/2019-11-02-lower-mortgage-rates-bolster-the-housing-market_files/figure-html/2019-11-02-var-irf-all-1.png" alt="VAR impulse responses" width="672" />
+<img src="http://lenkiefer.com/post/2019-11-02-lower-mortgage-rates-bolster-the-housing-market_files/figure-html/2019-11-02-var-irf-all-1.png" alt="VAR impulse responses" width="672" />
 <p class="caption">
 Figure 8: VAR impulse responses
 </p>
 </div>
 <div class="figure"><span id="fig:2019-11-02-var-irf-all2"></span>
-<img src="/post/2019-11-02-lower-mortgage-rates-bolster-the-housing-market_files/figure-html/2019-11-02-var-irf-all-2.png" alt="VAR impulse responses" width="672" />
+<img src="http://lenkiefer.com/post/2019-11-02-lower-mortgage-rates-bolster-the-housing-market_files/figure-html/2019-11-02-var-irf-all-2.png" alt="VAR impulse responses" width="672" />
 <p class="caption">
 Figure 9: VAR impulse responses
 </p>
 </div>
 <div class="figure"><span id="fig:2019-11-02-var-irf-all3"></span>
-<img src="/post/2019-11-02-lower-mortgage-rates-bolster-the-housing-market_files/figure-html/2019-11-02-var-irf-all-3.png" alt="VAR impulse responses" width="672" />
+<img src="http://lenkiefer.com/post/2019-11-02-lower-mortgage-rates-bolster-the-housing-market_files/figure-html/2019-11-02-var-irf-all-3.png" alt="VAR impulse responses" width="672" />
 <p class="caption">
 Figure 10: VAR impulse responses
 </p>
 </div>
 <div class="figure"><span id="fig:2019-11-02-var-irf-all4"></span>
-<img src="/post/2019-11-02-lower-mortgage-rates-bolster-the-housing-market_files/figure-html/2019-11-02-var-irf-all-4.png" alt="VAR impulse responses" width="672" />
+<img src="http://lenkiefer.com/post/2019-11-02-lower-mortgage-rates-bolster-the-housing-market_files/figure-html/2019-11-02-var-irf-all-4.png" alt="VAR impulse responses" width="672" />
 <p class="caption">
 Figure 11: VAR impulse responses
 </p>
 </div>
 <div class="figure"><span id="fig:2019-11-02-var-irf-all5"></span>
-<img src="/post/2019-11-02-lower-mortgage-rates-bolster-the-housing-market_files/figure-html/2019-11-02-var-irf-all-5.png" alt="VAR impulse responses" width="672" />
+<img src="http://lenkiefer.com/post/2019-11-02-lower-mortgage-rates-bolster-the-housing-market_files/figure-html/2019-11-02-var-irf-all-5.png" alt="VAR impulse responses" width="672" />
 <p class="caption">
 Figure 12: VAR impulse responses
 </p>
@@ -871,7 +877,7 @@ g_lpirf2 &lt;-
 </details>
 <pre class="r"><code>g_lpirf</code></pre>
 <div class="figure"><span id="fig:2019-11-02-lpirf-plot"></span>
-<img src="/post/2019-11-02-lower-mortgage-rates-bolster-the-housing-market_files/figure-html/2019-11-02-lpirf-plot-1.png" alt="Local Projections: Response of log starts to fed funds shock" width="672" />
+<img src="http://lenkiefer.com/post/2019-11-02-lower-mortgage-rates-bolster-the-housing-market_files/figure-html/2019-11-02-lpirf-plot-1.png" alt="Local Projections: Response of log starts to fed funds shock" width="672" />
 <p class="caption">
 Figure 13: Local Projections: Response of log starts to fed funds shock
 </p>
@@ -879,7 +885,7 @@ Figure 13: Local Projections: Response of log starts to fed funds shock
 <p>The local projections impulse response function for housing starts to a fed funds shock looks similar to the one we estimated with the VAR. In this case housing starts decline about 4 percent after a year and a half. Ater 4 years the response returns to zero.</p>
 <pre class="r"><code>g_lpirf2</code></pre>
 <div class="figure"><span id="fig:2019-11-02-lpirf-plot-2"></span>
-<img src="/post/2019-11-02-lower-mortgage-rates-bolster-the-housing-market_files/figure-html/2019-11-02-lpirf-plot-2-1.png" alt="Local Projections: Response of log starts to 10-year Treasury shock" width="672" />
+<img src="http://lenkiefer.com/post/2019-11-02-lower-mortgage-rates-bolster-the-housing-market_files/figure-html/2019-11-02-lpirf-plot-2-1.png" alt="Local Projections: Response of log starts to 10-year Treasury shock" width="672" />
 <p class="caption">
 Figure 14: Local Projections: Response of log starts to 10-year Treasury shock
 </p>
@@ -956,43 +962,43 @@ var6 &lt;- VAR(ts6, p=12,type=&quot;const&quot;)
 irf6 &lt;- irf(var6,n.ahead=60)
 plot(irf6)</code></pre>
 <div class="figure"><span id="fig:2019-11-02-var-more1"></span>
-<img src="/post/2019-11-02-lower-mortgage-rates-bolster-the-housing-market_files/figure-html/2019-11-02-var-more-1.png" alt="VAR results v2" width="672" />
+<img src="http://lenkiefer.com/post/2019-11-02-lower-mortgage-rates-bolster-the-housing-market_files/figure-html/2019-11-02-var-more-1.png" alt="VAR results v2" width="672" />
 <p class="caption">
 Figure 15: VAR results v2
 </p>
 </div>
 <div class="figure"><span id="fig:2019-11-02-var-more2"></span>
-<img src="/post/2019-11-02-lower-mortgage-rates-bolster-the-housing-market_files/figure-html/2019-11-02-var-more-2.png" alt="VAR results v2" width="672" />
+<img src="http://lenkiefer.com/post/2019-11-02-lower-mortgage-rates-bolster-the-housing-market_files/figure-html/2019-11-02-var-more-2.png" alt="VAR results v2" width="672" />
 <p class="caption">
 Figure 16: VAR results v2
 </p>
 </div>
 <div class="figure"><span id="fig:2019-11-02-var-more3"></span>
-<img src="/post/2019-11-02-lower-mortgage-rates-bolster-the-housing-market_files/figure-html/2019-11-02-var-more-3.png" alt="VAR results v2" width="672" />
+<img src="http://lenkiefer.com/post/2019-11-02-lower-mortgage-rates-bolster-the-housing-market_files/figure-html/2019-11-02-var-more-3.png" alt="VAR results v2" width="672" />
 <p class="caption">
 Figure 17: VAR results v2
 </p>
 </div>
 <div class="figure"><span id="fig:2019-11-02-var-more4"></span>
-<img src="/post/2019-11-02-lower-mortgage-rates-bolster-the-housing-market_files/figure-html/2019-11-02-var-more-4.png" alt="VAR results v2" width="672" />
+<img src="http://lenkiefer.com/post/2019-11-02-lower-mortgage-rates-bolster-the-housing-market_files/figure-html/2019-11-02-var-more-4.png" alt="VAR results v2" width="672" />
 <p class="caption">
 Figure 18: VAR results v2
 </p>
 </div>
 <div class="figure"><span id="fig:2019-11-02-var-more5"></span>
-<img src="/post/2019-11-02-lower-mortgage-rates-bolster-the-housing-market_files/figure-html/2019-11-02-var-more-5.png" alt="VAR results v2" width="672" />
+<img src="http://lenkiefer.com/post/2019-11-02-lower-mortgage-rates-bolster-the-housing-market_files/figure-html/2019-11-02-var-more-5.png" alt="VAR results v2" width="672" />
 <p class="caption">
 Figure 19: VAR results v2
 </p>
 </div>
 <div class="figure"><span id="fig:2019-11-02-var-more6"></span>
-<img src="/post/2019-11-02-lower-mortgage-rates-bolster-the-housing-market_files/figure-html/2019-11-02-var-more-6.png" alt="VAR results v2" width="672" />
+<img src="http://lenkiefer.com/post/2019-11-02-lower-mortgage-rates-bolster-the-housing-market_files/figure-html/2019-11-02-var-more-6.png" alt="VAR results v2" width="672" />
 <p class="caption">
 Figure 20: VAR results v2
 </p>
 </div>
 <div class="figure"><span id="fig:2019-11-02-var-more7"></span>
-<img src="/post/2019-11-02-lower-mortgage-rates-bolster-the-housing-market_files/figure-html/2019-11-02-var-more-7.png" alt="VAR results v2" width="672" />
+<img src="http://lenkiefer.com/post/2019-11-02-lower-mortgage-rates-bolster-the-housing-market_files/figure-html/2019-11-02-var-more-7.png" alt="VAR results v2" width="672" />
 <p class="caption">
 Figure 21: VAR results v2
 </p>
@@ -1142,7 +1148,7 @@ irf_plot7&lt;-
 <p>First, let’s look at the response of housing starts to a federal funds rate shock:</p>
 <pre class="r"><code>irf_plot3</code></pre>
 <div class="figure"><span id="fig:2019-11-02-var2-starts-to-ff"></span>
-<img src="/post/2019-11-02-lower-mortgage-rates-bolster-the-housing-market_files/figure-html/2019-11-02-var2-starts-to-ff-1.png" alt="Response of log starts to fed funds rate, 7 variable VAR" width="672" />
+<img src="http://lenkiefer.com/post/2019-11-02-lower-mortgage-rates-bolster-the-housing-market_files/figure-html/2019-11-02-var2-starts-to-ff-1.png" alt="Response of log starts to fed funds rate, 7 variable VAR" width="672" />
 <p class="caption">
 Figure 22: Response of log starts to fed funds rate, 7 variable VAR
 </p>
@@ -1151,7 +1157,7 @@ Figure 22: Response of log starts to fed funds rate, 7 variable VAR
 <p>It’s also interesting to consider the response of other housing variables. Let’s next look at real house prices.</p>
 <pre class="r"><code>irf_plot4</code></pre>
 <div class="figure"><span id="fig:2019-11-02-var2-rhpi-to-ff"></span>
-<img src="/post/2019-11-02-lower-mortgage-rates-bolster-the-housing-market_files/figure-html/2019-11-02-var2-rhpi-to-ff-1.png" alt="Response of log real house price index to fed funds rate, 7 variable VAR" width="672" />
+<img src="http://lenkiefer.com/post/2019-11-02-lower-mortgage-rates-bolster-the-housing-market_files/figure-html/2019-11-02-var2-rhpi-to-ff-1.png" alt="Response of log real house price index to fed funds rate, 7 variable VAR" width="672" />
 <p class="caption">
 Figure 23: Response of log real house price index to fed funds rate, 7 variable VAR
 </p>
@@ -1160,7 +1166,7 @@ Figure 23: Response of log real house price index to fed funds rate, 7 variable 
 <p>How about mortgage debt?</p>
 <pre class="r"><code>irf_plot5</code></pre>
 <div class="figure"><span id="fig:2019-11-02-var2-mdo-to-ff"></span>
-<img src="/post/2019-11-02-lower-mortgage-rates-bolster-the-housing-market_files/figure-html/2019-11-02-var2-mdo-to-ff-1.png" alt="Response of log mortgage debt outstanding to fed funds rate, 7 variable VAR" width="672" />
+<img src="http://lenkiefer.com/post/2019-11-02-lower-mortgage-rates-bolster-the-housing-market_files/figure-html/2019-11-02-var2-mdo-to-ff-1.png" alt="Response of log mortgage debt outstanding to fed funds rate, 7 variable VAR" width="672" />
 <p class="caption">
 Figure 24: Response of log mortgage debt outstanding to fed funds rate, 7 variable VAR
 </p>
@@ -1170,7 +1176,7 @@ Figure 24: Response of log mortgage debt outstanding to fed funds rate, 7 variab
 <p>Let’s see how real house prices respond to an investment shock (housing starts).</p>
 <pre class="r"><code>irf_plot6</code></pre>
 <div class="figure"><span id="fig:2019-11-02-var2-rhpi-to-starts"></span>
-<img src="/post/2019-11-02-lower-mortgage-rates-bolster-the-housing-market_files/figure-html/2019-11-02-var2-rhpi-to-starts-1.png" alt="Reponse of log real house prices to log housing starts, 7 variable VAR" width="672" />
+<img src="http://lenkiefer.com/post/2019-11-02-lower-mortgage-rates-bolster-the-housing-market_files/figure-html/2019-11-02-var2-rhpi-to-starts-1.png" alt="Reponse of log real house prices to log housing starts, 7 variable VAR" width="672" />
 <p class="caption">
 Figure 25: Reponse of log real house prices to log housing starts, 7 variable VAR
 </p>
@@ -1179,7 +1185,7 @@ Figure 25: Reponse of log real house prices to log housing starts, 7 variable VA
 <p>While real house prices are not responsive to investment, we can see how investment responds to prices in the next plot.</p>
 <pre class="r"><code>irf_plot7</code></pre>
 <div class="figure"><span id="fig:2019-11-02-var2-starts-to-rhpi"></span>
-<img src="/post/2019-11-02-lower-mortgage-rates-bolster-the-housing-market_files/figure-html/2019-11-02-var2-starts-to-rhpi-1.png" alt="Response of log housing starts to log real house prices, 7 variable VAR" width="672" />
+<img src="http://lenkiefer.com/post/2019-11-02-lower-mortgage-rates-bolster-the-housing-market_files/figure-html/2019-11-02-var2-starts-to-rhpi-1.png" alt="Response of log housing starts to log real house prices, 7 variable VAR" width="672" />
 <p class="caption">
 Figure 26: Response of log housing starts to log real house prices, 7 variable VAR
 </p>
@@ -1315,7 +1321,7 @@ Figure 26: Response of log housing starts to log real house prices, 7 variable V
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="http://lenkiefer.com/js/math-code.js"></script>
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   
 

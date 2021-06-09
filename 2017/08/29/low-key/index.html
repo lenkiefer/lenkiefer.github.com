@@ -23,13 +23,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
@@ -70,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -78,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -203,6 +203,12 @@
 
   <div id="main">
 
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Low-key dataviz">
+    <meta property="og:description" content="R statistics dataviz housing mortgage data">
 
 <div class="header">
   <h1>Low-key dataviz</h1>
@@ -330,7 +336,7 @@ df.us&lt;-df %&gt;% select(&quot;United States seasonally adjusted&quot;,date) %
     geom_hline(yintercept=tail(df.us,1)$hpa,color=&quot;red&quot;,linetype=2)+
     geom_hline(yintercept=0,color=&quot;black&quot;,linetype=2)
 plot.hpa</code></pre>
-<p><img src="/post/2017-08-29-low-key_files/figure-html/08-29-2017-simple-1-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-08-29-low-key_files/figure-html/08-29-2017-simple-1-1.png" width="672" /></p>
 <p>Now let’s make a similar plot using base R. This will require us to add elements one at a time.</p>
 <pre class="r"><code># subset data
 df.plot&lt;-filter(df.us, year(date)&gt;1999)
@@ -361,7 +367,7 @@ abline(h=0,lty=2,col=&quot;gray&quot;)
 title(main=&quot;U.S. House Price Trends&quot;,
       sub=&quot;@lenkiefer Source: Freddie Mac House Price Index (SA)\n&quot;, adj=0)
 mtext(&quot;12-month percent change in house prices&quot;,adj=0)</code></pre>
-<p><img src="/post/2017-08-29-low-key_files/figure-html/08-29-2017-simple-2-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-08-29-low-key_files/figure-html/08-29-2017-simple-2-1.png" width="672" /></p>
 <p>We can create a function to filter states and plot individual ones. Here we look at California and Texas.</p>
 <pre class="r"><code>#####################################################################################
 ## Base R function for line plot ##
@@ -390,9 +396,9 @@ title(main=paste(s,&quot;House Price Trends&quot;),
 mtext(&quot;12-month percent change in house prices&quot;,adj=0)
 }
 myplot(s=&quot;CA&quot;)</code></pre>
-<p><img src="/post/2017-08-29-low-key_files/figure-html/08-29-2017-simple-3-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-08-29-low-key_files/figure-html/08-29-2017-simple-3-1.png" width="672" /></p>
 <pre class="r"><code>myplot(s=&quot;TX&quot;)</code></pre>
-<p><img src="/post/2017-08-29-low-key_files/figure-html/08-29-2017-simple-3-2.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-08-29-low-key_files/figure-html/08-29-2017-simple-3-2.png" width="672" /></p>
 <p>We could also animate it.</p>
 <pre class="r"><code>myplot2&lt;- function (dmax=dlist[1],s=&quot;CA&quot;, ymin=1999){
 
@@ -490,7 +496,7 @@ myplot3(s=&quot;OH&quot;)
 myplot3(s=&quot;WA&quot;)
 title(&quot;State house price trends\n@lenkiefer Source: Freddie Mac House Price Index&quot;,
       cex=3,outer=T)</code></pre>
-<p><img src="/post/2017-08-29-low-key_files/figure-html/08-29-2017-simple-5-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-08-29-low-key_files/figure-html/08-29-2017-simple-5-1.png" width="672" /></p>
 <div id="low-key-dataviz" class="section level1">
 <h1>Low-key dataviz</h1>
 <p>It turns out creating these visualizations wasn’t as low-key as I originally thought. I had forgotten most of my base R graphing syntax so I had to look it back up. Fortunately the documentation is pretty good and I could remember the basics pretty quickly (<a href="http://www.statmethods.net/index.html">Quick R</a> was helpful here).</p>
@@ -608,7 +614,7 @@ title(&quot;State house price trends\n@lenkiefer Source: Freddie Mac House Price
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="http://lenkiefer.com/js/math-code.js"></script>
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   
 

@@ -23,13 +23,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
@@ -70,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -78,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -203,6 +203,12 @@
 
   <div id="main">
 
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Adding an animation progress bar">
+    <meta property="og:description" content="R statistics dataviz housing mortgage data">
 
 <div class="header">
   <h1>Adding an animation progress bar</h1>
@@ -317,7 +323,7 @@ ggplot(data=filter(df,year(date)&gt;=2016), aes(x=date, y=MORTGAGE30US))+
           plot.caption=element_text(hjust=0))</code></pre>
 <pre><code>## Warning: Removed 4 rows containing missing values (geom_path).</code></pre>
 <pre><code>## Warning: Removed 1 rows containing missing values (geom_point).</code></pre>
-<p><img src="/post/2017-08-10-animation-progress_files/figure-html/08-10-2017-setup-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-08-10-animation-progress_files/figure-html/08-10-2017-setup-1.png" width="672" /></p>
 <p>Now, let’s build a progress bar indicator and put it below the plot.</p>
 <pre class="r"><code>dlist&lt;-unique(filter(df,year(date)&gt;=2016)$date)
 N&lt;-length(dlist)
@@ -336,7 +342,7 @@ g.progress&lt;- function(i=10,maxi=N){
 }</code></pre>
 <p>Test it out:</p>
 <pre class="r"><code>g.progress(10)</code></pre>
-<p><img src="/post/2017-08-10-animation-progress_files/figure-html/08-10-2017-plot-2-1.png" width="480" /></p>
+<p><img src="http://lenkiefer.com/post/2017-08-10-animation-progress_files/figure-html/08-10-2017-plot-2-1.png" width="480" /></p>
 <p>Now we can use cowplot to combine our progress bar with our original plot.</p>
 <p>First, let’s make a function that returns our line plot given an index number.</p>
 <pre class="r"><code># function for line plot:
@@ -357,11 +363,11 @@ g.plot&lt;- function(i=10,d.list=dlist){
           plot.caption=element_text(hjust=0))
   }
 g.plot(10)</code></pre>
-<p><img src="/post/2017-08-10-animation-progress_files/figure-html/08-10-2017-plot-3-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-08-10-animation-progress_files/figure-html/08-10-2017-plot-3-1.png" width="672" /></p>
 <p>Now combine via cowplot’s <code>plot_grid()</code> function:</p>
 <pre class="r"><code>#use plot_grid to arrange the layout 5 to 1 ratio seems to work okay
 plot_grid(g.plot(10),g.progress(10), rel_heights=c(5,1),ncol=1)</code></pre>
-<p><img src="/post/2017-08-10-animation-progress_files/figure-html/08-10-2017-plot-4-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-08-10-animation-progress_files/figure-html/08-10-2017-plot-4-1.png" width="672" /></p>
 <p>We can create an animation by cycling through our data and saving the images and combining them into a <em>gif</em>. Let’s see if I can use the <a href="http://purrr.tidyverse.org/">purrr</a> tricks to save the images. I’m going to save my images into a folder called bar. Then I’ll use <a href="https://www.imagemagick.org/script/index.php">Imagemagick</a> to create the gif.</p>
 <pre class="r"><code># Function for plots:
 plotf&lt;- function(i=10){plot_grid(g.plot(i),g.progress(i), rel_heights=c(5,1),ncol=1)}
@@ -496,7 +502,7 @@ map(1:N, plot.save)</code></pre>
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="http://lenkiefer.com/js/math-code.js"></script>
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   
 

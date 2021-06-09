@@ -23,13 +23,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
@@ -70,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -78,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -203,6 +203,12 @@
 
   <div id="main">
 
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com//img/charts_dec_19_2018/Tbond.png" >
+     
+    <meta property="og:title" content="Forecasting is still hard">
+    <meta property="og:description" content="Checking to see if forecasting is still hard.">
 
 <div class="header">
   <h1>Forecasting is still hard</h1>
@@ -465,7 +471,7 @@ g1 &lt;-
 <p></details></p>
 <p>The code above allows us to make the following annotated plot of forecasts for housing starts.</p>
 <pre class="r"><code>g1</code></pre>
-<p><img src="/post/2018-12-19-forecasting-is-still-hard_files/figure-html/12-19-2018-plot-2-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2018-12-19-forecasting-is-still-hard_files/figure-html/12-19-2018-plot-2-1.png" width="672" /></p>
 <p>The black dots represent what each forecaster in the panel believes housing starts will be four quarters in the future. A dot at 2017:Q4 corresponds to what an individual forecaster though housing starts would be in 2017:Q4 as of 2016Q4. The boxes summarize the distribution of black dots, with the box capturing the 25th to 75th percentile of forecasts and the line indicating the median forecast.</p>
 <p>The red line is the median estimate from the panel the quarter after the data released. Since the data is available to forecasters at that time the red line should match the historical vintage estimate. Again using our example of 2017:Q2: the red line at 2017:Q2 represents the median estimate for 2017:Q2 housing starts as of 2017:Q3.</p>
 <p>By comparing the red line to the black line, we can get a sense of what forecaster expected to see for housing starts (the dots/box) and then what they subsequently saw. In the early to mid- 2000s the red line was above the dots, meaning that forecasts were on average too low. During the Great Recession housing starts fell more than expected (the red line is below most of the dots) and the recovery was slower than expected.</p>
@@ -520,11 +526,11 @@ g3 &lt;-
   )</code></pre>
 <p></details></p>
 <pre class="r"><code>g2</code></pre>
-<p><img src="/post/2018-12-19-forecasting-is-still-hard_files/figure-html/12-19-2018-plot-3-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2018-12-19-forecasting-is-still-hard_files/figure-html/12-19-2018-plot-3-1.png" width="672" /></p>
 <p>We can see that from the early- to mid-2000s forecasters were expecting housing starts to decrease. Then during the Great Recession and the collapse of housing starts, forecasters tended to overestimate 4-quarter ahead starts. Once the recover began, forecasters also tended to overestimate starts. Early in the recovery, the tentacles have a greater slope, indicating forecasters anticipated a strong recovery. Over time, the slope of the forecast line started to flatten and line up with the data. In recent quarters forecasts still call for growth in starts, but at a slower pace, consistent with observations from <a href="../../../../2018/12/12/vulnerable-housing/">Vulnerable Housing</a>.</p>
 <p>How about forecasts of some other variables? Let’s look at forecasts of the 10-year U.S. Treasury Yield.</p>
 <pre class="r"><code>g3</code></pre>
-<p><img src="/post/2018-12-19-forecasting-is-still-hard_files/figure-html/12-19-2018-plot-3-TBOND-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2018-12-19-forecasting-is-still-hard_files/figure-html/12-19-2018-plot-3-TBOND-1.png" width="672" /></p>
 <p>Here the story is pretty clear. For almost 20 years forecasters have been calling for long-term interest rates to rise and for the most part they have fallen. The forecast lines pretty much all for interest rates to increase by about one percentage point four quarters for now, but that has rarely been the case. Though perhaps this time is different. The forecasts from 2016 forward have been pretty accurate. Luck, or maybe they are on to something?</p>
 <p>The SPF has multiple series. We can build a panel plot to compare forecasts for several variables:</p>
 <p><details> <Summary> R code for panel plots </Summary></p>
@@ -562,11 +568,11 @@ g_panel_line &lt;-
 <p>Forecasters have done a bit better forecasting short-term rates (3-month Treasury) and the unemployment rate.</p>
 <p></details></p>
 <pre class="r"><code>g_panel_box</code></pre>
-<p><img src="/post/2018-12-19-forecasting-is-still-hard_files/figure-html/12-19-2018-panel-plots-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2018-12-19-forecasting-is-still-hard_files/figure-html/12-19-2018-panel-plots-1.png" width="672" /></p>
 <pre class="r"><code>g_panel_line</code></pre>
-<p><img src="/post/2018-12-19-forecasting-is-still-hard_files/figure-html/12-19-2018-panel-plots-2.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2018-12-19-forecasting-is-still-hard_files/figure-html/12-19-2018-panel-plots-2.png" width="672" /></p>
 <p>Let’s take a closer look at the 3-month Treasury:</p>
-<p><img src="/post/2018-12-19-forecasting-is-still-hard_files/figure-html/12-19-2018-3-month-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2018-12-19-forecasting-is-still-hard_files/figure-html/12-19-2018-3-month-1.png" width="672" /></p>
 <p>The 3-month Treasury follows the Federal Funds rate closely. As the Fed held short term rates near zero for many year, forecasting short-term rates was relatively easy. In recent years, as the Fed has started to gradually tighten forecast dispersion has increased. In 2015 year-ahead forecasts were too high, but in recent years the year-ahead forecasts have been a bit too low. Where are rates headed in 2019? Forecasts are for continued increases though the dispersion across forecasts has widened a bit.</p>
 </div>
 <div id="animation" class="section level1">
@@ -610,7 +616,7 @@ f.plot3(N, s = &quot;TBOND&quot;)</code></pre>
 <pre><code>## Warning: Removed 1 rows containing missing values (geom_path).
 
 ## Warning: Removed 1 rows containing missing values (geom_path).</code></pre>
-<p><img src="/post/2018-12-19-forecasting-is-still-hard_files/figure-html/12-19-2018-gif-1-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2018-12-19-forecasting-is-still-hard_files/figure-html/12-19-2018-gif-1-1.png" width="672" /></p>
 <p>Loop to make the gif:</p>
 <pre class="r"><code>t1 &lt;- Sys.time()
 gif_file &lt;- save_gif({
@@ -745,7 +751,7 @@ utils::browseURL(gif_file)</code></pre>
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="http://lenkiefer.com/js/math-code.js"></script>
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   
 

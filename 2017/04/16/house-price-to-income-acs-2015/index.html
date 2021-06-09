@@ -23,13 +23,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
@@ -70,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -78,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -203,6 +203,12 @@
 
   <div id="main">
 
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Of kernels and beeswarms: Comparing the distribution of house values to household income">
+    <meta property="og:description" content="R statistics dataviz housing mortgage data">
 
 <div class="header">
   <h1>Of kernels and beeswarms: Comparing the distribution of house values to household income</h1>
@@ -642,7 +648,7 @@ ggplot(data=dt.samp,
 <pre><code>## Warning: Removed 97 rows containing missing values (position_quasirandom).</code></pre>
 <pre><code>## Warning: Removed 94 rows containing missing values (position_quasirandom).</code></pre>
 <pre><code>## Warning: Removed 7 rows containing missing values (geom_point).</code></pre>
-<p><img src="/post/2017-04-16-house-price-to-income-acs-2015_files/figure-html/04-16-2017-swarm-1-1.png" width="864" /></p>
+<p><img src="http://lenkiefer.com/post/2017-04-16-house-price-to-income-acs-2015_files/figure-html/04-16-2017-swarm-1-1.png" width="864" /></p>
 <p>We see quite a bit of variation across metro areas. But how does the distribution of house values compare to the distribution of incomes? Let’s look at Washington D.C. and plot estimates of homeowner household income versus the value of those homeowner’s homes. <strong>Note, we’ve already subsetted on homeowner households, so this metric is different from a more commonly house value to income ratio that uses all households. We are excluding renters from this analysis</strong></p>
 <pre class="r"><code>  ggplot(data=dt.x[year==2015 &amp; met2013==47900,], aes(valueh,weight=hhwt))+
   geom_density(alpha=0.5,aes(fill=&quot;House Value&quot;))+
@@ -666,7 +672,7 @@ ggplot(data=dt.samp,
 <pre><code>## Warning: Removed 261 rows containing non-finite values (stat_density).</code></pre>
 <pre><code>## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
 ## = kernel, : sum(weights) != 1 -- will not get true density</code></pre>
-<p><img src="/post/2017-04-16-house-price-to-income-acs-2015_files/figure-html/04-16-2017-dens-1-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-04-16-house-price-to-income-acs-2015_files/figure-html/04-16-2017-dens-1-1.png" width="672" /></p>
 <p>And we can construct a small multiple:</p>
 <pre class="r"><code>  ggplot(data=dt.x[year==2015 &amp; met2013&gt;=4900,], aes(valueh,weight=hhwt))+
   geom_density(alpha=0.5,aes(fill=&quot;House Value&quot;))+
@@ -805,7 +811,7 @@ ggplot(data=dt.samp,
 
 ## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
 ## = kernel, : sum(weights) != 1 -- will not get true density</code></pre>
-<p><img src="/post/2017-04-16-house-price-to-income-acs-2015_files/figure-html/04-16-2017-dens-2-1.png" width="864" /></p>
+<p><img src="http://lenkiefer.com/post/2017-04-16-house-price-to-income-acs-2015_files/figure-html/04-16-2017-dens-2-1.png" width="864" /></p>
 <p>But how does the income of each homeowner compare to the value of their home? Let’s take each homeowner in our sample and construct the ratio of their house value to their income.</p>
 <pre class="r"><code>dt.x&lt;-dt.x[,pti:=valueh/hhincome]  #price to income ratio</code></pre>
 <p>Now we can plot the distribution of this ratio for Washington D.C.:</p>
@@ -826,7 +832,7 @@ ggplot(data=dt.samp,
 <pre><code>## Warning: Removed 600 rows containing non-finite values (stat_density).</code></pre>
 <pre><code>## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
 ## = kernel, : sum(weights) != 1 -- will not get true density</code></pre>
-<p><img src="/post/2017-04-16-house-price-to-income-acs-2015_files/figure-html/04-16-2017-dens-3-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-04-16-house-price-to-income-acs-2015_files/figure-html/04-16-2017-dens-3-1.png" width="672" /></p>
 <p>The average ratio is about 4 in Washington D.C., but it varies a lot by metro area. Let’s create another small multiple.</p>
 <pre class="r"><code>  ggplot(data=dt.x[year==2015 &amp; met2013&gt;=4900,], aes(pti,weight=hhwt))+
   geom_density(alpha=0.5,aes(fill=&quot;House value to income ratio&quot;))+
@@ -903,7 +909,7 @@ ggplot(data=dt.samp,
 
 ## Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel
 ## = kernel, : sum(weights) != 1 -- will not get true density</code></pre>
-<p><img src="/post/2017-04-16-house-price-to-income-acs-2015_files/figure-html/04-16-2017-dens-4-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-04-16-house-price-to-income-acs-2015_files/figure-html/04-16-2017-dens-4-1.png" width="672" /></p>
 <p>Let’s compute the weighted average ratio (excluding any values less than 0 or greater than 20) by metro area in 2010 and 2015:</p>
 <pre class="r"><code>dt.wsum&lt;-dt.x[pti&gt;0 &amp; pti&lt;20,list(pti.wm=weighted.mean(pti,hhwt,na.rm=T)),by=c(&quot;year&quot;,&quot;cbsa.name&quot;)]
 
@@ -922,7 +928,7 @@ ggplot(data=dt.wsum[year==2015,],
        y=&quot;Metro&quot;,
        title=&quot;Ratio of house value to homeowner income distribution by metro in 2015&quot;,
        caption=&quot;@lenkiefer Source: Census 1-year American Community Survey (2015),\nIPUMS-USA, University of Minnesota, www.ipums.org.&quot;)</code></pre>
-<p><img src="/post/2017-04-16-house-price-to-income-acs-2015_files/figure-html/04-16-2017-ratio-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-04-16-house-price-to-income-acs-2015_files/figure-html/04-16-2017-ratio-1.png" width="672" /></p>
 <p>This plot makes clear that there is a pretty wide variation in the average house value to household income ratio. We can look at the full distributions through an animated gif (using our usual <a href="../../../../2016/12/19/more-tweenr-housing">tweenr</a> approach).</p>
 <pre class="r"><code>library(tweenr)
 library(animation)
@@ -1092,7 +1098,7 @@ saveGIF({for (i in 1:max(tf$.frame)) { #loop over frames
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="http://lenkiefer.com/js/math-code.js"></script>
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   
 

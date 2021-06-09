@@ -23,13 +23,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
@@ -70,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -78,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -204,6 +204,12 @@
   <div id="main">
 
 
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/charts_2019_10_10/pmms30_2019_10_10.png" >
+     
+    <meta property="og:title" content="Visualizing consumer price inflation and mortgage rates">
+    <meta property="og:description" content="R code for some popular charts">
+
 <div class="header">
   <h1>Visualizing consumer price inflation and mortgage rates</h1>
   <h2>R code for some popular charts</h2>
@@ -293,7 +299,7 @@ dt&lt;-
        y=&quot;&quot;)+
   theme(plot.title=element_text(face=&quot;bold&quot;),
         plot.caption=element_text(hjust=0))</code></pre>
-<p><img src="/post/2019-10-10-visualizing-consumer-price-inflation-and-mortgage-rates_files/figure-html/2019-10-10-plot1-static-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2019-10-10-visualizing-consumer-price-inflation-and-mortgage-rates_files/figure-html/2019-10-10-plot1-static-1.png" width="672" /></p>
 <p>Make an animated plot using gganimate and transition_reveal.</p>
 <pre class="r"><code>a &lt;- 
 ggplot(data=dt,aes(x=date,y=y,color=item_code,label=item_name))+
@@ -395,7 +401,7 @@ g.line&lt;-
   scale_fill_manual(values=cc)
 
 cowplot::plot_grid(g.line,g.dens.plain,ncol=1,rel_heights=c(3,2))</code></pre>
-<p><img src="/post/2019-10-10-visualizing-consumer-price-inflation-and-mortgage-rates_files/figure-html/2019-10-10-plot-2-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2019-10-10-visualizing-consumer-price-inflation-and-mortgage-rates_files/figure-html/2019-10-10-plot-2-1.png" width="672" /></p>
 </div>
 
   
@@ -505,7 +511,7 @@ cowplot::plot_grid(g.line,g.dens.plain,ncol=1,rel_heights=c(3,2))</code></pre>
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="http://lenkiefer.com/js/math-code.js"></script>
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   
 

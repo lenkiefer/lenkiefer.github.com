@@ -23,13 +23,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
@@ -70,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -78,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -203,6 +203,12 @@
 
   <div id="main">
 
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Visualizing recent trends in consumer prices">
+    <meta property="og:description" content="Charts and graphs exploring consumer price trends">
 
 <div class="header">
   <h1>Visualizing recent trends in consumer prices</h1>
@@ -439,7 +445,7 @@ dd&lt;-unique(cpi6$date)  #list of dates since January 2000</code></pre>
     theme(plot.title=element_text(size=18))+
     theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
     theme(plot.margin=unit(c(0.25,0.25,0.25,0.25),&quot;cm&quot;))</code></pre>
-<p><img src="/post/2016-11-21-consumer-price-viz_files/figure-html/fig-cpi-viz-nov16-1-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2016-11-21-consumer-price-viz_files/figure-html/fig-cpi-viz-nov16-1-1.png" width="672" /></p>
 <p>We can also animate this chart:</p>
 <p><img src="{{ site.url }}/img/charts_nov_21_2016/cpi_11_21_all_2016.gif" alt="cpi gif 2"/></p>
 <p>Code for animation:</p>
@@ -493,7 +499,7 @@ ggplot(data=cpi6n[date&lt;=dd[i] &amp; !(item.name %in% c(&quot;Transportation&q
   theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
   theme(plot.margin=unit(c(0.25,0.25,0.25,0.25),&quot;cm&quot;))+facet_wrap(~item.name,ncol=2)</code></pre>
 <pre><code>## Warning: Removed 96 rows containing missing values (position_stack).</code></pre>
-<p><img src="/post/2016-11-21-consumer-price-viz_files/figure-html/fig-cpi-viz-nov16-2-1.png" width="720" /></p>
+<p><img src="http://lenkiefer.com/post/2016-11-21-consumer-price-viz_files/figure-html/fig-cpi-viz-nov16-2-1.png" width="720" /></p>
 <div id="animated-version-using-tweenr" class="section level3">
 <h3>Animated version using tweenr</h3>
 <p>We can also use tweenr to generate a smooth animation for the plot.</p>
@@ -566,7 +572,7 @@ ggplot(data=cpi6n[date==dd[i] &amp; !(item.name %in% c(&quot;Transportation&quot
 <pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
 <pre><code>## Warning: Removed 1 rows containing missing values (geom_text).</code></pre>
 <pre><code>## Warning: Removed 1 rows containing missing values (geom_point).</code></pre>
-<p><img src="/post/2016-11-21-consumer-price-viz_files/figure-html/fig-cpi-viz-nov16-3-1.png" width="720" /></p>
+<p><img src="http://lenkiefer.com/post/2016-11-21-consumer-price-viz_files/figure-html/fig-cpi-viz-nov16-3-1.png" width="720" /></p>
 <p>And of course, we can make the lollipop dance:</p>
 <pre class="r"><code>cpi7n&lt;-cpi6n[ !(item.name %in% c(&quot;Transportation&quot;,&quot;Services&quot;,&quot;Other goods and services&quot;))]
 cpi7n$item.namef&lt;-as.factor(cpi7n$item.name)
@@ -715,7 +721,7 @@ saveGIF({for (i in 1:max(tf3$.frame)) {
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="http://lenkiefer.com/js/math-code.js"></script>
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   
 

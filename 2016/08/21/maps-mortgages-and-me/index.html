@@ -23,13 +23,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
@@ -70,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -78,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -203,6 +203,14 @@
 
   <div id="main">
 
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Maps, mortgages and me">
+    <meta property="og:description" content="IN THIS POST I WANT TO DOCUMENT some R code I&rsquo;ve recently been working on combining maps and distribution plots. As I discussed earlier lots of interesting data will be released in the fall and I want to be ready for it.
+Some of these snippets can be recycled when the new data is available.
+Maps One area of data visualization with R I haven&rsquo;t explored much is mapping. Part of this reason is because I&rsquo;ve had other tools to use, but usually it&rsquo;s because I&rsquo;m in a hurry.">
 
 <div class="header">
   <h1>Maps, mortgages and me</h1>
@@ -328,7 +336,7 @@ geom_map(data = smap, map = smap,
 aes(x = long, y = lat, map_id = id),
 color = &ldquo;#2b2b2b&rdquo;, size = 0.05, fill = NA) 
 {% endhighlight</p>
-<p><img src="/img/Rfig/fig-map-1-1.svg" alt="plot of chunk fig-map-1"></p>
+<p><img src="http://lenkiefer.com/img/Rfig/fig-map-1-1.svg" alt="plot of chunk fig-map-1"></p>
 <p>All right!  It&rsquo;s alive. Now let&rsquo;s try to make a more complicated map with some styling.  Let&rsquo;s make a choropleth map of the United States with each county colored according to the median loans size of mortgage loans originated in 2014.</p>
 <p>{% highlight r 
 #test map 2:
@@ -355,7 +363,7 @@ discrete=F,option=&ldquo;D&rdquo;,end=0.95,direction=-1,limits=c(log(10000),log(
 breaks=c(log(10000),log(100000),log(1e6)),
 labels=c(&quot;$10,000&rdquo;,&quot;$100,000&quot;,&quot;$1,000,000&quot;)  )+  theme(legend.position = &ldquo;right&rdquo;)
 {% endhighlight</p>
-<p><img src="/img/Rfig/fig-map-2-1.svg" alt="plot of chunk fig-map-2"></p>
+<p><img src="http://lenkiefer.com/img/Rfig/fig-map-2-1.svg" alt="plot of chunk fig-map-2"></p>
 <p>Excellent!  Now all we have to do is combine this map with our beeswarm plots and we&rsquo;ll be good to go.</p>
 <h2 id="subsetting-map-and-adding-distribution-plot">Subsetting map and adding distribution plot</h2>
 <p>The composite map is interesting, but hard to see beyond some general patterns (the coasts have high median loans sizes, while loan sizes in the Midwest and (non-coastal) Southeast tend to be smaller).  Let&rsquo;s zoom in on a particular state and add a plot showing the distribution of loan sizes.</p>
@@ -445,7 +453,7 @@ facet_wrap(~state_name)</p>
 <h1 id="try-it-out-for-california">Try it out for California:</h1>
 <p>myplot(5)
 {% endhighlight</p>
-<p><img src="/img/Rfig/fig-map-3-1.svg" alt="plot of chunk fig-map-3"></p>
+<p><img src="http://lenkiefer.com/img/Rfig/fig-map-3-1.svg" alt="plot of chunk fig-map-3"></p>
 <h2 id="animated-gif">Animated gif</h2>
 <p>We can loop through all states and make a gif out of it:</p>
 <p>{% highlight r 
@@ -682,7 +690,7 @@ ani.pause()  } },movie.name=&ldquo;map and dot v2.gif&rdquo;,ani.width = 400, an
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="http://lenkiefer.com/js/math-code.js"></script>
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   
 

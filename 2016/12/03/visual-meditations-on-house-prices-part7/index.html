@@ -23,13 +23,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
@@ -70,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -78,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -203,6 +203,12 @@
 
   <div id="main">
 
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Visual meditations on house prices, Part 7: Don&#39;t cross the streams!">
+    <meta property="og:description" content="Charts and graphs exploring house price trends">
 
 <div class="header">
   <h1>Visual meditations on house prices, Part 7: Don&#39;t cross the streams!</h1>
@@ -2225,7 +2231,7 @@ d.metro&lt;-d.metro[, hpa12.rmax:=quantile(hpa12,1,na.rm=T),by=c(&quot;region&qu
       coord_cartesian(xlim=c(as.Date(&quot;1990-01-01&quot;),as.Date(&quot;2016-12-31&quot;)))+
   labs(x=&quot;&quot;,y=&quot;Annual House Price Percent Change&quot;,title=&quot;Distribution of year-over-year house price growth across metros&quot;, subtitle=&quot;Black line median metro, central region 25th to 75th percentiles,\nlighter regions are 5th to 25th (75th to 95th) and min to 5th (95th to max)&quot;,
        caption=&quot;@lenkiefer Source: Freddie Mac House Price Index (NSA), metros assigned to region based on primary state.&quot;)</code></pre>
-<p><img src="/post/2016-12-03-visual-meditations-on-house-prices-part7_files/figure-html/fig-hpimed6-viz1-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2016-12-03-visual-meditations-on-house-prices-part7_files/figure-html/fig-hpimed6-viz1-1.png" width="672" /></p>
 <p>What I wanted to do with this graph was compare the dispersion across metro areas of house price growth. By adding a simple facet_wrap() statement we can get something a little more useful:</p>
 <pre class="r"><code>ggplot(data=d.metro,aes(x=date,fill=region,color=region))+
   geom_ribbon(aes(ymin=hpa12.rmin,ymax=hpa12.r5),alpha=0.1)+
@@ -2241,7 +2247,7 @@ d.metro&lt;-d.metro[, hpa12.rmax:=quantile(hpa12,1,na.rm=T),by=c(&quot;region&qu
       coord_cartesian(xlim=c(as.Date(&quot;1990-01-01&quot;),as.Date(&quot;2016-12-31&quot;)))+
   labs(x=&quot;&quot;,y=&quot;Annual House Price Percent Change&quot;,title=&quot;Distribution of year-over-year house price growth across metros&quot;, subtitle=&quot;Black line median metro, central region 25th to 75th percentiles,\nlighter regions are 5th to 25th (75th to 95th) and min to 5th (95th to max)&quot;,
        caption=&quot;@lenkiefer Source: Freddie Mac House Price Index (NSA), metros assigned to region based on primary state.&quot;)</code></pre>
-<p><img src="/post/2016-12-03-visual-meditations-on-house-prices-part7_files/figure-html/fig-hpimed6-viz2-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2016-12-03-visual-meditations-on-house-prices-part7_files/figure-html/fig-hpimed6-viz2-1.png" width="672" /></p>
 <p>Now we kind of have something. What this plot shows is the distribution across metro areas in terms of annual house price appreciation. I’ve also broken out the metros by <a href="http://www.census.gov/econ/census/help/geography/regions_and_divisions.html">Census Region</a>. We can see that dispersion is greater in the South and West relative to the Midwest and Northeast Regions.</p>
 <p>We can also animated a version using tweenr.See my earlier <a href="../../../../2016/05/29/improving-R-animated-gifs-with-tweenr">post about tweenr</a> for an introduction to tweenr, and more examples <a href="../../../../2016/05/30/more-tweenr-animations">here</a> and <a href="../../../../2016/06/26/week-in-review">here</a>.</p>
 <pre class="r"><code>#create a function for animation
@@ -2425,7 +2431,7 @@ saveGIF({for (i in 1:max(tf$.frame)) {
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="http://lenkiefer.com/js/math-code.js"></script>
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   
 

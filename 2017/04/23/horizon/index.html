@@ -23,13 +23,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
@@ -70,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -78,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -203,6 +203,12 @@
 
   <div id="main">
 
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="What&#39;s that on the horizon? An awesome dataviz!">
+    <meta property="og:description" content="R statistics rstats mortgage rates dataviz">
 
 <div class="header">
   <h1>What&#39;s that on the horizon? An awesome dataviz!</h1>
@@ -633,7 +639,7 @@ ggplot(data=dt[state==&quot;AZ&quot;],aes(x=date,y=hpa12))+geom_line()+theme_min
   labs(x=&quot;&quot;,y=&quot;&quot;,title=&quot;12-month percent change in Arizona house prices&quot;,
        caption=&quot;@lenkiefer Source: Freddie Mac House Price Index&quot;)+
   theme(plot.caption=element_text(hjust=0))+scale_y_continuous(labels=percent)</code></pre>
-<p><img src="/post/2017-04-23-horizon_files/figure-html/04-23-2017-graph-1-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-04-23-horizon_files/figure-html/04-23-2017-graph-1-1.png" width="672" /></p>
 <p>Okay, if we are interested in seeing how prices compare to zero we might try an area chart.</p>
 <pre class="r"><code># plot house price trens for Arizona:
 
@@ -641,7 +647,7 @@ ggplot(data=dt[state==&quot;AZ&quot;],aes(x=date,y=hpa12))+geom_area(fill=&quot;
   labs(x=&quot;&quot;,y=&quot;&quot;,title=&quot;12-month percent change in Arizona house prices&quot;,
        caption=&quot;@lenkiefer Source: Freddie Mac House Price Index&quot;)+
   theme(plot.caption=element_text(hjust=0))+scale_y_continuous(labels=percent)</code></pre>
-<p><img src="/post/2017-04-23-horizon_files/figure-html/04-23-2017-graph-2-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-04-23-horizon_files/figure-html/04-23-2017-graph-2-1.png" width="672" /></p>
 <p>It might be nice to have gradient shading according to whether or not price changes are positive or negative on a year-over-year basis. We cannot do this directly with ggplot’s geom_area, but we can make it happen with a little tweaking:</p>
 <pre class="r"><code># tweak data:
 dt2&lt;-copy(dt)
@@ -657,7 +663,7 @@ ggplot(data=dt2[state==&quot;AZ&quot;],aes(x=date))+
   labs(x=&quot;&quot;,y=&quot;&quot;,title=&quot;12-month percent change in Arizona house prices&quot;,
        caption=&quot;@lenkiefer Source: Freddie Mac House Price Index&quot;)+
   theme(plot.caption=element_text(hjust=0))+scale_y_continuous(labels=percent)</code></pre>
-<p><img src="/post/2017-04-23-horizon_files/figure-html/04-23-2017-graph-3-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-04-23-horizon_files/figure-html/04-23-2017-graph-3-1.png" width="672" /></p>
 <p>Okay, but sometimes prices are down a little, and other times down a lot. It would be nice to have shading vary by how much prices are up or down. We could take two approaches.</p>
 <p>First, we could build a bar chart and have the fill vary according to house prices like so:</p>
 <pre class="r"><code>ggplot(data=dt[state==&quot;AZ&quot;],aes(x=date,y=hpa12,fill=hpa12))+
@@ -667,7 +673,7 @@ ggplot(data=dt2[state==&quot;AZ&quot;],aes(x=date))+
   labs(x=&quot;&quot;,y=&quot;&quot;,title=&quot;12-month percent change in Arizona house prices&quot;,
        caption=&quot;@lenkiefer Source: Freddie Mac House Price Index&quot;)+
   theme(plot.caption=element_text(hjust=0))+scale_y_continuous(labels=percent)</code></pre>
-<p><img src="/post/2017-04-23-horizon_files/figure-html/04-23-2017-graph-4-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-04-23-horizon_files/figure-html/04-23-2017-graph-4-1.png" width="672" /></p>
 <p>Alternatively, we could keep subdividing the range of house prices and have shading vary by how much house prices have increased or decreased. Let’s try that with three break points on each side of zero.</p>
 <pre class="r"><code>df.az&lt;-dt2[state %in% c(&quot;AZ&quot;)]  #subset data
 
@@ -717,7 +723,7 @@ require(RColorBrewer)</code></pre>
        caption=&quot;@lenkiefer Source: Freddie Mac House Price Index&quot;)+
       theme_minimal()+
   theme(plot.caption=element_text(hjust=0))+scale_y_continuous(labels=percent)</code></pre>
-<p><img src="/post/2017-04-23-horizon_files/figure-html/04-23-2017-graph-5-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-04-23-horizon_files/figure-html/04-23-2017-graph-5-1.png" width="672" /></p>
 <p>Here we have sliced prices into 6 regions, three positive and three negative. The further away from 0, the darker the color.</p>
 <p>Now, if we just squish everything together, inverting the negative valuet to postiive values and overlaying each of the 6 colors, we’ve got a horizon plot:</p>
 <pre class="r"><code>df.az&lt;-dt2[state %in% c(&quot;AZ&quot;)]  #subset data
@@ -747,7 +753,7 @@ df6$v2&lt;-ifelse(abs(df6$value)&lt;abs(df6$vmin),df6$vmin,df6$value)
                              &quot;yneg1&quot;=col.brew[4],
                              &quot;yneg2&quot;=col.brew[3],
                              &quot;yneg3&quot;=col.brew[2])) </code></pre>
-<p><img src="/post/2017-04-23-horizon_files/figure-html/04-23-2017-graph-6-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-04-23-horizon_files/figure-html/04-23-2017-graph-6-1.png" width="672" /></p>
 <p>Yeah, might be hard to see what’s going on here.</p>
 <p>How about an animated gif:</p>
 <p><img src="{{ site.url }}/img/charts_apr_23_2017/horizon tween.gif" alt="horizon gif"/></p>
@@ -931,7 +937,7 @@ function(){
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="http://lenkiefer.com/js/math-code.js"></script>
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   
 

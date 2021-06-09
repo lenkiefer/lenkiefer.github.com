@@ -23,13 +23,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
@@ -70,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -78,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -203,6 +203,12 @@
 
   <div id="main">
 
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/charts_2020_06_16/expand.png" >
+     
+    <meta property="og:title" content="The Coronavirus Recession">
+    <meta property="og:description" content="Economic outlook, counting recession lengths, chart remix">
 
 <div class="header">
   <h1>The Coronavirus Recession</h1>
@@ -390,7 +396,7 @@ ggplot(data = outdf2 %&gt;% filter(!is.na(type)),
        title=&quot;Expansions Expand, Recessions Contract&quot;,
        subtitle=&quot;Duration of U.S. expansions/recessions over time\n&quot;,
        caption=&quot;@lenkiefer Source: NBER recession dates as of June 16, 2020 http://www.nber.org/cycle.html\n\nSegments extend from expansion/recession start to end date on x axis, y axis equals length of expansion/recession.\nDotted lines regression fit to expansion/recession: duration ~ start.date&quot;)</code></pre>
-<p><img src="/post/2020-06-16-the-coronavirus-recession_files/figure-html/2020-06-16-expand-plot-1-1.png" width="768" /></p>
+<p><img src="http://lenkiefer.com/post/2020-06-16-the-coronavirus-recession_files/figure-html/2020-06-16-expand-plot-1-1.png" width="768" /></p>
 <p>Now let’s use mdthemes to enhance the plot. We’ll use the markdown syntax to make the title colors correspond to recessions (<span style="color:#d73027">red</span>) and expansions (<span style="color:#4575b4">blue</span>).</p>
 <p>We will use the <code>mdthemes::as_md_theme</code> function to wrap theme_minimal and automagically allow us to use text styling within our title, subtitle, and caption calls to <code>ggplot2</code>.</p>
 <pre class="r"><code>#####################################################################################
@@ -417,7 +423,7 @@ ggplot(data = outdf2,# %&gt;% filter(!is.na(type)),
                     &quot;&lt;span style = &#39;color:#d73027&#39;&gt; Recessions Contract&lt;/span&gt;&quot;),
        subtitle=&quot;Duration of U.S. expansions/recessions over time\n&quot;,
        caption=&quot;&lt;span style= &#39;color:#fe5305&#39;&gt;**@lenkiefer**&lt;/span&gt; Source: NBER recession dates as of June 16, 2020&lt;br&gt;Segments extend from expansion/recession start to end date on x axis, y axis equals length of expansion/recession.&lt;br&gt;Dotted lines regression fit to expansion/recession: duration ~ start.date&quot;)</code></pre>
-<p><img src="/post/2020-06-16-the-coronavirus-recession_files/figure-html/2020-06-16-expand-plot-2-1.png" width="768" /></p>
+<p><img src="http://lenkiefer.com/post/2020-06-16-the-coronavirus-recession_files/figure-html/2020-06-16-expand-plot-2-1.png" width="768" /></p>
 </div>
 
   
@@ -527,7 +533,7 @@ ggplot(data = outdf2,# %&gt;% filter(!is.na(type)),
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="http://lenkiefer.com/js/math-code.js"></script>
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   
 

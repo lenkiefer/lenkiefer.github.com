@@ -23,13 +23,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
@@ -70,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -78,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -204,6 +204,13 @@
   <div id="main">
 
 
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Brexit, State of the Nation&#39;s Housing, and home sales: the week in charts.">
+    <meta property="og:description" content="IT WAS A BUSY WEEK FOR ECONOMIC AND HOUSING DATA. Existing and new home sales came out, the Joint Center for Housing Studies of Harvard University released their annual State of the Nation&rsquo;s Housing, and the U.K. voted to leave the European Union (the Brexit). We&rsquo;ll recap these data and events through charts I&rsquo;ve created and shared throughout the week.
+In this post, I&rsquo;ll share each of the charts with some commentary, and then below, I&rsquo;ll include the R code I used to generate the charts.">
+
 <div class="header">
   <h1>Brexit, State of the Nation&#39;s Housing, and home sales: the week in charts.</h1>
   <h2></h2>
@@ -254,14 +261,14 @@
 <p>On Friday after the Brexit leave vote was announced, financial markets roiled, with stocks tumbling and Treasury yields falling. But even before the vote was announced, long-term interest rates had been falling.</p>
 <!-- raw HTML omitted -->
 <p>Will mortgage rates fall even more next week? With 10-year Treasury yields down almost 19 basis points on Friday, we should expect to see mortgage rates trend lower in the next week. But even if the declines in Treasury yields stick next week, in times of volatility some of the declines in Treasury yields do not flow into mortgage rates, instead spreads widen.</p>
-<p><img src="/img/Rfig/rate-scatter-1.svg" alt="plot of chunk rate-scatter"></p>
+<p><img src="http://lenkiefer.com/img/Rfig/rate-scatter-1.svg" alt="plot of chunk rate-scatter"></p>
 <p>The chart above shows that in general, the 30-year fixed mortgage rate follows the 10-year Treasury pretty closely. However, in 2012 there were several points below the line. Those weeks correspond to the spring of 2012 when 10-year Treasury yields fell more rapidly than mortgage rates. This was partially due to increased volatility and risk aversion around other European macroeconomic risks.</p>
 <p>The chart below shows the time series for the 10-year Treasury and the 30-year mortgage rate, with the spread shaded.</p>
-<p><img src="/img/Rfig/rate-spread1-1.svg" alt="plot of chunk rate-spread1"></p>
+<p><img src="http://lenkiefer.com/img/Rfig/rate-spread1-1.svg" alt="plot of chunk rate-spread1"></p>
 <p>The chart below plots the spread, with the 2011-2016 average (about 1.7 percentage points) spreads denoted by the dotted lines.  Periods when the spreads were above average (2011-2012) and again in 2016 were periods with increased macroeconomic risks.</p>
-<p><img src="/img/Rfig/rate-spread2-1.svg" alt="plot of chunk rate-spread2"></p>
+<p><img src="http://lenkiefer.com/img/Rfig/rate-spread2-1.svg" alt="plot of chunk rate-spread2"></p>
 <p>While risks may be elevated, it might be helpful to compare to 2008 when spreads were considerably wider:</p>
-<p><img src="/img/Rfig/rate-spread3-1.svg" alt="plot of chunk rate-spread3"></p>
+<p><img src="http://lenkiefer.com/img/Rfig/rate-spread3-1.svg" alt="plot of chunk rate-spread3"></p>
 <h1 id="visualizing-affordability">Visualizing affordability</h1>
 <p>This week the Joint Center for Housing Studies (JCHS) of Harvard University released their annual <a href="http://www.jchs.harvard.edu/research/state_nations_housing">State of the Nation&rsquo;s Housing</a>. The report is full of useful information about housing markets in the United States.</p>
 <p>One area of concern for analysts of U.S. housing markets is the rising cost burden of housing. In the report the JCHS computes costs burdens using Census data. Cost-burdened households are those that pay more than 30 percent of income for housing, while severely burdened households spend more than 50 percent. The chart below compares the percentage of cost-burdened households by metro area to the U.S. average broken out by household income.</p>
@@ -301,7 +308,7 @@ theme(plot.margin=unit(c(0.25,0.25,0.25,0.25),&ldquo;cm&rdquo;))+
 scale_y_continuous(limits=c(0,3000))+
 coord_flip()  #flip so that the bars are horizontal rather than vertical
 {% endhighlight</p>
-<p><img src="/img/Rfig/ehs-bars-1.svg" alt="plot of chunk ehs-bars"></p>
+<p><img src="http://lenkiefer.com/img/Rfig/ehs-bars-1.svg" alt="plot of chunk ehs-bars"></p>
 <h3 id="animated-existing-home-sales-chart">Animated existing home sales chart</h3>
 <p>Make the animation with the following code:</p>
 <p>{% highlight r 
@@ -360,7 +367,7 @@ theme(plot.subtitle=element_text(color=plasma(5)[1]))+
 theme(plot.margin=unit(c(0.5,0.5,0.5,0.75),&ldquo;cm&rdquo;))+
 coord_cartesian(xlim=c(as.Date(&ldquo;2000-01-01&rdquo;),as.Date(&ldquo;2016-7-14&rdquo;)), y=c(200,1600))
 {% endhighlight</p>
-<p><img src="/img/Rfig/nhs-band-1.svg" alt="plot of chunk nhs-band"></p>
+<p><img src="http://lenkiefer.com/img/Rfig/nhs-band-1.svg" alt="plot of chunk nhs-band"></p>
 <h3 id="animated-new-home-sales-chart">Animated new home sales chart</h3>
 <p>The animated gif for new sales is pretty straightforward to construct. We won&rsquo;t be using tweenr. Instead, we&rsquo;ll just loop through each row in the data frame, plotting all the points before that row.</p>
 <p>{% highlight r 
@@ -545,7 +552,7 @@ caption=&quot;@lenkiefer Source: Freddie Mac, Federal Reserve dotted line averag
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="http://lenkiefer.com/js/math-code.js"></script>
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   
 

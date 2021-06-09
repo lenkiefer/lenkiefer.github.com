@@ -23,13 +23,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
@@ -70,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -78,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -204,6 +204,12 @@
   <div id="main">
 
 
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Housing affordability trends">
+    <meta property="og:description" content="rstats data visualizations of houisng data">
+
 <div class="header">
   <h1>Housing affordability trends</h1>
   <h2></h2>
@@ -308,7 +314,7 @@ df2$year&lt;-as.numeric(df2$year)</code></pre>
   labs(x=&quot;&quot;,y=&quot;Monthly payment in 2016 $, log scale&quot;,title=&quot;How affordable is housing?&quot;,
        subtitle=&quot;Metro Area-Monthly Mortgage Payment on the Median Priced Home: 1990-2016&quot;,
        caption=&quot;@lenkiefer Each dot represents one metro area, the solid line is the U.S.\n\nSources: JCHS tabulations of National Association of Realtors and Moody&#39;s Analytics Forecasted Single-Family Seasonally \nAdjusted Quarterly Median Home Price, annualized by DataBuffet; Freddie Mac Annual Primary Mortgage Market Survey.\nJCHS 2017 State of the Nation&#39;s Housing, Appendix Tables http://www.jchs.harvard.edu/research/state_nations_housing\n\nNote: Monthly payment assumes a 5% down payment on the median-priced existing single-family home with property taxes of 1.25%, \nproperty insurance of 0.25%, and mortgage insurance of 0.5%. Values are adjusted to 2016 dollars using CPI-U All Items Less Shelter.&quot;)</code></pre>
-<p><img src="/post/2017-06-19-housing-afford_files/figure-html/06-19-2017-swarm-1-1.png" width="864" /></p>
+<p><img src="http://lenkiefer.com/post/2017-06-19-housing-afford_files/figure-html/06-19-2017-swarm-1-1.png" width="864" /></p>
 <pre class="r"><code>  ggplot(data=filter(df2,metro !=&quot;United States&quot;), aes(x=year,y=pti,color=log(pti)))+
   geom_quasirandom(alpha=0.75,size=0.75)+
   scale_color_viridis(name=&quot;Median Price-to-Median Income ratio&quot;,labels=exp,
@@ -323,7 +329,7 @@ df2$year&lt;-as.numeric(df2$year)</code></pre>
   labs(x=&quot;&quot;,y=&quot;Median Home Price-to-Median Income Ratio, log scale&quot;,title=&quot;How affordable is housing?&quot;,
        subtitle=&quot;Metro Area-Median Home Price-to-Median Income Ratios: 1990-2016&quot;,
        caption=&quot;@lenkiefer Each dot represents one metro area, the solid line is the U.S.\n\nSources:  JCHS tabulations of National Association of Realtors and Moody&#39;s Analytics Forecasted Single-Family \nQuarterly Median Home Price;Moody&#39;s Analystics Forecasted Median Household Income.\nJCHS 2017 State of the Nation&#39;s Housing, Appendix Tables http://www.jchs.harvard.edu/research/state_nations_housing\n\nNote: Median home price is for existing single-family homes only. Median household income in 2016 is forecasted by Moody&#39;s Analytics.&quot;)</code></pre>
-<p><img src="/post/2017-06-19-housing-afford_files/figure-html/06-19-2017-swarm-2-1.png" width="864" /></p>
+<p><img src="http://lenkiefer.com/post/2017-06-19-housing-afford_files/figure-html/06-19-2017-swarm-2-1.png" width="864" /></p>
 <div id="discussion" class="section level2">
 <h2>Discussion</h2>
 <p>These two plots show two ways of looking at housing affordability trends. To understand, let’s reconstruct these charts bit by bit.</p>
@@ -341,7 +347,7 @@ df2$year&lt;-as.numeric(df2$year)</code></pre>
   labs(x=&quot;&quot;,y=&quot;Monthly payment in 2016 $, log scale&quot;,title=&quot;How affordable is housing?&quot;,
        subtitle=&quot;U.S.-Monthly Mortgage Payment on the Median Priced Home: 1990-2016&quot;,
        caption=&quot;@lenkiefer Sources: JCHS tabulations of National Association of Realtors and Moody&#39;s Analytics Forecasted Single-Family Seasonally \nAdjusted Quarterly Median Home Price, annualized by DataBuffet; Freddie Mac Annual Primary Mortgage Market Survey.\nJCHS 2017 State of the Nation&#39;s Housing, Appendix Tables http://www.jchs.harvard.edu/research/state_nations_housing\n\nNote: Monthly payment assumes a 5% down payment on the median-priced existing single-family home with property taxes of 1.25%, \nproperty insurance of 0.25%, and mortgage insurance of 0.5%. Values are adjusted to 2016 dollars using CPI-U All Items Less Shelter.&quot;)</code></pre>
-<p><img src="/post/2017-06-19-housing-afford_files/figure-html/06-19-2017-line-1-1.png" width="864" /></p>
+<p><img src="http://lenkiefer.com/post/2017-06-19-housing-afford_files/figure-html/06-19-2017-line-1-1.png" width="864" /></p>
 <p>For the U.S. as a whole, monthly mortgage payments for the median-priced home ranged between $1,500 and $1,750 from 1990 through the middle part of last decade (all these estimates are in inflation-adjusted 2016 dollars). From 2004 onwards, payments reached up to nearly $2,000 before collapsing during the crash. Since then, they have recovered, but are still below historical averages.</p>
 <p>Contrast this chart with trends in home price-to-income ratios.</p>
 <pre class="r"><code>  ggplot(data=filter(df2,metro ==&quot;United States&quot;), aes(x=year,y=pti,color=log(pti)))+
@@ -355,7 +361,7 @@ df2$year&lt;-as.numeric(df2$year)</code></pre>
   labs(x=&quot;&quot;,y=&quot;Median Home Price-to-Median Income Ratio, log scale&quot;,title=&quot;How affordable is housing?&quot;,
        subtitle=&quot;U.S.-Median Home Price-to-Median Income Ratios: 1990-2016&quot;,
        caption=&quot;@lenkiefer Sources: JCHS tabulations of National Association of Realtors and Moody&#39;s Analytics Forecasted Single-Family \nQuarterly Median Home Price;Moody&#39;s Analystics Forecasted Median Household Income.\nJCHS 2017 State of the Nation&#39;s Housing, Appendix Tables http://www.jchs.harvard.edu/research/state_nations_housing\n\nNote: Median home price is for existing single-family homes only. Median household income in 2016 is forecasted by Moody&#39;s Analytics.&quot;)</code></pre>
-<p><img src="/post/2017-06-19-housing-afford_files/figure-html/06-19-2017-line-2-1.png" width="864" /></p>
+<p><img src="http://lenkiefer.com/post/2017-06-19-housing-afford_files/figure-html/06-19-2017-line-2-1.png" width="864" /></p>
 <p>The charts shows how median home prices have evolved after adjusting for trends in median house prices but not adjusting for lower mortgage rates. Here the trend is upward.</p>
 <div id="adding-metro-distributions" class="section level3">
 <h3>Adding metro distributions</h3>
@@ -374,7 +380,7 @@ df2$year&lt;-as.numeric(df2$year)</code></pre>
   labs(x=&quot;&quot;,y=&quot;Monthly payment in 2016 $, log scale&quot;,title=&quot;How affordable is housing?&quot;,
        subtitle=&quot;Metro Area-Monthly Mortgage Payment on the Median Priced Home: 2016&quot;,
        caption=&quot;@lenkiefer Each dot represents one metro area, the solid line is the U.S.\n\nSources: JCHS tabulations of National Association of Realtors and Moody&#39;s Analytics Forecasted Single-Family Seasonally \nAdjusted Quarterly Median Home Price, annualized by DataBuffet; Freddie Mac Annual Primary Mortgage Market Survey.\nJCHS 2017 State of the Nation&#39;s Housing, Appendix Tables http://www.jchs.harvard.edu/research/state_nations_housing\n\nNote: Monthly payment assumes a 5% down payment on the median-priced existing single-family home with property taxes of 1.25%, \nproperty insurance of 0.25%, and mortgage insurance of 0.5%. Values are adjusted to 2016 dollars using CPI-U All Items Less Shelter.&quot;)</code></pre>
-<p><img src="/post/2017-06-19-housing-afford_files/figure-html/06-19-2017-swarm-1-2016-1.png" width="864" /></p>
+<p><img src="http://lenkiefer.com/post/2017-06-19-housing-afford_files/figure-html/06-19-2017-swarm-1-2016-1.png" width="864" /></p>
 <p>Each dot represents a single metro area with the black line the U.S. as a reference.</p>
 <p>Now let’s compare just two points in time, 2015 and 2016.</p>
 <pre class="r"><code>ggplot(data=filter(df,metro !=&quot;United States&quot; &amp; year&gt;=2015), aes(x=factor(year),y=pmt,color=log(pmt)))+
@@ -391,7 +397,7 @@ df2$year&lt;-as.numeric(df2$year)</code></pre>
   labs(x=&quot;&quot;,y=&quot;Monthly payment in 2016 $, log scale&quot;,title=&quot;How affordable is housing?&quot;,
        subtitle=&quot;Metro Area-Monthly Mortgage Payment on the Median Priced Home: 2015-2016&quot;,
        caption=&quot;@lenkiefer Each dot represents one metro area, the solid line is the U.S.\n\nSources: JCHS tabulations of National Association of Realtors and Moody&#39;s Analytics Forecasted Single-Family Seasonally \nAdjusted Quarterly Median Home Price, annualized by DataBuffet; Freddie Mac Annual Primary Mortgage Market Survey.\nJCHS 2017 State of the Nation&#39;s Housing, Appendix Tables http://www.jchs.harvard.edu/research/state_nations_housing\n\nNote: Monthly payment assumes a 5% down payment on the median-priced existing single-family home with property taxes of 1.25%, \nproperty insurance of 0.25%, and mortgage insurance of 0.5%. Values are adjusted to 2016 dollars using CPI-U All Items Less Shelter.&quot;)</code></pre>
-<p><img src="/post/2017-06-19-housing-afford_files/figure-html/06-19-2017-swarm-1-15-16-1.png" width="864" /></p>
+<p><img src="http://lenkiefer.com/post/2017-06-19-housing-afford_files/figure-html/06-19-2017-swarm-1-15-16-1.png" width="864" /></p>
 <p>By adding another year we can see that the distribution has shifted up ever so slightly.</p>
 <p>And now that we have two, the small multiple we started with should make more sense:</p>
 <pre class="r"><code>ggplot(data=filter(df,metro !=&quot;United States&quot;), aes(x=year,y=pmt,color=log(pmt)))+
@@ -408,7 +414,7 @@ df2$year&lt;-as.numeric(df2$year)</code></pre>
   labs(x=&quot;&quot;,y=&quot;Monthly payment in 2016 $, log scale&quot;,title=&quot;How affordable is housing?&quot;,
        subtitle=&quot;Metro Area-Monthly Mortgage Payment on the Median Priced Home: 1990-2016&quot;,
        caption=&quot;@lenkiefer Each dot represents one metro area, the solid line is the U.S.\n\nSources: JCHS tabulations of National Association of Realtors and Moody&#39;s Analytics Forecasted Single-Family Seasonally \nAdjusted Quarterly Median Home Price, annualized by DataBuffet; Freddie Mac Annual Primary Mortgage Market Survey.\nJCHS 2017 State of the Nation&#39;s Housing, Appendix Tables http://www.jchs.harvard.edu/research/state_nations_housing\n\nNote: Monthly payment assumes a 5% down payment on the median-priced existing single-family home with property taxes of 1.25%, \nproperty insurance of 0.25%, and mortgage insurance of 0.5%. Values are adjusted to 2016 dollars using CPI-U All Items Less Shelter.&quot;)</code></pre>
-<p><img src="/post/2017-06-19-housing-afford_files/figure-html/06-19-2017-swarm-1-redo-1.png" width="864" /></p>
+<p><img src="http://lenkiefer.com/post/2017-06-19-housing-afford_files/figure-html/06-19-2017-swarm-1-redo-1.png" width="864" /></p>
 </div>
 </div>
 </div>
@@ -524,7 +530,7 @@ df2$year&lt;-as.numeric(df2$year)</code></pre>
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="http://lenkiefer.com/js/math-code.js"></script>
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   
 

@@ -23,13 +23,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
@@ -70,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -78,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -204,6 +204,12 @@
   <div id="main">
 
 
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/charts_2020_03_07/map_of_map.png" >
+     
+    <meta property="og:title" content="Map of maps">
+    <meta property="og:description" content="Making a map of maps with geofacets and R">
+
 <div class="header">
   <h1>Map of maps</h1>
   <h2>Making a map of maps with geofacets and R</h2>
@@ -296,7 +302,7 @@ ggplot(data=filter(dt,GEO_Type==&quot;State&quot;,Year&gt;1989), aes(x=date,y=hp
        subtitle=&quot;12-month percent change in house price index&quot;,
        title=&quot;State house price growth rate Jan 1990 - Jan 2020&quot;,
        caption=&quot;@lenkiefer Source: Freddie Mac House Price Index&quot;)</code></pre>
-<p><img src="/post/2020-03-07-map-of-maps_files/figure-html/2020-03-07-plot1-1.png" width="864" /></p>
+<p><img src="http://lenkiefer.com/post/2020-03-07-map-of-maps_files/figure-html/2020-03-07-plot1-1.png" width="864" /></p>
 <p>The geofacet makes it clear that there is correlation across space. The coasts tend to be more volatile.</p>
 <p>Let’s try to visualize the correlation matrix. We will take advantage of some new <a href="https://www.tidyverse.org/blog/2020/03/ggplot2-3-3-0/">ggplot2</a> features, including putting the axis labels on two lines and automagically creating a discrete color scale by binning a continuous variable.</p>
 <pre class="r"><code># plot correlation matrix
@@ -318,7 +324,7 @@ ggplot(data=df, aes(x=state1,y=state2,fill=correlation))+
        title=&quot;State-to-State house price correlation&quot;,
        subtitle=&quot;correlation in states&#39; 12-month percent change in house price index: Jan 1990-Jan 2020\nown state correlation (=1) denoted by black border&quot;,
        caption=&quot;@lenkiefer Source: Freddie Mac House Price Index&quot;)</code></pre>
-<p><img src="/post/2020-03-07-map-of-maps_files/figure-html/2020-03-07-plot-corr-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2020-03-07-map-of-maps_files/figure-html/2020-03-07-plot-corr-1.png" width="672" /></p>
 <p>That’s quite hard to decipher. Instead we could make a geofacet map to show how one state correlates to others. Effectively we are taking one column, Florida in the example below, and plotting it as a geofacet.</p>
 <p>I first tried to use <a href="https://twitter.com/hrbrmstr">@hrbrmstr</a> Bob Rudis’ <a href="https://rud.is/b/2017/11/18/statebins-reimagined/">statebin</a> package, but he hasn’t pushed the latest updates to CRAN. While I could get the development version, I found that <code>geom_statebin</code> didn’t have all the flexibility I wanted. Turns out, I can use a use the state grid (<code>us_state_grid1</code>) from the geofacet package and plot with geom_tile. Then I could wrap that within a call of <code>facet_geo()</code>. See the code below.</p>
 <pre class="r"><code>ggplot(data=filter(df,state2==&quot;FL&quot;), aes(y=-row,x=col,fill=correlation,label=state1))+
@@ -340,7 +346,7 @@ ggplot(data=df, aes(x=state1,y=state2,fill=correlation))+
        title=&quot;Florida State-to-State house price correlation&quot;,
        subtitle=&quot;correlation in states&#39; 12-month percent change in house price index: Jan 1990-Jan 2020\nown state correlation (=1) denoted by black border&quot;,
        caption=&quot;@lenkiefer Source: Freddie Mac House Price Index&quot;)</code></pre>
-<p><img src="/post/2020-03-07-map-of-maps_files/figure-html/2020-03-07-map-of-FL-1.png" width="864" /></p>
+<p><img src="http://lenkiefer.com/post/2020-03-07-map-of-maps_files/figure-html/2020-03-07-map-of-FL-1.png" width="864" /></p>
 <p>Now we can make one of these maps for each of the states and stick it into a geofacet grid. Then we’ll have a map of maps:</p>
 <pre class="r"><code>ggplot(data=df, aes(y=-row,x=col,fill=correlation,label=state1))+
   geom_tile(color=&quot;white&quot;,size=0.7)+
@@ -359,7 +365,7 @@ ggplot(data=df, aes(x=state1,y=state2,fill=correlation))+
        title=&quot;State-to-State house price correlation&quot;,
        subtitle=&quot;correlation in states&#39; 12-month percent change in house price index: Jan 1990-Jan 2020\nown state correlation (=1) denoted by black border&quot;,
        caption=&quot;@lenkiefer Source: Freddie Mac House Price Index&quot;)</code></pre>
-<p><img src="/post/2020-03-07-map-of-maps_files/figure-html/2020-03-07-map-of-map-1.png" width="864" /></p>
+<p><img src="http://lenkiefer.com/post/2020-03-07-map-of-maps_files/figure-html/2020-03-07-map-of-map-1.png" width="864" /></p>
 <p>Following a helpful suggestion from Twitter, I highlighted each state within its own cell with a black grid.</p>
 
   
@@ -469,7 +475,7 @@ ggplot(data=df, aes(x=state1,y=state2,fill=correlation))+
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="http://lenkiefer.com/js/math-code.js"></script>
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   
 

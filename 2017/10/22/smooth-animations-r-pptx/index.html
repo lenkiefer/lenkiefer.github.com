@@ -23,13 +23,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
@@ -70,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -78,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -203,6 +203,14 @@
 
   <div id="main">
 
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Combining PowerPoint and R&#39;s tweenr for smooth animations">
+    <meta property="og:description" content="IN THIS POST I WANT SHARE A METHOD FOR MAKING SMOOTH POWERPOINT ANIMATIONS USING R.
+Also see other posts in this series:
+Crafting a PowerPoint Presentation with R LINKPURRRTY PowerPoint with R LINKPURRRtier PowerPoint with R LINKMotivationWhy would you want to do this? We’ve covered how to make an animated gif with R and that works pretty well. But there are a couple advantages with this approach.">
 
 <div class="header">
   <h1>Combining PowerPoint and R&#39;s tweenr for smooth animations</h1>
@@ -478,7 +486,7 @@ ggplot(data=NULL)+
        title=&quot;Distribution of mortgage loan size in 2016&quot;,
        subtitle=&quot;dotted line U.S.&quot;)+
   theme(legend.position=&quot;top&quot;)</code></pre>
-<p><img src="/post/2017-10-22-combining-powerpoint-and-tweenr-for-smooth-animations_files/figure-html/10-22-2017-hmda-2-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-10-22-combining-powerpoint-and-tweenr-for-smooth-animations_files/figure-html/10-22-2017-hmda-2-1.png" width="672" /></p>
 <p>Now we can take these plots and craft an animation that compares the distribution. We’ll start with just the U.S. density and then morph it (leaving the dotted line behind) to each of our three states. To do so, we’ll use tweenr to more the distribution from on to another.</p>
 <pre class="r"><code># functions to subset data
 myf&lt;-function(s=&quot;ca&quot;){
@@ -545,7 +553,7 @@ my_pres %&gt;%
 <h1>Animating a single slide.</h1>
 <p>This can be fun. Remember our <a href="../../../../2017/07/27/kandinsky/">kandinsky plot</a> we made with the <a href="https://github.com/gsimchoni/kandinsky">kandinsky package</a>? We can make an animated one with PowerPoint. What we can do is save a single slide, but then animate it sequentially using PowerPoint’s animated reveal.</p>
 <pre class="r"><code>kandinsky::kandinsky(myx) #myx is some data.frame </code></pre>
-<p><img src="/post/2017-10-22-combining-powerpoint-and-tweenr-for-smooth-animations_files/figure-html/10-22-2017-make-kandinsky-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-10-22-combining-powerpoint-and-tweenr-for-smooth-animations_files/figure-html/10-22-2017-make-kandinsky-1.png" width="672" /></p>
 <pre class="r"><code>my_pres&lt;-read_pptx(&quot;data/blank.pptx&quot;)
 my_pres %&gt;%
   add_slide(&quot;Title and Content&quot;,&quot;Office Theme&quot;) %&gt;%
@@ -664,7 +672,7 @@ my_pres %&gt;%
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="http://lenkiefer.com/js/math-code.js"></script>
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   
 

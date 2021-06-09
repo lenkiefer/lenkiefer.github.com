@@ -23,13 +23,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
@@ -70,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -78,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -203,6 +203,12 @@
 
   <div id="main">
 
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/charts_jul_24_2019/heatmap.png" >
+     
+    <meta property="og:title" content="Housing usually heats up in summer">
+    <meta property="og:description" content="Some experiments charting new home sales with geom_tile, econodist">
 
 <div class="header">
   <h1>Housing usually heats up in summer</h1>
@@ -414,7 +420,7 @@ scale_fill_mycol &lt;- function(palette = &quot;main&quot;, discrete = TRUE, rev
   labs(x=&quot;&quot;,y=&quot;&quot;,title=&quot;The long thaw in new home sales&quot;,
        subtitle=&quot;U.S. new home sales by month&quot;,
          caption = &quot;@lenkiefer Source: U.S. Census Bureau and \ U.S. Department of Housing and Urban Development&quot;)</code></pre>
-<img src="/post/2019-07-24-housing-usually-heats-up-in-summer_files/figure-html/2019-07-24-plot1-1.png" width="768" />
+<img src="http://lenkiefer.com/post/2019-07-24-housing-usually-heats-up-in-summer_files/figure-html/2019-07-24-plot1-1.png" width="768" />
 </details>
 <p>We could also look at months’s supply of homes for sale. So it fits in easier, we will truncate it start at the year 2000.</p>
 <pre class="r"><code>ggplot(data=filter(df_ms,year(date)&gt;1999), aes(y=yearf,x=mname,fill=val, label=val))+
@@ -430,7 +436,7 @@ scale_fill_mycol &lt;- function(palette = &quot;main&quot;, discrete = TRUE, rev
         legend.key.width=unit(2,&quot;cm&quot;))+
   labs(x=&quot;&quot;,y=&quot;&quot;,title=&quot;Months&#39; supply of new homes for sale at current sales pace&quot;,
                 caption = &quot;@lenkiefer Source: U.S. Census Bureau and \ U.S. Department of Housing and Urban Development&quot;)</code></pre>
-<p><img src="/post/2019-07-24-housing-usually-heats-up-in-summer_files/figure-html/2019-07-24-plot-2-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2019-07-24-housing-usually-heats-up-in-summer_files/figure-html/2019-07-24-plot-2-1.png" width="672" /></p>
 <p>I also experimented with a dark theme.</p>
 <details>
 <p><summary>Plot 3 (dark theme)</summary></p>
@@ -500,7 +506,7 @@ ggplot(data=filter(df_ms,year(date)&gt;1999), aes(y=yearf,x=mname,fill=val, labe
         legend.key.width=unit(2,&quot;cm&quot;))+
   labs(x=&quot;&quot;,y=&quot;&quot;,title=&quot;Months&#39; supply of new homes for sale at current sales pace&quot;,
                 caption = &quot;@lenkiefer Source: U.S. Census Bureau and \ U.S. Department of Housing and Urban Development&quot;)</code></pre>
-<img src="/post/2019-07-24-housing-usually-heats-up-in-summer_files/figure-html/2019-07-24-plot-3-dark-1.png" width="864" />
+<img src="http://lenkiefer.com/post/2019-07-24-housing-usually-heats-up-in-summer_files/figure-html/2019-07-24-plot-3-dark-1.png" width="864" />
 </details>
 </div>
 </div>
@@ -543,7 +549,7 @@ grid.newpage()
 left_align(gg, c(&quot;subtitle&quot;, &quot;title&quot;, &quot;caption&quot;)) %&gt;% 
   add_econodist_legend(econodist_legend_grob(), below = &quot;subtitle&quot;) %&gt;% 
   grid.draw()</code></pre>
-<p><img src="/post/2019-07-24-housing-usually-heats-up-in-summer_files/figure-html/2019-07-24-plot-4-econodist-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2019-07-24-housing-usually-heats-up-in-summer_files/figure-html/2019-07-24-plot-4-econodist-1.png" width="672" /></p>
 </details>
 </div>
 
@@ -654,7 +660,7 @@ left_align(gg, c(&quot;subtitle&quot;, &quot;title&quot;, &quot;caption&quot;)) 
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="http://lenkiefer.com/js/math-code.js"></script>
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   
 

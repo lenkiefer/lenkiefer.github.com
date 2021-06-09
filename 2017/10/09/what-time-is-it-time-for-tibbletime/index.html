@@ -23,13 +23,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
@@ -70,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -78,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -203,6 +203,14 @@
 
   <div id="main">
 
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="What time is it? Time for tibbletime!">
+    <meta property="og:description" content="WHAT TIME IS IT? TIME FOR TIBBLETIME! In this post, I’m going to take the tibbletime package out for a spin. Turns out this package is quite useful for things I tend to do.
+We’ll use the tibbletime package to write some R code to extend our ongoing analysis of trends in the U.S. mortgage market (see here for example).
+Davis Vaughan (on Twitter) one of the authors of the tibbletime package suggested I take a look:">
 
 <div class="header">
   <h1>What time is it? Time for tibbletime!</h1>
@@ -386,7 +394,7 @@ ggplot(data=filter(df.state,abb2==&quot;VA&quot;), aes(x=date,y=purchase_orig))+
   scale_y_continuous(labels=comma)+
   theme(plot.caption=element_text(hjust=0),
         plot.title=element_text(face=&quot;bold&quot;,size=18))</code></pre>
-<p><img src="/post/2017-10-09-what-time-is-it-time-for-tibbletime_files/figure-html/10-09-2017-plot-1-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-10-09-what-time-is-it-time-for-tibbletime_files/figure-html/10-09-2017-plot-1-1.png" width="672" /></p>
 <p>We can see a clear seasonal pattern in home purchase activity. It would be nice to smooth that out, say by taking a 12-month rolling average. Enter tibbletime.</p>
 <p>Tibbletime makes computing a 12-month rolling average (by group using <code>dplyr</code>’s <code>group_by</code>) quite easy. This <a href="https://cran.r-project.org/web/packages/tibbletime/vignettes/TT-03-rollify-for-rolling-analysis.html">vignette</a> has some useful information.</p>
 <p>Let’s do it! (If you don’t yet have tibbletime run: <code>install.packages(&quot;tibbletime&quot;)</code>)</p>
@@ -416,7 +424,7 @@ ggplot(data=filter(df.state,abb2==&quot;VA&quot;), aes(x=date,y=purch_orig_m12,l
   scale_y_continuous(labels=comma)+
   theme(plot.caption=element_text(hjust=0),legend.position=&quot;top&quot;,
         plot.title=element_text(face=&quot;bold&quot;,size=18))</code></pre>
-<p><img src="/post/2017-10-09-what-time-is-it-time-for-tibbletime_files/figure-html/10-09-2017-plot-2-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-10-09-what-time-is-it-time-for-tibbletime_files/figure-html/10-09-2017-plot-2-1.png" width="672" /></p>
 <p>Now we can exploit the convenience of the <code>group_by</code> function to create a <a href="../../../../2017/05/22/geo-my-facet">geo_faceted</a> small multiple version of this plot.</p>
 <pre class="r"><code># convert df.state into a tibbletime object
 library(geofacet)
@@ -436,7 +444,7 @@ ggplot(data=df.state, aes(x=date,y=purch_orig_m12,linetype=&quot;Rolling 12-mont
         axis.text=element_text(size=6),
         plot.title=element_text(face=&quot;bold&quot;,size=18))+
   facet_geo(~abb2,scales=&quot;free_y&quot;)</code></pre>
-<p><img src="/post/2017-10-09-what-time-is-it-time-for-tibbletime_files/figure-html/10-09-2017-plot-3-1.png" width="864" /></p>
+<p><img src="http://lenkiefer.com/post/2017-10-09-what-time-is-it-time-for-tibbletime_files/figure-html/10-09-2017-plot-3-1.png" width="864" /></p>
 </div>
 <div id="summarizing-data" class="section level1">
 <h1>Summarizing data</h1>
@@ -458,7 +466,7 @@ ggplot(data=df.state.y, aes(x=date,y=refi)) +
         axis.text=element_text(size=6),
         plot.title=element_text(face=&quot;bold&quot;,size=18))+
   facet_geo(~abb2,scales=&quot;free_y&quot;)</code></pre>
-<p><img src="/post/2017-10-09-what-time-is-it-time-for-tibbletime_files/figure-html/10-09-2017-plot-4-1.png" width="864" /></p>
+<p><img src="http://lenkiefer.com/post/2017-10-09-what-time-is-it-time-for-tibbletime_files/figure-html/10-09-2017-plot-4-1.png" width="864" /></p>
 <p>Cool! That’s pretty easy. We can also use other functions inside the <code>time_summarize</code> function, like <code>last()</code> to get the last observation.</p>
 </div>
 <div id="other-things-to-do" class="section level1">
@@ -573,7 +581,7 @@ ggplot(data=df.state.y, aes(x=date,y=refi)) +
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="http://lenkiefer.com/js/math-code.js"></script>
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   
 

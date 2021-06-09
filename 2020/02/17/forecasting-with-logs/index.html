@@ -23,13 +23,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
@@ -70,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -78,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -204,6 +204,12 @@
   <div id="main">
 
 
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/charts_2020_02_17/fcst.png" >
+     
+    <meta property="og:title" content="Forecasting with logs">
+    <meta property="og:description" content="Notes on forecasting with logs">
+
 <div class="header">
   <h1>Forecasting with logs</h1>
   <h2>Notes on forecasting with logs</h2>
@@ -277,7 +283,7 @@ autoplot(ts1,color=inari,size=1.1)+
                    subtitle=&quot;Index (NSA, 1991Q1 = 100)&quot;,
                    caption=&quot;@lenkiefer Source: FHFA Purchase-only House Price Index&quot;)</code></pre>
 <div class="figure"><span id="fig:2020-02-17-data1"></span>
-<img src="/post/2020-02-17-forecasting-with-logs_files/figure-html/2020-02-17-data1-1.png" alt="House Price Index" width="672" />
+<img src="http://lenkiefer.com/post/2020-02-17-forecasting-with-logs_files/figure-html/2020-02-17-data1-1.png" alt="House Price Index" width="672" />
 <p class="caption">
 Figure 1: House Price Index
 </p>
@@ -311,7 +317,7 @@ autoplot(forecast(fit1,h),color=inari,size=1.1,fcol=inari)+
 
 g1</code></pre>
 <div class="figure"><span id="fig:2020-02-17-plot2"></span>
-<img src="/post/2020-02-17-forecasting-with-logs_files/figure-html/2020-02-17-plot2-1.png" alt="Forecasts from ARIMA" width="672" />
+<img src="http://lenkiefer.com/post/2020-02-17-forecasting-with-logs_files/figure-html/2020-02-17-plot2-1.png" alt="Forecasts from ARIMA" width="672" />
 <p class="caption">
 Figure 2: Forecasts from ARIMA
 </p>
@@ -327,7 +333,7 @@ colnames(fc$mean_log) &lt;-  &quot;mean_log&quot;
 g1+autolayer(fc$mean_log, linetype=2,color=inari2)+scale_x_continuous(limits=c(2018,2022))+
   labs( subtitle=&quot;Index (NSA, 1991Q1 = 100)\nforecasts from ARIMA model\ndotted line mean forecast, solid line median&quot;)</code></pre>
 <div class="figure"><span id="fig:2020-02-17-plot3"></span>
-<img src="/post/2020-02-17-forecasting-with-logs_files/figure-html/2020-02-17-plot3-1.png" alt="Mean and median forecasts" width="672" />
+<img src="http://lenkiefer.com/post/2020-02-17-forecasting-with-logs_files/figure-html/2020-02-17-plot3-1.png" alt="Mean and median forecasts" width="672" />
 <p class="caption">
 Figure 3: Mean and median forecasts
 </p>
@@ -376,7 +382,7 @@ df_plot %&gt;%
        subtitle=&quot;solid line: analytical mean/median\ndotted line: mean/median from 5000 simulations&quot;,
        caption=&quot;@lenkiefer&quot;)</code></pre>
 <div class="figure"><span id="fig:2020-02-17-simulation-plot"></span>
-<img src="/post/2020-02-17-forecasting-with-logs_files/figure-html/2020-02-17-simulation-plot-1.png" alt="Simulation Comparison" width="672" />
+<img src="http://lenkiefer.com/post/2020-02-17-forecasting-with-logs_files/figure-html/2020-02-17-simulation-plot-1.png" alt="Simulation Comparison" width="672" />
 <p class="caption">
 Figure 4: Simulation Comparison
 </p>
@@ -491,7 +497,7 @@ Figure 4: Simulation Comparison
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="http://lenkiefer.com/js/math-code.js"></script>
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   
 

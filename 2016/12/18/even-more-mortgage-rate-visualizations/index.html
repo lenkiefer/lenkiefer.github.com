@@ -23,13 +23,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
@@ -70,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -78,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -203,6 +203,12 @@
 
   <div id="main">
 
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Even more mortgage rate visualizations">
+    <meta property="og:description" content="R statistics rstats mortgage rates dataviz">
 
 <div class="header">
   <h1>Even more mortgage rate visualizations</h1>
@@ -428,7 +434,7 @@ ggplot(data=dt[year==2016,],aes(x=rc,y=share,fill=factor(year),label=max(year),c
         plot.caption=element_text(hjust=0 ),
         plot.subtitle=element_text(face=&quot;italic&quot;),
         axis.text.x=element_text(size=7))</code></pre>
-<p><img src="/post/2016-12-18-more-ways-to-visualize-rates_files/figure-html/rate-viz1-dec-18-2016,-1.png" width="576" /></p>
+<p><img src="http://lenkiefer.com/post/2016-12-18-more-ways-to-visualize-rates_files/figure-html/rate-viz1-dec-18-2016,-1.png" width="576" /></p>
 <div id="add-smooth-transitions" class="section level2">
 <h2>Add smooth transitions</h2>
 <p>To add smooth transitions we use Tweenr.</p>
@@ -486,7 +492,7 @@ oopt = ani.options(interval = 0.1)
 <h1>Everything is a tile</h1>
 <p>Somehow I just stumbled upon <a href="http://docs.ggplot2.org/current/geom_tile.html"><em>geom_tile()</em></a>. Now everything is a tile.</p>
 <p><a href="../../../../2016/12/08/10-ways-to-visualize-rates">Earlier</a> we made a strip chart. If you don’t want to click here it is again (go to link for code):</p>
-<p><img src="/post/2016-12-18-more-ways-to-visualize-rates_files/figure-html/rate-viz2-dec-18-2016,-1.png" width="576" /></p>
+<p><img src="http://lenkiefer.com/post/2016-12-18-more-ways-to-visualize-rates_files/figure-html/rate-viz2-dec-18-2016,-1.png" width="576" /></p>
 <div id="make-it-a-tile" class="section level3">
 <h3>Make it a tile</h3>
 <p>The tile chart is very similar to the strip, but instead of having one left/right dimension we’ll add an up/down dimension. We’ll construct a week number variable indicating the week of the year and display that on the x axis. Then on the y axis we’ll have years going down.</p>
@@ -510,7 +516,7 @@ g.tile&lt;-
   theme(axis.text.y=element_text(size=6),
         axis.text.x=element_text(size=6))
 g.tile</code></pre>
-<p><img src="/post/2016-12-18-more-ways-to-visualize-rates_files/figure-html/rate-viz4-dec-18-2016,-1.png" width="576" /></p>
+<p><img src="http://lenkiefer.com/post/2016-12-18-more-ways-to-visualize-rates_files/figure-html/rate-viz4-dec-18-2016,-1.png" width="576" /></p>
 <p>Now we can combine the tile chart with a column chart:</p>
 <pre class="r"><code>source(&quot;code/multiplot.R&quot;)  #code for combining separate ggplot graphs
 # find multiplot code here: http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/
@@ -532,7 +538,7 @@ g.diff&lt;-
     theme(plot.caption=element_text(hjust=0), legend.position=&quot;none&quot;)
 
 multiplot(g.diff+labs(caption=&quot;&quot;),g.tile+theme(legend.position=&quot;none&quot;))</code></pre>
-<p><img src="/post/2016-12-18-more-ways-to-visualize-rates_files/figure-html/rate-viz5-dec-18-2016,-1.png" width="576" /></p>
+<p><img src="http://lenkiefer.com/post/2016-12-18-more-ways-to-visualize-rates_files/figure-html/rate-viz5-dec-18-2016,-1.png" width="576" /></p>
 <p>And we can animate it. First, let’s create a function for the column chart of 52-week differences <em>diff.plot()</em> and a function for the tile plot <em>tile.plot()</em>. Let’s examine the functions and see how they work when we give it a year, 2004 before the end of our sample:</p>
 <pre class="r"><code>diff.plot&lt;-function(y){
   g.diff&lt;-
@@ -572,7 +578,7 @@ tile.plot&lt;-function(y){
 
 # test it:
 multiplot(diff.plot(2004)+labs(caption=&quot;&quot;),tile.plot(2004)+theme(legend.position=&quot;none&quot;))</code></pre>
-<p><img src="/post/2016-12-18-more-ways-to-visualize-rates_files/figure-html/rate-viz6-dec-18-2016,-1.png" width="576" /></p>
+<p><img src="http://lenkiefer.com/post/2016-12-18-more-ways-to-visualize-rates_files/figure-html/rate-viz6-dec-18-2016,-1.png" width="576" /></p>
 <p>This plot shows us what our plot will look like in after we get to year 2004. By adding in the full data with alpha=0 (so it is transparent) our axis will be fully expanded. We could do it by manually setting the axis, but I just did it this way.</p>
 <p>Now we can loop through the data to create the animation:</p>
 <pre class="r"><code>oopt = ani.options(interval = 0.15)
@@ -700,7 +706,7 @@ saveGIF({for (i in seq(2001,2016,1)) {
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="http://lenkiefer.com/js/math-code.js"></script>
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   
 

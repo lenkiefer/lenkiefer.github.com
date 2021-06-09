@@ -23,13 +23,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
@@ -70,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -78,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -203,6 +203,12 @@
 
   <div id="main">
 
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Nested recursion: Loops within loops within data frames ">
+    <meta property="og:description" content="R statistics forecasting house prices housing">
 
 <div class="header">
   <h1>Nested recursion: Loops within loops within data frames </h1>
@@ -704,7 +710,7 @@ ggplot(data=d.state[state==&quot;VA&quot;,],aes(x=date,y=hpa12,label=paste(perce
                        subtitle=&quot;Virginia in September&quot;,
                        caption=&quot;@lenkiefer Source: Freddie Mac House Price Index&quot;)+
   theme(plot.caption=element_text(hjust=0))</code></pre>
-<p><img src="/post/2016-12-04-recursion_files/figure-html/va-plot-recursion-dec4-2016,-1.png" width="528" /></p>
+<p><img src="http://lenkiefer.com/post/2016-12-04-recursion_files/figure-html/va-plot-recursion-dec4-2016,-1.png" width="528" /></p>
 <p>House prices in Virginia are growing by just under 3 percent year-over-year in September 2016, up from the lows of 2009, but below the middle part of last decade and also a bit below the long-run average.</p>
 <p>Let’s construct a simple times series forecasting model for house prices (see my note above, this is just for illustration) based onthe history of HPA. There are many models we could use, but one of the simplest is an Autoregressive Model.We can code this pretty easily in R, but working with dates can be tricky. I’ve tried a couple things, but <a href="https://cran.r-project.org/web/packages/xts/index.html">xts</a> works for me.</p>
 <p>We use a simple <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/ar.ols.html">autoregressive model</a> fit to up to two lags of HPA.</p>
@@ -728,7 +734,7 @@ ggplot(data=d.state[state==&quot;VA&quot;,],aes(x=date,y=hpa12,label=paste(perce
 # see http://robjhyndman.com/hyndsight/arma-roots/ 
 # for code
 plot.armaroots(arroots(va.out))</code></pre>
-<p><img src="/post/2016-12-04-recursion_files/figure-html/va-ar-recursion-2-dec4-2016,-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2016-12-04-recursion_files/figure-html/va-ar-recursion-2-dec4-2016,-1.png" width="672" /></p>
 <p>Now we can use this simple AR model to forecast house prices. The code below will stack the predictions to the input data. Then we’ll make a simple forecast plot:</p>
 <pre class="r"><code>  va.p&lt;-predict(va.out, n.ahead = 4)              #forecasts from ar model
   va.p.ts&lt;-xts(va.p$pred,
@@ -753,7 +759,7 @@ plot.armaroots(arroots(va.out))</code></pre>
       guides(linetype=F)+
       theme(plot.caption=element_text(hjust=0),
             legend.position=&quot;top&quot;)</code></pre>
-<p><img src="/post/2016-12-04-recursion_files/figure-html/va-ar-recursion-3-dec4-2016,-1.png" width="528" /></p>
+<p><img src="http://lenkiefer.com/post/2016-12-04-recursion_files/figure-html/va-ar-recursion-3-dec4-2016,-1.png" width="528" /></p>
 <p>Okay things look reasonable. These forecasts are sort of dumb, they don’t account for inflation or other factors, but based on the history of house prices they aren’t totally outlandish. What’s a little more interesting is to consider if we rolled back the clock, what these simple forecasts would have looked like.</p>
 <p>Again, just using Virginia as an example, we can go back for each year since 1985, fit a forecasting model on history up to that point in time, and then project forward a few years. We could do it with a loop, but instead we’ll use Hadley’s approach described in Plotcon and store the results of each estimate as a dataframe nested inside a data frame. This structure will be more compact, and also make plotting with ggplot quite simple, no explicit loops involved.</p>
 </div>
@@ -844,7 +850,7 @@ ggplot(data=d.state[state==&quot;VA&quot;,],aes(x=date,y=hpa12,label=paste(perce
                        subtitle=&quot;Virginia in September, dotted line forecast from AR(2) model fit on data through 2005&quot;,
                        caption=&quot;@lenkiefer Source: Freddie Mac House Price Index&quot;)+
   theme(plot.caption=element_text(hjust=0))</code></pre>
-<p><img src="/post/2016-12-04-recursion_files/figure-html/va-plot-recursion-5-dec4-2016,-1.png" width="528" /></p>
+<p><img src="http://lenkiefer.com/post/2016-12-04-recursion_files/figure-html/va-plot-recursion-5-dec4-2016,-1.png" width="528" /></p>
 <p>Here we can see that based on the history of hpa, a simple model would have expected some mean reversion back towards a long-run average, as depicted by the tentacle extending from the plot. What would it look like if we added a tentacle for each year? We could do that through a loop, or use the nesting described in Hadley’s talk. Let’s try that:</p>
 </div>
 <div id="nesting" class="section level3">
@@ -883,7 +889,7 @@ ggplot()+
   theme(plot.caption=element_text(hjust=0))+
 
   coord_cartesian(xlim=c(as.Date(&quot;1985-01-01&quot;),max(p.data$fcst.date)),ylim=c(-.1,.2))</code></pre>
-<p><img src="/post/2016-12-04-recursion_files/figure-html/va-plot-recursion-7-dec4-2016,-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2016-12-04-recursion_files/figure-html/va-plot-recursion-7-dec4-2016,-1.png" width="672" /></p>
 <p>We can also roll over each state:</p>
 <pre class="r"><code>fcsts.st&lt;- d.state[year(date)&gt;1984, c(&quot;date&quot;,&quot;state&quot;,&quot;hpa12&quot;),with=F] %&gt;% 
            mutate(fcst=map2(state,date,fcst.d3))
@@ -904,7 +910,7 @@ ggplot()+
                        caption=&quot;@lenkiefer Source: Freddie Mac House Price Index\nAR(2) forecast fit on data up to point where solid line and dotted lines diverge&quot;)+
   theme(plot.caption=element_text(hjust=0))+
   facet_wrap(~state,ncol=5)</code></pre>
-<p><img src="/post/2016-12-04-recursion_files/figure-html/va-plot-recursion-8-dec4-2016,-1.png" width="864" /></p>
+<p><img src="http://lenkiefer.com/post/2016-12-04-recursion_files/figure-html/va-plot-recursion-8-dec4-2016,-1.png" width="864" /></p>
 <p>And we can make a gif looping through a few key states:</p>
 <p><img src="{{ site.url }}/img/charts_dec_4_2016/hpi tentacles.gif" alt="tentacle gifs"/></p>
 </div>
@@ -1021,7 +1027,7 @@ ggplot()+
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="http://lenkiefer.com/js/math-code.js"></script>
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   
 

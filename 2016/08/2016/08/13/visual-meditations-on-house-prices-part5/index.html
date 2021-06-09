@@ -23,13 +23,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
@@ -70,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -78,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -204,6 +204,13 @@
   <div id="main">
 
 
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Visual meditations on house prices, Part 5: distributions">
+    <meta property="og:description" content="OVER THE PAST THREE MONTHS I HAVE MADE several new house price visualizations. In these meditations I&rsquo;ll consider some recent graphs and provide R code for them. For reference, prior meditations are available at:
+ Part 1: data wrangling  Part 2: sparklines and dots (animated)  Part 3: bubbles and bounce  Part 4: graph gallery   Meditation 1: Median sales price trends Earlier this week, the National Association of Realtors (NAR) released their quarterly update on metro area median house prices (data here).">
+
 <div class="header">
   <h1>Visual meditations on house prices, Part 5: distributions</h1>
   <h2></h2>
@@ -296,7 +303,7 @@ caption=&quot;@lenkiefer Source: NAR each line a metro area&rdquo;,title=&ldquo;
 theme(plot.caption=element_text(size=10, hjust=0, margin=margin(t=15)))</p>
 <p>g.slope
 {% endhighlight</p>
-<p><img src="/img/Rfig/fig-nar-slopes-1.svg" alt="plot of chunk fig-nar-slopes"></p>
+<p><img src="http://lenkiefer.com/img/Rfig/fig-nar-slopes-1.svg" alt="plot of chunk fig-nar-slopes"></p>
 <h3 id="create-the-histograms">Create the histograms</h3>
 <p>In order to create the histograms we&rsquo;re going to have build them ourselves.  Our strategy will be to place each metro in a bin corresponding to a range of house prices (say from $75,000 to $100,000), and then count up how many metros are in each bin.  So far, that&rsquo;s just like a standard histogram. But as we&rsquo;re going to draw a dot for each metro area, we have to assign a y axis value for each metro.</p>
 <p>{% highlight r 
@@ -325,7 +332,7 @@ caption=&quot;@lenkiefer Source: NAR each dot a metro area&rdquo;)+
 theme(plot.caption=element_text(size=10, hjust=0, margin=margin(t=15)))
 g1
 {% endhighlight</p>
-<p><img src="/img/Rfig/fig-nar-dot-1-1.svg" alt="plot of chunk fig-nar-dot-1"></p>
+<p><img src="http://lenkiefer.com/img/Rfig/fig-nar-dot-1-1.svg" alt="plot of chunk fig-nar-dot-1"></p>
 <h3 id="combine-the-plots">Combine the plots</h3>
 <p>Now we&rsquo;ll used the <a href="http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/">multiplot function</a> to combine the plots. We&rsquo;ll also make another histogram so we can compare the distribution of median house sales prices in 2016Q2 to the distribution in 2015Q2.</p>
 <p>{% highlight r 
@@ -359,7 +366,7 @@ title=&ldquo;Home sales price distribution 2015 Q2&rdquo;)</p>
 g1+theme(axis.text=element_text(size=6),axis.title=element_text(size=7)),
 g.slope+labs(caption=&quot;@lenkiefer Source: NAR each dot/line a metro area&rdquo;),layout=matrix(c(3,1,3,2), nrow=2, byrow=TRUE))
 {% endhighlight</p>
-<p><img src="/img/Rfig/fig-nar-combo-1-1.svg" alt="plot of chunk fig-nar-combo-1"></p>
+<p><img src="http://lenkiefer.com/img/Rfig/fig-nar-combo-1-1.svg" alt="plot of chunk fig-nar-combo-1"></p>
 <h3 id="add-animation">add animation</h3>
 <p>Now we want to highlight each individual metro area.  To do so, we&rsquo;ll construct an animated gif where we highlight each metro one at time.  The code below generates the animated gif:</p>
 <p>{% highlight r 
@@ -434,7 +441,7 @@ scale_x_continuous(labels=percent,breaks=seq(-.4,.4,.1))+
 theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
 theme(legend.justification=c(0,0), legend.position=&ldquo;top&rdquo;)
 {% endhighlight</p>
-<p><img src="/img/Rfig/fig-nar-fmhpi-dots-1-1.svg" alt="plot of chunk fig-nar-fmhpi-dots-1"></p>
+<p><img src="http://lenkiefer.com/img/Rfig/fig-nar-fmhpi-dots-1-1.svg" alt="plot of chunk fig-nar-fmhpi-dots-1"></p>
 <h2 id="adding-animation">Adding animation</h2>
 <p>We want to compare how the distribution of annual house price growth has shifted from 2006 to 2016. We&rsquo;ll compare the annual appreciation in June of each year.  We&rsquo;ll also use tweenr to have the dots smoothly transition between years.</p>
 <p>{% highlight r 
@@ -611,7 +618,7 @@ print(i)}
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="http://lenkiefer.com/js/math-code.js"></script>
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   
 

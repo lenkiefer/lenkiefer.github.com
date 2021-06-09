@@ -23,13 +23,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
@@ -70,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -78,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -204,6 +204,12 @@
   <div id="main">
 
 
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/charts_2020_07_02/darkly.png" >
+     
+    <meta property="og:title" content="A new R package darklyplot">
+    <meta property="og:description" content="I try to make a new R package">
+
 <div class="header">
   <h1>A new R package darklyplot</h1>
   <h2>I try to make a new R package</h2>
@@ -255,19 +261,19 @@ install_github(&quot;lenkiefer/darklyplot&quot;)
 <pre class="r"><code>darklyplot(mtg_rate,&quot;rate&quot;,labelx=&quot;roundx&quot;,n.decimals=3)+
   labs(caption=&quot;@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey&quot;,
        title=&quot;U.S. Weekly Average 30-year Fixed Mortgage Rate (%)&quot;)</code></pre>
-<p><img src="/post/2020-07-02-a-new-r-package-darklyplot_files/figure-html/2020-07-02-darkly-plot-1-1.png" width="960" /></p>
+<p><img src="http://lenkiefer.com/post/2020-07-02-a-new-r-package-darklyplot_files/figure-html/2020-07-02-darkly-plot-1-1.png" width="960" /></p>
 <p>I added some little embellishments. You can shade under the plot:</p>
 <pre class="r"><code>darklyplot(mtg_rate,&quot;rate&quot;,labelx=&quot;roundx&quot;,n.decimals=3,shade=TRUE,refline=TRUE)+
   labs(caption=&quot;@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey&quot;,
        title=&quot;U.S. Weekly Average 30-year Fixed Mortgage Rate (%)&quot;)</code></pre>
-<p><img src="/post/2020-07-02-a-new-r-package-darklyplot_files/figure-html/2020-07-02-darkly-plot-2-1.png" width="960" /></p>
+<p><img src="http://lenkiefer.com/post/2020-07-02-a-new-r-package-darklyplot_files/figure-html/2020-07-02-darkly-plot-2-1.png" width="960" /></p>
 <p>And you can change the color of the markers.</p>
 <pre class="r"><code>darklyplot(mtg_rate,&quot;rate&quot;,labelx=&quot;roundx&quot;,n.decimals=3,
            minCol=&quot;blue&quot;,maxCol=&quot;red&quot;,firstCol=&quot;orange&quot;,lastCol=&quot;white&quot;
            )+
   labs(caption=&quot;@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey&quot;,
        title=&quot;U.S. Weekly Average 30-year Fixed Mortgage Rate (%)&quot;)</code></pre>
-<p><img src="/post/2020-07-02-a-new-r-package-darklyplot_files/figure-html/2020-07-02-darkly-plot-3-1.png" width="960" /></p>
+<p><img src="http://lenkiefer.com/post/2020-07-02-a-new-r-package-darklyplot_files/figure-html/2020-07-02-darkly-plot-3-1.png" width="960" /></p>
 <p>There’s a lot of work to do. But it does give you the ability to make a stylish dark chart with any time series data. Take for example today’s jobs report:</p>
 <pre class="r"><code># Since I&#39;m using mdthemes I need to use &lt;br&gt; instead of \n to break line
 tidyquant::tq_get(&quot;UNRATE&quot;,get=&quot;economic.data&quot;,from=&quot;2000-01-01&quot;) %&gt;%
@@ -276,7 +282,7 @@ tidyquant::tq_get(&quot;UNRATE&quot;,get=&quot;economic.data&quot;,from=&quot;20
   caption=paste0(&quot;@lenkiefer Source: U.S. Bureau of Labor Statistics, Unemployment Rate [UNRATE],&quot;,
   &quot;&lt;br&gt; retrieved from FRED, Federal Reserve Bank of St. Louis;&lt;br&gt;&quot;,
   &quot;July 2, 2020.&quot;))</code></pre>
-<p><img src="/post/2020-07-02-a-new-r-package-darklyplot_files/figure-html/2020-07-02-darkly-plot-4-1.png" width="960" /></p>
+<p><img src="http://lenkiefer.com/post/2020-07-02-a-new-r-package-darklyplot_files/figure-html/2020-07-02-darkly-plot-4-1.png" width="960" /></p>
 
   
   <h4><i class="fas fa-share-alt" aria-hidden="true"></i>&nbsp;Share!</h4>
@@ -385,7 +391,7 @@ tidyquant::tq_get(&quot;UNRATE&quot;,get=&quot;economic.data&quot;,from=&quot;20
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="http://lenkiefer.com/js/math-code.js"></script>
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   
 

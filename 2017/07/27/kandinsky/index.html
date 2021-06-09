@@ -23,13 +23,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
@@ -70,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -78,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -204,6 +204,12 @@
   <div id="main">
 
 
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Mortgage Rate Kandinsky">
+    <meta property="og:description" content="rstats data visualizations of housing data">
+
 <div class="header">
   <h1>Mortgage Rate Kandinsky</h1>
   <h2></h2>
@@ -273,14 +279,14 @@ kandinsky(dt)</code></pre>
 <pre><code>## The following object is masked from &#39;package:data.table&#39;:
 ## 
 ##     transpose</code></pre>
-<p><img src="/post/2017-07-27-kandinsky_files/figure-html/07-27-2017-kandinsky1-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-07-27-kandinsky_files/figure-html/07-27-2017-kandinsky1-1.png" width="672" /></p>
 <p>That’s pretty fun. Let’s try it for just the year 2016. Let’s also add a label.</p>
 <pre class="r"><code>kandinsky(dt[year(date)==2016])
   grid.text(label=paste(&quot;30-year fixed mortgage rates in 2016&quot;,
                         &quot;\n@lenkiefer, Made using R package Kandinsky&quot;),
             gp=gpar(fontsize=12),
             x=.95,y=0.05,just=&quot;right&quot;)</code></pre>
-<p><img src="/post/2017-07-27-kandinsky_files/figure-html/07-27-2017-kandinsky2-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-07-27-kandinsky_files/figure-html/07-27-2017-kandinsky2-1.png" width="672" /></p>
 <p>That’s pretty fun. What if we want to animate it? You know, using <a href="https://cran.r-project.org/web/packages/tweenr/index.html">tweenr</a>?</p>
 <p>See this <a href="../../../../2016/05/29/improving-R-animated-gifs-with-tweenr">post about tweenr</a> for an introduction to tweenr, and more examples <a href="../../../../2016/05/30/more-tweenr-animations">here</a> and <a href="../../../../2016/06/26/week-in-review">here</a>.</p>
 <p>In this post we’ll do things slightly differently. Instead of using the animation package, I’m going to save the image files and then call a program, <a href="https://www.imagemagick.org/script/index.php">imagemagick</a>, outside of R to make the gif.</p>
@@ -454,7 +460,7 @@ for (ii in 1:max(tf$.frame)) {
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="http://lenkiefer.com/js/math-code.js"></script>
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   
 

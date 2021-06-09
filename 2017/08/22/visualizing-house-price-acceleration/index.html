@@ -23,13 +23,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
@@ -70,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -78,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -204,6 +204,12 @@
   <div id="main">
 
 
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Visualizing house price acceleration">
+    <meta property="og:description" content="R statistics dataviz housing mortgage data">
+
 <div class="header">
   <h1>Visualizing house price acceleration</h1>
   <h2></h2>
@@ -299,7 +305,7 @@ fhfa.data[,hpaq:=(index_sa/shift(index_sa,1))^4-1,by=state]</code></pre>
         axis.ticks.length=unit(0.25,&quot;cm&quot;)) +
     geom_hline(yintercept=0,color=&quot;black&quot;,linetype=2)+
     facet_geo(~ state, grid = &quot;us_state_grid2&quot;)</code></pre>
-<p><img src="/post/2017-08-22-hpa-accelerate_files/figure-html/08-22-2017-plot-1-1.png" width="1344" /></p>
+<p><img src="http://lenkiefer.com/post/2017-08-22-hpa-accelerate_files/figure-html/08-22-2017-plot-1-1.png" width="1344" /></p>
 <p>Now let’s focus on comparing recent quarterly annualized percent change in house prices to the 4-quarter percent change in house prices in several large states:</p>
 <pre class="r"><code>ggplot(data=fhfa.data[yr&gt;2014 &amp; state %in% c(&quot;CA&quot;,&quot;TX&quot;,&quot;FL&quot;,&quot;WA&quot;,&quot;CO&quot;,&quot;NC&quot;)], aes(x=date,y=hpa4,group=state))+
   geom_line(size=1.05,aes(linetype=&quot;4-quarter % change&quot;,color=&quot;4-quarter % change&quot;))+
@@ -315,7 +321,7 @@ fhfa.data[,hpaq:=(index_sa/shift(index_sa,1))^4-1,by=state]</code></pre>
        title=&quot;Recent house price appreciation trends by state&quot;,
        subtitle=paste0(&quot;data through:&quot;,tail(fhfa.data,1)$mylabel),
        caption=&quot;@lenkiefer Source: FHFA purchase only house price index (SA)&quot;)</code></pre>
-<p><img src="/post/2017-08-22-hpa-accelerate_files/figure-html/08-22-2017-plot-2-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-08-22-hpa-accelerate_files/figure-html/08-22-2017-plot-2-1.png" width="672" /></p>
 <p>Here we can see that though the quarterly estimates are noisy, in some states they are trending up, but in others appear to be trending down.</p>
 <p>Let’s try another way of looking at these data:</p>
 <pre class="r"><code>df&lt;-fhfa.data[date==max(fhfa.data$date,na.rm=T),]
@@ -352,7 +358,7 @@ myplot0&lt;-function(in.df=df){
   return(g)
 }
 myplot0()</code></pre>
-<p><img src="/post/2017-08-22-hpa-accelerate_files/figure-html/08-22-2017-plot-3-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-08-22-hpa-accelerate_files/figure-html/08-22-2017-plot-3-1.png" width="672" /></p>
 </div>
 <div id="animated-plot" class="section level1">
 <h1>Animated plot</h1>
@@ -386,7 +392,7 @@ g&lt;-ggplot(data=df,
   
 
 g</code></pre>
-<p><img src="/post/2017-08-22-hpa-accelerate_files/figure-html/08-22-2017-plot-4-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-08-22-hpa-accelerate_files/figure-html/08-22-2017-plot-4-1.png" width="672" /></p>
 <p>These plots need some work. The animation is capturing not only the change in house prices and the change in change in house prices (acceleration/deceleration), but it’s also capturing the change in the change in the change in house prices (change in acceleration/deceleration). That’s tricky to grasp.</p>
 <p>Maybe we can better visualize these trends in a different way. We’ll try out some other visualization ideas I have in a future post.</p>
 </div>
@@ -498,7 +504,7 @@ g</code></pre>
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="http://lenkiefer.com/js/math-code.js"></script>
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   
 

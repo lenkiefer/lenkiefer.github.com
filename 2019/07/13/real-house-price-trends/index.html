@@ -23,13 +23,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
@@ -70,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -78,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -203,6 +203,12 @@
 
   <div id="main">
 
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/charts_jul_13_2019/fmhpi_july2019_State1.png" >
+     
+    <meta property="og:title" content="Real House Price Trends">
+    <meta property="og:description" content="Analyzing real house price trends with R">
 
 <div class="header">
   <h1>Real House Price Trends</h1>
@@ -428,7 +434,7 @@ scale_fill_mycol &lt;- function(palette = &quot;main&quot;, discrete = TRUE, rev
   labs(y=&quot;Index, log scale&quot;,title=&quot;U.S. Nominal Prices: Jan1975-May2019&quot;,
        subtitle=&quot;Shaded area is real house price appreciation&quot; ,
        caption=&quot;@lenkiefer Source: Freddie Mac House Price Index for the United states (seasonally adjusted)\nU.S. Bureau of Labor Statistics, Consumer Price Index for All Urban Consumers: All items less shelter [CUUR0000SA0L2]&quot;)</code></pre>
-<p><img src="/post/2019-07-13-real-house-price-trends_files/figure-html/2019-07-013-plot1-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2019-07-13-real-house-price-trends_files/figure-html/2019-07-013-plot1-1.png" width="672" /></p>
 <p><em>Plot repeats below outside the fold.</em></p>
 </details>
 <p><img src="../../../../img/charts_jul_13_2019/fmhpi_july2019_index1.png" style="width:700px"></p>
@@ -450,7 +456,7 @@ scale_fill_mycol &lt;- function(palette = &quot;main&quot;, discrete = TRUE, rev
   labs(y=&quot;Index, log scale&quot;,title=&quot;U.S. Real House Prices: Jan1975-May2019&quot;,
        subtitle=&quot;Shaded area is real house price appreciation&quot; ,
        caption=&quot;@lenkiefer Source: Freddie Mac House Price Index for the United states (seasonally adjusted) deflated by \nU.S. Bureau of Labor Statistics, Consumer Price Index for All Urban Consumers: All items less shelter [CUUR0000SA0L2]&quot;)</code></pre>
-<p><img src="/post/2019-07-13-real-house-price-trends_files/figure-html/2019-07-013-plot2-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2019-07-13-real-house-price-trends_files/figure-html/2019-07-013-plot2-1.png" width="672" /></p>
 <p><em>Plot repeats below outside the fold.</em></p>
 </details>
 <p><img src="../../../../img/charts_jul_13_2019/fmhpi_july2019_index2.png" style="width:700px"></p>
@@ -473,7 +479,7 @@ scale_fill_mycol &lt;- function(palette = &quot;main&quot;, discrete = TRUE, rev
        y=&quot;Real House Price Index (Jan 1975=100, log scale)&quot;,
        subtitle=&quot;Strongest on the coasts&quot;,
        caption=&quot;@lenkiefer Source: Freddie Mac House Price Index by State (seasonally adjusted), deflated by\nU.S. Bureau of Labor Statistics, Consumer Price Index for All Urban Consumers: All items less shelter [CUUR0000SA0L2]&quot;)</code></pre>
-<p><img src="/post/2019-07-13-real-house-price-trends_files/figure-html/2019-07-013-plot3-1.png" width="960" /></p>
+<p><img src="http://lenkiefer.com/post/2019-07-13-real-house-price-trends_files/figure-html/2019-07-013-plot3-1.png" width="960" /></p>
 <p><em>Plot repeats below outside the fold.</em></p>
 </details>
 <p><img src="../../../../img/charts_jul_13_2019/fmhpi_july2019_geofacet.png" style="width:700px"></p>
@@ -504,7 +510,7 @@ ggplot(dt[GEO_Name !=&quot;DC&quot; &amp; GEO_Type==&quot;State&quot; &amp;
         plot.caption=element_text(hjust=0,
                                   size=rel(0.6)),
         legend.key.width=unit(2,&quot;cm&quot;))+facet_wrap(~date)</code></pre>
-<p><img src="/post/2019-07-13-real-house-price-trends_files/figure-html/2019-07-013-plot4-1.png" width="672" />
+<p><img src="http://lenkiefer.com/post/2019-07-13-real-house-price-trends_files/figure-html/2019-07-013-plot4-1.png" width="672" />
 <em>Plot repeats below outside the fold.</em></p>
 </details>
 <p><img src="../../../../img/charts_jul_13_2019/fmhpi_july2019_State1.png" style="width:700px"></p>
@@ -535,7 +541,7 @@ ggplot(dt[GEO_Name !=&quot;DC&quot; &amp; GEO_Type==&quot;State&quot; &amp;
         plot.caption=element_text(hjust=0,
                                   size=rel(0.6)),
         legend.key.width=unit(2,&quot;cm&quot;))+facet_wrap(~date)</code></pre>
-<p><img src="/post/2019-07-13-real-house-price-trends_files/figure-html/2019-07-013-plot5-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2019-07-13-real-house-price-trends_files/figure-html/2019-07-013-plot5-1.png" width="672" /></p>
 <p><em>Plot repeats below outside the fold.</em></p>
 </details>
 <p>There you can see the gradual buildup in real prices over time.</p>
@@ -582,7 +588,7 @@ dt4 %&gt;%
         plot.caption=element_text(hjust=0,
                                   size=rel(0.6)),
         legend.key.width=unit(2,&quot;cm&quot;))+facet_wrap(~date)</code></pre>
-<p><img src="/post/2019-07-13-real-house-price-trends_files/figure-html/2019-07-013-plot6-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2019-07-13-real-house-price-trends_files/figure-html/2019-07-013-plot6-1.png" width="672" /></p>
 <pre class="r"><code># Small multiple
 
 dt4 %&gt;% 
@@ -611,7 +617,7 @@ dt4 %&gt;%
         plot.caption=element_text(hjust=0,
                                   size=rel(0.6)),
         legend.key.width=unit(2,&quot;cm&quot;))+facet_wrap(~date)</code></pre>
-<p><img src="/post/2019-07-13-real-house-price-trends_files/figure-html/2019-07-013-plot6-2.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2019-07-13-real-house-price-trends_files/figure-html/2019-07-013-plot6-2.png" width="672" /></p>
 <pre class="r"><code># CA map ----
 
 dt4 %&gt;% 
@@ -640,7 +646,7 @@ dt4 %&gt;%
   theme(legend.position=&quot;top&quot;,
         plot.caption=element_text(hjust=0),
         legend.key.width=unit(2,&quot;cm&quot;))+facet_wrap(~date)</code></pre>
-<p><img src="/post/2019-07-13-real-house-price-trends_files/figure-html/2019-07-013-plot6-3.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2019-07-13-real-house-price-trends_files/figure-html/2019-07-013-plot6-3.png" width="672" /></p>
 <pre class="r"><code># TX Map ---- 
 
 dt4 %&gt;% 
@@ -669,7 +675,7 @@ dt4 %&gt;%
   theme(legend.position=&quot;top&quot;,
         plot.caption=element_text(hjust=0),
         legend.key.width=unit(2,&quot;cm&quot;))+facet_wrap(~date)</code></pre>
-<img src="/post/2019-07-13-real-house-price-trends_files/figure-html/2019-07-013-plot6-4.png" width="672" />
+<img src="http://lenkiefer.com/post/2019-07-13-real-house-price-trends_files/figure-html/2019-07-013-plot6-4.png" width="672" />
 </details>
 </div>
 </div>
@@ -786,7 +792,7 @@ dt4 %&gt;%
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="http://lenkiefer.com/js/math-code.js"></script>
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   
 

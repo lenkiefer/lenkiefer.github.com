@@ -23,13 +23,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
@@ -70,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -78,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -203,6 +203,12 @@
 
   <div id="main">
 
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Forecasts from a bivariate VECM conditional on one of the variables">
+    <meta property="og:description" content="I could not find a good summary, so I wrote up some R code.">
 
 <div class="header">
   <h1>Forecasts from a bivariate VECM conditional on one of the variables</h1>
@@ -346,7 +352,7 @@ yx2 &lt;- window(yx,start=N1+1)</code></pre>
 <h1>plot our simulated series</h1>
 <pre class="r"><code>autoplot(yx2) + labs(title=&quot;Simulated cointegrated series {y,x} &quot;)</code></pre>
 <div class="figure"><span id="fig:2019-10-24-plot-sim"></span>
-<img src="/post/2019-10-24-forecasts-from-a-bivariate-vecm-conditional-on-one-of-the-variables_files/figure-html/2019-10-24-plot-sim-1.png" alt="Simulated Cointegrated Series" width="672" />
+<img src="http://lenkiefer.com/post/2019-10-24-forecasts-from-a-bivariate-vecm-conditional-on-one-of-the-variables_files/figure-html/2019-10-24-plot-sim-1.png" alt="Simulated Cointegrated Series" width="672" />
 <p class="caption">
 Figure 1: Simulated Cointegrated Series
 </p>
@@ -394,7 +400,7 @@ yx_miss[(N1+1):N,1] &lt;- NA
 # plot simulated data
 autoplot(yx_miss) + labs(title=&quot;Cointegrated series {y,x} with y missing after period N1 (=40)&quot;)</code></pre>
 <div class="figure"><span id="fig:2019-10-24-v2"></span>
-<img src="/post/2019-10-24-forecasts-from-a-bivariate-vecm-conditional-on-one-of-the-variables_files/figure-html/2019-10-24-v2-1.png" alt="Cointegrated series {y,x}, with missing observations for y" width="672" />
+<img src="http://lenkiefer.com/post/2019-10-24-forecasts-from-a-bivariate-vecm-conditional-on-one-of-the-variables_files/figure-html/2019-10-24-v2-1.png" alt="Cointegrated series {y,x}, with missing observations for y" width="672" />
 <p class="caption">
 Figure 2: Cointegrated series {y,x}, with missing observations for y
 </p>
@@ -464,7 +470,7 @@ predict(K2,interval = &quot;confidence&quot;, level = 0.95 )[[1]] %&gt;%
   annotate(geom=&quot;text&quot;,x=40.5,y=0, label=&quot;Forecasts for X available, \nY unobserved&quot;,hjust=0)</code></pre>
 <pre><code>## Warning in sqrt(out$V_mu[i, i, timespan]): NaNs produced</code></pre>
 <div class="figure"><span id="fig:2019-10-24-v3"></span>
-<img src="/post/2019-10-24-forecasts-from-a-bivariate-vecm-conditional-on-one-of-the-variables_files/figure-html/2019-10-24-v3-1.png" alt="VECM Forecasts from Statespace Model" width="672" />
+<img src="http://lenkiefer.com/post/2019-10-24-forecasts-from-a-bivariate-vecm-conditional-on-one-of-the-variables_files/figure-html/2019-10-24-v3-1.png" alt="VECM Forecasts from Statespace Model" width="672" />
 <p class="caption">
 Figure 3: VECM Forecasts from Statespace Model
 </p>
@@ -586,7 +592,7 @@ Figure 3: VECM Forecasts from Statespace Model
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="http://lenkiefer.com/js/math-code.js"></script>
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   
 

@@ -23,13 +23,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
@@ -70,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -78,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -204,6 +204,12 @@
   <div id="main">
 
 
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com//img/charts_apr_11_2019/2019-04-11-wavelet-plot-1-1.png" >
+     
+    <meta property="og:title" content="Is the U.S. housing recovery over? Housing fluctuations across time and frequencies">
+    <meta property="og:description" content="We analyze fluctuations in housing market indicators across time and frequencies using wavelets">
+
 <div class="header">
   <h1>Is the U.S. housing recovery over? Housing fluctuations across time and frequencies</h1>
   <h2>We analyze fluctuations in housing market indicators across time and frequencies using wavelets</h2>
@@ -242,7 +248,7 @@
 </div>
 
   
-<script src="/rmarkdown-libs/kePrint/kePrint.js"></script>
+<script src="http://lenkiefer.com/rmarkdown-libs/kePrint/kePrint.js"></script>
 
 
 <p>The current economic expansion is set to enter its tenth year this summer. Assuming we make it to June, this will become the longest U.S. economic expansion in recorded history stretching back to the 19th century. But how is the housing market doing? After a decade of recovery housing market activity still has room for improvement, but trends in 2018 were negative. Home sales, housing construction and house price growth all declined in 2018. Is the housing market recovery over? Or will we bounce back in 2019?</p>
@@ -422,7 +428,7 @@ g$layers &lt;- c(gbox, g$layers)</code></pre>
 <p>So here’s housing starts:</p>
 <pre class="r"><code>g</code></pre>
 <div class="figure"><span id="fig:2019-04-11-plot-1"></span>
-<img src="/post/2019-04-11-is-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies_files/figure-html/2019-04-11-plot-1-1.png" alt="Housing Starts Time Series" width="672" />
+<img src="http://lenkiefer.com/post/2019-04-11-is-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies_files/figure-html/2019-04-11-plot-1-1.png" alt="Housing Starts Time Series" width="672" />
 <p class="caption">
 Figure 1: Housing Starts Time Series
 </p>
@@ -488,7 +494,7 @@ my_plotf &lt;- function(invar=&quot;A011RL1Q225SBEA&quot;){
 <p>Apply the function defined above to housing starts:</p>
 <pre class="r"><code>my_plotf(&quot;HOUST&quot;)</code></pre>
 <div class="figure"><span id="fig:2019-04-11-wavelet-plot-1"></span>
-<img src="/post/2019-04-11-is-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies_files/figure-html/2019-04-11-wavelet-plot-1-1.png" alt="Variance decomposition of housing starts" width="672" />
+<img src="http://lenkiefer.com/post/2019-04-11-is-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies_files/figure-html/2019-04-11-wavelet-plot-1-1.png" alt="Variance decomposition of housing starts" width="672" />
 <p class="caption">
 Figure 2: Variance decomposition of housing starts
 </p>
@@ -608,7 +614,7 @@ Housing Starts (total, 1000s SAAR)
 <p>It is interesting to decompose house prices. Because we know that house prices trend higher with inflation, it might be more interesting to look at the quarterly change (in natural logarithms).</p>
 <pre class="r"><code>my_plotf(&quot;HPA&quot;)</code></pre>
 <div class="figure"><span id="fig:2019-04-11-wavelet-plot-3-hpa"></span>
-<img src="/post/2019-04-11-is-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies_files/figure-html/2019-04-11-wavelet-plot-3-hpa-1.png" alt="Variance decomposition of house price index" width="672" />
+<img src="http://lenkiefer.com/post/2019-04-11-is-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies_files/figure-html/2019-04-11-wavelet-plot-3-hpa-1.png" alt="Variance decomposition of house price index" width="672" />
 <p class="caption">
 Figure 3: Variance decomposition of house price index
 </p>
@@ -1884,55 +1890,55 @@ Quarterly House Price Growth (%)
 <pre class="r"><code># use map to print plots
 map(df_lookup$series,my_plotf)</code></pre>
 <pre><code>## [[1]]</code></pre>
-<p><img src="/post/2019-04-11-is-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies_files/figure-html/2019-04-11-bunch-o-plots-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2019-04-11-is-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies_files/figure-html/2019-04-11-bunch-o-plots-1.png" width="672" /></p>
 <pre><code>## 
 ## [[2]]</code></pre>
-<p><img src="/post/2019-04-11-is-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies_files/figure-html/2019-04-11-bunch-o-plots-2.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2019-04-11-is-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies_files/figure-html/2019-04-11-bunch-o-plots-2.png" width="672" /></p>
 <pre><code>## 
 ## [[3]]</code></pre>
-<p><img src="/post/2019-04-11-is-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies_files/figure-html/2019-04-11-bunch-o-plots-3.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2019-04-11-is-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies_files/figure-html/2019-04-11-bunch-o-plots-3.png" width="672" /></p>
 <pre><code>## 
 ## [[4]]</code></pre>
-<p><img src="/post/2019-04-11-is-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies_files/figure-html/2019-04-11-bunch-o-plots-4.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2019-04-11-is-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies_files/figure-html/2019-04-11-bunch-o-plots-4.png" width="672" /></p>
 <pre><code>## 
 ## [[5]]</code></pre>
-<p><img src="/post/2019-04-11-is-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies_files/figure-html/2019-04-11-bunch-o-plots-5.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2019-04-11-is-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies_files/figure-html/2019-04-11-bunch-o-plots-5.png" width="672" /></p>
 <pre><code>## 
 ## [[6]]</code></pre>
-<p><img src="/post/2019-04-11-is-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies_files/figure-html/2019-04-11-bunch-o-plots-6.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2019-04-11-is-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies_files/figure-html/2019-04-11-bunch-o-plots-6.png" width="672" /></p>
 <pre><code>## 
 ## [[7]]</code></pre>
-<p><img src="/post/2019-04-11-is-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies_files/figure-html/2019-04-11-bunch-o-plots-7.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2019-04-11-is-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies_files/figure-html/2019-04-11-bunch-o-plots-7.png" width="672" /></p>
 <pre><code>## 
 ## [[8]]</code></pre>
-<p><img src="/post/2019-04-11-is-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies_files/figure-html/2019-04-11-bunch-o-plots-8.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2019-04-11-is-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies_files/figure-html/2019-04-11-bunch-o-plots-8.png" width="672" /></p>
 <pre><code>## 
 ## [[9]]</code></pre>
-<p><img src="/post/2019-04-11-is-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies_files/figure-html/2019-04-11-bunch-o-plots-9.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2019-04-11-is-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies_files/figure-html/2019-04-11-bunch-o-plots-9.png" width="672" /></p>
 <pre><code>## 
 ## [[10]]</code></pre>
-<p><img src="/post/2019-04-11-is-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies_files/figure-html/2019-04-11-bunch-o-plots-10.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2019-04-11-is-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies_files/figure-html/2019-04-11-bunch-o-plots-10.png" width="672" /></p>
 <pre><code>## 
 ## [[11]]</code></pre>
-<p><img src="/post/2019-04-11-is-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies_files/figure-html/2019-04-11-bunch-o-plots-11.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2019-04-11-is-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies_files/figure-html/2019-04-11-bunch-o-plots-11.png" width="672" /></p>
 <pre><code>## 
 ## [[12]]</code></pre>
-<p><img src="/post/2019-04-11-is-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies_files/figure-html/2019-04-11-bunch-o-plots-12.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2019-04-11-is-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies_files/figure-html/2019-04-11-bunch-o-plots-12.png" width="672" /></p>
 <pre><code>## 
 ## [[13]]</code></pre>
-<p><img src="/post/2019-04-11-is-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies_files/figure-html/2019-04-11-bunch-o-plots-13.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2019-04-11-is-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies_files/figure-html/2019-04-11-bunch-o-plots-13.png" width="672" /></p>
 <pre><code>## 
 ## [[14]]</code></pre>
-<p><img src="/post/2019-04-11-is-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies_files/figure-html/2019-04-11-bunch-o-plots-14.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2019-04-11-is-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies_files/figure-html/2019-04-11-bunch-o-plots-14.png" width="672" /></p>
 <pre><code>## 
 ## [[15]]</code></pre>
-<p><img src="/post/2019-04-11-is-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies_files/figure-html/2019-04-11-bunch-o-plots-15.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2019-04-11-is-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies_files/figure-html/2019-04-11-bunch-o-plots-15.png" width="672" /></p>
 <pre><code>## 
 ## [[16]]</code></pre>
-<p><img src="/post/2019-04-11-is-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies_files/figure-html/2019-04-11-bunch-o-plots-16.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2019-04-11-is-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies_files/figure-html/2019-04-11-bunch-o-plots-16.png" width="672" /></p>
 <pre><code>## 
 ## [[17]]</code></pre>
-<p><img src="/post/2019-04-11-is-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies_files/figure-html/2019-04-11-bunch-o-plots-17.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2019-04-11-is-the-u-s-housing-recovery-over-housing-fluctuations-across-time-and-frequencies_files/figure-html/2019-04-11-bunch-o-plots-17.png" width="672" /></p>
 <p></details></p>
 </div>
 <div id="wrapping-up" class="section level1">
@@ -2053,7 +2059,7 @@ map(df_lookup$series,my_plotf)</code></pre>
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="http://lenkiefer.com/js/math-code.js"></script>
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   
 

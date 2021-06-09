@@ -23,13 +23,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
@@ -70,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -78,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -203,6 +203,12 @@
 
   <div id="main">
 
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Joyswarm: Joyplot &#43; beeswarm = awesome">
+    <meta property="og:description" content="rstats data visualizations of housing data">
 
 <div class="header">
   <h1>Joyswarm: Joyplot &#43; beeswarm = awesome</h1>
@@ -395,7 +401,7 @@ str(df2)</code></pre>
           plot.title=element_text(size=24))+
     labs(x=&quot;X variable&quot;,y=&quot;ID&quot;,caption=&quot;@lenkiefer&quot;, title=&quot;Joyplot&quot;)</code></pre>
 <pre><code>## Picking joint bandwidth of 0.188</code></pre>
-<p><img src="/post/2017-08-03-joyswarm_files/figure-html/08-03-2017-joy-1-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-08-03-joyswarm_files/figure-html/08-03-2017-joy-1-1.png" width="672" /></p>
 <div id="a-note-of-forcats" class="section level3">
 <h3>A note of forcats</h3>
 <p>It might be desirable to reorder these variables by something other than id. For example, we have the true mean saved in our dataframe. We can sort the id factors using the <code>forcats::fct_reorder()</code> function (see <a href="http://forcats.tidyverse.org/">forcats tidyverse page</a>). I’ve found it useful so I’m posting this bit here (you’re welcome future Len).</p>
@@ -410,7 +416,7 @@ str(df2)</code></pre>
           plot.title=element_text(size=24))+
     labs(x=&quot;X variable&quot;,y=&quot;ID&quot;,caption=&quot;@lenkiefer&quot;, title=&quot;Joyplot&quot;)</code></pre>
 <pre><code>## Picking joint bandwidth of 0.188</code></pre>
-<p><img src="/post/2017-08-03-joyswarm_files/figure-html/08-03-2017-joy-2-forcats-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-08-03-joyswarm_files/figure-html/08-03-2017-joy-2-forcats-1.png" width="672" /></p>
 </div>
 <div id="beeswarms" class="section level2">
 <h2>Beeswarms</h2>
@@ -425,7 +431,7 @@ str(df2)</code></pre>
           axis.title=element_text(size=12),
           plot.title=element_text(size=24))+
     labs(x=&quot;X variable&quot;,y=&quot;ID&quot;,caption=&quot;@lenkiefer&quot;, title=&quot;Beeswarm plot&quot;)</code></pre>
-<p><img src="/post/2017-08-03-joyswarm_files/figure-html/08-03-2017-swarm-1-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-08-03-joyswarm_files/figure-html/08-03-2017-swarm-1-1.png" width="672" /></p>
 </div>
 </div>
 <div id="joyswarms" class="section level1">
@@ -445,7 +451,7 @@ str(df2)</code></pre>
           plot.title=element_text(size=24))+
     labs(x=&quot;X variable&quot;,y=&quot;ID&quot;,caption=&quot;@lenkiefer&quot;, title=&quot;Joyswarm plot&quot;)</code></pre>
 <pre><code>## Picking joint bandwidth of 0.188</code></pre>
-<p><img src="/post/2017-08-03-joyswarm_files/figure-html/08-03-2017-joyswarm-1-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-08-03-joyswarm_files/figure-html/08-03-2017-joyswarm-1-1.png" width="672" /></p>
 <p>Oh yeah!</p>
 <p>And of course, they’re kind of fun to animate. Like so:</p>
 <p><img src="../../../../img/charts_aug_03_2017/joyswarm2.gif" height="500" width="550"></p>
@@ -505,7 +511,7 @@ ggplot(data=df.fred,aes(x=date,y=MNMFS))+geom_line()+
        caption=mycaption     )</code></pre>
 <pre><code>## Warning: The plyr::rename operation has created duplicates for the
 ## following name(s): (`x`)</code></pre>
-<p><img src="/post/2017-08-03-joyswarm_files/figure-html/08-03-2017-fred-data-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-08-03-joyswarm_files/figure-html/08-03-2017-fred-data-1.png" width="672" /></p>
 <p>These data are not seasonally adjusted, so you can see the pronounced seasonal variation. You can also see large volatility around the Great Recession. Let’s first create a joyplot using month on the Y axis. We’ll also add dots showing the 2017 values.</p>
 <pre class="r"><code>ggplot(data=df.fred,
        aes(y=forcats::fct_reorder(factor(as.character(date,format=&quot;%B&quot;)),
@@ -523,7 +529,7 @@ ggplot(data=df.fred,aes(x=date,y=MNMFS))+geom_line()+
        subtitle=&quot;Distribution Jan 1975-Jun 2017\nBlack dots=2017 values&quot;,
        caption=mycaption)</code></pre>
 <pre><code>## Picking joint bandwidth of 0.536</code></pre>
-<p><img src="/post/2017-08-03-joyswarm_files/figure-html/08-03-2017-fred-joy-1-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-08-03-joyswarm_files/figure-html/08-03-2017-fred-joy-1-1.png" width="672" /></p>
 <p>Here we can see that the 2017 values are quite low by historical standards.</p>
 <p>Let’s try a joyswarm:</p>
 <pre class="r"><code>ggplot(data=dplyr::filter(df.fred,month(date)&lt;7),
@@ -544,7 +550,7 @@ ggplot(data=df.fred,aes(x=date,y=MNMFS))+geom_line()+
        subtitle=&quot;Distribution Jan 1975-Jun 2017\nBlack dots=2017 values&quot;,
        caption=mycaption)</code></pre>
 <pre><code>## Picking joint bandwidth of 0.493</code></pre>
-<p><img src="/post/2017-08-03-joyswarm_files/figure-html/08-03-2017-fred-joyswarm-1-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-08-03-joyswarm_files/figure-html/08-03-2017-fred-joyswarm-1-1.png" width="672" /></p>
 <div id="its-hard-to-beat-good-ol-boxplots" class="section level3">
 <h3>It’s hard to beat good ol’ boxplots</h3>
 <p>Though I like joyplots, beeswarm plots, and joyswarm plots a lot, when it comes to clarity it’s hard to beat good ol’ boxplots (see below). However, these plots do create some visual interest and help stimulate thinking about the data.</p>
@@ -565,7 +571,7 @@ ggplot(data=df.fred,aes(x=date,y=MNMFS))+geom_line()+
        title=&quot;Median Number of Months on Sales Market for Newly Completed Homes&quot;,
        subtitle=&quot;Distribution Jan 1975-Jun 2017\nBlack dots=2017 values&quot;,
        caption=mycaption)</code></pre>
-<p><img src="/post/2017-08-03-joyswarm_files/figure-html/08-03-2017-fred-box-1-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-08-03-joyswarm_files/figure-html/08-03-2017-fred-box-1-1.png" width="672" /></p>
 </div>
 </div>
 </div>
@@ -677,7 +683,7 @@ ggplot(data=df.fred,aes(x=date,y=MNMFS))+geom_line()+
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="http://lenkiefer.com/js/math-code.js"></script>
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   
 

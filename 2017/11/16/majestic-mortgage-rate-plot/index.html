@@ -23,13 +23,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
@@ -70,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -78,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -203,6 +203,12 @@
 
   <div id="main">
 
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com//img/charts_nov_16_2017/joy.png" >
+     
+    <meta property="og:title" content="Majestic mortgage rate plot">
+    <meta property="og:description" content="COME AND MAKE A MAJESTIC MORTGAGE RATE PLOT WITH ME. We&#39;ll use R to make a fun plot showing just how low mortgage rates in the U.S. are relative to historical averages.">
 
 <div class="header">
   <h1>Majestic mortgage rate plot</h1>
@@ -330,7 +336,7 @@ ggplot(data=filter(df, year(date)&gt;2009),
          title=&quot;Distribution of U.S. average weekly mortgage rates&quot;,
          subtitle=paste(&quot;through &quot;,as.character(max(df$date))),
          caption=&quot;@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey&quot;)</code></pre>
-<p><img src="/post/2017-11-16-majestic-mortgage-rate-plot_files/figure-html/11-16-2017-plot-1-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-11-16-majestic-mortgage-rate-plot_files/figure-html/11-16-2017-plot-1-1.png" width="672" /></p>
 <p>This plot illustrates that by the standards of recent years, mortgage rates are low, but not super-low. However, if we zoom out and look at more history we will find rates are quite low.</p>
 <pre class="r"><code>ggplot(data=df, 
            aes(y=forcats::fct_reorder(yearf,-year),x=price,color=price,fill=..x..))+
@@ -347,7 +353,7 @@ ggplot(data=filter(df, year(date)&gt;2009),
          title=&quot;Distribution of U.S. average weekly mortgage rates&quot;,
          subtitle=paste(&quot;through &quot;,as.character(max(df$date))),
          caption=&quot;@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey&quot;)</code></pre>
-<p><img src="/post/2017-11-16-majestic-mortgage-rate-plot_files/figure-html/11-16-2017-plot-2-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-11-16-majestic-mortgage-rate-plot_files/figure-html/11-16-2017-plot-2-1.png" width="672" /></p>
 <p>This plot helps to illustrate just how low recent mortgage rates are relative to historical averages. Though the U.S. weekly average 30-year fixed mortgage hasn’t been above 5 percent since 2011, rates are extremely low by historical standards.</p>
 </div>
 <div id="animate-it" class="section level1">
@@ -501,7 +507,7 @@ purrr::map(c(seq(53,N,4), seq(N- N%%4,N), seq(N+1,N+10,1)), myf.joy)</code></pre
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="http://lenkiefer.com/js/math-code.js"></script>
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   
 

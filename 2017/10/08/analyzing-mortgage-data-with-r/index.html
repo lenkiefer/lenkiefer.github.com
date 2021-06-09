@@ -23,13 +23,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
@@ -70,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -78,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -203,6 +203,13 @@
 
   <div id="main">
 
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Analyzing mortgage data with R">
+    <meta property="og:description" content="TIME FOR ANOTHER DATA WRANGLING AND VISUALIZATION EXTRAVAGANZA. This time we are going to work hard to turn some big data into little data. That is, we’re going to work hard to aggregate several million loan level records into useful summary graphics to tell us about the U.S. mortgage market in 2016.
+I’ve been working on a lot of different ways to visualize trends in the mortgage market (see here and here for examples).">
 
 <div class="header">
   <h1>Analyzing mortgage data with R</h1>
@@ -564,7 +571,7 @@ g1&lt;-
         plot.title=element_text(size=14,face=&quot;bold&quot;,color=&quot;black&quot;))
 
 g1</code></pre>
-<p><img src="/post/2017-10-08-analyzing-mortgage-data-with-r_files/figure-html/10-08-2017-plot-1-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-10-08-analyzing-mortgage-data-with-r_files/figure-html/10-08-2017-plot-1-1.png" width="672" /></p>
 <p>In 2016 HMDA data there were about 7.6 million first-lien home purchase and refinance loans on 1-4 unit properties. <em>NOTE: these numbers are not adjusted for coverage. HMDA does not cover all of the U.S. mortgage market, but the coverage is likely quite high (90% or more) in recent years.</em></p>
 <p>About 3.9 million were home purchase and about 3.7 million were refinance loans. In the U.S. mortgage market it’s common to distinguish between conventional and nonconventional loans. Nonconventional loans are loans insured by the Federal Housing Administration (FHA), guaranteed by the Department of Veterans Affairs (VA) and loans backed by the Farm Service Agency (FSA) or Rural Housing Service (RHS).</p>
 <pre class="r"><code># g2
@@ -587,7 +594,7 @@ g2&lt;-
         plot.title=element_text(size=14,face=&quot;bold&quot;,color=&quot;black&quot;))+
   facet_wrap(~conv)
 g2</code></pre>
-<p><img src="/post/2017-10-08-analyzing-mortgage-data-with-r_files/figure-html/10-08-2017-plot-2-1.png" width="672" /> We see here that while the total mortgage market had slightly more home purchase than refinance loans, conventional mortgages were skewed toward refiance loans.</p>
+<p><img src="http://lenkiefer.com/post/2017-10-08-analyzing-mortgage-data-with-r_files/figure-html/10-08-2017-plot-2-1.png" width="672" /> We see here that while the total mortgage market had slightly more home purchase than refinance loans, conventional mortgages were skewed toward refiance loans.</p>
 <p>Let’s look at these same data, but weighted by the size of loans. The chart below shows the aggregate dollar volume of home purchase and refinance loans brokend out by coventional and nonconventional loans.</p>
 <pre class="r"><code>g3&lt;-
   ggplot(data=mydata[ ,.(upb=sum(upb)), .(loan_purpose_name,conv)],
@@ -609,7 +616,7 @@ g2</code></pre>
   facet_wrap(~conv)
   
 g3</code></pre>
-<p><img src="/post/2017-10-08-analyzing-mortgage-data-with-r_files/figure-html/10-08-2017-plot-3-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-10-08-analyzing-mortgage-data-with-r_files/figure-html/10-08-2017-plot-3-1.png" width="672" /></p>
 <div id="by-state" class="section level2">
 <h2>By state</h2>
 <p>It’s interesting to consider how mortgage activity varies by geography.</p>
@@ -629,7 +636,7 @@ g3</code></pre>
         plot.subtitle=element_text(size=14,face=&quot;italic&quot;,color=&quot;darkgray&quot;),
         plot.title=element_text(size=14,face=&quot;bold&quot;,color=&quot;black&quot;))
 g4</code></pre>
-<p><img src="/post/2017-10-08-analyzing-mortgage-data-with-r_files/figure-html/10-08-2017-plot-4-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-10-08-analyzing-mortgage-data-with-r_files/figure-html/10-08-2017-plot-4-1.png" width="672" /></p>
 <p>Another way to look at state data is to use <a href="../../../../2017/05/22/geo-my-facet">geo_facets</a>. The plot below arranges the state data using geo faceting.</p>
 <pre class="r"><code>g5&lt;-
   ggplot(data=sdata2[state_abbr !=&quot;PR&quot;], aes(x=loan_purpose_name,y=loans,
@@ -650,7 +657,7 @@ g4</code></pre>
   theme(axis.text=element_blank(),
         legend.position=&quot;top&quot;)
 g5</code></pre>
-<p><img src="/post/2017-10-08-analyzing-mortgage-data-with-r_files/figure-html/10-08-2017-plot-5-1.png" width="864" /></p>
+<p><img src="http://lenkiefer.com/post/2017-10-08-analyzing-mortgage-data-with-r_files/figure-html/10-08-2017-plot-5-1.png" width="864" /></p>
 <p>The U.S. mortgage market is dominated by several large states, California in particular. Let’s just look at the top 12 states and group the smaller states into an other category. We’ll also use <code>cowplot::plot_grid()</code> to arrange the plots.</p>
 <pre class="r"><code>sdata4&lt;-mydata[, st2:=ifelse(state_abbr %in% 
                                c(&quot;CA&quot;,&quot;TX&quot;,&quot;FL&quot;,&quot;NY&quot;,&quot;IL&quot;,&quot;CO&quot;,
@@ -696,7 +703,7 @@ plot_grid(g6a,g6b+theme(legend.position=&quot;none&quot;)+labs(title=&quot;All o
             labs(caption=&quot;@lenkiefer Source: FFIEC, CFPB HMDA data&quot;)+
             theme(plot.caption=element_text(hjust=0)),
           ncol=1,rel_heights=c(3,1))</code></pre>
-<p><img src="/post/2017-10-08-analyzing-mortgage-data-with-r_files/figure-html/10-08-2017-plot-6-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-10-08-analyzing-mortgage-data-with-r_files/figure-html/10-08-2017-plot-6-1.png" width="672" /></p>
 </div>
 </div>
 <div id="boxplots" class="section level1">
@@ -722,7 +729,7 @@ g7&lt;-
         plot.caption=element_text(hjust=0))
 
 g7</code></pre>
-<p><img src="/post/2017-10-08-analyzing-mortgage-data-with-r_files/figure-html/10-08-2017-plot-7-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-10-08-analyzing-mortgage-data-with-r_files/figure-html/10-08-2017-plot-7-1.png" width="672" /></p>
 <pre class="r"><code>g8&lt;-
   ggplot(data=mydata[upb !=9999,], aes(y=upb,
                                     x=forcats::fct_reorder(st2,upb),
@@ -738,7 +745,7 @@ g7</code></pre>
                   plot.title=element_text(size=16,face=&quot;bold&quot;,color=&quot;black&quot;,hjust=0),
                   plot.caption=element_text(hjust=0))
 g8</code></pre>
-<p><img src="/post/2017-10-08-analyzing-mortgage-data-with-r_files/figure-html/10-08-2017-plot-7-2.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-10-08-analyzing-mortgage-data-with-r_files/figure-html/10-08-2017-plot-7-2.png" width="672" /></p>
 <div id="maybe-the-boxplots-miss-something" class="section level2">
 <h2>Maybe the boxplots miss something</h2>
 <p>The boxplots are great, and in many cases work best. See for example this thread based on a question I asked on Twitter:</p>
@@ -770,7 +777,7 @@ plot_grid(g.ridge+labs(title=&quot;Distribution of mortgage loan amounts ($1000s
           g7+labs(title=&quot;&quot;,subtitle=&quot;&quot;,caption=&quot;@lenkiefer Source: FFIEC, CFPB HMDA data&quot; )+
             theme(plot.caption=element_text(hjust=0)),
           ncol=1)</code></pre>
-<p><img src="/post/2017-10-08-analyzing-mortgage-data-with-r_files/figure-html/10-08-2017-plot-9-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-10-08-analyzing-mortgage-data-with-r_files/figure-html/10-08-2017-plot-9-1.png" width="672" /></p>
 <p>In this case the density plot picks up on an important nonlinearity, the clustering of loan amounts around the conforming loan limits. Whether or not a boxplot is sufficient to summarize your data is going to depend. But explore your data, a <a href="http://www.thefunctionalart.com/2016/08/download-datasaurus-never-trust-summary.html">datasaurus</a> may lurk within.</p>
 </div>
 </div>
@@ -792,7 +799,7 @@ plot_grid(g.ridge+labs(title=&quot;Distribution of mortgage loan amounts ($1000s
   theme(axis.text=element_blank(),
         legend.position=&quot;top&quot;)
 g10</code></pre>
-<p><img src="/post/2017-10-08-analyzing-mortgage-data-with-r_files/figure-html/10-08-2017-plot-10-1.png" width="864" /> This plot shows the median loan size by state and loan purpose. Loans tend to be larger on the coasts where home prices also tend to be higher.</p>
+<p><img src="http://lenkiefer.com/post/2017-10-08-analyzing-mortgage-data-with-r_files/figure-html/10-08-2017-plot-10-1.png" width="864" /> This plot shows the median loan size by state and loan purpose. Loans tend to be larger on the coasts where home prices also tend to be higher.</p>
 <p>We can also look at how the median income for borrowers varies by state.</p>
 <pre class="r"><code>g11&lt;-
   ggplot(data=sdata2, 
@@ -809,7 +816,7 @@ g10</code></pre>
   theme(axis.text=element_blank(),
         legend.position=&quot;top&quot;)
 g11</code></pre>
-<p><img src="/post/2017-10-08-analyzing-mortgage-data-with-r_files/figure-html/10-08-2017-plot-11-1.png" width="864" /></p>
+<p><img src="http://lenkiefer.com/post/2017-10-08-analyzing-mortgage-data-with-r_files/figure-html/10-08-2017-plot-11-1.png" width="864" /></p>
 <p>This shows a similar, but less pronounced pattern than the loan amount plot. What if we compared the income of borrowers to their loan size?</p>
 <p>The next plot shows the median loan amount-to-income ratio by state and loan purpose.</p>
 <pre class="r"><code>g12&lt;-
@@ -828,7 +835,7 @@ g11</code></pre>
   theme(axis.text=element_blank(),
         legend.position=&quot;top&quot;)
 g12</code></pre>
-<p><img src="/post/2017-10-08-analyzing-mortgage-data-with-r_files/figure-html/10-08-2017-plot-12-1.png" width="864" /></p>
+<p><img src="http://lenkiefer.com/post/2017-10-08-analyzing-mortgage-data-with-r_files/figure-html/10-08-2017-plot-12-1.png" width="864" /></p>
 <p>Two clear patterns emerge here. First, home purchase loans tend to be a larger percent of borrower income than refinance loans. We also see a tendency for coastal areas to have higher loan amount-to-income ratios. So despite higher average incomes in higher cost markets, borrowers tend to borrow more as a percent of income in those markets. A scatterplot might express our point.</p>
 <pre class="r"><code>g13&lt;-
   ggplot(data=sdata2[state_abbr !=&quot;PR&quot;],
@@ -845,7 +852,7 @@ g12</code></pre>
   facet_wrap(~loan_purpose_name)+theme_minimal()+
   theme(legend.position=&quot;none&quot;,plot.caption=element_text(hjust=0))
 g13</code></pre>
-<p><img src="/post/2017-10-08-analyzing-mortgage-data-with-r_files/figure-html/10-08-2017-plot-13-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-10-08-analyzing-mortgage-data-with-r_files/figure-html/10-08-2017-plot-13-1.png" width="672" /></p>
 </div>
 <div id="more" class="section level1">
 <h1>More?</h1>
@@ -962,7 +969,7 @@ g13</code></pre>
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="http://lenkiefer.com/js/math-code.js"></script>
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   
 

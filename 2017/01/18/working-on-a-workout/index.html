@@ -23,13 +23,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
@@ -70,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -78,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -204,6 +204,12 @@
   <div id="main">
 
 
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Working on a Workout">
+    <meta property="og:description" content="R statistics dataviz remix">
+
 <div class="header">
   <h1>Working on a Workout</h1>
   <h2></h2>
@@ -235,14 +241,14 @@
 <h2>Anatomy of my viz</h2>
 <p>My remix is going to be slightly more complicated. This might be due to the fact I am <a href="https://en.wikipedia.org/wiki/Curse_of_knowledge">cursed with knowledge</a>, having studied unemployment trends quite closely. I feel like we can densify and add layers to the viz to convey even more information, even in a compact space.</p>
 <p>Because I’m gunning for a more complex viz and small multiples, let’s first break down the visualization piece by piece. Take a look:</p>
-<p><img src="/post/2017-01-18-workin-workout_files/figure-html/jan182017-ohio-viz-1-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-01-18-workin-workout_files/figure-html/jan182017-ohio-viz-1-1.png" width="672" /></p>
 <p>This chart is a composite chart consisting of two lines, two shaded ribbons shading the area between the lines and a rug chart at the bottom. The chart compares the unemployment rate in Ohio (depicted by a solid line) relative to the national average unemployment rate for the United States (depicted by a dotted line. I’ve also colored the area between the two lines, using red to signify periods when Ohio had a higher unemployment rate than the U.S. in red and when Ohio had a lower unemployment rate than the U.S. in blue. I’ve further encoded these periods with the rug plot at the bottom.</p>
 <p>Examining the chart, we can see that throughout the 1980s and most of the 2000s, Ohio fared worse than the national average in terms of unemployment, while the Buckeye State did better in the 1990s and much of the past ten years.</p>
 </div>
 <div id="small-multiples" class="section level2">
 <h2>Small multiples</h2>
 <p>Now that we’ve broken the simple chart down, we can build a small multiple showing the same chart for each of the 50 states.</p>
-<p><img src="/post/2017-01-18-workin-workout_files/figure-html/jan182017-muliple-viz-1-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-01-18-workin-workout_files/figure-html/jan182017-muliple-viz-1-1.png" width="672" /></p>
 <div id="animated-gif" class="section level3">
 <h3>Animated gif</h3>
 <p>Instead of the small multiple, we could use a gif to animate the chart.</p>
@@ -542,7 +548,7 @@ saveGIF({for (i in 1:max(tween.df$.frame)) {
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="http://lenkiefer.com/js/math-code.js"></script>
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   
 

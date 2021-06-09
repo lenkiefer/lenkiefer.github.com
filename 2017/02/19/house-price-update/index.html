@@ -23,13 +23,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
@@ -70,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -78,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -204,6 +204,12 @@
   <div id="main">
 
 
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Recent trends in house prices">
+    <meta property="og:description" content="R statistics dataviz housing mortgage data">
+
 <div class="header">
   <h1>Recent trends in house prices</h1>
   <h2></h2>
@@ -246,7 +252,7 @@
 <div id="national-trends" class="section level2">
 <h2>National trends</h2>
 <p>The chart below shows the Freddie Mac House Price Index (<a href="http://www.freddiemac.com/finance/fmhpi/about.html">link to source</a>) for the United States from December 2000 to December 2016.</p>
-<p><img src="/post/2017-02-19-house-price-update_files/figure-html/feb-19-2017-graph-us-1-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-02-19-house-price-update_files/figure-html/feb-19-2017-graph-us-1-1.png" width="672" /></p>
 <p>Prior to the Great Recession, house prices reached their seasonally-adjusted peak in March of 2007. Prices fell from 2007 (with a brief interruption due to the first time homebuyer tax credit) to December 2011 when they reached their post-recession minimum. Since 2012, house prices have been increasing, surpassing their prior peak in the fall of 2016. As of December 2016, house prices were 1.9 percent above their pre-2008 peak.</p>
 <p>The animation below shows the dramatic rise, fall, and recovery of house prices.</p>
 <p><img src="../../../../img/charts_feb_19_2017/tween test US hpi 02 18 2017.gif"></p>
@@ -254,10 +260,10 @@
 <div id="state-trends" class="section level2">
 <h2>State trends</h2>
 <p>The national time series obscures a lot of diversity across local housing markets. Let’s redraw the plot above using a small multiple for each state.</p>
-<p><img src="/post/2017-02-19-house-price-update_files/figure-html/feb-19-2017-graph-1-1.png" width="864" /></p>
+<p><img src="http://lenkiefer.com/post/2017-02-19-house-price-update_files/figure-html/feb-19-2017-graph-1-1.png" width="864" /></p>
 <p>Here we can see quite a bit of divergence across states. About half of the states are at an all-time high for the level of nominal house prices, while the other half still are below their pre-2008 peak.</p>
 <p>We can visualize these dynamics using a dot plot. The plot below is a static plot for December 2016, showing the level of the house price index for each state. I’ve added in a line segment showing the trailing 12-month min/max. If the dot is on the right, that means that house prices have been generally rising over the past year. If the dot is on the left, prices have been falling. The dots and segments are also color coded by the 12-month percent change in the index.</p>
-<p><img src="/post/2017-02-19-house-price-update_files/figure-html/feb-19-2017-graph-2-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-02-19-house-price-update_files/figure-html/feb-19-2017-graph-2-1.png" width="672" /></p>
 <p>In the graph the bluest states (OR, WA, CO) have the longest line segments, which indicate that these states have experienced the most house price appreciation over the past year (over 10 percent each). Only Alaska has the dot on the far left indicating that the December 2016 house price index in Alaska was the lowest in the past year. Many energy dependent states (AK, OK, ND, WY) are the reddest in color indicating that they have had the lowest house price appreciation in the past year (though only Alaska has experience a year-over-year decline).</p>
 <p>We can use animation to see how this graph evolves from 2000 to 2016:</p>
 <p><img src="../../../../img/charts_feb_19_2017/redbluedot 2016q4.gif"></p>
@@ -266,10 +272,10 @@
 <div id="looking-within-states" class="section level2">
 <h2>Looking within states</h2>
 <p>House prices at a state level can also obscure important local trends, particularly for large states. Let’s view metro area house price trends within two large states, California and Texas.</p>
-<p><img src="/post/2017-02-19-house-price-update_files/figure-html/feb-19-2017-graph-3-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-02-19-house-price-update_files/figure-html/feb-19-2017-graph-3-1.png" width="672" /></p>
 <p>This graph is the same style as the state dotplot above, but considers the metro areas that are located in California (specifically those whose primary state is California). We can see that generally house prices are rising in the Golden State, with Salinas leading the pack with 12.6 percent year-over-year house price growth in December 2016.</p>
 <p>Contrast with Texas:</p>
-<p><img src="/post/2017-02-19-house-price-update_files/figure-html/feb-19-2017-graph-4-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-02-19-house-price-update_files/figure-html/feb-19-2017-graph-4-1.png" width="672" /></p>
 <p>In Texas a few metros are experiencing a year-over-year decline in house prices (Longview, Midland, Odessa, and Victoria).These declines are at least in part due to the contraction in the energy sector. College Station-Bryan leads all Texas metros with 12.9 percent year-over-year house price appreciation in December 2016.</p>
 <p>While recently house price growth in California has exceeded that in Texas, it might be helpful to compare the history. The animated gifs below echo the one we made for the U.S., first for California and Texas individually, then in a side-by-side comparison.</p>
 <p><img src="../../../../img/charts_feb_19_2017/redbluedot CA metros 2016q4.gif"></p>

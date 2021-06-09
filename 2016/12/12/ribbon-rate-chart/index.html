@@ -23,13 +23,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
@@ -70,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -78,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -203,6 +203,12 @@
 
   <div id="main">
 
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Ribbon rate chart ">
+    <meta property="og:description" content="R statistics forecasting house prices housing">
 
 <div class="header">
   <h1>Ribbon rate chart </h1>
@@ -388,7 +394,7 @@ ggplot(data=pmms30yr,aes(x=date,y=rate))+
   theme(plot.margin=unit(c(0.25,0.25,0.25,0.25),&quot;cm&quot;))+
   scale_x_date(limits=c(as.Date(&quot;1972-01-01&quot;),as.Date(&quot;2016-12-08&quot;)))+
   coord_cartesian(ylim=c(02.5,20))</code></pre>
-<p><img src="/post/2016-12-12-ribbon-rate-chart_files/figure-html/rate-viz1-dec-12-2016,-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2016-12-12-ribbon-rate-chart_files/figure-html/rate-viz1-dec-12-2016,-1.png" width="672" /></p>
 </div>
 <div id="what-is-this" class="section level2">
 <h2>What is this?</h2>
@@ -445,17 +451,17 @@ Source: Freddie Mac Primary Mortgage Market Survey</td></tr></tfoot>
 </table>
 <p>Here we see that for the week of December 8, 2016 the average mortgage rate was 4.13 percent. The 52-week max was also 4.13 percent. The 52-week min was 3.41 percent. This means that over the 52-week window ending December 8, 2016 mortgage rates ranged as low as 3.41 percent and as high as 4.13 percent. Because the last observation is equal to the 52-week max there’s no green shaded area for this week, but it’s all purple in the plot, extending down from 4.13 percent to 3.41 percent.</p>
 <p>We can plot just the line and ribbons for the weeks in 2016:</p>
-<p><img src="/post/2016-12-12-ribbon-rate-chart_files/figure-html/rate-viz2-dec-12-2016,-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2016-12-12-ribbon-rate-chart_files/figure-html/rate-viz2-dec-12-2016,-1.png" width="672" /></p>
 <p>We see a lot of green for most of 2016, indicating that for much of the year mortgage rates were substantially below where they were 52-weeks ago.</p>
 </div>
 <div id="the-rug-really-ties-the-whole-plot-together." class="section level3">
 <h3>The rug really ties the whole plot together.</h3>
 <p>What’s the point of the rug? Well, it really ties the plot together.</p>
 <p>Consider the plot below which shows just rates for 2016, but adds in the rug plot:</p>
-<p><img src="/post/2016-12-12-ribbon-rate-chart_files/figure-html/rate-viz3-dec-12-2016,-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2016-12-12-ribbon-rate-chart_files/figure-html/rate-viz3-dec-12-2016,-1.png" width="672" /></p>
 <p>The rug is colored to correspond to the where the black line is in relation to the edges of the shaded areas. If the current rate (black line) is at the max so that there is no green area, then the tick will be dark purple. If the current rate is at the 52-week min so that there is no purple area then the tick will be yellow.</p>
 <p>Zooming out, we can see that the rug shows us at a glance how rates have been trending on a year-over-year basis.</p>
-<p><img src="/post/2016-12-12-ribbon-rate-chart_files/figure-html/rate-viz4-dec-12-2016,-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2016-12-12-ribbon-rate-chart_files/figure-html/rate-viz4-dec-12-2016,-1.png" width="672" /></p>
 <p>Now we’ve triple-encoded the range of rates in this chart. The line captures the trend, the purple ribbon indicates rates are rising relative to a year ago, while green shading indicates rates have been falling over the past year. Likewise the ribbon at the bottom, which is conveniently placed near the x axis, displays the current rate relative to 52-week min and max.</p>
 </div>
 </div>
@@ -568,7 +574,7 @@ Source: Freddie Mac Primary Mortgage Market Survey</td></tr></tfoot>
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="http://lenkiefer.com/js/math-code.js"></script>
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   
 

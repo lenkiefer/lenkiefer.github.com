@@ -23,13 +23,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
@@ -70,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -78,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -203,6 +203,16 @@
 
   <div id="main">
 
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Density squared">
+    <meta property="og:description" content="WE ARE GOING TO EXAMINE THE DISTRIBUTION OF US POPULATION and make an animated gif combining a map and a kernel density estimate of the distribution of county population densities. Density of densities, or density squared.
+We are going to use the same US County Population Estimates 1790-2010 we used in my previous post.
+We&rsquo;ll end up with this:
+How do we do it?
+Code First, we&rsquo;ll load the data and do some manipulations.">
 
 <div class="header">
   <h1>Density squared</h1>
@@ -336,7 +346,7 @@ my.out %&gt;% map_if(is.character, as.factor) %&gt;% as.data.frame() -&gt;my.out
 return(data.frame(my.out))   }</p>
 <p>myplotf(myf(&ldquo;2010&rdquo;))
 {% endhighlight</p>
-<p><img src="/img/Rfig/fig-density-plot-1-1.svg" alt="plot of chunk fig-density-plot-1"></p>
+<p><img src="http://lenkiefer.com/img/Rfig/fig-density-plot-1-1.svg" alt="plot of chunk fig-density-plot-1"></p>
 <h2 id="discussion">Discussion</h2>
 <p>This is a complex plot, even without the animation.  The map shows population density for each county in the U.S. in 2010. The darker the color (or purpler), the higher the density. You can pretty easily make out major population centers (New York, Los Angeles, Chicago) on the map.</p>
 <p>The plot below shows a density curve of county level population density. The gray line is for the entire United States.  Each overlaid hump is a density fie for each state. It might be easier if we break it down with facets for each state:</p>
@@ -365,7 +375,7 @@ theme(axis.title.y=element_blank(),
 axis.text.y=element_blank(),
 axis.ticks.y=element_blank())+facet_wrap(~STATE,ncol=10,scales=&ldquo;free_y&rdquo;)
 {% endhighlight</p>
-<p><img src="/img/Rfig/fig-density-plot-2-1.svg" alt="plot of chunk fig-density-plot-2"></p>
+<p><img src="http://lenkiefer.com/img/Rfig/fig-density-plot-2-1.svg" alt="plot of chunk fig-density-plot-2"></p>
 <p>This plot lets you compare the distribution of county population density by state in 2010. Some states, like New Jersey, are very urban and have concentrated density at the high end of the scale (purpler). Other states, like Alaska have low levels of population density.</p>
 <h2 id="animation">Animation</h2>
 <p>We can now animate this using tweenr to get the plot above (code below).  <em>See my earlier <a href="../../../../2016/05/29/improving-R-animated-gifs-with-tweenr">post about tweenr</a> for an introduction to tweenr, and more examples <a href="../../../../2016/05/30/more-tweenr-animations">here</a> and <a href="../../../../2016/06/26/week-in-review">here</a>.</em></p>
@@ -501,7 +511,7 @@ print(i)
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="http://lenkiefer.com/js/math-code.js"></script>
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   
 

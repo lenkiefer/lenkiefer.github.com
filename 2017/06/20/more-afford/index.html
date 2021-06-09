@@ -23,13 +23,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
@@ -70,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -78,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -203,6 +203,12 @@
 
   <div id="main">
 
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="More on housing affordability">
+    <meta property="og:description" content="rstats data visualizations of housing data">
 
 <div class="header">
   <h1>More on housing affordability</h1>
@@ -336,7 +342,7 @@ df3&lt;-merge(df,df2,by=c(&quot;year&quot;,&quot;metro&quot;))</code></pre>
   labs(y=&quot;Median Home Price-to-Median Income Ratio&quot;,x=&quot;Monthly payment in 2016 $, log scale&quot;,title=&quot;How affordable is housing?&quot;,
        subtitle=&quot;Metro Area-Median Home Price-to-Median Income Ratios: 2016\nvs U.S.-Monthly Mortgage Payment on the Median Priced Home: 2016&quot;,
        caption=&quot;@lenkiefer Each dot represents one metro area.\n\nSources: JCHS tabulations of National Association of Realtors and Moody&#39;s Analytics Forecasted Single-Family Seasonally \nAdjusted Quarterly Median Home Price, annualized by DataBuffet; Freddie Mac Annual Primary Mortgage Market Survey.\nJCHS 2017 State of the Nation&#39;s Housing, Appendix Tables http://www.jchs.harvard.edu/research/state_nations_housing\n\nNote: Monthly payment assumes a 5% down payment on the median-priced existing single-family home with property taxes of 1.25%, \nproperty insurance of 0.25%, and mortgage insurance of 0.5%. Values are adjusted to 2016 dollars using CPI-U All Items Less Shelter.\nMedian household income in 2016 is forecasted by Moody&#39;s Analytics.&quot;)</code></pre>
-<p><img src="/post/2017-06-20-more-afford_files/figure-html/06-20-2017-scatter-1-1.png" width="864" /></p>
+<p><img src="http://lenkiefer.com/post/2017-06-20-more-afford_files/figure-html/06-20-2017-scatter-1-1.png" width="864" /></p>
 <p>This chart tells an interesting story. The chart is upward sloping, which indicates that metro areas where house prices and thus monthly payments are higher tend to have higher median home price-to-median household income ratios. For example, Youngstown-Warren-Boardman, OH-PA which has a monthly payment of about $500 while San Jose-Sunnyvale-Santa Clara, CA has a monthly payment of over $6,000 dollars. The median home price-to-median household income ratio is less than 2 in Youngstown-Warren-Boardman, OH-PA, while it is 9.5 in San Jose-Sunnyvale-Santa Clara, CA.</p>
 <div id="trends-over-time" class="section level2">
 <h2>Trends over time</h2>
@@ -360,7 +366,7 @@ df3&lt;-merge(df,df2,by=c(&quot;year&quot;,&quot;metro&quot;))</code></pre>
   labs(y=&quot;Median Home Price-to-Median Income Ratio&quot;,x=&quot;Monthly payment in 2016 $, log scale&quot;,title=&quot;How affordable is housing?&quot;,
        subtitle=&quot;Metro Area-Median Home Price-to-Median Income Ratios: 1990-2016\nvs U.S.-Monthly Mortgage Payment on the Median Priced Home: 1990-2016&quot;,
        caption=&quot;@lenkiefer Each dot represents one metro area.\n\nSources: JCHS tabulations of National Association of Realtors and Moody&#39;s Analytics Forecasted Single-Family Seasonally \nAdjusted Quarterly Median Home Price, annualized by DataBuffet; Freddie Mac Annual Primary Mortgage Market Survey.\nJCHS 2017 State of the Nation&#39;s Housing, Appendix Tables http://www.jchs.harvard.edu/research/state_nations_housing\n\nNote: Monthly payment assumes a 5% down payment on the median-priced existing single-family home with property taxes of 1.25%, \nproperty insurance of 0.25%, and mortgage insurance of 0.5%. Values are adjusted to 2016 dollars using CPI-U All Items Less Shelter.\nMedian household income in 2016 is forecasted by Moody&#39;s Analytics.&quot;)</code></pre>
-<p><img src="/post/2017-06-20-more-afford_files/figure-html/06-20-2017-scatter-2-1.png" width="864" /></p>
+<p><img src="http://lenkiefer.com/post/2017-06-20-more-afford_files/figure-html/06-20-2017-scatter-2-1.png" width="864" /></p>
 <p>These two charts trace the fortunes of the two markets. Youngstown-Warren-Boardman, OH-PA has seen little change in the price-to-income ratio over the years. It has seen a decline in the monthly payment (after adjusting for inflation). San Jose-Sunnyvale-Santa Clara, CA on the other hand has seen a dramatic increase in both the monthly payment and the median home price-to-median income ratio. Despite the declines in mortgage rates, buyers in San Jose-Sunnyvale-Santa Clara, CA are paying more in payments and a larger percentage of their income (if they earn the median household income).</p>
 <p>The story might be easier to see in an animated gif:</p>
 <p><img src="../../../../img/charts_jun_20_2017/scatter.gif" height="472" width="660"></p>
@@ -479,7 +485,7 @@ df3&lt;-merge(df,df2,by=c(&quot;year&quot;,&quot;metro&quot;))</code></pre>
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="http://lenkiefer.com/js/math-code.js"></script>
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   
 

@@ -23,13 +23,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
@@ -70,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -78,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -204,6 +204,12 @@
   <div id="main">
 
 
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Joyful dataviz">
+    <meta property="og:description" content="rstats data visualizations of housing data">
+
 <div class="header">
   <h1>Joyful dataviz</h1>
   <h2></h2>
@@ -283,7 +289,7 @@
 ##     transpose</code></pre>
 <pre><code>## Picking joint bandwidth of 0.0138</code></pre>
 <pre><code>## Warning: Removed 38 rows containing non-finite values (stat_joy).</code></pre>
-<p><img src="/post/2017-07-26-joy_files/figure-html/07-26-2017-load-1-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-07-26-joy_files/figure-html/07-26-2017-load-1-1.png" width="672" /></p>
 <p>As David Smith over at Revolution Analytics points out, the plots can obscure some data. Nevertheless I find them evocative enough that some data obfuscation might be worth the interest they create. I dunno, let’s try it out.</p>
 <div id="data" class="section level3">
 <h3>Data</h3>
@@ -433,7 +439,7 @@
   theme_minimal()+theme(legend.position=&quot;none&quot;)+
   scale_x_continuous(label=percent)</code></pre>
 <pre><code>## Picking joint bandwidth of 0.0102</code></pre>
-<p><img src="/post/2017-07-26-joy_files/figure-html/07-26-2017-joy-2-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-07-26-joy_files/figure-html/07-26-2017-joy-2-1.png" width="672" /></p>
 <p>This plot shows the time series history of metro house price appreciation. We can see the wide dispersion during the housing bust, when some metros saw house prices decline by more than 20 percent annually.</p>
 <p>Let’s look compare the distributions across two large states, metros in California and metros in Texas.</p>
 <pre class="r"><code>ggplot(data=filter(df.metro,year(date)&gt;1979 &amp; month(date)==3 &amp; 
@@ -448,7 +454,7 @@
   theme_minimal()+theme(legend.position=&quot;none&quot;)+
   scale_x_continuous(label=percent)+  theme(legend.position=&quot;top&quot;)</code></pre>
 <pre><code>## Picking joint bandwidth of 0.0153</code></pre>
-<p><img src="/post/2017-07-26-joy_files/figure-html/07-26-2017-joy-3-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-07-26-joy_files/figure-html/07-26-2017-joy-3-1.png" width="672" /></p>
 <p>We can see that while Texas house prices held up pretty well during the Great Recession, many California markets saw big declines. Since then, California has rebounded and in recent years California metros have had faster house price growth than Texas metros.</p>
 </div>
 <div id="how-about-that-crazy-plot" class="section level3">
@@ -465,13 +471,13 @@
   scale_x_continuous(labels=percent)</code></pre>
 <pre><code>## Picking joint bandwidth of 0.0138</code></pre>
 <pre><code>## Warning: Removed 38 rows containing non-finite values (stat_joy).</code></pre>
-<p><img src="/post/2017-07-26-joy_files/figure-html/07-26-2017-joy-4-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-07-26-joy_files/figure-html/07-26-2017-joy-4-1.png" width="672" /></p>
 </div>
 <div id="home-sales" class="section level3">
 <h3>Home sales</h3>
 <p>I think joyplots work well if there are some important differences across groups. For example, I think they work to highlight seasonal patterns. The graph below shows monthly existing home sales, not seasonally adjusted.</p>
 <pre><code>## Picking joint bandwidth of 29.9</code></pre>
-<p><img src="/post/2017-07-26-joy_files/figure-html/07-26-2017-ehs-joy-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-07-26-joy_files/figure-html/07-26-2017-ehs-joy-1.png" width="672" /></p>
 </div>
 <div id="is-it-useful" class="section level3">
 <h3>Is it useful?</h3>

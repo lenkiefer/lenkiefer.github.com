@@ -23,13 +23,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
@@ -70,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -78,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -203,6 +203,12 @@
 
   <div id="main">
 
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Animate a bivariate choropleth">
+    <meta property="og:description" content="R statistics rstats mortgage rates dataviz">
 
 <div class="header">
   <h1>Animate a bivariate choropleth</h1>
@@ -462,7 +468,7 @@ g.legend&lt;-
   geom_segment(aes(x=0, xend = 0 , y=1, yend = 3), size=1.5,
                arrow = arrow(length = unit(0.6,&quot;cm&quot;))) 
 g.legend+  geom_text(alpha=1)</code></pre>
-<p><img src="/post/2017-04-25-bivariate-animate_files/figure-html/04-25-2017-setup-2-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-04-25-bivariate-animate_files/figure-html/04-25-2017-setup-2-1.png" width="672" /></p>
 </div>
 <div id="second-the-map" class="section level3">
 <h3>Second the map</h3>
@@ -498,7 +504,7 @@ ggplot() +
 multiplot(gmap,g.legend,layout=matrix(c(1,1,1,1,1,1,
                                         1,1,1,1,1,1,
                                         1,1,1,2,1,1), nrow=3, byrow=TRUE))</code></pre>
-<p><img src="/post/2017-04-25-bivariate-animate_files/figure-html/04-25-2017-map-1-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-04-25-bivariate-animate_files/figure-html/04-25-2017-map-1-1.png" width="672" /></p>
 <p>Let’s make a small multiple of the map.</p>
 <pre class="r"><code># Make small multiple of map
 
@@ -519,7 +525,7 @@ ggplot() +
     scale_fill_viridis()+guides(alpha=F,fill=F)+
     labs(caption=&quot;@lenkiefer Source: Freddie Mac House Price Index and  U.S. Bureau of Labor Statistics&quot;,
       title=&quot;House prices and employment year-over-year growth&quot;)</code></pre>
-<p><img src="/post/2017-04-25-bivariate-animate_files/figure-html/04-25-2017-map-2-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-04-25-bivariate-animate_files/figure-html/04-25-2017-map-2-1.png" width="672" /></p>
 </div>
 <div id="create-scatter" class="section level3">
 <h3>Create Scatter</h3>
@@ -557,7 +563,7 @@ ggplot() +
                                      quantile(hpa,c(0.333,0.667))]),
                        labels=c(&quot;0%&quot;,percent(round(dt[year(date)==2016 &amp; 
                                                         month(date)==12,                                                      quantile(hpa,c(0.333,0.667))],2))) )</code></pre>
-<p><img src="/post/2017-04-25-bivariate-animate_files/figure-html/04-25-2017-scatter-1-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-04-25-bivariate-animate_files/figure-html/04-25-2017-scatter-1-1.png" width="672" /></p>
 <p>Let’s construct a small multiple version of the scatter:</p>
 <pre class="r"><code>ggplot(data=dt[year(date)&gt;=2005 &amp; month(date)==12,],
       aes(y=hpa,x=emp.pc,color=atan(y/x),alpha=x+y))+
@@ -577,7 +583,7 @@ ggplot() +
   # limit the rang e
   scale_x_continuous(labels=percent)+
   scale_y_continuous(labels=percent)</code></pre>
-<p><img src="/post/2017-04-25-bivariate-animate_files/figure-html/04-25-2017-scatter-2-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-04-25-bivariate-animate_files/figure-html/04-25-2017-scatter-2-1.png" width="672" /></p>
 </div>
 <div id="animate-it" class="section level3">
 <h3>Animate it</h3>
@@ -768,7 +774,7 @@ saveGIF({for (i in 1:max(tf$.frame)) {
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="http://lenkiefer.com/js/math-code.js"></script>
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   
 

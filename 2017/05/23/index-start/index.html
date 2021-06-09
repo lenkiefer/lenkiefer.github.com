@@ -23,13 +23,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
@@ -70,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -78,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -203,6 +203,12 @@
 
   <div id="main">
 
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Index starting points and dataviz">
+    <meta property="og:description" content="R statistics dataviz ggplot2 housing mortgage data">
 
 <div class="header">
   <h1>Index starting points and dataviz</h1>
@@ -513,7 +519,7 @@ Source: Freddie Mac House Price Index
        caption=&quot;@lenkiefer Source: Freddie Mac House Price Index through March 2017&quot;,
          subtitle=&quot;log scale, Dec 2000 = 100, NSA&quot;,
        title=&quot;Virginia house price trends&quot;)</code></pre>
-<p><img src="/post/2017-05-23-index-start_files/figure-html/05-23-2017-plot-1-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-05-23-index-start_files/figure-html/05-23-2017-plot-1-1.png" width="672" /></p>
 <p>We’ve marked the last value (for March 2017) with a red dot and label. The Virginia index is at 181, which means that relative to December 2000, house prices in Virginia in March 2017 are up 81%.</p>
 <p>If we were interested in how much prices have risen since March 2016, we could renormalize the index so that March 2016 is equal to 100 and replot the index. I’ve got a <a href="http://dplyr.tidyverse.org/">dplyr</a> trick for this.</p>
 <p>Using <code>group_by</code> and <code>mutate</code> plus brackets and a filtering statement such as <code>mutate(hpi.0316=100*hpi/hpi[date=="2016-03-01"])</code> below enables us to index the time series data. Because I like to normalize data often, this little pattern is of great use to me.</p>
@@ -540,7 +546,7 @@ ggplot(data=df.va,aes(x=date,y=hpi.0316,label=round(hpi.0316,1)))+
        caption=&quot;@lenkiefer Source: Freddie Mac House Price Index through March 2017&quot;,
          subtitle=&quot;log scale, March 2016 = 100, NSA&quot;,
        title=&quot;Virginia house price trends&quot;)</code></pre>
-<p><img src="/post/2017-05-23-index-start_files/figure-html/05-23-2017-plot-2-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-05-23-index-start_files/figure-html/05-23-2017-plot-2-1.png" width="672" /></p>
 <p>The general shape of the index looks the same (particularly on a log scale), but the index value is now 102.9, indicating that house prices in Virginia have risen 2.9 percent from March 2016 to March 2017.</p>
 </div>
 <div id="comparing-many-states" class="section level1">
@@ -561,7 +567,7 @@ ggplot(data=df,aes(x=date,y=hpi,group=geo))+
        caption=&quot;@lenkiefer Source: Freddie Mac House Price Index through March 2017&quot;,
          subtitle=&quot;each line a state, log scale, Dec 2000 = 100, NSA&quot;,
        title=&quot;House price trends&quot;)</code></pre>
-<p><img src="/post/2017-05-23-index-start_files/figure-html/05-23-2017-plot-3-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-05-23-index-start_files/figure-html/05-23-2017-plot-3-1.png" width="672" /></p>
 <p>Now we can see quite a lot of variation across states.</p>
 <p>Let’s renormalize so that our last data point (March 2017) is equal to 100 and plot it:</p>
 <pre class="r"><code># compute index normalized so March 2016 = 100
@@ -577,7 +583,7 @@ ggplot(data=df,aes(x=date,y=hpi2,group=geo))+
        caption=&quot;@lenkiefer Source: Freddie Mac House Price Index through March 2017&quot;,
          subtitle=&quot;each line a state, log scale, March 2017 = 100, NSA&quot;,
        title=&quot;House price trends&quot;)</code></pre>
-<p><img src="/post/2017-05-23-index-start_files/figure-html/05-23-2017-plot-4-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-05-23-index-start_files/figure-html/05-23-2017-plot-4-1.png" width="672" /></p>
 <p>Same data, but doesn’t quite look the same.</p>
 <p>Before we get to the animation, how about one more static plot?</p>
 <p>Let’s make a small multiple seeing how the plots differ as we let the reference date vary from March of 2000 to March of 2017, one year at a time. We’ll also use <a href="http://purrr.tidyverse.org/">purrr</a>’s <code>map_df</code> to help us. For more see <a href="../../../../2016/12/04/recursion">this post</a> on nested recursions.</p>
@@ -627,7 +633,7 @@ ggplot(data=df3, aes(x=date,y=hpi2))+
        caption=&quot;@lenkiefer Source: Freddie Mac House Price Index through March 2017&quot;,
          subtitle=&quot;Each panel with a different date normalized =100, NSA&quot;,
        title=&quot;Virginia house price trends&quot;)</code></pre>
-<p><img src="/post/2017-05-23-index-start_files/figure-html/05-23-2017-plot-5-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-05-23-index-start_files/figure-html/05-23-2017-plot-5-1.png" width="672" /></p>
 <p>Here we can see that although renormalizing the index affects the level of the index, it doesn’t really change the shape. Especially if we plot the index on a log scale.</p>
 <div id="make-an-animation" class="section level2">
 <h2>Make an animation</h2>
@@ -800,7 +806,7 @@ saveGIF({for (i in c(1:N,N:1)) {
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="http://lenkiefer.com/js/math-code.js"></script>
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   
 

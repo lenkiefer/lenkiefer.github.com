@@ -23,13 +23,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
@@ -70,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -78,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -203,6 +203,12 @@
 
   <div id="main">
 
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com//img/charts_mar_03_2019/summary.png" >
+     
+    <meta property="og:title" content="Mortgage rates and housing construction">
+    <meta property="og:description" content="We take a look at recent trends in mortgage rates and housing construction. Also make some animations with R and gganimate">
 
 <div class="header">
   <h1>Mortgage rates and housing construction</h1>
@@ -336,7 +342,7 @@ df_comp &lt;- filter(df, symbol==&quot;COMPUTNSA&quot;) %&gt;% group_by(year) %&
     plot.title=element_text(face=&quot;bold&quot;),
         plot.subtitle=element_text(face=&quot;italic&quot;),
         plot.caption=element_text(hjust=0))</code></pre>
-<p><img src="/post/2019-03-03-mortgage-rates-and-housing-construction_files/figure-html/2019-03-03-completions-plot-1.png" width="1056" /></p>
+<p><img src="http://lenkiefer.com/post/2019-03-03-mortgage-rates-and-housing-construction_files/figure-html/2019-03-03-completions-plot-1.png" width="1056" /></p>
 </div>
 <div id="popular-mortgage-rate-animation" class="section level1">
 <h1>Popular mortgage rate animation</h1>
@@ -365,7 +371,7 @@ ggplot(data=filter(df_rate,year&gt;2016),
        title=&quot;Mortgage Rate Trends&quot;,
        subtitle=&quot;U.S. weekly average 30-year fixed mortgage rate (percent)&quot;,
        caption=&quot;@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey through February 28, 2019&quot;)</code></pre>
-<p><img src="/post/2019-03-03-mortgage-rates-and-housing-construction_files/figure-html/2019-03-03-mtg-plot-1-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2019-03-03-mortgage-rates-and-housing-construction_files/figure-html/2019-03-03-mtg-plot-1-1.png" width="672" /></p>
 <p>And to animate:</p>
 <p><details> <Summary>Click for R code to animate </Summary></p>
 <pre class="r"><code>g_rate &lt;- 
@@ -424,7 +430,7 @@ ggplot(data=filter(df_starts1,year&gt;2000), aes(x=month, y=price, color=price))
 <p></details></p>
 <p>Let’s take a look</p>
 <pre class="r"><code>g1</code></pre>
-<p><img src="/post/2019-03-03-mortgage-rates-and-housing-construction_files/figure-html/2019-03-03-starts-plot-1-static-show-1.png" width="1056" /></p>
+<p><img src="http://lenkiefer.com/post/2019-03-03-mortgage-rates-and-housing-construction_files/figure-html/2019-03-03-starts-plot-1-static-show-1.png" width="1056" /></p>
 <p>That doesn’t look good at all! However, it’s like we want it. If we use <code>gganimate::transition_states()</code> we’ll get the desired results:</p>
 <pre class="r"><code>anim&lt;-
   g1+transition_states(year)+shadow_mark(alpha=0.25)
@@ -480,7 +486,7 @@ anim_save(file=&quot;PATH_TO_YOUR_DIRECTORY/starts_anim_mar2019_v3.gif&quot;,
   geom_line(size=1.05)+
   geom_point(size=1, shape=21, fill=&quot;white&quot;,stroke=1)+
   coord_polar()</code></pre>
-<p><img src="/post/2019-03-03-mortgage-rates-and-housing-construction_files/figure-html/2019-03-03-polar-sm-tree-1.png" width="1056" /></p>
+<p><img src="http://lenkiefer.com/post/2019-03-03-mortgage-rates-and-housing-construction_files/figure-html/2019-03-03-polar-sm-tree-1.png" width="1056" /></p>
 <p>We could think about animating that, but that might be getting a little intense and overdoing it.</p>
 <p>Eh, let’s go for it!</p>
 <pre class="r"><code>g_sm&lt;-
@@ -651,7 +657,7 @@ anim_save(file=&quot;PATH_TO_YOUR_DIRECTORY/starts1_line_anim_mar2019_v5_long.gi
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="http://lenkiefer.com/js/math-code.js"></script>
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   
 

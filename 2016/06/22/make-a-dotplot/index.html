@@ -23,13 +23,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
@@ -70,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -78,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -204,6 +204,14 @@
   <div id="main">
 
 
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Let&#39;s make a dot plot">
+    <meta property="og:description" content="IN THIS POST WE&rsquo;RE GOING to make an animated version of the famous Federal Reserve dot plot comparing the dots in March 2016 to June 2016. As far as celebrity charts go, the dot plot has to be up there. Check out how much &ldquo;dot plot&rdquo; has grown in search popularity since the Fed introduced their dot plot in 2012:
+Ultimately, it will look something like this:
+The dot plot is a special chart that shows the distribution of expectations of the Federal Open Market Committee (FOMC) for the federal funds rate.">
+
 <div class="header">
   <h1>Let&#39;s make a dot plot</h1>
   <h2></h2>
@@ -304,7 +312,7 @@ caption=label_wrap_gen(100)(caption))+ #wrap the label
 theme(plot.title=element_text(size=14))+theme(plot.caption=element_text(hjust=0,vjust=1,margin=margin(t=10)))+
 theme(plot.margin=unit(c(0.25,0.25,0.25,0.25),&ldquo;cm&rdquo;))+  theme(legend.justification=c(0,0), legend.position=&ldquo;none&rdquo;)
 {% endhighlight</p>
-<p><img src="/img/Rfig/dot-chunk-1.svg" alt="plot of chunk dot-chunk"></p>
+<p><img src="http://lenkiefer.com/img/Rfig/dot-chunk-1.svg" alt="plot of chunk dot-chunk"></p>
 <h2 id="animating-the-dots">Animating the dots</h2>
 <p>Now we&rsquo;re ready to animate.  For more explicit discussion, see my [earlier post]({%post_url 2016-05-29-improving-R-animated-gifs-with-tweenr). What we&rsquo;re going to do is load each month worth of dots and then then use tweenr to interpolate between the points.</p>
 <h3 id="a-dot-goes-missing">A dot goes missing</h3>
@@ -471,7 +479,7 @@ print(i)  #I like to print a counter so I know about when the animation will fin
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="http://lenkiefer.com/js/math-code.js"></script>
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   
 

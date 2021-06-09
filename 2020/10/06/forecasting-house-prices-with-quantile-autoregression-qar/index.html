@@ -23,13 +23,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
@@ -70,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -78,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -204,6 +204,12 @@
   <div id="main">
 
 
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/charts_2020_10_06/qar.png" >
+     
+    <meta property="og:title" content="Forecasting house prices with Quantile AutoRegression (QAR)">
+    <meta property="og:description" content="Using Quantile AutoRegression techniques to characterize the conditional forecast density for US House Prices (speculative).">
+
 <div class="header">
   <h1>Forecasting house prices with Quantile AutoRegression (QAR)</h1>
   <h2>Using Quantile AutoRegression techniques to characterize the conditional forecast density for US House Prices (speculative).</h2>
@@ -282,7 +288,7 @@ autoplot(hpa,color=&quot;dodgerblue&quot;,size=1.1)+scale_y_continuous(labels=sc
        y=&quot;&quot;,
        title=&quot;12-month Percent Change in US House Price Index&quot;,
        caption=&quot;Source: Freddie Mac House Price Index&quot;)</code></pre>
-<p><img src="/post/2020-10-06-forecasting-house-prices-with-quantile-autoregression-qar_files/figure-html/unnamed-chunk-2-1.png" width="672" />
+<p><img src="http://lenkiefer.com/post/2020-10-06-forecasting-house-prices-with-quantile-autoregression-qar_files/figure-html/unnamed-chunk-2-1.png" width="672" />
 We want to account for varying rates of underlying inflation, so let’s deflate the index by the BEA’s <a href="https://fred.stlouisfed.org/series/PCEPI">Personal Consumption Expenditures: Chain-type Price Index</a>.</p>
 <pre class="r"><code>dt_pce &lt;- tidyquant::tq_get(&quot;PCEPI&quot;,get=&quot;economic.data&quot;,from=&quot;1975-01-01&quot;)
 dt_pce &lt;- data.table(dt_pce)[,pce:=price/shift(price,12)-1]
@@ -303,7 +309,7 @@ ggplot(data=dt_us2[Month==8,], aes(x=date,y=rhpa))+
        y=&quot;&quot;,
        title=&quot;12-month Percent Change in US Real House Price Index&quot;,
        caption=&quot;Source: Freddie Mac House Price Index, deflated by Personal Consumption Expenditures: Chain-type Price Index&quot;)</code></pre>
-<p><img src="/post/2020-10-06-forecasting-house-prices-with-quantile-autoregression-qar_files/figure-html/unnamed-chunk-3-1.png" width="672" />
+<p><img src="http://lenkiefer.com/post/2020-10-06-forecasting-house-prices-with-quantile-autoregression-qar_files/figure-html/unnamed-chunk-3-1.png" width="672" />
 Now we can fit a quantile autoregression using one annual lag:</p>
 <pre class="r"><code>g.qr&lt;-
   rq(data=dt_us2,
@@ -325,7 +331,7 @@ Now we can fit a quantile autoregression using one annual lag:</p>
        title=&quot;Quantile AutoRegression (QAR) Results:\nrhpa ~ rhpa12&quot;,
        caption=&quot;@lenkiefer Note: Quantile regresion coefficients for 12-month real house price growth with\n 12-month lag lags of real house prices. U.S. SA index (Aug 1976-Aug 2020)&quot;)
 g.qr</code></pre>
-<p><img src="/post/2020-10-06-forecasting-house-prices-with-quantile-autoregression-qar_files/figure-html/unnamed-chunk-4-1.png" width="672" />
+<p><img src="http://lenkiefer.com/post/2020-10-06-forecasting-house-prices-with-quantile-autoregression-qar_files/figure-html/unnamed-chunk-4-1.png" width="672" />
 The QAR model results such asymmetry in the house price growth process. When you have a negative draw (tau is low) you tend to have more persistence in the process (the AR coefficient is bigger).</p>
 <p>We can see that asymmetry by simulating house prices forward.</p>
 <pre class="r"><code>df &lt;- dt_us2[Year&gt;1975 &amp; Month==8,]
@@ -878,7 +884,7 @@ Forecasts Starting from August 2020 12, 24, 36 months foreward.</td>
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="http://lenkiefer.com/js/math-code.js"></script>
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   
 

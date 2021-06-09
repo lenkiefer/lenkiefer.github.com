@@ -23,13 +23,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
@@ -70,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -78,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -203,6 +203,12 @@
 
   <div id="main">
 
+
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Plotting recent house price trends with R">
+    <meta property="og:description" content="R statistics dataviz housing mortgage data">
 
 <div class="header">
   <h1>Plotting recent house price trends with R</h1>
@@ -386,7 +392,7 @@ plot.hpa&lt;-
     geom_hline(yintercept=0,color=&quot;black&quot;,linetype=2)
 
 plot_grid(plot.hpi, plot.hpa)</code></pre>
-<p><img src="/post/2017-08-07-house-price-trends_files/figure-html/08-06-2017-setup-1-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-08-07-house-price-trends_files/figure-html/08-06-2017-setup-1-1.png" width="672" /></p>
 <p>Note that I used the <a href="https://cran.r-project.org/web/packages/cowplot/index.html">cowplot</a> library to arrange multiple plots.</p>
 <p>From this chart we can see that house prices are above their pre-recession peak and that the rate of growth is approaching seven percent on an annual basis. How do trends look at the state level? And how do they compare to the U.S. trend we plotted?</p>
 <p>First, let’s look at state house price appreciation. We’ll create two small multiples, first a rectangular grid of state appreciation. Then we’ll use <a href="https://cran.r-project.org/web/packages/geofacet/index.html">geo_facet</a> for different layout. We’ll also use the <a href="https://cran.r-project.org/web/packages/ggjoy/index.html">ggjoy</a> package for some sweet gradient shading.</p>
@@ -410,7 +416,7 @@ ggplot(data=filter(df.state,state !=&quot;DC&quot; &amp; year(date)&gt;1999),
         plot.caption=element_text(hjust=0,size=8),
         axis.ticks.length=unit(0.25,&quot;cm&quot;)) +
     geom_hline(yintercept=0,color=&quot;black&quot;,linetype=2)</code></pre>
-<p><img src="/post/2017-08-07-house-price-trends_files/figure-html/08-06-2017-plot-1-1.png" width="1152" /></p>
+<p><img src="http://lenkiefer.com/post/2017-08-07-house-price-trends_files/figure-html/08-06-2017-plot-1-1.png" width="1152" /></p>
 <p>Now let’s try a geo facet layout:</p>
 <pre class="r"><code>ggplot(data=filter(df.state, year(date)&gt;1999), 
          aes(x=date,y=hpa,label=round(hpa,0)))+
@@ -430,7 +436,7 @@ ggplot(data=filter(df.state,state !=&quot;DC&quot; &amp; year(date)&gt;1999),
         axis.ticks.length=unit(0.25,&quot;cm&quot;)) +
     geom_hline(yintercept=0,color=&quot;black&quot;,linetype=2)+
     facet_geo(~ state, grid = &quot;us_state_grid2&quot;)</code></pre>
-<p><img src="/post/2017-08-07-house-price-trends_files/figure-html/08-06-2017-plot-2-1.png" width="1344" /></p>
+<p><img src="http://lenkiefer.com/post/2017-08-07-house-price-trends_files/figure-html/08-06-2017-plot-2-1.png" width="1344" /></p>
 </div>
 <div id="joyswarm" class="section level1">
 <h1>Joyswarm</h1>
@@ -491,7 +497,7 @@ ggplot(data=filter(df.metro,year(date)&gt;2003 &amp; month(date)==6), aes(x=hpa,
        subtitle=&quot;12-month percent change in June of each year&quot;,
        caption=&quot;@lenkiefer Source: Freddie Mac House Price Index. Each dot a metro area, curve density over metros.&quot;)</code></pre>
 <pre><code>## Picking joint bandwidth of 0.0112</code></pre>
-<p><img src="/post/2017-08-07-house-price-trends_files/figure-html/08-07-2017-joyswarm-1-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-08-07-house-price-trends_files/figure-html/08-07-2017-joyswarm-1-1.png" width="672" /></p>
 <p>This plot shows the distribution of house price increases has shifted higher over the past couple of years, but remains below the 2013 levels (when housing markets were recovering from the Great Recession) and the levels of last decade.</p>
 <div id="relating-house-price-trends-to-economic-variables" class="section level2">
 <h2>Relating house price trends to economic variables</h2>
@@ -605,7 +611,7 @@ ur.plot2&lt;-rbind(ur.plot,ur.plot.us)</code></pre>
 <pre><code>## Some values in the specified facet_geo column &#39;state&#39; do not match
 ##   the &#39;name&#39; column of the specified grid and will be removed:
 ##   United States</code></pre>
-<p><img src="/post/2017-08-07-house-price-trends_files/figure-html/08-07-2017-ur-plot-1-1.png" width="1344" /></p>
+<p><img src="http://lenkiefer.com/post/2017-08-07-house-price-trends_files/figure-html/08-07-2017-ur-plot-1-1.png" width="1344" /></p>
 <p>Ha ha! That’s a lot of fun. Now let’s combine the house price data with the unemployment data.</p>
 </div>
 <div id="house-price-and-unemployment" class="section level2">
@@ -647,7 +653,7 @@ ggplot(data=filter(dfhu,date==max(dfhu$date)),
           legend.key.width=unit(1,&quot;cm&quot;),
           legend.position=&quot;top&quot;,
           panel.grid.major.y =element_blank())</code></pre>
-<p><img src="/post/2017-08-07-house-price-trends_files/figure-html/08-07-2017-hpa-ur-scatter1-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-08-07-house-price-trends_files/figure-html/08-07-2017-hpa-ur-scatter1-1.png" width="672" /></p>
 <p>This plot shows that in general, states with relatively higher unemployment rates tend to have lower house price growth.</p>
 <p>Let’s see how the relationship evolves over time. We’ll trace out a pather using <code>geom_path</code>, first for just the state of California.</p>
 <pre class="r"><code>#####################################################################################
@@ -692,12 +698,12 @@ myplot5&lt;-function(df3) {
 
 myplot5(myf5(dlist[210],&quot;CA&quot;))</code></pre>
 <pre><code>## Warning: Removed 1 rows containing missing values (geom_vline).</code></pre>
-<p><img src="/post/2017-08-07-house-price-trends_files/figure-html/08-07-2017-hpa-ur-scatter-2-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-08-07-house-price-trends_files/figure-html/08-07-2017-hpa-ur-scatter-2-1.png" width="672" /></p>
 <p>Now let’s try it for several states:</p>
 <pre class="r"><code>st.list&lt;- c(&quot;CA&quot;,&quot;TX&quot;,&quot;FL&quot;,&quot;NV&quot;,&quot;AZ&quot;,&quot;WA&quot;,&quot;CO&quot;,&quot;MI&quot;,&quot;NC&quot;)
 myplot5(myf5(dlist[210],st.list))</code></pre>
 <pre><code>## Warning: Removed 9 rows containing missing values (geom_vline).</code></pre>
-<p><img src="/post/2017-08-07-house-price-trends_files/figure-html/08-07-2017-hpa-ur-scatter-3-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-08-07-house-price-trends_files/figure-html/08-07-2017-hpa-ur-scatter-3-1.png" width="672" /></p>
 <p>Now let’s try to show it for all states.</p>
 <pre class="r"><code>ggplot(data=filter(dfhu, date&gt;as.Date(&quot;2000-11-01&quot;)), 
        aes(x=ur,y=hpa,color=hpa1,label=state))+
@@ -724,7 +730,7 @@ myplot5(myf5(dlist[210],st.list))</code></pre>
         panel.grid.major.y =element_blank())+  # use facet_geo
   facet_geo(~ state, grid = &quot;us_state_grid2&quot;)</code></pre>
 <pre><code>## Warning: Removed 96 rows containing missing values (geom_vline).</code></pre>
-<p><img src="/post/2017-08-07-house-price-trends_files/figure-html/08-07-2017-hpa-ur-scatter-4-1.png" width="1344" /></p>
+<p><img src="http://lenkiefer.com/post/2017-08-07-house-price-trends_files/figure-html/08-07-2017-hpa-ur-scatter-4-1.png" width="1344" /></p>
 </div>
 </div>
 <div id="some-animations" class="section level1">
@@ -745,7 +751,7 @@ myplot5(myf5(dlist[210],st.list))</code></pre>
   grid.text(label=paste(&quot;U.S. house price index Jan 2000 - Jun 2017\n@lenkiefer, made using R package Kandinsky&quot;),
             gp=gpar(fontsize=12),
             x=.95,y=0.075,just=&quot;right&quot;)</code></pre>
-<p><img src="/post/2017-08-07-house-price-trends_files/figure-html/08-07-2017-kandinsky-US-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-08-07-house-price-trends_files/figure-html/08-07-2017-kandinsky-US-1.png" width="672" /></p>
 </div>
 <div id="virginia-texas-ohio-kentucky" class="section level3">
 <h3>Virginia, Texas, Ohio, Kentucky</h3>
@@ -754,7 +760,7 @@ myplot5(myf5(dlist[210],st.list))</code></pre>
   grid.text(label=paste(&quot;12-month percent change in house price index\nJan 1976 - Jun 2017\nVA, TX, OH, and KY\n@lenkiefer, made using R package Kandinsky&quot;),
             gp=gpar(fontsize=12),
             x=.95,y=0.8,just=&quot;right&quot;)</code></pre>
-<p><img src="/post/2017-08-07-house-price-trends_files/figure-html/08-07-2017-kandinsky-states-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-08-07-house-price-trends_files/figure-html/08-07-2017-kandinsky-states-1.png" width="672" /></p>
 </div>
 </div>
 
@@ -865,7 +871,7 @@ myplot5(myf5(dlist[210],st.list))</code></pre>
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="http://lenkiefer.com/js/math-code.js"></script>
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   
 

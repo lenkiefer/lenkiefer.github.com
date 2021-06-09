@@ -23,13 +23,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
@@ -70,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -78,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -203,6 +203,12 @@
 
   <div id="main">
 
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com//img/charts_2021_01_26/cs_msa.png" >
+     
+    <meta property="og:title" content="House Prices Lift Off">
+    <meta property="og:description" content="House price dataviz with Inari color theme">
 
 <div class="header">
   <h1>House Prices Lift Off</h1>
@@ -341,7 +347,7 @@ df_plot %&gt;%
     plot.caption = element_text(hjust = 0),
     panel.background = element_rect(fill = inari1)
   )</code></pre>
-<p><img src="/post/2021-01-26-house-prices-lift-off_files/figure-html/chart_2020_01_26_inari_1-1.png" width="768" /></p>
+<p><img src="http://lenkiefer.com/post/2021-01-26-house-prices-lift-off_files/figure-html/chart_2020_01_26_inari_1-1.png" width="768" /></p>
 <pre class="r"><code># make plot 2
 df.out2 %&gt;% pivot_longer(-date, names_to = &quot;city&quot;, values_to = &quot;price&quot;)  %&gt;%
   filter(city != &quot;20-city&quot;) %&gt;%
@@ -386,7 +392,7 @@ df.out2 %&gt;% pivot_longer(-date, names_to = &quot;city&quot;, values_to = &quo
                          panel.background = element_rect(fill = &quot;#ff8436&quot;)
                        )</code></pre>
 <pre><code>## Warning: Removed 12 row(s) containing missing values (geom_path).</code></pre>
-<p><img src="/post/2021-01-26-house-prices-lift-off_files/figure-html/chart_2020_01_26_inari_2-1.png" width="768" /></p>
+<p><img src="http://lenkiefer.com/post/2021-01-26-house-prices-lift-off_files/figure-html/chart_2020_01_26_inari_2-1.png" width="768" /></p>
 
   
   <h4><i class="fas fa-share-alt" aria-hidden="true"></i>&nbsp;Share!</h4>

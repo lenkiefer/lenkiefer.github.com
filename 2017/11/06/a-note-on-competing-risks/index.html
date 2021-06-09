@@ -23,13 +23,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
@@ -70,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -78,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -204,6 +204,12 @@
   <div id="main">
 
 
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com//img/charts_nov_06_2017/sim.PNG" >
+     
+    <meta property="og:title" content="A note on competing risks">
+    <meta property="og:description" content="A small note on a statistical result. Some simulations and maximum likelihood estimation with R, Broom and Purrr.">
+
 <div class="header">
   <h1>A note on competing risks</h1>
   <h2>A small note on a statistical result. Some simulations and maximum likelihood estimation with R, Broom and Purrr.</h2>
@@ -290,7 +296,7 @@ ggplot(data=df %&gt;% gather(variable,value,-id), aes(x=value,color=variable,fil
   scale_fill_viridis(discrete=T,option=&quot;C&quot;,end=0.8)+
     labs(title=&quot;Distribution of bivariate normal variables (y1,y2) and z=min(y1,y2)&quot;,
          subtitle=&quot;shaded areas kernel fit to draw of N=1,000,\nblack line theoretical distribution of z = min(y1,y2)&quot;)</code></pre>
-<p><img src="/post/2017-11-06-a-note-on-competing-risks_files/figure-html/11-06-2017-sim-1-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-11-06-a-note-on-competing-risks_files/figure-html/11-06-2017-sim-1-1.png" width="672" /></p>
 <p>We might be interested in seeing how well we can recover the means <span class="math inline">\(\mu_1\)</span> and <span class="math inline">\(\mu_2\)</span>. We can do this via maximum likelihood.</p>
 <pre class="r"><code>#log likelihood function
 ll&lt;- function(params) {
@@ -374,7 +380,7 @@ ggplot(data=df0 %&gt;% gather(variable,value,-id,-N), aes(x=value,color=variable
   facet_wrap(~forcats::fct_reorder(paste(&quot;N =&quot;,comma(N)),N))+
   labs(title=&quot;Distribution of bivariate normal variables (y1,y2) and z=min(y1,y2)&quot;,
        subtitle=&quot;shaded areas kernel fit to draw of N=1,000,\nblack line theoretical distribution of z = min(y1,y2)&quot;)</code></pre>
-<p><img src="/post/2017-11-06-a-note-on-competing-risks_files/figure-html/11-06-2017-sim-3-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-11-06-a-note-on-competing-risks_files/figure-html/11-06-2017-sim-3-1.png" width="672" /></p>
 <p>Ground-breaking? No, considering these results were published before I was born. But still, could be handy.</p>
 </div>
 
@@ -485,7 +491,7 @@ ggplot(data=df0 %&gt;% gather(variable,value,-id,-N), aes(x=value,color=variable
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="http://lenkiefer.com/js/math-code.js"></script>
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   
 

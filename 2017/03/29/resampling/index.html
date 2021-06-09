@@ -23,13 +23,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
@@ -70,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -78,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -204,6 +204,12 @@
   <div id="main">
 
 
+       <meta name="twitter:card" content="summary">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
+    
+    <meta property="og:title" content="Resampling">
+    <meta property="og:description" content="R statistics dataviz housing mortgage data">
+
 <div class="header">
   <h1>Resampling</h1>
   <h2></h2>
@@ -263,7 +269,7 @@ x&lt;-rnorm(100)</code></pre>
   theme_minimal()+
   labs(title=&quot;Histogram of 100 draws of i.i.d. Normal(0,1)&quot;,
        subtitle=&quot;Red line normal density&quot;)</code></pre>
-<p><img src="/post/2017-03-29-resampling_files/figure-html/mar-29-2017-data-setup-2-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-03-29-resampling_files/figure-html/mar-29-2017-data-setup-2-1.png" width="672" /></p>
 <p>Well okay. Now what are we going to do with it?</p>
 </div>
 <div id="reducing-the-sample-size" class="section level2">
@@ -322,7 +328,7 @@ df2 &lt;- df %&gt;%
        y=expression(paste(hat(sigma)[bar(x)[n]])),
        subtitle=expression(paste(&quot;Sample mean: &quot;,hat(sigma)[bar(x)[n]],&quot; and theoretical standard deviation: &quot;,sigma[n],&quot; =&quot;, frac(1,sqrt(n)))),
        title=&quot;Approximating the standard deviation of sample mean&quot;)</code></pre>
-<p><img src="/post/2017-03-29-resampling_files/figure-html/mar-29-2017-data-plot-1-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-03-29-resampling_files/figure-html/mar-29-2017-data-plot-1-1.png" width="672" /></p>
 <p>This shows that for smaller <code>n</code> the resampling approaches approximate the theoretical standard deviation pretty well, but as n approaches <code>N</code> the dependence created by resampling without replacement causes that approximation to perform worse.</p>
 <p>We might be able to see that better by plotting the distributions.</p>
 <pre class="r"><code># Function for multiple plots via
@@ -395,7 +401,7 @@ myplot=function(N=30)
 <pre class="r"><code>multiplot(myplot(25),myplot(50)+theme(legend.position=&quot;none&quot;),
           myplot(75)+theme(legend.position=&quot;none&quot;),myplot(99)+theme(legend.position=&quot;none&quot;),
           layout=matrix(c(1,2,3,4), nrow=2,byrow=T))</code></pre>
-<p><img src="/post/2017-03-29-resampling_files/figure-html/mar-29-2017-data-plot-3-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2017-03-29-resampling_files/figure-html/mar-29-2017-data-plot-3-1.png" width="672" /></p>
 </div>
 <div id="okay-so-what" class="section level1">
 <h1>Okay so what?</h1>
@@ -510,7 +516,7 @@ myplot=function(N=30)
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="http://lenkiefer.com/js/math-code.js"></script>
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   
 
