@@ -204,9 +204,9 @@
   <div id="main">
 
 
-       <meta name="twitter:card" content="summary">
-       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
-    
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com//img/charts_2021_06_16/rose.png" >
+     
     <meta property="og:title" content="Rose chart in R">
     <meta property="og:description" content="A chart by any other name would still look as sweet">
 
@@ -262,7 +262,7 @@ library(ggfx)</code></pre>
   geom_point(alpha=.05, shape=20, size=0)+
   theme_void()+
   coord_polar()</code></pre>
-<p><img src="http://lenkiefer.com/2021/06/16/rose-chart-in-r/index_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2021-06-16-rose-chart-in-r_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <p>I made my own tweet-sized remix</p>
 <pre class="r"><code>seq(-3, 3, by = .02) %&gt;%
   expand.grid(x = ., y = .) %&gt;%
@@ -286,7 +286,7 @@ library(ggfx)</code></pre>
       &quot;\nhttps://twitter.com/aschinchon/status/1405136386034970630&quot;
     )
   )</code></pre>
-<p><img src="http://lenkiefer.com/2021/06/16/rose-chart-in-r/index_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2021-06-16-rose-chart-in-r_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 <p>Then tried a few other permutations of colors and ggfx effects.</p>
 <pre class="r"><code>seq(-3, 3, by = .01) %&gt;%
   expand.grid(x = ., y = .) %&gt;%
@@ -316,7 +316,7 @@ library(ggfx)</code></pre>
     ),
     title = &quot;&quot;
   )</code></pre>
-<p><img src="http://lenkiefer.com/2021/06/16/rose-chart-in-r/index_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2021-06-16-rose-chart-in-r_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <pre class="r"><code>seq(-3, 3, by = .01) %&gt;%
   expand.grid(x = ., y = .) %&gt;%
   ggplot(aes(x = (1 - x - sin(y ^ 2)), y = (1 + y - cos(x ^ 2)))) +
@@ -345,7 +345,7 @@ library(ggfx)</code></pre>
     ),
     title = &quot;&quot;
   )</code></pre>
-<p><img src="http://lenkiefer.com/2021/06/16/rose-chart-in-r/index_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2021-06-16-rose-chart-in-r_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 
   
   <h4><i class="fas fa-share-alt" aria-hidden="true"></i>&nbsp;Share!</h4>
