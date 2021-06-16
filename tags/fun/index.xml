@@ -7,7 +7,25 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2021. All rights reserved.</copyright>
-    <lastBuildDate>Thu, 14 May 2020 00:00:00 +0000</lastBuildDate><atom:link href="http://lenkiefer.com/tags/fun/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 16 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="http://lenkiefer.com/tags/fun/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Rose chart in R</title>
+      <link>http://lenkiefer.com/2021/06/16/rose-chart-in-r/</link>
+      <pubDate>Wed, 16 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>http://lenkiefer.com/2021/06/16/rose-chart-in-r/</guid>
+      <description>I want to share with you a fun rose chart. No not the Nightingale chart (see Jeff Shaffer). Rather we’re talking about a cool generative chart, that fit in a tweet from @aschinchon [https://twitter.com/aschinchon]:
+#rose
+library(tidyverse)
+seq(-3,3,by=.01) %&amp;gt;%
+expand.grid(x=., y=.) %&amp;gt;%
+ggplot(aes(x=(1-x-sin(y^2)), y=(1+y-cos(x^2)))) +
+geom_point(alpha=.05, shape=20, size=0)+
+theme_void()+
+coord_polar()#rtistry #rstats #Maths #generativeart pic.twitter.com/vAVeQU0K2o
+&amp;mdash; Antonio Sánchez Chinchón (@aschinchon) June 16, 2021  I was inspired to use ggfx to add some features.</description>
+    </item>
+    
     <item>
       <title>Tornado Charts</title>
       <link>http://lenkiefer.com/2020/05/14/tornado-charts/</link>

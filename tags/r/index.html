@@ -226,6 +226,60 @@
   
     <article>
   <header>
+    <h2><a href="http://lenkiefer.com/2021/06/16/rose-chart-in-r/">Rose chart in R</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2021/06/16</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/fun">fun</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  I want to share with you a fun rose chart. No not the Nightingale chart (see Jeff Shaffer). Rather we’re talking about a cool generative chart, that fit in a tweet from @aschinchon [https://twitter.com/aschinchon]:
+#rose
+library(tidyverse)
+seq(-3,3,by=.01) %&gt;%
+expand.grid(x=., y=.) %&gt;%
+ggplot(aes(x=(1-x-sin(y^2)), y=(1+y-cos(x^2)))) +
+geom_point(alpha=.05, shape=20, size=0)+
+theme_void()+
+coord_polar()#rtistry #rstats #Maths #generativeart pic.twitter.com/vAVeQU0K2o
+&mdash; Antonio Sánchez Chinchón (@aschinchon) June 16, 2021  I was inspired to use ggfx to add some features.
+  </p>
+
+  
+  <footer>
+    <a href="http://lenkiefer.com/2021/06/16/rose-chart-in-r/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
     <h2><a href="http://lenkiefer.com/2021/06/08/are-we-still-in-recession/">Are we still in recession?</a></h2>
 
     <div class="post-meta">

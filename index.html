@@ -227,6 +227,60 @@
   
     <article>
   <header>
+    <h2><a href="http://lenkiefer.com/2021/06/16/rose-chart-in-r/">Rose chart in R</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2021/06/16</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/fun">fun</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  I want to share with you a fun rose chart. No not the Nightingale chart (see Jeff Shaffer). Rather we’re talking about a cool generative chart, that fit in a tweet from @aschinchon [https://twitter.com/aschinchon]:
+#rose
+library(tidyverse)
+seq(-3,3,by=.01) %&gt;%
+expand.grid(x=., y=.) %&gt;%
+ggplot(aes(x=(1-x-sin(y^2)), y=(1+y-cos(x^2)))) +
+geom_point(alpha=.05, shape=20, size=0)+
+theme_void()+
+coord_polar()#rtistry #rstats #Maths #generativeart pic.twitter.com/vAVeQU0K2o
+&mdash; Antonio Sánchez Chinchón (@aschinchon) June 16, 2021  I was inspired to use ggfx to add some features.
+  </p>
+
+  
+  <footer>
+    <a href="http://lenkiefer.com/2021/06/16/rose-chart-in-r/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
     <h2><a href="http://lenkiefer.com/2021/06/08/are-we-still-in-recession/">Are we still in recession?</a></h2>
 
     <div class="post-meta">
@@ -654,56 +708,6 @@ In this post, I want to consider several alternative ways to visualize house pri
   
   <footer>
     <a href="http://lenkiefer.com/2020/11/30/visual-meditations-on-house-prices-2020-edition/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
-  </footer>
-  
-</article>
-
-  
-    <article>
-  <header>
-    <h2><a href="http://lenkiefer.com/2020/11/23/new-research-paper-inequality-during-the-covid-19-pandemic-the-the-case-of-savings-from-mortgage-refinancing/">New Research Paper Inequality During the COVID-19 Pandemic The Case of Savings from Mortgage Refinancing</a></h2>
-
-    <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>2020/11/23</time>
-  </div>
-
-  
-
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/economy">economy</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/mortgage">mortgage</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/presentation">presentation</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/housing">housing</a>
-    
-  </div>
-  
-  
-
-</div>
-
-  </header>
-
-  <p>
-  For several months now, I’ve been working on a new research paper with Sumit Agarwal, Souphala Chomsisengphet, Hua Kiefer, and Paolina Medina studying refinance activity this year.
-When we started the project back in the spring we were not sure that the pandemic would allow households to refinance at rates similar to prior periods. It seemed possible that the pandemic would disrupt the mortgage market and make it difficult for households to take advantage of historically low rates.
-  </p>
-
-  
-  <footer>
-    <a href="http://lenkiefer.com/2020/11/23/new-research-paper-inequality-during-the-covid-19-pandemic-the-the-case-of-savings-from-mortgage-refinancing/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
   </footer>
   
 </article>
