@@ -227,6 +227,58 @@
   
     <article>
   <header>
+    <h2><a href="http://lenkiefer.com/2020/04/30/mortgage-rates-hit-a-record-low/">Mortgage rates hit a record low</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2020/04/30</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/mortgage">mortgage</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/animation">animation</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  This week the Freddie Mac Primary Mortgage Market Survey reported a record low for the U.S. weekly average 30-year mortgage rate.
+First some charts, then below I post R code.
+R codeLoad libraries
+library(fredr)library(tidyverse)library(patchwork)library(cowplot)library(gganimate)library(lubridate) # updated You’ll need a custom color scale (see below for code).
+R code to wrangle datadata preparation code
+source(paste0(mydir,&quot;len_color_scales.R&quot;)) #custom color scale code copied belowfredr_set_key(&quot;YOURKEY&quot;)df &lt;- fredr(series_id = &quot;MORTGAGE30US&quot;,observation_start = as.
+  </p>
+
+  
+  <footer>
+    <a href="http://lenkiefer.com/2020/04/30/mortgage-rates-hit-a-record-low/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
     <h2><a href="http://lenkiefer.com/2020/04/23/last-summer-this-spring/">Last Summer This Spring</a></h2>
 
     <div class="post-meta">
@@ -668,57 +720,6 @@ In this note I just wanted to write down a couple of observations about how to g
   
   <footer>
     <a href="http://lenkiefer.com/2020/02/17/forecasting-with-logs/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
-  </footer>
-  
-</article>
-
-  
-    <article>
-  <header>
-    <h2><a href="http://lenkiefer.com/2020/02/08/killing-it-while-shilling-it/">Killing it while shilling it</a></h2>
-
-    <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>2020/02/08</time>
-  </div>
-
-  
-
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/textmining">textmining</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/fun">fun</a>
-    
-  </div>
-  
-  
-
-</div>
-
-  </header>
-
-  <p>
-  Economist Play-in Round
-Bracket madness is about the descend on us. Before we get to March Madness we’ll have to suffer through a different kind of madness: the Neoliberal Shill Bracket. This year the Neoliberal project has succumbed to inflation and has expanded the field. This year features a play-in round.
-In this post we analyze the Economist Play-in:
-Economist Play-in (8)
----@mioana @imbernomics @stanveuger @jodiecongirl @cblatts @jonathaneyer @R_Thaler @florianederer pic.
-  </p>
-
-  
-  <footer>
-    <a href="http://lenkiefer.com/2020/02/08/killing-it-while-shilling-it/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
   </footer>
   
 </article>
