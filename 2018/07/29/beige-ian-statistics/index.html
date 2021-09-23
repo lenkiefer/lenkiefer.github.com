@@ -5,50 +5,59 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Text mining the Fed Beige Book.">
-
-<meta name="generator" content="Hugo 0.81.0">
+  <meta name="generator" content="Hugo 0.81.0" />
 
   <title>Beige-ian Statistics &middot; Len Kiefer</title>
 
+    
+
   
   
-  <link rel="stylesheet" href="https://cdn.bootcss.com/pure/0.6.2/pure-min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="https://cdn.bootcss.com/pure/0.6.2/grids-responsive-old-ie-min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="https://cdn.bootcss.com/pure/0.6.2/grids-responsive-min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
-  <script async src="https://use.fontawesome.com/32c3d13def.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
 
   
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet" type="text/css">
+
+  
+  <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
   
 
   
-  <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.11.0/styles/androidstudio.min.css">
-  <script src="//cdn.bootcss.com/highlight.js/9.11.0/highlight.min.js"></script>
-  <script src="//cdn.bootcss.com/highlight.js/9.11.0/languages/r.min.js"></script>
-  <script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.6.0/styles/androidstudio.min.css">
+  <script async src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.6.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
   
 
-  <link rel="shortcut icon" href="http://lenkiefer.com/img/favicon.PNG" type="image/x-icon" />
+  <link rel="shortcut icon" href="http://lenkiefer.com/img/favicon.ico" type="image/x-icon" />
 
   
   
 
 </head>
+
 
 <body>
 <div id="layout">
@@ -61,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -69,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -94,8 +103,10 @@
     
 
     
+
+    
     <li class="pure-menu-item">
-      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" rel="me" target="_blank"><i class="fab fa-twitter-square fa-fw"></i>Twitter</a>
     </li>
     
 
@@ -128,10 +139,8 @@
     
 
     
-
-    
     <li class="pure-menu-item">
-      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" rel="me" target="_blank"><i class="fab fa-linkedin fa-fw"></i>LinkedIn</a>
     </li>
     
 
@@ -147,7 +156,7 @@
 
     
     <li class="pure-menu-item">
-      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" rel="me" target="_blank"><i class="fab fa-github-square fa-fw"></i>GitHub</a>
     </li>
     
 
@@ -181,7 +190,7 @@
 
   <div>
   <div class="small-print">
-    <small>&copy; 2015-2018. All rights reserved.</small>
+    <small>&copy; 2021. All rights reserved.</small>
   </div>
   <div class="small-print">
     <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
@@ -239,6 +248,7 @@
 </div>
 
   
+<script src="http://lenkiefer.com/rmarkdown-libs/header-attrs/header-attrs.js"></script>
 
 
 <p>Let’s pick up where we left off <a href="../../../../2018/07/28/text-mining-fedspeak/">yesterday</a> and do some more exploration with text mining.</p>
@@ -249,8 +259,12 @@
 <p>Once again we’ll use <a href="https://CRAN.R-project.org/package=pdftools">pdftools</a> to extract the data from pdf files.</p>
 <div id="getting-ready" class="section level2">
 <h2>Getting ready</h2>
-<p>I’m going to try to hide repetitive code within an expandable section. Just click the arrow and you shoudl be able to see the details. I know it <a href="https://www.w3schools.com/tags/tag_details.asp">doesn’t work</a> on Internet Explorer (the code should just all appear), but it seems to work on Chrome. <em>Code tip via <span class="citation">@_ColinFay</span> via <a href="https://twitter.com/_ColinFay/status/1022836135452663809">Twitter</a>.</em></p>
-<p><details> <summary>Load Libraries</summary></p>
+<p>I’m going to try to hide repetitive code within an expandable section. Just click the arrow and you shoudl be able to see the details. I know it <a href="https://www.w3schools.com/tags/tag_details.asp">doesn’t work</a> on Internet Explorer (the code should just all appear), but it seems to work on Chrome.
+<em>Code tip via <span class="citation">@_ColinFay</span> via <a href="https://twitter.com/_ColinFay/status/1022836135452663809">Twitter</a>.</em></p>
+<details>
+<summary>
+Load Libraries
+</summary>
 <pre class="r"><code># load libraries ----
 suppressPackageStartupMessages({
 library(extrafont)
@@ -268,11 +282,14 @@ library(lubridate)
 library(ggrepel)
 library(viridis)}
 )</code></pre>
-<p></details></p>
+</details>
 <div id="import-data" class="section level3">
 <h3>Import data</h3>
 <p>Our data import follows similar to how we did it yesterday.</p>
-<p><details> <Summary>Code for importing data </Summary></p>
+<details>
+<Summary>
+Code for importing data
+</Summary>
 <pre class="r"><code># get all data ----
 # links to pdf ----
 beige.links.all&lt;-
@@ -373,7 +390,7 @@ fed_text_raw &lt;-
   # create a page number indicator
   mutate(page=row_number()) %&gt;% 
   ungroup() </code></pre>
-<p></details></p>
+</details>
 <p>The pdf files are layed out with columns. So in order to identify continuous blocks of text we need to split the columns. (We should have done this yesterday). The column breaks appear in the text string as a block fo spaces. We can search for two or more spaces in the text and split using that. We can do that through the <code>\\s\\s+</code> bit in the code below.</p>
 <p>We create a column id, and because we sometimes don’t have mutiple columns we’ll end up with duplicated text. We use <code>distinct</code> to remove those duplicates.</p>
 <pre class="r"><code>fed_text_raw &lt;-
@@ -395,7 +412,10 @@ fed_text_raw &lt;-
 <div id="beige-ian-statistics" class="section level1">
 <h1>Beige-ian Statistics</h1>
 <p>Let’s analyze these text. First, let’s construct an estimate of sentiment for each report.</p>
-<p><details> <Summary>Code for sentiment plot </Summary></p>
+<details>
+<Summary>
+Code for sentiment plot
+</Summary>
 <pre class="r"><code>fed_text &lt;- 
   fed_text_raw %&gt;% 
   select(report,rdate,page,line,col.id,ctext) %&gt;%
@@ -432,8 +452,8 @@ ggplot(fed_sentiment,  aes(rdate, sentiment, fill = sentiment&gt;0)) +
        title=&quot;Sentiment in Federal Reserve Beige Book&quot;,
        subtitle=&quot;customized bing lexicon\nsentiment = (positive-negative)/(positive+negative)&quot;,
        caption=&quot;@lenkiefer\nSource: Beige Book March 2008 - July 2018&quot;)</code></pre>
-<p></details></p>
-<p><img src="/post/2018-07-29-beige-ian-statistics_files/figure-html/07-29-2018-plot-1-show-1.png" width="672" /></p>
+</details>
+<p><img src="http://lenkiefer.com/post/2018-07-29-beige-ian-statistics_files/figure-html/07-29-2018-plot-1-show-1.png" width="672" /></p>
 <p>We see that sentiment was quite negative in 2008 and 2009 during the Great Recession, but has remained consistently positive over the past few years.</p>
 <p>What have the reports been about? Let’s look.</p>
 <div id="tf-idf-terms-across-books" class="section level3">
@@ -441,7 +461,10 @@ ggplot(fed_sentiment,  aes(rdate, sentiment, fill = sentiment&gt;0)) +
 <p>We can use the term frequency and inverse document frequency analysis to gauge what terms are important in each report.</p>
 <p>First let’s compare the July report for each year.</p>
 <p>We’ll need to drop some extra terms. These are word fragments or state abbreviations. I’d like to be able to fix the word splitting, but for now we’ll just drop those terms.</p>
-<p><details> <Summary>Words to ignore in tf-idf analysis </Summary></p>
+<details>
+<Summary>
+Words to ignore in tf-idf analysis
+</Summary>
 <pre class="r"><code>custom_stop_words3 &lt;- 
   bind_rows(data_frame(word = c(tolower(month.abb), &quot;one&quot;,&quot;two&quot;,&quot;three&quot;,&quot;four&quot;,&quot;five&quot;,&quot;six&quot;,
                                 &quot;seven&quot;,&quot;eight&quot;,&quot;nine&quot;,&quot;ten&quot;,&quot;eleven&quot;,&quot;twelve&quot;,&quot;mam&quot;,&quot;ered&quot;,
@@ -461,8 +484,11 @@ ggplot(fed_sentiment,  aes(rdate, sentiment, fill = sentiment&gt;0)) +
                                 &quot;tion&quot;,&quot;fig&quot;,&quot;ure&quot;,&quot;figure&quot;,&quot;src&quot;), 
                        lexicon = c(&quot;custom&quot;)), 
             stop_words)</code></pre>
-<p></details></p>
-<p><details> <Summary>Code for tf-idf plot </Summary></p>
+</details>
+<details>
+<Summary>
+Code for tf-idf plot
+</Summary>
 <pre class="r"><code>fed_text_by_month &lt;- 
   fed_text %&gt;%
   filter(lubridate::month(rdate)==7) %&gt;% 
@@ -491,11 +517,57 @@ fed_text_by_month %&gt;%
        title=&quot;Highest tf-idf words in July Federal Beige Book: 2008-2018&quot;,
        subtitle=&quot;Top 10 terms by tf-idf statistic: term frequncy and inverse document frequency&quot;,
        caption=&quot;@lenkiefer Source: Federal Reserve Board Beige Book \nNote: omits stop words, date abbreviations and numbers.&quot;)</code></pre>
-<p></details></p>
+</details>
 <pre class="r"><code>g2</code></pre>
-<p><img src="/post/2018-07-29-beige-ian-statistics_files/figure-html/07-29-2018-plot-2-show-1.png" width="1056" /></p>
+<pre><code>## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family not
+## found in Windows font database
+
+## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family not
+## found in Windows font database</code></pre>
+<pre><code>## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database</code></pre>
+<p><img src="http://lenkiefer.com/post/2018-07-29-beige-ian-statistics_files/figure-html/07-29-2018-plot-2-show-1.png" width="1056" /></p>
 <p>Let’s group the Beige Book reports by calendar year.</p>
-<p><details> <Summary>Code for tf-idf plot </Summary></p>
+<details>
+<Summary>
+Code for tf-idf plot
+</Summary>
 <pre class="r"><code>fed_text_by_year &lt;- 
   fed_text %&gt;%
   mutate(word = gsub(&quot;[^A-Za-z ]&quot;,&quot;&quot;,word)) %&gt;%  # keep only letters (drop numbers and special symbols)
@@ -524,15 +596,62 @@ fed_text_by_year %&gt;%
        title=&quot;Highest tf-idf words by year for Federal Beige Book: 2008-2018&quot;,
        subtitle=&quot;Top 10 terms by tf-idf statistic: term frequncy and inverse document frequency&quot;,
        caption=&quot;@lenkiefer Source: Federal Reserve Board Beige Book \nNote: omits stop words, date abbreviations and numbers.&quot;)</code></pre>
-<p></details></p>
+</details>
 <pre class="r"><code>g3</code></pre>
-<p><img src="/post/2018-07-29-beige-ian-statistics_files/figure-html/07-29-2018-plot-3-show-1.png" width="1056" /></p>
+<pre><code>## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database</code></pre>
+<p><img src="http://lenkiefer.com/post/2018-07-29-beige-ian-statistics_files/figure-html/07-29-2018-plot-3-show-1.png" width="1056" /></p>
 </div>
 <div id="word-clouds" class="section level2">
 <h2>Word clouds</h2>
 <p>Let’s make some word clouds. We will follow <a href="http://mhairihmcneill.com/blog/2016/04/05/wordclouds-in-ggplot.html">this post</a> and make them with <a href="https://CRAN.R-project.org/package=ggplot2">ggplot2</a> with help from <a href="https://CRAN.R-project.org/package=ggrepel">ggrepel</a> rather than <a href="https://CRAN.R-project.org/package=wordcloud">wordcloud</a> so we have greater control over aesthetics.</p>
 <p>First let’s make a word cloud for the high tf-idf terms in each report.</p>
-<p><details> <Summary>Word cloud code</Summary></p>
+<details>
+<Summary>
+Word cloud code
+</Summary>
 <pre class="r"><code>g4 &lt;-
   fed_text_by_year %&gt;% 
   filter(id&lt;6) %&gt;%
@@ -551,15 +670,65 @@ fed_text_by_year %&gt;%
        title=&quot;Highest tf-idf words by year for Federal Beige Book: 2008-2018&quot;,
        subtitle=&quot;Top 5 terms by tf-idf statistic: term frequncy and inverse document frequency&quot;,
        caption=&quot;@lenkiefer Source: Federal Reserve Board Beige Book \nNote: omits stop words, date abbreviations and numbers.&quot;)</code></pre>
-<p></details></p>
+</details>
 <pre class="r"><code>g4</code></pre>
-<p><img src="/post/2018-07-29-beige-ian-statistics_files/figure-html/07-29-2018-plot-4-show-1.png" width="672" /></p>
+<pre><code>## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database</code></pre>
+<pre><code>## Warning: It is deprecated to specify `guide = FALSE` to remove a guide. Please
+## use `guide = &quot;none&quot;` instead.</code></pre>
+<pre><code>## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database</code></pre>
+<pre><code>## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database</code></pre>
+<pre><code>## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database</code></pre>
+<pre><code>## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database</code></pre>
+<pre><code>## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database</code></pre>
+<p><img src="http://lenkiefer.com/post/2018-07-29-beige-ian-statistics_files/figure-html/07-29-2018-plot-4-show-1.png" width="672" /></p>
 </div>
 </div>
 <div id="keyword-trends" class="section level1">
 <h1>Keyword trends</h1>
 <p>Let’s examine the change in word frequency by keyword. Let us count how many times the term “inflation” shows up in each Beige Book report:</p>
-<p><details> <Summary>Inflation frequency code</Summary></p>
+<details>
+<Summary>
+Inflation frequency code
+</Summary>
 <pre class="r"><code>#count words per report
 beige_words &lt;- 
   
@@ -583,11 +752,62 @@ beige_words %&gt;%
        title=&#39;Number of times &quot;inflation&quot; appears in report&#39;,
        subtitle=&quot;Beige Book Mar 2008-July 2018&quot;,
        caption=&quot;@lenkiefer Source: Federal Reserve Board Beige Book&quot;)</code></pre>
-<p></details></p>
+</details>
 <pre class="r"><code>g5</code></pre>
-<p><img src="/post/2018-07-29-beige-ian-statistics_files/figure-html/07-29-2018-plot-5-show-1.png" width="672" /></p>
+<pre><code>## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database</code></pre>
+<pre><code>## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database</code></pre>
+<pre><code>## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database</code></pre>
+<p><img src="http://lenkiefer.com/post/2018-07-29-beige-ian-statistics_files/figure-html/07-29-2018-plot-5-show-1.png" width="672" /></p>
 <p>Hmm, looks like reports of inflation are increasing. How about some other terms?</p>
-<p><details> <Summary>Show/Hide code</Summary></p>
+<details>
+<Summary>
+Show/Hide code
+</Summary>
 <pre class="r"><code>#count words per report
 beige_words &lt;- 
   
@@ -610,12 +830,60 @@ beige_words %&gt;%
        title=&quot;Number of times term appears in Beige Book&quot;,
        subtitle=&quot;Beige Book Mar 2008-July 2018&quot;,
        caption=&quot;@lenkiefer Source: Federal Reserve Board Beige Book&quot;)</code></pre>
-<p></details></p>
+</details>
 <pre class="r"><code>g6</code></pre>
-<p><img src="/post/2018-07-29-beige-ian-statistics_files/figure-html/07-29-2018-plot-6-show-1.png" width="672" /></p>
+<pre><code>## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database</code></pre>
+<pre><code>## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family not found in Windows font database</code></pre>
+<pre><code>## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database</code></pre>
+<p><img src="http://lenkiefer.com/post/2018-07-29-beige-ian-statistics_files/figure-html/07-29-2018-plot-6-show-1.png" width="672" /></p>
 <p>Interesting. Let’s use bigrams to see what other words are associated with these terms.</p>
 <p>Let’s examine the term “shortages”. By using bigrams we can see which words either precede or follow that term.</p>
-<p><details> <Summary>Show/Hide bigram code</Summary></p>
+<details>
+<Summary>
+Show/Hide bigram code
+</Summary>
 <pre class="r"><code>fed_bigrams &lt;-   
   fed_text_raw %&gt;%
   unnest_tokens(bigram, text, token = &quot;ngrams&quot;, n = 2) %&gt;%
@@ -630,7 +898,7 @@ bigrams_filtered &lt;- bigrams_separated %&gt;%
 
 bigram_counts &lt;- bigrams_filtered %&gt;% 
   count(word1, word2, sort = TRUE)</code></pre>
-<p></details></p>
+</details>
 <pre class="r"><code># terms associatd with shortgages----
 
 # second word shortage
@@ -669,12 +937,15 @@ bigrams_filtered %&gt;%
 ##  9 affect         2
 ## 10 businesses     2
 ## # ... with 52 more rows</code></pre>
-<p>Seems like the term “labor shortages” is driving&quot; the use of the term. Given the <a href="../../../../2018/05/04/jobs-friday-may-2018/">strong labor market</a> that makes sense.</p>
+<p>Seems like the term “labor shortages” is driving" the use of the term. Given the <a href="../../../../2018/05/04/jobs-friday-may-2018/">strong labor market</a> that makes sense.</p>
 </div>
 <div id="network-visualizations" class="section level1">
 <h1>Network visualizations</h1>
 <p>Let’s conclude with some network visualizations.</p>
-<p><details> <Summary>Show/Hide nework diagram code 1</Summary></p>
+<details>
+<Summary>
+Show/Hide nework diagram code 1
+</Summary>
 <pre class="r"><code>word_cors &lt;- 
   fed_text %&gt;% 
   mutate(word = gsub(&quot;[^A-Za-z ]&quot;,&quot;&quot;,word)) %&gt;%
@@ -699,36 +970,207 @@ g7 &lt;-
   theme_void(base_family=&quot;Roboto&quot;)+
   theme(plot.margin = unit(c(rep(.5,4)), &quot;cm&quot;))+
   labs(title=&quot;  Pairs of words in Federal Reserve Beige Book that show at\n  least a 0.1 correlation of appearing within the same 10-line section&quot;, caption=&quot;  @lenkiefer Source: Federal Reserve Board Beige Book July 2018    \n&quot;)</code></pre>
-<p></details></p>
+</details>
 <pre class="r"><code>g7</code></pre>
-<p><img src="/post/2018-07-29-beige-ian-statistics_files/figure-html/07-29-2018-plot-7-show-1.png" width="864" /></p>
+<pre><code>## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family not
+## found in Windows font database
+
+## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family not
+## found in Windows font database</code></pre>
+<pre><code>## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database</code></pre>
+<p><img src="http://lenkiefer.com/post/2018-07-29-beige-ian-statistics_files/figure-html/07-29-2018-plot-7-show-1.png" width="864" /></p>
 <p>We can also plot a network diagram that shows counts of co-occurring words (see <a href="https://www.tidytextmining.com/nasa.html#word-co-ocurrences-and-correlations">section 8.2</a>).</p>
-<p></details></p>
+</details>
 <pre class="r"><code>g8</code></pre>
-<p><img src="/post/2018-07-29-beige-ian-statistics_files/figure-html/07-29-2018-plot-8-show-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2018-07-29-beige-ian-statistics_files/figure-html/07-29-2018-plot-8-show-1.png" width="672" /></p>
 <p>The thickness of the line represents how many times the word paris show up in the report.</p>
 <p>Compare the July 2018 report above to the July 2008 report:</p>
-<p><img src="/post/2018-07-29-beige-ian-statistics_files/figure-html/07-29-2018-network-code-3-1.png" width="864" /><img src="/post/2018-07-29-beige-ian-statistics_files/figure-html/07-29-2018-network-code-3-2.png" width="864" /></p>
+<p><img src="http://lenkiefer.com/post/2018-07-29-beige-ian-statistics_files/figure-html/07-29-2018-network-code-3-1.png" width="864" /><img src="http://lenkiefer.com/post/2018-07-29-beige-ian-statistics_files/figure-html/07-29-2018-network-code-3-2.png" width="864" /></p>
 <p>Or we could stack them together:</p>
-<p><img src="/post/2018-07-29-beige-ian-statistics_files/figure-html/07-29-2017-network-4-1.png" width="864" /><img src="/post/2018-07-29-beige-ian-statistics_files/figure-html/07-29-2017-network-4-2.png" width="864" /></p>
+<pre><code>## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family
+## &#39;Roboto&#39; not found in PostScript font database
+
+## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family
+## &#39;Roboto&#39; not found in PostScript font database
+
+## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family
+## &#39;Roboto&#39; not found in PostScript font database
+
+## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family
+## &#39;Roboto&#39; not found in PostScript font database
+
+## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family
+## &#39;Roboto&#39; not found in PostScript font database
+
+## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family
+## &#39;Roboto&#39; not found in PostScript font database
+
+## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family
+## &#39;Roboto&#39; not found in PostScript font database
+
+## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family
+## &#39;Roboto&#39; not found in PostScript font database
+
+## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family
+## &#39;Roboto&#39; not found in PostScript font database
+
+## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family
+## &#39;Roboto&#39; not found in PostScript font database
+
+## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family
+## &#39;Roboto&#39; not found in PostScript font database
+
+## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family
+## &#39;Roboto&#39; not found in PostScript font database
+
+## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family
+## &#39;Roboto&#39; not found in PostScript font database
+
+## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family
+## &#39;Roboto&#39; not found in PostScript font database
+
+## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family
+## &#39;Roboto&#39; not found in PostScript font database
+
+## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family
+## &#39;Roboto&#39; not found in PostScript font database
+
+## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family
+## &#39;Roboto&#39; not found in PostScript font database
+
+## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family
+## &#39;Roboto&#39; not found in PostScript font database
+
+## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family
+## &#39;Roboto&#39; not found in PostScript font database
+
+## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family
+## &#39;Roboto&#39; not found in PostScript font database
+
+## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family
+## &#39;Roboto&#39; not found in PostScript font database
+
+## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family
+## &#39;Roboto&#39; not found in PostScript font database
+
+## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family
+## &#39;Roboto&#39; not found in PostScript font database
+
+## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family
+## &#39;Roboto&#39; not found in PostScript font database
+
+## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family
+## &#39;Roboto&#39; not found in PostScript font database
+
+## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family
+## &#39;Roboto&#39; not found in PostScript font database
+
+## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family
+## &#39;Roboto&#39; not found in PostScript font database
+
+## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family
+## &#39;Roboto&#39; not found in PostScript font database</code></pre>
+<pre><code>## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family not found in Windows font database</code></pre>
+<p><img src="http://lenkiefer.com/post/2018-07-29-beige-ian-statistics_files/figure-html/07-29-2017-network-4-1.png" width="864" /><img src="http://lenkiefer.com/post/2018-07-29-beige-ian-statistics_files/figure-html/07-29-2017-network-4-2.png" width="864" /></p>
 </div>
 <div id="thats-all-for-now" class="section level1">
 <h1>That’s all for now</h1>
 <p>These Beige-ian statistics are quite interesting. The sentiment index is a potentially useful summary of the anecdotal data. How useful is an open question. The Beige Book is <a href="https://www.minneapolisfed.org/publications/the-region/the-federal-reserves-beige-book-a-better-mirror-than-crystal-ball">more a mirror than a crystal ball</a>. Still, these text mining explorations are quite promising.</p>
+<p><strong>Restored 2021-09-23</strong></p>
 </div>
+
+  
+  <h4><i class="fas fa-share-alt" aria-hidden="true"></i>&nbsp;Share!</h4>
+<ul class="share-buttons">
+	<li><a href="https://twitter.com/intent/tweet?url=http%3a%2f%2flenkiefer.com%2f2018%2f07%2f29%2fbeige-ian-statistics%2f" target="_blank" title="Tweet"><i class="fab fa-twitter" aria-hidden="true"></i><span class="sr-only">Tweet</span></a>
+	</li>
+</ul>
+
+
+<style>
+	ul.share-buttons{
+	  list-style: none;
+	  padding: 0;
+	}
+
+	ul.share-buttons li{
+	  display: inline;
+	}
+
+	ul.share-buttons .sr-only{
+	  position: absolute;
+	  clip: rect(1px 1px 1px 1px);
+	  clip: rect(1px, 1px, 1px, 1px);
+	  padding: 0;
+	  border: 0;
+	  height: 1px;
+	  width: 1px;
+	  overflow: hidden;
+	}
+</style>
 
 
   
 <div class="prev-next-post pure-g">
   <div class="pure-u-1-24" style="text-align: left;">
     
-    <a href="http://lenkiefer.com/2018/07/28/text-mining-fedspeak/"><i class="fa fa-chevron-left"></i></a>
+    <a href="http://lenkiefer.com/2018/07/21/maybe-the-linear-probability-model-isn-t-all-bad/"><i class="fa fa-chevron-left"></i></a>
     
   </div>
   <div class="pure-u-10-24">
     
     <nav class="prev">
-      <a href="http://lenkiefer.com/2018/07/28/text-mining-fedspeak/">Text Mining Fedspeak</a>
+      <a href="http://lenkiefer.com/2018/07/21/maybe-the-linear-probability-model-isn-t-all-bad/">Maybe the Linear Probability Model isn&#39;t all bad</a>
     </nav>
     
   </div>
@@ -738,79 +1180,55 @@ g7 &lt;-
   <div class="pure-u-10-24">
     
     <nav class="next">
-      <a href="http://lenkiefer.com/2018/07/31/house-price-gif/">House price gif that keeps on giffing</a>
+      <a href="http://lenkiefer.com/2018/10/09/a-flatter-phillips-curve/">A Flatter Phillips Curve</a>
     </nav>
     
   </div>
   <div class="pure-u-1-24" style="text-align: right;">
     
-    <a href="http://lenkiefer.com/2018/07/31/house-price-gif/"><i class="fa fa-chevron-right"></i></a>
+    <a href="http://lenkiefer.com/2018/10/09/a-flatter-phillips-curve/"><i class="fa fa-chevron-right"></i></a>
     
   </div>
 </div>
 
 
+  
+  
+  
+  
 
   
 
 </div>
-<footer class="post-footer clearfix">
-    
-        <p class="post-tags">
-            <span>Tagged:</span>
-            
-            
-                <a href="/tags/r/">R</a>, 
-            
-                <a href="/tags/textmining/">textmining</a>, 
-            
-                <a href="/tags/data-wrangling/">data wrangling</a>, 
-            
-                <a href="/tags/statistics/">statistics</a>
-            
-        </p>
-    
 
-    <div class="share">
-        
-            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.comhttp%3a%2f%2flenkiefer.com%2f2018%2f07%2f29%2fbeige-ian-statistics%2f&text=Beige-ian%20Statistics via %40lenkiefer"
-                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
-                <i class="fa fa-twitter"></i>
-                <span class="hidden">Twitter</span>
-            </a>
-        
-
-        
-            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.comhttp%3a%2f%2flenkiefer.com%2f2018%2f07%2f29%2fbeige-ian-statistics%2f"
-                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
-                <i class="fa fa-facebook"></i>
-                <span class="hidden">Facebook</span>
-            </a>
-        
-
-
-        
-    </div>
-</footer>
 </div>
 </div>
 <script src="http://lenkiefer.com/js/ui.js"></script>
+<script src="http://lenkiefer.com/js/menus.js"></script>
+
+
 
 
 <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  
+  if (window.location.hostname != "localhost") {
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-  ga('create', 'UA-66905937-1', 'auto');
-  ga('send', 'pageview');
-
+    ga('create', 'UA-66905937-1', 'auto');
+    ga('send', 'pageview');
+  }
 </script>
 
 
 
 
+
+<script src="http://lenkiefer.com/js/math-code.js"></script>
+  <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+  
 
 
 </body>

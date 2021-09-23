@@ -5,50 +5,59 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
-
-<meta name="generator" content="Hugo 0.81.0">
+  <meta name="generator" content="Hugo 0.81.0" />
 
   <title>Kalman Filter for a dynamic linear model in R &middot; Len Kiefer</title>
 
+    
+
   
   
-  <link rel="stylesheet" href="https://cdn.bootcss.com/pure/0.6.2/pure-min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="https://cdn.bootcss.com/pure/0.6.2/grids-responsive-old-ie-min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="https://cdn.bootcss.com/pure/0.6.2/grids-responsive-min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
-  <script async src="https://use.fontawesome.com/32c3d13def.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
 
   
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet" type="text/css">
+
+  
+  <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
   
 
   
-  <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.11.0/styles/androidstudio.min.css">
-  <script src="//cdn.bootcss.com/highlight.js/9.11.0/highlight.min.js"></script>
-  <script src="//cdn.bootcss.com/highlight.js/9.11.0/languages/r.min.js"></script>
-  <script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.6.0/styles/androidstudio.min.css">
+  <script async src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.6.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
   
 
-  <link rel="shortcut icon" href="http://lenkiefer.com/img/favicon.PNG" type="image/x-icon" />
+  <link rel="shortcut icon" href="http://lenkiefer.com/img/favicon.ico" type="image/x-icon" />
 
   
   
 
 </head>
+
 
 <body>
 <div id="layout">
@@ -61,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -69,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -94,8 +103,10 @@
     
 
     
+
+    
     <li class="pure-menu-item">
-      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" rel="me" target="_blank"><i class="fab fa-twitter-square fa-fw"></i>Twitter</a>
     </li>
     
 
@@ -128,10 +139,8 @@
     
 
     
-
-    
     <li class="pure-menu-item">
-      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" rel="me" target="_blank"><i class="fab fa-linkedin fa-fw"></i>LinkedIn</a>
     </li>
     
 
@@ -147,7 +156,7 @@
 
     
     <li class="pure-menu-item">
-      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" rel="me" target="_blank"><i class="fab fa-github-square fa-fw"></i>GitHub</a>
     </li>
     
 
@@ -181,7 +190,7 @@
 
   <div>
   <div class="small-print">
-    <small>&copy; 2015-2018. All rights reserved.</small>
+    <small>&copy; 2021. All rights reserved.</small>
   </div>
   <div class="small-print">
     <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
@@ -236,6 +245,7 @@ There are at least two reasons why forecasting is hard. The first, the unknown f
 </div>
 
   
+<script src="http://lenkiefer.com/rmarkdown-libs/header-attrs/header-attrs.js"></script>
 
 
 <p>As an economist with a background in econometrics and forecasting I recognize that predictions are often (usually?) an exercise in futility. Forecasting, after all, <a href="../../../../2017/08/27/forecast/">is hard</a>. While non-economists have great fun pointing this futility out, many critics miss out on why it’s so hard.</p>
@@ -248,7 +258,9 @@ There are at least two reasons why forecasting is hard. The first, the unknown f
 <p>For a full treatment you need a good textbook or a class. I’ve posted some references at the bottom. <a href="https://magesblog.com/post/2015-01-06-kalman-filter-example-visualised-with-r/">This post</a> covers usage in R at an introductory level and has some useful links.</p>
 <div id="a-problem" class="section level2">
 <h2>A problem</h2>
-<p>I’m going to focus on a particular example of a statespace model where the filter applies. I’m not going to justify this particular model here, but let’s see how it works. Imagine we wanted to track a time series (say an index of economic activity or a price index), call it <span class="math inline">\(z_t\)</span>. Imagine that <span class="math inline">\(z_t\)</span> follows an ARIMA(1,1,0) process. Every period (say a month) we observe a noisy signal of the current level of the index <span class="math inline">\(y_{1,t} = z_{t} + noise\)</span>. We also observe a less noisy signal of the level of the index in the prior period <span class="math inline">\(y_{2,t} = z_{t-1} + noise\)</span> As a good Bayesian we might form a prior expectation of <span class="math inline">\(z_t\)</span> and then weight the two signals.</p>
+<p>I’m going to focus on a particular example of a statespace model where the filter applies. I’m not going to justify this particular model here, but let’s see how it works.
+Imagine we wanted to track a time series (say an index of economic activity or a price index), call it <span class="math inline">\(z_t\)</span>. Imagine that <span class="math inline">\(z_t\)</span> follows an ARIMA(1,1,0) process. Every period (say a month) we observe a noisy signal of the current level of the index <span class="math inline">\(y_{1,t} = z_{t} + noise\)</span>. We also observe a less noisy signal of the level of the index in the prior period <span class="math inline">\(y_{2,t} = z_{t-1} + noise\)</span>
+As a good Bayesian we might form a prior expectation of <span class="math inline">\(z_t\)</span> and then weight the two signals.</p>
 <p>How much weight should we put on the two series? If everything is nice and linear and Gaussian (or we were willing to accept that as an approximation), then the Kalman filter will give us the answer. Let’s consider some examples.</p>
 <p>As I mentioned, I recode the Kalman Filter about every 18 months or so. The Kalman Filter has a nice recursive representation, so it’s fairly easy to write down. Most packages have a form of built in Kalman Filter (as does R’s <code>stats</code>), but often it isn’t quite flexible for what I need so I just start over. For today I found the <a href="https://CRAN.R-project.org/package=dlm">dlm</a> package to be useful, but we’ll have to extend it for what I want to do with it. In this post we’ll work through a simple example and see how we can adapt the <code>dlm</code> package along the way.</p>
 <div id="state-process" class="section level3">
@@ -259,13 +271,16 @@ There are at least two reasons why forecasting is hard. The first, the unknown f
 <div id="signal-process" class="section level3">
 <h3>Signal process</h3>
 <p>We also have two signals, one for <span class="math inline">\(z_t\)</span> and one for <span class="math inline">\(z_{t-1}\)</span> that we recieve concurrently. Imagine that the signal <span class="math inline">\(y_{2,t}\)</span> for <span class="math inline">\(z_{t-1}\)</span> is much more precise but is only available with a lag. The concurrent signal <span class="math inline">\(y_{1t}\)</span> is noisier and possibly subject to some bias <span class="math inline">\(\mu_{y1}\)</span>.</p>
-<p><span class="math display">\[ y_{1,t}  = \mu_{y1} + z_{t} + u_{1,t},  u_{1,t} \sim N(0,\sigma^{2}_{u1})\]</span> <span class="math display">\[ y_{2,t}  = z_{t-1} + u_{2,t},  u_{2,t} \sim N(0,\sigma^{2}_{u2})\]</span> And <span class="math inline">\(\sigma^{2}_{u1} &gt; \sigma^{2}_{u2}\)</span>, perhaps much more so.</p>
+<p><span class="math display">\[ y_{1,t}  = \mu_{y1} + z_{t} + u_{1,t},  u_{1,t} \sim N(0,\sigma^{2}_{u1})\]</span>
+<span class="math display">\[ y_{2,t}  = z_{t-1} + u_{2,t},  u_{2,t} \sim N(0,\sigma^{2}_{u2})\]</span>
+And <span class="math inline">\(\sigma^{2}_{u1} &gt; \sigma^{2}_{u2}\)</span>, perhaps much more so.</p>
 </div>
 <div id="combining-into-state-space" class="section level3">
 <h3>Combining into State Space</h3>
 <p>Part of the fun of working with the Kalman Filter is that it’s ubiquitous and has spread across multiple disciplines so the notation is often slightly different. As we’re going to use the <code>dlm</code> package, we’ll adapt the notation as used in it’s <a href="https://cran.r-project.org/web/packages/dlm/vignettes/dlm.pdf">vignette</a>. As I was testing this post I kept getting weird results and only finally realized that the use of <span class="math inline">\(F\)</span> and <span class="math inline">\(G\)</span> in the matrix notation was switched between the <code>dlm</code> package and one of my references (Lütkepohl 2005). <em>I also had to go back and edit this post a couple times.</em></p>
 <p>Check one of the references for a general treatment but for our specific problem this will do:</p>
-<p><span class="math display">\[ \begin{cases} Z_t = G Z_{t-1} + v_t,   v_t \sim N(0,W_t) \\ Y_t = F Z_t + w_t,    w_t \sim N(0,V_t)\end{cases}\]</span> Where <span class="math inline">\(Z_t = \begin{bmatrix} z_t, &amp; z_{t-1},&amp; 1\end{bmatrix}^T\)</span> and</p>
+<p><span class="math display">\[ \begin{cases} Z_t = G Z_{t-1} + v_t,   v_t \sim N(0,W_t) \\ Y_t = F Z_t + w_t,    w_t \sim N(0,V_t)\end{cases}\]</span>
+Where <span class="math inline">\(Z_t = \begin{bmatrix} z_t, &amp; z_{t-1},&amp; 1\end{bmatrix}^T\)</span> and</p>
 <p><span class="math display">\[ G = \begin{bmatrix} 1+\rho &amp; -\rho &amp; \mu_z\\
 1 &amp; 0 &amp; 0 \\
 0 &amp; 0 &amp; 1\end{bmatrix} \]</span></p>
@@ -325,7 +340,7 @@ ggplot(data=df, aes(x=id,y=y.1))+
   geom_line()+
   geom_line(linetype=2,aes(y=z.1),color=&quot;red&quot;)+
   labs(x=&quot;time&quot;,y=&quot;Z&quot;, title=&quot;Simulated dynamic linear model&quot;, subtitle=&quot;black solid line observation y1\nred dotted line fundamental z&quot;)</code></pre>
-<p><img src="/post/2018-06-10-kalman-filter-for-a-dynamic-linear-model-in-r_files/figure-html/06-10-2018-sim2-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2018-06-10-kalman-filter-for-a-dynamic-linear-model-in-r_files/figure-html/06-10-2018-sim2-1.png" width="672" /></p>
 </div>
 <div id="estimating-dlm" class="section level1">
 <h1>Estimating DLM</h1>
@@ -361,39 +376,39 @@ knitr::kable(my_comp,digits=3, caption = &quot;Checking MLE against simulated da
 <caption><span id="tab:06-10-2018-sim3">Table 1: </span>Checking MLE against simulated data</caption>
 <thead>
 <tr class="header">
-<th></th>
+<th align="left"></th>
 <th align="right">real</th>
 <th align="right">mle</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>rho1</td>
+<td align="left">rho1</td>
 <td align="right">0.9</td>
 <td align="right">0.919</td>
 </tr>
 <tr class="even">
-<td>sig_z</td>
+<td align="left">sig_z</td>
 <td align="right">1.0</td>
 <td align="right">1.156</td>
 </tr>
 <tr class="odd">
-<td>sig_u1</td>
+<td align="left">sig_u1</td>
 <td align="right">10.0</td>
 <td align="right">13.994</td>
 </tr>
 <tr class="even">
-<td>sig_u2</td>
+<td align="left">sig_u2</td>
 <td align="right">0.1</td>
 <td align="right">0.196</td>
 </tr>
 <tr class="odd">
-<td>mu_z</td>
+<td align="left">mu_z</td>
 <td align="right">0.1</td>
 <td align="right">0.085</td>
 </tr>
 <tr class="even">
-<td>mu_y</td>
+<td align="left">mu_y</td>
 <td align="right">0.5</td>
 <td align="right">0.461</td>
 </tr>
@@ -497,13 +512,14 @@ df_test &lt;- expand.grid(r=seq(0,.9,.1), sm=c(0.01,1,10), sp=c(0.01,1,10), mu_z
   labs(x=&quot;rho1&quot;, y=&quot;Kalman Gain For Y1 (T=20)&quot;,
        title=&quot;Gain for Y1&quot;,
        subtitle=&quot;Kalman gain increases with rho (Sigma_z fixed at 1)&quot;)</code></pre>
-<p><img src="/post/2018-06-10-kalman-filter-for-a-dynamic-linear-model-in-r_files/figure-html/06-10-2018-sim6-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2018-06-10-kalman-filter-for-a-dynamic-linear-model-in-r_files/figure-html/06-10-2018-sim6-1.png" width="672" /></p>
 <pre class="r"><code>ggplot(data=df_test, aes(x=r, y=k22))+geom_line(size=1.1)+
   facet_grid(paste0(&quot;Sigma_y1 = &quot;,format(sm,scientific=F))~paste0(&quot;Sigma_y2= &quot;,format(sp, scientific=F)))+
   labs(x=&quot;rho1&quot;, y=&quot;Kalman Gain For Y2(T=20)&quot;,
        title=&quot;Gain for Y2&quot;,
        subtitle=&quot;Kalman gain increases with rho (Sigma_z fixed at 1)&quot;)</code></pre>
-<p><img src="/post/2018-06-10-kalman-filter-for-a-dynamic-linear-model-in-r_files/figure-html/06-10-2018-sim7-1.png" width="672" /> The facets help I think, but we could try to put them all on one plot:</p>
+<p><img src="http://lenkiefer.com/post/2018-06-10-kalman-filter-for-a-dynamic-linear-model-in-r_files/figure-html/06-10-2018-sim7-1.png" width="672" />
+The facets help I think, but we could try to put them all on one plot:</p>
 <pre class="r"><code>ggplot(data=df_test, aes(x=r, y=k11, color=paste0(&quot;Sigma_y2= &quot;,format(sp, scientific=F)), linetype=paste0(&quot;Sigma_y1 = &quot;,format(sm,scientific=F))))+geom_path(size=1.1)+
   theme(legend.position=&quot;top&quot;)+
   scale_linetype(name=&quot;sig_u1&quot;)+
@@ -511,7 +527,7 @@ df_test &lt;- expand.grid(r=seq(0,.9,.1), sm=c(0.01,1,10), sp=c(0.01,1,10), mu_z
     labs(x=&quot;rho1&quot;, y=&quot;Kalman Gain For Y2(T=20)&quot;,
        title=&quot;Gain for Y1&quot;,
        subtitle=&quot;Kalman gain increases with rho (Sigma_z fixed at 1)&quot;)</code></pre>
-<p><img src="/post/2018-06-10-kalman-filter-for-a-dynamic-linear-model-in-r_files/figure-html/06-10-2018-sim8-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2018-06-10-kalman-filter-for-a-dynamic-linear-model-in-r_files/figure-html/06-10-2018-sim8-1.png" width="672" /></p>
 <div id="a-little-discussion" class="section level3">
 <h3>A little discussion</h3>
 <p>This little analysis shows that as the persistence in the latent time series <span class="math inline">\(z_t\)</span> increases (<span class="math inline">\(\rho\)</span> becomes bigger), the value of informaiton as summarized by the Kalman gain increases.</p>
@@ -525,20 +541,51 @@ df_test &lt;- expand.grid(r=seq(0,.9,.1), sm=c(0.01,1,10), sp=c(0.01,1,10), mu_z
 <p>Hamilton, J. D. (1994). Time series analysis (Vol. 2). Princeton: Princeton university press.</p>
 <p>Lütkepohl, H. (2005). New introduction to multiple time series analysis. Springer Science &amp; Business Media.</p>
 <p>Petris, Petrone, and Campagnoli. Dynamic Linear Models with R. Springer (2009).</p>
+<p><strong>Restored 2021-09-23</strong></p>
 </div>
+
+  
+  <h4><i class="fas fa-share-alt" aria-hidden="true"></i>&nbsp;Share!</h4>
+<ul class="share-buttons">
+	<li><a href="https://twitter.com/intent/tweet?url=http%3a%2f%2flenkiefer.com%2f2018%2f06%2f10%2fkalman-filter-for-a-dynamic-linear-model-in-r%2f" target="_blank" title="Tweet"><i class="fab fa-twitter" aria-hidden="true"></i><span class="sr-only">Tweet</span></a>
+	</li>
+</ul>
+
+
+<style>
+	ul.share-buttons{
+	  list-style: none;
+	  padding: 0;
+	}
+
+	ul.share-buttons li{
+	  display: inline;
+	}
+
+	ul.share-buttons .sr-only{
+	  position: absolute;
+	  clip: rect(1px 1px 1px 1px);
+	  clip: rect(1px, 1px, 1px, 1px);
+	  padding: 0;
+	  border: 0;
+	  height: 1px;
+	  width: 1px;
+	  overflow: hidden;
+	}
+</style>
 
 
   
 <div class="prev-next-post pure-g">
   <div class="pure-u-1-24" style="text-align: left;">
     
-    <a href="http://lenkiefer.com/2018/05/21/pomological-plots/"><i class="fa fa-chevron-left"></i></a>
+    <a href="http://lenkiefer.com/2017/11/22/housing-market-dataviz-week-of-november-22-2017/"><i class="fa fa-chevron-left"></i></a>
     
   </div>
   <div class="pure-u-10-24">
     
     <nav class="prev">
-      <a href="http://lenkiefer.com/2018/05/21/pomological-plots/">Pomological Plots</a>
+      <a href="http://lenkiefer.com/2017/11/22/housing-market-dataviz-week-of-november-22-2017/">Housing market dataviz: week of November 22, 2017</a>
     </nav>
     
   </div>
@@ -548,75 +595,55 @@ df_test &lt;- expand.grid(r=seq(0,.9,.1), sm=c(0.01,1,10), sp=c(0.01,1,10), mu_z
   <div class="pure-u-10-24">
     
     <nav class="next">
-      <a href="http://lenkiefer.com/2018/06/24/plotting-house-price-and-income-trends/">Plotting house price and income trends</a>
+      <a href="http://lenkiefer.com/2018/07/21/maybe-the-linear-probability-model-isn-t-all-bad/">Maybe the Linear Probability Model isn&#39;t all bad</a>
     </nav>
     
   </div>
   <div class="pure-u-1-24" style="text-align: right;">
     
-    <a href="http://lenkiefer.com/2018/06/24/plotting-house-price-and-income-trends/"><i class="fa fa-chevron-right"></i></a>
+    <a href="http://lenkiefer.com/2018/07/21/maybe-the-linear-probability-model-isn-t-all-bad/"><i class="fa fa-chevron-right"></i></a>
     
   </div>
 </div>
 
 
+  
+  
+  
+  
 
   
 
 </div>
-<footer class="post-footer clearfix">
-    
-        <p class="post-tags">
-            <span>Tagged:</span>
-            
-            
-                <a href="/tags/r/">R</a>, 
-            
-                <a href="/tags/forecasting/">forecasting</a>
-            
-        </p>
-    
 
-    <div class="share">
-        
-            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.comhttp%3a%2f%2flenkiefer.com%2f2018%2f06%2f10%2fkalman-filter-for-a-dynamic-linear-model-in-r%2f&text=Kalman%20Filter%20for%20a%20dynamic%20linear%20model%20in%20R via %40lenkiefer"
-                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
-                <i class="fa fa-twitter"></i>
-                <span class="hidden">Twitter</span>
-            </a>
-        
-
-        
-            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.comhttp%3a%2f%2flenkiefer.com%2f2018%2f06%2f10%2fkalman-filter-for-a-dynamic-linear-model-in-r%2f"
-                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
-                <i class="fa fa-facebook"></i>
-                <span class="hidden">Facebook</span>
-            </a>
-        
-
-
-        
-    </div>
-</footer>
 </div>
 </div>
 <script src="http://lenkiefer.com/js/ui.js"></script>
+<script src="http://lenkiefer.com/js/menus.js"></script>
+
+
 
 
 <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  
+  if (window.location.hostname != "localhost") {
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-  ga('create', 'UA-66905937-1', 'auto');
-  ga('send', 'pageview');
-
+    ga('create', 'UA-66905937-1', 'auto');
+    ga('send', 'pageview');
+  }
 </script>
 
 
 
 
+
+<script src="http://lenkiefer.com/js/math-code.js"></script>
+  <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+  
 
 
 </body>
