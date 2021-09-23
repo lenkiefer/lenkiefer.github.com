@@ -204,9 +204,9 @@
   <div id="main">
 
 
-       <meta name="twitter:card" content="summary">
-       <meta name="twitter:image" content="http://lenkiefer.com/img/logo/logo.png" >
-    
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com/img/charts_2021_09_23/starts_density_sep2021.png" >
+     
     <meta property="og:title" content="Housing starts chart with special ggfx">
     <meta property="og:description" content="R code for a glowy housing starts chart">
 
@@ -244,55 +244,26 @@
 </div>
 
   
-<script src="http://lenkiefer.com/2021/09/23/housing-starts-chart-with-special-ggfx/index_files/header-attrs/header-attrs.js"></script>
+<script src="http://lenkiefer.com/rmarkdown-libs/header-attrs/header-attrs.js"></script>
 
 
-<p>I continue to experiment with ggfx. Here’s some code for a chart I made this week.</p>
-<pre class="r"><code>library(tidyverse)</code></pre>
-<pre><code>## -- Attaching packages --------------------------------------- tidyverse 1.3.1 --</code></pre>
-<pre><code>## v ggplot2 3.3.5     v purrr   0.3.4
-## v tibble  3.1.4     v dplyr   1.0.7
-## v tidyr   1.1.3     v stringr 1.4.0
-## v readr   2.0.1     v forcats 0.5.1</code></pre>
-<pre><code>## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
-## x dplyr::filter() masks stats::filter()
-## x dplyr::lag()    masks stats::lag()</code></pre>
-<pre class="r"><code>library(ggfx)
-library(lubridate)</code></pre>
-<pre><code>## 
-## Attaching package: &#39;lubridate&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:base&#39;:
-## 
-##     date, intersect, setdiff, union</code></pre>
-<pre class="r"><code>library(scales)</code></pre>
-<pre><code>## 
-## Attaching package: &#39;scales&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:purrr&#39;:
-## 
-##     discard</code></pre>
-<pre><code>## The following object is masked from &#39;package:readr&#39;:
-## 
-##     col_factor</code></pre>
-<pre class="r"><code>library(darklyplot) # available on my github</code></pre>
-<pre><code>## Loading required package: glue</code></pre>
-<pre><code>## 
-## Attaching package: &#39;glue&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
-## 
-##     collapse</code></pre>
-<pre><code>## Loading required package: ggthemes</code></pre>
-<pre><code>## Loading required package: mdthemes</code></pre>
-<pre><code>## Loading required package: shiny</code></pre>
-<pre class="r"><code>df &lt;- tidyquant::tq_get(c(&quot;HOUST&quot;),get=&quot;economic.data&quot;,
-                         from=&quot;1000-01-01&quot;)</code></pre>
-<pre><code>## Registered S3 method overwritten by &#39;quantmod&#39;:
-##   method            from
-##   as.zoo.data.frame zoo</code></pre>
-<pre><code>## Warning: `type_convert()` only converts columns of type &#39;character&#39;.
-## - `df` has no columns of type &#39;character&#39;</code></pre>
-<pre class="r"><code>df &lt;- mutate(df, decade=paste0(floor(year(date)/10),&quot;0s&quot;))
+<p>I continue to experiment with ggfx. This week I made some charts showing <a href="https://www.census.gov/construction/nrc/index.html">U.S. housing starts</a>.</p>
+<p>This chart emphasizes the fact that while housing starts have been increasing over the past decade, the absolute level of starts is only moderate when compared to pre-Great Recession (2008-2009) data.</p>
+<p>I like to use the <code>ggfx::with_outer_glow</code> functions to create a hazy glow around the density plot.</p>
+<p><img src="http://lenkiefer.com/post/2021-09-23-housing-starts-chart-with-special-ggfx_files/figure-html/glowy-starts-2021-09-23-chart-1.png" width="768" /></p>
+<p>Here is the <a href="https://www.r-project.org/">R</a> code for that chart.</p>
+<pre class="r"><code>library(tidyverse)
+library(ggfx)
+library(lubridate)
+library(scales)
+library(darklyplot) # available on my github https://github.com/lenkiefer/darklyplot
+
+df &lt;- tidyquant::tq_get(c(&quot;HOUST&quot;),get=&quot;economic.data&quot;,
+                         from=&quot;1000-01-01&quot;)
+df &lt;- mutate(df, decade=paste0(floor(year(date)/10),&quot;0s&quot;))
 df &lt;- mutate(df,period=ifelse(year(date)&gt;2010,&quot;Since 2011&quot;,&quot;Before 2011&quot;))
 
+g1 &lt;- 
 ggplot(filter(df,year(date)&gt;1959), aes(x=price,
                                         group=period,color=period)) +
   with_outer_glow(geom_density(data=.%&gt;% filter(period==&quot;Before 2011&quot;),
@@ -314,7 +285,6 @@ ggplot(filter(df,year(date)&gt;1959), aes(x=price,
        subtitle=&quot;Comparing monthly US housing starts 1960-2010 and 2011-2021&quot;,
        y=&quot;estimated density over monthly observations&quot;,
        caption=&quot;@lenkiefer Data source: U.S. Census Bureau / Department of Housing and Urban Development\ndotted vertical line at latest observed value for August 2021&quot;)</code></pre>
-<p><img src="http://lenkiefer.com/2021/09/23/housing-starts-chart-with-special-ggfx/index_files/figure-html/glowy-starts-2021-09-23-1.png" width="672" /></p>
 
   
   <h4><i class="fas fa-share-alt" aria-hidden="true"></i>&nbsp;Share!</h4>

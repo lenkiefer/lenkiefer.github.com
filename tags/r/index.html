@@ -258,8 +258,10 @@
   </header>
 
   <p>
-  I continue to experiment with ggfx. Here’s some code for a chart I made this week.
-library(tidyverse)## -- Attaching packages --------------------------------------- tidyverse 1.3.1 --## v ggplot2 3.3.5 v purrr 0.3.4## v tibble 3.1.4 v dplyr 1.0.7## v tidyr 1.1.3 v stringr 1.4.0## v readr 2.0.1 v forcats 0.5.1## -- Conflicts ------------------------------------------ tidyverse_conflicts() --## x dplyr::filter() masks stats::filter()## x dplyr::lag() masks stats::lag()library(ggfx)library(lubridate)## ## Attaching package: &#39;lubridate&#39;## The following objects are masked from &#39;package:base&#39;:## ## date, intersect, setdiff, unionlibrary(scales)## ## Attaching package: &#39;scales&#39;## The following object is masked from &#39;package:purrr&#39;:## ## discard## The following object is masked from &#39;package:readr&#39;:## ## col_factorlibrary(darklyplot) # available on my github## Loading required package: glue## ## Attaching package: &#39;glue&#39;## The following object is masked from &#39;package:dplyr&#39;:## ## collapse## Loading required package: ggthemes## Loading required package: mdthemes## Loading required package: shinydf &lt;- tidyquant::tq_get(c(&quot;HOUST&quot;),get=&quot;economic.
+  I continue to experiment with ggfx. This week I made some charts showing U.S. housing starts.
+This chart emphasizes the fact that while housing starts have been increasing over the past decade, the absolute level of starts is only moderate when compared to pre-Great Recession (2008-2009) data.
+I like to use the ggfx::with_outer_glow functions to create a hazy glow around the density plot.
+Here is the R code for that chart.
   </p>
 
   
@@ -2995,6 +2997,98 @@ The current level of housing construction is close to the level we’ve seen in 
   
   <footer>
     <a href="http://lenkiefer.com/2018/11/20/housing-starts-stall/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://lenkiefer.com/2018/10/09/a-flatter-phillips-curve/">A Flatter Phillips Curve</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/10/09</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/economics">economics</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  Supply and demand, isoquants, indifference, the lists goes on. Economists love curves. One attracting extra attention these days is the Phillips curve. Last week I was in Boston for the annual meeting of the National Association for Business Economics (NABE). The overall conference was quite good, and certainly one of the highlights was a lunchtime speech by Federal Reserve Chairman Jerome Powell.
+You can find the speech here (pdf).
+  </p>
+
+  
+  <footer>
+    <a href="http://lenkiefer.com/2018/10/09/a-flatter-phillips-curve/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://lenkiefer.com/2018/07/21/maybe-the-linear-probability-model-isn-t-all-bad/">Maybe the Linear Probability Model isn&#39;t all bad</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/07/21</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/statistics">statistics</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  The Linear Probability Model (LPM) might be bad, but is it all bad? Let’s look at some conditions where the LPM might not be so bad. We’ll also look at some simple adjustments that might improve the performance of the LPM. We’ll also compare the LPM to some common alternatives.
+SetupThroughout most of this post, we’re going to consider a world where the LPM model is the true model.
+  </p>
+
+  
+  <footer>
+    <a href="http://lenkiefer.com/2018/07/21/maybe-the-linear-probability-model-isn-t-all-bad/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
   </footer>
   
 </article>
