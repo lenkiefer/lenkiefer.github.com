@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Recent Housing Market Dynamics</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Len Kiefer" />
+    <meta name="date" content="2021-10-06" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Recent Housing Market Dynamics
+### Len Kiefer
+### 2021-10-06
+
+---
+
+class: left
+#  Recent Housing Market Dynamics
+## Some observations and some pressing questions
+
+*  U.S. house prices are increasing at about a 20 percentage point annual rate in recent months, the highest rate of growth ever recorded.
+
+*  The level of real (inflation-adjusted) house prices is the highest in 131 years of house price data stretching back to 1890.
+
+*  What does this mean for the housing market?
+  *  Is the growth rate of house prices sustainable?
+  *  Is the level of house prices sustainable?
+  *  Will there be a house price correction?
+  *  If there is a correction, what would be the trigger?
+
+
+
+&lt;style type="text/css"&gt;
+.remark-slide-number {
+  display: none;
+}
+
+.MathJax { font-size: 2.3rem !important; }
+&lt;/style&gt;
+
+
+
+&lt;style type="text/css"&gt;
+.reduced_opacity {
+  opacity: 0.5;
+}
+&lt;/style&gt;
+
+
+
+
+
+&lt;style type="text/css"&gt;
+.bg_karl {
+  position: relative;
+  z-index: 1;
+}
+
+.bg_karl::before {    
+      content: "";
+      background-image: url(img/iso.png);
+      background-size: cover;
+      #background-size: contain;
+      background-repeat: no-repeat;
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      bottom: 5px;
+      left: 5px;
+      opacity: 0.5;
+      z-index: -1;
+}
+
+-- https://stackoverflow.com/questions/64269808/is-it-possible-to-adjust-background-image-opacity-in-a-xaringan-slideshow
+
+&lt;/style&gt;
+
+
+---
+class: left
+
+background-image: url(img/rhpi.png)
+background-size: contain 
+
+
+---
+class: left
+
+background-image: url(img/map2.png)
+background-size: contain 
+
+
+---
+class: left
+# Long-run Determinants of House Prices
+
+Over the long run, house prices should reflect 
+
+* rents, 
+* the user cost of housing and 
+* any credit constraints that drive a wedge between rents and user cost adjusted prices.
+
+$$\large \text{Price of Housing} = \beta Rent + \psi \text{User Cost} + \lambda Credit $$
+
+If `\(\beta=1\)` and the User Cost and Credit variables are stationary this equation implies a stable long-run house price-to-rent ratio.
+
+Terms on the right hand side of the above equation (or their proxies) are often referred to as **fundamentals**.
+
+---
+class: left
+# Long-run Determinants of House Prices
+## User Cost
+
+The user cost of housing contains three terms:
+
+*  The first is the sum of the nominal interest rate, i, and the property tax, `\(\tau_p\)`, less tax deductions at a rate `\(\tau_y\)`, and corrected for an increase in the overall price level, `\(\pi\)`. 
+
+*  The second component is the housing depreciation rate, `\(\delta\)`. 
+
+*  The final component is the expected real housing price inflation, `\(E\left(\frac{\dot{PH}}{PH}\right)\)` with PH denoting real housing prices.
+
+`$$\large \text{User Cost} = (1-\tau_y)(i +\tau_p)-\pi + \delta - E\left(\frac{\dot{PH}}{PH}\right)$$`
+
+---
+class: left
+# Long-run Determinants of House Prices
+
+$$\large \text{Price of Housing} = \beta Rent + \psi \text{User Cost} + \lambda Credit $$
+
+Due to restricted data on rents, economists often approximate rents with supply and demand factors. We might think of demand as proportional to income and supply related to the housing stock.
+
+$$\large Rent \approx \frac{\gamma_y}{\beta}Income + \frac{\gamma_k}{\beta}\text{Housing stock} $$ 
+
+substituting
+
+$$\large \text{Price of Housing} = \gamma_y Income + \gamma_k \text{Housing Stock}+\psi\text{User Cost}+\lambda Credit $$
+
+If `\(\gamma_y=1\)` and the Housing Stock, User Cost and Credit variables are stationary this equation implies a stable long-run house price-to-income ratio.
+
+---
+class: left
+# Short-run House Price Dynamics
+
+*  In the short run, housing supply is inelastic
+
+*  Thus, housing demand largely determines price
+
+*  The restoration of equilibrium (return to long-run trend) depends on the speed with which the housing market adjusts
+
+*  The housing market does not adjust quickly
+  *  the half-life of a shock is often measured in decades
+
+---
+class: left
+# Short-run House Price Dynamics
+
+.pull-left[
+*  Sustained deviations from fundamentals can drive the fundamentals themselves.
+
+*  Rapid house price growth can lead to a loosening of credit, expanding demand to segments of the population that might not have been active in the housing market before.
+
+*  Rapid house price growth can feed expected future house price growth, lowering the user cost of housing.
+
+]
+
+.pull-right[
+![](kiefer_slides_oct2021_files/figure-html/unnamed-chunk-4-1.png)&lt;!-- --&gt;
+]
+
+---
+class: left
+# Return to fundamentals?
+
+*  The recent rapid rate of house price growth is not sustainable over the long run.
+
+*  However, the literature is divided on whether or not the **level** of house prices will revert to fundamentals
+
+*  Even in models where the level does revert it takes a long time
+  *  the half-life of a shock is often measured in decades
+
+*  Many house price models have an acceleration feature, where rapid growth in the fundamentals can boost current growth temporarily driving prices away from fundamentals.
+
+*  Given the boom-bust cycles in historical real estate it is important to think about what could drive prices down.
+
+---
+class: center, middle, inverse
+
+# Mortgage Rates
+
+---
+class: left
+# Mortgage Rates
+
+
+
+$$ \text{Price of Housing} = \gamma_y Income + \gamma_k \text{Housing Stock}+\psi\text{User Cost}+\lambda Credit $$
+
+`$$\text{User Cost} = (1-\tau_y)(i +\tau_p)+ \delta -\pi - E\left(\frac{\dot{PH}}{PH}\right)$$`
+
+If `\(\psi =1\)` then a 1 percentage point increase in mortgage rates would lead to a `\(1-\tau_y\)` percentage point decrease in the **level** of house prices over the long run.
+
+That's not very significant considering annualized growth is currently about **20 percent**.  
+
+However, higher mortgage rates could cause credit to become more binding and potentially reduce expected house price growth.
+
+Thus the *indirect effects* of higher mortgage rates, and the signal that could send to housing market participants are likely much more significant than the direct effects.
+
+---
+class: left
+
+background-image: url(img/mtg.png)
+background-size: contain
+
+
+---
+class: left
+
+background-image: url(img/mtg_iso.jfif)
+background-size: contain
+
+
+---
+class: center, middle, inverse
+
+# Mortgage Credit
+
+---
+class: left
+# Mortgage Credit
+
+.pull-left[
+*  Unlike the previous boom, mortgage credit has not expanded rapidly.
+*  Research has shown that the growth in mortgage debt in the last boom was primarily driven by investors and others who increased debt on existing properties rather than new entrants/first-time homebuyers.
+*  In the current environment the expansion of credit has been measured, especially relative to equity.
+*  While borrowers do not appear overextended, a contraction in credit still could have a substantial impact on housing markets.
+]
+
+.pull-right[
+![mdo](img/mdo.jfif)
+]
+
+
+---
+class: center, middle, inverse
+
+# Housing Supply
+---
+class: left
+# Housing Supply
+
+.pull-left[
+-  In the short term, housing supply is very sticky or nearly perfectly inelastic. 
+
+-  But over time, the increase in housing supply could provide some relief to the pressure on markets.
+
+-  Much like with mortgage rates the direct effects of increased supply are likely to be limited and unlike potential rate increases, very gradual.
+]
+
+.pull-right[
+![starts](img/supply.jpg)
+
+]
+
+Exhibit 1 from Freddie Mac Research Note: "Housing Supply: A Growing Deficit"
+http://www.freddiemac.com/research/insight/20210507_housing_supply.page
+
+
+---
+class: left
+# Summary
+
+*  Real house prices in the U.S. are the highest ever recorded.
+
+*  The current **growth rate** of house prices is not sustainable indefinitely, but it could persist for a long time.
+
+*  Whether or not the current **level** of house prices is sustainable remains to be seen.
+
+*  Increases in mortgage rates, an expansion in housing supply or a contraction in creidt could be the triggers that result in a house price correction.
+
+*  However, history has shown that deviations from fundamentals can persist for a very long time (decades) and during that time risks tend to build.
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"ratio": "16:9",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
