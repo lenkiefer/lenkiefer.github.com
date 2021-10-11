@@ -5,50 +5,59 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Let&#39;s examine house price and employment trends. And yes, le&#39;ts try out that crazy bivariate tilegrid map.">
-
-<meta name="generator" content="Hugo 0.81.0">
+  <meta name="generator" content="Hugo 0.81.0" />
 
   <title>Employment growth and house price trends &middot; Len Kiefer</title>
 
+    
+
   
   
-  <link rel="stylesheet" href="https://cdn.bootcss.com/pure/0.6.2/pure-min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="https://cdn.bootcss.com/pure/0.6.2/grids-responsive-old-ie-min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="https://cdn.bootcss.com/pure/0.6.2/grids-responsive-min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
-  <script async src="https://use.fontawesome.com/32c3d13def.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
 
   
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet" type="text/css">
+
+  
+  <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
   
 
   
-  <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.11.0/styles/androidstudio.min.css">
-  <script src="//cdn.bootcss.com/highlight.js/9.11.0/highlight.min.js"></script>
-  <script src="//cdn.bootcss.com/highlight.js/9.11.0/languages/r.min.js"></script>
-  <script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.6.0/styles/androidstudio.min.css">
+  <script async src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.6.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
   
 
-  <link rel="shortcut icon" href="http://lenkiefer.com/img/favicon.PNG" type="image/x-icon" />
+  <link rel="shortcut icon" href="http://lenkiefer.com/img/favicon.ico" type="image/x-icon" />
 
   
   
 
 </head>
+
 
 <body>
 <div id="layout">
@@ -61,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -69,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -94,8 +103,10 @@
     
 
     
+
+    
     <li class="pure-menu-item">
-      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" rel="me" target="_blank"><i class="fab fa-twitter-square fa-fw"></i>Twitter</a>
     </li>
     
 
@@ -128,10 +139,8 @@
     
 
     
-
-    
     <li class="pure-menu-item">
-      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" rel="me" target="_blank"><i class="fab fa-linkedin fa-fw"></i>LinkedIn</a>
     </li>
     
 
@@ -147,7 +156,7 @@
 
     
     <li class="pure-menu-item">
-      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" rel="me" target="_blank"><i class="fab fa-github-square fa-fw"></i>GitHub</a>
     </li>
     
 
@@ -181,7 +190,7 @@
 
   <div>
   <div class="small-print">
-    <small>&copy; 2015-2018. All rights reserved.</small>
+    <small>&copy; 2021. All rights reserved.</small>
   </div>
   <div class="small-print">
     <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
@@ -372,7 +381,7 @@ g.hpa&lt;-
 
 g.panel&lt;-plot_grid(g.emp,g.hpa,ncol=1)
 g.panel</code></pre>
-<p><img src="/post/2018-02-26-employment-growth-and-house-price-trends_files/figure-html/plot-1-02-26-2018-1.png" width="960" /></p>
+<p><img src="http://lenkiefer.com/post/2018-02-26-employment-growth-and-house-price-trends_files/figure-html/plot-1-02-26-2018-1.png" width="960" /></p>
 <pre class="r"><code>g.scatter&lt;-
   ggplot(data=df.us, aes(x=eg,y=us.hpa))+geom_path(color=&quot;lightgray&quot;,alpha=0.75)+geom_point()+stat_smooth(method=&quot;lm&quot;,fill=NA,linetype=2)+
   theme_minimal()+
@@ -389,7 +398,7 @@ g.panel</code></pre>
        subtitle=&quot;12-month percent change&quot;,
        caption=&quot;@lenkiefer Data Source: Freddie Mac House Price Index, U.S. Bureau of Labor Statistics.\nemployment data retrieved from FRED, Federal Reserve Bank of St. Louis; https://fred.stlouisfed.org/series/PAYEMS, February 26, 2018&quot;)
 g.scatter</code></pre>
-<p><img src="/post/2018-02-26-employment-growth-and-house-price-trends_files/figure-html/plot-1-02-26-2018-2.png" width="960" /></p>
+<p><img src="http://lenkiefer.com/post/2018-02-26-employment-growth-and-house-price-trends_files/figure-html/plot-1-02-26-2018-2.png" width="960" /></p>
 <p>The national plot shows a reasonably strong correlation between employment growth and house prices. When employment growth is weaker, house prices tend to rise less rapidly or even fall.</p>
 </div>
 <div id="state-trends" class="section level1">
@@ -409,7 +418,7 @@ ggplot(data = dfb, aes(x=year,y=hpa,fill=hpa))+geom_col()+facet_geo(~state)+
         plot.subtitle=element_text(face=&quot;italic&quot;,hjust=0,size=14),
         plot.title=element_text(size=18,face=&quot;bold&quot;,hjust=0))+
   labs(x=&quot;&quot;,y=&quot;12-month percent change&quot;,title=&quot;House price trends by state&quot;,subtitle=&quot;y/y % change in December&quot;,caption=&quot;@lenkiefer Source: Freddie Mac House Price Index&quot;)</code></pre>
-<p><img src="/post/2018-02-26-employment-growth-and-house-price-trends_files/figure-html/plot-2-02-26-2018-1.png" width="960" /></p>
+<p><img src="http://lenkiefer.com/post/2018-02-26-employment-growth-and-house-price-trends_files/figure-html/plot-2-02-26-2018-1.png" width="960" /></p>
 <pre class="r"><code>ggplot(data = dfb, aes(x=year,y=EMPg,fill=EMPg))+geom_col()+facet_geo(~state)+
   scale_fill_viridis(option=&quot;B&quot;,label=percent,name=&quot;12-month percent change&quot;)+
   scale_y_continuous(labels=percent)+scale_x_continuous(labels=c(&quot;&#39;90&quot;,&quot;&#39;00&quot;,&quot;&#39;10&quot;,&quot;&#39;17&quot;), breaks=c(1990,2000,2010,2017))+
@@ -420,7 +429,7 @@ ggplot(data = dfb, aes(x=year,y=hpa,fill=hpa))+geom_col()+facet_geo(~state)+
         plot.subtitle=element_text(face=&quot;italic&quot;,hjust=0,size=14),
         plot.title=element_text(size=18,face=&quot;bold&quot;,hjust=0))+
   labs(x=&quot;&quot;,y=&quot;12-month percent change&quot;,title=&quot;Employment trends by state&quot;,subtitle=&quot;y/y % change in December&quot;,caption=&quot;@lenkiefer Source: U.S. Bureau of Labor Statistics Nonfarm Payroll Emmployment (SA)&quot;)</code></pre>
-<p><img src="/post/2018-02-26-employment-growth-and-house-price-trends_files/figure-html/plot-2-02-26-2018-2.png" width="960" /> Now we can combine the employment and house price trends into a single plot. This is a bivariate tilegrid map we <a href="../../../../2017/10/11/bivariate-tilegridmaps-with-r/">made last year</a>.</p>
+<p><img src="http://lenkiefer.com/post/2018-02-26-employment-growth-and-house-price-trends_files/figure-html/plot-2-02-26-2018-2.png" width="960" /> Now we can combine the employment and house price trends into a single plot. This is a bivariate tilegrid map we <a href="../../../../2017/10/11/bivariate-tilegridmaps-with-r/">made last year</a>.</p>
 <p>First let’s make a scatter plot, and then add the tilegrid map. We will focus first on the latest available data, with year-over-year percent changes in December of 2017.</p>
 <pre class="r"><code>g.xy&lt;-
   ggplot(data=dfb2,
@@ -462,7 +471,7 @@ ggplot(data = dfb, aes(x=year,y=hpa,fill=hpa))+geom_col()+facet_geo(~state)+
   facet_wrap(~year)
 # plot scatter:
 g.xy</code></pre>
-<p><img src="/post/2018-02-26-employment-growth-and-house-price-trends_files/figure-html/plot-3-02-26-2018-1.png" width="1056" /></p>
+<p><img src="http://lenkiefer.com/post/2018-02-26-employment-growth-and-house-price-trends_files/figure-html/plot-3-02-26-2018-1.png" width="1056" /></p>
 <pre class="r"><code>g.tile&lt;-
   ggplot(data=dfb2,
          aes(x=EMPg,y=hpa,label=state,
@@ -503,7 +512,7 @@ g.xy</code></pre>
   labs(x=&quot;&quot;,y=&quot;&quot;,title=&quot;Bivariate Tilegrid Map!&quot;,subtitle=&quot;@lenkiefer&quot;)
 
 plot_grid(g.xy,g.tile,ncol=2)</code></pre>
-<p><img src="/post/2018-02-26-employment-growth-and-house-price-trends_files/figure-html/plot-3-02-26-2018-2.png" width="1056" /></p>
+<p><img src="http://lenkiefer.com/post/2018-02-26-employment-growth-and-house-price-trends_files/figure-html/plot-3-02-26-2018-2.png" width="1056" /></p>
 <div id="discussion" class="section level2">
 <h2>Discussion</h2>
 <p>I like this crazy plot. The scatterplot shows the relationship of house prices and employment, with those variables mapped to a bivariate color scale. The tilegrid map shows where the states are in the scatterplot with a stylized tile. Take Nevada (NV) for example. That state has the highest employment growth rate and the highest house price growth. In the tileplot, the dot for NV is in the top right corner. Alaska (AK) and West Virginia (WV) have the lowest employment and house price rates respectively and are thus on the left and bottom edges but not the corner.</p>
@@ -542,7 +551,7 @@ plot_grid(g.xy,g.tile,ncol=2)</code></pre>
   scale_y_continuous(labels=percent)+
   scale_x_continuous(labels=percent)+
   facet_wrap(~year)</code></pre>
-<p><img src="/post/2018-02-26-employment-growth-and-house-price-trends_files/figure-html/plot-4-02-26-2018-1.png" width="960" /></p>
+<p><img src="http://lenkiefer.com/post/2018-02-26-employment-growth-and-house-price-trends_files/figure-html/plot-4-02-26-2018-1.png" width="960" /></p>
 <p>Here we see that while the relationship is generally positive, the slope tends to change. In the real world, there’s a lot more than employment growth going on in housing markets. However, in recent years employment growth serves as a reasonable proxy for demand growth. Thus we see a fairly strong and stable correlation between employment and house price trends over the past few years.</p>
 </div>
 <div id="colors" class="section level2">
@@ -623,10 +632,40 @@ g.9&lt;-
   labs(title=&quot;RdGy&quot;,subtitle=&quot;A bivariate color scheme&quot;)
 
 plot_grid(g.1,g.2,g.3,g.4,g.5,g.6,g.7,g.8,g.9+labs(caption=&quot;@lenkiefer&quot;),align=&quot;hv&quot;)</code></pre>
-<p><img src="/post/2018-02-26-employment-growth-and-house-price-trends_files/figure-html/plot-5-02-26-2018-1.png" width="960" /></p>
+<p><img src="http://lenkiefer.com/post/2018-02-26-employment-growth-and-house-price-trends_files/figure-html/plot-5-02-26-2018-1.png" width="960" /></p>
 <p>Which do you like?</p>
 </div>
 </div>
+
+  
+  <h4><i class="fas fa-share-alt" aria-hidden="true"></i>&nbsp;Share!</h4>
+<ul class="share-buttons">
+	<li><a href="https://twitter.com/intent/tweet?url=http%3a%2f%2flenkiefer.com%2f2018%2f02%2f26%2femployment-growth-and-house-price-trends%2f" target="_blank" title="Tweet"><i class="fab fa-twitter" aria-hidden="true"></i><span class="sr-only">Tweet</span></a>
+	</li>
+</ul>
+
+
+<style>
+	ul.share-buttons{
+	  list-style: none;
+	  padding: 0;
+	}
+
+	ul.share-buttons li{
+	  display: inline;
+	}
+
+	ul.share-buttons .sr-only{
+	  position: absolute;
+	  clip: rect(1px 1px 1px 1px);
+	  clip: rect(1px, 1px, 1px, 1px);
+	  padding: 0;
+	  border: 0;
+	  height: 1px;
+	  width: 1px;
+	  overflow: hidden;
+	}
+</style>
 
 
   
@@ -661,67 +700,43 @@ plot_grid(g.1,g.2,g.3,g.4,g.5,g.6,g.7,g.8,g.9+labs(caption=&quot;@lenkiefer&quot
 </div>
 
 
+  
+  
+  
+  
 
   
 
 </div>
-<footer class="post-footer clearfix">
-    
-        <p class="post-tags">
-            <span>Tagged:</span>
-            
-            
-                <a href="/tags/house-prices/">house prices</a>, 
-            
-                <a href="/tags/economy/">economy</a>, 
-            
-                <a href="/tags/r/">R</a>, 
-            
-                <a href="/tags/dataviz/">dataviz</a>
-            
-        </p>
-    
 
-    <div class="share">
-        
-            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.comhttp%3a%2f%2flenkiefer.com%2f2018%2f02%2f26%2femployment-growth-and-house-price-trends%2f&text=Employment%20growth%20and%20house%20price%20trends via %40lenkiefer"
-                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
-                <i class="fa fa-twitter"></i>
-                <span class="hidden">Twitter</span>
-            </a>
-        
-
-        
-            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.comhttp%3a%2f%2flenkiefer.com%2f2018%2f02%2f26%2femployment-growth-and-house-price-trends%2f"
-                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
-                <i class="fa fa-facebook"></i>
-                <span class="hidden">Facebook</span>
-            </a>
-        
-
-
-        
-    </div>
-</footer>
 </div>
 </div>
 <script src="http://lenkiefer.com/js/ui.js"></script>
+<script src="http://lenkiefer.com/js/menus.js"></script>
+
+
 
 
 <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  
+  if (window.location.hostname != "localhost") {
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-  ga('create', 'UA-66905937-1', 'auto');
-  ga('send', 'pageview');
-
+    ga('create', 'UA-66905937-1', 'auto');
+    ga('send', 'pageview');
+  }
 </script>
 
 
 
 
+
+<script src="http://lenkiefer.com/js/math-code.js"></script>
+  <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+  
 
 
 </body>

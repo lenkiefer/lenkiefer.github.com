@@ -5,50 +5,59 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Value-Suppressing Uncertainty Palettes allocate a larger range of a visual channel when uncertainty is low, and smaller ranges when uncertainty is high. Let us make one with R.">
-
-<meta name="generator" content="Hugo 0.81.0">
+  <meta name="generator" content="Hugo 0.81.0" />
 
   <title>What&#39;s up? VSUP, that&#39;s what&#39;s up. &middot; Len Kiefer</title>
 
+    
+
   
   
-  <link rel="stylesheet" href="https://cdn.bootcss.com/pure/0.6.2/pure-min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="https://cdn.bootcss.com/pure/0.6.2/grids-responsive-old-ie-min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="https://cdn.bootcss.com/pure/0.6.2/grids-responsive-min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
-  <script async src="https://use.fontawesome.com/32c3d13def.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
 
   
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet" type="text/css">
+
+  
+  <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
   
 
   
-  <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.11.0/styles/androidstudio.min.css">
-  <script src="//cdn.bootcss.com/highlight.js/9.11.0/highlight.min.js"></script>
-  <script src="//cdn.bootcss.com/highlight.js/9.11.0/languages/r.min.js"></script>
-  <script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.6.0/styles/androidstudio.min.css">
+  <script async src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.6.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
   
 
-  <link rel="shortcut icon" href="http://lenkiefer.com/img/favicon.PNG" type="image/x-icon" />
+  <link rel="shortcut icon" href="http://lenkiefer.com/img/favicon.ico" type="image/x-icon" />
 
   
   
 
 </head>
+
 
 <body>
 <div id="layout">
@@ -61,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -69,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -94,8 +103,10 @@
     
 
     
+
+    
     <li class="pure-menu-item">
-      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" rel="me" target="_blank"><i class="fab fa-twitter-square fa-fw"></i>Twitter</a>
     </li>
     
 
@@ -128,10 +139,8 @@
     
 
     
-
-    
     <li class="pure-menu-item">
-      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" rel="me" target="_blank"><i class="fab fa-linkedin fa-fw"></i>LinkedIn</a>
     </li>
     
 
@@ -147,7 +156,7 @@
 
     
     <li class="pure-menu-item">
-      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" rel="me" target="_blank"><i class="fab fa-github-square fa-fw"></i>GitHub</a>
     </li>
     
 
@@ -181,7 +190,7 @@
 
   <div>
   <div class="small-print">
-    <small>&copy; 2015-2018. All rights reserved.</small>
+    <small>&copy; 2021. All rights reserved.</small>
   </div>
   <div class="small-print">
     <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
@@ -313,7 +322,7 @@ d.legend &lt;- function(){
 
 # Call Function
 d.legend()</code></pre>
-<p><img src="/post/2018-05-02-what-s-up-vsup-that-s-what-s-up_files/figure-html/05-02-2018-setup-1-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2018-05-02-what-s-up-vsup-that-s-what-s-up_files/figure-html/05-02-2018-setup-1-1.png" width="672" /></p>
 </div>
 <div id="using-vsup" class="section level1">
 <h1>Using VSUP</h1>
@@ -615,7 +624,7 @@ ggplot(data=df.hv, aes(x=value, y=sd) )+
        caption=&quot;@lenkiefer Source: U.S. Census Bureau American Community Survey (1-year estimates)&quot;)+
   theme(plot.caption=element_text(hjust=0))
 s.lin</code></pre>
-<p><img src="/post/2018-05-02-what-s-up-vsup-that-s-what-s-up_files/figure-html/05-02-2018-scatter-1-1.png" width="672" /> How about if we scale the value estimates by the estimated standard deviation?</p>
+<p><img src="http://lenkiefer.com/post/2018-05-02-what-s-up-vsup-that-s-what-s-up_files/figure-html/05-02-2018-scatter-1-1.png" width="672" /> How about if we scale the value estimates by the estimated standard deviation?</p>
 <pre class="r"><code>s.lin&lt;-
 ggplot(data=df.hv, aes(x=value, y=value/sd) )+
   geom_point()+
@@ -630,7 +639,7 @@ ggplot(data=df.hv, aes(x=value, y=value/sd) )+
 s.lin</code></pre>
 <pre><code>## Warning: Removed 7 rows containing missing values (geom_point).</code></pre>
 <pre><code>## Warning: Removed 7 rows containing missing values (geom_text_repel).</code></pre>
-<p><img src="/post/2018-05-02-what-s-up-vsup-that-s-what-s-up_files/figure-html/05-02-2018-scatter-2-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2018-05-02-what-s-up-vsup-that-s-what-s-up_files/figure-html/05-02-2018-scatter-2-1.png" width="672" /></p>
 <p>Let’s apply the VSUP scale to this plot. To do so we need to assign each state to a value based on the uncertaninty associated with the estimate. (I may come back and explain in more detail what’s going on with this code, but for now let me just put it down.)</p>
 <pre class="r"><code>#____________________________________________________________________________________
 ## Assign Uncertainty category ----
@@ -687,7 +696,7 @@ ggplot(data=df.hv, aes(x=value, y=value/sd,
 state.scatters &lt;- plot_grid(s.lin,s.vsup,ncol=1)
 
 print(state.scatters)</code></pre>
-<p><img src="/post/2018-05-02-what-s-up-vsup-that-s-what-s-up_files/figure-html/05-02-2018-VSUP-1-state-1.png" width="960" /></p>
+<p><img src="http://lenkiefer.com/post/2018-05-02-what-s-up-vsup-that-s-what-s-up_files/figure-html/05-02-2018-VSUP-1-state-1.png" width="960" /></p>
 <p>What we’ve done here is supressed the color for the observations with low ratios of estimated value to standard error. The utility of this approach might be easier to see with a map.</p>
 </div>
 <div id="making-maps" class="section level2">
@@ -723,7 +732,7 @@ ggplot(data=df.map,
          y=&quot;Ratio: Housing Value/Standard Errror of estimates\n(log scale)&quot;,
          caption=&quot;@lenkiefer Source: U.S. Census Bureau American Community Survey (1-year estimates)&quot;)
 gmap.slin</code></pre>
-<p><img src="/post/2018-05-02-what-s-up-vsup-that-s-what-s-up_files/figure-html/05-02-2018-map-1-1.png" width="864" /></p>
+<p><img src="http://lenkiefer.com/post/2018-05-02-what-s-up-vsup-that-s-what-s-up_files/figure-html/05-02-2018-map-1-1.png" width="864" /></p>
 <p>COmpare that to our VSUP plot:</p>
 <pre class="r"><code>gmap.svsup&lt;-
   ggplot(data=df.map , 
@@ -747,7 +756,7 @@ ggdraw()+
               theme(plot.title=element_text(hjust=0)), 0, 0, 1, 1) + 
   draw_plot(d.legend()+labs(title=&quot;&quot;,subtitle=&quot;&quot;)+theme_void()+theme(legend.position=&quot;none&quot;,panel.border=element_rect(color=&quot;black&quot;,fill=NA)) , 0.01, 0.01, 0.34, 0.35)</code></pre>
 <pre><code>## Warning: Using alpha for a discrete variable is not advised.</code></pre>
-<p><img src="/post/2018-05-02-what-s-up-vsup-that-s-what-s-up_files/figure-html/05-02-2018-map-2-1.png" width="864" /></p>
+<p><img src="http://lenkiefer.com/post/2018-05-02-what-s-up-vsup-that-s-what-s-up_files/figure-html/05-02-2018-map-2-1.png" width="864" /></p>
 <p>Now let’s drill down and look at county-level estimates. For this, we’ll need the 5-year ACS estimates.</p>
 <pre class="r"><code>#####################################################################################
 ## Draw County Map ##
@@ -830,7 +839,7 @@ plot_grid(s.linc+labs(title=&quot;Standard Scale&quot;),
 <pre><code>## Warning: Removed 135 rows containing missing values (geom_point).
 
 ## Warning: Removed 135 rows containing missing values (geom_point).</code></pre>
-<p><img src="/post/2018-05-02-what-s-up-vsup-that-s-what-s-up_files/figure-html/05-02-2018-scatter-3-county-1.png" width="864" /></p>
+<p><img src="http://lenkiefer.com/post/2018-05-02-what-s-up-vsup-that-s-what-s-up_files/figure-html/05-02-2018-scatter-3-county-1.png" width="864" /></p>
 <pre class="r"><code>#____________________________________________________________________________________
 ## Create Maps ----
 #____________________________________________________________________________________
@@ -868,10 +877,40 @@ plot_grid(plot_grid(s.linc+labs(title=&quot;Standard Choropleth&quot;),
 <pre><code>## Warning: Removed 135 rows containing missing values (geom_point).
 
 ## Warning: Removed 135 rows containing missing values (geom_point).</code></pre>
-<p><img src="/post/2018-05-02-what-s-up-vsup-that-s-what-s-up_files/figure-html/05-02-2018-map-3-county,%20-1.png" width="1152" /></p>
+<p><img src="http://lenkiefer.com/post/2018-05-02-what-s-up-vsup-that-s-what-s-up_files/figure-html/05-02-2018-map-3-county,%20-1.png" width="1152" /></p>
 <p>There’s a lot more we could do with this, but that’s enough for one post.</p>
 </div>
 </div>
+
+  
+  <h4><i class="fas fa-share-alt" aria-hidden="true"></i>&nbsp;Share!</h4>
+<ul class="share-buttons">
+	<li><a href="https://twitter.com/intent/tweet?url=http%3a%2f%2flenkiefer.com%2f2018%2f05%2f02%2fwhat-s-up-vsup-that-s-what-s-up%2f" target="_blank" title="Tweet"><i class="fab fa-twitter" aria-hidden="true"></i><span class="sr-only">Tweet</span></a>
+	</li>
+</ul>
+
+
+<style>
+	ul.share-buttons{
+	  list-style: none;
+	  padding: 0;
+	}
+
+	ul.share-buttons li{
+	  display: inline;
+	}
+
+	ul.share-buttons .sr-only{
+	  position: absolute;
+	  clip: rect(1px 1px 1px 1px);
+	  clip: rect(1px, 1px, 1px, 1px);
+	  padding: 0;
+	  border: 0;
+	  height: 1px;
+	  width: 1px;
+	  overflow: hidden;
+	}
+</style>
 
 
   
@@ -906,67 +945,43 @@ plot_grid(plot_grid(s.linc+labs(title=&quot;Standard Choropleth&quot;),
 </div>
 
 
+  
+  
+  
+  
 
   
 
 </div>
-<footer class="post-footer clearfix">
-    
-        <p class="post-tags">
-            <span>Tagged:</span>
-            
-            
-                <a href="/tags/dataviz/">dataviz</a>, 
-            
-                <a href="/tags/r/">R</a>, 
-            
-                <a href="/tags/maps/">maps</a>, 
-            
-                <a href="/tags/data-wrangling/">data wrangling</a>
-            
-        </p>
-    
 
-    <div class="share">
-        
-            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.comhttp%3a%2f%2flenkiefer.com%2f2018%2f05%2f02%2fwhat-s-up-vsup-that-s-what-s-up%2f&text=What%27s%20up%3f%20VSUP%2c%20that%27s%20what%27s%20up. via %40lenkiefer"
-                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
-                <i class="fa fa-twitter"></i>
-                <span class="hidden">Twitter</span>
-            </a>
-        
-
-        
-            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.comhttp%3a%2f%2flenkiefer.com%2f2018%2f05%2f02%2fwhat-s-up-vsup-that-s-what-s-up%2f"
-                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
-                <i class="fa fa-facebook"></i>
-                <span class="hidden">Facebook</span>
-            </a>
-        
-
-
-        
-    </div>
-</footer>
 </div>
 </div>
 <script src="http://lenkiefer.com/js/ui.js"></script>
+<script src="http://lenkiefer.com/js/menus.js"></script>
+
+
 
 
 <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  
+  if (window.location.hostname != "localhost") {
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-  ga('create', 'UA-66905937-1', 'auto');
-  ga('send', 'pageview');
-
+    ga('create', 'UA-66905937-1', 'auto');
+    ga('send', 'pageview');
+  }
 </script>
 
 
 
 
+
+<script src="http://lenkiefer.com/js/math-code.js"></script>
+  <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+  
 
 
 </body>

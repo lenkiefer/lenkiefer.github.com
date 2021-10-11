@@ -5,50 +5,59 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="We apply tidytext techniques to analyze the annual Federal Reserve Monetary Policy Report.">
-
-<meta name="generator" content="Hugo 0.81.0">
+  <meta name="generator" content="Hugo 0.81.0" />
 
   <title>Text Mining Fedspeak &middot; Len Kiefer</title>
 
+    
+
   
   
-  <link rel="stylesheet" href="https://cdn.bootcss.com/pure/0.6.2/pure-min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="https://cdn.bootcss.com/pure/0.6.2/grids-responsive-old-ie-min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="https://cdn.bootcss.com/pure/0.6.2/grids-responsive-min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
-  <script async src="https://use.fontawesome.com/32c3d13def.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
 
   
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet" type="text/css">
+
+  
+  <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
   
 
   
-  <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.11.0/styles/androidstudio.min.css">
-  <script src="//cdn.bootcss.com/highlight.js/9.11.0/highlight.min.js"></script>
-  <script src="//cdn.bootcss.com/highlight.js/9.11.0/languages/r.min.js"></script>
-  <script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.6.0/styles/androidstudio.min.css">
+  <script async src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.6.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
   
 
-  <link rel="shortcut icon" href="http://lenkiefer.com/img/favicon.PNG" type="image/x-icon" />
+  <link rel="shortcut icon" href="http://lenkiefer.com/img/favicon.ico" type="image/x-icon" />
 
   
   
 
 </head>
+
 
 <body>
 <div id="layout">
@@ -61,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -69,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -94,8 +103,10 @@
     
 
     
+
+    
     <li class="pure-menu-item">
-      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" rel="me" target="_blank"><i class="fab fa-twitter-square fa-fw"></i>Twitter</a>
     </li>
     
 
@@ -128,10 +139,8 @@
     
 
     
-
-    
     <li class="pure-menu-item">
-      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" rel="me" target="_blank"><i class="fab fa-linkedin fa-fw"></i>LinkedIn</a>
     </li>
     
 
@@ -147,7 +156,7 @@
 
     
     <li class="pure-menu-item">
-      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" rel="me" target="_blank"><i class="fab fa-github-square fa-fw"></i>GitHub</a>
     </li>
     
 
@@ -181,7 +190,7 @@
 
   <div>
   <div class="small-print">
-    <small>&copy; 2015-2018. All rights reserved.</small>
+    <small>&copy; 2021. All rights reserved.</small>
   </div>
   <div class="small-print">
     <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
@@ -543,7 +552,7 @@ fed_sentiment &lt;-
        title=&quot;Sentiment through Federal Reserve Monetary Policy Report&quot;,
        subtitle=&quot;customized bing lexicon&quot;,
        caption=&quot;@lenkiefer\nSource: https://www.federalreserve.gov/monetarypolicy/files/20180713_mprfullreport.pdf&quot;)</code></pre>
-<p><img src="/post/2018-07-28-text-mining-fedspeak_files/figure-html/07-28-2018-tidytext-10-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2018-07-28-text-mining-fedspeak_files/figure-html/07-28-2018-tidytext-10-1.png" width="672" /></p>
 <p>This trend tell an interesting story. The text began positive, dropped off but then surged in the middle. Around the last third of the text, near part 3: Summary of Economic Projections sentiment turns negative as the text describes forecasts and risks.</p>
 </div>
 </div>
@@ -610,7 +619,7 @@ ggplot(data=total_words, aes(x=seq(1996,2018),y=total))+
        title=&quot;Number of words in Federal Reserve Monetary Policy Report&quot;,
        subtitle=&quot;July of each year 1996-2018&quot;,
        caption=&quot;@lenkiefer Source: Federal Reserve Board Monetary Policy Reports&quot;)</code></pre>
-<p><img src="/post/2018-07-28-text-mining-fedspeak_files/figure-html/07-28-2018-tidytext-11-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2018-07-28-text-mining-fedspeak_files/figure-html/07-28-2018-tidytext-11-1.png" width="672" /></p>
 <p>So the 2018 report at over 30,000 words is one of the longer reports. We also can see a pretty clear break at the end of the Greenspan tenure in 2005 as the reports got substantially longer.</p>
 </div>
 <div id="what-were-they-talking-about" class="section level3">
@@ -641,7 +650,7 @@ fed_text %&gt;%
        subtitle=&quot;Excluding stop words and numbers.&quot;,
        caption=&quot;@lenkiefer Source: Federal Reserve Board Monetary Policy Reports&quot;)</code></pre>
 <pre><code>## Joining, by = &quot;word&quot;</code></pre>
-<p><img src="/post/2018-07-28-text-mining-fedspeak_files/figure-html/07-28-2018-tidytext-12-1.png" width="960" /></p>
+<p><img src="http://lenkiefer.com/post/2018-07-28-text-mining-fedspeak_files/figure-html/07-28-2018-tidytext-12-1.png" width="960" /></p>
 <p>Lots of talking about rates. Let’s see if we can get something more informative out of these data.</p>
 <p>Following Silge and Robinson we can use the <code>bind_tf_idf</code> function to bind the term frequency and inverse document frequency to our tidy text dataset. This statistic will decrease the weight on very common words and increase the weight on words that only appear in a few documents. In essence, we extract what’s special about each report. The Monetary Policy Report is always going to talk a lot about interest rates and the general economy, but the tf-idf statistic can tell us something about what’s different in each report.</p>
 <p>We’ll also clean out some additional terms that the pdftools picked up (like month abberviations) by augmenting our stop word list. This list also include word fragments like ‘ing’ that result from words spanning columns.</p>
@@ -684,7 +693,7 @@ fed_textb %&gt;%
        title=&quot;Highest tf-idf words in each Federal Reserve Monetary Policy Report: 1996-2018&quot;,
        subtitle=&quot;Top 10 terms by tf-idf statistic: term frequncy and inverse document frequency&quot;,
        caption=&quot;@lenkiefer Source: Federal Reserve Board Monetary Policy Reports\nNote: omits stop words, date abbreviations and numbers.&quot;)</code></pre>
-<p><img src="/post/2018-07-28-text-mining-fedspeak_files/figure-html/07-28-2018-tidytext-13-1.png" width="1056" /></p>
+<p><img src="http://lenkiefer.com/post/2018-07-28-text-mining-fedspeak_files/figure-html/07-28-2018-tidytext-13-1.png" width="1056" /></p>
 <p>This chart tells a fascinating story. We can see the emergence of certain acronyms like <a href="https://en.wikipedia.org/wiki/Jobs_and_Growth_Tax_Relief_Reconciliation_Act_of_2003">JGTRRA (Jobs and Growth Tax Relief Reconciliation Act)</a>, <a href="https://www.federalreserve.gov/monetarypolicy/talf.htm">TALF (Term Asset-Basked Securities Loan Facility)</a> or lfpr (labor force participation rate). You can also see terms such as terrorism (2002) and war (2003) associated with major geopolitical events.</p>
 <p>The Monetary Policy Report also often contains a special topic, and you can see signs of them in some of the reports. For example, the 2016 report had a special topic: “Have the Gains of the Economic Expansion Been Widely Shared?” that discussed economic trends across demographic groups. You can see evidence of that with the prevalence of terms like “hispanic”,“race”,“black”, and “white” in the 2016 report.</p>
 </div>
@@ -709,7 +718,7 @@ fed_textb %&gt;%
        title=&quot;Sentiment through Federal Reserve Monetary Policy Report&quot;,
        subtitle=&quot;customized bing lexicon&quot;,
        caption=&quot;@lenkiefer Source: Federal Reserve Board Monetary Policy Reports&quot;)</code></pre>
-<p><img src="/post/2018-07-28-text-mining-fedspeak_files/figure-html/07-28-2018-tidytext-14-1.png" width="1056" /></p>
+<p><img src="http://lenkiefer.com/post/2018-07-28-text-mining-fedspeak_files/figure-html/07-28-2018-tidytext-14-1.png" width="1056" /></p>
 <p>This result shows that sentiment tended to be negative in 2001-2003 and 2008-2009, which were right around the last two recessions.</p>
 <p>Let’s compute total sentiment by report.</p>
 <pre class="r"><code>fed_sentiment2 &lt;-
@@ -728,7 +737,7 @@ fed_textb %&gt;%
        title=&quot;Sentiment of Federal Reserve Monetary Policy Report: 1996-2018&quot;,
        subtitle=&quot;customized bing lexicon&quot;,
        caption=&quot;@lenkiefer Source: Federal Reserve Board Monetary Policy Reports&quot;)</code></pre>
-<p><img src="/post/2018-07-28-text-mining-fedspeak_files/figure-html/07-28-2018-tidytext-15-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2018-07-28-text-mining-fedspeak_files/figure-html/07-28-2018-tidytext-15-1.png" width="672" /></p>
 </div>
 </div>
 </div>
@@ -753,7 +762,7 @@ word_cors %&gt;%
   geom_node_text(aes(label = name), repel = TRUE) +
   theme_void(base_family=&quot;Roboto&quot;)+
   labs(title=&quot;  Pairs of words in Federal Reserve Monetary Policy Reports that show at\n  least a 0.15 correlation of appearing within the same 10-line section&quot;, caption=&quot;  @lenkiefer Source: July Federal Reserve Board Monetary Policy Reports 1996-2018    \n&quot;)</code></pre>
-<p><img src="/post/2018-07-28-text-mining-fedspeak_files/figure-html/07-28-2018-tidytext-16-1.png" width="864" /></p>
+<p><img src="http://lenkiefer.com/post/2018-07-28-text-mining-fedspeak_files/figure-html/07-28-2018-tidytext-16-1.png" width="864" /></p>
 </div>
 <div id="conclusion" class="section level1">
 <h1>Conclusion</h1>
@@ -767,6 +776,36 @@ word_cors %&gt;%
 <p>Silge, J., &amp; Robinson, D. (2016). tidytext: Text mining and analysis using tidy data principles in r. The Journal of Open Source Software, 1(3), 37.</p>
 <p>Silge, J., &amp; Robinson, D. (2017). Text mining with R: A tidy approach. &quot; O’Reilly Media, Inc.“. <a href="https://www.tidytextmining.com/">ebook</a>, <a href="http://shop.oreilly.com/product/0636920067153.do?cmp=af-strata-books-video-product_cj_0636920067153_4428796">O’Reilly</a></p>
 </div>
+
+  
+  <h4><i class="fas fa-share-alt" aria-hidden="true"></i>&nbsp;Share!</h4>
+<ul class="share-buttons">
+	<li><a href="https://twitter.com/intent/tweet?url=http%3a%2f%2flenkiefer.com%2f2018%2f07%2f28%2ftext-mining-fedspeak%2f" target="_blank" title="Tweet"><i class="fab fa-twitter" aria-hidden="true"></i><span class="sr-only">Tweet</span></a>
+	</li>
+</ul>
+
+
+<style>
+	ul.share-buttons{
+	  list-style: none;
+	  padding: 0;
+	}
+
+	ul.share-buttons li{
+	  display: inline;
+	}
+
+	ul.share-buttons .sr-only{
+	  position: absolute;
+	  clip: rect(1px 1px 1px 1px);
+	  clip: rect(1px, 1px, 1px, 1px);
+	  padding: 0;
+	  border: 0;
+	  height: 1px;
+	  width: 1px;
+	  overflow: hidden;
+	}
+</style>
 
 
   
@@ -801,65 +840,43 @@ word_cors %&gt;%
 </div>
 
 
+  
+  
+  
+  
 
   
 
 </div>
-<footer class="post-footer clearfix">
-    
-        <p class="post-tags">
-            <span>Tagged:</span>
-            
-            
-                <a href="/tags/data-wrangling/">data wrangling</a>, 
-            
-                <a href="/tags/r/">R</a>, 
-            
-                <a href="/tags/textmining/">textmining</a>
-            
-        </p>
-    
 
-    <div class="share">
-        
-            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.comhttp%3a%2f%2flenkiefer.com%2f2018%2f07%2f28%2ftext-mining-fedspeak%2f&text=Text%20Mining%20Fedspeak via %40lenkiefer"
-                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
-                <i class="fa fa-twitter"></i>
-                <span class="hidden">Twitter</span>
-            </a>
-        
-
-        
-            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.comhttp%3a%2f%2flenkiefer.com%2f2018%2f07%2f28%2ftext-mining-fedspeak%2f"
-                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
-                <i class="fa fa-facebook"></i>
-                <span class="hidden">Facebook</span>
-            </a>
-        
-
-
-        
-    </div>
-</footer>
 </div>
 </div>
 <script src="http://lenkiefer.com/js/ui.js"></script>
+<script src="http://lenkiefer.com/js/menus.js"></script>
+
+
 
 
 <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  
+  if (window.location.hostname != "localhost") {
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-  ga('create', 'UA-66905937-1', 'auto');
-  ga('send', 'pageview');
-
+    ga('create', 'UA-66905937-1', 'auto');
+    ga('send', 'pageview');
+  }
 </script>
 
 
 
 
+
+<script src="http://lenkiefer.com/js/math-code.js"></script>
+  <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+  
 
 
 </body>

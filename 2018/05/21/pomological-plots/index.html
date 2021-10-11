@@ -5,50 +5,59 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Pomological Plots with R">
-
-<meta name="generator" content="Hugo 0.81.0">
+  <meta name="generator" content="Hugo 0.81.0" />
 
   <title>Pomological Plots &middot; Len Kiefer</title>
 
+    
+
   
   
-  <link rel="stylesheet" href="https://cdn.bootcss.com/pure/0.6.2/pure-min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="https://cdn.bootcss.com/pure/0.6.2/grids-responsive-old-ie-min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="https://cdn.bootcss.com/pure/0.6.2/grids-responsive-min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
-  <script async src="https://use.fontawesome.com/32c3d13def.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
 
   
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet" type="text/css">
+
+  
+  <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
   
 
   
-  <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.11.0/styles/androidstudio.min.css">
-  <script src="//cdn.bootcss.com/highlight.js/9.11.0/highlight.min.js"></script>
-  <script src="//cdn.bootcss.com/highlight.js/9.11.0/languages/r.min.js"></script>
-  <script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.6.0/styles/androidstudio.min.css">
+  <script async src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.6.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
   
 
-  <link rel="shortcut icon" href="http://lenkiefer.com/img/favicon.PNG" type="image/x-icon" />
+  <link rel="shortcut icon" href="http://lenkiefer.com/img/favicon.ico" type="image/x-icon" />
 
   
   
 
 </head>
+
 
 <body>
 <div id="layout">
@@ -61,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -69,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -94,8 +103,10 @@
     
 
     
+
+    
     <li class="pure-menu-item">
-      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" rel="me" target="_blank"><i class="fab fa-twitter-square fa-fw"></i>Twitter</a>
     </li>
     
 
@@ -128,10 +139,8 @@
     
 
     
-
-    
     <li class="pure-menu-item">
-      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" rel="me" target="_blank"><i class="fab fa-linkedin fa-fw"></i>LinkedIn</a>
     </li>
     
 
@@ -147,7 +156,7 @@
 
     
     <li class="pure-menu-item">
-      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" rel="me" target="_blank"><i class="fab fa-github-square fa-fw"></i>GitHub</a>
     </li>
     
 
@@ -181,7 +190,7 @@
 
   <div>
   <div class="small-print">
-    <small>&copy; 2015-2018. All rights reserved.</small>
+    <small>&copy; 2021. All rights reserved.</small>
   </div>
   <div class="small-print">
     <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
@@ -297,7 +306,7 @@ df &lt;- df.mtg</code></pre>
         plot.title=element_text(face=&quot;bold&quot;,hjust=0))
 
 g.line.plain</code></pre>
-<p><img src="/post/2018-05-21-pomological-plots_files/figure-html/05-21-2018-plot-1-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2018-05-21-pomological-plots_files/figure-html/05-21-2018-plot-1-1.png" width="672" /></p>
 <p>It’s interesting to compare the range of values by year. Let’s add a density plot. For the density plots, I find direct labeling easier than a legend. In order to do that, I need to create a function that fits the density to the data points and then apply that funciton by year with <code>purrr::map()</code>.</p>
 <pre class="r"><code># function to get density estimates
 myxy2&lt;- function(yy, in.df=df){
@@ -323,10 +332,10 @@ g.dens.plain &lt;-
        title=&quot;Mortgage rates: Distribution over weekly values by year&quot;,
        caption=&quot;@lenkiefer Source: Freddie Mac Primary Mortgage Market Survey&quot;)
 g.dens.plain</code></pre>
-<p><img src="/post/2018-05-21-pomological-plots_files/figure-html/05-21-2018-plot-2-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2018-05-21-pomological-plots_files/figure-html/05-21-2018-plot-2-1.png" width="672" /></p>
 <p>Combining:</p>
 <pre class="r"><code>plot_grid(g.line.plain, g.dens.plain,ncol=1)</code></pre>
-<p><img src="/post/2018-05-21-pomological-plots_files/figure-html/05-21-2018-plot-3-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2018-05-21-pomological-plots_files/figure-html/05-21-2018-plot-3-1.png" width="672" /></p>
 <p>Now we can apply the pomological theme to the plots.</p>
 <pre class="r"><code>g.dens &lt;-
   ggplot(data= filter(df, year&gt;2010),
@@ -366,7 +375,7 @@ ggplot(data= filter(df, year&gt;2010),
 g2&lt;-cowplot::plot_grid(g.line2,g.dens,ncol=1)
 
 paint_pomological(g.line2,width=1300,height=800 )</code></pre>
-<p><img src="/post/2018-05-21-pomological-plots_files/figure-html/05-21-2018-plot-4-1.png" width="650" /></p>
+<p><img src="http://lenkiefer.com/post/2018-05-21-pomological-plots_files/figure-html/05-21-2018-plot-4-1.png" width="650" /></p>
 <p><img src="../../../../img/charts_may_21_2018/mtg_combo_pomo_year.png"></p>
 <p>We can also group the observations by decade:</p>
 <pre class="r"><code># group by decade, computing monthly averages of rates
@@ -426,7 +435,7 @@ g.lined&lt;-
 g2d&lt;-cowplot::plot_grid(g.lined,g.densd,ncol=1)
 
 paint_pomological(g2d,width=1300,height=1600 )</code></pre>
-<p><img src="/post/2018-05-21-pomological-plots_files/figure-html/05-21-2018-plot-5-1.png" width="650" /></p>
+<p><img src="http://lenkiefer.com/post/2018-05-21-pomological-plots_files/figure-html/05-21-2018-plot-5-1.png" width="650" /></p>
 <p><img src="../../../../img/charts_may_21_2018/mtg_combo_pomo_decade.png"></p>
 <p>Bored with mortgage rates? How about the same witn housing starts?</p>
 <pre class="r"><code>df.ms &lt;- df.starts  %&gt;% filter(year(date)&gt;1959) %&gt;% mutate(month=month(date)) %&gt;% group_by(decade, year,month) %&gt;% summarize(price=mean(price,na.rm=T))  %&gt;% ungroup() %&gt;% 
@@ -469,7 +478,7 @@ g.line.starts.plain&lt;-
         axis.text=element_text(size=12))
 
 cowplot::plot_grid(g.line.starts.plain,g.dens.starts.plain,ncol=1)</code></pre>
-<p><img src="/post/2018-05-21-pomological-plots_files/figure-html/05-21-2018-plot-6-1.png" width="864" /></p>
+<p><img src="http://lenkiefer.com/post/2018-05-21-pomological-plots_files/figure-html/05-21-2018-plot-6-1.png" width="864" /></p>
 <p>And make it fancy:</p>
 <pre class="r"><code>g.densd2 &lt;-
   ggplot(data= df.ms,
@@ -513,7 +522,7 @@ g.lined2&lt;-
 g2d2&lt;-cowplot::plot_grid(g.lined2,g.densd2,ncol=1)
 
 paint_pomological(g2d2,width=1300,height=1600 )</code></pre>
-<p><img src="/post/2018-05-21-pomological-plots_files/figure-html/05-21-2018-plot-7-1.png" width="650" /></p>
+<p><img src="http://lenkiefer.com/post/2018-05-21-pomological-plots_files/figure-html/05-21-2018-plot-7-1.png" width="650" /></p>
 <p><img src="../../../../img/charts_may_21_2018/starts_pomo.png"></p>
 </div>
 </div>
@@ -523,6 +532,36 @@ paint_pomological(g2d2,width=1300,height=1600 )</code></pre>
 <p><img src="../../../../img/charts_may_21_2018/rate_pomological_2.gif"></p>
 <p><img src="../../../../img/charts_may_21_2018/rate_pomological_5.gif"></p>
 </div>
+
+  
+  <h4><i class="fas fa-share-alt" aria-hidden="true"></i>&nbsp;Share!</h4>
+<ul class="share-buttons">
+	<li><a href="https://twitter.com/intent/tweet?url=http%3a%2f%2flenkiefer.com%2f2018%2f05%2f21%2fpomological-plots%2f" target="_blank" title="Tweet"><i class="fab fa-twitter" aria-hidden="true"></i><span class="sr-only">Tweet</span></a>
+	</li>
+</ul>
+
+
+<style>
+	ul.share-buttons{
+	  list-style: none;
+	  padding: 0;
+	}
+
+	ul.share-buttons li{
+	  display: inline;
+	}
+
+	ul.share-buttons .sr-only{
+	  position: absolute;
+	  clip: rect(1px 1px 1px 1px);
+	  clip: rect(1px, 1px, 1px, 1px);
+	  padding: 0;
+	  border: 0;
+	  height: 1px;
+	  width: 1px;
+	  overflow: hidden;
+	}
+</style>
 
 
   
@@ -557,65 +596,43 @@ paint_pomological(g2d2,width=1300,height=1600 )</code></pre>
 </div>
 
 
+  
+  
+  
+  
 
   
 
 </div>
-<footer class="post-footer clearfix">
-    
-        <p class="post-tags">
-            <span>Tagged:</span>
-            
-            
-                <a href="/tags/r/">R</a>, 
-            
-                <a href="/tags/dataviz/">dataviz</a>, 
-            
-                <a href="/tags/fun/">fun</a>
-            
-        </p>
-    
 
-    <div class="share">
-        
-            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.comhttp%3a%2f%2flenkiefer.com%2f2018%2f05%2f21%2fpomological-plots%2f&text=Pomological%20Plots via %40lenkiefer"
-                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
-                <i class="fa fa-twitter"></i>
-                <span class="hidden">Twitter</span>
-            </a>
-        
-
-        
-            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.comhttp%3a%2f%2flenkiefer.com%2f2018%2f05%2f21%2fpomological-plots%2f"
-                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
-                <i class="fa fa-facebook"></i>
-                <span class="hidden">Facebook</span>
-            </a>
-        
-
-
-        
-    </div>
-</footer>
 </div>
 </div>
 <script src="http://lenkiefer.com/js/ui.js"></script>
+<script src="http://lenkiefer.com/js/menus.js"></script>
+
+
 
 
 <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  
+  if (window.location.hostname != "localhost") {
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-  ga('create', 'UA-66905937-1', 'auto');
-  ga('send', 'pageview');
-
+    ga('create', 'UA-66905937-1', 'auto');
+    ga('send', 'pageview');
+  }
 </script>
 
 
 
 
+
+<script src="http://lenkiefer.com/js/math-code.js"></script>
+  <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+  
 
 
 </body>

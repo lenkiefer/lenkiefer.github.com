@@ -5,50 +5,59 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="What&#39;s the best way for a forecaster to communicate when their payoff for a binary outcome differs from the decision maker? Guys, it&#39;s time for some game theory.">
-
-<meta name="generator" content="Hugo 0.81.0">
+  <meta name="generator" content="Hugo 0.81.0" />
 
   <title>Forecasting and deciding binary outcomes under asymmetric information &middot; Len Kiefer</title>
 
+    
+
   
   
-  <link rel="stylesheet" href="https://cdn.bootcss.com/pure/0.6.2/pure-min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="https://cdn.bootcss.com/pure/0.6.2/grids-responsive-old-ie-min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="https://cdn.bootcss.com/pure/0.6.2/grids-responsive-min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
-  <script async src="https://use.fontawesome.com/32c3d13def.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
 
   
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet" type="text/css">
+
+  
+  <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
   
 
   
-  <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.11.0/styles/androidstudio.min.css">
-  <script src="//cdn.bootcss.com/highlight.js/9.11.0/highlight.min.js"></script>
-  <script src="//cdn.bootcss.com/highlight.js/9.11.0/languages/r.min.js"></script>
-  <script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.6.0/styles/androidstudio.min.css">
+  <script async src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.6.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
   
 
-  <link rel="shortcut icon" href="http://lenkiefer.com/img/favicon.PNG" type="image/x-icon" />
+  <link rel="shortcut icon" href="http://lenkiefer.com/img/favicon.ico" type="image/x-icon" />
 
   
   
 
 </head>
+
 
 <body>
 <div id="layout">
@@ -61,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -69,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -94,8 +103,10 @@
     
 
     
+
+    
     <li class="pure-menu-item">
-      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" rel="me" target="_blank"><i class="fab fa-twitter-square fa-fw"></i>Twitter</a>
     </li>
     
 
@@ -128,10 +139,8 @@
     
 
     
-
-    
     <li class="pure-menu-item">
-      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" rel="me" target="_blank"><i class="fab fa-linkedin fa-fw"></i>LinkedIn</a>
     </li>
     
 
@@ -147,7 +156,7 @@
 
     
     <li class="pure-menu-item">
-      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" rel="me" target="_blank"><i class="fab fa-github-square fa-fw"></i>GitHub</a>
     </li>
     
 
@@ -181,7 +190,7 @@
 
   <div>
   <div class="small-print">
-    <small>&copy; 2015-2018. All rights reserved.</small>
+    <small>&copy; 2021. All rights reserved.</small>
   </div>
   <div class="small-print">
     <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
@@ -295,7 +304,7 @@ ggplot(data=filter(PAYOFFS,player==&quot;forecaster&quot;), aes(x=factor(a),y=fa
 
 
 plot_grid(g.pf,g.pd)</code></pre>
-<p><img src="/post/2018-03-05-forecasting-and-deciding-binary-outcomes-under-asymmetric-information_files/figure-html/03-05-2018-binary-1-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2018-03-05-forecasting-and-deciding-binary-outcomes-under-asymmetric-information_files/figure-html/03-05-2018-binary-1-1.png" width="672" /></p>
 <p>In this case the forecaster would prefer to take an action and not have the outcome Y occur than not to act and have the event occur. Alternatively, the decider suffers more when acting when the event does not occurr.</p>
 <p>Under this setup, what should the decisions funcitons look like if the agents could act independently?</p>
 <pre class="r"><code>g.s&lt;-
@@ -308,7 +317,7 @@ plot_grid(g.pf,g.pd)</code></pre>
   scale_y_continuous(breaks=c(0,c1,c2,1), name=&quot;Action (a)&quot;)+
   labs(caption=&quot;Actions as a function of probability of outcome Y conditional on information X\nForecaster prefers blue line, decider prefers red&quot;)
 g.s+labs(title=&quot;Ideal actions as a function of Probability (Y|X)&quot;)</code></pre>
-<p><img src="/post/2018-03-05-forecasting-and-deciding-binary-outcomes-under-asymmetric-information_files/figure-html/03-05-2018-binary-2-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2018-03-05-forecasting-and-deciding-binary-outcomes-under-asymmetric-information_files/figure-html/03-05-2018-binary-2-1.png" width="672" /></p>
 <p>Here we see that the forecaster (in blue) would rather see action whenver the Probability (Y|X) &gt;= 0.25, while the decider would prefer to only act when Probability (Y|X) &gt;= 0.6.</p>
 <p>Sadly, under our setup only the decider can decide and the forecaster can know. If the forecaster can talk freely, giving a probabilitstic forecast say to the decider, what would he say? And how would the decider decide?</p>
 <pre class="r"><code>g.s2&lt;-
@@ -322,12 +331,42 @@ ggplot(data=df, aes(x=x,y=x))+
        caption=&quot;Forecaster observes probability (Y|X) and signals to the decider\nIf c1&lt;P(Y|X)&lt;c2 transmit c1, else if c2&gt;P(Y|X)&gt;c1 transmit c2, else transmit P(Y|X)&quot;)
 
 g.s2</code></pre>
-<p><img src="/post/2018-03-05-forecasting-and-deciding-binary-outcomes-under-asymmetric-information_files/figure-html/03-05-2018-binary-3-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2018-03-05-forecasting-and-deciding-binary-outcomes-under-asymmetric-information_files/figure-html/03-05-2018-binary-3-1.png" width="672" /></p>
 <p>In this case the forecaster would report honestly on the Probability (Y|X) when the probability was either very low or very high. But when the probability was between the value <code>c1</code> and <code>c2</code> the forecaster would opt to always report the high value, in the hope that the decider would act.</p>
 <p>The decider however is not naive, they just don’t have access to the information in X. If knowledge of the parameters <code>c1</code> and <code>c2</code> are common knowledge, how might decider act conditional on the forecaster’s signal? And could outcomes be improved if the forecaster could communicate more information than just a point estimate for the probability of the binary outcome? Could statements about uncertainty come into play? Do <a href="https://github.com/zonination/perceptions">perceptions of probability</a> matter?</p>
 <p>Let’s take a look at that in a future post.</p>
 </div>
 </div>
+
+  
+  <h4><i class="fas fa-share-alt" aria-hidden="true"></i>&nbsp;Share!</h4>
+<ul class="share-buttons">
+	<li><a href="https://twitter.com/intent/tweet?url=http%3a%2f%2flenkiefer.com%2f2018%2f03%2f05%2fforecasting-and-deciding-binary-outcomes-under-asymmetric-information%2f" target="_blank" title="Tweet"><i class="fab fa-twitter" aria-hidden="true"></i><span class="sr-only">Tweet</span></a>
+	</li>
+</ul>
+
+
+<style>
+	ul.share-buttons{
+	  list-style: none;
+	  padding: 0;
+	}
+
+	ul.share-buttons li{
+	  display: inline;
+	}
+
+	ul.share-buttons .sr-only{
+	  position: absolute;
+	  clip: rect(1px 1px 1px 1px);
+	  clip: rect(1px, 1px, 1px, 1px);
+	  padding: 0;
+	  border: 0;
+	  height: 1px;
+	  width: 1px;
+	  overflow: hidden;
+	}
+</style>
 
 
   
@@ -362,63 +401,43 @@ g.s2</code></pre>
 </div>
 
 
+  
+  
+  
+  
 
   
 
 </div>
-<footer class="post-footer clearfix">
-    
-        <p class="post-tags">
-            <span>Tagged:</span>
-            
-            
-                <a href="/tags/statistics/">statistics</a>, 
-            
-                <a href="/tags/forecasting/">forecasting</a>
-            
-        </p>
-    
 
-    <div class="share">
-        
-            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.comhttp%3a%2f%2flenkiefer.com%2f2018%2f03%2f05%2fforecasting-and-deciding-binary-outcomes-under-asymmetric-information%2f&text=Forecasting%20and%20deciding%20binary%20outcomes%20under%20asymmetric%20information via %40lenkiefer"
-                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
-                <i class="fa fa-twitter"></i>
-                <span class="hidden">Twitter</span>
-            </a>
-        
-
-        
-            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.comhttp%3a%2f%2flenkiefer.com%2f2018%2f03%2f05%2fforecasting-and-deciding-binary-outcomes-under-asymmetric-information%2f"
-                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
-                <i class="fa fa-facebook"></i>
-                <span class="hidden">Facebook</span>
-            </a>
-        
-
-
-        
-    </div>
-</footer>
 </div>
 </div>
 <script src="http://lenkiefer.com/js/ui.js"></script>
+<script src="http://lenkiefer.com/js/menus.js"></script>
+
+
 
 
 <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  
+  if (window.location.hostname != "localhost") {
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-  ga('create', 'UA-66905937-1', 'auto');
-  ga('send', 'pageview');
-
+    ga('create', 'UA-66905937-1', 'auto');
+    ga('send', 'pageview');
+  }
 </script>
 
 
 
 
+
+<script src="http://lenkiefer.com/js/math-code.js"></script>
+  <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+  
 
 
 </body>

@@ -5,50 +5,59 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Explore housing trends in the US, practice some data wrangling and *tri* out a new data visualization technique.">
-
-<meta name="generator" content="Hugo 0.81.0">
+  <meta name="generator" content="Hugo 0.81.0" />
 
   <title>Exploring housing data with R and IPUMS USA &middot; Len Kiefer</title>
 
+    
+
   
   
-  <link rel="stylesheet" href="https://cdn.bootcss.com/pure/0.6.2/pure-min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="https://cdn.bootcss.com/pure/0.6.2/grids-responsive-old-ie-min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="https://cdn.bootcss.com/pure/0.6.2/grids-responsive-min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="/css/side-menu.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="/css/blackburn.css">
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
 
   
-  <script async src="https://use.fontawesome.com/32c3d13def.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
 
   
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet" type="text/css">
+
+  
+  <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
   
 
   
-  <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.11.0/styles/androidstudio.min.css">
-  <script src="//cdn.bootcss.com/highlight.js/9.11.0/highlight.min.js"></script>
-  <script src="//cdn.bootcss.com/highlight.js/9.11.0/languages/r.min.js"></script>
-  <script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.6.0/styles/androidstudio.min.css">
+  <script async src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.6.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
   
 
-  <link rel="shortcut icon" href="http://lenkiefer.com/img/favicon.PNG" type="image/x-icon" />
+  <link rel="shortcut icon" href="http://lenkiefer.com/img/favicon.ico" type="image/x-icon" />
 
   
   
 
 </head>
+
 
 <body>
 <div id="layout">
@@ -61,7 +70,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="/">Len Kiefer</a>
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
 
 
   <div class="pure-menu">
@@ -69,19 +78,19 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
@@ -94,8 +103,10 @@
     
 
     
+
+    
     <li class="pure-menu-item">
-      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" rel="me" target="_blank"><i class="fab fa-twitter-square fa-fw"></i>Twitter</a>
     </li>
     
 
@@ -128,10 +139,8 @@
     
 
     
-
-    
     <li class="pure-menu-item">
-      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" rel="me" target="_blank"><i class="fab fa-linkedin fa-fw"></i>LinkedIn</a>
     </li>
     
 
@@ -147,7 +156,7 @@
 
     
     <li class="pure-menu-item">
-      <a class="pure-menu-link" href="https://github.com/lenkiefer" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" rel="me" target="_blank"><i class="fab fa-github-square fa-fw"></i>GitHub</a>
     </li>
     
 
@@ -181,7 +190,7 @@
 
   <div>
   <div class="small-print">
-    <small>&copy; 2015-2018. All rights reserved.</small>
+    <small>&copy; 2021. All rights reserved.</small>
   </div>
   <div class="small-print">
     <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
@@ -451,7 +460,7 @@ ggplot(summarize(df.hha, ho = weighted.mean(ho,hh)), aes(x=year,y=ho))+
   labs(x=&quot;Census Year&quot;, y=&quot;Homeownership Rate(%)&quot;, 
        title=&quot;U.S. Homeownership Rate&quot;,
        caption=mycaption)</code></pre>
-<p><img src="/post/2018-07-01-exploring-housing-data-with-r-and-ipums-usa_files/figure-html/07-01-2018-plot-1-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2018-07-01-exploring-housing-data-with-r-and-ipums-usa_files/figure-html/07-01-2018-plot-1-1.png" width="672" /></p>
 <p>We see that the homeownership rate in the United States is down a little in 2016. How does that compare by age group? Let’s use our 5-year age buckets.</p>
 <pre class="r"><code>ggplot(data=filter(df.hha,agemax&lt;85,agemax&gt;19), aes(x=year,y=ho, fill=agec))+geom_path() + geom_point()+
   scale_x_continuous(breaks= unique(df.hha$year))+
@@ -468,7 +477,7 @@ ggplot(summarize(df.hha, ho = weighted.mean(ho,hh)), aes(x=year,y=ho))+
   labs(x=&quot;Census Year&quot;, y=&quot;Homeownership Rate(%)&quot;, 
        title=&quot;U.S. Homeownership Rate by Householder Age&quot;,
        caption=mycaption)</code></pre>
-<p><img src="/post/2018-07-01-exploring-housing-data-with-r-and-ipums-usa_files/figure-html/07-01-2018-plot-2-1.png" width="864" /></p>
+<p><img src="http://lenkiefer.com/post/2018-07-01-exploring-housing-data-with-r-and-ipums-usa_files/figure-html/07-01-2018-plot-2-1.png" width="864" /></p>
 <p>Here we see an interesting pattern. The homeownership rate for the younger age groups have declined while they have generally risen for older cohorts. How about mortgage utilization? What’s the percent of homeowner households that have a mortgage?</p>
 <pre class="r"><code>ggplot(data=filter(df.hha,agemax&lt;85,agemax&gt;19), aes(x=year,y=mtg, fill=agec, color=agec))+
   geom_path(color=&quot;black&quot;) + 
@@ -488,7 +497,7 @@ ggplot(summarize(df.hha, ho = weighted.mean(ho,hh)), aes(x=year,y=ho))+
        title=&quot;U.S. Mortgage utilization by householder age&quot;,
        subtitle=&quot;Percent of homeowner households with a mortgage&quot;,
        caption=mycaption)</code></pre>
-<p><img src="/post/2018-07-01-exploring-housing-data-with-r-and-ipums-usa_files/figure-html/07-01-2018-plot-3-1.png" width="864" /></p>
+<p><img src="http://lenkiefer.com/post/2018-07-01-exploring-housing-data-with-r-and-ipums-usa_files/figure-html/07-01-2018-plot-3-1.png" width="864" /></p>
 <p>Here we see that over age, the share of households with a mortgage tends to decline, though the share of older households with a mortgage has increased. Let’s combine rentership with two types of owners, those with a mortgage and those who own free and clear in 2016. We’ll need to do a tiny bit of data manipulation.</p>
 <pre class="r"><code># roll up by year with group_by and summarize
 df.bar &lt;- 
@@ -518,7 +527,7 @@ ggplot(data=filter(df.bar,year==2016), aes(x=agec, y=hh,fill=tenure)) +
        title=&quot;U.S. households in 2016&quot;,
        subtitle=&quot;Tenure and mortgage status of households by age&quot;,
        caption=mycaption)</code></pre>
-<p><img src="/post/2018-07-01-exploring-housing-data-with-r-and-ipums-usa_files/figure-html/07-01-2018-plot-4-1.png" width="672" /></p>
+<p><img src="http://lenkiefer.com/post/2018-07-01-exploring-housing-data-with-r-and-ipums-usa_files/figure-html/07-01-2018-plot-4-1.png" width="672" /></p>
 <p>If we were feeling mischievous we could use a polar coordinate/radial chart. First with the bars (now wedges) summing up to 1 (share of total):</p>
 <pre class="r"><code>ggplot(data=df.bar, aes(x=agec, y=hh,fill=tenure)) + 
   geom_col(position=&quot;fill&quot;, alpha=0.82)+
@@ -535,7 +544,7 @@ ggplot(data=filter(df.bar,year==2016), aes(x=agec, y=hh,fill=tenure)) +
        title=&quot;U.S. households: renters and owners with and without a mortgage&quot;,
        subtitle=&quot;Tenure and mortgage status of households by age&quot;,
        caption=mycaption)</code></pre>
-<p><img src="/post/2018-07-01-exploring-housing-data-with-r-and-ipums-usa_files/figure-html/07-01-2018-plot-5-1.png" width="864" /></p>
+<p><img src="http://lenkiefer.com/post/2018-07-01-exploring-housing-data-with-r-and-ipums-usa_files/figure-html/07-01-2018-plot-5-1.png" width="864" /></p>
 <p>Or in absolute counts, wrapping the stacked bar up above around a circle.</p>
 <pre class="r"><code>ggplot(data=df.bar, aes(x=agec, y=hh,fill=tenure)) + 
   geom_col(position=&quot;stack&quot;, alpha=0.82)+
@@ -552,7 +561,7 @@ ggplot(data=filter(df.bar,year==2016), aes(x=agec, y=hh,fill=tenure)) +
        title=&quot;U.S. households: renters and owners with and without a mortgage&quot;,
        subtitle=&quot;Tenure and mortgage status of households by age&quot;,
        caption=mycaption)</code></pre>
-<p><img src="/post/2018-07-01-exploring-housing-data-with-r-and-ipums-usa_files/figure-html/07-01-2018-plot-6-1.png" width="864" /></p>
+<p><img src="http://lenkiefer.com/post/2018-07-01-exploring-housing-data-with-r-and-ipums-usa_files/figure-html/07-01-2018-plot-6-1.png" width="864" /></p>
 <p>Okay, <a href="https://twitter.com/graykimbrough/status/1013482713804886017">enough</a> of that, lest His Airness come back for me.</p>
 <p>How about the chart above from Jordan Rappaport’s presentation? Can we trace out the share of households living in apartments over time? Yes indeed.</p>
 <pre class="r"><code>ggplot(data=filter(df.hha, agemax&gt;19 , agemax&lt;85 ) %&gt;% arrange(year,agemax), aes(x=agec,y=mf,color=factor(year),linetype=factor(year), group=year))+  geom_path(size=1.05)+
@@ -567,7 +576,7 @@ ggplot(data=filter(df.bar,year==2016), aes(x=agec, y=hh,fill=tenure)) +
   scale_y_continuous(labels=percent)+
   labs(title=&quot;Percent of U.S. households living in multifamily housing \n(structures with 5+ housing units)&quot;, x=&quot;Householder Age&quot;,y=&quot;Percent of households&quot;,
        caption=mycaption)</code></pre>
-<p><img src="/post/2018-07-01-exploring-housing-data-with-r-and-ipums-usa_files/figure-html/07-01-2018-plot-7-1.png" width="864" /></p>
+<p><img src="http://lenkiefer.com/post/2018-07-01-exploring-housing-data-with-r-and-ipums-usa_files/figure-html/07-01-2018-plot-7-1.png" width="864" /></p>
 <p>This chart reveals that the U shaped pattern we saw above is consistent over time. However, the curve has shifted. Interesintly it has shifted up for ages less than 60, but down for those over 60. Could it shift down further in future? It might as Boomers age and live longer healthier lives than earlier generations.</p>
 <p>We can unpack the plot and use facets to examine how age groups have evolved over time.</p>
 <pre class="r"><code>ggplot(data=filter(df.hha,agemax&lt;85,agemax&gt;19), aes(x=year,y=mf, fill=agec, color=agec))+
@@ -588,7 +597,7 @@ ggplot(data=filter(df.bar,year==2016), aes(x=agec, y=hh,fill=tenure)) +
        title=&quot;Percent of U.S. Households living in multifamily (5+ unit)\nstructures by householder age&quot;,
        # subtitle=&quot;Percent of homeowner households with a mortgage&quot;,
        caption=mycaption)</code></pre>
-<p><img src="/post/2018-07-01-exploring-housing-data-with-r-and-ipums-usa_files/figure-html/07-01-2018-plot-8-1.png" width="864" /></p>
+<p><img src="http://lenkiefer.com/post/2018-07-01-exploring-housing-data-with-r-and-ipums-usa_files/figure-html/07-01-2018-plot-8-1.png" width="864" /></p>
 </div>
 <div id="tricolore" class="section level1">
 <h1>Tricolore</h1>
@@ -660,6 +669,36 @@ cowplot::plot_grid(g3,g.bar, ncol=1, rel_heights=c(1,2))</code></pre>
 <p><em>Note: Various typos corrected (and legends added back to plots where they were needed!) on July 3, 2018</em></p>
 </div>
 
+  
+  <h4><i class="fas fa-share-alt" aria-hidden="true"></i>&nbsp;Share!</h4>
+<ul class="share-buttons">
+	<li><a href="https://twitter.com/intent/tweet?url=http%3a%2f%2flenkiefer.com%2f2018%2f07%2f01%2fexploring-housing-data-with-r-and-ipums-usa%2f" target="_blank" title="Tweet"><i class="fab fa-twitter" aria-hidden="true"></i><span class="sr-only">Tweet</span></a>
+	</li>
+</ul>
+
+
+<style>
+	ul.share-buttons{
+	  list-style: none;
+	  padding: 0;
+	}
+
+	ul.share-buttons li{
+	  display: inline;
+	}
+
+	ul.share-buttons .sr-only{
+	  position: absolute;
+	  clip: rect(1px 1px 1px 1px);
+	  clip: rect(1px, 1px, 1px, 1px);
+	  padding: 0;
+	  border: 0;
+	  height: 1px;
+	  width: 1px;
+	  overflow: hidden;
+	}
+</style>
+
 
   
 <div class="prev-next-post pure-g">
@@ -693,69 +732,43 @@ cowplot::plot_grid(g3,g.bar, ncol=1, rel_heights=c(1,2))</code></pre>
 </div>
 
 
+  
+  
+  
+  
 
   
 
 </div>
-<footer class="post-footer clearfix">
-    
-        <p class="post-tags">
-            <span>Tagged:</span>
-            
-            
-                <a href="/tags/dataviz/">dataviz</a>, 
-            
-                <a href="/tags/r/">R</a>, 
-            
-                <a href="/tags/housing/">housing</a>, 
-            
-                <a href="/tags/data-wrangling/">data wrangling</a>, 
-            
-                <a href="/tags/microdata/">microdata</a>
-            
-        </p>
-    
 
-    <div class="share">
-        
-            <a class="icon-twitter" href="https://twitter.com/share?url=http://lenkiefer.comhttp%3a%2f%2flenkiefer.com%2f2018%2f07%2f01%2fexploring-housing-data-with-r-and-ipums-usa%2f&text=Exploring%20housing%20data%20with%20R%20and%20IPUMS%20USA via %40lenkiefer"
-                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
-                <i class="fa fa-twitter"></i>
-                <span class="hidden">Twitter</span>
-            </a>
-        
-
-        
-            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://lenkiefer.comhttp%3a%2f%2flenkiefer.com%2f2018%2f07%2f01%2fexploring-housing-data-with-r-and-ipums-usa%2f"
-                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
-                <i class="fa fa-facebook"></i>
-                <span class="hidden">Facebook</span>
-            </a>
-        
-
-
-        
-    </div>
-</footer>
 </div>
 </div>
 <script src="http://lenkiefer.com/js/ui.js"></script>
+<script src="http://lenkiefer.com/js/menus.js"></script>
+
+
 
 
 <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  
+  if (window.location.hostname != "localhost") {
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-  ga('create', 'UA-66905937-1', 'auto');
-  ga('send', 'pageview');
-
+    ga('create', 'UA-66905937-1', 'auto');
+    ga('send', 'pageview');
+  }
 </script>
 
 
 
 
+
+<script src="http://lenkiefer.com/js/math-code.js"></script>
+  <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+  
 
 
 </body>
