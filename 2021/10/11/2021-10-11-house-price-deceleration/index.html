@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="How fast might house price growth slow?">
+  <meta name="generator" content="Hugo 0.81.0" />
+
+  <title>House price deceleration &middot; Len Kiefer</title>
+
+    
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet" type="text/css">
+
+  
+  <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.6.0/styles/androidstudio.min.css">
+  <script async src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.6.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="http://lenkiefer.com/img/favicon.ico" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" rel="me" target="_blank"><i class="fab fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" rel="me" target="_blank"><i class="fab fa-linkedin fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" rel="me" target="_blank"><i class="fab fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2021. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com//img/charts_2021_10_11/hpa.png" >
+     
+    <meta property="og:title" content="House price deceleration">
+    <meta property="og:description" content="How fast might house price growth slow?">
+
+<div class="header">
+  <h1>House price deceleration</h1>
+  <h2>How fast might house price growth slow?</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2021/10/11</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/house-prices">house prices</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/housing">housing</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+<script src="http://lenkiefer.com/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<p>Over on Twitter Bill McBride points out a note on house prices from Goldman</p>
+<p>“The supply-demand picture that has been the basis for our call for a multi-year boom in home prices remains intact. … Our model now projects that home prices will grow a further 16% by the end of 2022.”</p>
+<p><blockquote class="twitter-tweet"><p lang="en" dir="ltr">Goldman: &quot;The supply-demand picture that has been the basis for our call for a multi-year boom in home prices remains intact. ... Our model now projects that home prices will grow a further 16% by the end of 2022.&quot;</p>&mdash; Bill McBride (@calculatedrisk) <a href="https://twitter.com/calculatedrisk/status/1447616310683136004?ref_src=twsrc%5Etfw">October 11, 2021</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</p>
+<p>That call seems to be a bit high compared to recent consensus forecasts for house prices. However, it’s not that extreme as we’ll show with a couple graphs.</p>
+<p><a href="https://www.r-project.org/">R</a> code for these charts will be at the bottom.</p>
+<p><em>Note these are my own views and do not necessarily reflect those of my employer or colleagues. They certainly do not amount to any official view on house prices.</em></p>
+<p>First let’s compare the 16% through the end of 2022 to the current rate of house price growth. The latest available house price data for the <a href="http://www.freddiemac.com/research/indices/house-price-index.page">Freddie Mac House Price Index</a> is available through August 2021 . I’m not sure if this is exactly the same index Goldman uses for their forecast (I know they look at it for some purposes), but it should be close in terms of growth rates. From August 2021 through the end of 2022 is a period of 16 months.</p>
+<p>What has house price growth looked like over the past 16 months and how does that compare to the forecast?</p>
+<p><img src="http://lenkiefer.com/post/2021-10-11-house-price-deceleration_files/figure-html/unnamed-chunk-2-1.png" width="864" /></p>
+<p>This plot compares the 16-month rate of house price growth in recent months. In the latest data (as of writing) the 16-month growth rate in house prices has been 24 percent. While 16% is high, it’s a deceleration of about 8 percentage points.</p>
+<p>To help see how reasonable that is, let’s look over a longer time series.</p>
+<p><img src="http://lenkiefer.com/post/2021-10-11-house-price-deceleration_files/figure-html/unnamed-chunk-3-1.png" width="864" /></p>
+<p>By looking back to the early 2000s we see two periods when house prices decelerated. The first period was after prices peaked in 2005, while the second period was around the Taper Tantrum in 2013. In the 2005 period house prices were on their way toward substantial declines in the level of prices. From July of 2015 through November of 2005 16-month price growth decelerated from 17.7% to 5.2%. From August of 2013 through December of 2014 16-month house price growth decelerated from 13.2% to 7.1%.</p>
+<p>Whether or not either of these periods is exactly analogous to the current period is highly unlikely. But we might consider them as useful references when trying to form an opinion of the current rate of growth. We’re coming off a crazy high rate of house price growth, so there’s no real history to draw from you have to have some way to separate transitory COVID-19 effects from the longer-run trend, but it’s essentially impossible to do right now.</p>
+<p>For more on house prices, see my <a href="http://lenkiefer.com/2021/10/06/presentation-on-recent-housing-market-dynamics/">presentation on recent housing market dynamics</a>.</p>
+<div id="r-code-for-plots" class="section level1">
+<h1>R code for plots</h1>
+<pre class="r"><code>#####################################################################################
+# load libraries----
+#####################################################################################
+library(darklyplot) # for theme_dark2() function
+# see http://lenkiefer.com/2020/07/03/using-darklyplot/ 
+library(data.table)
+library(tidyverse)
+library(lubridate)
+
+my_colors &lt;- c(
+  &quot;green&quot;      = rgb(103,180,75, maxColorValue = 256),
+  &quot;green2&quot;      = rgb(147,198,44, maxColorValue = 256),
+  &quot;lightblue&quot;  =  rgb(9, 177,240, maxColorValue = 256),
+  &quot;lightblue2&quot; = rgb(173,216,230, maxColorValue = 256),
+  &#39;blue&#39;       = &quot;#00aedb&quot;,
+  &#39;red&#39;        = &quot;#d11141&quot;,
+  &#39;orange&#39;     = &quot;#f37735&quot;,
+  &#39;yellow&#39;     = &quot;#ffc425&quot;,
+  &#39;gold&#39;       = &quot;#FFD700&quot;,
+  &#39;light grey&#39; = &quot;#cccccc&quot;,
+  &#39;purple&#39;     = &quot;#551A8B&quot;,
+  &#39;dark grey&#39;  = &quot;#8c8c8c&quot;)
+
+
+my_cols &lt;- function(...) {
+  cols &lt;- c(...)
+  if (is.null(cols))
+    return (my_colors)
+  my_colors[cols]
+}
+
+
+my_palettes &lt;- list(
+  `main`  = my_cols(&quot;blue&quot;, &quot;green&quot;, &quot;yellow&quot;),
+  `cool`  = my_cols(&quot;blue&quot;, &quot;green&quot;),
+  `cool2hot` = my_cols(&quot;lightblue2&quot;,&quot;lightblue&quot;, &quot;blue&quot;,&quot;green&quot;, &quot;green2&quot;,&quot;yellow&quot;,&quot;gold&quot;, &quot;orange&quot;, &quot;red&quot;),
+  `hot`   = my_cols(&quot;yellow&quot;, &quot;orange&quot;, &quot;red&quot;),
+  `mixed` = my_cols(&quot;lightblue&quot;, &quot;green&quot;, &quot;yellow&quot;, &quot;orange&quot;, &quot;red&quot;),
+  `mixed2` = my_cols(&quot;lightblue2&quot;,&quot;lightblue&quot;, &quot;green&quot;, &quot;green2&quot;,&quot;yellow&quot;,&quot;gold&quot;, &quot;orange&quot;, &quot;red&quot;),
+  `mixed3` = my_cols(&quot;lightblue2&quot;,&quot;lightblue&quot;, &quot;green&quot;, &quot;yellow&quot;,&quot;gold&quot;, &quot;orange&quot;, &quot;red&quot;),
+  `mixed4` = my_cols(&quot;lightblue2&quot;,&quot;lightblue&quot;, &quot;green&quot;, &quot;green2&quot;,&quot;yellow&quot;,&quot;gold&quot;, &quot;orange&quot;, &quot;red&quot;,&quot;purple&quot;),
+  `mixed5` = my_cols(&quot;lightblue&quot;,&quot;green&quot;, &quot;green2&quot;,&quot;yellow&quot;,&quot;gold&quot;, &quot;orange&quot;, &quot;red&quot;,&quot;purple&quot;,&quot;blue&quot;),
+  `mixed6` = my_cols(&quot;green&quot;, &quot;gold&quot;, &quot;orange&quot;, &quot;red&quot;,&quot;purple&quot;,&quot;blue&quot;),
+  `grey`  = my_cols(&quot;light grey&quot;, &quot;dark grey&quot;)
+)
+
+
+my_pal &lt;- function(palette = &quot;main&quot;, reverse = FALSE, ...) {
+  pal &lt;- my_palettes[[palette]]
+  
+  if (reverse) pal &lt;- rev(pal)
+  
+  colorRampPalette(pal, ...)
+}
+
+
+scale_color_mycol &lt;- function(palette = &quot;main&quot;, discrete = TRUE, reverse = FALSE, ...) {
+  pal &lt;- my_pal(palette = palette, reverse = reverse)
+  
+  if (discrete) {
+    discrete_scale(&quot;colour&quot;, paste0(&quot;my_&quot;, palette), palette = pal, ...)
+  } else {
+    scale_color_gradientn(colours = pal(256), ...)
+  }
+}
+
+
+
+scale_fill_mycol &lt;- function(palette = &quot;main&quot;, discrete = TRUE, reverse = FALSE, ...) {
+  pal &lt;- my_pal(palette = palette, reverse = reverse)
+  
+  if (discrete) {
+    discrete_scale(&quot;fill&quot;, paste0(&quot;my_&quot;, palette), palette = pal, ...)
+  } else {
+    scale_fill_gradientn(colours = pal(256), ...)
+  }
+}
+#####################################################################################
+# data stuff ----
+#####################################################################################
+dt &lt;- fread(&quot;http://www.freddiemac.com/fmac-resources/research/docs/fmhpi_master_file.csv&quot;)
+
+#####################################################################################
+# define variables ----
+#####################################################################################
+dt &lt;- data.table(dt)[,&quot;:=&quot;(hpa16 = (Index_SA/shift(Index_SA,16)) -1 , # 16-month growth rate
+                     hpa12=Index_SA/shift(Index_SA,12)-1,
+                     hpa3 = (Index_SA/shift(Index_SA,3))**4 -1 ),
+                     .(GEO_Type,GEO_Name)
+]
+
+# create date variable mid-month (day=15)
+dt[,date:=as.Date(ISOdate(Year,Month,15))]
+
+
+#reference data frame for annotations
+df_ref=data.frame(date=c(max(dt$date), max(dt$date) %m+% months(16)), hpa16=c(dt[GEO_Name==&quot;USA&quot; &amp;date==max(date),]$hpa16,.16))
+
+df_ref3=data.frame(date=c(as.Date(&quot;2013-08-15&quot;),as.Date(&quot;2013-08-15&quot;) %m+% months(16)), 
+                   hpa16=c(dt[GEO_Name==&quot;USA&quot; &amp;date==&quot;2013-08-15&quot;,]$hpa16,
+                           dt[GEO_Name==&quot;USA&quot; &amp;date==&quot;2014-12-15&quot;,]$hpa16
+                   ))
+
+
+df_ref2=data.frame(date=c(as.Date(&quot;2005-07-15&quot;),as.Date(&quot;2005-07-15&quot;) %m+% months(16)), 
+                   hpa16=c(dt[GEO_Name==&quot;USA&quot; &amp;date==&quot;2005-07-15&quot;,]$hpa16,
+                           dt[GEO_Name==&quot;USA&quot; &amp;date==&quot;2006-11-15&quot;,]$hpa16
+                   ))
+
+
+gbar1 &lt;- 
+ggplot(data=dt[GEO_Name==&quot;USA&quot; &amp; Year&gt;2017,]
+       , aes(y=hpa16,x=date,color=hpa16,fill=hpa16))+
+  geom_col(alpha=0.5)+
+  geom_path()+
+  geom_point()+
+  geom_text(data= .%&gt;% filter(date==max(date)),
+            nudge_y=.01,fontface=&quot;bold&quot;,size=4,
+            aes(label=percent(hpa16,.1)))+
+  scale_y_continuous(labels=scales::percent_format(accuracy=1),
+                     #limits=c(-0.1,.4),breaks=seq(-0.1,.4,.1),
+                     position=&quot;right&quot;)+
+  labs(x=&quot;&quot;,
+       y=&quot;16-month percent change in US house prices&quot;,
+       title=&quot;House Price Growth (USA, 16-month percent change)&quot;,
+       caption=&quot;@lenkiefer Source: Freddie Mac House Price Index, seasonally adjusted&quot;,
+       subtitle=paste0(format(min(dt[GEO_Name==&quot;USA&quot; &amp; Year&gt;2017,]$date),&quot;%b %Y&quot;),&quot;-&quot;,format(max(dt$date),&quot;%b %Y&quot;)))+
+  theme_dark2(base_family=&quot;Arial&quot;,base_size=18)+
+  theme(legend.position=&quot;top&quot;,legend.direction = &quot;horizontal&quot;,
+        legend.key.width=unit(2,&quot;cm&quot;),
+        plot.title=element_text(size=rel(1.75),face=&quot;bold&quot;),
+        #axis.text.y=element_blank(),
+        #axis.ticks.y=element_blank()
+        #,panel.grid.major.y=element_blank()
+  )+
+  scale_color_mycol(palette=&quot;cool2hot&quot;,
+                    discrete=FALSE,label=scales::percent,name=&quot;16-month growth&quot;)+
+  scale_fill_mycol(palette=&quot;cool2hot&quot;,
+                   discrete=FALSE,label=scales::percent,name=&quot;16-month growth&quot;)+
+  geom_path(data=df_ref,linetype=2,color=&quot;white&quot;,size=1.1)+
+  geom_text(data=tail(df_ref,1),          nudge_y=.01,fontface=&quot;bold&quot;,size=4,
+            aes(label=percent(hpa16,.1)),color=&quot;white&quot;)+
+  geom_hline(yintercept=0.16,color=&quot;white&quot;,linetype=3)
+
+gbar2 &lt;- 
+  ggplot(data=dt[GEO_Name==&quot;USA&quot; &amp; Year&gt;2000,]
+         , aes(y=hpa16,x=date,color=hpa16,fill=hpa16))+
+  geom_col(alpha=0.5)+
+  geom_path()+
+  geom_point()+
+  geom_text(data= .%&gt;% filter(date==max(date)),
+            nudge_y=.01,fontface=&quot;bold&quot;,size=4,
+            aes(label=percent(hpa16,.1)))+
+  scale_y_continuous(labels=scales::percent_format(accuracy=1),
+                     #limits=c(-0.1,.4),breaks=seq(-0.1,.4,.1),
+                     position=&quot;right&quot;)+
+  labs(x=&quot;&quot;,
+       y=&quot;16-month percent change in US house prices&quot;,
+       title=&quot;House Price Growth (USA, 16-month percent change)&quot;,
+       caption=&quot;@lenkiefer Source: Freddie Mac House Price Index, seasonally adjusted&quot;,
+       subtitle=paste0(format(min(dt[GEO_Name==&quot;USA&quot; &amp; Year&gt;2017,]$date),&quot;%b %Y&quot;),&quot;-&quot;,format(max(dt$date),&quot;%b %Y&quot;)))+
+  theme_dark2(base_family=&quot;Arial&quot;,base_size=18)+
+  theme(legend.position=&quot;top&quot;,legend.direction = &quot;horizontal&quot;,
+        legend.key.width=unit(2,&quot;cm&quot;),
+        plot.title=element_text(size=rel(1.75),face=&quot;bold&quot;),
+        #axis.text.y=element_blank(),
+        #axis.ticks.y=element_blank()
+        #,panel.grid.major.y=element_blank()
+  )+
+  scale_color_mycol(palette=&quot;cool2hot&quot;,
+                    discrete=FALSE,label=scales::percent,name=&quot;16-month growth&quot;)+
+  scale_fill_mycol(palette=&quot;cool2hot&quot;,
+                   discrete=FALSE,label=scales::percent,name=&quot;16-month growth&quot;)+geom_path(data=df_ref,linetype=2,color=&quot;white&quot;,size=1.1)+
+  geom_text(data=tail(df_ref,1),          nudge_y=.01,fontface=&quot;bold&quot;,size=5,
+            aes(label=percent(hpa16,.1)),color=&quot;white&quot;)+
+  geom_hline(yintercept=0.16,color=&quot;white&quot;,linetype=3)+
+  geom_path(data=df_ref2,linetype=2,color=&quot;white&quot;,size=1.1)+
+  geom_text(data=tail(df_ref2,2),          nudge_y=.01,fontface=&quot;bold&quot;,size=5,
+            aes(label=percent(hpa16,.1)),color=&quot;white&quot;)+
+  geom_path(data=df_ref3,linetype=2,color=&quot;white&quot;,size=1.1)+
+  geom_text(data=tail(df_ref3,3),          nudge_y=.01,fontface=&quot;bold&quot;,size=5,
+            aes(label=percent(hpa16,.1)),color=&quot;white&quot;)</code></pre>
+</div>
+
+  
+  <h4><i class="fas fa-share-alt" aria-hidden="true"></i>&nbsp;Share!</h4>
+<ul class="share-buttons">
+	<li><a href="https://twitter.com/intent/tweet?url=http%3a%2f%2flenkiefer.com%2f2021%2f10%2f11%2f2021-10-11-house-price-deceleration%2f" target="_blank" title="Tweet"><i class="fab fa-twitter" aria-hidden="true"></i><span class="sr-only">Tweet</span></a>
+	</li>
+</ul>
+
+
+<style>
+	ul.share-buttons{
+	  list-style: none;
+	  padding: 0;
+	}
+
+	ul.share-buttons li{
+	  display: inline;
+	}
+
+	ul.share-buttons .sr-only{
+	  position: absolute;
+	  clip: rect(1px 1px 1px 1px);
+	  clip: rect(1px, 1px, 1px, 1px);
+	  padding: 0;
+	  border: 0;
+	  height: 1px;
+	  width: 1px;
+	  overflow: hidden;
+	}
+</style>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="http://lenkiefer.com/2021/10/06/presentation-on-recent-housing-market-dynamics/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="http://lenkiefer.com/2021/10/06/presentation-on-recent-housing-market-dynamics/">Presentation on recent housing market dynamics</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+  
+  
+  
+  
+
+  
+
+</div>
+
+</div>
+</div>
+<script src="http://lenkiefer.com/js/ui.js"></script>
+<script src="http://lenkiefer.com/js/menus.js"></script>
+
+
+
+
+<script>
+  
+  if (window.location.hostname != "localhost") {
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-66905937-1', 'auto');
+    ga('send', 'pageview');
+  }
+</script>
+
+
+
+
+
+<script src="http://lenkiefer.com/js/math-code.js"></script>
+  <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+  
+
+
+</body>
+</html>
+
