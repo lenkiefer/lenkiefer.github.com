@@ -681,6 +681,470 @@ In this space, I’ve shared several posts on animation see tags. But I haven’
   
     <article>
   <header>
+    <h2><a href="http://lenkiefer.com/2018/08/16/everything-is-spiraling-out-of-control/">Everything is spiraling out of control!</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/08/16</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/fun">fun</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/animation">animation</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  I saw this fun bit of R code in a tweet by user aschinchon.
+df &lt;- data.frame(x=0, y=0)
+for (i in 2:500)
+{
+df[i,1] &lt;- df[i-1,1]+((0.98)^i)*cos(i)
+df[i,2] &lt;- df[i-1,2]+((0.98)^i)*sin(i) }
+ggplot2::ggplot(df, aes(x,y)) + geom_polygon()+
+theme_void()#rstats pic.twitter.com/cgNjyk405f
+&mdash; Antonio Sánchez Chinchón (@aschinchon) August 16, 2018  Let’s remix it to make a fun animation. We’ll zoom in and out and have the colors shift.
+  Click for R code
+  </p>
+
+  
+  <footer>
+    <a href="http://lenkiefer.com/2018/08/16/everything-is-spiraling-out-of-control/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://lenkiefer.com/2018/08/02/global-house-price-trends/">Global house price trends</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/08/02</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/house-prices">house prices</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/animation">animation</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  In this post I want to share updated plots comparing house price trends around the world. Or at least part of the world. Our view will be somewhat limited, based on data, but will at least allow us to see how U.S. house prices compare to a few other countries.
+The details behind these plots are explained in more detail in this post, but some of the images were lost due to my blog transition.
+  </p>
+
+  
+  <footer>
+    <a href="http://lenkiefer.com/2018/08/02/global-house-price-trends/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://lenkiefer.com/2018/07/31/house-price-gif/">House price gif that keeps on giffing</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/07/31</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/house-prices">house prices</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/animation">animation</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  This tweet turned out to be popular:
+👀house price trends👀 pic.twitter.com/JXB5P0H84A
+&mdash; 📈 Len Kiefer 📊 (@lenkiefer) August 1, 2018  It’s a remix of a chart we made here, though it uses a different index. In the earlier post, we used the FHFA house price index, but this one used the Case-Shiller Index, which was released today.
+Let me just post two gifs and then below will be the R code I used to create them.
+  </p>
+
+  
+  <footer>
+    <a href="http://lenkiefer.com/2018/07/31/house-price-gif/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://lenkiefer.com/2018/07/26/getting-animated-about-new-home-sales/">Getting animated about new home sales</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/07/26</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/animation">animation</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/data-wrangling">data wrangling</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/housing">housing</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  Indications are that U.S. housing market activity in the middle part of 2018 has moderated. Home sales estimates for both new home sales and existing home sales declined on a seasonally adjusted basis in June relative to May. House price growth has also moderated recently. Some folks have gotten animated about the recent trends.
+I’m more sanguine about the recent data. Certainly a slowdown in housing market activity would be cause for concern.
+  </p>
+
+  
+  <footer>
+    <a href="http://lenkiefer.com/2018/07/26/getting-animated-about-new-home-sales/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://lenkiefer.com/2018/07/22/house-price-gifski/">House price gifski</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/07/22</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/animation">animation</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/house-prices">house prices</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  I saw today, via Ropensci a blog post about a new package for making animated gifs with R called gifski now available on CRAN.
+Let’s adapt the code we shared last week to use the gifski package. See that post for additional details.
+If we run the R code below we’ll generate this animated plot:
+This plot shows the evolution of house prices in two states, California (CA) and Texas (TX) versus the United States (USA).
+  </p>
+
+  
+  <footer>
+    <a href="http://lenkiefer.com/2018/07/22/house-price-gifski/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://lenkiefer.com/2018/07/18/u-s-housing-starts-are-still-super-low/">U.S. housing starts are still super low</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/07/18</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/data">data</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/housing">housing</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/animation">animation</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  I try not to use too much jargon (jargon monoxide can be deadly) on this blog. But I’ve got a bit of a technical term I’ve been using the describe U.S. residential construction: super-low.
+To be sure, housing construction has been grinding higher, but it’s been taking a while for activity to get back close to historical averages. Once you account for the larger population, which all else equal needs more housing units, the level of construction is quite low.
+  </p>
+
+  
+  <footer>
+    <a href="http://lenkiefer.com/2018/07/18/u-s-housing-starts-are-still-super-low/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://lenkiefer.com/2018/04/12/rate-cloud/">Rate Cloud</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/04/12</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/fun">fun</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/animation">animation</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  TIME FOR A FUN NEW MORTGAGE RATE CHART.
+This one:
+We’ll use R to plot a new visualization of mortgage rates.
+Let’s make it.
+DataAs we did with our majestic mortgage rate plot post we’ll plot mortgage rates using the Freddie Mac Primary Mortgage Market Survey.
+We’ll get the mortgage rates data via the Saint Louis Federal Reserve’s FRED database. If you followed my post from back in April of last year you know what we can do if we combine FRED with the quantmod package.
+  </p>
+
+  
+  <footer>
+    <a href="http://lenkiefer.com/2018/04/12/rate-cloud/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://lenkiefer.com/2018/03/18/pipe-tweenr/">Pipe Tweenr</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/03/18</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/animation">animation</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/dataviz">dataviz</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  I LIKE TO MAKE ANIMATIONS WITH R. Sometimes folks ask me how they add to understanding. They don’t always, but often, particularly when you are working with time series, I find they help visualize trends and understand the evolution of variables.
+I’ve written several posts on animation, see particularly this recent post on making a simple line plot and this post about improving animations with tweenr.
+Tweenr is a handy package that lets you interpolate data and make smooth animations.
+  </p>
+
+  
+  <footer>
+    <a href="http://lenkiefer.com/2018/03/18/pipe-tweenr/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
+    <h2><a href="http://lenkiefer.com/2018/02/18/recent-house-price-trends-update-through-december-2017/">Recent House Price Trends: update through December 2017</a></h2>
+
+    <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018/02/18</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/house-prices">house prices</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/animation">animation</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  </header>
+
+  <p>
+  LAST YEAR WE TOURED recent house price trends Post. Let’s update the data visualizations with data through December 2017.
+We are going to show house price trends using data from the publicly available Freddie Mac House Price Index.
+Animation:
+Here’s an updated animation showing trends in the top 20 metro areas, based on population.
+Below, I’ll plot stills for each of the 20 metro areas. Later I’ll follow up with some additional visualizations and some commentary.
+  </p>
+
+  
+  <footer>
+    <a href="http://lenkiefer.com/2018/02/18/recent-house-price-trends-update-through-december-2017/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+  
+    <article>
+  <header>
     <h2><a href="http://lenkiefer.com/2017/11/22/housing-market-dataviz-week-of-november-22-2017/">Housing market dataviz: week of November 22, 2017</a></h2>
 
     <div class="post-meta">
