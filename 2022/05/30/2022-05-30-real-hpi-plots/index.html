@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Charting recent house price trends">
+  <meta name="generator" content="Hugo 0.81.0" />
+
+  <title>Real house price plots &middot; Len Kiefer</title>
+
+    
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="http://lenkiefer.com/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="http://lenkiefer.com/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet" type="text/css">
+
+  
+  <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+ 
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.6.0/styles/androidstudio.min.css">
+  <script async src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.6.0/highlight.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="http://lenkiefer.com/img/favicon.ico" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="http://lenkiefer.com/">Len Kiefer</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://lenkiefer.com/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://lenkiefer.com/post/"><i class='fa fa-list fa-fw'></i>Archive</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="http://lenkiefer.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/@lenkiefer" rel="me" target="_blank"><i class="fab fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/leonard-kiefer-51175331" rel="me" target="_blank"><i class="fab fa-linkedin fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/lenkiefer" rel="me" target="_blank"><i class="fab fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>&copy; 2021. All rights reserved.</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+       <meta name="twitter:card" content="summary_large_image">
+       <meta name="twitter:image" content="http://lenkiefer.com//img/charts_2022_05_30/beeswarm.png" >
+     
+    <meta property="og:title" content="Real house price plots">
+    <meta property="og:description" content="Charting recent house price trends">
+
+<div class="header">
+  <h1>Real house price plots</h1>
+  <h2>Charting recent house price trends</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2022/05/30</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/r">R</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/housing">housing</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="http://lenkiefer.com/tags/house-prices">house-prices</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+<script src="http://lenkiefer.com/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<p>Consider recent house price trends.</p>
+<p><img src="../../../../img/charts_2022_05_30/rhpi_usa.png" style="width:700px"></p>
+<p>After adjusting for inflation, U.S. house prices have increased 76% since January 2000. Just over the past two years, since March of 2020, real house prices have increased over 18%. So even with consumer price inflation that is the highest in about 40 years, house price growth has been even stronger.</p>
+<p>National trends understate how strong house prices growth has been in certain states. Let’s take a look at a few specifica states, Virginia, Ohio, Texas (where I have lived) and California.</p>
+<p><img src="../../../../img/charts_2022_05_30/rhpi_4st.png" style="width:700px"></p>
+<p>California has seen very strong recent growth and is now far above its mid-2000s peak. Texas has also seen strong recent growth, and did not have much of an increase in prices in the mid-2000s. Virginia, which is somewhat dominated by the northern Virginia D.C. suburbs has posted solid growth, but remians below its mid-2000s peak. And Ohio, like some other states in the Midwest has been tracking higher, but at a much more measured pace.</p>
+<p>I think it is interesting to compare the level of real house prices to how high prices got in the mid-2000s. The scatterplot blow compares the real house price index relative to January 2000 on the x axis to the maximum the real house price index reached for that state prior to 2007. Among the 50 states plus D.C. only seven states (aforementioned VA along with CT, DE, IL, MD, NJ and RI) are below their mid-2000s peak.</p>
+<p>I’ve color-coded the states by region and you can see a clear pattern. States in the Midwest are down in the lower left, posting slower overall growth and less growth relative to their mid-2000s peak. The Northeast is stuck in the middle, while the South and especially the west are up in the upper right, indicating they are both well above their mid-2000s peak and far above where they were in January 2000.</p>
+<p><img src="../../../../img/charts_2022_05_30/rhpi.png" style="width:700px"></p>
+<p>We can animate to see the evolution over time.</p>
+<p><img src="../../../../img/charts_2022_05_30/rhpi.gif" style="width:700px"></p>
+<p>We can also look at it by metro area. There are too many to label, but we can use a <a href="https://github.com/eclarke/ggbeeswarm">beeswarm plot</a> to visualize the distribution.</p>
+<p><img src="../../../../img/charts_2022_05_30/beeswarm.png" style="width:700px"></p>
+<p>And we can animate it to see the evolution over time.</p>
+<p><img src="../../../../img/charts_2022_05_30/beeswarm.gif" style="width:700px"></p>
+<div id="r-code-for-plots" class="section level1">
+<h1>R code for plots</h1>
+<p>See here for <a href="https://www.r-project.org/">R</a> code to make all the plots.</p>
+<pre class="r"><code>################################################################################
+# load libraries ----
+################################################################################
+
+library(tidyverse)
+library(lubridate)
+library(gganimate)
+library(data.table)
+library(extrafont)
+library(patchwork)
+library(ggbeeswarm)
+
+theme_len &lt;- function(font=&quot;Arial&quot;, bs=24,...){
+  theme_minimal(base_size=bs,base_family=font,...) %+replace%
+    theme(plot.caption=element_text(hjust=0,size=rel(1),margin=margin(10,0,0,0)),
+          plot.title=element_text(size=rel(1.25),face=&quot;bold&quot;,hjust=0,
+                                  margin=margin(0,0,5,0)),
+          plot.subtitle=element_text(face=&quot;italic&quot;,hjust=0,
+                                     margin=margin(5,0,10,0)
+                                     ,size=rel(0.75)
+          ),
+          plot.background=element_rect(fill=&quot;white&quot;,color=NA),
+          panel.background=element_rect(fill=&quot;white&quot;,color=NA),
+          plot.margin=margin(0.2,0.2,0.2,0.2,&quot;cm&quot;)
+    )
+  
+}
+
+# color scales ----
+
+# Function for colors ----
+# adapted from https://drsimonj.svbtle.com/creating-corporate-colour-palettes-for-ggplot2
+#####################################################################################
+## Make Color Scale ---- 
+#####################################################################################
+my_colors &lt;- c(
+  &quot;green&quot;      = rgb(103,180,75, maxColorValue = 256),
+  &quot;green2&quot;      = rgb(147,198,44, maxColorValue = 256),
+  &quot;lightblue&quot;  =  rgb(9, 177,240, maxColorValue = 256),
+  &quot;lightblue2&quot; = rgb(173,216,230, maxColorValue = 256),
+  &#39;blue&#39;       = &quot;#00aedb&quot;,
+  &#39;red&#39;        = &quot;#d11141&quot;,
+  &#39;orange&#39;     = &quot;#f37735&quot;,
+  &#39;yellow&#39;     = &quot;#ffc425&quot;,
+  &#39;gold&#39;       = &quot;#FFD700&quot;,
+  &#39;light grey&#39; = &quot;#cccccc&quot;,
+  &#39;purple&#39;     = &quot;#551A8B&quot;,
+  &#39;dark grey&#39;  = &quot;#8c8c8c&quot;)
+
+
+my_cols &lt;- function(...) {
+  cols &lt;- c(...)
+  if (is.null(cols))
+    return (my_colors)
+  my_colors[cols]
+}
+
+
+my_palettes &lt;- list(
+  `main`  = my_cols(&quot;blue&quot;, &quot;green&quot;, &quot;yellow&quot;),
+  `cool`  = my_cols(&quot;blue&quot;, &quot;green&quot;),
+  `cool2hot` = my_cols(&quot;lightblue2&quot;,&quot;lightblue&quot;, &quot;blue&quot;,&quot;green&quot;, &quot;green2&quot;,&quot;yellow&quot;,&quot;gold&quot;, &quot;orange&quot;, &quot;red&quot;),
+  `hot`   = my_cols(&quot;yellow&quot;, &quot;orange&quot;, &quot;red&quot;),
+  `mixed` = my_cols(&quot;lightblue&quot;, &quot;green&quot;, &quot;yellow&quot;, &quot;orange&quot;, &quot;red&quot;),
+  `mixed2` = my_cols(&quot;lightblue2&quot;,&quot;lightblue&quot;, &quot;green&quot;, &quot;green2&quot;,&quot;yellow&quot;,&quot;gold&quot;, &quot;orange&quot;, &quot;red&quot;),
+  `mixed3` = my_cols(&quot;lightblue2&quot;,&quot;lightblue&quot;, &quot;green&quot;, &quot;yellow&quot;,&quot;gold&quot;, &quot;orange&quot;, &quot;red&quot;),
+  `mixed4` = my_cols(&quot;lightblue2&quot;,&quot;lightblue&quot;, &quot;green&quot;, &quot;green2&quot;,&quot;yellow&quot;,&quot;gold&quot;, &quot;orange&quot;, &quot;red&quot;,&quot;purple&quot;),
+  `mixed5` = my_cols(&quot;lightblue&quot;,&quot;green&quot;, &quot;green2&quot;,&quot;yellow&quot;,&quot;gold&quot;, &quot;orange&quot;, &quot;red&quot;,&quot;purple&quot;,&quot;blue&quot;),
+  `mixed6` = my_cols(&quot;green&quot;, &quot;gold&quot;, &quot;orange&quot;, &quot;red&quot;,&quot;purple&quot;,&quot;blue&quot;),
+  `grey`  = my_cols(&quot;light grey&quot;, &quot;dark grey&quot;)
+)
+
+
+my_pal &lt;- function(palette = &quot;main&quot;, reverse = FALSE, ...) {
+  pal &lt;- my_palettes[[palette]]
+  
+  if (reverse) pal &lt;- rev(pal)
+  
+  colorRampPalette(pal, ...)
+}
+
+
+scale_color_mycol &lt;- function(palette = &quot;main&quot;, discrete = TRUE, reverse = FALSE, ...) {
+  pal &lt;- my_pal(palette = palette, reverse = reverse)
+  
+  if (discrete) {
+    discrete_scale(&quot;colour&quot;, paste0(&quot;my_&quot;, palette), palette = pal, ...)
+  } else {
+    scale_color_gradientn(colours = pal(256), ...)
+  }
+}
+
+
+
+scale_fill_mycol &lt;- function(palette = &quot;main&quot;, discrete = TRUE, reverse = FALSE, ...) {
+  pal &lt;- my_pal(palette = palette, reverse = reverse)
+  
+  if (discrete) {
+    discrete_scale(&quot;fill&quot;, paste0(&quot;my_&quot;, palette), palette = pal, ...)
+  } else {
+    scale_fill_gradientn(colours = pal(256), ...)
+  }
+}
+
+
+
+
+################################################################################
+# geo stuff ----
+# loaded from earlier blog posts
+################################################################################
+
+region &lt;- fread(&quot;http://lenkiefer.com/img/charts_feb_20_2017/region.txt&quot;)
+cbsa &lt;- fread(&quot;http://lenkiefer.com/img/charts_feb_20_2017/cbsa.city.txt&quot;)
+region2 &lt;- left_join(region,cbsa,c(&quot;statecode&quot;=&quot;state&quot;))
+region3 &lt;- region2[,.N,.(cbsa,statecode,statename,region,division)]
+
+
+################################################################################
+# load house price data ----
+################################################################################
+
+dt &lt;- fread(&quot;http://www.freddiemac.com/fmac-resources/research/docs/fmhpi_master_file.csv&quot;)
+
+#####################################################################################
+# define variables ----
+#####################################################################################
+dt &lt;- data.table(dt)[,&quot;:=&quot;(hpa12=Index_SA/shift(Index_SA,12)-1,
+                           hpa3 = (Index_SA/shift(Index_SA,3))**4 -1 ),
+                     .(GEO_Type,GEO_Name)
+                     ][
+                       ,date:=as.Date(ISOdate(Year,Month,1))
+                       ][,decade:=paste0(floor(year(date)/10),&quot;0s&quot;)]
+
+################################################################################
+# load consumer price data ----
+# cpi less shelter CUSR0000SA0L2
+################################################################################
+
+df_cpi &lt;- tidyquant::tq_get(&quot;CUSR0000SA0L2&quot;,get=&quot;economic.data&quot;,from=&quot;1975-01-01&quot;) %&gt;%
+  rename(cpi=price) %&gt;%
+  mutate(cpi12=cpi/lag(cpi,12)-1)
+
+dt &lt;- left_join(dt,df_cpi,by=&quot;date&quot;) %&gt;% filter(Year&gt;1999)
+dt[,cpi1:=cpi/first(cpi),GEO_Name]
+dt[,rhpi:=Index_SA/first(Index_SA)/(cpi1/first(cpi1)),GEO_Name]
+
+
+################################################################################
+# create cbsa (msa) and state data frames (data.table)
+# useful for plotting
+# create some additional variables
+################################################################################
+
+dt_msa &lt;- dt[GEO_Type==&quot;CBSA&quot;,]
+dt_msa[,max_hpi:=max(Index_SA,na.rm=TRUE),GEO_Name]
+dt_msa[,last_hpi:=last(Index_SA,na.rm=TRUE),GEO_Name]
+dt_msa[,max_rhpi:=max(rhpi,na.rm=TRUE),GEO_Name]
+dt_msa[,max_rhpi06:=max(ifelse(Year&gt;2006,NA,rhpi),na.rm=TRUE),GEO_Name]
+dt_msa[,last_rhpi:=last(rhpi,na.rm=TRUE),GEO_Name]
+
+
+dt_state &lt;- dt[GEO_Type==&quot;State&quot;,][Year&gt;1999,]
+dt_state[,max_hpi:=max(Index_SA,na.rm=TRUE),GEO_Name]
+dt_state[,max_rhpi:=max(rhpi,na.rm=TRUE),GEO_Name]
+dt_state[,last_hpi:=last(Index_SA,na.rm=TRUE),GEO_Name]
+dt_state[,max_hpi06:=max(ifelse(Year&gt;2006,NA,Index_SA),na.rm=TRUE),GEO_Name]
+dt_state[,max_rhpi06:=max(ifelse(Year&gt;2006,NA,rhpi),na.rm=TRUE),GEO_Name]
+dt_state[,last_rhpi:=last(rhpi,na.rm=TRUE),GEO_Name]
+
+dt_msa2 &lt;- left_join(dt_msa,mutate(region3,cbsa=as.character(cbsa)),
+                     by=c(&quot;GEO_Code&quot;=&quot;cbsa&quot;))
+dt_state2=left_join(dt_state,region,by=c(&quot;GEO_Name&quot;=&quot;statecode&quot;))
+
+dt2 &lt;- bind_rows(dt[GEO_Name==&quot;USA&quot;][,region:=&quot;USA&quot;],
+                 dt_msa2,dt_state2)
+
+# get one unique CBSA name from each region for plotting
+mlist &lt;- c(&quot;Abilene TX&quot;,&quot;Akron OH&quot;,&quot;Albany OR&quot;,&quot;Albany-Schenectady-Troy NY&quot;)
+
+
+# Note set YOURDIRECTORY to a path where you want to save images
+#  YOURDIRECTORY
+
+
+################################################################################
+# make plots ----
+# plot 1 ----
+# plot  time series plot of USA
+################################################################################
+
+
+ggplot(data=dt[GEO_Name==&quot;USA&quot;,],
+       aes(x=date,y=rhpi))+
+  geom_line(size=1.1)+
+  theme_len(font=&quot;Rockwell&quot;)+
+  geom_point(data= .%&gt;% .[date==max(date)],color=&quot;red&quot;,size=3)+
+  geom_hline(data= .%&gt;% .[date==max(date)],color=&quot;red&quot;,aes(yintercept=rhpi),linetype=2)+
+  labs(x=&quot;date (monthly)&quot;,
+       y=&quot;Real House Price (Jan 2000 = 1)&quot;,
+       title=&quot;Real House Price for USA&quot;,
+       caption=&quot;@lenkiefer | Data source: Freddie Mac House Price Index \ndeflated by CPI less shelter from BLS&quot;,
+       subtitle=&quot;Data through March 2022&quot;)
+
+
+ggsave(paste0(&quot;YOURDIRECTORY&quot;,
+              &quot;rhpi_usa.png&quot;),
+       height=6,width=8,
+       scale=1.25)
+
+
+
+################################################################################
+# make plots 
+# plot 2 ----
+# plot 4 time series plot of 4 states
+################################################################################
+
+
+ggplot(data=dt_state2[GEO_Name %in% c(&quot;VA&quot;,&quot;CA&quot;,&quot;TX&quot;,&quot;OH&quot;),],
+       aes(x=date,y=rhpi,color=fct_reorder(GEO_Name,-last_rhpi)))+
+  geom_line(size=1.1)+
+  theme_len(font=&quot;Rockwell&quot;)+
+  theme(panel.grid.minor.y=element_blank())+
+  scale_color_mycol(palette=&quot;mixed&quot;,reverse=FALSE,name=&quot;State &quot;)+
+  geom_point(data= .%&gt;% .[date==max(date)],size=3)+
+  geom_hline(data= .%&gt;% .[date==max(date)],aes(yintercept=rhpi),linetype=2)+
+  scale_y_continuous(breaks=seq(0.5,3,.5),limits=c(0,2.5))+
+  labs(x=&quot;date (monthly)&quot;,
+       y=&quot;Real House Price (Jan 2000 = 1)&quot;,
+       title=&quot;Real House Price in VA,CA,TX, and OH&quot;,
+       caption=&quot;@lenkiefer | Data source: Freddie Mac House Price Index \ndeflated by CPI less shelter from BLS&quot;,
+       subtitle=&quot;Data through March 2022&quot;)
+
+
+ggsave(paste0(&quot;YOURDIRECTORY&quot;,
+              &quot;rhpi_4st.png&quot;),
+       height=6,width=8,
+       scale=1.25)
+
+
+
+
+################################################################################
+# make plots 
+# plot 3 ----
+# plot scatterplot by state
+################################################################################
+
+
+ggplot(data=dt_state2[Month==3&amp; Year==2022],
+       aes(x=rhpi/max_rhpi06,y=rhpi,label=GEO_Name,color=region))+
+  scale_color_mycol(palette=&quot;mixed&quot;,reverse=FALSE)+
+  geom_text(key_glyph = &quot;rect&quot;,size=5,fontface=&quot;bold&quot;)+
+  
+  theme_len(font=&quot;Rockwell&quot;,bs=18) + guides(color = guide_legend(override.aes = list(size = 4)))+
+  theme(legend.position=&quot;top&quot;,
+        panel.grid.minor.x=element_blank(),
+        panel.grid.minor.y=element_blank(),)+
+  labs(x=&quot;Real House Price (1975-2006 max = 1)&quot;,
+       y=&quot;Real House Price (Jan 2000 = 1)&quot;,
+       title=&quot;Real House Price by State&quot;,
+       caption=&quot;@lenkiefer | Data source: Freddie Mac House Price Index \ndeflated by CPI less shelter from BLS&quot;,
+       subtitle=&quot;March 2022&quot;)+
+  scale_x_continuous(limits=c(0.5,2),breaks=seq(0,2,.25))+
+  scale_y_continuous(limits=c(0.5,3.5),breaks=seq(0,4,0.5))+
+  geom_vline(aes(xintercept=1),linetype=2)+
+  annotate(geom=&quot;text&quot;,x=1,y=3.25,label=&quot; Max real house price \n through 2006 &quot;,
+           vjust= -0.25,
+           hjust=1)+
+  coord_flip()
+
+
+ggsave(&quot;YOURDIRECTORY/rhpi.png&quot;,height=6,width=8,
+       scale=1.25)
+
+
+################################################################################
+# make plots 
+# plot 4 ----
+# plot animated scatterplot by state
+################################################################################
+
+
+gs2t &lt;-
+  ggplot(data=dt_state2[Month==3],
+         aes(x=rhpi/max_rhpi06,y=rhpi,label=GEO_Name,color=region))+
+  geom_text(key_glyph = &quot;rect&quot;,size=5,fontface=&quot;bold&quot;)+  scale_color_mycol(palette=&quot;mixed&quot;,reverse=FALSE)+
+  theme_len(font=&quot;Rockwell&quot;,bs=18) + guides(color = guide_legend(override.aes = list(size = 4)))+
+  theme(legend.position=&quot;top&quot;,
+        panel.grid.minor.x=element_blank(),
+        panel.grid.minor.y=element_blank(),)+
+  labs(x=&quot;Real House Price (1975-2006 max = 1)&quot;,
+       y=&quot;Real House Price (Jan 2000 = 1)&quot;,
+       title=&quot;Real House Price by State&quot;,
+       caption=&quot;@lenkiefer | Data source: Freddie Mac House Price Index \ndeflated by CPI less shelter from BLS&quot;,
+       subtitle=&quot;March {frame_time}&quot;)+
+  scale_x_continuous(limits=c(0.25,2),breaks=seq(0,2,.25))+
+  scale_y_continuous(limits=c(0.5,3.5),breaks=seq(0,4,0.5))+
+  geom_vline(aes(xintercept=1),linetype=2)+
+  annotate(geom=&quot;text&quot;,x=1,y=3.25,label=&quot; Max real house price \n through 2006 &quot;,
+           vjust= -0.25,
+           hjust=1)
+
+animate(gs2t+coord_flip()+transition_time(Year),end_pause=20,width=740,height=740)
+gganimate::anim_save(paste0(&quot;YOURDIRECTORY&quot;,&quot;hpi_comet.gif&quot;))
+
+################################################################################
+# make plots 
+# plot 5 ----
+# plot  beeswarm by MSA
+################################################################################
+
+ggplot(dt_msa2[month(date)==3&amp; Year==2022,],
+       aes(x=region, y=log(rhpi),color=region,label=GEO_Name)) +
+  geom_quasirandom(key_glyph = &quot;rect&quot;,size=4,alpha=0.5)+
+  geom_text(data= . %&gt;% .[GEO_Name %in% mlist,],
+            key_glyph = &quot;rect&quot;,
+            aes(y=1.5,label=paste0(Year)),size=18,alpha=0.35)+
+  geom_text(data= .%&gt;% .[rhpi ==Urhpi | rhpi==Lrhpi],size=6,fontface=&quot;bold&quot;)+
+  #geom_text(data= .%&gt;% .[rhpi ==Urhpi | rhpi==Lrhpi],size=2)+
+  guides(color = guide_legend(override.aes = list(alpha=1)))+
+  scale_y_continuous(breaks=log(c(0.5,1,2,3,4)),
+                     labels=exp)+
+  theme_len(font=&quot;Rockwell&quot;,bs=20)+
+  theme(legend.position=&quot;top&quot;,
+        panel.grid.minor.y=element_blank())+
+  scale_color_mycol(palette=&quot;mixed&quot;,reverse=FALSE)+
+  labs(y=&quot;Real House Price (Jan 2000 = 1, log scale)&quot;,
+       x=&quot;Region&quot;,
+       title=&quot;Real House Price by Metro Area\neach dot a metro area in March 2022&quot;,
+       caption=&quot;@lenkiefer | Data source: Freddie Mac House Price Index \ndeflated by CPI less shelter from BLS&quot;,
+       subtitle=&quot;&quot;)
+
+
+ggsave(&quot;YOURDIRECTORY/beeswarm.png&quot;,height=6,width=8,
+       scale=2)
+
+
+################################################################################
+# make plots 
+# plot 6 ----
+# plot  animated beeswarm by MSA
+################################################################################
+
+gs2&lt;- 
+  ggplot(dt_msa2[month(date)==3,],
+         aes(x=region, y=log(rhpi),color=region,label=GEO_Name)) +
+  geom_quasirandom(key_glyph = &quot;rect&quot;,size=4,alpha=0.5)+
+  geom_text(data= . %&gt;% .[GEO_Name %in% mlist,],
+            key_glyph = &quot;rect&quot;,
+            aes(y=1.5,label=paste0(Year)),size=18,alpha=0.35)+
+  geom_text(data= .%&gt;% .[rhpi ==Urhpi | rhpi==Lrhpi],size=6,fontface=&quot;bold&quot;)+
+  guides(color = guide_legend(override.aes = list(alpha=1)))+
+  scale_y_continuous(breaks=log(c(0.5,1,2,3,4)),
+                     labels=exp)+
+  theme_len(font=&quot;Rockwell&quot;,bs=20)+
+  theme(legend.position=&quot;top&quot;,
+        panel.grid.minor.y=element_blank())+
+  scale_color_mycol(palette=&quot;mixed&quot;,reverse=FALSE)+
+  labs(y=&quot;Real House Price (Jan 2000 = 1, log scale)&quot;,
+       x=&quot;Region&quot;,
+       title=&quot;Real House Price by Metro Area\neach dot a metro area in March&quot;,
+       caption=&quot;@lenkiefer | Data source: Freddie Mac House Price Index \ndeflated by CPI less shelter from BLS&quot;,
+       subtitle=&quot;March {frame_time},  (max/min msa labeled)&quot;)
+
+animate(gs2+transition_time(Year),end_pause=20,
+        nframes=160,
+        width=1200,height=740)
+gganimate::anim_save(paste0(&quot;YOURDIRECTORY&quot;,&quot;beeswarm.gif&quot;))</code></pre>
+</div>
+
+  
+  <h4><i class="fas fa-share-alt" aria-hidden="true"></i>&nbsp;Share!</h4>
+<ul class="share-buttons">
+	<li><a href="https://twitter.com/intent/tweet?url=http%3a%2f%2flenkiefer.com%2f2022%2f05%2f30%2f2022-05-30-real-hpi-plots%2f" target="_blank" title="Tweet"><i class="fab fa-twitter" aria-hidden="true"></i><span class="sr-only">Tweet</span></a>
+	</li>
+</ul>
+
+
+<style>
+	ul.share-buttons{
+	  list-style: none;
+	  padding: 0;
+	}
+
+	ul.share-buttons li{
+	  display: inline;
+	}
+
+	ul.share-buttons .sr-only{
+	  position: absolute;
+	  clip: rect(1px 1px 1px 1px);
+	  clip: rect(1px, 1px, 1px, 1px);
+	  padding: 0;
+	  border: 0;
+	  height: 1px;
+	  width: 1px;
+	  overflow: hidden;
+	}
+</style>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="http://lenkiefer.com/2022/04/04/2022-04-04-mtg-rate-increases/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="http://lenkiefer.com/2022/04/04/2022-04-04-mtg-rate-increases/">Mortgage rate increase</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+  
+  
+  
+  
+
+  
+
+</div>
+
+</div>
+</div>
+<script src="http://lenkiefer.com/js/ui.js"></script>
+<script src="http://lenkiefer.com/js/menus.js"></script>
+
+
+
+
+<script>
+  
+  if (window.location.hostname != "localhost") {
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-66905937-1', 'auto');
+    ga('send', 'pageview');
+  }
+</script>
+
+
+
+
+
+<script src="http://lenkiefer.com/js/math-code.js"></script>
+  <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+  
+
+
+</body>
+</html>
+
